@@ -2,6 +2,8 @@ import { useState } from 'react'
 // import reactLogo from './assets/react.svg'
 // import viteLogo from '/vite.svg'
 
+import { ReactComponent as Plus } from './img/plus.svg'
+
 function App() {
   const [isOpen, setOpen] = useState(false)
 
@@ -23,8 +25,10 @@ function App() {
         <div className="mt-4 overflow-y-auto">
 
         </div>
-        <button className="text-[#4094F7] h-8 w-full text-left" onClick={() => setOpen(true)}>
-          <span className="h-6 w-6"></span>
+        <button className="text-[#4094F7] h-8 w-full items-center flex gap-[9px]" onClick={() => setOpen(true)}>
+          <span className="h-6 w-6 flex items-center justify-center">
+            <Plus />
+          </span>
           <span>Добавить ещё</span>
         </button>
       </div>
