@@ -4,15 +4,20 @@ import { useState } from 'react'
 
 import { ReactComponent as Plus } from './img/plus.svg'
 import Button from './kit/Button'
+import Header from './kit/Header'
+
+import Select from './Select'
 
 function App() {
   const [isOpen, setOpen] = useState(false)
 
+  const closeApp = () => {
+    alert('close not implemented')
+  }
+
   return (
     <>
-      <header className="flex items-center justify-center h-[64px]">
-        (header)
-      </header>
+      <Header onCancel={closeApp} />
       <div className="panel p-4 pb-6 rounded-3xl bg-white">
         <div className="text-[12px] leading-[1.33em] font-medium">Сообщение</div>
         <div className="mt-1">
@@ -40,7 +45,7 @@ function App() {
       </div>
 
       {isOpen && (
-        <div className="">(bottom sheet)</div>
+        <Select onBack={() => { setOpen(false) }} />
       )}
     </>
   )
