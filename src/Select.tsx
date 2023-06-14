@@ -10,7 +10,7 @@ function Select({ onBack }: TSelect) {
     <div className="fixed top-0 left-0 w-full h-full bg-bg">
       <Header onBack={onBack} />
       <div className="px-4">
-        <h2>Выберете человека</h2>
+        <h2>Выберите человека</h2>
       </div>
     </div>
   )
