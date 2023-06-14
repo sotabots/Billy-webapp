@@ -14,9 +14,9 @@ function Header({ onBack, onCancel }: THeader) {
       {onBack &&
         <button className="absolute left-2 top-1/2 -translate-y-1/2 text-link" onClick={onBack}>Назад</button>
       }
-      <div className="flex flex-row items-center justify-center gap-2">
-        <div>Split</div>
-        <div>бот</div>
+      <div className="flex flex-col items-center justify-center gap-0.5">
+        <div className="text-[17px] leading-[22px] font-semibold">Split</div>
+        <div className="text-hint text-[13px] leading-[18px] font-semibold opacity-70">бот</div>
       </div>
     </header>
   )
