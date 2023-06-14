@@ -32,8 +32,8 @@ body {
   min-height: 100vh;
 }
 
-#root {
-  max-width: 1280px;
+.limiter {
+  max-width: 1000px;
   margin: 0 auto;
 }
 

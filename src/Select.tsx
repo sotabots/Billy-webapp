@@ -8,9 +8,11 @@ type TSelect = {
 function Select({ onBack }: TSelect) {
   return (
     <div className="fixed top-0 left-0 w-full h-full bg-bg">
-      <Header onBack={onBack} />
-      <div className="px-4">
-        <h2>Выберите человека</h2>
+      <div className="limiter">
+        <Header onBack={onBack} />
+        <div className="px-4">
+          <h2>Выберите человека</h2>
+        </div>
       </div>
     </div>
   )
