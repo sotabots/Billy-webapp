@@ -9,7 +9,7 @@
     "build": "tsc && vite build",
     "lint": "eslint src --ext ts,tsx --report-unused-disable-directives --max-warnings 0",
     "preview": "vite preview",
-    "predeploy": "npm run build",
+    "predeploy": "tsc && vite build --base=/webapp_voisplit/",
     "deploy": "gh-pages -d dist"
   },
   "dependencies": {
