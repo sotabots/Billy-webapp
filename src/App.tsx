@@ -3,6 +3,7 @@ import { useState } from 'react'
 // import viteLogo from '/vite.svg'
 
 import { ReactComponent as Plus } from './img/plus.svg'
+import Button from './kit/Button'
 
 function App() {
   const [isOpen, setOpen] = useState(false)
@@ -20,17 +21,22 @@ function App() {
       </div>
 
       <div className="panel p-4 pb-6 rounded-3xl bg-white">
-        <h2>Соотнесите людей</h2>
-        <div className="mt-1 text-[14px] leading-[20px]">Со временем мы запомним соотношения</div>
-        <div className="mt-4 overflow-y-auto">
+        <div>
+          <h2>Соотнесите людей</h2>
+          <div className="mt-1 text-[14px] leading-[20px]">Со временем мы запомним соотношения</div>
+          <div className="mt-4 overflow-y-auto">
 
+          </div>
+          <button className="text-[#4094F7] h-8 w-full items-center flex gap-[9px] rounded-md" onClick={() => setOpen(true)}>
+            <span className="h-6 w-6 flex items-center justify-center">
+              <Plus />
+            </span>
+            <span>Добавить ещё</span>
+          </button>
         </div>
-        <button className="text-[#4094F7] h-8 w-full items-center flex gap-[9px]" onClick={() => setOpen(true)}>
-          <span className="h-6 w-6 flex items-center justify-center">
-            <Plus />
-          </span>
-          <span>Добавить ещё</span>
-        </button>
+        <div className="mt-8 py-2">
+          <Button>Далее</Button>
+        </div>
       </div>
 
       {isOpen && (
