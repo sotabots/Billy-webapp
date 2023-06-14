@@ -7,7 +7,7 @@ type TButton = {
 function Button({ children }: TButton) {
 
   return (
-    <button className="w-full h-10 bg-[#4094F7] text-[#F6F8F9] rounded-md text-[14px] leading-[20px] font-semibold">{children}</button>
+    <button className="w-full h-10 bg-button text-buttonText rounded-md text-[14px] leading-[20px] font-semibold">{children}</button>
   )
 }
 
