@@ -1,4 +1,4 @@
-import { MouseEventHandler } from "react"
+import { MouseEventHandler } from 'react'
 import Header from './kit/Header'
 
 type TSelect = {
