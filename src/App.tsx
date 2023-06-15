@@ -8,7 +8,7 @@ import Start from './Start'
 
 function App() {
   const [isSelectOpen, setSelectOpen] = useState(false)
-  const [isCheckOpen, setCheckOpen] = useState(true)
+  const [isCheckOpen, setCheckOpen] = useState(false)
 
 
   return (

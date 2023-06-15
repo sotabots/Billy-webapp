@@ -1,4 +1,4 @@
-# 🗣🤖 Voisplit bot - tg webapp
+# 🗣🤖 Voisplit bot (tg webapp)
 
 ## How to develop
 
