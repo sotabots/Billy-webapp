@@ -10,7 +10,6 @@ function App() {
   const [isSelectOpen, setSelectOpen] = useState(false)
   const [isCheckOpen, setCheckOpen] = useState(false)
 
-
   return (
     <>
       <Start
