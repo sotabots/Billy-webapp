@@ -1,4 +1,5 @@
 import { MouseEventHandler } from "react"
+import { ReactComponent as Back } from './../img/back.svg'
 
 type THeader = {
   onBack?: MouseEventHandler<HTMLButtonElement>
@@ -9,10 +10,13 @@ function Header({ onBack, onCancel }: THeader) {
   return (
     <header className="relative flex items-center justify-center h-[64px]">
       {onCancel &&
-        <button className="absolute left-2 top-1/2 -translate-y-1/2 text-link" onClick={onCancel}>Отмена</button>
+        <button className="absolute left-4 top-1/2 -translate-y-1/2 text-link" onClick={onCancel}>Отмена</button>
       }
       {onBack &&
-        <button className="absolute left-2 top-1/2 -translate-y-1/2 text-link" onClick={onBack}>Назад</button>
+        <button className="flex items-center gap-[5px] absolute left-4 top-1/2 -translate-y-1/2 text-link" onClick={onBack}>
+          <Back />
+          <span>Назад</span>
+        </button>
       }
       <div className="flex flex-col items-center justify-center gap-0.5">
         <div className="text-[17px] leading-[22px] font-semibold">Split</div>
