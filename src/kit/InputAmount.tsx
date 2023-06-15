@@ -1,11 +1,11 @@
 import type { ChangeEvent } from 'react'
 
-type TInputNumber = {
-  value?: number
+type TInputAmount = {
+  amount?: number
   onChange?: (value: number) => void
 }
 
-function InputNumber({ value, onChange }: TInputNumber) {
+function InputAmount({ amount, onChange }: TInputAmount) {
   const inputOnChange = (e: ChangeEvent<HTMLInputElement>) => {
     // todo: .,
     const number = Number(e.target.value)
@@ -15,12 +15,12 @@ function InputNumber({ value, onChange }: TInputNumber) {
   return (
     <input
       type="text"
-      className="w-full h-10 p-2 rounded-md border border-[#DDE2E4] text-right text-[16px] leading-[24px]"
+      className="w-[117px] h-10 p-2 rounded-md border border-[#DDE2E4] text-right text-[16px] leading-[24px]"
       inputMode="decimal"
-      value={value}
+      value={amount}
       onChange={inputOnChange}
     />
   )
 }
 
-export default InputNumber
+export default InputAmount

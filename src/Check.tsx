@@ -1,6 +1,7 @@
 import { MouseEventHandler } from 'react'
 import Button from './kit/Button'
 import Header from './kit/Header'
+import UserAmount from './kit/UserAmount'
 
 type TCheck = {
   onBack: MouseEventHandler<HTMLButtonElement>
@@ -10,6 +11,24 @@ function Check({ onBack }: TCheck) {
   const save = () => {
     alert('save & close...')
   }
+
+  const generateUserAmount = () => ({
+    id: Math.round(Math.random() * 1e10),
+    name: 'Name '.repeat(1 + Math.round(Math.random() * 5)),
+    username: 'username',
+    url: 'https://i.pravatar.cc/50',
+    amount: Math.round(Math.random() * 1e6) / 100
+  })
+
+  const payed = [
+    generateUserAmount(),
+    generateUserAmount(),
+  ]
+
+  const owe = [
+    generateUserAmount(),
+    generateUserAmount(),
+  ]
 
   return (
     <div className="fixed top-0 left-0 w-full h-full bg-bg2">
@@ -21,21 +40,25 @@ function Check({ onBack }: TCheck) {
         </div>
 
         <div className="!pb-4 panel p-4 pb-6 rounded-3xl bg-bg">
-          <h2>Всё верно</h2>
+          <h3>Всё верно</h3>
           <div className="mt-1 text-[14px] leading-[20px] text-hint">Заплатили 10 000 ₺, должны 10 000 ₺</div>
         </div>
 
         <div className="panel p-4 pb-6 rounded-3xl bg-bg">
           <h3>Заплатили</h3>
-          <div className="mt-4 overflow-y-auto">
-            ...
+          <div className="mt-4 overflow-y-auto flex flex-col gap-3">
+            {payed.map(userAmount => (
+              <UserAmount key={userAmount.id} {...userAmount} />
+            ))}
           </div>
         </div>
 
         <div className="panel p-4 pb-6 rounded-3xl bg-bg">
           <h3>Должны</h3>
-          <div className="mt-4 overflow-y-auto">
-            ...
+          <div className="mt-4 overflow-y-auto flex flex-col gap-3">
+            {owe.map(userAmount => (
+              <UserAmount key={userAmount.id} {...userAmount} />
+            ))}
           </div>
 
           <div className="mt-8 py-2">
