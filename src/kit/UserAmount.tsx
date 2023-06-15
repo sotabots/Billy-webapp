@@ -9,7 +9,6 @@ type TUserAmount = {
 }
 
 function UserAmount({ url, name, username, amount }: TUserAmount) {
-
   return (
     <div className="flex gap-3">
       <Avatar url={url} size={48} name={name} />

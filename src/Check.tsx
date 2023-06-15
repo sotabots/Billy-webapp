@@ -2,6 +2,7 @@ import { MouseEventHandler } from 'react'
 import Button from './kit/Button'
 import Header from './kit/Header'
 import UserAmount from './kit/UserAmount'
+import { generateUserAmount } from './data'
 
 type TCheck = {
   onBack: MouseEventHandler<HTMLButtonElement>
@@ -11,14 +12,6 @@ function Check({ onBack }: TCheck) {
   const save = () => {
     alert('save & close...')
   }
-
-  const generateUserAmount = () => ({
-    id: Math.round(Math.random() * 1e10),
-    name: 'Name '.repeat(1 + Math.round(Math.random() * 5)),
-    username: 'username',
-    url: 'https://i.pravatar.cc/50',
-    amount: Math.round(Math.random() * 1e6) / 100
-  })
 
   const payed = [
     generateUserAmount(),
