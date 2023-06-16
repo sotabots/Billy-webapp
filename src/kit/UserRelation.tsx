@@ -1,3 +1,4 @@
+import { MouseEventHandler } from "react"
 import Avatar from "./Avatar"
 
 import { ReactComponent as Next } from './../img/next.svg'
@@ -11,11 +12,15 @@ type TUser = {
 type TUserRelation = {
   title: string
   user?: TUser
+  onClick: MouseEventHandler<HTMLButtonElement>
 }
 
-function UserRelation({ title, user }: TUserRelation) {
+function UserRelation({ title, user, onClick }: TUserRelation) {
   return (
-    <button className="w-full flex gap-3 text-left items-center px-4 py-2.5 truncate">
+    <button
+      className="w-full flex gap-3 text-left items-center px-4 py-2.5 truncate"
+      onClick={onClick}
+    >
       <div className="flex w-[45%] truncate">
         <div className="truncate">{title}</div>
       </div>
