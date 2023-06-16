@@ -4,10 +4,11 @@ import Header from './kit/Header'
 import RadioButton from './kit/RadioButton'
 
 import { currencies } from './data'
+import { TCurrency } from './types'
 
 type TSelectCurrency = {
-  currency: string
-  onSelectCurrency: (value: string) => void
+  currency: TCurrency
+  onSelectCurrency: (value: TCurrency) => void
   onBack: MouseEventHandler<HTMLButtonElement>
 }
 
@@ -25,9 +26,9 @@ function SelectCurrency({ currency, onSelectCurrency, onBack }: TSelectCurrency)
               <RadioButton
                 group="currencies"
                 label={currencyItem.label}
-                key={`currencies-${currencyItem.value}`}
-                value={currencyItem.value}
-                checked={currency === currencyItem.value}
+                key={`currencies-${currencyItem.id}`}
+                value={currencyItem}
+                checked={currency.id === currencyItem.id}
                 onChange={onSelectCurrency}
               />
               {i < currencies.length - 1 && <Divider key={`Divider-${i}`} />}

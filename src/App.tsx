@@ -8,15 +8,16 @@ import SelectCurrency from './SelectCurrency'
 import Start from './Start'
 
 import { currencies } from './data'
+import { TCurrency } from './types'
 
 function App() {
   const [isSelectUserOpen, setSelectUserOpen] = useState(false)
   const [isCheckOpen, setCheckOpen] = useState(false)
 
-  const [currency, setCurrency] = useState(currencies[0].value)
+  const [currency, setCurrency] = useState<TCurrency>(currencies[0])
   const [isSelectCurrencyOpen, setSelectCurrencyOpen] = useState(false)
 
-  const onSelectCurrency = (value: string) => {
+  const onSelectCurrency = (value: TCurrency) => {
     setCurrency(value)
     setSelectCurrencyOpen(false)
   }

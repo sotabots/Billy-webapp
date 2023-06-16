@@ -1,11 +1,12 @@
 import cx from 'classnames'
+import { TCurrency } from '../types'
 
 type TRadioButton = {
   group: string,
   label: string,
-  value: string,
+  value: TCurrency,
   checked: boolean,
-  onChange: (value: string) => void
+  onChange: (value: TCurrency) => void
 }
 
 function RadioButton({ group, label, value, checked, onChange }: TRadioButton) {
@@ -21,7 +22,7 @@ function RadioButton({ group, label, value, checked, onChange }: TRadioButton) {
         className="hidden"
         id={`${group}-${value}`}
         name={group}
-        value={value}
+        // value={value}
         checked={checked}
       />
       <div className="p-1.5">

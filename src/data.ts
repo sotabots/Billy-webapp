@@ -1,3 +1,5 @@
+import { TCurrency } from "./types"
+
 const generateUser = () => {
   return {
     id: Math.round(Math.random() * 1e10),
@@ -22,27 +24,27 @@ const generateUserRelation = () => ({
   user: Math.random() > 0.5 ? generateUser() : undefined,
 })
 
-const currencies = [
+const currencies: TCurrency[] = [
   {
-    value: 'rouble',
+    id: 'rouble',
     label: '₽ Рубль',
     symbol: '₽',
     in: 'В рублях'
   },
   {
-    value: 'lari',
+    id: 'lari',
     label: '₾ Лари',
     symbol: '₾',
     in: 'В лари'
   },
   {
-    value: 'lyra',
+    id: 'lyra',
     label: '₺ Лира',
     symbol: '₺',
     in: 'В лирах'
   },
   {
-    value: 'euro',
+    id: 'euro',
     label: '€ Евро',
     symbol: '€',
     in: 'В евро'
