@@ -3,29 +3,49 @@ import { useState } from 'react'
 // import viteLogo from '/vite.svg'
 
 import Check from './Check'
-import Select from './Select'
+import SelectUser from './SelectUser'
+import SelectCurrency from './SelectCurrency'
 import Start from './Start'
 
+import { currencies } from './data'
+
 function App() {
-  const [isSelectOpen, setSelectOpen] = useState(false)
+  const [isSelectUserOpen, setSelectUserOpen] = useState(false)
   const [isCheckOpen, setCheckOpen] = useState(false)
+
+  const [currency, setCurrency] = useState(currencies[0].value)
+  const [isSelectCurrencyOpen, setSelectCurrencyOpen] = useState(false)
+
+  const onSelectCurrency = (value: string) => {
+    setCurrency(value)
+    setSelectCurrencyOpen(false)
+  }
 
   return (
     <>
       <Start
-        onAdd={() => { setSelectOpen(true) }}
+        onAdd={() => { setSelectUserOpen(true) }}
         onNext={() => { setCheckOpen(true) }}
       />
 
-      {isSelectOpen && (
-        <Select onBack={() => { setSelectOpen(false) }} />
+      {isSelectUserOpen && (
+        <SelectUser onBack={() => { setSelectUserOpen(false) }} />
       )}
 
       {isCheckOpen && (
-        <>
-          !!!
-          <Check onBack={() => { setCheckOpen(false) }} />
-        </>
+        <Check
+          currency={currency}
+          onBack={() => { setCheckOpen(false) }}
+          onSelectCurrency={() => { setSelectCurrencyOpen(true) }}
+        />
+      )}
+
+      {isSelectCurrencyOpen && (
+        <SelectCurrency
+          currency={currency}
+          onSelectCurrency={onSelectCurrency}
+          onBack={() => { setSelectCurrencyOpen(false) }}
+        />
       )}
     </>
   )

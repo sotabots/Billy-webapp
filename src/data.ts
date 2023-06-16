@@ -22,8 +22,36 @@ const generateUserRelation = () => ({
   user: Math.random() > 0.5 ? generateUser() : undefined,
 })
 
+const currencies = [
+  {
+    value: 'rouble',
+    label: '₽ Рубль',
+    symbol: '₽',
+    in: 'В рублях'
+  },
+  {
+    value: 'lari',
+    label: '₾ Лари',
+    symbol: '₾',
+    in: 'В лари'
+  },
+  {
+    value: 'lyra',
+    label: '₺ Лира',
+    symbol: '₺',
+    in: 'В лирах'
+  },
+  {
+    value: 'euro',
+    label: '€ Евро',
+    symbol: '€',
+    in: 'В евро'
+  },
+]
+
 export {
   generateUser,
   generateUserAmount,
-  generateUserRelation
+  generateUserRelation,
+  currencies
 }

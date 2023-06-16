@@ -8,9 +8,11 @@ import { generateUserAmount } from './data'
 
 type TCheck = {
   onBack: MouseEventHandler<HTMLButtonElement>
+  currency: string
+  onSelectCurrency: MouseEventHandler<HTMLButtonElement>
 }
 
-function Check({ onBack }: TCheck) {
+function Check({ onBack, onSelectCurrency }: TCheck) {
   const save = () => {
     alert('save & close...')
   }
@@ -30,8 +32,9 @@ function Check({ onBack }: TCheck) {
       <div className="limiter">
         <Header onBack={onBack} />
 
-        <div className="mb-2 px-4">
+        <div className="mb-2 px-4 flex items-center justify-between">
           <h2 className="pt-[2px] pb-[6px]">Проверить траты</h2>
+          <button className="h-8 text-[14px] leading-[24px] text-button" onClick={onSelectCurrency}>В рублях</button>
         </div>
 
         <Panel className="!pb-4">

@@ -42,7 +42,7 @@ function Start({ onAdd, onNext }: TStart) {
           <div className="mt-2 -mx-4 overflow-y-auto">
             {userRelations.map((userRelation, i) => (
               <div key={`UserRelation-Divider-${i}`}>
-                <UserRelation key={`UserRelation-${i}`} {...userRelation} />
+                <UserRelation key={`UserRelation-${i}`} {...userRelation} onClick={onAdd} />
                 {i < userRelations.length - 1 && <Divider key={`Divider-${i}`} />}
               </div>
             ))}
