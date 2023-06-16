@@ -28,8 +28,8 @@ function Select({ onBack }: TSelect) {
         <div className="mt-4 overflow-y-auto">
           {users.map((user, i) => (
             <>
-              <User key={user.id} {...user} onClick={onBack} />
-              {i < users.length - 1 && <Divider />}
+              <User key={`User-${i}`} {...user} onClick={onBack} />
+              {i < users.length - 1 && <Divider key={`Divider-${i}`} />}
             </>
           ))}
         </div>
