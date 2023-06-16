@@ -2,6 +2,8 @@ import { MouseEventHandler } from 'react'
 import Button from './kit/Button'
 import Header from './kit/Header'
 import UserAmount from './kit/UserAmount'
+import Panel from './kit/Panel'
+
 import { generateUserAmount } from './data'
 
 type TCheck = {
@@ -32,21 +34,21 @@ function Check({ onBack }: TCheck) {
           <h2 className="pt-[2px] pb-[6px]">Проверить траты</h2>
         </div>
 
-        <div className="!pb-4 panel p-4 pb-6 rounded-3xl bg-bg">
+        <Panel className="!pb-4">
           <h3>Всё верно</h3>
           <div className="mt-1 text-[14px] leading-[20px] text-hint">Заплатили 10 000 ₺, должны 10 000 ₺</div>
-        </div>
+        </Panel>
 
-        <div className="panel p-4 pb-6 rounded-3xl bg-bg">
+        <Panel>
           <h3>Заплатили</h3>
           <div className="mt-4 overflow-y-auto flex flex-col gap-3">
             {payed.map(userAmount => (
               <UserAmount key={userAmount.id} {...userAmount} />
             ))}
           </div>
-        </div>
+        </Panel>
 
-        <div className="panel p-4 pb-6 rounded-3xl bg-bg">
+        <Panel>
           <h3>Должны</h3>
           <div className="mt-4 overflow-y-auto flex flex-col gap-3">
             {owe.map(userAmount => (
@@ -57,7 +59,7 @@ function Check({ onBack }: TCheck) {
           <div className="mt-8 py-2">
             <Button onClick={save}>Сохранить</Button>
           </div>
-        </div>
+        </Panel>
       </div>
     </div>
   )
