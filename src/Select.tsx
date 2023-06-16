@@ -1,6 +1,8 @@
 import { MouseEventHandler } from 'react'
+import Divider from './kit/Divider'
 import Header from './kit/Header'
 import User from './kit/User'
+
 import { generateUser } from './data'
 
 type TSelect = {
@@ -27,7 +29,7 @@ function Select({ onBack }: TSelect) {
           {users.map((user, i) => (
             <>
               <User key={user.id} {...user} onClick={onBack} />
-              {i < users.length - 1 && <div className="h-[1px] -my-[0.5px] mx-4 bg-[#E5E9EB]" />}
+              {i < users.length - 1 && <Divider />}
             </>
           ))}
         </div>
