@@ -2,6 +2,7 @@ import { MouseEventHandler } from 'react'
 import Divider from './kit/Divider'
 import Header from './kit/Header'
 import RadioButton from './kit/RadioButton'
+import Screen from './kit/Screen'
 
 import { currencies } from './data'
 import { TCurrency } from './types'
@@ -14,7 +15,7 @@ type TSelectCurrency = {
 
 function SelectCurrency({ currency, onSelectCurrency, onBack }: TSelectCurrency) {
   return (
-    <div className="fixed top-0 left-0 w-full h-full bg-bg">
+    <Screen className="bg-bg">
       <div className="limiter">
         <Header onBack={onBack} />
         <div className="px-4">
@@ -36,7 +37,7 @@ function SelectCurrency({ currency, onSelectCurrency, onBack }: TSelectCurrency)
           ))}
         </div>
       </div>
-    </div>
+    </Screen>
   )
 }
 

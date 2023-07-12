@@ -3,6 +3,7 @@ import Button from './kit/Button'
 import Header from './kit/Header'
 import UserAmount from './kit/UserAmount'
 import Panel from './kit/Panel'
+import Screen from './kit/Screen'
 
 import { generateUserAmount } from './data'
 import { TCurrency } from './types'
@@ -15,7 +16,7 @@ type TCheck = {
 
 function Check({ currency, onBack, onSelectCurrency }: TCheck) {
   const save = () => {
-    alert('save & close...')
+    alert('save & close webapp...')
   }
 
   const payed = [
@@ -29,7 +30,7 @@ function Check({ currency, onBack, onSelectCurrency }: TCheck) {
   ]
 
   return (
-    <div className="fixed top-0 left-0 w-full h-full bg-bg2">
+    <Screen className="bg-bg2">
       <div className="limiter">
         <Header onBack={onBack} />
 
@@ -65,7 +66,7 @@ function Check({ currency, onBack, onSelectCurrency }: TCheck) {
           </div>
         </Panel>
       </div>
-    </div>
+    </Screen>
   )
 }
 

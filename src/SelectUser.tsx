@@ -1,6 +1,7 @@
 import { MouseEventHandler } from 'react'
 import Divider from './kit/Divider'
 import Header from './kit/Header'
+import Screen from './kit/Screen'
 import User from './kit/User'
 
 import { generateUser } from './data'
@@ -19,7 +20,7 @@ function Select({ onBack }: TSelect) {
   ]
 
   return (
-    <div className="fixed top-0 left-0 w-full h-full bg-bg">
+    <Screen className="bg-bg">
       <div className="limiter">
         <Header onBack={onBack} />
         <div className="px-4">
@@ -34,7 +35,7 @@ function Select({ onBack }: TSelect) {
           ))}
         </div>
       </div>
-    </div>
+    </Screen>
   )
 }
 
