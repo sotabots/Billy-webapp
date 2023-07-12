@@ -10,10 +10,10 @@ function Header({ onBack, onCancel }: THeader) {
   return (
     <header className="relative flex items-center justify-center h-[64px]">
       {onCancel &&
-        <button className="absolute left-4 top-1/2 -translate-y-1/2 text-link" onClick={onCancel}>Отмена</button>
+        <button className="absolute left-4 top-1/2 -translate-y-1/2 text-link hover:brightness-[1.2] active:brightness-[1.4] transition-all" onClick={onCancel}>Отмена</button>
       }
       {onBack &&
-        <button className="flex items-center gap-[5px] absolute left-4 top-1/2 -translate-y-1/2 text-link" onClick={onBack}>
+        <button className="flex items-center gap-[5px] absolute left-4 top-1/2 -translate-y-1/2 text-link hover:brightness-[1.2] active:brightness-[1.4] transition-all" onClick={onBack}>
           <Back />
           <span>Назад</span>
         </button>

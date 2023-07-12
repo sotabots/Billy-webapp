@@ -13,7 +13,7 @@ function RadioButton({ group, label, value, checked, onChange }: TRadioButton) {
   return (
     <label
       className={cx(
-        'w-full flex gap-2 items-center px-4 py-2 cursor-pointer select-none',
+        'w-full flex gap-2 items-center px-4 py-2 cursor-pointer select-none hover:bg-text/5 active:bg-text/10 transition-all',
       )}
       htmlFor={`${group}-${value}`}
       onClick={() => onChange(value)}

@@ -36,7 +36,7 @@ function Check({ currency, onBack, onSelectCurrency }: TCheck) {
 
         <div className="mb-2 px-4 flex items-center justify-between">
           <h2 className="pt-[2px] pb-[6px]">Проверить траты</h2>
-          <button className="h-8 text-[14px] leading-[24px] text-button" onClick={onSelectCurrency}>{currency.in}</button>
+          <button className="h-8 text-[14px] leading-[24px] text-button hover:brightness-[1.2] active:brightness-[1.4] transition-all" onClick={onSelectCurrency}>{currency.in}</button>
         </div>
 
         <Panel className="!pb-4">

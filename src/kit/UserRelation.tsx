@@ -18,7 +18,7 @@ type TUserRelation = {
 function UserRelation({ title, user, onClick }: TUserRelation) {
   return (
     <button
-      className="w-full flex gap-3 text-left items-center px-4 py-2.5 truncate"
+      className="w-full flex gap-3 text-left items-center px-4 py-2.5 truncate hover:bg-text/5 active:bg-text/10 transition-all"
       onClick={onClick}
     >
       <div className="flex w-[45%] truncate">

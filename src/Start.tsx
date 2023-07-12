@@ -49,7 +49,7 @@ function Start({ onAdd, onNext }: TStart) {
                 </div>
               ))}
             </div>
-            <button className="mt-1 text-button h-8 w-full items-center flex gap-[9px] rounded-md" onClick={onAdd}>
+            <button className="mt-1 text-button h-8 w-full items-center flex gap-[9px] rounded-md hover:brightness-[1.2] active:brightness-[1.4] transition-all" onClick={onAdd}>
               <span className="h-6 w-6 flex items-center justify-center">
                 <Plus />
               </span>
