@@ -14,7 +14,7 @@ const getLetters = (name?: string) => {
 
 const getColor = (name?: string) => {
   // return name ? '#0452C8' : '#0452C8' // todo: generate
-  return name ? false : false
+  return name ? undefined : undefined
 }
 
 function Avatar({ url, name, size = 40 }: TAvatar) {
