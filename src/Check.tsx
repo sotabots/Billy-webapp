@@ -1,4 +1,4 @@
-import { MouseEventHandler } from 'react'
+import { MouseEventHandler, useState, useCallback } from 'react'
 import Button from './kit/Button'
 import Header from './kit/Header'
 import UserAmount from './kit/UserAmount'
@@ -15,19 +15,23 @@ type TCheck = {
 }
 
 function Check({ currency, onBack, onSelectCurrency }: TCheck) {
+  const [data, setData] = useState([
+    generateUserAmount({ isPayed: true }),
+    generateUserAmount({ isPayed: true }),
+    generateUserAmount({ isPayed: false }),
+    generateUserAmount({ isPayed: false }),
+  ])
+
+  const onChangeAmount = useCallback((id: number, amount: number) => {
+    const newData = [...data]
+    const foundIndex = newData.findIndex(item => item.id === id)
+    newData[foundIndex].amount = amount
+    setData(newData)
+  }, [data, setData])
+
   const save = () => {
     alert('save & close webapp...')
   }
-
-  const payed = [
-    generateUserAmount(),
-    generateUserAmount(),
-  ]
-
-  const owe = [
-    generateUserAmount(),
-    generateUserAmount(),
-  ]
 
   return (
     <Screen>
@@ -47,8 +51,8 @@ function Check({ currency, onBack, onSelectCurrency }: TCheck) {
         <Panel>
           <h3>Заплатили</h3>
           <div className="mt-4 flex flex-col gap-3">
-            {payed.map(userAmount => (
-              <UserAmount key={userAmount.id} {...userAmount} />
+            {data.filter(item => item.isPayed).map(userAmount => (
+              <UserAmount key={userAmount.id} {...userAmount} onChange={(value) => { onChangeAmount(userAmount.id, value) }} />
             ))}
           </div>
         </Panel>
@@ -56,8 +60,8 @@ function Check({ currency, onBack, onSelectCurrency }: TCheck) {
         <Panel>
           <h3>Должны</h3>
           <div className="mt-4 flex flex-col gap-3">
-            {owe.map(userAmount => (
-              <UserAmount key={userAmount.id} {...userAmount} />
+            {data.filter(item => !item.isPayed).map(userAmount => (
+              <UserAmount key={userAmount.id} {...userAmount} onChange={(value) => { onChangeAmount(userAmount.id, value) }} />
             ))}
           </div>
 

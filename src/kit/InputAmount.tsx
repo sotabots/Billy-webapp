@@ -2,14 +2,14 @@ import type { ChangeEvent } from 'react'
 
 type TInputAmount = {
   amount?: number
-  onChange?: (value: number) => void
+  onChange: (value: number) => void
 }
 
 function InputAmount({ amount, onChange }: TInputAmount) {
   const inputOnChange = (e: ChangeEvent<HTMLInputElement>) => {
     // todo: .,
-    const number = Number(e.target.value)
-    onChange?.(number)
+    const number = Number(e.target.value) || 0
+    onChange(number)
   }
 
   return (

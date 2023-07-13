@@ -19,8 +19,9 @@ const generateUser = (name?: string) => {
   }
 }
 
-const generateUserAmount = () => ({
+const generateUserAmount = ({ isPayed }: { isPayed: boolean }) => ({
   ...generateUser(),
+  isPayed,
   amount: Math.round(Math.random() * 1e6) / 100
 })
 
