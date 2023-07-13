@@ -1,3 +1,4 @@
+import cx from 'classnames'
 import { MouseEventHandler, useState, useCallback } from 'react'
 import Button from './kit/Button'
 import Header from './kit/Header'
@@ -32,6 +33,10 @@ function Check({ currency, onBack, onSelectCurrency }: TCheck) {
   const payedSum = data.filter(item => item.isPayed).reduce((acc, item) => acc + item.amount, 0)
   const oweSum = data.filter(item => !item.isPayed).reduce((acc, item) => acc + item.amount, 0)
 
+  const isLacks = payedSum > oweSum
+  const isOk = payedSum == oweSum
+  const isOverdo = payedSum < oweSum
+
   const save = () => {
     alert('save & close webapp...')
   }
@@ -47,7 +52,11 @@ function Check({ currency, onBack, onSelectCurrency }: TCheck) {
         </div>
 
         <Panel className="!pb-4">
-          <h3>Всё верно</h3>
+          <h3 className={cx(!isOk && 'text-error')}>
+            {isLacks && 'Не хватает'}
+            {isOk && 'Всё верно'}
+            {isOverdo && 'Перебор'}
+          </h3>
           <div className="mt-1 text-[14px] leading-[20px] text-hint">Заплатили {payedSum} {currency.symbol}, должны {oweSum} {currency.symbol}</div>
         </Panel>
 
@@ -69,7 +78,7 @@ function Check({ currency, onBack, onSelectCurrency }: TCheck) {
           </div>
 
           <div className="mt-8 py-2">
-            <Button onClick={save}>Сохранить</Button>
+            <Button onClick={save} disabled={!isOk}>Сохранить</Button>
           </div>
         </Panel>
       </div>
