@@ -29,6 +29,9 @@ function Check({ currency, onBack, onSelectCurrency }: TCheck) {
     setData(newData)
   }, [data, setData])
 
+  const payedSum = data.filter(item => item.isPayed).reduce((acc, item) => acc + item.amount, 0)
+  const oweSum = data.filter(item => !item.isPayed).reduce((acc, item) => acc + item.amount, 0)
+
   const save = () => {
     alert('save & close webapp...')
   }
@@ -45,7 +48,7 @@ function Check({ currency, onBack, onSelectCurrency }: TCheck) {
 
         <Panel className="!pb-4">
           <h3>Всё верно</h3>
-          <div className="mt-1 text-[14px] leading-[20px] text-hint">Заплатили 10 000 {currency.symbol}, должны 10 000 {currency.symbol}</div>
+          <div className="mt-1 text-[14px] leading-[20px] text-hint">Заплатили {payedSum} {currency.symbol}, должны {oweSum} {currency.symbol}</div>
         </Panel>
 
         <Panel>
