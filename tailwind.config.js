@@ -23,7 +23,7 @@ export default {
           'text': '#F6F8F9',
           'bg': '#252C32',
           'bg2': '#1A2024',
-          'hint': '#ff0000',
+          'hint': '#B0BABF',
           'link': '#4094F7',
           'button': '#4094F7',
           'buttonText': '#F6F8F9',

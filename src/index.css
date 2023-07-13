@@ -7,23 +7,11 @@
   font-size: 16px;
   line-height: 1.5;
   font-weight: 400;
-
-  color-scheme: light dark;
-  color: #F6F8F9;
-  background-color: #252C32;
-
   font-synthesis: none;
   text-rendering: optimizeLegibility;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
   -webkit-text-size-adjust: 100%;
-}
-
-@media (prefers-color-scheme: light) {
-  :root {
-    color: #1A2024;
-    background-color: #F7F8F8;
-  }
 }
 
 body {

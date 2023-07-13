@@ -30,7 +30,7 @@ function Check({ currency, onBack, onSelectCurrency }: TCheck) {
   ]
 
   return (
-    <Screen className="bg-bg2">
+    <Screen>
       <div className="limiter">
         <Header onBack={onBack} />
 

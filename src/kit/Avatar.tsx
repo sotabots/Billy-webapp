@@ -1,3 +1,5 @@
+import { useTheme } from '../hooks/useTheme'
+
 type TAvatar = {
   url?: string,
   name?: string,
@@ -11,12 +13,15 @@ const getLetters = (name?: string) => {
 }
 
 const getColor = (name?: string) => {
-  return name ? '#0452C8' : '#0452C8' // todo: generate
+  // return name ? '#0452C8' : '#0452C8' // todo: generate
+  return name ? false : false
 }
 
 function Avatar({ url, name, size = 40 }: TAvatar) {
   const color = getColor(name)
-  const backgroundColor = (!url && name) ? color + '22' : '#EEF0F2'
+  const { isDarkTheme } = useTheme()
+  const placeholderBg = isDarkTheme ? '#9AA6AC' : '#EEF0F2'
+  const backgroundColor = (!url && name) ? color + '22' : placeholderBg
   const letters = (!url && name) ? getLetters(name) : null
 
   return (

@@ -1,6 +1,9 @@
+import cx from 'classnames'
 import { useState } from 'react'
 // import reactLogo from './assets/react.svg'
 // import viteLogo from '/vite.svg'
+
+import { useTheme } from './hooks/useTheme'
 
 import Check from './Check'
 import SelectUser from './SelectUser'
@@ -22,8 +25,10 @@ function App() {
     setSelectCurrencyOpen(false)
   }
 
+  const { isDarkTheme } = useTheme()
+
   return (
-    <div className="theme-dark">
+    <div className={cx(isDarkTheme ? 'theme-dark' : 'theme-light')}>
       <Start
         onAdd={() => { setSelectUserOpen(true) }}
         onNext={() => { setCheckOpen(true) }}

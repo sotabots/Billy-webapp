@@ -15,7 +15,7 @@ type TSelectCurrency = {
 
 function SelectCurrency({ currency, onSelectCurrency, onBack }: TSelectCurrency) {
   return (
-    <Screen className="bg-bg">
+    <Screen className="!bg-bg">
       <div className="limiter">
         <Header onBack={onBack} />
         <div className="px-4">

@@ -20,7 +20,7 @@ function Select({ onBack }: TSelect) {
   ]
 
   return (
-    <Screen className="bg-bg">
+    <Screen className="!bg-bg">
       <div className="limiter">
         <Header onBack={onBack} />
         <div className="px-4">
