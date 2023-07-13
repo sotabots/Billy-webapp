@@ -23,7 +23,7 @@ function App() {
   }
 
   return (
-    <>
+    <div className="theme-dark">
       <Start
         onAdd={() => { setSelectUserOpen(true) }}
         onNext={() => { setCheckOpen(true) }}
@@ -48,7 +48,7 @@ function App() {
           onBack={() => { setSelectCurrencyOpen(false) }}
         />
       )}
-    </>
+    </div>
   )
 }
 
