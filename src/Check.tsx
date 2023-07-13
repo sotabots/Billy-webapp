@@ -46,7 +46,7 @@ function Check({ currency, onBack, onSelectCurrency }: TCheck) {
 
         <Panel>
           <h3>Заплатили</h3>
-          <div className="mt-4 overflow-y-auto flex flex-col gap-3">
+          <div className="mt-4 flex flex-col gap-3">
             {payed.map(userAmount => (
               <UserAmount key={userAmount.id} {...userAmount} />
             ))}
@@ -55,7 +55,7 @@ function Check({ currency, onBack, onSelectCurrency }: TCheck) {
 
         <Panel>
           <h3>Должны</h3>
-          <div className="mt-4 overflow-y-auto flex flex-col gap-3">
+          <div className="mt-4 flex flex-col gap-3">
             {owe.map(userAmount => (
               <UserAmount key={userAmount.id} {...userAmount} />
             ))}
