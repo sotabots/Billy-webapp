@@ -1,5 +1,7 @@
 import cx from 'classnames'
 import { useState } from 'react'
+import { createBrowserRouter, RouterProvider } from 'react-router-dom'
+
 // import reactLogo from './assets/react.svg'
 // import viteLogo from '/vite.svg'
 
@@ -11,48 +13,59 @@ import SelectCurrency from './SelectCurrency'
 import Start from './Start'
 
 import { currencies } from './data'
-import { TCurrency } from './types'
+import { TCurrency, TData } from './types'
+
+import { generateUserAmount } from './data'
 
 function App() {
-  const [isSelectUserOpen, setSelectUserOpen] = useState(false)
-  const [isCheckOpen, setCheckOpen] = useState(false)
-
   const [currency, setCurrency] = useState<TCurrency>(currencies[0])
-  const [isSelectCurrencyOpen, setSelectCurrencyOpen] = useState(false)
-
-  const onSelectCurrency = (value: TCurrency) => {
-    setCurrency(value)
-    setSelectCurrencyOpen(false)
-  }
 
   const { isDarkTheme } = useTheme()
 
-  return (
-    <div className={cx(isDarkTheme ? 'theme-dark' : 'theme-light')}>
-      <Start
-        onAdd={() => { setSelectUserOpen(true) }}
-        onNext={() => { setCheckOpen(true) }}
-      />
+  const [data, setData] = useState<TData>([
+    generateUserAmount({ isPayed: true }),
+    generateUserAmount({ isPayed: true }),
+    generateUserAmount({ isPayed: false }),
+    generateUserAmount({ isPayed: false }),
+  ])
 
-      {isSelectUserOpen && (
-        <SelectUser onBack={() => { setSelectUserOpen(false) }} />
-      )}
-
-      {isCheckOpen && (
+  const router = createBrowserRouter([
+    {
+      path: "/",
+      element: (
+        <Start />
+      ),
+    },
+    {
+      path: "/select-user",
+      element: (
+        <SelectUser />
+      ),
+    },
+    {
+      path: "/check",
+      element: (
         <Check
           currency={currency}
-          onBack={() => { setCheckOpen(false) }}
-          onSelectCurrency={() => { setSelectCurrencyOpen(true) }}
+          data={data}
+          setData={setData}
         />
-      )}
-
-      {isSelectCurrencyOpen && (
+      ),
+    },
+    {
+      path: "/select-currency",
+      element: (
         <SelectCurrency
           currency={currency}
-          onSelectCurrency={onSelectCurrency}
-          onBack={() => { setSelectCurrencyOpen(false) }}
+          setCurrency={setCurrency}
         />
-      )}
+      ),
+    },
+  ])
+
+  return (
+    <div className={cx(isDarkTheme ? 'theme-dark' : 'theme-light')}>
+      <RouterProvider router={router} />
     </div>
   )
 }

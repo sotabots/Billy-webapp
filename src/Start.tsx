@@ -1,4 +1,5 @@
-import { MouseEventHandler } from 'react'
+import { useNavigate } from 'react-router-dom'
+
 import { ReactComponent as Plus } from './img/plus.svg'
 import Button from './kit/Button'
 import Divider from './kit/Divider'
@@ -9,15 +10,8 @@ import UserRelation from './kit/UserRelation'
 
 import { generateUserRelation } from './data'
 
-type TStart = {
-  onAdd: MouseEventHandler<HTMLButtonElement>
-  onNext: MouseEventHandler<HTMLButtonElement>
-}
-
-function Start({ onAdd, onNext }: TStart) {
-  const closeApp = () => {
-    alert('close webapp...')
-  }
+function Start() {
+  const navigate = useNavigate()
 
   const userRelations = [
     generateUserRelation(),
@@ -25,6 +19,10 @@ function Start({ onAdd, onNext }: TStart) {
     generateUserRelation(),
     generateUserRelation()
   ]
+
+  const closeApp = () => {
+    alert('close webapp...')
+  }
 
   return (
     <Screen>
@@ -44,12 +42,21 @@ function Start({ onAdd, onNext }: TStart) {
             <div className="mt-2 -mx-4 overflow-y-auto">
               {userRelations.map((userRelation, i) => (
                 <div key={`UserRelation-Divider-${i}`}>
-                  <UserRelation key={`UserRelation-${i}`} {...userRelation} onClick={onAdd} />
+                  <UserRelation
+                    key={`UserRelation-${i}`}
+                    {...userRelation}
+                    onClick={() => {
+                      navigate('/select-user')
+                    }}
+                  />
                   {i < userRelations.length - 1 && <Divider key={`Divider-${i}`} />}
                 </div>
               ))}
             </div>
-            <button className="mt-1 text-button h-8 w-full items-center flex gap-[9px] rounded-md hover:brightness-[1.2] active:brightness-[1.4] transition-all" onClick={onAdd}>
+            <button
+              className="mt-1 text-button h-8 w-full items-center flex gap-[9px] rounded-md hover:brightness-[1.2] active:brightness-[1.4] transition-all"
+              onClick={() => { navigate('/select-user') }}
+            >
               <span className="h-6 w-6 flex items-center justify-center">
                 <Plus />
               </span>
@@ -57,7 +64,7 @@ function Start({ onAdd, onNext }: TStart) {
             </button>
           </div>
           <div className="mt-8 py-2">
-            <Button onClick={onNext}>Далее</Button>
+            <Button onClick={() => { navigate('/check') }}>Далее</Button>
           </div>
         </Panel>
       </div>

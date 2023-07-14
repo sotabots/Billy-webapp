@@ -5,4 +5,17 @@ type TCurrency = {
   in: string
 }
 
-export type { TCurrency }
+type TUser = {
+  id: number
+  url?: string
+  name: string
+  username: string
+}
+
+
+type TData = (TUser & {
+  isPayed: boolean
+  amount: number
+})[]
+
+export type { TCurrency, TUser, TData }

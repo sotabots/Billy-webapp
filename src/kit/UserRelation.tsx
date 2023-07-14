@@ -1,19 +1,17 @@
-import { MouseEventHandler } from "react"
-import Avatar from "./Avatar"
+import { MouseEventHandler } from 'react'
+
+import { TUser } from '../types'
+
+import Avatar from './Avatar'
 
 import { ReactComponent as Next } from './../img/next.svg'
-
-type TUser = {
-  url?: string
-  name: string
-  username: string
-}
 
 type TUserRelation = {
   title: string
   user?: TUser
   onClick: MouseEventHandler<HTMLButtonElement>
 }
+
 
 function UserRelation({ title, user, onClick }: TUserRelation) {
   return (

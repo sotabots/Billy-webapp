@@ -1,4 +1,5 @@
-import { MouseEventHandler } from 'react'
+import { useNavigate } from 'react-router-dom'
+
 import Divider from './kit/Divider'
 import Header from './kit/Header'
 import RadioButton from './kit/RadioButton'
@@ -9,15 +10,22 @@ import { TCurrency } from './types'
 
 type TSelectCurrency = {
   currency: TCurrency
-  onSelectCurrency: (value: TCurrency) => void
-  onBack: MouseEventHandler<HTMLButtonElement>
+  setCurrency: (value: TCurrency) => void
 }
 
-function SelectCurrency({ currency, onSelectCurrency, onBack }: TSelectCurrency) {
+function SelectCurrency({ currency, setCurrency }: TSelectCurrency) {
+  const navigate = useNavigate()
+
+  const onChange = (value: TCurrency) => {
+    setCurrency(value)
+    navigate('/check')
+    // history.back()
+  }
+
   return (
     <Screen className="!bg-bg">
       <div className="limiter">
-        <Header onBack={onBack} />
+        <Header onBack={() => { history.back() }} />
         <div className="px-4">
           <h2>Выберите валюту</h2>
         </div>
@@ -30,7 +38,7 @@ function SelectCurrency({ currency, onSelectCurrency, onBack }: TSelectCurrency)
                 key={`currencies-${currencyItem.id}`}
                 value={currencyItem}
                 checked={currency.id === currencyItem.id}
-                onChange={onSelectCurrency}
+                onChange={onChange}
               />
               {i < currencies.length - 1 && <Divider key={`Divider-${i}`} />}
             </>

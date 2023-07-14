@@ -1,34 +1,28 @@
 import cx from 'classnames'
-import { MouseEventHandler, useState, useCallback } from 'react'
+import { useNavigate } from 'react-router-dom'
 import Button from './kit/Button'
 import Header from './kit/Header'
 import UserAmount from './kit/UserAmount'
 import Panel from './kit/Panel'
 import Screen from './kit/Screen'
 
-import { generateUserAmount } from './data'
-import { TCurrency } from './types'
+import { TCurrency, TData } from './types'
 
 type TCheck = {
-  currency: TCurrency
-  onBack: MouseEventHandler<HTMLButtonElement>
-  onSelectCurrency: MouseEventHandler<HTMLButtonElement>
+  currency: TCurrency,
+  data: TData,
+  setData: (data: TData) => void
 }
 
-function Check({ currency, onBack, onSelectCurrency }: TCheck) {
-  const [data, setData] = useState([
-    generateUserAmount({ isPayed: true }),
-    generateUserAmount({ isPayed: true }),
-    generateUserAmount({ isPayed: false }),
-    generateUserAmount({ isPayed: false }),
-  ])
+function Check({ currency, data, setData }: TCheck) {
+  const navigate = useNavigate()
 
-  const onChangeAmount = useCallback((id: number, amount: number) => {
+  const onChangeAmount = (id: number, amount: number) => {
     const newData = [...data]
     const foundIndex = newData.findIndex(item => item.id === id)
     newData[foundIndex].amount = amount
     setData(newData)
-  }, [data, setData])
+  }
 
   const payedSum = data.filter(item => item.isPayed).reduce((acc, item) => acc + item.amount, 0)
   const oweSum = data.filter(item => !item.isPayed).reduce((acc, item) => acc + item.amount, 0)
@@ -44,11 +38,16 @@ function Check({ currency, onBack, onSelectCurrency }: TCheck) {
   return (
     <Screen>
       <div className="limiter">
-        <Header onBack={onBack} />
+        <Header onBack={() => { navigate('/') }}  />
 
         <div className="mb-2 px-4 flex items-center justify-between">
           <h2 className="pt-[2px] pb-[6px]">Проверить траты</h2>
-          <button className="h-8 text-[14px] leading-[24px] text-button hover:brightness-[1.2] active:brightness-[1.4] transition-all" onClick={onSelectCurrency}>{currency.in}</button>
+          <button
+            className="h-8 text-[14px] leading-[24px] text-button hover:brightness-[1.2] active:brightness-[1.4] transition-all"
+            onClick={() => { navigate('/select-currency') }}
+          >
+            {currency.in}
+          </button>
         </div>
 
         <Panel className="!pb-4">
