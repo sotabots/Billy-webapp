@@ -1,4 +1,6 @@
-import { MouseEventHandler } from "react"
+import { MouseEventHandler } from 'react'
+import { BackButton } from '@vkruglikov/react-telegram-web-app'
+
 import { ReactComponent as Back } from './../img/back.svg'
 
 type THeader = {
@@ -7,6 +9,18 @@ type THeader = {
 }
 
 function Header({ onBack, onCancel }: THeader) {
+  // eslint-disable-next-line @typescript-eslint/ban-ts-comment
+  // @ts-ignore
+  if (window?.Telegram?.WebView?.isIframe) {
+    return (
+      <>
+        <BackButton
+          onClick={onBack}
+        />
+      </>
+    )
+  }
+
   return (
     <header className="relative flex items-center justify-center h-[64px]">
       {onCancel &&
