@@ -37,50 +37,48 @@ function Check({ currency, data, setData }: TCheck) {
 
   return (
     <Screen>
-      <div className="limiter">
-        <Header onBack={() => { navigate('/') }}  />
+      <Header onBack={() => { navigate('/') }}  />
 
-        <div className="mb-2 px-4 flex items-center justify-between">
-          <h2 className="pt-[2px] pb-[6px]">Проверить траты</h2>
-          <button
-            className="h-8 text-[14px] leading-[24px] text-button hover:brightness-[1.2] active:brightness-[1.4] transition-all"
-            onClick={() => { navigate('/select-currency') }}
-          >
-            {currency.in}
-          </button>
+      <div className="mb-2 px-4 flex items-center justify-between">
+        <h2 className="pt-[2px] pb-[6px]">Проверить траты</h2>
+        <button
+          className="h-8 text-[14px] leading-[24px] text-button hover:brightness-[1.2] active:brightness-[1.4] transition-all"
+          onClick={() => { navigate('/select-currency') }}
+        >
+          {currency.in}
+        </button>
+      </div>
+
+      <Panel className="!pb-4">
+        <h3 className={cx(!isOk && 'text-error')}>
+          {isLacks && 'Не хватает'}
+          {isOk && 'Всё верно'}
+          {isOverdo && 'Перебор'}
+        </h3>
+        <div className="mt-1 text-[14px] leading-[20px] text-hint">Заплатили {payedSum} {currency.symbol}, должны {oweSum} {currency.symbol}</div>
+      </Panel>
+
+      <Panel>
+        <h3>Заплатили</h3>
+        <div className="mt-4 flex flex-col gap-3">
+          {data.filter(item => item.isPayed).map(userAmount => (
+            <UserAmount key={userAmount.id} {...userAmount} onChange={(value) => { onChangeAmount(userAmount.id, value) }} />
+          ))}
+        </div>
+      </Panel>
+
+      <Panel>
+        <h3>Должны</h3>
+        <div className="mt-4 flex flex-col gap-3">
+          {data.filter(item => !item.isPayed).map(userAmount => (
+            <UserAmount key={userAmount.id} {...userAmount} onChange={(value) => { onChangeAmount(userAmount.id, value) }} />
+          ))}
         </div>
 
-        <Panel className="!pb-4">
-          <h3 className={cx(!isOk && 'text-error')}>
-            {isLacks && 'Не хватает'}
-            {isOk && 'Всё верно'}
-            {isOverdo && 'Перебор'}
-          </h3>
-          <div className="mt-1 text-[14px] leading-[20px] text-hint">Заплатили {payedSum} {currency.symbol}, должны {oweSum} {currency.symbol}</div>
-        </Panel>
-
-        <Panel>
-          <h3>Заплатили</h3>
-          <div className="mt-4 flex flex-col gap-3">
-            {data.filter(item => item.isPayed).map(userAmount => (
-              <UserAmount key={userAmount.id} {...userAmount} onChange={(value) => { onChangeAmount(userAmount.id, value) }} />
-            ))}
-          </div>
-        </Panel>
-
-        <Panel>
-          <h3>Должны</h3>
-          <div className="mt-4 flex flex-col gap-3">
-            {data.filter(item => !item.isPayed).map(userAmount => (
-              <UserAmount key={userAmount.id} {...userAmount} onChange={(value) => { onChangeAmount(userAmount.id, value) }} />
-            ))}
-          </div>
-
-          <div className="mt-8 py-2">
-            <Button onClick={save} disabled={!isOk}>Сохранить</Button>
-          </div>
-        </Panel>
-      </div>
+        <div className="mt-8 py-2">
+          <Button onClick={save} disabled={!isOk}>Сохранить</Button>
+        </div>
+      </Panel>
     </Screen>
   )
 }

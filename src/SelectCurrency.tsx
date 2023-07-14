@@ -24,26 +24,25 @@ function SelectCurrency({ currency, setCurrency }: TSelectCurrency) {
 
   return (
     <Screen className="!bg-bg">
-      <div className="limiter">
-        <Header onBack={() => { history.back() }} />
-        <div className="px-4">
-          <h2>Выберите валюту</h2>
-        </div>
-        <div className="mt-4 overflow-y-auto">
-          {currencies.map((currencyItem, i) => (
-            <>
-              <RadioButton
-                group="currencies"
-                label={currencyItem.label}
-                key={`currencies-${currencyItem.id}`}
-                value={currencyItem}
-                checked={currency.id === currencyItem.id}
-                onChange={onChange}
-              />
-              {i < currencies.length - 1 && <Divider key={`Divider-${i}`} />}
-            </>
-          ))}
-        </div>
+      <Header onBack={() => { history.back() }} />
+
+      <div className="px-4">
+        <h2>Выберите валюту</h2>
+      </div>
+      <div className="mt-4 overflow-y-auto">
+        {currencies.map((currencyItem, i) => (
+          <>
+            <RadioButton
+              group="currencies"
+              label={currencyItem.label}
+              key={`currencies-${currencyItem.id}`}
+              value={currencyItem}
+              checked={currency.id === currencyItem.id}
+              onChange={onChange}
+            />
+            {i < currencies.length - 1 && <Divider key={`Divider-${i}`} />}
+          </>
+        ))}
       </div>
     </Screen>
   )
