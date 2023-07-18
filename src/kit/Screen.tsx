@@ -1,6 +1,8 @@
 import cx from 'classnames'
 import { ReactNode } from 'react'
 
+import Debug from './Debug'
+
 type TScreen = {
   children: ReactNode,
   className?: string
@@ -12,6 +14,8 @@ function Screen({ children, className }: TScreen) {
       <div className="limiter">
         {children}
       </div>
+
+      <Debug />
     </div>
   )
 }
