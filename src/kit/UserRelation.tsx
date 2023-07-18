@@ -24,7 +24,7 @@ function UserRelation({ title, user, onClick }: TUserRelation) {
       </div>
       <div className="flex gap-3 w-[45%] items-center truncate">
         <Avatar url={user?.url} size={32} name={user?.name} />
-        <div className="text-hint truncate">{user?.username ? `@${user.username}` : '@name'}</div>
+        <div className="text-hint truncate">{user?.username ? `@${user.username}` : '(выберите)'}</div>
       </div>
       <div className="h-6 w-6 text-hint opacity-50">
         <Next />
