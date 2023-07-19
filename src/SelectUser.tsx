@@ -3,16 +3,10 @@ import Header from './kit/Header'
 import Screen from './kit/Screen'
 import User from './kit/User'
 
-import { generateUser } from './data'
+import { useStore } from './store'
 
 function Select() {
-  const users = [
-    generateUser(),
-    generateUser(),
-    generateUser(),
-    generateUser(),
-    generateUser(),
-  ]
+  const { users } = useStore()
 
   const onSelect = () => {
     // todo...
