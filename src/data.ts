@@ -41,25 +41,25 @@ const generateUserRelation = () => {
 const currencies: TCurrency[] = [
   {
     id: 'rouble',
-    label: '₽ Рубль',
+    title: 'Рубль',
     symbol: '₽',
     in: 'В рублях'
   },
   {
     id: 'lari',
-    label: '₾ Лари',
+    title: 'Лари',
     symbol: '₾',
     in: 'В лари'
   },
   {
     id: 'lyra',
-    label: '₺ Лира',
+    title: 'Лира',
     symbol: '₺',
     in: 'В лирах'
   },
   {
     id: 'euro',
-    label: '€ Евро',
+    title: 'Евро',
     symbol: '€',
     in: 'В евро'
   },

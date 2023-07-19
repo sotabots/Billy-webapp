@@ -34,7 +34,7 @@ function SelectCurrency({ currency, setCurrency }: TSelectCurrency) {
           <>
             <RadioButton
               group="currencies"
-              label={currencyItem.label}
+              label={`${currencyItem.symbol} ${currencyItem.title}`}
               key={`currencies-${currencyItem.id}`}
               value={currencyItem}
               checked={currency.id === currencyItem.id}

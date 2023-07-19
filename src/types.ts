@@ -1,6 +1,6 @@
 type TCurrency = {
   id: string,
-  label: string,
+  title: string,
   symbol: string,
   in: string
 }
@@ -9,9 +9,8 @@ type TUser = {
   id: number
   url?: string
   name: string
-  username: string
+  username: string // todo: ?
 }
-
 
 type TData = (TUser & {
   isPayed: boolean
