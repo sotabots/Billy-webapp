@@ -13,7 +13,7 @@ const generateUser = (name?: string): TUser => {
   const name_ = name || generateName()
   return {
     id: Math.round(Math.random() * 1e10),
-    name: (name_ + ' ').repeat(1 + Math.floor(Math.random() * 2)),
+    name: (name_ + ' ').repeat(2/*1 + Math.floor(Math.random() * 2)*/),
     username: transliterate(name_),
     url: `https://i.pravatar.cc/48/${Math.round(Math.random() * 1e10)}`,
   }

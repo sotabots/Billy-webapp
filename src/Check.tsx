@@ -10,17 +10,17 @@ import { useStore } from './store'
 
 function Check() {
   const navigate = useNavigate()
-  const { currency, data, setData } = useStore()
+  const { currency, transaction, setTransaction } = useStore()
 
   const onChangeAmount = (id: number, amount: number) => {
-    const newData = [...data]
+    const newData = [...transaction]
     const foundIndex = newData.findIndex(item => item.id === id)
     newData[foundIndex].amount = amount
-    setData(newData)
+    setTransaction(newData)
   }
 
-  const payedSum = data.filter(item => item.isPayed).reduce((acc, item) => acc + item.amount, 0)
-  const oweSum = data.filter(item => !item.isPayed).reduce((acc, item) => acc + item.amount, 0)
+  const payedSum = transaction.filter(item => item.isPayed).reduce((acc, item) => acc + item.amount, 0)
+  const oweSum = transaction.filter(item => !item.isPayed).reduce((acc, item) => acc + item.amount, 0)
 
   const isLacks = payedSum > oweSum
   const isOk = payedSum == oweSum
@@ -56,7 +56,7 @@ function Check() {
       <Panel>
         <h3>Заплатили</h3>
         <div className="mt-4 flex flex-col gap-3">
-          {data.filter(item => item.isPayed).map(userAmount => (
+          {transaction.filter(item => item.isPayed).map(userAmount => (
             <UserAmount key={userAmount.id} {...userAmount} onChange={(value) => { onChangeAmount(userAmount.id, value) }} />
           ))}
         </div>
@@ -65,7 +65,7 @@ function Check() {
       <Panel>
         <h3>Должны</h3>
         <div className="mt-4 flex flex-col gap-3">
-          {data.filter(item => !item.isPayed).map(userAmount => (
+          {transaction.filter(item => !item.isPayed).map(userAmount => (
             <UserAmount key={userAmount.id} {...userAmount} onChange={(value) => { onChangeAmount(userAmount.id, value) }} />
           ))}
         </div>

@@ -17,9 +17,9 @@ type TCurrency = {
   in: string
 }
 
-type TData = (TUser & {
+type TTransaction = (TUser & {
   isPayed: boolean
   amount: number
 })[]
 
-export type { TUserRelation, TCurrency, TUser, TData }
+export type { TUserRelation, TCurrency, TUser, TTransaction }
