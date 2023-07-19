@@ -4,12 +4,18 @@ import Screen from './kit/Screen'
 import User from './kit/User'
 
 import { useStore } from './store'
+import { TUser } from './types'
 
 function Select() {
   const { users } = useStore()
+  const { userRelations, setUserRelations } = useStore()
 
-  const onSelect = () => {
-    // todo...
+  const onSelect = (user: TUser) => () => {
+    setUserRelations([
+      ...userRelations,
+      { user }
+    ])
+    // todo: replace
     history.back()
   }
 
@@ -23,7 +29,7 @@ function Select() {
       <div className="mt-4 overflow-y-auto">
         {users.map((user, i) => (
           <>
-            <User key={`User-${i}`} {...user} onClick={onSelect} />
+            <User key={`User-${i}`} {...user} onClick={onSelect(user)} />
             {i < users.length - 1 && <Divider key={`Divider-${i}`} />}
           </>
         ))}

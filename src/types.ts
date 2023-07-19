@@ -6,7 +6,7 @@ type TUser = {
 }
 
 type TUserRelation = {
-  title: string // spoken name
+  title?: string // spoken name
   user?: TUser
 }
 
