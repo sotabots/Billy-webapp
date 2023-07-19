@@ -1,4 +1,4 @@
-import { TCurrency, TUser } from './types'
+import { TCurrency, TUser } from '../types'
 
 const transliterate = (word: string) => {
   const a = {"Ё":"YO","Й":"I","Ц":"TS","У":"U","К":"K","Е":"E","Н":"N","Г":"G","Ш":"SH","Щ":"SCH","З":"Z","Х":"H","Ъ":"","ё":"yo","й":"i","ц":"ts","у":"u","к":"k","е":"e","н":"n","г":"g","ш":"sh","щ":"sch","з":"z","х":"h","ъ":"","Ф":"F","Ы":"I","В":"V","А":"A","П":"P","Р":"R","О":"O","Л":"L","Д":"D","Ж":"ZH","Э":"E","ф":"f","ы":"i","в":"v","а":"a","п":"p","р":"r","о":"o","л":"l","д":"d","ж":"zh","э":"e","Я":"Ya","Ч":"CH","С":"S","М":"M","И":"I","Т":"T","Ь":"","Б":"B","Ю":"YU","я":"ya","ч":"ch","с":"s","м":"m","и":"i","т":"t","ь":"","б":"b","ю":"yu"}
@@ -38,7 +38,29 @@ const generateUserRelation = () => {
   })
 }
 
-const currencies: TCurrency[] = [
+const mockUsers = [
+  generateUser(),
+  generateUser(),
+  generateUser(),
+  generateUser(),
+  generateUser(),
+]
+
+const mockUserRelations = [
+  generateUserRelation(),
+  generateUserRelation(),
+  generateUserRelation(),
+  generateUserRelation()
+]
+
+const mockTransaction = [
+  generateUserAmount({ isPayed: true }),
+  generateUserAmount({ isPayed: true }),
+  generateUserAmount({ isPayed: false }),
+  generateUserAmount({ isPayed: false }),
+]
+
+const mockCurrencies: TCurrency[] = [
   {
     id: 'rouble',
     title: 'Рубль',
@@ -69,5 +91,8 @@ export {
   generateUser,
   generateUserAmount,
   generateUserRelation,
-  currencies
+  mockUsers,
+  mockUserRelations,
+  mockTransaction,
+  mockCurrencies
 }

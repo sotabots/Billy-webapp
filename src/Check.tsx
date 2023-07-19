@@ -40,7 +40,7 @@ function Check() {
           className="h-8 text-[14px] leading-[24px] text-button hover:brightness-[1.2] active:brightness-[1.4] transition-all"
           onClick={() => { navigate('/select-currency') }}
         >
-          {currency.in}
+          {currency?.in}
         </button>
       </div>
 
@@ -50,7 +50,7 @@ function Check() {
           {isOk && 'Всё верно'}
           {isOverdo && 'Перебор'}
         </h3>
-        <div className="mt-1 text-[14px] leading-[20px] text-hint">Заплатили {payedSum} {currency.symbol}, должны {oweSum} {currency.symbol}</div>
+        <div className="mt-1 text-[14px] leading-[20px] text-hint">Заплатили {payedSum} {currency?.symbol}, должны {oweSum} {currency?.symbol}</div>
       </Panel>
 
       <Panel>

@@ -5,14 +5,13 @@ import Header from './kit/Header'
 import RadioButton from './kit/RadioButton'
 import Screen from './kit/Screen'
 
-import { currencies } from './data'
 import { TCurrency } from './types'
 import { useStore } from './store'
 
 function SelectCurrency() {
   const navigate = useNavigate()
 
-  const { currency, setCurrency } = useStore()
+  const { currencies, currency, setCurrency } = useStore()
 
   const onChange = (value: TCurrency) => {
     setCurrency(value)
@@ -35,7 +34,7 @@ function SelectCurrency() {
               label={`${currencyItem.symbol} ${currencyItem.title}`}
               key={`currencies-${currencyItem.id}`}
               value={currencyItem}
-              checked={currency.id === currencyItem.id}
+              checked={currency?.id === currencyItem.id}
               onChange={onChange}
             />
             {i < currencies.length - 1 && <Divider key={`Divider-${i}`} />}
