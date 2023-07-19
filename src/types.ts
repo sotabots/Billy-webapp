@@ -1,3 +1,15 @@
+type TUser = {
+  id: number
+  url?: string
+  name: string
+  username: string // todo ?
+}
+
+type TUserRelation = {
+  title: string // spoken name
+  user?: TUser
+}
+
 type TCurrency = {
   id: string,
   title: string,
@@ -5,16 +17,9 @@ type TCurrency = {
   in: string
 }
 
-type TUser = {
-  id: number
-  url?: string
-  name: string
-  username: string // todo: ?
-}
-
 type TData = (TUser & {
   isPayed: boolean
   amount: number
 })[]
 
-export type { TCurrency, TUser, TData }
+export type { TUserRelation, TCurrency, TUser, TData }

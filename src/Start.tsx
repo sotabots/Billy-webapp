@@ -8,17 +8,11 @@ import Panel from './kit/Panel'
 import Screen from './kit/Screen'
 import UserRelation from './kit/UserRelation'
 
-import { generateUserRelation } from './data'
+import { useStore } from './store'
 
 function Start() {
   const navigate = useNavigate()
-
-  const userRelations = [
-    generateUserRelation(),
-    generateUserRelation(),
-    generateUserRelation(),
-    generateUserRelation()
-  ]
+  const { userRelations } = useStore()
 
   const closeApp = () => {
     alert('close webapp...')
