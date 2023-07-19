@@ -7,14 +7,12 @@ import Screen from './kit/Screen'
 
 import { currencies } from './data'
 import { TCurrency } from './types'
+import { useStore } from './store'
 
-type TSelectCurrency = {
-  currency: TCurrency
-  setCurrency: (value: TCurrency) => void
-}
-
-function SelectCurrency({ currency, setCurrency }: TSelectCurrency) {
+function SelectCurrency() {
   const navigate = useNavigate()
+
+  const { currency, setCurrency } = useStore()
 
   const onChange = (value: TCurrency) => {
     setCurrency(value)

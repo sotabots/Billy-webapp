@@ -13,13 +13,11 @@ import SelectUser from './SelectUser'
 import SelectCurrency from './SelectCurrency'
 import Start from './Start'
 
-import { currencies } from './data'
-import { TCurrency, TData } from './types'
+import { TData } from './types'
 
 import { generateUserAmount } from './data'
 
 function App() {
-  const [currency, setCurrency] = useState<TCurrency>(currencies[0])
 
   const { isDarkTheme } = useTheme()
 
@@ -56,7 +54,6 @@ function App() {
       path: "/check",
       element: (
         <Check
-          currency={currency}
           data={data}
           setData={setData}
         />
@@ -65,10 +62,7 @@ function App() {
     {
       path: "/select-currency",
       element: (
-        <SelectCurrency
-          currency={currency}
-          setCurrency={setCurrency}
-        />
+        <SelectCurrency />
       ),
     },
   ])
