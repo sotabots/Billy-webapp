@@ -6,17 +6,11 @@ import UserAmount from './kit/UserAmount'
 import Panel from './kit/Panel'
 import Screen from './kit/Screen'
 
-import { TData } from './types'
 import { useStore } from './store'
 
-type TCheck = {
-  data: TData,
-  setData: (data: TData) => void
-}
-
-function Check({ data, setData }: TCheck) {
+function Check() {
   const navigate = useNavigate()
-  const { currency } = useStore()
+  const { currency, data, setData } = useStore()
 
   const onChangeAmount = (id: number, amount: number) => {
     const newData = [...data]
