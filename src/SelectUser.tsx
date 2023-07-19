@@ -8,29 +8,35 @@ import { TUser } from './types'
 
 function Select() {
   const { users } = useStore()
-  const { userRelations, setUserRelations } = useStore()
+  const { userRelations, setUserRelations, selectUserIndex } = useStore()
 
   const onSelect = (user: TUser) => () => {
-    setUserRelations([
-      ...userRelations,
-      { user }
-    ])
-    // todo: replace
+    if (selectUserIndex !== null) {
+      // todo: replace
+    } else { // add user
+      setUserRelations([
+        ...userRelations,
+        { user }
+      ])
+    }
     history.back()
   }
+
+  const usedUserIds = userRelations.map((item) => item.user?.id)
+  const filteredUsers = users.filter(user => selectUserIndex ? true : !usedUserIds.includes(user.id))
 
   return (
     <Screen className="!bg-bg">
       <Header onBack={() => { history.back() }} />
 
       <div className="px-4">
-        <h2>Выберите человека</h2>
+        <h2>Выберите человека {selectUserIndex}</h2>
       </div>
       <div className="mt-4 overflow-y-auto">
-        {users.map((user, i) => (
+        {filteredUsers.map((user, i, arr) => (
           <>
             <User key={`User-${i}`} {...user} onClick={onSelect(user)} />
-            {i < users.length - 1 && <Divider key={`Divider-${i}`} />}
+            {i < arr.length - 1 && <Divider key={`Divider-${i}`} />}
           </>
         ))}
       </div>

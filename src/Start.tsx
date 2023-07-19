@@ -12,7 +12,17 @@ import { useStore } from './store'
 
 function Start() {
   const navigate = useNavigate()
-  const { userRelations } = useStore()
+  const { userRelations, setSelectUserIndex } = useStore()
+
+  const onSelect = (i: number) => {
+    setSelectUserIndex(i)
+    navigate('/select-user')
+  }
+
+  const onAdd = () => {
+    setSelectUserIndex(null)
+    navigate('/select-user')
+  }
 
   const closeApp = () => {
     alert('close webapp...')
@@ -39,9 +49,7 @@ function Start() {
                 <UserRelation
                   key={`UserRelation-${i}`}
                   {...userRelation}
-                  onClick={() => {
-                    navigate('/select-user')
-                  }}
+                  onClick={() => onSelect(i)}
                 />
                 {i < userRelations.length - 1 && <Divider key={`Divider-${i}`} />}
               </div>
@@ -49,7 +57,7 @@ function Start() {
           </div>
           <button
             className="mt-1 text-button h-8 w-full items-center flex gap-[9px] rounded-md hover:brightness-[1.2] active:brightness-[1.4] transition-all"
-            onClick={() => { navigate('/select-user') }}
+            onClick={onAdd}
           >
             <span className="h-6 w-6 flex items-center justify-center">
               <Plus />

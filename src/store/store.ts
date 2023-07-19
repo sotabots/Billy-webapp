@@ -11,6 +11,8 @@ type TStore = {
   setUsers: (users: TUser[]) => void
   userRelations: TUserRelation[]
   setUserRelations: (userRelations: TUserRelation[]) => void
+  selectUserIndex: number | null
+  setSelectUserIndex: (i: number | null) => void
   currencies: TCurrency[]
   currency: TCurrency | null
   setCurrency: (currency: TCurrency) => void
@@ -23,6 +25,8 @@ const useStore = create<TStore>((set) => ({
   setUsers: (users) => set(({ users })),
   userRelations: isMock ? mockUserRelations : [],
   setUserRelations: (userRelations) => set(({ userRelations })),
+  selectUserIndex: null,
+  setSelectUserIndex: (selectUserIndex) => set(({ selectUserIndex })),
   currencies: isMock ? mockCurrencies : [],
   currency: isMock ? mockCurrencies[0] : null,
   setCurrency: (currency) => set(({ currency })),
