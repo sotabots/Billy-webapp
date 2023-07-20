@@ -19,5 +19,7 @@ export const useUsers = () => {
     history.back()
   }
 
-  return { unrelatedUsers, selectUser }
+  const isRelationsComplete = userRelations.every(relation => relation.user)
+
+  return { unrelatedUsers, selectUser, isRelationsComplete }
 }

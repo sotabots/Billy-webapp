@@ -14,7 +14,7 @@ import { useStore } from '../store'
 function Start() {
   const navigate = useNavigate()
   const { userRelations, setSelectUserIndex } = useStore()
-  const { unrelatedUsers } = useUsers()
+  const { unrelatedUsers, isRelationsComplete } = useUsers()
 
   const onSelect = (i: number) => {
     setSelectUserIndex(i)
@@ -70,7 +70,12 @@ function Start() {
           )}
         </div>
         <div className="mt-8 py-2">
-          <Button onClick={() => { navigate('/check') }}>Далее</Button>
+          <Button
+            disabled={!isRelationsComplete}
+            onClick={() => { navigate('/check') }}
+          >
+            Далее
+          </Button>
         </div>
       </Panel>
     </Screen>
