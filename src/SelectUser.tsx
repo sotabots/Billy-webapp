@@ -23,14 +23,14 @@ function Select() {
   }
 
   const usedUserIds = userRelations.map((item) => item.user?.id)
-  const filteredUsers = users.filter(user => selectUserIndex ? true : !usedUserIds.includes(user.id))
+  const filteredUsers = users.filter(user => selectUserIndex !== null ? true : !usedUserIds.includes(user.id))
 
   return (
     <Screen className="!bg-bg">
       <Header onBack={() => { history.back() }} />
 
       <div className="px-4">
-        <h2>Выберите человека {selectUserIndex}</h2>
+        <h2>Выберите человека</h2>
       </div>
       <div className="mt-4 overflow-y-auto">
         {filteredUsers.map((user, i, arr) => (

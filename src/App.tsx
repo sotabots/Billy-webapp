@@ -7,7 +7,7 @@ import { createHashRouter, RouterProvider } from 'react-router-dom'
 import { useTheme } from './hooks/useTheme'
 
 import Check from './Check'
-import Debug from './kit/Debug'
+// import Debug from './kit/Debug'
 import SelectUser from './SelectUser'
 import SelectCurrency from './SelectCurrency'
 import Start from './Start'
@@ -55,7 +55,7 @@ function App() {
     <div className={cx(isDarkTheme ? 'theme-dark' : 'theme-light')}>
       <RouterProvider router={router} />
 
-      <Debug />
+      {/* <Debug /> */}
     </div>
   )
 }

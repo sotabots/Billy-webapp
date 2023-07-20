@@ -62,25 +62,25 @@ const mockTransaction = [
 
 const mockCurrencies: TCurrency[] = [
   {
-    id: 'rouble',
+    id: 'RUB',
     title: 'Рубль',
     symbol: '₽',
     in: 'В рублях'
   },
   {
-    id: 'lari',
+    id: 'GEL',
     title: 'Лари',
     symbol: '₾',
     in: 'В лари'
   },
   {
-    id: 'lyra',
+    id: 'TRY',
     title: 'Лира',
     symbol: '₺',
     in: 'В лирах'
   },
   {
-    id: 'euro',
+    id: 'EUR',
     title: 'Евро',
     symbol: '€',
     in: 'В евро'
@@ -88,9 +88,6 @@ const mockCurrencies: TCurrency[] = [
 ]
 
 export {
-  generateUser,
-  generateUserAmount,
-  generateUserRelation,
   mockUsers,
   mockUserRelations,
   mockTransaction,
