@@ -6,11 +6,10 @@ import { createHashRouter, RouterProvider } from 'react-router-dom'
 
 import { useTheme } from './hooks/useTheme'
 
-import Check from './Check'
-// import Debug from './kit/Debug'
-import SelectUser from './SelectUser'
-import SelectCurrency from './SelectCurrency'
-import Start from './Start'
+import Check from './pages/Check'
+import SelectUser from './pages/SelectUser'
+import SelectCurrency from './pages/SelectCurrency'
+import Start from './pages/Start'
 
 function App() {
   const { isDarkTheme } = useTheme()
@@ -54,8 +53,6 @@ function App() {
   return (
     <div className={cx(isDarkTheme ? 'theme-dark' : 'theme-light')}>
       <RouterProvider router={router} />
-
-      {/* <Debug /> */}
     </div>
   )
 }

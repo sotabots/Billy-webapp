@@ -1,15 +1,15 @@
 import { useNavigate } from 'react-router-dom'
 
-import { ReactComponent as Plus } from './img/plus.svg'
-import Button from './kit/Button'
-import Divider from './kit/Divider'
-import Header from './kit/Header'
-import Panel from './kit/Panel'
-import Screen from './kit/Screen'
-import UserRelation from './kit/UserRelation'
+import { ReactComponent as Plus } from '../img/plus.svg'
+import Button from '../kit/Button'
+import Divider from '../kit/Divider'
+import Header from '../kit/Header'
+import Panel from '../kit/Panel'
+import Screen from '../kit/Screen'
+import UserRelation from '../kit/UserRelation'
 
-import { useUsers } from './hooks/useUsers'
-import { useStore } from './store'
+import { useUsers } from '../hooks/useUsers'
+import { useStore } from '../store'
 
 function Start() {
   const navigate = useNavigate()

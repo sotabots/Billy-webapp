@@ -1,12 +1,12 @@
 import { useNavigate } from 'react-router-dom'
 
-import Divider from './kit/Divider'
-import Header from './kit/Header'
-import RadioButton from './kit/RadioButton'
-import Screen from './kit/Screen'
+import Divider from '../kit/Divider'
+import Header from '../kit/Header'
+import RadioButton from '../kit/RadioButton'
+import Screen from '../kit/Screen'
 
-import { TCurrency } from './types'
-import { useStore } from './store'
+import { TCurrency } from '../types'
+import { useStore } from '../store'
 
 function SelectCurrency() {
   const navigate = useNavigate()

@@ -1,9 +1,9 @@
-import Divider from './kit/Divider'
-import Header from './kit/Header'
-import Screen from './kit/Screen'
-import User from './kit/User'
+import Divider from '../kit/Divider'
+import Header from '../kit/Header'
+import Screen from '../kit/Screen'
+import User from '../kit/User'
 
-import { useUsers } from './hooks/useUsers'
+import { useUsers } from '../hooks/useUsers'
 
 function Select() {
   const { unrelatedUsers, selectUser } = useUsers()

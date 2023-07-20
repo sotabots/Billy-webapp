@@ -4,7 +4,7 @@ import { TUserRelation } from '../types'
 
 import Avatar from './Avatar'
 
-import { ReactComponent as Next } from './../img/next.svg'
+import { ReactComponent as Next } from '../img/next.svg'
 
 type TProps = TUserRelation & {
   onClick: MouseEventHandler<HTMLButtonElement>

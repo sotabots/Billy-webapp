@@ -1,12 +1,12 @@
 import cx from 'classnames'
 import { useNavigate } from 'react-router-dom'
-import Button from './kit/Button'
-import Header from './kit/Header'
-import UserAmount from './kit/UserAmount'
-import Panel from './kit/Panel'
-import Screen from './kit/Screen'
+import Button from '../kit/Button'
+import Header from '../kit/Header'
+import UserAmount from '../kit/UserAmount'
+import Panel from '../kit/Panel'
+import Screen from '../kit/Screen'
 
-import { useStore } from './store'
+import { useStore } from '../store'
 
 function Check() {
   const navigate = useNavigate()
