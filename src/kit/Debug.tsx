@@ -8,7 +8,7 @@ function Debug() {
   }
 
   return (
-    <Panel className="mt-10 text-[12px] break-words">
+    <Panel className="mt-10 text-[12px] break-words opacity-25">
       <h2>Debug</h2>
       <strong>href = </strong>{location.href}
       <br />

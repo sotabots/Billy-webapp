@@ -8,11 +8,13 @@ import Panel from './kit/Panel'
 import Screen from './kit/Screen'
 import UserRelation from './kit/UserRelation'
 
+import { useUsers } from './hooks/useUsers'
 import { useStore } from './store'
 
 function Start() {
   const navigate = useNavigate()
   const { userRelations, setSelectUserIndex } = useStore()
+  const { unrelatedUsers } = useUsers()
 
   const onSelect = (i: number) => {
     setSelectUserIndex(i)
@@ -55,15 +57,17 @@ function Start() {
               </div>
             ))}
           </div>
-          <button
-            className="mt-1 text-button h-8 w-full items-center flex gap-[9px] rounded-md hover:brightness-[1.2] active:brightness-[1.4] transition-all"
-            onClick={onAdd}
-          >
-            <span className="h-6 w-6 flex items-center justify-center">
-              <Plus />
-            </span>
-            <span>Добавить ещё</span>
-          </button>
+          {!!unrelatedUsers.length && (
+            <button
+              className="mt-1 text-button h-8 w-full items-center flex gap-[9px] rounded-md hover:brightness-[1.2] active:brightness-[1.4] transition-all"
+              onClick={onAdd}
+            >
+              <span className="h-6 w-6 flex items-center justify-center">
+                <Plus />
+              </span>
+              <span>Добавить ещё</span>
+            </button>
+          )}
         </div>
         <div className="mt-8 py-2">
           <Button onClick={() => { navigate('/check') }}>Далее</Button>
