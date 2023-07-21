@@ -10,7 +10,17 @@ export const useUsers = () => {
   const selectUser = (user: TUser) => () => {
     if (selectUserIndex !== null) { // change user
       const newUserRelations = [...userRelations]
+      const doubledUserIndex = newUserRelations.findIndex(relation => relation.user?.id === user.id)
+      // set user
       newUserRelations[selectUserIndex].user = user
+      // remove double only after setting
+      if (~doubledUserIndex) {
+        if (newUserRelations[doubledUserIndex].title) {
+          delete newUserRelations[doubledUserIndex].user
+        } else {
+          newUserRelations.splice(doubledUserIndex, 1)
+        }
+      }
       setUserRelations(newUserRelations)
     } else { // add user
       setUserRelations([
