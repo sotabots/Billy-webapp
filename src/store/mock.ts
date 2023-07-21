@@ -30,12 +30,23 @@ const generateName = () => {
   return names[Math.floor(Math.random() * names.length)]
 }
 
-const generateUserRelation = () => {
-  const name = generateName()
-  return ({
+const generateNames = (n: number) => {
+  const names: string[] = []
+  do {
+    const name = generateName()
+    if (!names.includes(name)) {
+      names.push(name)
+    }
+  } while (names.length !== n)
+  return names
+}
+
+const generateUserRelations = (n: number) => {
+  const names = generateNames(n)
+  return names.map(name => ({
     title: name,
     user: Math.random() > 0.5 ? generateUser(name) : undefined,
-  })
+  }))
 }
 
 const mockUsers = [
@@ -46,12 +57,7 @@ const mockUsers = [
   generateUser(),
 ]
 
-const mockUserRelations = [
-  generateUserRelation(),
-  generateUserRelation(),
-  generateUserRelation(),
-  generateUserRelation()
-]
+const mockUserRelations = generateUserRelations(4)
 
 const mockTransaction = [
   generateUserAmount({ isPayed: true }),
