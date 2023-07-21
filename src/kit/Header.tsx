@@ -11,13 +11,13 @@ type THeader = {
 function Header({ onBack, onCancel }: THeader) {
   // eslint-disable-next-line @typescript-eslint/ban-ts-comment
   // @ts-ignore
-  if (window?.Telegram?.WebView?.isIframe) {
+  if (window?.Telegram?.WebView?.platform !== 'unknown') {
     return (
-      <>
+      <div className="h-3">
         <BackButton
           onClick={onBack}
         />
-      </>
+      </div>
     )
   }
 
