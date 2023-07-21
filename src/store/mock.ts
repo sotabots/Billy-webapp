@@ -41,21 +41,17 @@ const generateNames = (n: number) => {
   return names
 }
 
+const generateUsers = () => names.map(name => generateUser(name))
+
+const names = generateNames(6)
+const mockUsers = generateUsers()
+
 const generateUserRelations = (n: number) => {
-  const names = generateNames(n)
-  return names.map(name => ({
+  return names.slice(0, n).map(name => ({
     title: name,
     user: Math.random() > 0.5 ? generateUser(name) : undefined,
   }))
 }
-
-const mockUsers = [
-  generateUser(),
-  generateUser(),
-  generateUser(),
-  generateUser(),
-  generateUser(),
-]
 
 const mockUserRelations = generateUserRelations(4)
 
