@@ -8,8 +8,10 @@ export const useUsers = () => {
   const unrelatedUsers = users.filter(user => selectUserIndex !== null ? true : !usedUserIds.includes(user.id))
 
   const selectUser = (user: TUser) => () => {
-    if (selectUserIndex !== null) {
-      // todo: replace
+    if (selectUserIndex !== null) { // change user
+      const newUserRelations = [...userRelations]
+      newUserRelations[selectUserIndex].user = user
+      setUserRelations(newUserRelations)
     } else { // add user
       setUserRelations([
         ...userRelations,
