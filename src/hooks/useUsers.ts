@@ -4,38 +4,45 @@ import { TUser } from '../types'
 export const useUsers = () => {
   const { users, transaction, setTransaction, selectUserIndex } = useStore()
 
-  const usedUserIds = transaction.map((item) => item.user?.id)
+  const usedUserIds = transaction.parts.map((item) => item.user?.id)
   const unrelatedUsers = users.filter(user => selectUserIndex !== null ? true : !usedUserIds.includes(user.id))
 
   const selectUser = (user: TUser) => () => {
     if (selectUserIndex !== null) { // change user
-      const newTransaction = [...transaction]
-      const doubledUserIndex = newTransaction.findIndex(part => part.user?.id === user.id)
+      const newParts = [...transaction.parts]
+      const doubledUserIndex = newParts.findIndex(part => part.user?.id === user.id)
       // set user
-      newTransaction[selectUserIndex].user = user
+      newParts[selectUserIndex].user = user
       // remove double only after setting
       if (~doubledUserIndex) {
-        if (newTransaction[doubledUserIndex].spokenName) {
-          delete newTransaction[doubledUserIndex].user
+        if (newParts[doubledUserIndex].spokenName) {
+          delete newParts[doubledUserIndex].user
         } else {
-          newTransaction.splice(doubledUserIndex, 1)
+          newParts.splice(doubledUserIndex, 1)
         }
       }
-      setTransaction(newTransaction)
-    } else { // add user
-      setTransaction([
+      setTransaction({
         ...transaction,
+        parts: newParts
+      })
+    } else { // add user
+      const newParts = [
+        ...transaction.parts,
         {
           isPayed: false,
           amount: 0,
           user
         }
-      ])
+      ]
+      setTransaction({
+        ...transaction,
+        parts: newParts
+      })
     }
     history.back()
   }
 
-  const isRelationsComplete = transaction.every(part => part.user)
+  const isRelationsComplete = transaction.parts.every(part => part.user)
 
   return { unrelatedUsers, selectUser, isRelationsComplete }
 }

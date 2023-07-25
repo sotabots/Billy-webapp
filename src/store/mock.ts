@@ -38,12 +38,17 @@ const generateNames = (n: number) => {
 const _names = generateNames(6)
 const mockUsers = _names.map(_name => generateUser(_name))
 
-const mockTransaction: TTransaction = mockUsers.slice(0, 4).map((user, i) => ({
+const parts = mockUsers.slice(0, 4).map((user, i) => ({
   spokenName: user._name,
-  user: Math.random() > 0.5 ? user : undefined,
+  user: Math.random() > 0.3 ? user : undefined,
   isPayed: i < 2,
   amount: Math.round(Math.random() * 1e2) // * 1e6) / 100 // todo
 }))
+
+const mockTransaction: TTransaction = {
+  text: parts.map(part => `<b>${part.spokenName}</b> ${part.isPayed ? 'заплатил' : 'должен'} ${part.amount}`).join(', '),
+  parts,
+}
 
 const mockCurrencies: TCurrency[] = [
   {

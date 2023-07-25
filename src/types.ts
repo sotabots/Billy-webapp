@@ -20,6 +20,9 @@ type TTransactionPart = {
   user?: TUser
 }
 
-type TTransaction = TTransactionPart[]
+type TTransaction = {
+  text: string
+  parts: TTransactionPart[]
+}
 
 export type { TCurrency, TUser, TTransactionPart, TTransaction }

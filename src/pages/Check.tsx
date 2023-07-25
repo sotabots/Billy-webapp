@@ -13,14 +13,17 @@ function Check() {
   const { currency, transaction, setTransaction } = useStore()
 
   const onChangeAmount = (id: number, amount: number) => {
-    const newData = [...transaction]
-    const foundIndex = newData.findIndex(item => item.user?.id === id)
-    newData[foundIndex].amount = amount
-    setTransaction(newData)
+    const newParts = [...transaction.parts]
+    const foundIndex = newParts.findIndex(item => item.user?.id === id)
+    newParts[foundIndex].amount = amount
+    setTransaction({
+      ...transaction,
+      parts: newParts
+    })
   }
 
-  const payedSum = transaction.filter(item => item.isPayed).reduce((acc, item) => acc + item.amount, 0)
-  const oweSum = transaction.filter(item => !item.isPayed).reduce((acc, item) => acc + item.amount, 0)
+  const payedSum = transaction.parts.filter(item => item.isPayed).reduce((acc, item) => acc + item.amount, 0)
+  const oweSum = transaction.parts.filter(item => !item.isPayed).reduce((acc, item) => acc + item.amount, 0)
 
   const isLacks = payedSum > oweSum
   const isOk = payedSum == oweSum
@@ -56,7 +59,7 @@ function Check() {
       <Panel>
         <h3>Заплатили</h3>
         <div className="mt-4 flex flex-col gap-3">
-          {transaction.filter(part => part.user && part.isPayed).map(part => (
+          {transaction.parts.filter(part => part.user && part.isPayed).map(part => (
             <UserAmount
               key={part.user!.id}
               {...part}
@@ -71,7 +74,7 @@ function Check() {
       <Panel>
         <h3>Должны</h3>
         <div className="mt-4 flex flex-col gap-3">
-          {transaction.filter(part => part.user && !part.isPayed).map(part => (
+          {transaction.parts.filter(part => part.user && !part.isPayed).map(part => (
             <UserAmount
               key={part.user!.id}
               {...part}

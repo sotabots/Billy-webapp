@@ -1,4 +1,5 @@
 import { useNavigate } from 'react-router-dom'
+import ReactHtmlParser from 'react-html-parser'
 
 import { ReactComponent as Plus } from '../img/plus.svg'
 import Button from '../kit/Button'
@@ -37,7 +38,7 @@ function Start() {
       <Panel>
         <div className="text-[12px] leading-[1.33em] font-medium text-hint">Сообщение</div>
         <div className="mt-1">
-          🎙 <strong>Миша Двойняков</strong> заплатил 6 000 и <strong>Антон Костин</strong> заплатил 4 000, <strong>Настя</strong> должна 2 500, <strong>Маша</strong> должна 3 000, <strong>Ришат</strong> 1 000, <strong>Даша</strong> все остальное
+          🎙 {ReactHtmlParser(transaction.text)}
         </div>
       </Panel>
 
@@ -46,14 +47,14 @@ function Start() {
           <h2>Соотнесите людей</h2>
           <div className="mt-1 text-[14px] leading-[20px] text-hint">Со временем мы запомним соотношения</div>
           <div className="mt-2 -mx-4 overflow-y-auto">
-            {transaction.map((item, i) => (
+            {transaction.parts.map((item, i) => (
               <div key={`UserRelation-Divider-${i}`}>
                 <UserRelation
                   key={`UserRelation-${i}`}
                   {...item}
                   onClick={() => onSelect(i)}
                 />
-                {i < transaction.length - 1 && <Divider key={`Divider-${i}`} />}
+                {i < transaction.parts.length - 1 && <Divider key={`Divider-${i}`} />}
               </div>
             ))}
           </div>
