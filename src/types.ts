@@ -2,6 +2,7 @@ type TUser = {
   id: number
   url?: string
   name: string
+  fullName: string
   username: string // todo ?
 }
 
@@ -18,6 +19,7 @@ type TCurrency = {
 }
 
 type TTransaction = (TUser & {
+  // todo: user field
   isPayed: boolean
   amount: number
 })[]

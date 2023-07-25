@@ -9,21 +9,15 @@ const transliterate = (word: string) => {
   }).join('')
 }
 
-const generateUser = (name?: string): TUser => {
-  const name_ = name || generateName()
+const generateUser = (name: string): TUser => {
   return {
+    name: name,
     id: Math.round(Math.random() * 1e10),
-    name: (name_ + ' ').repeat(2/*1 + Math.floor(Math.random() * 2)*/),
-    username: transliterate(name_),
+    fullName: (name + ' ').repeat(2/*1 + Math.floor(Math.random() * 2)*/),
+    username: transliterate(name),
     url: `https://i.pravatar.cc/48/${Math.round(Math.random() * 1e10)}`,
   }
 }
-
-const generateUserAmount = ({ isPayed }: { isPayed: boolean }) => ({
-  ...generateUser(),
-  isPayed,
-  amount: Math.round(Math.random() * 1e2) // * 1e6) / 100 // todo
-})
 
 const generateName = () => {
   const names = ["Александр", "Дмитрий", "Максим", "Сергей", "Андрей", "Алексей", "Артём", "Илья", "Кирилл", "Михаил", "Никита", "Матвей", "Роман", "Егор", "Арсений", "Иван", "Денис", "Евгений", "Тимофей", "Владислав", "Игорь", "Владимир", "Павел", "Руслан", "Марк", "Константин", "Тимур", "Олег", "Ярослав", "Антон", "Николай", "Данил", "Анастасия", "Мария", "Анна", "Виктория", "Екатерина", "Наталья", "Марина", "Полина", "София", "Дарья", "Алиса", "Ксения", "Александра", "Елена"]
@@ -47,20 +41,19 @@ const names = generateNames(6)
 const mockUsers = generateUsers()
 
 const generateUserRelations = (n: number) => {
-  return names.slice(0, n).map(name => ({
-    title: name,
-    user: Math.random() > 0.5 ? generateUser(name) : undefined,
+  return mockUsers.slice(0, n).map(user => ({
+    title: user.name,
+    user: Math.random() > 0.5 ? user : undefined,
   }))
 }
 
 const mockUserRelations = generateUserRelations(4)
 
-const mockTransaction = [
-  generateUserAmount({ isPayed: true }),
-  generateUserAmount({ isPayed: true }),
-  generateUserAmount({ isPayed: false }),
-  generateUserAmount({ isPayed: false }),
-]
+const mockTransaction = mockUserRelations.map((relation, i) => ({
+  ...relation.user,
+  isPayed: i < 2,
+  amount: Math.round(Math.random() * 1e2) // * 1e6) / 100 // todo
+}))
 
 const mockCurrencies: TCurrency[] = [
   {
