@@ -1,10 +1,10 @@
 import { useNavigate } from 'react-router-dom'
-import ReactHtmlParser from 'react-html-parser'
 
 import { ReactComponent as Plus } from '../img/plus.svg'
 import Button from '../kit/Button'
 import Divider from '../kit/Divider'
 import Header from '../kit/Header'
+import HTMLTagRenderer from '../kit/HTMLTagRenderer'
 import Panel from '../kit/Panel'
 import Screen from '../kit/Screen'
 import UserRelation from '../kit/UserRelation'
@@ -38,7 +38,7 @@ function Start() {
       <Panel>
         <div className="text-[12px] leading-[1.33em] font-medium text-hint">Сообщение</div>
         <div className="mt-1">
-          🎙 {ReactHtmlParser(transaction.text)}
+          🎙 <HTMLTagRenderer allowedTags={['b', 'strong']} string={transaction.text} />
         </div>
       </Panel>
 
