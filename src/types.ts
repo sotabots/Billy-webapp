@@ -1,16 +1,3 @@
-type TUser = {
-  id: number
-  url?: string
-  name: string
-  fullName: string
-  username: string // todo ?
-}
-
-type TUserRelation = {
-  title?: string // spoken name
-  user?: TUser
-}
-
 type TCurrency = {
   id: string,
   title: string,
@@ -18,10 +5,21 @@ type TCurrency = {
   in: string
 }
 
-type TTransaction = (TUser & {
-  // todo: user field
+type TUser = { // tg user
+  id: number
+  url?: string
+  fullName: string
+  username?: string
+  _name: string // not used, only for mock
+}
+
+type TTransactionPart = {
+  spokenName?: string
   isPayed: boolean
   amount: number
-})[]
+  user?: TUser
+}
 
-export type { TUserRelation, TCurrency, TUser, TTransaction }
+type TTransaction = TTransactionPart[]
+
+export type { TCurrency, TUser, TTransactionPart, TTransaction }

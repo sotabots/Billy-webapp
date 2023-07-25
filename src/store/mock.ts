@@ -9,12 +9,12 @@ const transliterate = (word: string) => {
   }).join('')
 }
 
-const generateUser = (name: string): TUser => {
+const generateUser = (_name: string): TUser => {
   return {
-    name: name,
+    _name,
     id: Math.round(Math.random() * 1e10),
-    fullName: (name + ' ').repeat(2/*1 + Math.floor(Math.random() * 2)*/),
-    username: transliterate(name),
+    fullName: (_name + ' ').repeat(2/*1 + Math.floor(Math.random() * 2)*/),
+    username: transliterate(_name),
     url: `https://i.pravatar.cc/48/${Math.round(Math.random() * 1e10)}`,
   }
 }
@@ -35,14 +35,12 @@ const generateNames = (n: number) => {
   return names
 }
 
-const generateUsers = () => names.map(name => generateUser(name))
-
-const names = generateNames(6)
-const mockUsers = generateUsers()
+const _names = generateNames(6)
+const mockUsers = _names.map(_name => generateUser(_name))
 
 const generateUserRelations = (n: number) => {
   return mockUsers.slice(0, n).map(user => ({
-    title: user.name,
+    title: user._name,
     user: Math.random() > 0.5 ? user : undefined,
   }))
 }
@@ -84,7 +82,6 @@ const mockCurrencies: TCurrency[] = [
 
 export {
   mockUsers,
-  mockUserRelations,
   mockTransaction,
   mockCurrencies
 }

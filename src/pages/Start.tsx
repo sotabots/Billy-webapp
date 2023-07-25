@@ -13,7 +13,7 @@ import { useStore } from '../store'
 
 function Start() {
   const navigate = useNavigate()
-  const { userRelations, setSelectUserIndex } = useStore()
+  const { transaction, setSelectUserIndex } = useStore()
   const { unrelatedUsers, isRelationsComplete } = useUsers()
 
   const onSelect = (i: number) => {
@@ -46,14 +46,14 @@ function Start() {
           <h2>Соотнесите людей</h2>
           <div className="mt-1 text-[14px] leading-[20px] text-hint">Со временем мы запомним соотношения</div>
           <div className="mt-2 -mx-4 overflow-y-auto">
-            {userRelations.map((userRelation, i) => (
+            {transaction.map((item, i) => (
               <div key={`UserRelation-Divider-${i}`}>
                 <UserRelation
                   key={`UserRelation-${i}`}
-                  {...userRelation}
+                  {...item}
                   onClick={() => onSelect(i)}
                 />
-                {i < userRelations.length - 1 && <Divider key={`Divider-${i}`} />}
+                {i < transaction.length - 1 && <Divider key={`Divider-${i}`} />}
               </div>
             ))}
           </div>

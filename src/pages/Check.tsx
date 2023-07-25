@@ -14,7 +14,7 @@ function Check() {
 
   const onChangeAmount = (id: number, amount: number) => {
     const newData = [...transaction]
-    const foundIndex = newData.findIndex(item => item.id === id)
+    const foundIndex = newData.findIndex(item => item.user?.id === id)
     newData[foundIndex].amount = amount
     setTransaction(newData)
   }
@@ -56,8 +56,14 @@ function Check() {
       <Panel>
         <h3>Заплатили</h3>
         <div className="mt-4 flex flex-col gap-3">
-          {transaction.filter(item => item.isPayed).map(userAmount => (
-            <UserAmount key={userAmount.id} {...userAmount} onChange={(value) => { onChangeAmount(userAmount.id, value) }} />
+          {transaction.filter(part => part.user && part.isPayed).map(part => (
+            <UserAmount
+              key={part.user!.id}
+              {...part}
+              onChange={(value) => {
+                onChangeAmount(part.user!.id, value)
+              }}
+            />
           ))}
         </div>
       </Panel>
@@ -65,8 +71,14 @@ function Check() {
       <Panel>
         <h3>Должны</h3>
         <div className="mt-4 flex flex-col gap-3">
-          {transaction.filter(item => !item.isPayed).map(userAmount => (
-            <UserAmount key={userAmount.id} {...userAmount} onChange={(value) => { onChangeAmount(userAmount.id, value) }} />
+          {transaction.filter(part => part.user && !part.isPayed).map(part => (
+            <UserAmount
+              key={part.user!.id}
+              {...part}
+              onChange={(value) => {
+                onChangeAmount(part.user!.id, value)
+              }}
+            />
           ))}
         </div>
 

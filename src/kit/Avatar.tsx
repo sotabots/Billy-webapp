@@ -2,27 +2,27 @@ import { useTheme } from '../hooks/useTheme'
 
 type TAvatar = {
   url?: string,
-  name?: string,
+  fullName?: string,
   size?: number
 }
 
-const getLetters = (name?: string) => {
-  const letterParts = name ? name.split(' ') : []
+const getLetters = (fullName?: string) => {
+  const letterParts = fullName ? fullName.split(' ') : []
   const letters = `${letterParts[0] ? letterParts[0][0] : ''}${letterParts[1] ? letterParts[1][0] : ''}`
   return letters
 }
 
-const getColor = (name?: string) => {
+const getColor = (fullName?: string) => {
   // return name ? '#0452C8' : '#0452C8' // todo: generate
-  return name ? undefined : undefined
+  return fullName ? undefined : undefined
 }
 
-function Avatar({ url, name, size = 40 }: TAvatar) {
-  const color = getColor(name)
+function Avatar({ url, fullName, size = 40 }: TAvatar) {
+  const color = getColor(fullName)
   const { isDarkTheme } = useTheme()
   const placeholderBg = isDarkTheme ? '#9AA6AC' : '#EEF0F2'
-  const backgroundColor = (!url && name) ? color + '22' : placeholderBg
-  const letters = (!url && name) ? getLetters(name) : null
+  const backgroundColor = (!url && fullName) ? color + '22' : placeholderBg
+  const letters = (!url && fullName) ? getLetters(fullName) : null
 
   return (
     <div
