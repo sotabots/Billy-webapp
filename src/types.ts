@@ -1,8 +1,8 @@
 type TCurrency = {
-  id: string,
-  title: string,
-  symbol: string,
-  in: string
+  id: string, // 'EUR'
+  title: string, // 'Euro'
+  symbol: string, // '€'
+  in: string // 'In Euros'
 }
 
 type TUser = { // tg user
