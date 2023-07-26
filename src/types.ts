@@ -7,9 +7,9 @@ type TCurrency = {
 
 type TUser = { // tg user
   id: number
-  url?: string
+  url?: string // avatar url (todo: rename)
   fullName: string
-  username?: string
+  username?: string // @username
   _name: string // not used, only for mock
 }
 
@@ -21,8 +21,14 @@ type TTransactionPart = {
 }
 
 type TTransaction = {
-  text: string
+  // meta data
+  users: TUser[] // all chat users
+  currencies: TCurrency[] // all possible currencies
+
+  // main data
+  text: string // recognized text with <b>Name</b> highlighting
   parts: TTransactionPart[]
+  currency: TCurrency
 }
 
 export type { TCurrency, TUser, TTransactionPart, TTransaction }
