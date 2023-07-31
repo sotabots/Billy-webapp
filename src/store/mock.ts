@@ -45,37 +45,44 @@ const parts = mockUsers.slice(0, 4).map((user, i) => ({
   amount: Math.round(Math.random() * 1e2) // * 1e6) / 100 // todo
 }))
 
-const mockTransaction: TTransaction = {
-  text: parts.map(part => `<b>${part.spokenName}</b> ${part.isPayed ? 'заплатил' : 'должен'} ${part.amount}`).join(', '),
-  parts,
-}
-
 const mockCurrencies: TCurrency[] = [
   {
     id: 'RUB',
     title: 'Рубль',
     symbol: '₽',
-    in: 'В рублях'
+    in: 'В рублях',
+    decimals: 2
   },
   {
     id: 'GEL',
     title: 'Лари',
     symbol: '₾',
-    in: 'В лари'
+    in: 'В лари',
+    decimals: 2
   },
   {
     id: 'TRY',
     title: 'Лира',
     symbol: '₺',
-    in: 'В лирах'
+    in: 'В лирах',
+    decimals: 2
   },
   {
     id: 'EUR',
     title: 'Евро',
     symbol: '€',
-    in: 'В евро'
+    in: 'В евро',
+    decimals: 2
   },
 ]
+
+const mockTransaction: TTransaction = {
+  users: mockUsers,
+  currencies: mockCurrencies,
+  text: parts.map(part => `<b>${part.spokenName}</b> ${part.isPayed ? 'заплатил' : 'должен'} ${part.amount}`).join(', '),
+  parts,
+  currency: mockCurrencies[0]
+}
 
 export {
   mockUsers,

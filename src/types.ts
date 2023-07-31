@@ -3,6 +3,7 @@ type TCurrency = {
   title: string, // 'Euro'
   symbol: string, // '€'
   in: string // 'In Euros'
+  decimals: number // `2` usually
 }
 
 type TUser = { // tg user
