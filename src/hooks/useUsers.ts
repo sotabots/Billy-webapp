@@ -7,6 +7,8 @@ export const useUsers = () => {
   const usedUserIds = transaction.parts.map((item) => item.user?.id)
   const unrelatedUsers = users.filter(user => !usedUserIds.includes(user.id))
 
+  const isRelationsComplete = transaction.parts.every(part => part.user)
+
   const selectUser = (user: TUser) => () => {
     if (selectUserIndex !== null) { // change user
       const newParts = [...transaction.parts]
@@ -42,7 +44,15 @@ export const useUsers = () => {
     history.back()
   }
 
-  const isRelationsComplete = transaction.parts.every(part => part.user)
+  const deleteUser = (userIndex: number) => () => {
+    const newParts = [...transaction.parts]
+    newParts.splice(userIndex, 1)
+    setTransaction({
+      ...transaction,
+      parts: newParts
+    })
+    history.back()
+  }
 
-  return { users, unrelatedUsers, selectUser, isRelationsComplete }
+  return { users, unrelatedUsers, isRelationsComplete, selectUser, deleteUser }
 }
