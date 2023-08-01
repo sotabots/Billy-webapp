@@ -5,7 +5,7 @@ export const useUsers = () => {
   const { users, transaction, setTransaction, selectUserIndex } = useStore()
 
   const usedUserIds = transaction.parts.map((item) => item.user?.id)
-  const unrelatedUsers = users.filter(user => selectUserIndex !== null ? true : !usedUserIds.includes(user.id))
+  const unrelatedUsers = users.filter(user => !usedUserIds.includes(user.id))
 
   const selectUser = (user: TUser) => () => {
     if (selectUserIndex !== null) { // change user
@@ -44,5 +44,5 @@ export const useUsers = () => {
 
   const isRelationsComplete = transaction.parts.every(part => part.user)
 
-  return { unrelatedUsers, selectUser, isRelationsComplete }
+  return { users, unrelatedUsers, selectUser, isRelationsComplete }
 }

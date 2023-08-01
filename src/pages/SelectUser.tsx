@@ -4,9 +4,13 @@ import Screen from '../kit/Screen'
 import User from '../kit/User'
 
 import { useUsers } from '../hooks/useUsers'
+import { useStore } from '../store'
 
 function Select() {
-  const { unrelatedUsers, selectUser } = useUsers()
+  const { users, unrelatedUsers, selectUser } = useUsers()
+  const { selectUserIndex } = useStore()
+
+  const usersToShow = selectUserIndex !== null ? users : unrelatedUsers
 
   return (
     <Screen className="!bg-bg">
@@ -16,7 +20,7 @@ function Select() {
         <h2>Выберите человека</h2>
       </div>
       <div className="mt-4 overflow-y-auto">
-        {unrelatedUsers.map((user, i, arr) => (
+        {usersToShow.map((user, i, arr) => (
           <>
             <User key={`User-${i}`} {...user} onClick={selectUser(user)} />
             {i < arr.length - 1 && <Divider key={`Divider-${i}`} />}
