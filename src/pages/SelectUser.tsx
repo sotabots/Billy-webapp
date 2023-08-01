@@ -1,3 +1,4 @@
+import Button from '../kit/Button'
 import Divider from '../kit/Divider'
 import Header from '../kit/Header'
 import Screen from '../kit/Screen'
@@ -19,12 +20,12 @@ function Select() {
       <div className="mb-2 px-4 flex items-center justify-between">
         <h2 className="pt-[2px] pb-[6px]">Выберите человека</h2>
         {selectUserIndex !== null && (
-          <button
-            className="h-8 text-[14px] leading-[24px] text-button hover:brightness-[1.2] active:brightness-[1.4] transition-all"
+          <Button
+            theme="text"
             onClick={deleteUser(selectUserIndex)}
           >
             Удалить
-          </button>
+          </Button>
         )}
       </div>
 

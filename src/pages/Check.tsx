@@ -22,12 +22,31 @@ function Check() {
     })
   }
 
+  // todo: move out
+
   const payedSum = transaction.parts.filter(item => item.isPayed).reduce((acc, item) => acc + item.amount, 0)
   const oweSum = transaction.parts.filter(item => !item.isPayed).reduce((acc, item) => acc + item.amount, 0)
 
   const isLacks = payedSum > oweSum
   const isOk = payedSum == oweSum
   const isOverdo = payedSum < oweSum
+
+  const payedParts = transaction.parts.filter(part => part.user && part.isPayed)
+  const oweParts = transaction.parts.filter(part => part.user && !part.isPayed)
+
+  const isEquallyOwe = oweParts.every(part => part.amount === oweParts[0].amount)
+
+  const setEqually = () => {
+    const newAmount = (payedSum / oweParts.length) // .toFixed(2) // todo: improve
+    const newParts = [...transaction.parts]
+    setTransaction({
+      ...transaction,
+      parts: newParts.map(part => part.isPayed ? part : ({
+        ...part,
+        amount: newAmount
+      }))
+    })
+  }
 
   const save = () => {
     alert('save & close webapp...')
@@ -39,12 +58,12 @@ function Check() {
 
       <div className="mb-2 px-4 flex items-center justify-between">
         <h2 className="pt-[2px] pb-[6px]">Проверить траты</h2>
-        <button
-          className="h-8 text-[14px] leading-[24px] text-button hover:brightness-[1.2] active:brightness-[1.4] transition-all"
+        <Button
+          theme="text"
           onClick={() => { navigate('/select-currency') }}
         >
           {currency?.in}
-        </button>
+        </Button>
       </div>
 
       <Panel className="!pb-4">
@@ -59,7 +78,8 @@ function Check() {
       <Panel>
         <h3>Заплатили</h3>
         <div className="mt-4 flex flex-col gap-3">
-          {transaction.parts.filter(part => part.user && part.isPayed).map(part => (
+          {!payedParts.length && <span className="opacity-40">(Пусто)</span>}
+          {payedParts.map(part => (
             <UserAmount
               key={part.user!.id}
               {...part}
@@ -72,9 +92,20 @@ function Check() {
       </Panel>
 
       <Panel>
-        <h3>Должны</h3>
+        <div className="flex items-center justify-between">
+          <h3>Должны</h3>
+          {!!oweParts.length && (!isEquallyOwe || !isOk) && (
+            <Button
+              theme="text"
+              onClick={setEqually}
+            >
+              Поровну
+            </Button>
+          )}
+        </div>
         <div className="mt-4 flex flex-col gap-3">
-          {transaction.parts.filter(part => part.user && !part.isPayed).map(part => (
+          {!oweParts.length && <span className="opacity-40">(Пусто)</span>}
+          {oweParts.map(part => (
             <UserAmount
               key={part.user!.id}
               {...part}
