@@ -20,7 +20,7 @@ function UserRelation({ spokenName, user, onClick }: TProps) {
         {spokenName ? (
           <div className="truncate">{spokenName}</div>
         ) : (
-          <div className="truncate opacity-30">дополнительно</div>
+          <div className="truncate opacity-30">(доп.)</div>
         )}
       </div>
       <div className="flex gap-3 w-[45%] items-center truncate">
