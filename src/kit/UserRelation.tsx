@@ -24,7 +24,9 @@ function UserRelation({ spokenName, user, onClick }: TProps) {
         )}
       </div>
       <div className="flex gap-3 w-[45%] items-center truncate">
-        <Avatar url={user?.url} size={32} fullName={user?.fullName} />
+        <div className="w-8 h-8">
+          <Avatar url={user?.url} size={32} fullName={user?.fullName} />
+        </div>
         <div className="text-hint truncate">{user?.username ? `@${user.username}` : '(выберите)'}</div>
       </div>
       <div className="h-6 w-6 text-hint opacity-50">
