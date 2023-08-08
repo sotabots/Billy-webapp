@@ -13,9 +13,11 @@
     "deploy": "gh-pages -d dist"
   },
   "dependencies": {
+    "@types/mixpanel-browser": "^2.47.1",
     "@vkruglikov/react-telegram-web-app": "^1.11.0",
     "classnames": "^2.3.2",
     "dompurify": "^3.0.5",
+    "mixpanel-browser": "^2.47.0",
     "react": "^18.2.0",
     "react-dom": "^18.2.0",
     "react-router-dom": "^6.14.1",

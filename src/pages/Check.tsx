@@ -7,6 +7,7 @@ import Panel from '../kit/Panel'
 import Screen from '../kit/Screen'
 
 import { useStore } from '../store'
+import { feedback, EVENT } from '../feedback'
 
 function Check() {
   const navigate = useNavigate()
@@ -48,7 +49,8 @@ function Check() {
     })
   }
 
-  const save = () => {
+  const save = async () => {
+    await feedback(EVENT.SEND_TRANSACTION)
     alert('save & close webapp...')
   }
 
