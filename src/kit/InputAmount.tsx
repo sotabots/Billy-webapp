@@ -44,10 +44,20 @@ const filter = (oldString: string, newStringRaw: string) => {
     return '0.'
   }
 
+  if (oldString === '0.' && newString === '0') {
+    return ''
+  }
+
+  if (oldString !== '0.' && newString === '0') {
+    return '0.'
+  }
+
   return newString
 }
 
 const amountFromString = (string: string) => parseFloat(string) || 0
+
+const formatAmount = (amount: number) => amount.toFixed(2)
 
 function InputAmount({ amount, onChange }: TInputAmount) {
   const [currentString, setCurrentString] = useState<string>(String(amount) || '')
@@ -55,7 +65,7 @@ function InputAmount({ amount, onChange }: TInputAmount) {
   useEffect(() => {
     const currentAmount = amountFromString(currentString)
     if (amount !== currentAmount) {
-      setCurrentString(String(amount))
+      setCurrentString(formatAmount(amount))
     }
   }, [amount, currentString])
 
