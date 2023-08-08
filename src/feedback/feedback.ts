@@ -1,8 +1,8 @@
 import mixpanel from 'mixpanel-browser'
 
-const NO_TOKEN = 'NO_TOKEN'
-const token = NO_TOKEN
-const isToken = token === NO_TOKEN
+const envToken = import.meta.env.VITE_FEEDBACK_TOKEN
+const isToken = !!envToken
+const token = envToken || 'NO_TOKEN' // some string is needed
 
 const EVENT = {
   OPEN_WEBAPP: 'open_webapp',
