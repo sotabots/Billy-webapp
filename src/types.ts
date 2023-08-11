@@ -3,7 +3,8 @@ type TCurrency = {
   title: string, // 'Euro'
   symbol: string, // '€'
   in: string // 'In Euros'
-  decimals: number // `2` usually
+  decimals: number // `4` usually
+  visibleDecimals: number // `2` usually
 }
 
 type TUser = { // tg user
@@ -14,22 +15,24 @@ type TUser = { // tg user
   _name: string // not used, only for mock
 }
 
-type TTransactionPart = {
+type TShare = {
   spokenName?: string
-  isPayed: boolean
+  isPayed: boolean // paid or owed
   amount: number
   user?: TUser
 }
 
 type TTransaction = {
-  // meta data
+  // meta data, will be removed
   users: TUser[] // all chat users
+
+  // meta data, will be removed
   currencies: TCurrency[] // all possible currencies
 
   // main data
   text: string // recognized text with <b>Name</b> highlighting
-  parts: TTransactionPart[]
+  shares: TShare[]
   currency: TCurrency
 }
 
-export type { TCurrency, TUser, TTransactionPart, TTransaction }
+export type { TCurrency, TUser, TShare, TTransaction }
