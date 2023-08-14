@@ -11,6 +11,8 @@ import SelectUser from './pages/SelectUser'
 import SelectCurrency from './pages/SelectCurrency'
 import Start from './pages/Start'
 
+import SplashScreen from './kit/SplashScreen'
+
 function App() {
   const { isDarkTheme } = useTheme()
 
@@ -53,6 +55,7 @@ function App() {
   return (
     <div className={cx(isDarkTheme ? 'theme-dark' : 'theme-light')}>
       <RouterProvider router={router} />
+      <SplashScreen />
     </div>
   )
 }
