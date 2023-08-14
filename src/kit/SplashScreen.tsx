@@ -15,8 +15,8 @@ function SplashScreen() {
       'fixed top-0 left-0 w-full h-full bg-bg2 transition-all',
       isLoaded ? 'pointer-events-none opacity-0' : 'opacity-100'
     )}>
-      <div className="absolute top-1/2 left-1/2 -translate-y-1/2 -translate-x-1/2 w-10 h-10">
-        <div className="w-full h-full rounded-full border-2 border-button border-l-transparent border-t-transparent animate-[spin_0.5s_linear_infinite]" />
+      <div className="absolute top-1/2 left-1/2 -translate-y-1/2 -translate-x-1/2 w-[50px] h-[50px]">
+        <div className="w-full h-full rounded-full border-[3px] border-button border-l-button/10 border-t-button/10 animate-[spin_0.6s_linear_infinite]" />
       </div>
     </div>
   )
