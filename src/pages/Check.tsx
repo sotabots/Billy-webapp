@@ -14,36 +14,36 @@ function Check() {
   const { currency, transaction, setTransaction } = useStore()
 
   const onChangeAmount = (id: number, amount: number) => {
-    const newParts = [...transaction.parts]
-    const foundIndex = newParts.findIndex(item => item.user?.id === id)
-    newParts[foundIndex].amount = amount
+    const newShares = [...transaction.shares]
+    const foundIndex = newShares.findIndex(item => item.user?.id === id)
+    newShares[foundIndex].amount = amount
     setTransaction({
       ...transaction,
-      parts: newParts
+      shares: newShares
     })
   }
 
   // todo: move out
 
-  const payedSum = transaction.parts.filter(item => item.isPayed).reduce((acc, item) => acc + item.amount, 0)
-  const oweSum = transaction.parts.filter(item => !item.isPayed).reduce((acc, item) => acc + item.amount, 0)
+  const payedSum = transaction.shares.filter(item => item.isPayed).reduce((acc, item) => acc + item.amount, 0)
+  const oweSum = transaction.shares.filter(item => !item.isPayed).reduce((acc, item) => acc + item.amount, 0)
 
   const isLacks = payedSum > oweSum
   const isOk = payedSum == oweSum
   const isOverdo = payedSum < oweSum
 
-  const payedParts = transaction.parts.filter(part => part.user && part.isPayed)
-  const oweParts = transaction.parts.filter(part => part.user && !part.isPayed)
+  const payedShares = transaction.shares.filter(share => share.user && share.isPayed)
+  const oweShares = transaction.shares.filter(share => share.user && !share.isPayed)
 
-  const isEquallyOwe = oweParts.every(part => part.amount === oweParts[0].amount)
+  const isEquallyOwe = oweShares.every(share => share.amount === oweShares[0].amount)
 
   const setEqually = () => {
-    const newAmount = (payedSum / oweParts.length) // .toFixed(2) // todo: improve
-    const newParts = [...transaction.parts]
+    const newAmount = (payedSum / oweShares.length) // .toFixed(2) // todo: improve
+    const newShares = [...transaction.shares]
     setTransaction({
       ...transaction,
-      parts: newParts.map(part => part.isPayed ? part : ({
-        ...part,
+      shares: newShares.map(share => share.isPayed ? share : ({
+        ...share,
         amount: newAmount
       }))
     })
@@ -80,13 +80,13 @@ function Check() {
       <Panel>
         <h3>Заплатили</h3>
         <div className="mt-4 flex flex-col gap-3">
-          {!payedParts.length && <span className="opacity-40">(Пусто)</span>}
-          {payedParts.map(part => (
+          {!payedShares.length && <span className="opacity-40">(Пусто)</span>}
+          {payedShares.map(share => (
             <UserAmount
-              key={part.user!.id}
-              {...part}
+              key={share.user!.id}
+              {...share}
               onChange={(value) => {
-                onChangeAmount(part.user!.id, value)
+                onChangeAmount(share.user!.id, value)
               }}
             />
           ))}
@@ -96,7 +96,7 @@ function Check() {
       <Panel>
         <div className="flex items-center justify-between">
           <h3>Должны</h3>
-          {!!oweParts.length && (!isEquallyOwe || !isOk) && (
+          {!!oweShares.length && (!isEquallyOwe || !isOk) && (
             <Button
               theme="text"
               onClick={setEqually}
@@ -106,13 +106,13 @@ function Check() {
           )}
         </div>
         <div className="mt-4 flex flex-col gap-3">
-          {!oweParts.length && <span className="opacity-40">(Пусто)</span>}
-          {oweParts.map(part => (
+          {!oweShares.length && <span className="opacity-40">(Пусто)</span>}
+          {oweShares.map(share => (
             <UserAmount
-              key={part.user!.id}
-              {...part}
+              key={share.user!.id}
+              {...share}
               onChange={(value) => {
-                onChangeAmount(part.user!.id, value)
+                onChangeAmount(share.user!.id, value)
               }}
             />
           ))}

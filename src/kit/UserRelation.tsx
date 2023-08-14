@@ -1,12 +1,12 @@
 import { MouseEventHandler } from 'react'
 
-import { TTransactionPart } from '../types'
+import { TShare } from '../types'
 
 import Avatar from './Avatar'
 
 import { ReactComponent as Next } from '../img/next.svg'
 
-type TProps = TTransactionPart & {
+type TProps = TShare & {
   onClick: MouseEventHandler<HTMLButtonElement>
 }
 

@@ -38,7 +38,7 @@ const generateNames = (n: number) => {
 const _names = generateNames(6)
 const mockUsers = _names.map(_name => generateUser(_name))
 
-const parts = mockUsers.slice(0, 4).map((user, i) => ({
+const shares = mockUsers.slice(0, 4).map((user, i) => ({
   spokenName: user._name,
   user: Math.random() > 0.3 ? user : undefined,
   isPayed: i < 2,
@@ -51,36 +51,40 @@ const mockCurrencies: TCurrency[] = [
     title: 'Рубль',
     symbol: '₽',
     in: 'В рублях',
-    decimals: 2
+    decimals: 4,
+    visibleDecimals: 2
   },
   {
     id: 'GEL',
     title: 'Лари',
     symbol: '₾',
     in: 'В лари',
-    decimals: 2
+    decimals: 4,
+    visibleDecimals: 2
   },
   {
     id: 'TRY',
     title: 'Лира',
     symbol: '₺',
     in: 'В лирах',
-    decimals: 2
+    decimals: 4,
+    visibleDecimals: 2
   },
   {
     id: 'EUR',
     title: 'Евро',
     symbol: '€',
     in: 'В евро',
-    decimals: 2
+    decimals: 4,
+    visibleDecimals: 2
   },
 ]
 
 const mockTransaction: TTransaction = {
   users: mockUsers,
   currencies: mockCurrencies,
-  text: parts.map(part => `<b>${part.spokenName}</b> ${part.isPayed ? 'заплатил' : 'должен'} ${part.amount}`).join(', '),
-  parts,
+  text: shares.map(share => `<b>${share.spokenName}</b> ${share.isPayed ? 'заплатил' : 'должен'} ${share.amount}`).join(', '),
+  shares,
   currency: mockCurrencies[0]
 }
 

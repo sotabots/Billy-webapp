@@ -4,32 +4,32 @@ import { TUser } from '../types'
 export const useUsers = () => {
   const { users, transaction, setTransaction, selectUserIndex } = useStore()
 
-  const usedUserIds = transaction.parts.map((item) => item.user?.id)
+  const usedUserIds = transaction.shares.map((item) => item.user?.id)
   const unrelatedUsers = users.filter(user => !usedUserIds.includes(user.id))
 
-  const isRelationsComplete = transaction.parts.every(part => part.user)
+  const isRelationsComplete = transaction.shares.every(share => share.user)
 
   const selectUser = (user: TUser) => () => {
     if (selectUserIndex !== null) { // change user
-      const newParts = [...transaction.parts]
-      const doubledUserIndex = newParts.findIndex(part => part.user?.id === user.id)
+      const newShares = [...transaction.shares]
+      const doubledUserIndex = newShares.findIndex(share => share.user?.id === user.id)
       // set user
-      newParts[selectUserIndex].user = user
+      newShares[selectUserIndex].user = user
       // remove double only after setting
       if (~doubledUserIndex) {
-        if (newParts[doubledUserIndex].spokenName) {
-          delete newParts[doubledUserIndex].user
+        if (newShares[doubledUserIndex].spokenName) {
+          delete newShares[doubledUserIndex].user
         } else {
-          newParts.splice(doubledUserIndex, 1)
+          newShares.splice(doubledUserIndex, 1)
         }
       }
       setTransaction({
         ...transaction,
-        parts: newParts
+        shares: newShares
       })
     } else { // add user
-      const newParts = [
-        ...transaction.parts,
+      const newShares = [
+        ...transaction.shares,
         {
           isPayed: false,
           amount: 0,
@@ -38,18 +38,18 @@ export const useUsers = () => {
       ]
       setTransaction({
         ...transaction,
-        parts: newParts
+        shares: newShares
       })
     }
     history.back()
   }
 
   const deleteUser = (userIndex: number) => () => {
-    const newParts = [...transaction.parts]
-    newParts.splice(userIndex, 1)
+    const newShares = [...transaction.shares]
+    newShares.splice(userIndex, 1)
     setTransaction({
       ...transaction,
-      parts: newParts
+      shares: newShares
     })
     history.back()
   }

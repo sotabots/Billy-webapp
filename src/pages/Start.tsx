@@ -47,14 +47,14 @@ function Start() {
           <h2>Соотнесите людей</h2>
           <div className="mt-1 text-[14px] leading-[20px] text-hint">Со временем мы запомним соотношения</div>
           <div className="mt-2 -mx-4 overflow-y-auto">
-            {transaction.parts.map((item, i) => (
+            {transaction.shares.map((item, i) => (
               <div key={`UserRelation-Divider-${i}`}>
                 <UserRelation
                   key={`UserRelation-${i}`}
                   {...item}
                   onClick={() => onSelect(i)}
                 />
-                {i < transaction.parts.length - 1 && <Divider key={`Divider-${i}`} />}
+                {i < transaction.shares.length - 1 && <Divider key={`Divider-${i}`} />}
               </div>
             ))}
           </div>

@@ -1,8 +1,8 @@
 import Avatar from './Avatar'
 import InputAmount from './InputAmount'
-import { TTransactionPart } from '../types'
+import { TShare } from '../types'
 
-type TUserAmount = TTransactionPart & {
+type TUserAmount = TShare & {
   amount: number
   onChange: (value: number) => void
 }
