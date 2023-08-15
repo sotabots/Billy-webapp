@@ -1,8 +1,11 @@
 import cx from 'classnames'
 import { createHashRouter, RouterProvider } from 'react-router-dom'
 
+import { QueryClient, QueryClientProvider } from '@tanstack/react-query'
+
 // import reactLogo from './assets/react.svg'
 // import viteLogo from '/vite.svg'
+
 
 import { useTheme } from './hooks/useTheme'
 
@@ -12,6 +15,8 @@ import SelectCurrency from './pages/SelectCurrency'
 import Start from './pages/Start'
 
 import SplashScreen from './kit/SplashScreen'
+
+const queryClient = new QueryClient()
 
 function App() {
   const { isDarkTheme } = useTheme()
@@ -53,10 +58,12 @@ function App() {
   ])
 
   return (
-    <div className={cx(isDarkTheme ? 'theme-dark' : 'theme-light')}>
-      <RouterProvider router={router} />
-      <SplashScreen />
-    </div>
+    <QueryClientProvider client={queryClient}>
+      <div className={cx(isDarkTheme ? 'theme-dark' : 'theme-light')}>
+        <RouterProvider router={router} />
+        <SplashScreen />
+      </div>
+    </QueryClientProvider>
   )
 }
 
