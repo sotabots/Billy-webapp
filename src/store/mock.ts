@@ -13,9 +13,11 @@ const generateUser = (_name: string): TUser => {
   return {
     _name,
     id: Math.round(Math.random() * 1e10),
-    fullName: (_name + ' ').repeat(2/*1 + Math.floor(Math.random() * 2)*/),
+    first_name: _name,
+    last_name: _name,
+    // fullName: (_name + ' ').repeat(2/*1 + Math.floor(Math.random() * 2)*/),
     username: transliterate(_name),
-    url: `https://i.pravatar.cc/48/${Math.round(Math.random() * 1e10)}`,
+    profile_photo: `https://i.pravatar.cc/48/${Math.round(Math.random() * 1e10)}`,
   }
 }
 

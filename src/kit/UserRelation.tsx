@@ -11,6 +11,10 @@ type TProps = TShare & {
 }
 
 function UserRelation({ spokenName, user, onClick }: TProps) {
+  const fullName = [
+    ...(user?.first_name ? [user?.first_name] : []),
+    ...(user?.last_name ? [user?.last_name] : []),
+  ].join(' ')
   return (
     <button
       className="w-full flex gap-3 text-left items-center px-4 py-2.5 truncate hover:bg-text/5 active:bg-text/10 transition-all"
@@ -25,7 +29,7 @@ function UserRelation({ spokenName, user, onClick }: TProps) {
       </div>
       <div className="flex gap-3 w-[45%] items-center truncate">
         <div className="w-8 h-8">
-          <Avatar url={user?.url} size={32} fullName={user?.fullName} />
+          <Avatar url={user?.profile_photo} size={32} fullName={fullName} />
         </div>
         <div className="text-hint truncate">{user?.username ? `@${user.username}` : '(выберите)'}</div>
       </div>
