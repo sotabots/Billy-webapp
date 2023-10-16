@@ -30,7 +30,7 @@ const useStore = create<TStore>((set, get) => ({
     set({
       transaction: {
         ...get().transaction,
-        currency
+        currency_id: currency.id
       }
     })
   },

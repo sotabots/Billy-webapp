@@ -1,5 +1,7 @@
+type TCurrencyId = string
+
 type TCurrency = {
-  id: string, // 'EUR'
+  id: TCurrencyId, // 'EUR'
   title: string, // 'Euro'
   symbol: string, // '€'
   in: string // 'In Euros'
@@ -26,13 +28,10 @@ type TTransaction = {
   // meta data, will be removed
   users: TUser[] // all chat users
 
-  // meta data, will be removed
-  currencies: TCurrency[] // all possible currencies
-
   // main data
   text: string // recognized text with <b>Name</b> highlighting
   shares: TShare[]
-  currency: TCurrency
+  currency_id: TCurrencyId
 }
 
 export type { TCurrency, TUser, TShare, TTransaction }

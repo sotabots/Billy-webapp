@@ -82,10 +82,9 @@ const mockCurrencies: TCurrency[] = [
 
 const mockTransaction: TTransaction = {
   users: mockUsers,
-  currencies: mockCurrencies,
   text: shares.map(share => `<b>${share.spokenName}</b> ${share.isPayed ? 'заплатил' : 'должен'} ${share.amount}`).join(', '),
   shares,
-  currency: mockCurrencies[0]
+  currency_id: mockCurrencies[0].id
 }
 
 export {
