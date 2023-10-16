@@ -9,4 +9,8 @@ export const useCurrenciesQuery = () => useQuery<TCurrency[], Error>({
     fetch(`${apiUrl}/users`).then(
       (res) => res.json(),
     ),
+  onSuccess: (data) => {
+    console.log('data', data)
+  },
+  staleTime: 60 * 1000
 })
