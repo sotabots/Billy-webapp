@@ -11,9 +11,11 @@ type TCurrency = {
 
 type TUser = { // tg user
   id: number
-  url?: string // avatar url (todo: rename)
-  fullName: string
   username?: string // @username
+  first_name: string
+  last_name?: string
+  profile_photo?: string // avatar url
+
   _name: string // not used, only for mock
 }
 
