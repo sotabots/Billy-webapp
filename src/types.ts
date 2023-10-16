@@ -34,4 +34,4 @@ type TTransaction = {
   currency_id: TCurrencyId
 }
 
-export type { TCurrency, TUser, TShare, TTransaction }
+export type { TCurrencyId, TCurrency, TUser, TShare, TTransaction }

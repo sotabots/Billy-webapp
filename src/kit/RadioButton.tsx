@@ -1,12 +1,12 @@
 import cx from 'classnames'
-import { TCurrency } from '../types'
+import { TCurrencyId } from '../types'
 
 type TRadioButton = {
   group: string,
   label: string,
-  value: TCurrency,
+  value: TCurrencyId,
   checked: boolean,
-  onChange: (value: TCurrency) => void
+  onChange: (value: TCurrencyId) => void
 }
 
 function RadioButton({ group, label, value, checked, onChange }: TRadioButton) {

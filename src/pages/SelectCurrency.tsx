@@ -5,16 +5,16 @@ import Header from '../kit/Header'
 import RadioButton from '../kit/RadioButton'
 import Screen from '../kit/Screen'
 
-import { TCurrency } from '../types'
+import { TCurrencyId } from '../types'
 import { useStore } from '../store'
 
 function SelectCurrency() {
   const navigate = useNavigate()
 
-  const { currencies, currency, setCurrency } = useStore()
+  const { currencies, transaction, setCurrency } = useStore()
 
-  const onChange = (value: TCurrency) => {
-    setCurrency(value)
+  const onChange = (currencyId: TCurrencyId) => {
+    setCurrency(currencyId)
     navigate('/check')
     // history.back()
   }
@@ -28,17 +28,17 @@ function SelectCurrency() {
       </div>
       <div className="mt-4 overflow-y-auto">
         {currencies.map((currencyItem, i) => (
-          <>
+          <div key={`currencies-${currencyItem.id}`}>
             <RadioButton
               group="currencies"
               label={`${currencyItem.symbol} ${currencyItem.title}`}
               key={`currencies-${currencyItem.id}`}
-              value={currencyItem}
-              checked={currency?.id === currencyItem.id}
+              value={currencyItem.id}
+              checked={transaction?.currency_id === currencyItem.id}
               onChange={onChange}
             />
             {i < currencies.length - 1 && <Divider key={`Divider-${i}`} />}
-          </>
+          </div>
         ))}
       </div>
     </Screen>

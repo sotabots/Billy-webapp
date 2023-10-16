@@ -1,6 +1,6 @@
 import { create } from 'zustand'
 import { mockCurrencies } from './mock'
-import { TUser, TCurrency, TTransaction } from './../types'
+import { TCurrency, TCurrencyId, TTransaction, TUser } from './../types'
 
 import { mockUsers, mockTransaction } from './mock'
 
@@ -12,8 +12,7 @@ type TStore = {
   selectUserIndex: number | null
   setSelectUserIndex: (i: number | null) => void
   currencies: TCurrency[]
-  currency: TCurrency | null
-  setCurrency: (currency: TCurrency) => void
+  setCurrency: (currency: TCurrencyId) => void
   transaction: TTransaction,
   setTransaction: (transaction: TTransaction) => void
 }
@@ -25,12 +24,11 @@ const useStore = create<TStore>((set, get) => ({
   setSelectUserIndex: (selectUserIndex) => set({ selectUserIndex }),
   currencies: isMock ? mockCurrencies : [],
   currency: isMock ? mockCurrencies[0] : null,
-  setCurrency: (currency) => {
-    set({ currency })
+  setCurrency: (currencyId) => {
     set({
       transaction: {
         ...get().transaction,
-        currency_id: currency.id
+        currency_id: currencyId
       }
     })
   },

@@ -11,7 +11,9 @@ import { feedback, EVENT } from '../feedback'
 
 function Check() {
   const navigate = useNavigate()
-  const { currency, transaction, setTransaction } = useStore()
+  const { currencies, transaction, setTransaction } = useStore()
+
+  const currency = currencies.find(currency => currency.id === transaction.currency_id)
 
   const onChangeAmount = (id: number, amount: number) => {
     const newShares = [...transaction.shares]
@@ -64,7 +66,7 @@ function Check() {
           theme="text"
           onClick={() => { navigate('/select-currency') }}
         >
-          {currency?.in}
+          {currency ? currency.in : 'Выберите валюту'}
         </Button>
       </div>
 
