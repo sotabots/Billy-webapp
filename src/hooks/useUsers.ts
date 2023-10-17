@@ -4,21 +4,21 @@ import { TUser } from '../types'
 export const useUsers = () => {
   const { users, transaction, setTransaction, selectUserIndex } = useStore()
 
-  const usedUserIds = transaction.shares.map((item) => item.user?.id)
+  const usedUserIds = transaction.shares.map(share => share.related_user_id)
   const unrelatedUsers = users.filter(user => !usedUserIds.includes(user.id))
 
-  const isRelationsComplete = transaction.shares.every(share => share.user)
+  const isRelationsComplete = transaction.shares.every(share => share.related_user_id)
 
   const selectUser = (user: TUser) => () => {
     if (selectUserIndex !== null) { // change user
       const newShares = [...transaction.shares]
-      const doubledUserIndex = newShares.findIndex(share => share.user?.id === user.id)
+      const doubledUserIndex = newShares.findIndex(share => share.related_user_id === user.id)
       // set user
-      newShares[selectUserIndex].user = user
+      newShares[selectUserIndex].related_user_id = user.id
       // remove double only after setting
       if (~doubledUserIndex) {
         if (newShares[doubledUserIndex].normalized_name) {
-          delete newShares[doubledUserIndex].user
+          delete newShares[doubledUserIndex].related_user_id // todo: check
         } else {
           newShares.splice(doubledUserIndex, 1)
         }

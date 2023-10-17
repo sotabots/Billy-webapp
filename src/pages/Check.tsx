@@ -17,7 +17,7 @@ function Check() {
 
   const onChangeAmount = (id: number, amount: number) => {
     const newShares = [...transaction.shares]
-    const foundIndex = newShares.findIndex(item => item.user?.id === id)
+    const foundIndex = newShares.findIndex(share => share.related_user_id === id)
     newShares[foundIndex].amount = amount
     setTransaction({
       ...transaction,
@@ -34,8 +34,8 @@ function Check() {
   const isOk = payedSum == oweSum
   const isOverdo = payedSum > oweSum
 
-  const payedShares = transaction.shares.filter(share => share.user && share.is_payer)
-  const oweShares = transaction.shares.filter(share => share.user && !share.is_payer)
+  const payedShares = transaction.shares.filter(share => share.related_user_id && share.is_payer)
+  const oweShares = transaction.shares.filter(share => share.related_user_id && !share.is_payer)
 
   const isEquallyOwe = oweShares.every(share => share.amount === oweShares[0].amount)
 
@@ -90,10 +90,10 @@ function Check() {
           {!payedShares.length && <span className="opacity-40">(Пусто)</span>}
           {payedShares.map(share => (
             <UserAmount
-              key={share.user!.id}
+              key={share.related_user_id}
               {...share}
               onChange={(value) => {
-                onChangeAmount(share.user!.id, value)
+                onChangeAmount(share.related_user_id!, value)
               }}
             />
           ))}
@@ -116,10 +116,10 @@ function Check() {
           {!oweShares.length && <span className="opacity-40">(Пусто)</span>}
           {oweShares.map(share => (
             <UserAmount
-              key={share.user!.id}
+              key={share.related_user_id!}
               {...share}
               onChange={(value) => {
-                onChangeAmount(share.user!.id, value)
+                onChangeAmount(share.related_user_id!, value)
               }}
             />
           ))}
