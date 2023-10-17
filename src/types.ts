@@ -1,5 +1,7 @@
+type TUserId = number
+
 type TUser = { // tg user
-  id: number
+  id: TUserId
   username?: string // @username
   first_name: string
   last_name?: string
@@ -22,10 +24,10 @@ type TTransaction = {
 }
 
 type TShare = {
-  spokenName?: string
-  isPayed: boolean // paid or owed
+  normalized_name?: string // may be missing if a new user is selected
+  is_payer: boolean // paid or owed
   amount: number
-  user?: TUser
+  related_user_id?: TUserId
 }
 
 type TCurrencyId = string
