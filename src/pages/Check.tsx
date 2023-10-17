@@ -30,9 +30,9 @@ function Check() {
   const payedSum = transaction.shares.filter(item => item.isPayed).reduce((acc, item) => acc + item.amount, 0)
   const oweSum = transaction.shares.filter(item => !item.isPayed).reduce((acc, item) => acc + item.amount, 0)
 
-  const isLacks = payedSum > oweSum
+  const isLacks = payedSum < oweSum
   const isOk = payedSum == oweSum
-  const isOverdo = payedSum < oweSum
+  const isOverdo = payedSum > oweSum
 
   const payedShares = transaction.shares.filter(share => share.user && share.isPayed)
   const oweShares = transaction.shares.filter(share => share.user && !share.isPayed)
