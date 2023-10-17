@@ -88,7 +88,7 @@ const mockTransaction: TTransaction = {
   raw_text: shares.map(share => `${share.normalized_name} ${share.is_payer ? 'заплатил' : 'должен'} ${share.amount}`).join(', '),
   // formatted_text: shares.map(share => `<b>${share.normalized_name}</b> ${share.is_payer ? 'заплатил' : 'должен'} ${share.amount}`).join(', '),
   shares,
-  is_shares_confirmed: false,
+  is_confirmed: false,
   currency_id: mockCurrencies[0].id
 }
 

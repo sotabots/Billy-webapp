@@ -54,7 +54,7 @@ function Check() {
   const save = async () => {
     const confirmedTransaction = {
       ...transaction,
-      is_shares_confirmed: true
+      is_confirmed: true
     }
     await feedback(EVENT.SEND_TRANSACTION)
     alert(`patch transaction (see console), close webapp`)

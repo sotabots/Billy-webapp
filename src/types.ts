@@ -16,7 +16,7 @@ type TTransaction = {
   raw_text: string // shown if `formatted_text` does not exist
   formatted_text?: string // with <b>Name</b> highlighting
   currency_id: TCurrencyId
-  is_shares_confirmed: boolean // set true before patch
+  is_confirmed: boolean // set true before patch
   shares: TShare[]
 }
 
