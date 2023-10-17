@@ -11,9 +11,6 @@ type TUser = { // tg user
 }
 
 type TTransaction = {
-  // meta data, will be removed
-  users: TUser[] // all chat users
-
   id: string
   is_voice: boolean
   raw_text: string
