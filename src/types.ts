@@ -1,22 +1,22 @@
-type TUserId = number
+type TUserId = number // tg id
 
 type TUser = { // tg user
   id: TUserId
-  username?: string // @username
+  username?: string // @username without @
   first_name: string
   last_name?: string
   profile_photo?: string // avatar url
 
-  _name?: string // not used, only for mock
+  _name?: string // not used, only for mock, will be removed
 }
 
 type TTransaction = {
   id: string
   is_voice: boolean
-  raw_text: string
+  raw_text: string // shown if `formatted_text` does not exist
   formatted_text?: string // with <b>Name</b> highlighting
   currency_id: TCurrencyId
-  is_shares_confirmed: boolean
+  is_shares_confirmed: boolean // set true before patch
   shares: TShare[]
 }
 
@@ -27,7 +27,7 @@ type TShare = {
   related_user_id?: TUserId
 }
 
-type TCurrencyId = string
+type TCurrencyId = string // 'RUB' | 'GEL' | 'TRY' | 'EUR'
 
 type TCurrency = {
   id: TCurrencyId, // 'EUR'
