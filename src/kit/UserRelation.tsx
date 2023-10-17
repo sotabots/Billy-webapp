@@ -10,7 +10,7 @@ type TProps = TShare & {
   onClick: MouseEventHandler<HTMLButtonElement>
 }
 
-function UserRelation({ spokenName, user, onClick }: TProps) {
+function UserRelation({ normalized_name, user, onClick }: TProps) {
   const fullName = [
     ...(user?.first_name ? [user?.first_name] : []),
     ...(user?.last_name ? [user?.last_name] : []),
@@ -21,8 +21,8 @@ function UserRelation({ spokenName, user, onClick }: TProps) {
       onClick={onClick}
     >
       <div className="flex w-[45%] truncate">
-        {spokenName ? (
-          <div className="truncate">{spokenName}</div>
+        {normalized_name ? (
+          <div className="truncate">{normalized_name}</div>
         ) : (
           <div className="truncate opacity-30">(доп.)</div>
         )}

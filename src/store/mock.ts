@@ -41,9 +41,9 @@ const _names = generateNames(6)
 const mockUsers = _names.map(_name => generateUser(_name))
 
 const shares = mockUsers.slice(0, 4).map((user, i) => ({
-  spokenName: user._name,
+  normalized_name: user._name,
   user: Math.random() > 0.3 ? user : undefined,
-  isPayed: i < 2,
+  is_payer: i < 2,
   amount: Math.round(Math.random() * 1e2) // * 1e6) / 100 // todo
 }))
 
@@ -86,8 +86,8 @@ const mockTransaction: TTransaction = {
   id: '1',
   users: mockUsers,
   is_voice: true,
-  raw_text: shares.map(share => `${share.spokenName} ${share.isPayed ? 'заплатил' : 'должен'} ${share.amount}`).join(', '),
-  // formatted_text: shares.map(share => `<b>${share.spokenName}</b> ${share.isPayed ? 'заплатил' : 'должен'} ${share.amount}`).join(', '),
+  raw_text: shares.map(share => `${share.normalized_name} ${share.is_payer ? 'заплатил' : 'должен'} ${share.amount}`).join(', '),
+  // formatted_text: shares.map(share => `<b>${share.normalized_name}</b> ${share.is_payer ? 'заплатил' : 'должен'} ${share.amount}`).join(', '),
   shares,
   shares_confirmed: false,
   currency_id: mockCurrencies[0].id

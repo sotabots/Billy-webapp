@@ -27,15 +27,15 @@ function Check() {
 
   // todo: move out
 
-  const payedSum = transaction.shares.filter(item => item.isPayed).reduce((acc, item) => acc + item.amount, 0)
-  const oweSum = transaction.shares.filter(item => !item.isPayed).reduce((acc, item) => acc + item.amount, 0)
+  const payedSum = transaction.shares.filter(item => item.is_payer).reduce((acc, item) => acc + item.amount, 0)
+  const oweSum = transaction.shares.filter(item => !item.is_payer).reduce((acc, item) => acc + item.amount, 0)
 
   const isLacks = payedSum < oweSum
   const isOk = payedSum == oweSum
   const isOverdo = payedSum > oweSum
 
-  const payedShares = transaction.shares.filter(share => share.user && share.isPayed)
-  const oweShares = transaction.shares.filter(share => share.user && !share.isPayed)
+  const payedShares = transaction.shares.filter(share => share.user && share.is_payer)
+  const oweShares = transaction.shares.filter(share => share.user && !share.is_payer)
 
   const isEquallyOwe = oweShares.every(share => share.amount === oweShares[0].amount)
 
@@ -44,7 +44,7 @@ function Check() {
     const newShares = [...transaction.shares]
     setTransaction({
       ...transaction,
-      shares: newShares.map(share => share.isPayed ? share : ({
+      shares: newShares.map(share => share.is_payer ? share : ({
         ...share,
         amount: newAmount
       }))

@@ -17,7 +17,7 @@ export const useUsers = () => {
       newShares[selectUserIndex].user = user
       // remove double only after setting
       if (~doubledUserIndex) {
-        if (newShares[doubledUserIndex].spokenName) {
+        if (newShares[doubledUserIndex].normalized_name) {
           delete newShares[doubledUserIndex].user
         } else {
           newShares.splice(doubledUserIndex, 1)
@@ -31,7 +31,7 @@ export const useUsers = () => {
       const newShares = [
         ...transaction.shares,
         {
-          isPayed: false,
+          is_payer: false,
           amount: 0,
           user
         }
