@@ -38,7 +38,14 @@ function Start() {
       <Panel>
         <div className="text-[12px] leading-[1.33em] font-medium text-hint">Сообщение</div>
         <div className="mt-1">
-          🎙 <HTMLTagRenderer allowedTags={['b', 'strong']} string={transaction.text} />
+          {!!transaction.is_voice && (
+            <span>🎙&nbsp;</span>
+          )}
+          {transaction.formatted_text ? (
+            <HTMLTagRenderer allowedTags={['b', 'strong']} string={transaction.formatted_text} />
+          ) : (
+            <strong>{transaction.raw_text}</strong>
+          )}
         </div>
       </Panel>
 

@@ -1,14 +1,3 @@
-type TCurrencyId = string
-
-type TCurrency = {
-  id: TCurrencyId, // 'EUR'
-  title: string, // 'Euro'
-  symbol: string, // '€'
-  in: string // 'In Euros'
-  decimals: number // `4` usually
-  visibleDecimals: number // `2` usually
-}
-
 type TUser = { // tg user
   id: number
   username?: string // @username
@@ -16,7 +5,20 @@ type TUser = { // tg user
   last_name?: string
   profile_photo?: string // avatar url
 
-  _name: string // not used, only for mock
+  _name?: string // not used, only for mock
+}
+
+type TTransaction = {
+  // meta data, will be removed
+  users: TUser[] // all chat users
+
+  id: string
+  is_voice: boolean
+  raw_text: string
+  formatted_text?: string // with <b>Name</b> highlighting
+  currency_id: TCurrencyId
+  shares_confirmed: boolean
+  shares: TShare[]
 }
 
 type TShare = {
@@ -26,14 +28,15 @@ type TShare = {
   user?: TUser
 }
 
-type TTransaction = {
-  // meta data, will be removed
-  users: TUser[] // all chat users
+type TCurrencyId = string
 
-  // main data
-  text: string // recognized text with <b>Name</b> highlighting
-  shares: TShare[]
-  currency_id: TCurrencyId
+type TCurrency = {
+  id: TCurrencyId, // 'EUR'
+  title: string, // 'Euro'
+  symbol: string, // '€'
+  in: string // 'In Euros'
+  decimals: number // `4` usually
+  visibleDecimals: number // `2` usually
 }
 
 export type { TCurrencyId, TCurrency, TUser, TShare, TTransaction }
