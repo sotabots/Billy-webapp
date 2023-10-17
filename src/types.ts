@@ -16,7 +16,7 @@ type TTransaction = {
   raw_text: string
   formatted_text?: string // with <b>Name</b> highlighting
   currency_id: TCurrencyId
-  shares_confirmed: boolean
+  is_shares_confirmed: boolean
   shares: TShare[]
 }
 
@@ -35,7 +35,7 @@ type TCurrency = {
   symbol: string, // '€'
   in: string // 'In Euros'
   decimals: number // `4` usually
-  visibleDecimals: number // `2` usually
+  visible_decimals: number // `2` usually
 }
 
 export type { TCurrencyId, TCurrency, TUser, TShare, TTransaction }

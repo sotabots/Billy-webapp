@@ -54,7 +54,7 @@ const mockCurrencies: TCurrency[] = [
     symbol: '₽',
     in: 'В рублях',
     decimals: 4,
-    visibleDecimals: 2
+    visible_decimals: 2
   },
   {
     id: 'GEL',
@@ -62,7 +62,7 @@ const mockCurrencies: TCurrency[] = [
     symbol: '₾',
     in: 'В лари',
     decimals: 4,
-    visibleDecimals: 2
+    visible_decimals: 2
   },
   {
     id: 'TRY',
@@ -70,7 +70,7 @@ const mockCurrencies: TCurrency[] = [
     symbol: '₺',
     in: 'В лирах',
     decimals: 4,
-    visibleDecimals: 2
+    visible_decimals: 2
   },
   {
     id: 'EUR',
@@ -78,7 +78,7 @@ const mockCurrencies: TCurrency[] = [
     symbol: '€',
     in: 'В евро',
     decimals: 4,
-    visibleDecimals: 2
+    visible_decimals: 2
   },
 ]
 
@@ -88,7 +88,7 @@ const mockTransaction: TTransaction = {
   raw_text: shares.map(share => `${share.normalized_name} ${share.is_payer ? 'заплатил' : 'должен'} ${share.amount}`).join(', '),
   // formatted_text: shares.map(share => `<b>${share.normalized_name}</b> ${share.is_payer ? 'заплатил' : 'должен'} ${share.amount}`).join(', '),
   shares,
-  shares_confirmed: false,
+  is_shares_confirmed: false,
   currency_id: mockCurrencies[0].id
 }
 
