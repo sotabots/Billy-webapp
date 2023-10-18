@@ -32,11 +32,9 @@ function Select() {
       <div className="mt-4 overflow-y-auto">
         {usersToShow.map((user, i, arr) => (
           <>
-            <User
-              key={`User-${i}`}
-              {...user}
-              onClick={selectUser(user)}
-            />
+            <button className="w-full px-4 py-2 hover:bg-text/5 active:bg-text/10 transition-all" onClick={selectUser(user)}>
+              <User user={user} />
+            </button>
             {i < arr.length - 1 && <Divider key={`Divider-${i}`} />}
           </>
         ))}
