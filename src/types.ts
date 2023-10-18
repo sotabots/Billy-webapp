@@ -38,4 +38,4 @@ type TCurrency = {
   visible_decimals: number // `2` usually
 }
 
-export type { TCurrencyId, TCurrency, TUser, TShare, TTransaction }
+export type { TCurrencyId, TCurrency, TUser, TUserId, TShare, TTransaction }

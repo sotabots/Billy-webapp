@@ -1,5 +1,6 @@
 import Avatar from './Avatar'
 import InputAmount from './InputAmount'
+import { useUsers } from '../hooks/useUsers'
 import { TShare } from '../types'
 
 type TUserAmount = TShare & {
@@ -7,7 +8,9 @@ type TUserAmount = TShare & {
   onChange: (value: number) => void
 }
 
-function UserAmount({ user, amount, onChange }: TUserAmount) {
+function UserAmount({ related_user_id, amount, onChange }: TUserAmount) {
+  const { getUserById } = useUsers()
+  const user = related_user_id ? getUserById(related_user_id) : undefined
   const fullName = [
     ...(user?.first_name ? [user?.first_name] : []),
     ...(user?.last_name ? [user?.last_name] : []),

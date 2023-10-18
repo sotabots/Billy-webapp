@@ -1,5 +1,6 @@
 import { MouseEventHandler } from 'react'
 
+import { useUsers } from '../hooks/useUsers'
 import { TShare } from '../types'
 
 import Avatar from './Avatar'
@@ -10,7 +11,9 @@ type TProps = TShare & {
   onClick: MouseEventHandler<HTMLButtonElement>
 }
 
-function UserRelation({ normalized_name, user, onClick }: TProps) {
+function UserRelation({ normalized_name, related_user_id, onClick }: TProps) {
+  const { getUserById } = useUsers()
+  const user = related_user_id ? getUserById(related_user_id) : undefined
   const fullName = [
     ...(user?.first_name ? [user?.first_name] : []),
     ...(user?.last_name ? [user?.last_name] : []),

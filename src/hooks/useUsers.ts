@@ -1,5 +1,5 @@
 import { useStore } from '../store'
-import { TUser } from '../types'
+import type { TUser, TUserId, TShare } from '../types'
 
 export const useUsers = () => {
   const { users, transaction, setTransaction, selectUserIndex } = useStore()
@@ -9,9 +9,13 @@ export const useUsers = () => {
 
   const isRelationsComplete = transaction.shares.every(share => share.related_user_id)
 
+  const getUserById = (userId: TUserId) => {
+    return users.find(user => user.id === userId)
+  }
+
   const selectUser = (user: TUser) => () => {
     if (selectUserIndex !== null) { // change user
-      const newShares = [...transaction.shares]
+      const newShares: TShare[] = [...transaction.shares]
       const doubledUserIndex = newShares.findIndex(share => share.related_user_id === user.id)
       // set user
       newShares[selectUserIndex].related_user_id = user.id
@@ -28,12 +32,12 @@ export const useUsers = () => {
         shares: newShares
       })
     } else { // add user
-      const newShares = [
+      const newShares: TShare[] = [
         ...transaction.shares,
         {
           is_payer: false,
           amount: 0,
-          user
+          related_user_id: user.id
         }
       ]
       setTransaction({
@@ -54,5 +58,5 @@ export const useUsers = () => {
     history.back()
   }
 
-  return { users, unrelatedUsers, isRelationsComplete, selectUser, deleteUser }
+  return { users, unrelatedUsers, isRelationsComplete, getUserById, selectUser, deleteUser }
 }
