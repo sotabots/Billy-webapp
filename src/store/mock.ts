@@ -50,7 +50,7 @@ const generateUser = (_name: string): TUser => {
     first_name: _name,
     last_name: _name,
     // fullName: (_name + ' ').repeat(2/*1 + Math.floor(Math.random() * 2)*/),
-    username: transliterate(_name),
+    username: Math.random() > 0.2 ? transliterate(_name) : undefined,
     profile_photo: `https://i.pravatar.cc/48/${Math.round(Math.random() * 1e10)}`,
     _name,
   }
