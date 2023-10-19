@@ -9,9 +9,11 @@ import Screen from '../kit/Screen'
 import { useStore } from '../store'
 import { feedback, EVENT } from '../feedback'
 
+import { patchTransaction } from '../api/useApi'
+
 function Check() {
   const navigate = useNavigate()
-  const { currencies, transaction, setTransaction } = useStore()
+  const { currencies, transaction, setTransaction, setSuccess } = useStore()
 
   const currency = currencies.find(currency => currency.id === transaction.currency_id)
 
@@ -57,8 +59,18 @@ function Check() {
       is_confirmed: true
     }
     await feedback(EVENT.SEND_TRANSACTION)
-    alert(`patch transaction (see console), close webapp`)
     console.log(JSON.stringify(confirmedTransaction, null, 2))
+    const res = await patchTransaction(confirmedTransaction)
+
+    console.log('res', res)
+    const json = await res.json()
+    console.log('res json', json)
+    if (res.ok) {
+      setSuccess(true)
+      // todo: close webapp
+    } else {
+      setSuccess(false)
+    }
   }
 
   return (

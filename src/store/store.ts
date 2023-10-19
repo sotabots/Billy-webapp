@@ -15,6 +15,8 @@ type TStore = {
   setCurrency: (currency: TCurrencyId) => void
   transaction: TTransaction,
   setTransaction: (transaction: TTransaction) => void
+  isSuccess: boolean | null
+  setSuccess: (val: boolean | null) => void
 }
 
 const useStore = create<TStore>((set, get) => ({
@@ -34,6 +36,8 @@ const useStore = create<TStore>((set, get) => ({
   },
   transaction: mockTransaction,
   setTransaction: (transaction) => set(({ transaction })),
+  isSuccess: null,
+  setSuccess: (isSuccess) => set(({ isSuccess }))
 }))
 
 
