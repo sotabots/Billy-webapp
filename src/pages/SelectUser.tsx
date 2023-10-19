@@ -9,16 +9,18 @@ import { useStore } from '../store'
 
 function Select() {
   const { users, unrelatedUsers, selectUser, deleteUser } = useUsers()
-  const { selectUserIndex } = useStore()
+  const { selectUserIndex, transaction } = useStore()
 
   const usersToShow = selectUserIndex !== null ? users : unrelatedUsers
+  const forName = selectUserIndex !== null ? transaction.shares[selectUserIndex]?.normalized_name : null
+  const title = forName ? `Выберите, кто "${forName}"` : 'Выберите человека'
 
   return (
     <Screen className="!bg-bg">
       <Header onBack={() => { history.back() }} />
 
-      <div className="mb-2 px-4 flex items-center justify-between">
-        <h2 className="pt-[2px] pb-[6px]">Выберите человека</h2>
+      <div className="mb-2 px-4 flex items-center justify-between gap-3">
+        <h2 className="pt-[2px] pb-[6px]">{title}</h2>
         {selectUserIndex !== null && (
           <Button
             theme="text"
