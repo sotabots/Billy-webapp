@@ -1,4 +1,5 @@
 import cx from 'classnames'
+import { useState } from 'react'
 import { useNavigate } from 'react-router-dom'
 import Button from '../kit/Button'
 import Header from '../kit/Header'
@@ -13,6 +14,7 @@ import { patchTransaction } from '../api/useApi'
 
 function Check() {
   const navigate = useNavigate()
+  const [isBusy, setIsBusy] = useState(false)
   const { currencies, transaction, setTransaction, setSuccess } = useStore()
 
   const currency = currencies.find(currency => currency.id === transaction.currency_id)
@@ -58,18 +60,24 @@ function Check() {
       ...transaction,
       is_confirmed: true
     }
-    await feedback(EVENT.SEND_TRANSACTION)
-    console.log(JSON.stringify(confirmedTransaction, null, 2))
-    const res = await patchTransaction(confirmedTransaction)
-
-    console.log('res', res)
-    const json = await res.json()
-    console.log('res json', json)
-    if (res.ok) {
-      setSuccess(true)
-      // todo: close webapp
-    } else {
+    setIsBusy(true)
+    try {
+      await feedback(EVENT.SEND_TRANSACTION)
+      console.log(JSON.stringify(confirmedTransaction, null, 2))
+      const res = await patchTransaction(confirmedTransaction)
+      console.log('res', res)
+      const json = await res.json()
+      console.log('res json', json)
+      if (res.ok) {
+        setSuccess(true)
+        // todo: close webapp
+      } else {
+        setSuccess(false)
+      }
+    } catch (e) {
       setSuccess(false)
+    } finally {
+      setIsBusy(false)
     }
   }
 
@@ -138,7 +146,13 @@ function Check() {
         </div>
 
         <div className="mt-8 py-2">
-          <Button onClick={save} disabled={!isOk}>Сохранить</Button>
+          <Button
+            onClick={save}
+            disabled={!isOk}
+            isBusy={isBusy}
+          >
+            Сохранить
+          </Button>
         </div>
       </Panel>
     </Screen>
