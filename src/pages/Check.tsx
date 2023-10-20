@@ -70,7 +70,9 @@ function Check() {
       console.log('res json', json)
       if (res.ok) {
         setSuccess(true)
-        // todo: close webapp
+        // eslint-disable-next-line @typescript-eslint/ban-ts-comment
+        // @ts-ignore
+        window?.Telegram?.WebApp?.close()
       } else {
         setSuccess(false)
       }
