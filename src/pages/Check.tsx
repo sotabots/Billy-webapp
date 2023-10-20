@@ -10,7 +10,7 @@ import Screen from '../kit/Screen'
 import { useStore } from '../store'
 import { feedback, EVENT } from '../feedback'
 
-import { patchTransaction } from '../api/useApi'
+import { patchTransaction } from '../api'
 
 function Check() {
   const navigate = useNavigate()

@@ -41,12 +41,6 @@ button {
   font-family: inherit;
   cursor: pointer;
 }
-/*
-button:focus,
-button:focus-visible {
-  outline: 4px auto -webkit-focus-ring-color;
-}
-*/
 
 .panel + .panel {
   margin-top: 8px;

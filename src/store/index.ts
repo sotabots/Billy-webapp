@@ -1,5 +1,3 @@
 import { useStore } from './store'
 
-export {
-  useStore
-}
+export { useStore }
