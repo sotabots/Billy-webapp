@@ -36,9 +36,10 @@ function Check() {
   const oweSum = transaction.shares.filter(item => !item.is_payer).reduce((acc, item) => acc + item.amount, 0)
   const oweSumFormatted = formatAmount(oweSum)
 
-  const isLacks = payedSum < oweSum
-  const isOk = payedSum == oweSum
-  const isOverdo = payedSum > oweSum
+  const tolerance = 1
+  const isLacks = payedSum < oweSum - tolerance
+  const isOk = Math.abs(payedSum - oweSum) <= tolerance
+  const isOverdo = payedSum > oweSum + tolerance
 
   const payedShares = transaction.shares.filter(share => share.related_user_id && share.is_payer)
   const oweShares = transaction.shares.filter(share => share.related_user_id && !share.is_payer)
@@ -46,7 +47,7 @@ function Check() {
   const isEquallyOwe = oweShares.every(share => share.amount === oweShares[0].amount)
 
   const setEqually = () => {
-    const newAmount = (payedSum / oweShares.length) // .toFixed(2) // todo: improve
+    const newAmount = Math.round(payedSum / oweShares.length)
     const newShares = [...transaction.shares]
     setTransaction({
       ...transaction,
