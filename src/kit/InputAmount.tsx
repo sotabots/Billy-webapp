@@ -1,6 +1,8 @@
 import type { ChangeEvent } from 'react'
 import { useEffect, useState } from 'react'
 
+import { formatAmount, unformatAmount } from '../utils'
+
 type TInputAmount = {
   amount: number
   onChange: (value: number) => void
@@ -55,15 +57,11 @@ const filter = (oldString: string, newStringRaw: string) => {
   return newString
 }
 
-const amountFromString = (string: string) => parseFloat(string) || 0
-
-const formatAmount = (amount: number) => amount.toFixed(2)
-
 function InputAmount({ amount, onChange }: TInputAmount) {
-  const [currentString, setCurrentString] = useState<string>(String(amount) || '')
+  const [currentString, setCurrentString] = useState<string>(formatAmount(amount))
 
   useEffect(() => {
-    const currentAmount = amountFromString(currentString)
+    const currentAmount = unformatAmount(currentString)
     if (amount !== currentAmount) {
       setCurrentString(formatAmount(amount))
     }
@@ -73,8 +71,12 @@ function InputAmount({ amount, onChange }: TInputAmount) {
     const changedString = e.target.value
     const newString = filter(currentString, changedString)
     setCurrentString(newString)
-    const newAmount = amountFromString(newString)
+    const newAmount = unformatAmount(newString)
     onChange(newAmount)
+  }
+
+  const onBlur = () => {
+    setCurrentString(formatAmount(amount))
   }
 
   return (
@@ -85,6 +87,7 @@ function InputAmount({ amount, onChange }: TInputAmount) {
       placeholder="0"
       value={currentString}
       onFocus={(e) => { e.target.select() }}
+      onBlur={onBlur}
       onChange={onChangeString}
     />
   )

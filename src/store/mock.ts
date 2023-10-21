@@ -1,37 +1,40 @@
 import { TCurrency, TTransaction, TUser } from '../types'
 
+export const decimals = 4
+export const visible_decimals = 2
+
 const mockCurrencies: TCurrency[] = [
   {
     id: 'RUB',
     title: 'Рубль',
     symbol: '₽',
     in: 'В рублях',
-    decimals: 4,
-    visible_decimals: 2
+    decimals,
+    visible_decimals
   },
   {
     id: 'GEL',
     title: 'Лари',
     symbol: '₾',
     in: 'В лари',
-    decimals: 4,
-    visible_decimals: 2
+    decimals,
+    visible_decimals
   },
   {
     id: 'TRY',
     title: 'Лира',
     symbol: '₺',
     in: 'В лирах',
-    decimals: 4,
-    visible_decimals: 2
+    decimals,
+    visible_decimals
   },
   {
     id: 'EUR',
     title: 'Евро',
     symbol: '€',
     in: 'В евро',
-    decimals: 4,
-    visible_decimals: 2
+    decimals,
+    visible_decimals
   },
 ]
 
@@ -79,7 +82,7 @@ const shares = mockUsers.slice(0, 4).map((user, i) => ({
   normalized_name: user._name,
   related_user_id: Math.random() > 0.3 ? user.id : undefined,
   is_payer: i < 2,
-  amount: Math.round(Math.random() * 1e2) // * 1e6) / 100 // todo
+  amount: Math.round(Math.random() * 1e2) * 10 ** decimals
 }))
 
 const mockTransaction: TTransaction = {

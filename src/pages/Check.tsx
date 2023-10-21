@@ -9,8 +9,8 @@ import Screen from '../kit/Screen'
 
 import { useStore } from '../store'
 import { feedback, EVENT } from '../feedback'
-
 import { patchTransaction } from '../api'
+import { formatAmount } from '../utils'
 
 function Check() {
   const navigate = useNavigate()
@@ -32,7 +32,9 @@ function Check() {
   // todo: move out
 
   const payedSum = transaction.shares.filter(item => item.is_payer).reduce((acc, item) => acc + item.amount, 0)
+  const payedSumFormatted = formatAmount(payedSum)
   const oweSum = transaction.shares.filter(item => !item.is_payer).reduce((acc, item) => acc + item.amount, 0)
+  const oweSumFormatted = formatAmount(oweSum)
 
   const isLacks = payedSum < oweSum
   const isOk = payedSum == oweSum
@@ -103,7 +105,7 @@ function Check() {
           {isOk && 'Всё верно'}
           {isOverdo && 'Перебор'}
         </h3>
-        <div className="mt-1 text-[14px] leading-[20px] text-hint">Заплатили {payedSum} {currency?.symbol}, должны {oweSum} {currency?.symbol}</div>
+        <div className="mt-1 text-[14px] leading-[20px] text-hint">Заплатили {payedSumFormatted} {currency?.symbol}, должны {oweSumFormatted} {currency?.symbol}</div>
       </Panel>
 
       <Panel>
