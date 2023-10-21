@@ -1,5 +1,5 @@
-const decimals = 10 ** 4
+import { decimals, visible_decimals } from './api/mock'
 
-export const formatAmount = (amount: number) => (amount / decimals).toFixed(2)
+export const formatAmount = (amount: number) => (amount / 10 ** decimals).toFixed(visible_decimals)
 
-export const unformatAmount = (string: string) => (parseFloat(string) * decimals) || 0
+export const unformatAmount = (string: string) => (parseFloat(string) * 10 ** decimals) || 0

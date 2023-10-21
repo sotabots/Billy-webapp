@@ -88,7 +88,7 @@ const shares = mockUsers.slice(0, 4).map((user, i) => ({
 const mockTransaction: TTransaction = {
   id: '1',
   is_voice: true,
-  raw_text: shares.map(share => `${share.normalized_name} ${share.is_payer ? 'заплатил' : 'должен'} ${share.amount}`).join(', '),
+  raw_text: shares.map(share => `${share.normalized_name} ${share.is_payer ? 'заплатил' : 'должен'} ${(share.amount / 10 ** decimals).toFixed(0)}`).join(', '),
   // formatted_text: shares.map(share => `<b>${share.normalized_name}</b> ${share.is_payer ? 'заплатил' : 'должен'} ${share.amount}`).join(', '),
   shares,
   is_confirmed: false,

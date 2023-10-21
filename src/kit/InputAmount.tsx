@@ -2,6 +2,7 @@ import type { ChangeEvent } from 'react'
 import { useEffect, useState } from 'react'
 
 import { formatAmount, unformatAmount } from '../utils'
+import { visible_decimals } from '../api/mock'
 
 type TInputAmount = {
   amount: number
@@ -9,7 +10,7 @@ type TInputAmount = {
 }
 
 const filter = (oldString: string, newStringRaw: string) => {
-  const MAX_DECIMALS = 2
+  const MAX_DECIMALS = visible_decimals
   const MAX_LENGTH = 10
 
   const WITHOUT_CHARS = /[^0-9.]/

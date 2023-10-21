@@ -1,8 +1,7 @@
 import { create } from 'zustand'
-import { mockCurrencies } from './mock'
 import { TCurrency, TCurrencyId, TTransaction, TUser } from './../types'
 
-import { mockUsers, mockTransaction } from './mock'
+import { mockCurrencies, mockUsers, mockTransaction } from '../api/mock'
 
 const isMock = true
 
