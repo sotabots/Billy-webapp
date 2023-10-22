@@ -22,7 +22,12 @@ function UserRelation({ normalized_name, related_user_id, onClick }: TProps) {
     >
       <div className="flex w-[35%] truncate">
         {normalized_name ? (
-          <div className="truncate">{normalized_name}</div>
+          <div className="truncate">
+            {normalized_name === 'MESSAGE_AUTHOR'
+              ? <span className="font-semibold">Вы</span>
+              : <span>{normalized_name}</span>
+            }
+          </div>
         ) : (
           <div className="truncate opacity-30">(доп.)</div>
         )}
