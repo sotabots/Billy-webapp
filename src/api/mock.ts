@@ -81,9 +81,14 @@ const mockUsers = _names.map(_name => generateUser(_name))
 const shares = mockUsers.slice(0, 4).map((user, i) => ({
   normalized_name: user._name,
   related_user_id: Math.random() > 0.3 ? user.id : undefined,
-  is_payer: i < 2,
+  is_payer: i == 0,
   amount: Math.round(Math.random() * 1e2) * 10 ** decimals
 }))
+shares.push({
+  ...shares[0],
+  amount: shares[0].amount / 3,
+  is_payer: false
+})
 
 const mockTransaction: TTransaction = {
   id: '1',

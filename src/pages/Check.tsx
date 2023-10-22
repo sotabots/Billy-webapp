@@ -44,6 +44,10 @@ function Check() {
   const payedShares = transaction.shares.filter(share => share.related_user_id && share.is_payer)
   const oweShares = transaction.shares.filter(share => share.related_user_id && !share.is_payer)
 
+  const payerIds = payedShares.map(share => share.related_user_id!)
+  const oweIds = oweShares.map(share => share.related_user_id!)
+  const isSelfPayers = payerIds.some(payerId => oweIds.includes(payerId))
+
   const isEquallyOwe = oweShares.every(share => share.amount === oweShares[0].amount)
 
   const setEqually = () => {
@@ -127,7 +131,7 @@ function Check() {
 
       <Panel>
         <div className="flex items-center justify-between">
-          <h3>Должны</h3>
+          <h3>За {isSelfPayers && <span>себя и за</span>} других</h3>
           {!!oweShares.length && (!isEquallyOwe || !isOk) && (
             <Button
               theme="text"
