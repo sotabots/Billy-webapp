@@ -79,6 +79,7 @@ const _names = generateNames(6)
 const mockUsers = _names.map(_name => generateUser(_name))
 
 const shares = mockUsers.slice(0, 4).map((user, i) => ({
+  person_id: `Person${i}`,
   normalized_name: user._name,
   related_user_id: Math.random() > 0.3 ? user.id : undefined,
   is_payer: i == 0,

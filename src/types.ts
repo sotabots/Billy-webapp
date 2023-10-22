@@ -21,6 +21,7 @@ type TTransaction = {
 }
 
 type TShare = {
+  person_id: string
   normalized_name?: string // may be missing if a new user is selected
   is_payer: boolean // paid or owed
   amount: number

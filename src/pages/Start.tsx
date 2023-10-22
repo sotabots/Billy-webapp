@@ -11,11 +11,18 @@ import UserRelation from '../kit/UserRelation'
 
 import { useUsers } from '../hooks/useUsers'
 import { useStore } from '../store'
+import { TShare } from '../types'
 
 function Start() {
   const navigate = useNavigate()
   const { transaction, setSelectUserIndex } = useStore()
   const { unrelatedUsers, isRelationsComplete } = useUsers()
+
+  // deduplicate by person_id
+  const deduplicatedShares = transaction.shares.reduce((acc, share) => {
+    const prevPersonIds = acc.map(acc => acc.person_id)
+    return prevPersonIds.includes(share.person_id) ? acc : [...acc, share]
+  }, [] as TShare[])
 
   const onSelect = (i: number) => {
     setSelectUserIndex(i)
@@ -28,7 +35,7 @@ function Start() {
   }
 
   const closeApp = () => {
-    alert('close webapp...')
+    alert('close webapp...') // todo: close
   }
 
   return (
@@ -54,14 +61,14 @@ function Start() {
           <h2>Соотнесите людей</h2>
           <div className="mt-1 text-[14px] leading-[20px] text-hint">Со временем мы запомним соотношения</div>
           <div className="mt-2 -mx-4 overflow-y-auto">
-            {transaction.shares.map((share, i) => (
+            {deduplicatedShares.map((share, i) => (
               <div key={`UserRelation-Divider-${i}`}>
                 <UserRelation
                   key={`UserRelation-${i}`}
                   {...share}
                   onClick={() => onSelect(i)}
                 />
-                {i < transaction.shares.length - 1 && <Divider key={`Divider-${i}`} />}
+                {i < deduplicatedShares.length - 1 && <Divider key={`Divider-${i}`} />}
               </div>
             ))}
           </div>

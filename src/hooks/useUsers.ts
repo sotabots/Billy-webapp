@@ -35,6 +35,7 @@ export const useUsers = () => {
       const newShares: TShare[] = [
         ...transaction.shares,
         {
+          person_id: '', // todo: check
           is_payer: false,
           amount: 0,
           related_user_id: user.id
