@@ -15,7 +15,7 @@ import { TShare } from '../types'
 
 function Start() {
   const navigate = useNavigate()
-  const { transaction, setSelectUserIndex } = useStore()
+  const { transaction, setSelectPersonId } = useStore()
   const { unrelatedUsers, isRelationsComplete } = useUsers()
 
   // deduplicate by person_id
@@ -24,13 +24,13 @@ function Start() {
     return prevPersonIds.includes(share.person_id) ? acc : [...acc, share]
   }, [] as TShare[])
 
-  const onSelect = (i: number) => {
-    setSelectUserIndex(i)
+  const onSelect = (personId: string) => {
+    setSelectPersonId(personId)
     navigate('/select-user')
   }
 
   const onAdd = () => {
-    setSelectUserIndex(null)
+    setSelectPersonId(null)
     navigate('/select-user')
   }
 
@@ -66,7 +66,7 @@ function Start() {
                 <UserRelation
                   key={`UserRelation-${i}`}
                   {...share}
-                  onClick={() => onSelect(i)}
+                  onClick={() => onSelect(share.person_id)}
                 />
                 {i < deduplicatedShares.length - 1 && <Divider key={`Divider-${i}`} />}
               </div>

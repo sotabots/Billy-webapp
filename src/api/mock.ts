@@ -85,7 +85,7 @@ const shares = mockUsers.slice(0, 4).map((user, i) => ({
   is_payer: i == 0,
   amount: Math.round(Math.random() * 1e2) * 10 ** decimals
 }))
-shares.push({
+shares.splice(1, 0, {
   ...shares[0],
   amount: shares[0].amount / 3,
   is_payer: false

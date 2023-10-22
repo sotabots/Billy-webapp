@@ -8,8 +8,8 @@ const isMock = true
 type TStore = {
   users: TUser[]
   setUsers: (users: TUser[]) => void
-  selectUserIndex: number | null
-  setSelectUserIndex: (i: number | null) => void
+  selectPersonId: string | null
+  setSelectPersonId: (i: string | null) => void
   currencies: TCurrency[]
   setCurrency: (currency: TCurrencyId) => void
   transaction: TTransaction,
@@ -21,8 +21,8 @@ type TStore = {
 const useStore = create<TStore>((set, get) => ({
   users: isMock ? mockUsers : [],
   setUsers: (users) => set({ users }),
-  selectUserIndex: null,
-  setSelectUserIndex: (selectUserIndex) => set({ selectUserIndex }),
+  selectPersonId: null,
+  setSelectPersonId: (selectPersonId) => set({ selectPersonId }),
   currencies: isMock ? mockCurrencies : [],
   currency: isMock ? mockCurrencies[0] : null,
   setCurrency: (currencyId) => {

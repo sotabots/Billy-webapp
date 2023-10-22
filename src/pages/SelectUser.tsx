@@ -9,10 +9,10 @@ import { useStore } from '../store'
 
 function Select() {
   const { users, unrelatedUsers, selectUser, deleteUser } = useUsers()
-  const { selectUserIndex, transaction } = useStore()
+  const { selectPersonId, transaction } = useStore()
 
-  const usersToShow = selectUserIndex !== null ? users : unrelatedUsers
-  const forName = selectUserIndex !== null ? transaction.shares[selectUserIndex]?.normalized_name : null
+  const usersToShow = selectPersonId !== null ? users : unrelatedUsers
+  const forName = selectPersonId !== null ? transaction.shares.find(share => share.person_id === selectPersonId)?.normalized_name : null
   const title = forName ? `Выберите, кто "${forName}"` : 'Выберите человека'
 
   return (
@@ -21,10 +21,10 @@ function Select() {
 
       <div className="mb-2 px-4 flex items-center justify-between gap-3">
         <h2 className="pt-[2px] pb-[6px]">{title}</h2>
-        {selectUserIndex !== null && (
+        {selectPersonId !== null && (
           <Button
             theme="text"
-            onClick={deleteUser(selectUserIndex)}
+            onClick={deleteUser(selectPersonId)}
           >
             Удалить
           </Button>

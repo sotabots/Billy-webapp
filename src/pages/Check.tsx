@@ -11,6 +11,7 @@ import { useStore } from '../store'
 import { feedback, EVENT } from '../feedback'
 import { patchTransaction } from '../api'
 import { formatAmount } from '../utils'
+import type { TShare } from '../types'
 
 function Check() {
   const navigate = useNavigate()
@@ -19,14 +20,20 @@ function Check() {
 
   const currency = currencies.find(currency => currency.id === transaction.currency_id)
 
-  const onChangeAmount = (id: number, amount: number) => {
-    const newShares = [...transaction.shares]
-    const foundIndex = newShares.findIndex(share => share.related_user_id === id)
-    newShares[foundIndex].amount = amount
-    setTransaction({
-      ...transaction,
-      shares: newShares
-    })
+  const changeAmount = (share: TShare, amount: number) => {
+    const shareIndex = transaction.shares.findIndex(s =>
+      s.person_id === share.person_id
+      && s.related_user_id === share.related_user_id
+      && s.is_payer === share.is_payer
+    )
+    if (~shareIndex) {
+      const updShares = [...transaction.shares]
+      updShares[shareIndex].amount = amount
+      setTransaction({
+        ...transaction,
+        shares: updShares
+      })
+    }
   }
 
   // todo: move out
@@ -117,12 +124,12 @@ function Check() {
         <h3>Заплатили</h3>
         <div className="mt-4 flex flex-col gap-3">
           {!payedShares.length && <span className="opacity-40">(Пусто)</span>}
-          {payedShares.map(share => (
+          {payedShares.map((share, shareIndex) => (
             <UserAmount
-              key={share.related_user_id}
+              key={`payer-share-${shareIndex}`}
               {...share}
               onChange={(value) => {
-                onChangeAmount(share.related_user_id!, value)
+                changeAmount(share, value)
               }}
             />
           ))}
@@ -143,12 +150,12 @@ function Check() {
         </div>
         <div className="mt-4 flex flex-col gap-3">
           {!oweShares.length && <span className="opacity-40">(Пусто)</span>}
-          {oweShares.map(share => (
+          {oweShares.map((share, shareIndex) => (
             <UserAmount
-              key={share.related_user_id!}
+              key={`owe-share-${shareIndex}`}
               {...share}
               onChange={(value) => {
-                onChangeAmount(share.related_user_id!, value)
+                changeAmount(share, value)
               }}
             />
           ))}
