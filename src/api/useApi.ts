@@ -31,7 +31,7 @@ export const useTxQuery = () => {
       queryKey: ['tx', `tx-${txId}`],
       queryFn: txId
         ? () =>
-          fetch(`${apiUrl}/transaction/${txId}`).then(
+          fetch(`${apiUrl}/transactions/${txId}`).then(
             (res) => res.json(),
           )
         : () => mockTransaction,
@@ -51,7 +51,7 @@ export const useUsersQuery = (chatId: undefined | string | null) => {
       queryKey: ['users', `chat-${chatId}`],
       queryFn: chatId
         ? () =>
-          fetch(`${apiUrl}/chat/${chatId}/users`).then(
+          fetch(`${apiUrl}/chats/${chatId}/users`).then(
             (res) => res.json(),
           )
         : () => mockUsers,
@@ -66,8 +66,8 @@ export const useUsersQuery = (chatId: undefined | string | null) => {
 }
 
 export const patchTransaction = (tx: TTransaction) =>
-  fetch(`${apiUrl}/posts/1`, {
-    method: 'PATCH',
+  fetch(`${apiUrl}/transactions/${tx._id}`, {
+    method: 'PUT',
     body: JSON.stringify(tx),
     headers: {
       "Content-type": "application/json"
