@@ -93,7 +93,7 @@ shares.splice(1, 0, {
 
 const mockTransaction: TTransaction = {
   _id: '1',
-  chat_id: '_',
+  chat_id: null,
   is_voice: true,
   raw_text: shares.map(share => `${share.normalized_name} ${share.is_payer ? 'заплатил' : 'должен'} ${(share.amount / 10 ** decimals).toFixed(0)}`).join(', '),
   // formatted_text: shares.map(share => `<b>${share.normalized_name}</b> ${share.is_payer ? 'заплатил' : 'должен'} ${share.amount}`).join(', '),

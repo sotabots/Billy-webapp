@@ -12,7 +12,7 @@ type TUser = { // tg user
 
 type TTransaction = {
   _id: string
-  chat_id: string
+  chat_id: string | null
   is_voice: boolean
   raw_text: string // shown if `formatted_text` does not exist
   formatted_text?: string // with <b>Name</b> highlighting

@@ -19,6 +19,10 @@ function Start() {
   const { transaction, setSelectPersonId } = useStore()
   const { unrelatedUsers, isRelationsComplete } = useUsers()
 
+  if (!transaction) {
+    return null
+  }
+
   // deduplicate by person_id
   const deduplicatedShares = transaction.shares.reduce((acc, share) => {
     const prevPersonIds = acc.map(acc => acc.person_id)

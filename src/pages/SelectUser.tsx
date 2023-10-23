@@ -13,7 +13,7 @@ function Select() {
   const { selectPersonId, transaction } = useStore()
 
   const usersToShow = selectPersonId !== null ? users : unrelatedUsers
-  const forName = selectPersonId !== null ? transaction.shares.find(share => share.person_id === selectPersonId)?.normalized_name : null
+  const forName = selectPersonId !== null ? (transaction?.shares || []).find(share => share.person_id === selectPersonId)?.normalized_name : null
   const title = forName ? `Выберите, кто "${forName}"` : 'Выберите человека'
 
   return (

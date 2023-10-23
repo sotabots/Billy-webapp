@@ -1,15 +1,21 @@
 import cx from 'classnames'
 
-import { useCurrenciesQuery } from '../api'
+import { useTxQuery, useUsersQuery } from '../api'
 import { useStore } from '../store'
 
 import Loader from './Loader'
+import { getTxid } from '../utils'
 
 function SplashScreen() {
-  const { isLoading: isCurrenciesLoading, error: currenciesError, /* success, data*/ } = useCurrenciesQuery()
+  // const { isLoading: isCurrenciesLoading, error: currenciesError, /* success, data*/ } = useCurrenciesQuery()
+  const txId = getTxid()
+  const { isLoading: isTxLoading, error: txError, data: tx } = useTxQuery(txId)
+  const { isLoading: isUsersLoading, error: usersError } = useUsersQuery(tx?.chat_id || null)
 
-  const isLoading = isCurrenciesLoading
-  const error = currenciesError
+
+
+  const isLoading = isTxLoading || isUsersLoading
+  const error = txError || usersError
 
   const { isSuccess } = useStore()
 

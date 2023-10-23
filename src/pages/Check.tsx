@@ -20,6 +20,10 @@ function Check() {
   const [isBusy, setIsBusy] = useState(false)
   const { currencies, transaction, setTransaction, setSuccess } = useStore()
 
+  if (!transaction) {
+    return null
+  }
+
   const currency = currencies.find(currency => currency.id === transaction.currency_id)
 
   const changeAmount = (share: TShare, amount: number) => {
