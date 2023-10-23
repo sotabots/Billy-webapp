@@ -49,7 +49,7 @@ const transliterate = (word: string) => {
 
 const generateUser = (_name: string): TUser => {
   return {
-    id: Math.round(Math.random() * 1e10),
+    _id: Math.round(Math.random() * 1e10),
     first_name: _name,
     last_name: _name,
     // fullName: (_name + ' ').repeat(2/*1 + Math.floor(Math.random() * 2)*/),
@@ -81,7 +81,7 @@ const mockUsers = _names.map(_name => generateUser(_name))
 const shares = mockUsers.slice(0, 4).map((user, i) => ({
   person_id: `Person${i}`,
   normalized_name: user._name,
-  related_user_id: Math.random() > 0.3 ? user.id : undefined,
+  related_user_id: Math.random() > 0.3 ? user._id : null,
   is_payer: i == 0,
   amount: Math.round(Math.random() * 1e2) * 10 ** decimals
 }))

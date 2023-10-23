@@ -7,28 +7,29 @@ export const useUsers = () => {
   const transactionShares = transaction?.shares || [] as TShare[]
 
   const usedUserIds = transactionShares.map(share => share.related_user_id)
-  const unrelatedUsers = users.filter(user => !usedUserIds.includes(user.id))
+  const unrelatedUsers = users.filter(user => !usedUserIds.includes(user._id))
 
   const isRelationsComplete = transactionShares.every(share => share.related_user_id)
 
   const getUserById = (userId: TUserId) => {
-    return users.find(user => user.id === userId)
+    return users.find(user => user._id === userId)
   }
 
   const selectUser = (user: TUser) => () => {
     if (selectPersonId !== null) { // change user
       const updShares: TShare[] = [...transactionShares]
-      const doubledUserIndex = updShares.findIndex(share => share.related_user_id === user.id)
+      const doubledUserIndex = updShares.findIndex(share => share.related_user_id === user._id)
       // set user
       for (let i = 0; i < updShares.length; i++) {
         if (updShares[i].person_id === selectPersonId) {
-          updShares[i].related_user_id = user.id
+          updShares[i].related_user_id = user._id
         }
       }
       // remove double only after setting
       if (~doubledUserIndex) {
         if (updShares[doubledUserIndex].normalized_name) {
-          delete updShares[doubledUserIndex].related_user_id // todo: check
+          // delete updShares[doubledUserIndex].related_user_id // todo: check
+          updShares[doubledUserIndex].related_user_id = null // todo: check
         } else {
           updShares.splice(doubledUserIndex, 1)
         }
@@ -46,7 +47,7 @@ export const useUsers = () => {
           person_id: `Person-added-${Math.round(Math.random() * 1e10)}`, // todo: check
           is_payer: false,
           amount: 0,
-          related_user_id: user.id
+          related_user_id: user._id
         }
       ]
       if (transaction) {

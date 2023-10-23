@@ -1,7 +1,7 @@
 type TUserId = number // tg id
 
 type TUser = { // tg user
-  id: TUserId
+  _id: TUserId
   username?: string // @username without @
   first_name: string
   last_name?: string
@@ -26,7 +26,7 @@ type TShare = {
   normalized_name?: string // may be missing if a new user is selected
   is_payer: boolean // paid or owed
   amount: number
-  related_user_id?: TUserId
+  related_user_id: TUserId | null
 }
 
 type TCurrencyId = string // 'RUB' | 'GEL' | 'TRY' | 'EUR'
