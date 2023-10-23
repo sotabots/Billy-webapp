@@ -51,9 +51,10 @@ export const useUsersQuery = (chatId: undefined | string | null) => {
       queryKey: ['users', `chat-${chatId}`],
       queryFn: chatId
         ? () =>
-          fetch(`${apiUrl}/chats/${chatId}/users`).then(
-            (res) => res.json(),
-          )
+          fetch(`${apiUrl}/chats/${chatId}/users`)
+            .then(
+              (res) => res.json(),
+          ).then(json => json.users)
         : () => mockUsers,
       onSuccess: (data) => {
         console.log('success users data', data)
