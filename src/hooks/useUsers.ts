@@ -4,7 +4,7 @@ import type { TUser, TUserId, TShare } from '../types'
 export const useUsers = () => {
   const { users, transaction, setTransaction, selectPersonId } = useStore()
 
-  const transactionShares = transaction ? transaction.shares : [] as TShare[]
+  const transactionShares = transaction?.shares || [] as TShare[]
 
   const usedUserIds = transactionShares.map(share => share.related_user_id)
   const unrelatedUsers = users.filter(user => !usedUserIds.includes(user.id))

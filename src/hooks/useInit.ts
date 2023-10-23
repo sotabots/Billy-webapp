@@ -8,8 +8,7 @@ export const useInit = () => {
 
   if (txId === undefined) {
     const queryParameters = new URLSearchParams(routerLocation.search)
-    const getTxid = queryParameters.get('txid')
-
-    setTxId(getTxid || null)
+    const txId = queryParameters.get('txid')
+    setTxId(txId || null)
   }
 }

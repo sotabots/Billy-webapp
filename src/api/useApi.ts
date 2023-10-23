@@ -12,7 +12,7 @@ export const useCurrenciesQuery = () => {
     useQuery<TCurrency[], Error>({
       queryKey: ['currencies'],
       queryFn: () =>
-        fetch(`${apiUrl}/users`).then(
+        fetch(`${apiUrl}/currencies`).then(
           (res) => res.json(),
         ),
       onSuccess: (data) => {
@@ -23,14 +23,15 @@ export const useCurrenciesQuery = () => {
   )
 }
 
-export const useTxQuery = (txId: string | null) => {
-  const { setTransaction } = useStore()
+export const useTxQuery = () => {
+  const { setTransaction, txId } = useStore()
+  console.log('useTxQuery txId', txId)
   return (
     useQuery<TTransaction, Error>({
       queryKey: ['tx', `tx-${txId}`],
       queryFn: txId
         ? () =>
-          fetch(`${apiUrl}/users`).then(
+          fetch(`${apiUrl}/transaction/${txId}`).then(
             (res) => res.json(),
           )
         : () => mockTransaction,
@@ -43,14 +44,14 @@ export const useTxQuery = (txId: string | null) => {
   )
 }
 
-export const useUsersQuery = (chatId: null | string) => {
+export const useUsersQuery = (chatId: undefined | string | null) => {
   const { setUsers } = useStore()
   return (
     useQuery<TUser[], Error>({
       queryKey: ['users', `chat-${chatId}`],
       queryFn: chatId
         ? () =>
-          fetch(`${apiUrl}/users`).then(
+          fetch(`${apiUrl}/chat/${chatId}/users`).then(
             (res) => res.json(),
           )
         : () => mockUsers,
