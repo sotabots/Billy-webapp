@@ -6,7 +6,7 @@ export const useInit = () => {
   const { txId, setTxId } = useStore()
   const routerLocation = useLocation()
 
-  if (!txId) {
+  if (txId === undefined) {
     const queryParameters = new URLSearchParams(routerLocation.search)
     const getTxid = queryParameters.get('txid')
 
