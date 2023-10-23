@@ -1,6 +1,6 @@
 import User from './User'
 import InputAmount from './InputAmount'
-import { useUsers } from '../hooks/useUsers'
+import { useUsers } from '../hooks'
 import { TShare } from '../types'
 
 type TUserAmount = TShare & {

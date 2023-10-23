@@ -6,8 +6,7 @@ import { QueryClient, QueryClientProvider } from '@tanstack/react-query'
 // import reactLogo from './assets/react.svg'
 // import viteLogo from '/vite.svg'
 
-
-import { useTheme } from './hooks/useTheme'
+import { useTheme } from './hooks'
 
 import Check from './pages/Check'
 import SelectUser from './pages/SelectUser'

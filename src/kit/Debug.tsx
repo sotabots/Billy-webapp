@@ -5,7 +5,7 @@ import { useStore } from '../store'
 function Debug() {
   const isEnabled = true
 
-  const { transaction, users } = useStore()
+  const { transaction, users, txId } = useStore()
 
   if (!isEnabled) {
     return null
@@ -15,6 +15,9 @@ function Debug() {
     <Panel className="mt-10 text-[12px] break-words opacity-40 overflow-x-auto">
       <h2>Debug</h2>
       <strong>href = </strong>{location.href}
+      <br />
+      <br />
+      <strong>txid = </strong>{String(txId)}
       <br />
       <br />
       <strong>transaction = </strong>

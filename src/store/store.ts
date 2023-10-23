@@ -6,6 +6,8 @@ import { mockCurrencies, mockUsers, mockTransaction } from '../api/mock'
 const isMock = true
 
 type TStore = {
+  txId: undefined | string | null
+  setTxId: (ixId: string | null) => void
   users: TUser[]
   setUsers: (users: TUser[]) => void
   selectPersonId: string | null
@@ -19,6 +21,8 @@ type TStore = {
 }
 
 const useStore = create<TStore>((set, get) => ({
+  txId: undefined,
+  setTxId: (txId) => set(({ txId })),
   users: isMock ? mockUsers : [],
   setUsers: (users) => set({ users }),
   selectPersonId: null,

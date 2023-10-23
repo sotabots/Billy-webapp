@@ -5,10 +5,12 @@ import Header from '../kit/Header'
 import RadioButton from '../kit/RadioButton'
 import Screen from '../kit/Screen'
 
+import { useInit } from '../hooks'
 import { TCurrencyId } from '../types'
 import { useStore } from '../store'
 
 function SelectCurrency() {
+  useInit()
   const navigate = useNavigate()
 
   const { currencies, transaction, setCurrency } = useStore()

@@ -1,6 +1,6 @@
 import { MouseEventHandler } from 'react'
 
-import { useUsers } from '../hooks/useUsers'
+import { useUsers } from '../hooks'
 import { TShare } from '../types'
 
 import User from './User'

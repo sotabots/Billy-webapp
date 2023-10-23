@@ -9,11 +9,12 @@ import Panel from '../kit/Panel'
 import Screen from '../kit/Screen'
 import UserRelation from '../kit/UserRelation'
 
-import { useUsers } from '../hooks/useUsers'
+import { useInit, useUsers } from '../hooks'
 import { useStore } from '../store'
 import { TShare } from '../types'
 
 function Start() {
+  useInit()
   const navigate = useNavigate()
   const { transaction, setSelectPersonId } = useStore()
   const { unrelatedUsers, isRelationsComplete } = useUsers()

@@ -4,10 +4,11 @@ import Header from '../kit/Header'
 import Screen from '../kit/Screen'
 import User from '../kit/User'
 
-import { useUsers } from '../hooks/useUsers'
+import { useInit, useUsers } from '../hooks'
 import { useStore } from '../store'
 
 function Select() {
+  useInit()
   const { users, unrelatedUsers, selectUser, deleteUser } = useUsers()
   const { selectPersonId, transaction } = useStore()
 
