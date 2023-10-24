@@ -7,14 +7,20 @@ import { mockTransaction, mockUsers } from './mock'
 const apiUrl = import.meta.env.VITE_API_URL
 const staleTime = 60 * 1000
 
+const handleJsonResponse = (res: any) => {
+  if (!res.ok) {
+    throw new Error(`Backend ${res.status}`);
+  }
+  return res.json()
+}
+
 export const useCurrenciesQuery = () => {
   return (
     useQuery<TCurrency[], Error>({
       queryKey: ['currencies'],
       queryFn: () =>
-        fetch(`${apiUrl}/currencies`).then(
-          (res) => res.json(),
-        ),
+        fetch(`${apiUrl}/currencies`)
+          .then(handleJsonResponse),
       onSuccess: (data) => {
         console.log('success currencies data', data)
       },
@@ -31,9 +37,8 @@ export const useTxQuery = () => {
       queryKey: ['tx', `tx-${txId}`],
       queryFn: txId
         ? () =>
-          fetch(`${apiUrl}/transactions/${txId}`).then(
-            (res) => res.json(),
-          )
+          fetch(`${apiUrl}/transactions/${txId}`)
+            .then(handleJsonResponse)
         : () => mockTransaction,
       onSuccess: (data) => {
         console.log('success tx data', data)
@@ -52,9 +57,8 @@ export const useUsersQuery = (chatId: undefined | string | null) => {
       queryFn: chatId
         ? () =>
           fetch(`${apiUrl}/chats/${chatId}/users`)
-            .then(
-              (res) => res.json(),
-          ).then(json => json.users)
+            .then(handleJsonResponse)
+            .then(json => json.users)
         : () => mockUsers,
       onSuccess: (data) => {
         console.log('success users data', data)

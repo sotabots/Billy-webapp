@@ -23,10 +23,10 @@ function SplashScreen() {
       isShown ? 'opacity-100' : 'pointer-events-none opacity-0'
     )}>
       <div className="flex items-center justify-center w-full min-h-full">
-        {isLoading && <Loader size={50} />}
+        {isLoading && !error && <Loader size={50} />}
         {!!error && (
           <div className="p-4 text-center text-[#c00]">
-            Ошибка: {error.message}
+            Error: {error.message}
           </div>
         )}
         {!!isSuccess && (
