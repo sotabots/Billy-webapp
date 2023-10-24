@@ -9,7 +9,10 @@ export const useUsers = () => {
   const usedUserIds = transactionShares.map(share => share.related_user_id)
   const unrelatedUsers = users.filter(user => !usedUserIds.includes(user._id))
 
-  const isRelationsComplete = transactionShares.every(share => share.related_user_id)
+  const isRelationsComplete = transactionShares.length > 1 && transactionShares.every(share =>
+      share.related_user_id &&
+      users.find(user => user._id === share.related_user_id)
+    )
 
   const getUserById = (userId: TUserId) => {
     return users.find(user => user._id === userId)
