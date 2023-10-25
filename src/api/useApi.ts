@@ -80,5 +80,5 @@ export const usePatchTransaction = () => {
       headers: {
         "Content-type": "application/json"
       },
-    })
+    }).then(handleJsonResponse)
 }

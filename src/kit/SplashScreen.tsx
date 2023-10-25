@@ -10,10 +10,10 @@ function SplashScreen() {
   const { isLoading: isTxLoading, error: txError, data: tx } = useTxQuery()
   const { isLoading: isUsersLoading, error: usersError } = useUsersQuery(!tx ? undefined : tx.chat_id)
 
-  const isLoading = isTxLoading || isUsersLoading
-  const error = txError || usersError
+  const { isSuccess, txPatchError } = useStore()
 
-  const { isSuccess } = useStore()
+  const isLoading = isTxLoading || isUsersLoading
+  const error = txError || usersError || txPatchError
 
   const isShown = isLoading || error || isSuccess
 
@@ -23,20 +23,15 @@ function SplashScreen() {
       isShown ? 'opacity-100' : 'pointer-events-none opacity-0'
     )}>
       <div className="flex items-center justify-center w-full min-h-full">
-        {isLoading && !error && <Loader size={50} />}
+        {isLoading && !error && !isSuccess && <Loader size={50} />}
         {!!error && (
-          <div className="p-4 text-center text-[#c00]">
+          <div className="p-4 text-center text-[#e00]">
             Error: {error.message}
           </div>
         )}
         {!!isSuccess && (
-          <div className="p-4 text-center text-button text-[24px]">
+          <div className="p-4 text-center text-button text-[24px] font-medium">
             Успешно!
-          </div>
-        )}
-        {isSuccess === false && (
-          <div className="p-4 text-center text-[#c00] text-[24px]">
-            Ошибка сохранения
           </div>
         )}
       </div>

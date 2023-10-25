@@ -18,7 +18,7 @@ function Check() {
   useInit()
   const navigate = useNavigate()
   const [isBusy, setIsBusy] = useState(false)
-  const { currencies, transaction, setTransaction, setSuccess } = useStore()
+  const { currencies, transaction, setTransaction, setSuccess, setTxPatchError } = useStore()
 
   const patchTransaction = usePatchTransaction()
 
@@ -86,22 +86,17 @@ function Check() {
     try {
       await feedback(EVENT.SEND_TRANSACTION)
       console.log(JSON.stringify(confirmedTransaction, null, 2))
-      const res = await patchTransaction(confirmedTransaction)
-      console.log('res', res)
-      const json = await res.json()
-      console.log('res json', json)
-      if (res.ok) {
-        setSuccess(true)
-        setTimeout(() => {
-          // eslint-disable-next-line @typescript-eslint/ban-ts-comment
-          // @ts-ignore
-          window?.Telegram?.WebApp?.close()
-        }, 2000)
-      } else {
-        setSuccess(false)
-      }
+      const resJson = await patchTransaction(confirmedTransaction)
+      console.log('patch res json', resJson)
+      setSuccess(true)
+      setTimeout(() => {
+        // eslint-disable-next-line @typescript-eslint/ban-ts-comment
+        // @ts-ignore
+        window?.Telegram?.WebApp?.close()
+      }, 2000)
     } catch (e) {
       setSuccess(false)
+      setTxPatchError(e as Error)
     } finally {
       setIsBusy(false)
     }

@@ -16,6 +16,8 @@ type TStore = {
   setTransaction: (transaction: TTransaction) => void
   isSuccess: boolean | null
   setSuccess: (val: boolean | null) => void
+  txPatchError: null | Error
+  setTxPatchError: (txPatchError: null | Error) => void
 }
 
 const useStore = create<TStore>((set, get) => ({
@@ -41,7 +43,9 @@ const useStore = create<TStore>((set, get) => ({
   transaction: undefined,
   setTransaction: (transaction) => set(({ transaction })),
   isSuccess: null,
-  setSuccess: (isSuccess) => set(({ isSuccess }))
+  setSuccess: (isSuccess) => set(({ isSuccess })),
+  txPatchError: null,
+  setTxPatchError: (txPatchError) => set(({ txPatchError })),
 }))
 
 
