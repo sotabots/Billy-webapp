@@ -28,7 +28,6 @@ const useStore = create<TStore>((set, get) => ({
   selectPersonId: null,
   setSelectPersonId: (selectPersonId) => set({ selectPersonId }),
   currencies: /*isMock ?*/ mockCurrencies/* : []*/, // todo
-  currency: /*isMock ?*/ mockCurrencies[0]/* : null*/, // todo: get from tx
   setCurrency: (currencyId) => {
     if (get().transaction === undefined) {
       return
