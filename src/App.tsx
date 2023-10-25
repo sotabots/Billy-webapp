@@ -60,7 +60,7 @@ function App() {
 
   return (
     <QueryClientProvider client={queryClient}>
-      <div className={cx(isDarkTheme ? 'theme-dark' : 'theme-light')}>
+      <div className={cx(isDarkTheme ? 'theme-dark dark' : 'theme-light')}>
         <RouterProvider router={router} />
         <SplashScreen />
         {txId === null && (
