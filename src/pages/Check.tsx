@@ -92,9 +92,11 @@ function Check() {
       console.log('res json', json)
       if (res.ok) {
         setSuccess(true)
-        // eslint-disable-next-line @typescript-eslint/ban-ts-comment
-        // @ts-ignore
-        window?.Telegram?.WebApp?.close()
+        setTimeout(() => {
+          // eslint-disable-next-line @typescript-eslint/ban-ts-comment
+          // @ts-ignore
+          window?.Telegram?.WebApp?.close()
+        }, 2000)
       } else {
         setSuccess(false)
       }
