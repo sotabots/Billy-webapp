@@ -10,7 +10,7 @@ import Screen from '../kit/Screen'
 import { useInit } from '../hooks'
 import { useStore } from '../store'
 import { feedback, EVENT } from '../feedback'
-import { patchTransaction } from '../api'
+import { usePatchTransaction } from '../api'
 import { formatAmount } from '../utils'
 import type { TShare } from '../types'
 
@@ -19,6 +19,8 @@ function Check() {
   const navigate = useNavigate()
   const [isBusy, setIsBusy] = useState(false)
   const { currencies, transaction, setTransaction, setSuccess } = useStore()
+
+  const patchTransaction = usePatchTransaction()
 
   if (!transaction) {
     return null

@@ -70,11 +70,15 @@ export const useUsersQuery = (chatId: undefined | string | null) => {
   )
 }
 
-export const patchTransaction = (tx: TTransaction) =>
-  fetch(`${apiUrl}/transactions/${tx._id}`, {
-    method: 'PUT',
-    body: JSON.stringify(tx),
-    headers: {
-      "Content-type": "application/json"
-    },
-  })
+export const usePatchTransaction = () => {
+  const { txId } = useStore()
+  const url = txId ? `${apiUrl}/transactions/${txId}` : 'https://jsonplaceholder.typicode.com/posts/1'
+  return (tx: TTransaction) =>
+    fetch(url, {
+      method: 'PUT',
+      body: JSON.stringify(tx),
+      headers: {
+        "Content-type": "application/json"
+      },
+    })
+}
