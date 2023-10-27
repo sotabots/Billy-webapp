@@ -104,7 +104,7 @@ function Check() {
 
   return (
     <Screen>
-      <Header onBack={() => { navigate('/') }}  />
+      <Header onBack={() => { navigate('/') }} />
 
       <div className="mb-2 px-4 flex items-center justify-between">
         <h2 className="pt-[2px] pb-[6px]">Проверить траты</h2>
