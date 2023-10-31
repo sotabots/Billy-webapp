@@ -2,7 +2,7 @@ import cx from 'classnames'
 import { useEffect } from 'react'
 import { createHashRouter, RouterProvider } from 'react-router-dom'
 import { QueryClient, QueryClientProvider } from '@tanstack/react-query'
-import { useExpand } from '@vkruglikov/react-telegram-web-app';
+import { useExpand, WebAppProvider } from '@vkruglikov/react-telegram-web-app';
 
 // import reactLogo from './assets/react.svg'
 // import viteLogo from '/vite.svg'
@@ -67,15 +67,21 @@ function App() {
   ])
 
   return (
-    <QueryClientProvider client={queryClient}>
-      <div className={cx(isDarkTheme ? 'theme-dark dark' : 'theme-light')}>
-        <RouterProvider router={router} />
-        <SplashScreen />
-        {txId === null && (
-          <div className="fixed top-0 width-auto left-[50%] -translate-x-[50%] px-4 py-[1px] text-[13px] leading-[1em] font-semibold bg-[#3a3] text-white rounded-b-md">Демо-режим</div>
-        )}
-      </div>
-    </QueryClientProvider>
+    <WebAppProvider
+      options={{
+        smoothButtonsTransition: true
+      }}
+    >
+      <QueryClientProvider client={queryClient}>
+        <div className={cx(isDarkTheme ? 'theme-dark dark' : 'theme-light')}>
+          <RouterProvider router={router} />
+          <SplashScreen />
+          {txId === null && (
+            <div className="fixed top-0 width-auto left-[50%] -translate-x-[50%] px-4 py-[1px] text-[13px] leading-[1em] font-semibold bg-[#3a3] text-white rounded-b-md">Демо-режим</div>
+          )}
+        </div>
+      </QueryClientProvider>
+    </WebAppProvider>
   )
 }
 
