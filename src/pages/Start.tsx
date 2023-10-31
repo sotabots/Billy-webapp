@@ -91,16 +91,15 @@ function Start() {
             </button>
           )}
         </div>
-        <div className="mt-8 py-2">
-          <Button
-            isBottom
-            disabled={!isRelationsComplete}
-            onClick={() => { navigate('/check') }}
-          >
-            Далее
-          </Button>
-        </div>
       </Panel>
+
+      <Button
+        isBottom
+        disabled={!isRelationsComplete}
+        onClick={() => { navigate('/check') }}
+      >
+        Далее
+      </Button>
     </Screen>
   )
 }

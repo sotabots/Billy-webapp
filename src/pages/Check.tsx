@@ -165,18 +165,16 @@ function Check() {
             />
           ))}
         </div>
-
-        <div className="mt-8 py-2">
-          <Button
-            isBottom
-            onClick={save}
-            disabled={!isOk}
-            isBusy={isBusy}
-          >
-            Сохранить
-          </Button>
-        </div>
       </Panel>
+
+      <Button
+        isBottom
+        onClick={save}
+        disabled={!isOk}
+        isBusy={isBusy}
+      >
+        Сохранить
+      </Button>
     </Screen>
   )
 }
