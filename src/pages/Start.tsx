@@ -40,7 +40,9 @@ function Start() {
   }
 
   const closeApp = () => {
-    alert('close webapp...') // todo: close
+    // eslint-disable-next-line @typescript-eslint/ban-ts-comment
+    // @ts-ignore
+    window?.Telegram?.WebApp?.close()
   }
 
   return (
