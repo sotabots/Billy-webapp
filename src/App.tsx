@@ -28,7 +28,7 @@ function App() {
     if (!isExpanded) {
       expand()
     }
-  }, [isExpanded, expand])
+  }, [])
 
   const router = createHashRouter([
     {
