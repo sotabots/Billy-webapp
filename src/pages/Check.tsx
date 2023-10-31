@@ -51,7 +51,7 @@ function Check() {
   const oweSum = transaction.shares.filter(item => !item.is_payer).reduce((acc, item) => acc + item.amount, 0)
   const oweSumFormatted = formatAmount(oweSum)
 
-  const tolerance = 1
+  const tolerance = 5
   const isLacks = payedSum < oweSum - tolerance
   const isOk = Math.abs(payedSum - oweSum) <= tolerance
   const isOverdo = payedSum > oweSum + tolerance
