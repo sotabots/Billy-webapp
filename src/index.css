@@ -25,6 +25,25 @@ body {
   margin: 0 auto;
 }
 
+* {
+  --scrollbarBG: transparent;
+  --thumbBG: #ccc8;
+  scrollbar-width: thin;
+  scrollbar-color: var(--thumbBG) var(--scrollbarBG);
+}
+*::-webkit-scrollbar {
+  width: 6px;
+  height: 6px;
+}
+*::-webkit-scrollbar-track {
+  background: var(--scrollbarBG);
+}
+*::-webkit-scrollbar-thumb {
+  background-color: var(--thumbBG);
+  border-radius: 3px;
+  border: 2px solid var(--scrollbarBG);
+}
+
 h2 {
   font-size: 18px;
   line-height: 24px;
