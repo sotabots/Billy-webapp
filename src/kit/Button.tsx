@@ -2,6 +2,7 @@ import cx from 'classnames'
 import { MouseEventHandler } from 'react'
 import { MainButton, useWebApp } from '@vkruglikov/react-telegram-web-app'
 
+import { useSplash } from '../hooks'
 import Loader from './Loader'
 
 type TButton = {
@@ -15,14 +16,18 @@ type TButton = {
 
 function Button({ theme = 'default', isBottom, text, disabled, isBusy, onClick }: TButton) {
   const webApp = useWebApp()
-
+  const { isSplash } = useSplash()
   if (isBottom && webApp.platform !== 'unknown') {
+    if (isSplash) {
+      return null
+    }
     return (
       <MainButton
         text={text}
         disabled={disabled}
         progress={isBusy}
-        onClick={onClick}
+        color={disabled ? '#888888' : undefined}
+        onClick={disabled ? undefined : onClick}
     />)
   }
 

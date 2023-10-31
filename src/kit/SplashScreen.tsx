@@ -1,26 +1,15 @@
 import cx from 'classnames'
 
-import { useTxQuery, useUsersQuery } from '../api'
-import { useStore } from '../store'
-
+import { useSplash } from '../hooks'
 import Loader from './Loader'
 
 function SplashScreen() {
-  // const { isLoading: isCurrenciesLoading, error: currenciesError, /* success, data*/ } = useCurrenciesQuery()
-  const { isLoading: isTxLoading, error: txError, data: tx } = useTxQuery()
-  const { isLoading: isUsersLoading, error: usersError } = useUsersQuery(!tx ? undefined : tx.chat_id)
-
-  const { isSuccess, txPatchError } = useStore()
-
-  const isLoading = isTxLoading || isUsersLoading
-  const error = txError || usersError || txPatchError
-
-  const isShown = isLoading || error || isSuccess
+  const { isSplash, isLoading, error, isSuccess } = useSplash()
 
   return (
     <div className={cx(
       'fixed top-0 left-0 w-full h-full overflow-y-auto bg-bg2 transition-all',
-      isShown ? 'opacity-100' : 'pointer-events-none opacity-0'
+      isSplash ? 'opacity-100' : 'pointer-events-none opacity-0'
     )}>
       <div className="flex items-center justify-center w-full min-h-full">
         {isLoading && !error && !isSuccess && <Loader size={50} />}
