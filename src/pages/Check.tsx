@@ -93,7 +93,7 @@ function Check() {
         // eslint-disable-next-line @typescript-eslint/ban-ts-comment
         // @ts-ignore
         window?.Telegram?.WebApp?.close()
-      }, 2000)
+      }, 1800)
     } catch (e) {
       setSuccess(false)
       setTxPatchError(e as Error)
