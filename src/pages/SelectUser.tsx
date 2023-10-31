@@ -25,10 +25,9 @@ function Select() {
         {selectPersonId !== null && (
           <Button
             theme="text"
+            text="Удалить"
             onClick={deleteUser(selectPersonId)}
-          >
-            Удалить
-          </Button>
+          />
         )}
       </div>
 

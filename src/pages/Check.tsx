@@ -110,10 +110,9 @@ function Check() {
         <h2 className="pt-[2px] pb-[6px]">Проверить траты</h2>
         <Button
           theme="text"
+          text={currency ? currency.in : 'Выберите валюту'}
           onClick={() => { navigate('/select-currency') }}
-        >
-          {currency ? currency.in : 'Выберите валюту'}
-        </Button>
+        />
       </div>
 
       <Panel className="!pb-4">
@@ -147,10 +146,9 @@ function Check() {
           {!!oweShares.length && (!isEquallyOwe || !isOk) && (
             <Button
               theme="text"
+              text="Поровну"
               onClick={setEqually}
-            >
-              Поровну
-            </Button>
+            />
           )}
         </div>
         <div className="mt-4 flex flex-col gap-3">
@@ -169,12 +167,11 @@ function Check() {
 
       <Button
         isBottom
+        text="Сохранить"
         onClick={save}
         disabled={!isOk}
         isBusy={isBusy}
-      >
-        Сохранить
-      </Button>
+      />
     </Screen>
   )
 }

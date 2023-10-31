@@ -95,11 +95,10 @@ function Start() {
 
       <Button
         isBottom
+        text="Далее"
         disabled={!isRelationsComplete}
         onClick={() => { navigate('/check') }}
-      >
-        Далее
-      </Button>
+      />
     </Screen>
   )
 }
