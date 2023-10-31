@@ -91,6 +91,7 @@ function Start() {
         </div>
         <div className="mt-8 py-2">
           <Button
+            isBottom
             disabled={!isRelationsComplete}
             onClick={() => { navigate('/check') }}
           >

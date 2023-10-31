@@ -168,6 +168,7 @@ function Check() {
 
         <div className="mt-8 py-2">
           <Button
+            isBottom
             onClick={save}
             disabled={!isOk}
             isBusy={isBusy}
