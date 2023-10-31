@@ -1,7 +1,8 @@
 import cx from 'classnames'
+import { useEffect } from 'react'
 import { createHashRouter, RouterProvider } from 'react-router-dom'
-
 import { QueryClient, QueryClientProvider } from '@tanstack/react-query'
+import { useExpand } from '@vkruglikov/react-telegram-web-app';
 
 // import reactLogo from './assets/react.svg'
 // import viteLogo from '/vite.svg'
@@ -21,6 +22,13 @@ const queryClient = new QueryClient()
 function App() {
   const { isDarkTheme } = useTheme()
   const { txId } = useStore()
+
+  const [isExpanded, expand] = useExpand()
+  useEffect(() => {
+    if (!isExpanded) {
+      expand()
+    }
+  }, [isExpanded, expand])
 
   const router = createHashRouter([
     {
