@@ -1,3 +1,4 @@
+import { useHapticFeedback } from '@vkruglikov/react-telegram-web-app'
 import cx from 'classnames'
 import { useEffect } from 'react'
 import confetti from 'canvas-confetti'
@@ -8,6 +9,8 @@ import Loader from './Loader'
 function SplashScreen() {
   const { isSplash, isLoading, error, isSuccess } = useSplash()
 
+  const [, notificationOccurred] = useHapticFeedback()
+
   useEffect(() => {
     if (isSuccess) {
       confetti({
@@ -15,8 +18,17 @@ function SplashScreen() {
         spread: 70,
         origin: { y: 0.6 }
       })
+      console.log('success vibro')
+      notificationOccurred('success')
     }
-  }, [isSuccess])
+  }, [isSuccess, notificationOccurred])
+
+  useEffect(() => {
+    if (error) {
+      console.log('error vibro')
+      notificationOccurred('error')
+    }
+  }, [error, notificationOccurred])
 
   return (
     <div className={cx(

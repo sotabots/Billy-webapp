@@ -1,3 +1,4 @@
+import { useHapticFeedback } from '@vkruglikov/react-telegram-web-app'
 import { useNavigate } from 'react-router-dom'
 
 import { ReactComponent as Plus } from '../img/plus.svg'
@@ -18,6 +19,7 @@ function Start() {
   const navigate = useNavigate()
   const { transaction, setSelectPersonId } = useStore()
   const { unrelatedUsers, isRelationsComplete } = useUsers()
+  const [impactOccurred] = useHapticFeedback()
 
   if (!transaction) {
     return null
@@ -31,11 +33,15 @@ function Start() {
 
   const onSelect = (personId: string) => {
     setSelectPersonId(personId)
+    console.log('onSelect vibro')
+    impactOccurred('light')
     navigate('/select-user')
   }
 
   const onAdd = () => {
     setSelectPersonId(null)
+    console.log('onAdd vibro')
+    impactOccurred('light')
     navigate('/select-user')
   }
 

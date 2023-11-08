@@ -1,8 +1,11 @@
+import { useHapticFeedback } from '@vkruglikov/react-telegram-web-app'
+
 import { useStore } from '../store'
 import type { TUser, TUserId, TShare } from '../types'
 
 export const useUsers = () => {
   const { users, transaction, setTransaction, selectPersonId } = useStore()
+  const [impactOccurred, , selectionChanged] = useHapticFeedback()
 
   const transactionShares = transaction?.shares || [] as TShare[]
 
@@ -60,6 +63,9 @@ export const useUsers = () => {
         })
       }
     }
+    console.log('selectUser vibro')
+    selectionChanged()
+    impactOccurred('light')
     history.back()
   }
 
@@ -71,6 +77,8 @@ export const useUsers = () => {
         shares: updShares
       })
     }
+    // console.log('deleteUser vibro')
+    // impactOccurred('rigid')
     history.back()
   }
 

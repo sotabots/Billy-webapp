@@ -1,3 +1,5 @@
+import { useHapticFeedback } from '@vkruglikov/react-telegram-web-app'
+import { useCallback } from 'react'
 import { useNavigate } from 'react-router-dom'
 
 import Divider from '../kit/Divider'
@@ -12,14 +14,17 @@ import { useStore } from '../store'
 function SelectCurrency() {
   useInit()
   const navigate = useNavigate()
-
   const { currencies, transaction, setCurrency } = useStore()
+  const [impactOccurred, , selectionChanged] = useHapticFeedback()
 
-  const onChange = (currencyId: TCurrencyId) => {
+  const onChange = useCallback((currencyId: TCurrencyId) => {
     setCurrency(currencyId)
+    console.log('SelectCurrency change vibro')
+    selectionChanged()
+    impactOccurred('medium')
     navigate('/check')
     // history.back()
-  }
+  }, [impactOccurred, selectionChanged, navigate, setCurrency])
 
   return (
     <Screen className="!bg-bg">
