@@ -1,10 +1,22 @@
 import cx from 'classnames'
+import { useEffect } from 'react'
+import confetti from 'canvas-confetti'
 
 import { useSplash } from '../hooks'
 import Loader from './Loader'
 
 function SplashScreen() {
   const { isSplash, isLoading, error, isSuccess } = useSplash()
+
+  useEffect(() => {
+    if (isSuccess) {
+      confetti({
+        particleCount: 100,
+        spread: 70,
+        origin: { y: 0.6 }
+      })
+    }
+  }, [isSuccess])
 
   return (
     <div className={cx(
