@@ -1,9 +1,11 @@
 import { useEffect } from 'react'
 import { useHapticFeedback } from '@vkruglikov/react-telegram-web-app'
 import cx from 'classnames'
+import Lottie from 'lottie-react'
 
 import { useSplash } from '../hooks'
 import Loader from './Loader'
+import lottieSuccess from '../assets/lottie-success.json'
 
 function SplashScreen() {
   const { isSplash, isLoading, error, isSuccess } = useSplash()
@@ -37,8 +39,8 @@ function SplashScreen() {
           </div>
         )}
         {!!isSuccess && (
-          <div className="p-4 text-center text-button text-[24px] font-medium">
-            Успешно!
+          <div className="w-[200px] h-[200px] p-4 text-center text-button text-[24px] font-medium">
+            <Lottie animationData={lottieSuccess} loop={false} />
           </div>
         )}
       </div>
