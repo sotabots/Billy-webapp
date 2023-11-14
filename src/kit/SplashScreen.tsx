@@ -1,7 +1,6 @@
+import { useEffect } from 'react'
 import { useHapticFeedback } from '@vkruglikov/react-telegram-web-app'
 import cx from 'classnames'
-import { useEffect } from 'react'
-import confetti from 'canvas-confetti'
 
 import { useSplash } from '../hooks'
 import Loader from './Loader'
@@ -13,11 +12,6 @@ function SplashScreen() {
 
   useEffect(() => {
     if (isSuccess) {
-      confetti({
-        particleCount: 100,
-        spread: 70,
-        origin: { y: 0.6 }
-      })
       console.log('success vibro')
       notificationOccurred('success')
     }
