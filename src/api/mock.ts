@@ -1,6 +1,6 @@
 import { TCurrency, TTransaction, TUser } from '../types'
 
-export const decimals = 4
+export const decimals = 0 // todo: 4
 export const visible_decimals = 2
 
 const mockCurrencies: TCurrency[] = [
