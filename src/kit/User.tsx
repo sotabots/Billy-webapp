@@ -8,13 +8,10 @@ type TProps = {
 }
 
 function User({ user, size = 40 }: TProps) {
-  const fullName = [
-    ...(user?.first_name ? [user.first_name] : []),
-    ...(user?.last_name ? [user.last_name] : []),
-  ].join(' ')
+
   return (
     <div className="w-full flex gap-2 items-center truncate">
-      <Avatar url={user?.profile_photo} size={size} fullName={fullName} />
+      <Avatar user={user} size={size} />
       <div className="flex flex-col -gap-0.5 flex-1 text-left truncate text-[16px] leading-[20px]">
         {!user ? (
           <div className="text-hint truncate">(выберите)</div>

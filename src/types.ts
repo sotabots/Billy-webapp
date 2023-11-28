@@ -5,7 +5,7 @@ type TUser = { // tg user
   username?: string // @username without @
   first_name: string
   last_name?: string
-  profile_photo?: string // avatar url
+  profile_photo: string | null // avatar url
 
   _name?: string // not used, only for mock, will be removed
 }
