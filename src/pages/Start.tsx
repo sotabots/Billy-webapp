@@ -25,7 +25,7 @@ function Start() {
     return null
   }
 
-  const isEmptyTx = true || !transaction?.formatted_text && !transaction?.raw_text
+  const isEmptyTx = !transaction?.formatted_text && !transaction?.raw_text
 
   // deduplicate by person_id
   const deduplicatedShares = transaction.shares.reduce((acc, share) => {
