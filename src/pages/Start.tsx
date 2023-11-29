@@ -25,6 +25,8 @@ function Start() {
     return null
   }
 
+  const isEmptyTx = true || !transaction?.formatted_text && !transaction?.raw_text
+
   // deduplicate by person_id
   const deduplicatedShares = transaction.shares.reduce((acc, share) => {
     const prevPersonIds = acc.map(acc => acc.person_id)
@@ -55,24 +57,28 @@ function Start() {
     <Screen>
       <Header onCancel={closeApp} />
 
-      <Panel>
-        <div className="text-[12px] leading-[1.33em] font-medium text-hint">Сообщение</div>
-        <div className="mt-1">
-          {!!transaction.is_voice && (
-            <span>🎙&nbsp;</span>
-          )}
-          {transaction.formatted_text ? (
-            <HTMLTagRenderer allowedTags={['b', 'strong']} string={transaction.formatted_text} />
-          ) : (
-            <strong>{transaction.raw_text}</strong>
-          )}
-        </div>
-      </Panel>
+      {!isEmptyTx && (
+        <Panel>
+          <div className="text-[12px] leading-[1.33em] font-medium text-hint">Сообщение</div>
+          <div className="mt-1">
+            {!!transaction.is_voice && (
+              <span>🎙&nbsp;</span>
+            )}
+            {transaction.formatted_text ? (
+              <HTMLTagRenderer allowedTags={['b', 'strong']} string={transaction.formatted_text} />
+            ) : (
+              <strong>{transaction.raw_text}</strong>
+            )}
+          </div>
+        </Panel>
+      )}
 
       <Panel>
         <div>
-          <h2>Соотнесите людей</h2>
-          <div className="mt-1 text-[14px] leading-[20px] text-hint">Со временем мы запомним соотношения</div>
+          <h2>{isEmptyTx ? 'Добавьте людей' : 'Соотнесите людей'}</h2>
+          {!isEmptyTx && (
+            <div className="mt-1 text-[14px] leading-[20px] text-hint">Со временем мы запомним соотношения</div>
+          )}
           <div className="mt-2 -mx-4 overflow-y-auto">
             {deduplicatedShares.map((share, i) => (
               <div key={`UserRelation-Divider-${i}`}>
