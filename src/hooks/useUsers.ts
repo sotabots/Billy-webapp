@@ -46,15 +46,25 @@ export const useUsers = () => {
           shares: updShares
         })
       }
-    } else { // add user
+    }
+    console.log('selectUser vibro')
+    selectionChanged()
+    impactOccurred('light')
+    history.back()
+  }
+
+  const addUsers = (users: TUser[]) => () => {
+    if (selectPersonId === null) { // add user
       const updShares: TShare[] = [
         ...transactionShares,
-        {
-          person_id: `Person-added-${Math.round(Math.random() * 1e10)}`, // todo: check
-          is_payer: false,
-          amount: 0,
-          related_user_id: user._id
-        }
+        ...users.map(user => (
+          {
+            person_id: `Person-added-${Math.round(Math.random() * 1e10)}`, // todo: check
+            is_payer: false,
+            amount: 0,
+            related_user_id: user._id
+          }
+        ))
       ]
       if (transaction) {
         setTransaction({
@@ -82,5 +92,5 @@ export const useUsers = () => {
     history.back()
   }
 
-  return { users, unrelatedUsers, isRelationsComplete, getUserById, selectUser, deleteUser }
+  return { users, unrelatedUsers, isRelationsComplete, getUserById, addUsers, selectUser, deleteUser }
 }

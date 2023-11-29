@@ -9,12 +9,14 @@ import { useStore } from '../store'
 
 function Select() {
   useInit()
-  const { users, unrelatedUsers, selectUser, deleteUser } = useUsers()
+  const { users, unrelatedUsers, addUsers, selectUser, deleteUser } = useUsers()
   const { selectPersonId, transaction } = useStore()
 
   const usersToShow = selectPersonId !== null ? users : unrelatedUsers
   const forName = selectPersonId !== null ? (transaction?.shares || []).find(share => share.person_id === selectPersonId)?.normalized_name : null
-  const title = forName ? `Выберите, кто "${forName}"` : 'Выберите человека'
+  const title = selectPersonId !== null
+    ? (forName ? `Выберите, кто "${forName}"` : 'Выберите')
+    : 'Добавить человека'
 
   return (
     <Screen className="!bg-bg">
@@ -29,12 +31,19 @@ function Select() {
             onClick={deleteUser(selectPersonId)}
           />
         )}
+        {selectPersonId === null && usersToShow.length > 1 && (
+          <Button
+            theme="text"
+            text="Добавить всех"
+            onClick={addUsers(usersToShow)}
+          />
+        )}
       </div>
 
       <div className="mt-4 overflow-y-auto">
         {usersToShow.map((user, i, arr) => (
           <>
-            <button className="w-full px-4 py-2 hover:bg-text/5 active:bg-text/10 transition-all" onClick={selectUser(user)}>
+            <button className="w-full px-4 py-2 hover:bg-text/5 active:bg-text/10 transition-all" onClick={selectPersonId !== null ? selectUser(user) : addUsers([user])}>
               <User user={user} />
             </button>
             {i < arr.length - 1 && <Divider key={`Divider-${i}`} />}
