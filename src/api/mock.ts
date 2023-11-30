@@ -1,42 +1,5 @@
-import { TCurrency, TTransaction, TUser } from '../types'
-
-export const decimals = 0 // todo: 4
-export const visible_decimals = 2
-
-const mockCurrencies: TCurrency[] = [
-  {
-    id: 'RUB',
-    title: 'Рубль',
-    symbol: '₽',
-    in: 'В рублях',
-    decimals,
-    visible_decimals
-  },
-  {
-    id: 'GEL',
-    title: 'Лари',
-    symbol: '₾',
-    in: 'В лари',
-    decimals,
-    visible_decimals
-  },
-  {
-    id: 'TRY',
-    title: 'Лира',
-    symbol: '₺',
-    in: 'В лирах',
-    decimals,
-    visible_decimals
-  },
-  {
-    id: 'EUR',
-    title: 'Евро',
-    symbol: '€',
-    in: 'В евро',
-    decimals,
-    visible_decimals
-  },
-]
+import { TTransaction, TUser } from '../types'
+import { mockCurrencies, decimals, visible_decimals } from './mockCurrencies'
 
 const transliterate = (word: string) => {
   const a = {"Ё":"YO","Й":"I","Ц":"TS","У":"U","К":"K","Е":"E","Н":"N","Г":"G","Ш":"SH","Щ":"SCH","З":"Z","Х":"H","Ъ":"","ё":"yo","й":"i","ц":"ts","у":"u","к":"k","е":"e","н":"n","г":"g","ш":"sh","щ":"sch","з":"z","х":"h","ъ":"","Ф":"F","Ы":"I","В":"V","А":"A","П":"P","Р":"R","О":"O","Л":"L","Д":"D","Ж":"ZH","Э":"E","ф":"f","ы":"i","в":"v","а":"a","п":"p","р":"r","о":"o","л":"l","д":"d","ж":"zh","э":"e","Я":"Ya","Ч":"CH","С":"S","М":"M","И":"I","Т":"T","Ь":"","Б":"B","Ю":"YU","я":"ya","ч":"ch","с":"s","м":"m","и":"i","т":"t","ь":"","б":"b","ю":"yu"}
@@ -105,5 +68,7 @@ const mockTransaction: TTransaction = {
 export {
   mockUsers,
   mockTransaction,
-  mockCurrencies
+  mockCurrencies,
+  decimals, // todo: remove
+  visible_decimals // todo: remove
 }
