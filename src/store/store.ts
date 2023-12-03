@@ -1,8 +1,6 @@
 import { create } from 'zustand'
 import { TCurrency, TCurrencyId, TTransaction, TUser } from './../types'
 
-import { mockCurrencies } from '../api/mock'
-
 type TStore = {
   txId: undefined | string | null
   setTxId: (ixId: string | null) => void
@@ -11,6 +9,7 @@ type TStore = {
   selectPersonId: string | null
   setSelectPersonId: (i: string | null) => void
   currencies: TCurrency[]
+  setCurrencies: (currencies: TCurrency[]) => void
   setCurrency: (currency: TCurrencyId) => void
   transaction: undefined | TTransaction,
   setTransaction: (transaction: TTransaction) => void
@@ -27,7 +26,8 @@ const useStore = create<TStore>((set, get) => ({
   setUsers: (users) => set({ users }),
   selectPersonId: null,
   setSelectPersonId: (selectPersonId) => set({ selectPersonId }),
-  currencies: /*isMock ?*/ mockCurrencies/* : []*/, // todo
+  currencies: [],
+  setCurrencies: (currencies) => set({ currencies }),
   setCurrency: (currencyId) => {
     if (get().transaction === undefined) {
       return

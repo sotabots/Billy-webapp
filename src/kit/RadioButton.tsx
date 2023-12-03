@@ -1,9 +1,10 @@
 import cx from 'classnames'
 import { TCurrencyId } from '../types'
+import { ReactNode } from 'react'
 
 type TRadioButton = {
   group: string,
-  label: string,
+  label: string | ReactNode,
   value: TCurrencyId,
   checked: boolean,
   onChange: (value: TCurrencyId) => void

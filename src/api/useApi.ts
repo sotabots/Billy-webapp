@@ -2,31 +2,16 @@ import { useQuery } from '@tanstack/react-query'
 
 import { useStore } from '../store'
 import { TCurrency, TTransaction, TUser } from '../types'
-import { mockTransaction, mockUsers } from './mock'
+import { mockTransaction, mockUsers, mockCurrencies } from './mock'
 
 const apiUrl = import.meta.env.VITE_API_URL
-const staleTime = 60 * 1000
+const staleTime = 5 * 60 * 1000
 
 const handleJsonResponse = (res: any) => {
   if (!res.ok) {
     throw new Error(`Backend ${res.status}`);
   }
   return res.json()
-}
-
-export const useCurrenciesQuery = () => {
-  return (
-    useQuery<TCurrency[], Error>({
-      queryKey: ['currencies'],
-      queryFn: () =>
-        fetch(`${apiUrl}/currencies`)
-          .then(handleJsonResponse),
-      onSuccess: (data) => {
-        console.log('success currencies data', data)
-      },
-      staleTime
-    })
-  )
 }
 
 export const useTxQuery = () => {
@@ -63,6 +48,27 @@ export const useUsersQuery = (chatId: undefined | string | null) => {
       onSuccess: (data) => {
         console.log('success users data', data)
         setUsers(data)
+      },
+      enabled: chatId !== undefined,
+      staleTime
+    })
+  )
+}
+
+export const useCurrenciesQuery = (chatId: undefined | string | null) => {
+  const { setCurrencies } = useStore()
+  return (
+    useQuery<TCurrency[], Error>({
+      queryKey: ['currencies'],
+      queryFn: (chatId || !!'DISABLE_MOCK_CURRENCIES')
+        ? () =>
+          fetch(`${apiUrl}/currencies`)
+            .then(handleJsonResponse)
+            .then(json => json.currencies)
+        : () => mockCurrencies,
+      onSuccess: (data) => {
+        console.log('success currencies data', data)
+        setCurrencies(data)
       },
       enabled: chatId !== undefined,
       staleTime

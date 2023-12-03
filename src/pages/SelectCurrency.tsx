@@ -38,7 +38,13 @@ function SelectCurrency() {
           <div key={`currencies-${currencyItem.id}`}>
             <RadioButton
               group="currencies"
-              label={`${currencyItem.symbol} ${currencyItem.title}`}
+              label={(
+                <>
+                  <span className="font-semibold">{currencyItem.symbol}</span>
+                  {' '}
+                  <span>{currencyItem.title}</span>
+                </>
+              )}
               key={`currencies-${currencyItem.id}`}
               value={currencyItem.id}
               checked={transaction?.currency_id === currencyItem.id}

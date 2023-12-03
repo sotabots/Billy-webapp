@@ -4,6 +4,8 @@ import Panel from './Panel'
 
 import { useStore } from '../store'
 
+const OPEN_DEBUG_RIGHT_CLICKS = 3
+
 function Debug() {
   const { transaction, users, txId } = useStore()
   const [n, setN] = useState(0)
@@ -20,7 +22,7 @@ function Debug() {
   }, [listener])
 
   return (
-    <div className={cx(n < 5 && 'h-0 overflow-hidden')}>
+    <div className={cx(n < OPEN_DEBUG_RIGHT_CLICKS && 'h-0 overflow-hidden')}>
       <Panel className="mt-10 text-[12px] break-words opacity-40 overflow-x-auto">
         <h2>Debug</h2>
         <strong>href = </strong>{location.href}
