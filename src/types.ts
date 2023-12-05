@@ -36,8 +36,6 @@ type TCurrency = {
   title: string, // 'Euro'
   symbol: string, // '€'
   in: string // 'In Euros'
-  decimals: number // `4` usually
-  visible_decimals: number // `2` usually
 }
 
 export type { TCurrencyId, TCurrency, TUser, TUserId, TShare, TTransaction }

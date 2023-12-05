@@ -1,12 +1,14 @@
 import cx from 'classnames'
 import { useState } from 'react'
 import { useNavigate } from 'react-router-dom'
+
 import Button from '../kit/Button'
 import Header from '../kit/Header'
 import UserAmount from '../kit/UserAmount'
 import Panel from '../kit/Panel'
 import Screen from '../kit/Screen'
 
+import { TOLERANCE, decimals } from '../const'
 import { useInit } from '../hooks'
 import { useStore } from '../store'
 import { feedback, EVENT } from '../feedback'
@@ -51,10 +53,9 @@ function Check() {
   const oweSum = transaction.shares.filter(item => !item.is_payer).reduce((acc, item) => acc + item.amount, 0)
   const oweSumFormatted = formatAmount(oweSum)
 
-  const tolerance = 5
-  const isLacks = payedSum < oweSum - tolerance
-  const isOk = Math.abs(payedSum - oweSum) <= tolerance
-  const isOverdo = payedSum > oweSum + tolerance
+  const isLacks = payedSum < oweSum - TOLERANCE
+  const isOk = Math.abs(payedSum - oweSum) <= TOLERANCE
+  const isOverdo = payedSum > oweSum + TOLERANCE
 
   const payedShares = transaction.shares.filter(share => share.related_user_id && share.is_payer)
   const oweShares = transaction.shares.filter(share => share.related_user_id && !share.is_payer)
@@ -66,7 +67,7 @@ function Check() {
   const isEquallyOwe = oweShares.every(share => share.amount === oweShares[0].amount)
 
   const setEqually = () => {
-    const newAmount = Math.round(payedSum / oweShares.length)
+    const newAmount = parseFloat((payedSum / oweShares.length).toFixed(decimals))
     const newShares = [...transaction.shares]
     setTransaction({
       ...transaction,

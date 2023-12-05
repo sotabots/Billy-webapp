@@ -2,7 +2,7 @@ import type { ChangeEvent } from 'react'
 import { useEffect, useState } from 'react'
 
 import { formatAmount, unformatAmount } from '../utils'
-import { visible_decimals } from '../api/mock'
+import { visible_decimals } from '../const'
 
 type TInputAmount = {
   amount: number

@@ -1,5 +1,7 @@
 import { TTransaction, TUser } from '../types'
-import { mockCurrencies, decimals, visible_decimals } from './mockCurrencies'
+import { mockCurrencies } from './mockCurrencies'
+
+import { decimals } from '../const'
 
 const transliterate = (word: string) => {
   const a = {"Ё":"YO","Й":"I","Ц":"TS","У":"U","К":"K","Е":"E","Н":"N","Г":"G","Ш":"SH","Щ":"SCH","З":"Z","Х":"H","Ъ":"","ё":"yo","й":"i","ц":"ts","у":"u","к":"k","е":"e","н":"n","г":"g","ш":"sh","щ":"sch","з":"z","х":"h","ъ":"","Ф":"F","Ы":"I","В":"V","А":"A","П":"P","Р":"R","О":"O","Л":"L","Д":"D","Ж":"ZH","Э":"E","ф":"f","ы":"i","в":"v","а":"a","п":"p","р":"r","о":"o","л":"l","д":"d","ж":"zh","э":"e","Я":"Ya","Ч":"CH","С":"S","М":"M","И":"I","Т":"T","Ь":"","Б":"B","Ю":"YU","я":"ya","ч":"ch","с":"s","м":"m","и":"i","т":"t","ь":"","б":"b","ю":"yu"}
@@ -46,11 +48,12 @@ const shares = mockUsers.slice(0, 4).map((user, i) => ({
   normalized_name: user._name,
   related_user_id: Math.random() > 0.3 ? user._id : null,
   is_payer: i == 0,
-  amount: Math.round(Math.random() * 1e2) * 10 ** decimals
+  // amount: Math.round(Math.random() * 1e2) * 10 ** decimals
+  amount: parseFloat((Math.round(Math.random() * 1e4) / 10 ** decimals).toFixed(decimals))
 }))
 shares.splice(1, 0, {
   ...shares[0],
-  amount: shares[0].amount / 3,
+  amount: parseFloat((shares[0].amount / 3).toFixed(decimals)),
   is_payer: false
 })
 
@@ -58,7 +61,7 @@ const mockTransaction: TTransaction = {
   _id: '1',
   chat_id: null,
   is_voice: true,
-  raw_text: shares.map(share => `${share.normalized_name} ${share.is_payer ? 'заплатил' : 'должен'} ${(share.amount / 10 ** decimals).toFixed(0)}`).join(', '),
+  raw_text: shares.map(share => `${share.normalized_name} ${share.is_payer ? 'заплатил' : 'должен'} ${share.amount/* (share.amount / 10 ** decimals).toFixed(0)*/}` ).join(', '),
   // formatted_text: shares.map(share => `<b>${share.normalized_name}</b> ${share.is_payer ? 'заплатил' : 'должен'} ${share.amount}`).join(', '),
   shares,
   is_confirmed: false,
@@ -68,7 +71,5 @@ const mockTransaction: TTransaction = {
 export {
   mockUsers,
   mockTransaction,
-  mockCurrencies,
-  decimals, // todo: remove
-  visible_decimals // todo: remove
+  mockCurrencies
 }
