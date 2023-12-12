@@ -54,8 +54,10 @@ function Check() {
   const oweSumFormatted = formatAmount(oweSum)
 
   const isLacks = payedSum < oweSum - TOLERANCE
-  const isOk = Math.abs(payedSum - oweSum) <= TOLERANCE
+  const isBalanced = Math.abs(payedSum - oweSum) <= TOLERANCE
   const isOverdo = payedSum > oweSum + TOLERANCE
+
+  const isButtonDisabled = !isBalanced || !(payedSum > 0) || !(oweSum > 0)
 
   const payedShares = transaction.shares.filter(share => share.related_user_id && share.is_payer)
   const oweShares = transaction.shares.filter(share => share.related_user_id && !share.is_payer)
@@ -117,9 +119,9 @@ function Check() {
       </div>
 
       <Panel className="!pb-4">
-        <h3 className={cx(!isOk && 'text-error')}>
+        <h3 className={cx(!isBalanced && 'text-error')}>
           {isLacks && 'Не хватает'}
-          {isOk && 'Всё верно'}
+          {isBalanced && 'Всё верно'}
           {isOverdo && 'Перебор'}
         </h3>
         <div className="mt-1 text-[14px] leading-[20px] text-hint">Заплатили {payedSumFormatted} {currency?.symbol}, должны {oweSumFormatted} {currency?.symbol}</div>
@@ -144,7 +146,7 @@ function Check() {
       <Panel>
         <div className="flex items-center justify-between">
           <h3>За {isSelfPayers && <span>себя и за</span>} других</h3>
-          {!!oweShares.length && (!isEquallyOwe || !isOk) && (
+          {!!oweShares.length && (!isEquallyOwe || !isBalanced) && (
             <Button
               theme="text"
               text="Поровну"
@@ -170,7 +172,7 @@ function Check() {
         isBottom
         text="Сохранить"
         onClick={save}
-        disabled={!isOk}
+        disabled={isButtonDisabled}
         isBusy={isBusy}
       />
     </Screen>
