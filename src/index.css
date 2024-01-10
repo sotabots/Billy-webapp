@@ -65,6 +65,6 @@ button {
   margin-top: 8px;
 }
 
-strong {
+b, strong {
   font-weight: 500;
 }

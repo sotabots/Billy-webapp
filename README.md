@@ -1,4 +1,4 @@
-# 🗣🤖 Voisplit bot (tg webapp)
+# 🗣🤖 Calcoala webapp (tg bot soon)
 
 ## How to develop
 

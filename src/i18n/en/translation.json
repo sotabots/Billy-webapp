@@ -1,3 +1,18 @@
 {
-  "demoMode": "Demo mode"
+  "demoMode": "Demo mode",
+  "bot": "bot",
+  "cancel": "Cancel",
+  "back": "Back",
+  "delete": "Delete",
+  "addMore": "Add more",
+  "addEveryone": "Add everyone",
+  "next": "Next",
+  "save": "Save",
+  "paid": "paid",
+  "owes": "owes",
+  "select": "please select...",
+  "author": "author",
+  "added": "added",
+  "checkout": "Checkout",
+  "selectCurrency": "Select currency"
 }

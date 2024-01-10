@@ -1,5 +1,6 @@
 import cx from 'classnames'
 import { useState } from 'react'
+import { useTranslation } from 'react-i18next'
 import { useNavigate } from 'react-router-dom'
 
 import Button from '../kit/Button'
@@ -18,6 +19,7 @@ import type { TShare } from '../types'
 
 function Check() {
   useInit()
+  const { t } = useTranslation()
   const navigate = useNavigate()
   const [isBusy, setIsBusy] = useState(false)
   const { currencies, transaction, setTransaction, setSuccess, setTxPatchError } = useStore()
@@ -110,10 +112,10 @@ function Check() {
       <Header onBack={() => { navigate('/') }} />
 
       <div className="mb-2 px-4 flex items-center justify-between">
-        <h2 className="pt-[2px] pb-[6px]">Проверить траты</h2>
+        <h2 className="pt-[2px] pb-[6px]">{t('checkout')}</h2>
         <Button
           theme="text"
-          text={currency ? currency.in : 'Выберите валюту'}
+          text={currency ? currency.in : t('selectCurrency')}
           onClick={() => { navigate('/select-currency') }}
         />
       </div>
@@ -170,7 +172,7 @@ function Check() {
 
       <Button
         isBottom
-        text="Сохранить"
+        text={t("save")}
         onClick={save}
         disabled={isButtonDisabled}
         isBusy={isBusy}

@@ -6,7 +6,7 @@ import translationEn from './en/translation.json';
 import translationRu from './ru/translation.json';
 
 i18next.use(initReactI18next).init({
-  lng: 'test', // if you're using a language detector, do not define the lng option
+  lng: 'en', // if you're using a language detector, do not define the lng option
   fallbackLng: 'en',
   debug: true,
   resources: {
@@ -18,3 +18,5 @@ i18next.use(initReactI18next).init({
     },
   },
 });
+
+export default i18next;

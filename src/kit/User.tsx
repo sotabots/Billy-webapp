@@ -1,3 +1,5 @@
+import { useTranslation } from 'react-i18next'
+
 import Avatar from './Avatar'
 
 import { TUser } from '../types'
@@ -8,13 +10,14 @@ type TProps = {
 }
 
 function User({ user, size = 40 }: TProps) {
+  const { t } = useTranslation()
 
   return (
     <div className="w-full flex gap-2 items-center truncate">
       <Avatar user={user} size={size} />
       <div className="flex flex-col -gap-0.5 flex-1 text-left truncate text-[16px] leading-[20px]">
         {!user ? (
-          <div className="text-hint truncate">(выберите)</div>
+          <div className="text-hint truncate">({t('select')})</div>
         ) : (
           <>
             <div className="truncate">{user.first_name} {user.last_name}</div>

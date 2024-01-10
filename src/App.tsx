@@ -1,4 +1,4 @@
-import './i18n/config';
+import './i18n';
 import cx from 'classnames'
 import { useEffect } from 'react'
 import { createHashRouter, RouterProvider } from 'react-router-dom'

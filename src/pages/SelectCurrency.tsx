@@ -1,5 +1,6 @@
 import { useHapticFeedback } from '@vkruglikov/react-telegram-web-app'
 import { useCallback } from 'react'
+import { useTranslation } from 'react-i18next'
 import { useNavigate } from 'react-router-dom'
 
 import Divider from '../kit/Divider'
@@ -13,6 +14,7 @@ import { useStore } from '../store'
 
 function SelectCurrency() {
   useInit()
+  const { t } = useTranslation()
   const navigate = useNavigate()
   const { currencies, transaction, setCurrency } = useStore()
   const [impactOccurred, , selectionChanged] = useHapticFeedback()
@@ -31,7 +33,7 @@ function SelectCurrency() {
       <Header onBack={() => { history.back() }} />
 
       <div className="px-4">
-        <h2>Выберите валюту</h2>
+        <h2>{t('selectCurrency')}</h2>
       </div>
       <div className="mt-4 overflow-y-auto">
         {currencies.map((currencyItem, i) => (

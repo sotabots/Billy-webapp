@@ -1,3 +1,5 @@
+import { useTranslation } from 'react-i18next'
+
 import Button from '../kit/Button'
 import Divider from '../kit/Divider'
 import Header from '../kit/Header'
@@ -9,6 +11,7 @@ import { useStore } from '../store'
 
 function Select() {
   useInit()
+  const { t } = useTranslation()
   const { users, unrelatedUsers, addUsers, selectUser, deleteUser } = useUsers()
   const { selectPersonId, transaction } = useStore()
 
@@ -27,14 +30,14 @@ function Select() {
         {selectPersonId !== null && (
           <Button
             theme="text"
-            text="Удалить"
+            text={t('delete')}
             onClick={deleteUser(selectPersonId)}
           />
         )}
         {selectPersonId === null && usersToShow.length > 1 && (
           <Button
             theme="text"
-            text="Добавить всех"
+            text={t('addEveryone')}
             onClick={addUsers(usersToShow)}
           />
         )}

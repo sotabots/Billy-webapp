@@ -3,6 +3,8 @@ import { mockCurrencies } from './mockCurrencies'
 
 import { decimals } from '../const'
 
+import i18n from '../i18n'
+
 const transliterate = (word: string) => {
   const a = {"Ё":"YO","Й":"I","Ц":"TS","У":"U","К":"K","Е":"E","Н":"N","Г":"G","Ш":"SH","Щ":"SCH","З":"Z","Х":"H","Ъ":"","ё":"yo","й":"i","ц":"ts","у":"u","к":"k","е":"e","н":"n","г":"g","ш":"sh","щ":"sch","з":"z","х":"h","ъ":"","Ф":"F","Ы":"I","В":"V","А":"A","П":"P","Р":"R","О":"O","Л":"L","Д":"D","Ж":"ZH","Э":"E","ф":"f","ы":"i","в":"v","а":"a","п":"p","р":"r","о":"o","л":"l","д":"d","ж":"zh","э":"e","Я":"Ya","Ч":"CH","С":"S","М":"M","И":"I","Т":"T","Ь":"","Б":"B","Ю":"YU","я":"ya","ч":"ch","с":"s","м":"m","и":"i","т":"t","ь":"","б":"b","ю":"yu"}
   return word.split('').map(char => {
@@ -25,8 +27,9 @@ const generateUser = (_name: string): TUser => {
 }
 
 const generateName = () => {
-  // const names = ["Александр", "Дмитрий", "Максим", "Сергей", "Андрей", "Алексей", "Артём", "Илья", "Кирилл", "Михаил", "Никита", "Матвей", "Роман", "Егор", "Арсений", "Иван", "Денис", "Евгений", "Тимофей", "Владислав", "Игорь", "Владимир", "Павел", "Руслан", "Марк", "Константин", "Тимур", "Олег", "Ярослав", "Антон", "Николай", "Данил", "Анастасия", "Мария", "Анна", "Виктория", "Екатерина", "Наталья", "Марина", "Полина", "София", "Дарья", "Алиса", "Ксения", "Александра", "Елена"]
-  const names = ["Isabelle", "Louis", "Tariq", "Joyce", "Zaid", "Mary", "Rufus", "Ishaq", "Lucy", "Vinnie", "Amelie", "Jaydon", "Beth", "Zackary", "Scott", "Rhonda", "Gilbert", "Ayla", "Dale", "Moshe", "Jon", "Sylvie", "Grover", "Neil", "Lukas", "Amber", "Shreya", "Evan", "Lucinda", "Kareem", "Reid", "Owain", "Liberty", "Cordelia", "Tony", "Ophelia", "Maeve", "Yasir", "Gary", "Daniella", "Keira", "Umar", "Sally", "Oskar", "Lucia", "Dewi", "Bethany", "Marco", "Amna", "Micheal"]
+  const names = i18n.language === 'ru'
+    ? ["Александр", "Дмитрий", "Максим", "Сергей", "Андрей", "Алексей", "Артём", "Илья", "Кирилл", "Михаил", "Никита", "Матвей", "Роман", "Егор", "Арсений", "Иван", "Денис", "Евгений", "Тимофей", "Владислав", "Игорь", "Владимир", "Павел", "Руслан", "Марк", "Константин", "Тимур", "Олег", "Ярослав", "Антон", "Николай", "Данил", "Анастасия", "Мария", "Анна", "Виктория", "Екатерина", "Наталья", "Марина", "Полина", "София", "Дарья", "Алиса", "Ксения", "Александра", "Елена"]
+    : ["Isabelle", "Louis", "Tariq", "Joyce", "Zaid", "Mary", "Rufus", "Ishaq", "Lucy", "Vinnie", "Amelie", "Jaydon", "Beth", "Zackary", "Scott", "Rhonda", "Gilbert", "Ayla", "Dale", "Moshe", "Jon", "Sylvie", "Grover", "Neil", "Lukas", "Amber", "Shreya", "Evan", "Lucinda", "Kareem", "Reid", "Owain", "Liberty", "Cordelia", "Tony", "Ophelia", "Maeve", "Yasir", "Gary", "Daniella", "Keira", "Umar", "Sally", "Oskar", "Lucia", "Dewi", "Bethany", "Marco", "Amna", "Micheal"]
   return names[Math.floor(Math.random() * names.length)]
 }
 
@@ -62,8 +65,8 @@ const mockTransaction: TTransaction = {
   _id: '1',
   chat_id: null,
   is_voice: true,
-  raw_text: shares.map(share => `${share.normalized_name} ${share.is_payer ? 'заплатил' : 'должен'} ${share.amount/* (share.amount / 10 ** decimals).toFixed(0)*/}` ).join(', '),
-  // formatted_text: shares.map(share => `<b>${share.normalized_name}</b> ${share.is_payer ? 'заплатил' : 'должен'} ${share.amount}`).join(', '),
+  raw_text: shares.map(share => `${share.normalized_name} ${share.is_payer ? i18n.t('paid') : i18n.t('owes')} ${share.amount/* (share.amount / 10 ** decimals).toFixed(0)*/}` ).join(', '),
+  formatted_text: shares.map(share => `<b>${share.normalized_name}</b> ${share.is_payer ? i18n.t('paid') : i18n.t('owes')} ${share.amount}`).join(', '),
   shares,
   is_confirmed: false,
   currency_id: mockCurrencies[0]._id

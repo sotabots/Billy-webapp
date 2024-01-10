@@ -1,4 +1,5 @@
 import { MouseEventHandler } from 'react'
+import { useTranslation } from 'react-i18next'
 
 import { useUsers } from '../hooks'
 import { TShare } from '../types'
@@ -12,6 +13,7 @@ type TProps = TShare & {
 }
 
 function UserRelation({ normalized_name, related_user_id, onClick }: TProps) {
+  const { t } = useTranslation()
   const { getUserById } = useUsers()
   const user = related_user_id ? getUserById(related_user_id) : undefined
 
@@ -24,12 +26,12 @@ function UserRelation({ normalized_name, related_user_id, onClick }: TProps) {
         {normalized_name ? (
           <div className="truncate">
             {normalized_name === 'MESSAGE_AUTHOR'
-              ? <span className="font-semibold">Вы</span>
-              : <span>{normalized_name}</span>
+              ? <span className="opacity-30">({t('author')})</span>
+              : <span className="font-medium">{normalized_name}</span>
             }
           </div>
         ) : (
-          <div className="truncate opacity-30">(доп.)</div>
+          <div className="truncate opacity-30">({t('added')})</div>
         )}
       </div>
       <div className="flex w-[55%] truncate">

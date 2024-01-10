@@ -1,3 +1,4 @@
+import { useTranslation } from 'react-i18next'
 import { useHapticFeedback } from '@vkruglikov/react-telegram-web-app'
 import { useNavigate } from 'react-router-dom'
 
@@ -16,6 +17,7 @@ import { TShare } from '../types'
 
 function Start() {
   useInit()
+  const { t } = useTranslation()
   const navigate = useNavigate()
   const { transaction, setSelectPersonId } = useStore()
   const { unrelatedUsers, isRelationsComplete } = useUsers()
@@ -99,7 +101,7 @@ function Start() {
               <span className="h-6 w-6 flex items-center justify-center">
                 <Plus />
               </span>
-              <span>Добавить ещё</span>
+              <span>{t('addMore')}</span>
             </button>
           )}
         </div>
@@ -107,7 +109,7 @@ function Start() {
 
       <Button
         isBottom
-        text="Далее"
+        text={t('next')}
         disabled={!isRelationsComplete}
         onClick={() => { navigate('/check') }}
       />
