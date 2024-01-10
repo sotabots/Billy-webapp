@@ -60,7 +60,7 @@ export const useCurrenciesQuery = (chatId: undefined | string | null) => {
   return (
     useQuery<TCurrency[], Error>({
       queryKey: ['currencies'],
-      queryFn: (chatId || !!'DISABLE_MOCK_CURRENCIES')
+      queryFn: (chatId /*|| !!'DISABLE_MOCK_CURRENCIES'*/)
         ? () =>
           fetch(`${apiUrl}/currencies`)
             .then(handleJsonResponse)

@@ -8,7 +8,7 @@ const transliterate = (word: string) => {
   return word.split('').map(char => {
     // eslint-disable-next-line @typescript-eslint/ban-ts-comment
     // @ts-ignore
-    return a[char] || ''
+    return a[char] || char
   }).join('')
 }
 
@@ -25,7 +25,8 @@ const generateUser = (_name: string): TUser => {
 }
 
 const generateName = () => {
-  const names = ["Александр", "Дмитрий", "Максим", "Сергей", "Андрей", "Алексей", "Артём", "Илья", "Кирилл", "Михаил", "Никита", "Матвей", "Роман", "Егор", "Арсений", "Иван", "Денис", "Евгений", "Тимофей", "Владислав", "Игорь", "Владимир", "Павел", "Руслан", "Марк", "Константин", "Тимур", "Олег", "Ярослав", "Антон", "Николай", "Данил", "Анастасия", "Мария", "Анна", "Виктория", "Екатерина", "Наталья", "Марина", "Полина", "София", "Дарья", "Алиса", "Ксения", "Александра", "Елена"]
+  // const names = ["Александр", "Дмитрий", "Максим", "Сергей", "Андрей", "Алексей", "Артём", "Илья", "Кирилл", "Михаил", "Никита", "Матвей", "Роман", "Егор", "Арсений", "Иван", "Денис", "Евгений", "Тимофей", "Владислав", "Игорь", "Владимир", "Павел", "Руслан", "Марк", "Константин", "Тимур", "Олег", "Ярослав", "Антон", "Николай", "Данил", "Анастасия", "Мария", "Анна", "Виктория", "Екатерина", "Наталья", "Марина", "Полина", "София", "Дарья", "Алиса", "Ксения", "Александра", "Елена"]
+  const names = ["Isabelle", "Louis", "Tariq", "Joyce", "Zaid", "Mary", "Rufus", "Ishaq", "Lucy", "Vinnie", "Amelie", "Jaydon", "Beth", "Zackary", "Scott", "Rhonda", "Gilbert", "Ayla", "Dale", "Moshe", "Jon", "Sylvie", "Grover", "Neil", "Lukas", "Amber", "Shreya", "Evan", "Lucinda", "Kareem", "Reid", "Owain", "Liberty", "Cordelia", "Tony", "Ophelia", "Maeve", "Yasir", "Gary", "Daniella", "Keira", "Umar", "Sally", "Oskar", "Lucia", "Dewi", "Bethany", "Marco", "Amna", "Micheal"]
   return names[Math.floor(Math.random() * names.length)]
 }
 

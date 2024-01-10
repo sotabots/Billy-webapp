@@ -22,6 +22,7 @@
     "mixpanel-browser": "^2.47.0",
     "react": "^18.2.0",
     "react-dom": "^18.2.0",
+    "react-i18next": "^14.0.0",
     "react-router-dom": "^6.14.1",
     "tw-colors": "^1.2.6",
     "vite-plugin-checker": "^0.6.2",

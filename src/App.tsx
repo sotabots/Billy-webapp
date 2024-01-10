@@ -1,3 +1,4 @@
+import './i18n/config';
 import cx from 'classnames'
 import { useEffect } from 'react'
 import { createHashRouter, RouterProvider } from 'react-router-dom'
@@ -8,7 +9,6 @@ import { useExpand, WebAppProvider } from '@vkruglikov/react-telegram-web-app';
 // import viteLogo from '/vite.svg'
 
 import { useTheme } from './hooks'
-import { useStore } from './store'
 
 import Check from './pages/Check'
 import SelectUser from './pages/SelectUser'
@@ -16,12 +16,12 @@ import SelectCurrency from './pages/SelectCurrency'
 import Start from './pages/Start'
 
 import SplashScreen from './kit/SplashScreen'
+import DemoMode from './kit/DemoMode'
 
 const queryClient = new QueryClient()
 
 function App() {
   const { isDarkTheme } = useTheme()
-  const { txId } = useStore()
 
   const [isExpanded, expand] = useExpand()
   useEffect(() => {
@@ -76,9 +76,7 @@ function App() {
         <div className={cx(isDarkTheme ? 'theme-dark dark' : 'theme-light')}>
           <RouterProvider router={router} />
           <SplashScreen />
-          {txId === null && (
-            <div className="fixed top-0 width-auto left-[50%] -translate-x-[50%] px-4 py-[1px] text-[13px] leading-[1em] font-semibold bg-[#3a3] text-white rounded-b-md">Демо-режим</div>
-          )}
+          <DemoMode />
         </div>
       </QueryClientProvider>
     </WebAppProvider>
