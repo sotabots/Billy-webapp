@@ -28,7 +28,7 @@ function Check() {
     return null
   }
 
-  const currency = currencies.find(currency => currency.id === transaction.currency_id)
+  const currency = currencies.find(currency => currency._id === transaction.currency_id)
 
   const changeAmount = (share: TShare, amount: number) => {
     const shareIndex = transaction.shares.findIndex(s =>
@@ -57,7 +57,7 @@ function Check() {
   const isBalanced = Math.abs(payedSum - oweSum) <= TOLERANCE
   const isOverdo = payedSum > oweSum + TOLERANCE
 
-  const isButtonDisabled = !isBalanced || !(payedSum > 0) || !(oweSum > 0)
+  const isButtonDisabled = !isBalanced || !(payedSum > 0) || !(oweSum > 0) || !transaction.currency_id
 
   const payedShares = transaction.shares.filter(share => share.related_user_id && share.is_payer)
   const oweShares = transaction.shares.filter(share => share.related_user_id && !share.is_payer)

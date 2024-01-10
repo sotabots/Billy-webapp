@@ -11,7 +11,7 @@ export const useSplash = () => {
 
   const isLoading = isTxLoading || isUsersLoading || isCurrenciesLoading
   const unknownCurrencyError =
-    (tx?.currency_id && currencies.length && !currencies.find((currency) => currency.id === tx.currency_id))
+    (tx?.currency_id && currencies.length && !currencies.find((currency) => currency._id === tx.currency_id))
       ? new Error(`Unknown tx currency ${tx.currency_id}`)
       : null
   const error = txError || usersError || txPatchError || currenciesError || unknownCurrencyError

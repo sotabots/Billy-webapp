@@ -35,7 +35,7 @@ function SelectCurrency() {
       </div>
       <div className="mt-4 overflow-y-auto">
         {currencies.map((currencyItem, i) => (
-          <div key={`currencies-${currencyItem.id}`}>
+          <div key={`currencies-${currencyItem._id}`}>
             <RadioButton
               group="currencies"
               label={(
@@ -45,9 +45,9 @@ function SelectCurrency() {
                   <span>{currencyItem.title}</span>
                 </>
               )}
-              key={`currencies-${currencyItem.id}`}
-              value={currencyItem.id}
-              checked={transaction?.currency_id === currencyItem.id}
+              key={`currencies-${currencyItem._id}`}
+              value={currencyItem._id}
+              checked={transaction?.currency_id === currencyItem._id}
               onChange={onChange}
             />
             {i < currencies.length - 1 && <Divider key={`Divider-${i}`} />}

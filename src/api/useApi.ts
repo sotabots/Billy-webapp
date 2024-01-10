@@ -43,7 +43,7 @@ export const useUsersQuery = (chatId: undefined | string | null) => {
         ? () =>
           fetch(`${apiUrl}/chats/${chatId}/users`)
             .then(handleJsonResponse)
-            .then(json => json.users)
+            // .then(json => json.users)
         : () => mockUsers,
       onSuccess: (data) => {
         console.log('success users data', data)
@@ -60,11 +60,11 @@ export const useCurrenciesQuery = (chatId: undefined | string | null) => {
   return (
     useQuery<TCurrency[], Error>({
       queryKey: ['currencies'],
-      queryFn: (chatId /*|| !!'DISABLE_MOCK_CURRENCIES'*/)
+      queryFn: (chatId || !!'DISABLE_MOCK_CURRENCIES')
         ? () =>
-          fetch(`${apiUrl}/currencies`)
+          fetch(`${apiUrl}/currencies/`)
             .then(handleJsonResponse)
-            .then(json => json.currencies)
+            // .then(json => json.currencies)
         : () => mockCurrencies,
       onSuccess: (data) => {
         console.log('success currencies data', data)

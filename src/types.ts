@@ -32,7 +32,7 @@ type TShare = {
 type TCurrencyId = string // 'RUB' | 'GEL' | 'TRY' | 'EUR'
 
 type TCurrency = {
-  id: TCurrencyId, // 'EUR'
+  _id: TCurrencyId, // 'EUR'
   title: string, // 'Euro'
   symbol: string, // '€'
   in: string // 'In Euros'
