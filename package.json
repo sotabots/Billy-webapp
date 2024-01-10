@@ -2,14 +2,14 @@
   "name": "calcoala_webapp",
   "private": true,
   "version": "0.0.0",
-  "homepage": "https://sotabots.github.io/webapp_voisplit/",
+  "homepage": "https://sotabots.github.io/calcoala-webapp/",
   "type": "module",
   "scripts": {
     "dev": "vite",
     "build": "tsc && vite build",
     "lint": "eslint src --ext ts,tsx --report-unused-disable-directives --max-warnings 0",
     "preview": "vite preview",
-    "predeploy": "tsc && vite build --base=/webapp_voisplit/",
+    "predeploy": "tsc && vite build --base=/calcoala-webapp/",
     "deploy": "gh-pages -d dist"
   },
   "dependencies": {

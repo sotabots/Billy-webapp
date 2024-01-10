@@ -11,4 +11,4 @@ npm run dev
 
 ### Deploy
 
-`npm run deploy` -> [here](https://sotabots.github.io/webapp_voisplit/)
+`npm run deploy` -> [here](https://sotabots.github.io/calcoala-webapp/)
