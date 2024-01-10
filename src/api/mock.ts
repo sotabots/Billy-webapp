@@ -1,4 +1,4 @@
-import { TTransaction, TUser } from '../types'
+import { TShare, TTransaction, TUser } from '../types'
 import { mockCurrencies } from './mockCurrencies'
 
 import { decimals } from '../const'
@@ -47,14 +47,17 @@ const generateNames = (n: number) => {
 const _names = generateNames(6)
 const mockUsers = _names.map(_name => generateUser(_name))
 
-const shares = mockUsers.slice(0, 4).map((user, i) => ({
+const shares: TShare[] = mockUsers.slice(0, 4).map((user, i) => ({
   person_id: `Person${i}`,
-  normalized_name: user._name,
+  raw_name: user._name || '',
+  normalized_name: user._name || '',
   related_user_id: Math.random() > 0.3 ? user._id : null,
   is_payer: i == 0,
   // amount: Math.round(Math.random() * 1e2) * 10 ** decimals
-  amount: parseFloat((Math.round(Math.random() * 1e4) / 10 ** decimals).toFixed(decimals))
+  amount: parseFloat((Math.round(Math.random() * 1e4) / 10 ** decimals).toFixed(decimals)),
+  user_candidates: null,
 }))
+
 shares.splice(1, 0, {
   ...shares[0],
   amount: parseFloat((shares[0].amount / 3).toFixed(decimals)),

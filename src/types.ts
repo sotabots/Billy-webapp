@@ -23,9 +23,11 @@ type TTransaction = {
 
 type TShare = {
   person_id: string
-  normalized_name?: string // may be missing if a new user is selected
+  raw_name: string | null
+  normalized_name: string | null // may be missing if a new user is selected
   is_payer: boolean // paid or owed
   amount: number
+  user_candidates: /*[] |*/ null // todo
   related_user_id: TUserId | null
 }
 

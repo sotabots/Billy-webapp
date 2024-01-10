@@ -59,9 +59,12 @@ export const useUsers = () => {
         ...transactionShares,
         ...users.map(user => (
           {
-            person_id: `Person-added-${Math.round(Math.random() * 1e10)}`, // todo: check
+            person_id: `added-person-user-${user._id}`, // todo: check
+            raw_name: null, //user.first_name,
+            normalized_name: null, // user.first_name,
             is_payer: false,
             amount: 0,
+            user_candidates: null,
             related_user_id: user._id
           }
         ))
