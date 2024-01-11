@@ -18,8 +18,12 @@ function Select() {
   const usersToShow = selectPersonId !== null ? users : unrelatedUsers
   const forName = selectPersonId !== null ? (transaction?.shares || []).find(share => share.person_id === selectPersonId)?.normalized_name : null
   const title = selectPersonId !== null
-    ? (forName ? `Выберите, кто "${forName}"` : 'Выберите')
-    : 'Добавить человека'
+    ? (
+      forName
+        ? `${t('selectWhoIs')} "${forName}"`
+        : t('selectUser')
+      )
+    : t('addUser')
 
   return (
     <Screen className="!bg-bg">

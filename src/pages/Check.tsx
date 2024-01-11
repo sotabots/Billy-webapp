@@ -122,17 +122,17 @@ function Check() {
 
       <Panel className="!pb-4">
         <h3 className={cx(!isBalanced && 'text-error')}>
-          {isLacks && 'Не хватает'}
-          {isBalanced && 'Всё верно'}
-          {isOverdo && 'Перебор'}
+          {isLacks && t('lack')}
+          {isBalanced && t('allRight')}
+          {isOverdo && t('overdo')}
         </h3>
-        <div className="mt-1 text-[14px] leading-[20px] text-hint">Заплатили {payedSumFormatted} {currency?.symbol}, должны {oweSumFormatted} {currency?.symbol}</div>
+        <div className="mt-1 text-[14px] leading-[20px] text-hint">{t('paidSum')} {payedSumFormatted} {currency?.symbol}, {t('oweSum')} {oweSumFormatted} {currency?.symbol}</div>
       </Panel>
 
       <Panel>
-        <h3>Заплатили</h3>
+        <h3>{t('payers')}</h3>
         <div className="mt-4 flex flex-col gap-3">
-          {!payedShares.length && <span className="opacity-40">(Пусто)</span>}
+          {!payedShares.length && <span className="opacity-40">({t('noShares')})</span>}
           {payedShares.map((share, shareIndex) => (
             <UserAmount
               key={`payer-share-${shareIndex}`}
@@ -147,17 +147,17 @@ function Check() {
 
       <Panel>
         <div className="flex items-center justify-between">
-          <h3>За {isSelfPayers && <span>себя и за</span>} других</h3>
+          <h3>{isSelfPayers ? t('forThemselvesAndOthers') : t('forOthers')}</h3>
           {!!oweShares.length && (!isEquallyOwe || !isBalanced) && (
             <Button
               theme="text"
-              text="Поровну"
+              text={t('setEqually')}
               onClick={setEqually}
             />
           )}
         </div>
         <div className="mt-4 flex flex-col gap-3">
-          {!oweShares.length && <span className="opacity-40">(Пусто)</span>}
+          {!oweShares.length && <span className="opacity-40">({t('noShares')})</span>}
           {oweShares.map((share, shareIndex) => (
             <UserAmount
               key={`owe-share-${shareIndex}`}

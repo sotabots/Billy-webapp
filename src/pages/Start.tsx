@@ -61,7 +61,7 @@ function Start() {
 
       {!isEmptyTx && (
         <Panel>
-          <div className="text-[12px] leading-[1.33em] font-medium text-hint">Сообщение</div>
+          <div className="text-[12px] leading-[1.33em] font-medium text-hint">{t('message')}</div>
           <div className="mt-1">
             {!!transaction.is_voice && (
               <span>🎙&nbsp;</span>
@@ -77,9 +77,9 @@ function Start() {
 
       <Panel>
         <div>
-          <h2>{isEmptyTx ? 'Добавьте людей' : 'Соотнесите людей'}</h2>
+          <h2>{isEmptyTx ? t('addUsers') : t('matchUsers')}</h2>
           {!isEmptyTx && (
-            <div className="mt-1 text-[14px] leading-[20px] text-hint">Со временем мы запомним соотношения</div>
+            <div className="mt-1 text-[14px] leading-[20px] text-hint">{t('willBeSaved')}</div>
           )}
           <div className="mt-2 -mx-4 overflow-y-auto">
             {deduplicatedShares.map((share, i) => (
