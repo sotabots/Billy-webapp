@@ -40,7 +40,7 @@ function SplashScreen() {
         )}
         {!!isSuccess && (
           <div className="w-[200px] h-[200px] p-4 text-center text-button text-[24px] font-medium">
-            <Lottie animationData={lottieSuccess} loop={false} />
+            <Lottie animationData={lottieSuccess} loop={true} />
           </div>
         )}
       </div>

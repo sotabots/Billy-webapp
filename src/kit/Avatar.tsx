@@ -1,3 +1,7 @@
+import Lottie from 'lottie-react'
+
+import lottieKoala from '../assets/lottie-koala.json'
+
 import { useTheme } from '../hooks'
 import { useStore } from '../store'
 import type { TUser } from '../types'
@@ -56,6 +60,13 @@ function Avatar({ user, size = 40 }: TAvatar) {
           {letters}
         </div>
       }
+      {!user && (
+        <Lottie
+          style={{ height: 0.8 * size }}
+          animationData={lottieKoala}
+          loop={true}
+        />
+      )}
     </div>
   )
 }
