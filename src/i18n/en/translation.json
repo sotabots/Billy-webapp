@@ -10,8 +10,8 @@
   "save": "Save",
   "message": "Message",
   "addUsers": "Add users",
-  "matchUsers": "Match users",
-  "willBeSaved": "Over time, the matchings will be saved",
+  "matchUsers": "Match names",
+  "willBeSaved": "I'll remember the names later",
   "paid": "paid",
   "owes": "owes",
   "select": "please select...",
@@ -28,8 +28,8 @@
   "oweSum": "owe",
   "payers": "Payers",
   "noShares": "Nobody here",
-  "forThemselvesAndOthers": "For themselves and for others",
+  "forYourselfAndForOthers": "For yourself and for others",
   "forOthers": "For others",
-  "setEqually": "Set equally",
+  "splitEqually": "Split equally",
   "selectCurrency": "Select currency"
 }

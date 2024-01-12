@@ -44,7 +44,7 @@ function Button({ theme = 'default', isBottom, text, disabled, isBusy, onClick }
   const themeStyle = {
     'default': 'mx-auto w-full block h-10 bg-button text-buttonText rounded-md text-[14px] leading-[20px] font-semibold enabled:hover:brightness-110 enabled:active:brightness-[1.2] transition-all',
 
-    'text': 'h-6 text-[14px] leading-[24px] text-button hover:brightness-[1.2] active:brightness-[1.4] transition-all'
+    'text': 'min-h-[24px] text-[14px] leading-[1.2em] text-button hover:brightness-[1.2] active:brightness-[1.4] transition-all'
   }[theme]
 
   return (

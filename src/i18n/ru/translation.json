@@ -11,7 +11,7 @@
   "message": "Сообщение",
   "addUsers": "Добавьте людей",
   "matchUsers": "Соотнесите людей",
-  "willBeSaved": "Со временем мы запомним соотношения",
+  "willBeSaved": "Со временем я запомню соотношения",
   "paid": "заплатил",
   "owes": "должен",
   "select": "выберите...",
@@ -28,8 +28,8 @@
   "oweSum": "должны",
   "payers": "Заплатили",
   "noShares": "Пусто",
-  "forThemselvesAndOthers": "За себя и за других",
+  "forYourselfAndForOthers": "За себя и за других",
   "forOthers": "За других",
-  "setEqually": "Поровну",
+  "splitEqually": "Разделить поровну",
   "selectCurrency": "Выберите валюту"
 }

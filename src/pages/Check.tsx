@@ -70,7 +70,7 @@ function Check() {
 
   const isEquallyOwe = oweShares.every(share => share.amount === oweShares[0].amount)
 
-  const setEqually = () => {
+  const splitEqually = () => {
     const newAmount = parseFloat((payedSum / oweShares.length).toFixed(decimals))
     const newShares = [...transaction.shares]
     setTransaction({
@@ -146,13 +146,13 @@ function Check() {
       </Panel>
 
       <Panel>
-        <div className="flex items-center justify-between">
-          <h3>{isSelfPayers ? t('forThemselvesAndOthers') : t('forOthers')}</h3>
+        <div className="flex items-center justify-between gap-3">
+          <h3>{isSelfPayers ? t('forYourselfAndForOthers') : t('forOthers')}</h3>
           {!!oweShares.length && (!isEquallyOwe || !isBalanced) && (
             <Button
               theme="text"
-              text={t('setEqually')}
-              onClick={setEqually}
+              text={t('splitEqually')}
+              onClick={splitEqually}
             />
           )}
         </div>

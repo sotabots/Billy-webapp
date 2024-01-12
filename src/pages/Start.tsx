@@ -79,7 +79,7 @@ function Start() {
         <div>
           <h2>{isEmptyTx ? t('addUsers') : t('matchUsers')}</h2>
           {!isEmptyTx && (
-            <div className="mt-1 text-[14px] leading-[20px] text-hint">{t('willBeSaved')}</div>
+            <div className="mt-1 text-[14px] leading-[20px] text-hint">🐨&nbsp;{t('willBeSaved')}</div>
           )}
           <div className="mt-2 -mx-4 overflow-y-auto">
             {deduplicatedShares.map((share, i) => (
