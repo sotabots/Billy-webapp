@@ -25,8 +25,8 @@ function Avatar({ user, size = 40 }: TAvatar) {
     ...(user?.last_name ? [user.last_name] : []),
   ].join(' ')
 
-  const { isDarkTheme } = useTheme()
-  const placeholderColor = isDarkTheme ? '#888888' : '#bbbbbb'
+  const { isDark } = useTheme()
+  const placeholderColor = isDark ? '#888888' : '#bbbbbb'
   const color = !user ? placeholderColor: (['#e17076', '#faa774', '#a695e7', '#7bc862', '#6ec9cb', '#65aadd', '#ee7aae'])[Math.abs(Number(user._id)) % 7 || 0] // peerColor
   const backgroundColor = color + '44'
 

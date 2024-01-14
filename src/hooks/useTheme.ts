@@ -5,21 +5,28 @@ import { useThemeParams } from '@vkruglikov/react-telegram-web-app'
 
 export const useTheme = () => {
   const [colorScheme/*, themeParams*/] = useThemeParams()
-  const isPrefersDark = () => (
+  const updIsDark = () => {
     // eslint-disable-next-line @typescript-eslint/ban-ts-comment
     // @ts-ignore
-    window?.Telegram?.Webapp?.colorScheme === 'dark'
+    const isDark = window?.Telegram?.Webapp?.colorScheme === 'dark'
     || colorScheme === 'dark'
     || window.matchMedia('(prefers-color-scheme: dark)').matches
-  )
 
-  const [isDarkTheme, setIsDarkTheme] = useState<boolean>(isPrefersDark())
+    const darkClasses = ['theme-dark', 'dark']
+    const lightClasses = ['theme-light', 'light']
+    document.body.classList.add(...(isDark ? darkClasses : lightClasses))
+    document.body.classList.remove(...(isDark ? lightClasses : darkClasses))
+
+    return isDark
+  }
+
+  const [isDark, setIsDark] = useState<boolean>(updIsDark())
 
   const listener = () => {
-    setIsDarkTheme(isPrefersDark())
+    setIsDark(updIsDark())
   }
 
   window.matchMedia('(prefers-color-scheme: dark)').addEventListener('change', listener)
 
-  return { isDarkTheme }
+  return { isDark }
 }

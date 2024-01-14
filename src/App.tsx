@@ -1,14 +1,15 @@
-import './i18n';
-import cx from 'classnames'
-import { useEffect } from 'react'
-import { createHashRouter, RouterProvider } from 'react-router-dom'
 import { QueryClient, QueryClientProvider } from '@tanstack/react-query'
 import { useExpand, WebAppProvider } from '@vkruglikov/react-telegram-web-app';
 
-// import reactLogo from './assets/react.svg'
-// import viteLogo from '/vite.svg'
+import { useEffect } from 'react'
+import { createHashRouter, RouterProvider } from 'react-router-dom'
 
 import { useTheme } from './hooks'
+
+import './i18n';
+
+// import reactLogo from './assets/react.svg'
+// import viteLogo from '/vite.svg'
 
 import Check from './pages/Check'
 import SelectUser from './pages/SelectUser'
@@ -21,7 +22,7 @@ import DemoMode from './kit/DemoMode'
 const queryClient = new QueryClient()
 
 function App() {
-  const { isDarkTheme } = useTheme()
+  useTheme()
 
   const [isExpanded, expand] = useExpand()
   useEffect(() => {
@@ -73,11 +74,9 @@ function App() {
       }}
     >
       <QueryClientProvider client={queryClient}>
-        <div className={cx(isDarkTheme ? 'theme-dark dark' : 'theme-light')}>
-          <RouterProvider router={router} />
-          <SplashScreen />
-          <DemoMode />
-        </div>
+        <RouterProvider router={router} />
+        <SplashScreen />
+        <DemoMode />
       </QueryClientProvider>
     </WebAppProvider>
   )
