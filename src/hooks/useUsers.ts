@@ -24,19 +24,25 @@ export const useUsers = () => {
   const selectUser = (user: TUser) => () => {
     if (selectPersonId !== null) { // change user
       const updShares: TShare[] = [...transactionShares]
-      const doubledUserIndex = updShares.findIndex(share => share.related_user_id === user._id)
-      // set user
+      const doubledUserIndexes: number[] = []
       for (let i = 0; i < updShares.length; i++) {
         if (updShares[i].person_id === selectPersonId) {
+          // set user
           updShares[i].related_user_id = user._id
+        } else {
+          // fill doubles
+          if (updShares[i].related_user_id === user._id) {
+            doubledUserIndexes.push(i)
+          }
         }
       }
-      // remove double only after setting
-      if (~doubledUserIndex) {
+      // remove doubles only after setting
+      for (const doubledUserIndex of doubledUserIndexes.reverse()) {
         if (updShares[doubledUserIndex].normalized_name) {
-          // delete updShares[doubledUserIndex].related_user_id // todo: check
-          updShares[doubledUserIndex].related_user_id = null // todo: check
+          // remove initially existing
+          updShares[doubledUserIndex].related_user_id = null
         } else {
+          // remove added
           updShares.splice(doubledUserIndex, 1)
         }
       }
