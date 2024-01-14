@@ -20,7 +20,7 @@ function Select() {
   const title = selectPersonId !== null
     ? (
       forName
-        ? `${t('selectWhoIs')} "${forName}"`
+        ? `${t('selectWhoIs')} "${forName === 'MESSAGE_AUTHOR' ? t('author') : forName}"`
         : t('selectUser')
       )
     : t('addUser')
