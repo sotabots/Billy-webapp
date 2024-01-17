@@ -95,9 +95,7 @@ function Check() {
       console.log('patch res json', resJson)
       setSuccess(true)
       setTimeout(() => {
-        // eslint-disable-next-line @typescript-eslint/ban-ts-comment
-        // @ts-ignore
-        window?.Telegram?.WebApp?.close()
+        window.Telegram?.WebApp.close()
       }, 2300)
     } catch (e) {
       setSuccess(false)

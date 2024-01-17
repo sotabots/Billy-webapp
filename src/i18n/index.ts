@@ -6,8 +6,10 @@ import translationEn from './en/translation.json';
 import translationRu from './ru/translation.json';
 
 i18next.use(initReactI18next).init({
-  lng: 'en', // if you're using a language detector, do not define the lng option
+  // if you're using a language detector, do not define the lng option
+  lng: window.Telegram?.WebApp.initDataUnsafe.user?.language_code === 'ru' ? 'ru' : 'en',
   fallbackLng: 'en',
+  supportedLngs: ['en', 'ru'],
   debug: true,
   resources: {
     en: {

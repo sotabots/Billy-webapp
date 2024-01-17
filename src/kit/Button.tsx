@@ -1,5 +1,4 @@
 import cx from 'classnames'
-import { MouseEvent, MouseEventHandler } from 'react'
 import { MainButton, useHapticFeedback, useWebApp } from '@vkruglikov/react-telegram-web-app'
 
 import { useSplash } from '../hooks'
@@ -11,7 +10,7 @@ type TButton = {
   isBottom?: boolean
   disabled?: boolean
   isBusy?: boolean
-  onClick: MouseEventHandler<HTMLButtonElement>
+  onClick: () => void
 }
 
 function Button({ theme = 'default', isBottom, text, disabled, isBusy, onClick }: TButton) {
@@ -19,12 +18,10 @@ function Button({ theme = 'default', isBottom, text, disabled, isBusy, onClick }
   const { isSplash } = useSplash()
   const [impactOccurred] = useHapticFeedback()
 
-  type TMouseEvent = MouseEvent<HTMLButtonElement, globalThis.MouseEvent>
-
-  const onClickVibro = disabled ? undefined : (e: TMouseEvent) => {
+  const onClickVibro = disabled ? () => {/* */} : () => {
     console.log('Button vibro')
     impactOccurred(isBottom ? 'heavy' : 'light')
-    onClick(e)
+    onClick()
   }
 
   if (isBottom && webApp.platform !== 'unknown') {

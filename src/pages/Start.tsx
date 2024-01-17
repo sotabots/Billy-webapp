@@ -50,9 +50,7 @@ function Start() {
   }
 
   const closeApp = () => {
-    // eslint-disable-next-line @typescript-eslint/ban-ts-comment
-    // @ts-ignore
-    window?.Telegram?.WebApp?.close()
+    window.Telegram?.WebApp.close()
   }
 
   return (

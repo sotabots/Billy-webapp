@@ -6,9 +6,7 @@ import { useThemeParams } from '@vkruglikov/react-telegram-web-app'
 export const useTheme = () => {
   const [colorScheme/*, themeParams*/] = useThemeParams()
   const updIsDark = () => {
-    // eslint-disable-next-line @typescript-eslint/ban-ts-comment
-    // @ts-ignore
-    const isDark = window?.Telegram?.Webapp?.colorScheme === 'dark'
+    const isDark = window.Telegram?.WebApp.colorScheme === 'dark'
     || colorScheme === 'dark'
     || window.matchMedia('(prefers-color-scheme: dark)').matches
 

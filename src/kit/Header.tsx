@@ -5,15 +5,13 @@ import { BackButton } from '@vkruglikov/react-telegram-web-app'
 import { ReactComponent as Back } from '../img/back.svg'
 
 type THeader = {
-  onBack?: MouseEventHandler<HTMLButtonElement>
+  onBack?: () => void
   onCancel?: MouseEventHandler<HTMLButtonElement>
 }
 
 function Header({ onBack, onCancel }: THeader) {
   const { t } = useTranslation()
-  // eslint-disable-next-line @typescript-eslint/ban-ts-comment
-  // @ts-ignore
-  if (window?.Telegram?.WebApp?.platform !== 'unknown') {
+  if (window.Telegram?.WebApp.platform !== 'unknown') {
     return (
       <div className="h-3">
         <BackButton

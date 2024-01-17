@@ -39,9 +39,7 @@ function Debug() {
         <pre>{JSON.stringify(users, null, 2)}</pre>
         <br />
         <br />
-        <strong>window.Telegram.Webapp = </strong>
-        {/* eslint-disable-next-line @typescript-eslint/ban-ts-comment */}
-        {/* @ts-ignore */}
+        <strong>window.Telegram?.WebApp = </strong>
         <pre>{JSON.stringify(window.Telegram?.WebApp, null, 2)}</pre>
       </Panel>
     </div>

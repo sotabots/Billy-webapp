@@ -1,10 +1,9 @@
 import { QueryClient, QueryClientProvider } from '@tanstack/react-query'
-import { useExpand, WebAppProvider } from '@vkruglikov/react-telegram-web-app';
+import { WebAppProvider } from '@vkruglikov/react-telegram-web-app';
 
-import { useEffect } from 'react'
 import { createHashRouter, RouterProvider } from 'react-router-dom'
 
-import { useTheme } from './hooks'
+import { useAutoExpand, useTheme } from './hooks'
 
 import './i18n';
 
@@ -23,13 +22,7 @@ const queryClient = new QueryClient()
 
 function App() {
   useTheme()
-
-  const [isExpanded, expand] = useExpand()
-  useEffect(() => {
-    if (!isExpanded) {
-      expand()
-    }
-  }, [])
+  useAutoExpand()
 
   const router = createHashRouter([
     {
@@ -68,11 +61,7 @@ function App() {
   ])
 
   return (
-    <WebAppProvider
-      options={{
-        smoothButtonsTransition: true
-      }}
-    >
+    <WebAppProvider options={{ smoothButtonsTransition: true }}>
       <QueryClientProvider client={queryClient}>
         <RouterProvider router={router} />
         <SplashScreen />
