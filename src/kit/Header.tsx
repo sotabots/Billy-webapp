@@ -35,7 +35,7 @@ function Header({ onBack /*, onCancel */ }: THeader) {
         </button>
       }
       <div className="flex flex-col items-center justify-center gap-0.5">
-        <div className="text-[17px] leading-[22px] font-semibold">Calcoala</div>
+        <div className="text-[17px] leading-[22px] font-semibold">CalcKoala</div>
         <div className="text-hint text-[13px] leading-[18px] font-semibold opacity-70">{t('bot')}</div>
       </div>
     </header>
