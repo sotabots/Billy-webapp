@@ -1,4 +1,6 @@
-# 🗣🤖 Calcoala webapp (tg bot soon)
+# 🗣🤖 CalcKoala webapp (tg bot soon)
+
+- Community: https://t.me/CalcKoala
 
 ## How to develop
 
