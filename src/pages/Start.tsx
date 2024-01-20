@@ -50,12 +50,16 @@ function Start() {
   }
 
   const closeApp = () => {
-    window.Telegram?.WebApp.close()
+    if (window.Telegram?.WebApp.platform !== 'unknown') {
+      window.Telegram?.WebApp.close()
+    } else {
+      alert('Close webapp...')
+    }
   }
 
   return (
     <Screen>
-      <Header onCancel={closeApp} />
+      <Header onBack={closeApp} />
 
       {!isEmptyTx && (
         <Panel>
