@@ -13,4 +13,4 @@ npm run dev
 
 ### Deploy
 
-`npm run deploy` -> [here](https://sotabots.github.io/calcoala-webapp/)
+`npm run deploy` -> [here](https://sotabots.github.io/CalcKoala-webapp/)
