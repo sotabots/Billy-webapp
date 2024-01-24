@@ -1,5 +1,5 @@
-# 🗣🤖 CalcKoala webapp (tg bot soon)
-
+# 🗣🤖 CalcKoala webapp
+- Tg bot: https://t.me/balanceus_bot
 - Community: https://t.me/CalcKoala
 
 ## How to develop
