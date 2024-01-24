@@ -6,7 +6,7 @@
 
 ### Install
 
-```
+```sh
 npm i
 npm run dev
 ```
