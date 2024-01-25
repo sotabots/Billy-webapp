@@ -9,7 +9,7 @@ import UserAmount from '../kit/UserAmount'
 import Panel from '../kit/Panel'
 import Screen from '../kit/Screen'
 
-import { TOLERANCE, decimals } from '../const'
+import { decimals } from '../const'
 import { useInit } from '../hooks'
 import { useStore } from '../store'
 import { feedback, EVENT } from '../feedback'
@@ -50,35 +50,55 @@ function Check() {
 
   // todo: move out
 
-  const payedSum = transaction.shares.filter(item => item.is_payer).reduce((acc, item) => acc + item.amount, 0)
-  const payedSumFormatted = formatAmount(payedSum)
-  const oweSum = transaction.shares.filter(item => !item.is_payer).reduce((acc, item) => acc + item.amount, 0)
-  const oweSumFormatted = formatAmount(oweSum)
-
-  const isLacks = payedSum < oweSum - TOLERANCE
-  const isBalanced = Math.abs(payedSum - oweSum) <= TOLERANCE
-  const isOverdo = payedSum > oweSum + TOLERANCE
-
-  const isButtonDisabled = !isBalanced || !(payedSum > 0) || !(oweSum > 0) || !transaction.currency_id
-
   const payedShares = transaction.shares.filter(share => share.related_user_id && share.is_payer)
   const oweShares = transaction.shares.filter(share => share.related_user_id && !share.is_payer)
+
+  const payedSum = payedShares.reduce((acc, item) => acc + item.amount, 0)
+  const payedSumFormatted = formatAmount(payedSum)
+  const oweSum = oweShares.reduce((acc, item) => acc + item.amount, 0)
+  const oweSumFormatted = formatAmount(oweSum)
+
+  const fromDecimals = (n: number) => Math.round(n * 10**decimals)
+
+  const TOLERANCE = 0.01
+  const isLacks = fromDecimals(oweSum) - fromDecimals(payedSum) >= fromDecimals(TOLERANCE)
+  const isOverdo = fromDecimals(payedSum) - fromDecimals(oweSum) >= fromDecimals(TOLERANCE)
+  const isBalanced = !isLacks && !isOverdo
+
+  const isButtonDisabled = !isBalanced || !(payedSum > 0) || !(oweSum > 0) || !transaction.currency_id
 
   const payerIds = payedShares.map(share => share.related_user_id!)
   const oweIds = oweShares.map(share => share.related_user_id!)
   const isSelfPayers = payerIds.some(payerId => oweIds.includes(payerId))
 
-  const isEquallyOwe = oweShares.every(share => share.amount === oweShares[0].amount)
+  // const isSplitedEqually = oweShares.every(share => share.amount === oweShares[0].amount)
+  const isSplitedEqually = false // todo
 
   const splitEqually = () => {
-    const newAmount = parseFloat((payedSum / oweShares.length).toFixed(decimals))
+    // const newAmount = parseFloat((payedSum / oweShares.length).toFixed(decimals))
+    const newAmount = parseFloat(
+      (
+        Math.floor((10**decimals * payedSum / oweShares.length)) / 10**decimals
+      ).toFixed(decimals)
+    )
+    const newAmountUp = payedSum - (oweShares.length - 1) * newAmount
+
     const newShares = [...transaction.shares]
+    let isFirstOweShare = false
+    for (let newShare of newShares) {
+      if (newShare.is_payer || !newShare.related_user_id) {
+        continue
+      }
+      if (!isFirstOweShare) {
+        isFirstOweShare = true
+        newShare.amount = newAmountUp
+      } else {
+        newShare.amount = newAmount
+      }
+    }
     setTransaction({
       ...transaction,
-      shares: newShares.map(share => share.is_payer ? share : ({
-        ...share,
-        amount: newAmount
-      }))
+      shares: newShares
     })
   }
 
@@ -146,7 +166,7 @@ function Check() {
       <Panel>
         <div className="flex items-center justify-between gap-3">
           <h3>{isSelfPayers ? t('forYourselfAndForOthers') : t('forOthers')}</h3>
-          {!!oweShares.length && (!isEquallyOwe || !isBalanced) && (
+          {!!oweShares.length && (!isSplitedEqually || !isBalanced) && (
             <Button
               theme="text"
               text={t('splitEqually')}
