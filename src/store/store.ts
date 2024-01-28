@@ -1,5 +1,5 @@
 import { create } from 'zustand'
-import { TCurrency, TCurrencyId, TTransaction, TUser } from './../types'
+import { TCurrency, TCurrencyId, TTransaction, TUser, TChat } from './../types'
 
 type TStore = {
   txId: undefined | string | null
@@ -11,6 +11,8 @@ type TStore = {
   currencies: TCurrency[]
   setCurrencies: (currencies: TCurrency[]) => void
   setCurrency: (currency: TCurrencyId) => void
+  chat: undefined | TChat
+  setChat: (chat: TChat) => void
   transaction: undefined | TTransaction,
   setTransaction: (transaction: TTransaction) => void
   isSuccess: boolean | null
@@ -39,6 +41,8 @@ const useStore = create<TStore>((set, get) => ({
       }
     })
   },
+  chat: undefined,
+  setChat: (chat) => set(({ chat })),
   transaction: undefined,
   setTransaction: (transaction) => set(({ transaction })),
   isSuccess: null,

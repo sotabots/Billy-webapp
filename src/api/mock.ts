@@ -1,4 +1,4 @@
-import { TShare, TTransaction, TUser } from '../types'
+import { TShare, TTransaction, TUser, TChat } from '../types'
 import { mockCurrencies } from './mockCurrencies'
 
 import { decimals } from '../const'
@@ -75,8 +75,21 @@ const mockTransaction: TTransaction = {
   currency_id: mockCurrencies[0]._id
 }
 
+const mockChat: TChat = {
+  _id: -1,
+  name: 'mock chat name',
+  summary_id: 'mock summary id',
+  default_currency: mockCurrencies[0]._id,
+  status: 'administrator',
+  welcome_message_id: -1,
+  menu_message_id: -1,
+  pin_message_id: -1,
+  language_code: 'en'
+}
+
 export {
   mockUsers,
   mockTransaction,
-  mockCurrencies
+  mockCurrencies,
+  mockChat
 }
