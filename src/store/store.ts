@@ -1,5 +1,7 @@
 import { create } from 'zustand'
-import { TCurrency, TCurrencyId, TTransaction, TUser, TChat } from './../types'
+import { TCurrency, TCurrencyId, TTransaction, TUser, TChat, TSummary } from './../types'
+
+import { mockSummary } from '../api/mock'
 
 type TStore = {
   txId: undefined | string | null
@@ -19,9 +21,12 @@ type TStore = {
   setSuccess: (val: boolean | null) => void
   txPatchError: null | Error
   setTxPatchError: (txPatchError: null | Error) => void
+
+  summary: undefined | TSummary | null
+  setSummary: (summary: TSummary) => void
 }
 
-const useStore = create<TStore>((set, get) => ({
+export const useStore = create<TStore>((set, get) => ({
   txId: undefined,
   setTxId: (txId) => set(({ txId })),
   users: [],
@@ -49,9 +54,7 @@ const useStore = create<TStore>((set, get) => ({
   setSuccess: (isSuccess) => set(({ isSuccess })),
   txPatchError: null,
   setTxPatchError: (txPatchError) => set(({ txPatchError })),
+
+  summary: mockSummary,
+  setSummary: (summary) => set(( { summary } )),
 }))
-
-
-export {
-  useStore
-}

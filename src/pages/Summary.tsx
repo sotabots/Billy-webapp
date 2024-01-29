@@ -7,12 +7,13 @@ import Button from '../kit/Button'
 import Header from '../kit/Header'
 import Panel from '../kit/Panel'
 import Screen from '../kit/Screen'
+import SummaryItem from '../kit/SummaryItem'
 
 import { closeApp } from '../utils'
 
 // import { decimals } from '../const'
 // import { useInit } from '../hooks'
-// import { useStore } from '../store'
+import { useStore } from '../store'
 // import { feedback, EVENT } from '../feedback'
 // import { usePatchTransaction } from '../api'
 // import { formatAmount } from '../utils'
@@ -23,6 +24,8 @@ function Summary() {
 
   const [isSelected, setIsSelected] = useState(false)
   const [isBusy, setIsBusy] = useState(false)
+
+  const { summary } = useStore()
 
   /*
   useInit()
@@ -159,26 +162,25 @@ function Summary() {
         )}
       </div>
 
-      {!isSelected && (
+      {!isSelected && summary?.items && summary.items.length > 0 && (
         <Panel>
-          <h3>{t('summaryBy')}(curr)</h3>
+          <h3>{t('summaryBy')} (curr)</h3>
           <div className="mt-4 flex flex-col gap-3">
-            ...items
-            {/* {!payedShares.length && <span className="opacity-40">({t('noShares')})</span>}
-            {payedShares.map((share, shareIndex) => (
-              <UserAmount
-                key={`payer-share-${shareIndex}`}
-                {...share}
-                onChange={(value) => {
-                  changeAmount(share, value)
-                }}
+            {summary.items.map((summaryItem, i) => (
+              <SummaryItem
+                key={`SummaryItem-${i}`}
+                {...summaryItem}
+                onClick={() => { setIsSelected(true) }}
               />
-            ))} */}
-            <button onClick={() => { setIsSelected(true) }}>
-              {t('settleUp')}
-            </button>
+            ))}
           </div>
         </Panel>
+      )}
+
+      {!isSelected && summary?.items && summary.items.length === 0 && (
+        // todo lottie
+        <div>{t('allSettledUp')}</div>
+        // todo link
       )}
 
       {isSelected && (

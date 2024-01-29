@@ -7,7 +7,7 @@ import { useStore } from '../store'
 const OPEN_DEBUG_RIGHT_CLICKS = 3
 
 function Debug() {
-  const { transaction, users, txId } = useStore()
+  const { transaction, users, txId, summary } = useStore()
   const [n, setN] = useState(0)
 
   const listener = useCallback(() => {
@@ -29,6 +29,10 @@ function Debug() {
         <br />
         <br />
         <strong>txid = </strong>{String(txId)}
+        <br />
+        <br />
+        <strong>summary = </strong>
+        <pre>{JSON.stringify(summary, null, 2)}</pre>
         <br />
         <br />
         <strong>transaction = </strong>

@@ -1,4 +1,4 @@
-import { TShare, TTransaction, TUser, TChat } from '../types'
+import { TShare, TTransaction, TUser, TChat, TSummary } from '../types'
 import { mockCurrencies } from './mockCurrencies'
 
 import { decimals } from '../const'
@@ -87,9 +87,28 @@ const mockChat: TChat = {
   language_code: 'en'
 }
 
+const mockSummary: TSummary = {
+  _id: -1,
+  detailed_summary_url: 'mock url',
+  items: []
+}
+
+mockUsers.forEach((mockUser, i, arr) => {
+  if (i < arr.length - 1) {
+    mockSummary.items.push({
+      _id: Math.round(Math.random() * 1e10),
+      from_user: mockUser,
+      to_user: arr[i + 1],
+      amount: parseFloat((Math.round(Math.random() * 1e6) / 10 ** decimals).toFixed(decimals)),
+      currency_id: mockCurrencies[0]._id
+    })
+  }
+})
+
 export {
   mockUsers,
   mockTransaction,
   mockCurrencies,
-  mockChat
+  mockChat,
+  mockSummary
 }

@@ -69,4 +69,4 @@ type TSummaryItem = {
   currency_id: TCurrencyId
 }
 
-export type { TCurrencyId, TCurrency, TUser, TUserId, TShare, TTransaction, TChat, TSummary }
+export type { TCurrencyId, TCurrency, TUser, TUserId, TShare, TTransaction, TChat, TSummary, TSummaryItem }

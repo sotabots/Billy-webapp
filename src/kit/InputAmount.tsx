@@ -6,7 +6,7 @@ import { visible_decimals } from '../const'
 
 type TInputAmount = {
   amount: number
-  onChange: (value: number) => void
+  onChange?: (value: number) => void
 }
 
 const filter = (oldString: string, newStringRaw: string) => {
@@ -69,6 +69,9 @@ function InputAmount({ amount, onChange }: TInputAmount) {
   }, [amount, currentString])
 
   const onChangeString = (e: ChangeEvent<HTMLInputElement>) => {
+    if (!onChange) {
+      return
+    }
     const changedString = e.target.value
     const newString = filter(currentString, changedString)
     setCurrentString(newString)
