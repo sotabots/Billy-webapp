@@ -5,3 +5,12 @@ export const formatAmount = (amount: number) => amount.toFixed(visible_decimals)
 
 // export const unformatAmount = (string: string) => (parseFloat(string) * 10 ** decimals) || 0
 export const unformatAmount = (string: string) => parseFloat(string) || 0
+
+
+export const closeApp = () => {
+  if (window.Telegram?.WebApp.platform !== 'unknown') {
+    window.Telegram?.WebApp.close()
+  } else {
+    alert('Close webapp...')
+  }
+}

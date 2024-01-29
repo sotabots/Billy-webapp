@@ -14,6 +14,7 @@ import UserRelation from '../kit/UserRelation'
 import { useInit, useUsers } from '../hooks'
 import { useStore } from '../store'
 import { TShare } from '../types'
+import { closeApp } from '../utils'
 
 function Start() {
   useInit()
@@ -47,14 +48,6 @@ function Start() {
     console.log('onAdd vibro')
     impactOccurred('light')
     navigate('/select-user')
-  }
-
-  const closeApp = () => {
-    if (window.Telegram?.WebApp.platform !== 'unknown') {
-      window.Telegram?.WebApp.close()
-    } else {
-      alert('Close webapp...')
-    }
   }
 
   return (
