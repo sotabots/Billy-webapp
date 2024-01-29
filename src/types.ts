@@ -55,4 +55,18 @@ type TChat = {
   language_code: 'en' | 'ru' | 'uk'
 }
 
-export type { TCurrencyId, TCurrency, TUser, TUserId, TShare, TTransaction, TChat }
+type TSummary = {
+  _id: number, // for GET
+  detailed_summary_url: string,
+  items: TSummaryItem[]
+}
+
+type TSummaryItem = {
+  _id: number, // for PUT settle up
+  from_user: TUser,
+  to_user: TUser,
+  amount: number,
+  currency_id: TCurrencyId
+}
+
+export type { TCurrencyId, TCurrency, TUser, TUserId, TShare, TTransaction, TChat, TSummary }
