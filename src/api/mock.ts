@@ -100,7 +100,7 @@ mockUsers.forEach((mockUser, i, arr) => {
       from_user: mockUser,
       to_user: arr[i + 1],
       amount: parseFloat((Math.round(Math.random() * 1e6) / 10 ** decimals).toFixed(decimals)),
-      currency_id: mockCurrencies[0]._id
+      currency_id: mockCurrencies[Math.random() > 0.5 ? 0 : 1]._id
     })
   }
 })

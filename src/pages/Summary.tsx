@@ -34,81 +34,13 @@ function Summary() {
 
   const patchTransaction = usePatchTransaction()
 
-  if (!transaction) {
+  */
+
+  if (!summary) {
     return null
   }
 
-  const currency = currencies.find(currency => currency._id === transaction.currency_id)
-
-  const changeAmount = (share: TShare, amount: number) => {
-    const shareIndex = transaction.shares.findIndex(s =>
-      s.person_id === share.person_id
-      && s.related_user_id === share.related_user_id
-      && s.is_payer === share.is_payer
-    )
-    if (~shareIndex) {
-      const updShares = [...transaction.shares]
-      updShares[shareIndex].amount = amount
-      setTransaction({
-        ...transaction,
-        shares: updShares
-      })
-    }
-  }
-
-  // todo: move out
-
-  const payedShares = transaction.shares.filter(share => share.related_user_id && share.is_payer)
-  const oweShares = transaction.shares.filter(share => share.related_user_id && !share.is_payer)
-
-  const payedSum = payedShares.reduce((acc, item) => acc + item.amount, 0)
-  const payedSumFormatted = formatAmount(payedSum)
-  const oweSum = oweShares.reduce((acc, item) => acc + item.amount, 0)
-  const oweSumFormatted = formatAmount(oweSum)
-
-  const fromDecimals = (n: number) => Math.round(n * 10**decimals)
-
-  const TOLERANCE = 0.01
-  const isLacks = fromDecimals(oweSum) - fromDecimals(payedSum) >= fromDecimals(TOLERANCE)
-  const isOverdo = fromDecimals(payedSum) - fromDecimals(oweSum) >= fromDecimals(TOLERANCE)
-  const isBalanced = !isLacks && !isOverdo
-
-  const isButtonDisabled = !isBalanced || !(payedSum > 0) || !(oweSum > 0) || !transaction.currency_id
-
-  const payerIds = payedShares.map(share => share.related_user_id!)
-  const oweIds = oweShares.map(share => share.related_user_id!)
-  const isSelfPayers = payerIds.some(payerId => oweIds.includes(payerId))
-
-  // const isSplitedEqually = oweShares.every(share => share.amount === oweShares[0].amount)
-  const isSplitedEqually = false // todo
-
-  const splitEqually = () => {
-    // const newAmount = parseFloat((payedSum / oweShares.length).toFixed(decimals))
-    const newAmount = parseFloat(
-      (
-        Math.floor((10**decimals * payedSum / oweShares.length)) / 10**decimals
-      ).toFixed(decimals)
-    )
-    const newAmountUp = payedSum - (oweShares.length - 1) * newAmount
-
-    const newShares = [...transaction.shares]
-    let isFirstOweShare = false
-    for (let newShare of newShares) {
-      if (newShare.is_payer || !newShare.related_user_id) {
-        continue
-      }
-      if (!isFirstOweShare) {
-        isFirstOweShare = true
-        newShare.amount = newAmountUp
-      } else {
-        newShare.amount = newAmount
-      }
-    }
-    setTransaction({
-      ...transaction,
-      shares: newShares
-    })
-  }
+  /*
 
   const save = async () => {
     const confirmedTransaction = {
@@ -163,6 +95,7 @@ function Summary() {
       </div>
 
       {!isSelected && summary?.items && summary.items.length > 0 && (
+        // todo: summary groups
         <Panel>
           <h3>{t('summaryBy')} (curr)</h3>
           <div className="mt-4 flex flex-col gap-3">

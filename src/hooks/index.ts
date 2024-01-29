@@ -1,4 +1,5 @@
 export * from './useAutoExpand'
+export * from './useCurrencies'
 export * from './useInit'
 export * from './useSplash'
 export * from './useTheme'

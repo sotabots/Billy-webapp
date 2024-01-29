@@ -10,7 +10,7 @@ import Panel from '../kit/Panel'
 import Screen from '../kit/Screen'
 
 import { decimals } from '../const'
-import { useInit } from '../hooks'
+import { useCurrencies, useInit } from '../hooks'
 import { useStore } from '../store'
 import { feedback, EVENT } from '../feedback'
 import { usePatchTransaction } from '../api'
@@ -22,7 +22,9 @@ function Check() {
   const { t } = useTranslation()
   const navigate = useNavigate()
   const [isBusy, setIsBusy] = useState(false)
-  const { currencies, transaction, setTransaction, setSuccess, setTxPatchError } = useStore()
+  const { transaction, setTransaction, setSuccess, setTxPatchError } = useStore()
+
+  const { getCurrencyById } = useCurrencies()
 
   const patchTransaction = usePatchTransaction()
 
@@ -30,7 +32,7 @@ function Check() {
     return null
   }
 
-  const currency = currencies.find(currency => currency._id === transaction.currency_id)
+  const currency = getCurrencyById(transaction.currency_id)
 
   const changeAmount = (share: TShare, amount: number) => {
     const shareIndex = transaction.shares.findIndex(s =>

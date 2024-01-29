@@ -1,5 +1,7 @@
 import { useTranslation } from 'react-i18next'
 
+import Button from './Button'
+
 import User from './User'
 import { useUsers } from '../hooks'
 import { TSummaryItem } from '../types'
@@ -25,9 +27,10 @@ function SummaryItem({ from_user, to_user, amount, onClick }: TUserAmount) {
 
       <div className="font-semibold">{amount}</div>
 
-      <button onClick={onClick}>
-        {t('settleUp')}
-      </button>
+      <Button
+        text={t('settleUp')}
+        onClick={onClick}
+      />
     </div>
   )
 }
