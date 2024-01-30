@@ -8,6 +8,7 @@ import Header from '../kit/Header'
 import Panel from '../kit/Panel'
 import Screen from '../kit/Screen'
 import SummaryItem from '../kit/SummaryItem'
+import SummaryItemDetailed from '../kit/SummaryItemDetailed'
 
 import { closeApp } from '../utils'
 
@@ -22,10 +23,13 @@ import { useStore } from '../store'
 function Summary() {
   const { t } = useTranslation()
 
-  const [isSelected, setIsSelected] = useState(false)
-  const [isBusy, setIsBusy] = useState(false)
-
   const { summary } = useStore()
+
+  const [selectedId, setSelectedId] = useState<null | number>(null)
+  const isSelected = selectedId !== null
+  const selectedSummaryItem = (summary?.items || []).find(summaryItem => summaryItem._id === selectedId)
+
+  const [isBusy, setIsBusy] = useState(false)
 
   /*
   useInit()
@@ -79,7 +83,7 @@ function Summary() {
 
   return (
     <Screen>
-      <Header onBack={!isSelected ? closeApp : () => { setIsSelected(false) }} />
+      <Header onBack={!isSelected ? closeApp : () => { setSelectedId(null) }} />
 
       <div className="mb-2 px-4 flex items-center justify-between">
         <h2 className="pt-[2px] pb-[6px]">
@@ -103,30 +107,29 @@ function Summary() {
               <SummaryItem
                 key={`SummaryItem-${i}`}
                 {...summaryItem}
-                onClick={() => { setIsSelected(true) }}
+                onClick={() => { setSelectedId(summaryItem._id) }}
               />
             ))}
           </div>
         </Panel>
       )}
 
-      {!isSelected && summary?.items && summary.items.length === 0 && (
+      {!selectedId && summary?.items && summary.items.length === 0 && (
         // todo lottie
         <div>{t('allSettledUp')}</div>
         // todo link
       )}
 
-      {isSelected && (
+      {selectedId && selectedSummaryItem && (
         <Panel>
-          item...
+          <SummaryItemDetailed {...selectedSummaryItem} />
         </Panel>
       )}
 
       <Button
         isBottom
-        text={!isSelected ? t('close') : t('settleUp')}
-        onClick={!isSelected ? closeApp : settleUp}
-        // disabled={isButtonDisabled}
+        text={!selectedId ? t('close') : t('settleUp')}
+        onClick={!selectedId ? closeApp : settleUp}
         isBusy={isBusy}
       />
     </Screen>

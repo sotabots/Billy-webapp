@@ -1,27 +1,29 @@
 import User from './User'
 import InputAmount from './InputAmount'
 import { useUsers } from '../hooks'
-import { TShare } from '../types'
+import { TSummaryItem } from '../types'
 
-type TUserAmount = TShare & {
-  amount: number
-  onChange: (value: number) => void
+type TSummaryItemDetailedProps = TSummaryItem & {
 }
 
-function UserAmount({ related_user_id, amount, onChange }: TUserAmount) {
+function SummaryItemDetailed({ from_user, to_user, amount  }: TSummaryItemDetailedProps) {
   const { getUserById } = useUsers()
-  const user = related_user_id ? getUserById(related_user_id) : undefined
 
-  if (!user) {
+  const fromUser = getUserById(from_user._id)
+  const toUser = getUserById(to_user._id)
+
+  if (!fromUser || !toUser) {
     return null
   }
 
   return (
     <div className="flex gap-3">
-      <User user={user} size={48} />
-      <InputAmount amount={amount} onChange={onChange} />
+      <User user={fromUser} size={48} />
+      <div className="font-semibold">{amount}</div>
+
+      <InputAmount amount={amount} />
     </div>
   )
 }
 
-export default UserAmount
+export default SummaryItemDetailed
