@@ -93,17 +93,19 @@ const mockSummary: TSummary = {
   items: []
 }
 
-mockUsers.forEach((mockUser, i, arr) => {
-  if (i < arr.length - 1) {
-    mockSummary.items.push({
-      _id: Math.round(Math.random() * 1e10),
-      from_user: mockUser,
-      to_user: arr[i + 1],
-      amount: parseFloat((Math.round(Math.random() * 1e6) / 10 ** decimals).toFixed(decimals)),
-      currency_id: mockCurrencies[Math.floor(Math.random() * 3)]._id
-    })
-  }
-})
+if (Math.random() < 0.4) {
+  mockUsers.forEach((mockUser, i, arr) => {
+    if (i < arr.length - 1) {
+      mockSummary.items.push({
+        _id: Math.round(Math.random() * 1e10),
+        from_user: mockUser,
+        to_user: arr[i + 1],
+        amount: parseFloat((Math.round(Math.random() * 1e6) / 10 ** decimals).toFixed(decimals)),
+        currency_id: mockCurrencies[Math.floor(Math.random() * 3)]._id
+      })
+    }
+  })
+}
 
 export {
   mockUsers,

@@ -38,5 +38,7 @@
   "settleUpBy": "Settle up by",
   "detailedSummary": "Detailed summary",
   "summaryBy": "Summary by",
-  "allSettledUp": "You are all settled up in this group"
+  "settleUpSuccess": "Transaction successfully saved!",
+  "allSettledUp": "You are all settled up in this group",
+  "settleUpSaved": "Transaction successfully saved"
 }

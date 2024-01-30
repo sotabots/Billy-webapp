@@ -24,7 +24,7 @@ import { useCurrencies } from '../hooks'
 function Summary() {
   const { t } = useTranslation()
 
-  const { summary } = useStore()
+  const { summary, setSummary } = useStore()
   const { getCurrencyById } = useCurrencies()
 
   const [selectedId, setSelectedId] = useState<null | number>(null)
@@ -33,6 +33,7 @@ function Summary() {
   const selectedSummaryItemCurrency = selectedSummaryItem ? getCurrencyById(selectedSummaryItem.currency_id) : undefined
 
   const [isBusy, setIsBusy] = useState(false)
+  const [showSuccess, setShowSuccess] = useState(false)
 
   const currencyIds = !summary?.items
     ? []
@@ -44,14 +45,6 @@ function Summary() {
   const { currencies, transaction, setTransaction, setSuccess, setTxPatchError } = useStore()
 
   const patchTransaction = usePatchTransaction()
-
-  */
-
-  if (!summary) {
-    return null
-  }
-
-  /*
 
   const save = async () => {
     const confirmedTransaction = {
@@ -77,33 +70,60 @@ function Summary() {
   }
   */
 
+  const goDetailedSummary = () => {
+    // todo
+    alert('goDetailedSummary')
+    // navigate('/select-currency')
+  }
+
   const settleUp = () => {
-    setIsBusy(true)
-    try {
-      // todo
-    } catch (e) {
-      // todo
-    } finally {
-      setIsBusy(false)
+    if (selectedId === null || !summary) {
+      return
     }
+    setIsBusy(true)
+    setTimeout(() => {
+      try {
+        // todo
+        setSummary({
+          ...summary,
+          items: [...summary.items].filter(item => item._id !== selectedId)
+        })
+        setShowSuccess(true)
+        setSelectedId(null)
+        setTimeout(() => {
+          setShowSuccess(false)
+        }, 2300)
+      } catch (e) {
+        // todo
+      } finally {
+        setIsBusy(false)
+      }
+    }, 500)
+  }
+
+  if (!summary) {
+    return null
   }
 
   return (
     <Screen>
       <Header onBack={!isSelected ? closeApp : () => { setSelectedId(null) }} />
 
-      <div className="mb-2 px-4 flex items-center justify-between">
-        <h2 className="pt-[2px] pb-[6px]">
-          {!isSelected ? t('chatBalances') : `${t('settleUpBy')} ${selectedSummaryItemCurrency?.symbol}`}
-        </h2>
-        {!isSelected && (
-          <Button
-            theme="text"
-            text={t('detailedSummary')}
-            onClick={() => {}/* () => { navigate('/select-currency') }*/}
-          />
-        )}
-      </div>
+      {!(!selectedId && summary?.items && summary.items.length === 0) && (
+        <div className="mb-2 px-4 flex items-center justify-between">
+          <h2 className="pt-[2px] pb-[6px]">
+            {!isSelected ? t('chatBalances') : `${t('settleUpBy')} ${selectedSummaryItemCurrency?.symbol}`}
+          </h2>
+          {!isSelected && (
+            <Button
+              theme="text"
+              text={t('detailedSummary')}
+              onClick={goDetailedSummary}
+            />
+          )}
+        </div>
+      )}
+
 
       {!isSelected && summary?.items && summary.items.length > 0 && (
         <div className="flex flex-col gap-2">
@@ -125,15 +145,36 @@ function Summary() {
       )}
 
       {!selectedId && summary?.items && summary.items.length === 0 && (
-        // todo lottie
-        <div>{t('allSettledUp')}</div>
-        // todo link
+        <div className="w-[244px] mx-auto flex flex-col gap-6 pt-8 text-center">
+          <div className="mx-auto w-[215px] h-[200px] bg-gray-300">
+            
+          </div>
+          <div className="text-[24px] leading-[32px] font-semibold">
+            {t('allSettledUp')}
+          </div>
+          <Button
+            theme="text"
+            text={t('detailedSummary')}
+            onClick={goDetailedSummary}
+          />
+        </div>
       )}
 
       {selectedId && selectedSummaryItem && (
         <Panel>
           <SummaryItemDetailed {...selectedSummaryItem} />
         </Panel>
+      )}
+
+      {showSuccess && (
+        <div className="w-[280px] mx-auto flex flex-col gap-4 pt-8 text-center">
+          <div className="mx-auto w-[286px] h-[237px] bg-gray-300">
+            
+          </div>
+          <div className="text-[24px] leading-[32px] font-semibold">
+            {t('settleUpSaved')}
+          </div>
+        </div>
       )}
 
       <Button
