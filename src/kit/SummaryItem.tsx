@@ -27,7 +27,7 @@ function SummaryItem({ from_user, to_user, amount, onClick }: TSummaryItemProps)
   }
 
   return (
-    <div className="flex gap-3">
+    <div className="flex gap-3 items-center">
       <User
         user={fromUser}
         size={48}
@@ -50,6 +50,7 @@ function SummaryItem({ from_user, to_user, amount, onClick }: TSummaryItemProps)
       />
 
       <Button
+        theme="settleUp"
         text={t('settleUp')}
         onClick={onClick}
       />
