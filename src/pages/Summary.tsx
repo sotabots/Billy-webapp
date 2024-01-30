@@ -34,6 +34,10 @@ function Summary() {
 
   const [isBusy, setIsBusy] = useState(false)
 
+  const currencyIds = !summary?.items
+    ? []
+    : [...(new Set(summary.items.map(item => item.currency_id)))]
+
   /*
   useInit()
   const navigate = useNavigate()
@@ -102,19 +106,22 @@ function Summary() {
       </div>
 
       {!isSelected && summary?.items && summary.items.length > 0 && (
-        // todo: summary groups
-        <Panel>
-          <h3>{t('summaryBy')} (curr)</h3>
-          <div className="mt-4 flex flex-col gap-4">
-            {summary.items.map((summaryItem, i) => (
-              <SummaryItem
-                key={`SummaryItem-${i}`}
-                {...summaryItem}
-                onClick={() => { setSelectedId(summaryItem._id) }}
-              />
-            ))}
-          </div>
-        </Panel>
+        <div className="flex flex-col gap-2">
+        {currencyIds.map((currencyId, i) => (
+          <Panel key={`Panel-${i}`}>
+            <h3>{t('summaryBy')} {getCurrencyById(currencyId)?.symbol || currencyId}</h3>
+            <div className="mt-4 flex flex-col gap-4">
+              {summary.items.filter(item => item.currency_id === currencyId).map((summaryItem, j) => (
+                <SummaryItem
+                  key={`SummaryItem-${i}-${j}`}
+                  {...summaryItem}
+                  onClick={() => { setSelectedId(summaryItem._id) }}
+                />
+              ))}
+            </div>
+          </Panel>
+        ))}
+        </div>
       )}
 
       {!selectedId && summary?.items && summary.items.length === 0 && (
