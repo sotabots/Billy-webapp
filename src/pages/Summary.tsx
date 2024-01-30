@@ -15,6 +15,7 @@ import { closeApp } from '../utils'
 // import { decimals } from '../const'
 // import { useInit } from '../hooks'
 import { useStore } from '../store'
+import { useCurrencies } from '../hooks'
 // import { feedback, EVENT } from '../feedback'
 // import { usePatchTransaction } from '../api'
 // import { formatAmount } from '../utils'
@@ -24,10 +25,12 @@ function Summary() {
   const { t } = useTranslation()
 
   const { summary } = useStore()
+  const { getCurrencyById } = useCurrencies()
 
   const [selectedId, setSelectedId] = useState<null | number>(null)
   const isSelected = selectedId !== null
   const selectedSummaryItem = (summary?.items || []).find(summaryItem => summaryItem._id === selectedId)
+  const selectedSummaryItemCurrency = selectedSummaryItem ? getCurrencyById(selectedSummaryItem.currency_id) : undefined
 
   const [isBusy, setIsBusy] = useState(false)
 
@@ -87,7 +90,7 @@ function Summary() {
 
       <div className="mb-2 px-4 flex items-center justify-between">
         <h2 className="pt-[2px] pb-[6px]">
-          {!isSelected ? t('chatBalances') : `${t('settleUpBy')} ${'(curr)'}`}
+          {!isSelected ? t('chatBalances') : `${t('settleUpBy')} ${selectedSummaryItemCurrency?.symbol}`}
         </h2>
         {!isSelected && (
           <Button
