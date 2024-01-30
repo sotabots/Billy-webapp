@@ -3,6 +3,7 @@
   "bot": "bot",
   "cancel": "Cancel",
   "back": "Back",
+  "close": "Close",
   "delete": "Delete",
   "addMore": "Add more",
   "addEveryone": "Add everyone",
@@ -31,5 +32,11 @@
   "forYourselfAndForOthers": "For yourself and for others",
   "forOthers": "For others",
   "splitEqually": "Split equally",
-  "selectCurrency": "Select currency"
+  "selectCurrency": "Select currency",
+  "settleUp": "Settle up",
+  "chatBalances": "Chat balances",
+  "settleUpBy": "Settle up by",
+  "detailedSummary": "Detailed summary",
+  "summaryBy": "Summary by",
+  "allSettledUp": "You are all settled up in this group"
 }

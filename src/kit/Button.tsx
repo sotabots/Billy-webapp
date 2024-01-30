@@ -43,7 +43,7 @@ function Button({ theme = 'default', isBottom, text, disabled, isBusy, onClick }
 
     'text': 'min-h-[24px] text-[14px] leading-[1.2em] text-button hover:brightness-[1.2] active:brightness-[1.4] transition-all',
 
-    'settleUp': 'min-h-[24px] border border-link rounded-[4px] px-2 text-[14px] leading-[1.2em] text-link hover:brightness-[1.2] active:brightness-[1.4] transition-all'
+    'settleUp': 'min-h-[24px] border border-link rounded-[4px] px-2 text-[14px] leading-[1.2em] text-link hover:brightness-[1.2] active:brightness-[1.4] transition-all whitespace-nowrap'
   }[theme]
 
   return (
