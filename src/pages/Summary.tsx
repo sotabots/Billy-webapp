@@ -105,7 +105,7 @@ function Summary() {
         // todo: summary groups
         <Panel>
           <h3>{t('summaryBy')} (curr)</h3>
-          <div className="mt-4 flex flex-col gap-3">
+          <div className="mt-4 flex flex-col gap-4">
             {summary.items.map((summaryItem, i) => (
               <SummaryItem
                 key={`SummaryItem-${i}`}

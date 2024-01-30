@@ -6,6 +6,10 @@ import User from './User'
 import { useUsers } from '../hooks'
 import { TSummaryItem } from '../types'
 
+import { ReactComponent as ToSmallIcon } from '../img/to-small.svg'
+
+import { formatAmount } from '../utils'
+
 type TSummaryItemProps = TSummaryItem & {
   onClick: () => void
 }
@@ -24,9 +28,26 @@ function SummaryItem({ from_user, to_user, amount, onClick }: TSummaryItemProps)
 
   return (
     <div className="flex gap-3">
-      <User user={fromUser} size={48} />
-
-      <div className="font-semibold">{amount}</div>
+      <User
+        user={fromUser}
+        size={48}
+        secondRow={(
+          <div className="mt-1 flex gap-1 items-center">
+            <div className="flex items-center">
+              <div className="w-4 h-3">
+                <ToSmallIcon />
+              </div>
+              <div className="text-[14px] leading-[24px] font-semibold">{formatAmount(amount)}</div>
+            </div>
+            <User
+              user={toUser}
+              size={24}
+              secondRow={false}
+              className="gap-[2px] !text-[14px] !leading-[20px] text-hint"
+            />
+          </div>
+        )}
+      />
 
       <Button
         text={t('settleUp')}
