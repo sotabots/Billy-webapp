@@ -1,10 +1,11 @@
-import { useEffect } from 'react'
 import { useHapticFeedback } from '@vkruglikov/react-telegram-web-app'
-import cx from 'classnames'
 import Lottie from 'lottie-react'
+import { useEffect } from 'react'
 
 import { useSplash } from '../hooks'
 import Loader from './Loader'
+import Overlay from './Overlay'
+
 import lottieSuccess from '../assets/lottie-success.json'
 
 function SplashScreen() {
@@ -27,10 +28,7 @@ function SplashScreen() {
   }, [error, notificationOccurred])
 
   return (
-    <div className={cx(
-      'fixed top-0 left-0 w-full h-full overflow-y-auto bg-bg2 transition-all',
-      isSplash ? 'opacity-100' : 'pointer-events-none opacity-0'
-    )}>
+    <Overlay isOpen={isSplash}>
       <div className="flex items-center justify-center w-full min-h-full">
         {isLoading && !error && !isSuccess && <Loader size={50} />}
         {!!error && (
@@ -44,7 +42,7 @@ function SplashScreen() {
           </div>
         )}
       </div>
-    </div>
+    </Overlay>
   )
 }
 

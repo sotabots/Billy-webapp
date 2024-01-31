@@ -5,6 +5,7 @@ import { useTranslation } from 'react-i18next'
 
 import Button from '../kit/Button'
 import Header from '../kit/Header'
+import Overlay from '../kit/Overlay'
 import Panel from '../kit/Panel'
 import Screen from '../kit/Screen'
 import SummaryItem from '../kit/SummaryItem'
@@ -33,7 +34,7 @@ function Summary() {
   const selectedSummaryItemCurrency = selectedSummaryItem ? getCurrencyById(selectedSummaryItem.currency_id) : undefined
 
   const [isBusy, setIsBusy] = useState(false)
-  const [showSuccess, setShowSuccess] = useState(false)
+  const [isSuccessOpen, setIsSuccessOpen] = useState(false)
 
   const currencyIds = !summary?.items
     ? []
@@ -76,7 +77,7 @@ function Summary() {
     // navigate('/select-currency')
   }
 
-  const settleUp = () => {
+  const settleUp = async () => {
     if (selectedId === null || !summary) {
       return
     }
@@ -88,11 +89,13 @@ function Summary() {
           ...summary,
           items: [...summary.items].filter(item => item._id !== selectedId)
         })
-        setShowSuccess(true)
-        setSelectedId(null)
+        setIsSuccessOpen(true)
         setTimeout(() => {
-          setShowSuccess(false)
-        }, 2300)
+          setSelectedId(null)
+        }, 1000)
+        setTimeout(() => {
+          setIsSuccessOpen(false)
+        }, 2500)
       } catch (e) {
         // todo
       } finally {
@@ -166,7 +169,14 @@ function Summary() {
         </Panel>
       )}
 
-      {showSuccess && (
+      <Button
+        isBottom
+        text={!selectedId ? t('close') : t('settleUp')}
+        onClick={!selectedId ? closeApp : settleUp}
+        isBusy={isBusy}
+      />
+
+      <Overlay isOpen={isSuccessOpen}>
         <div className="w-[280px] mx-auto flex flex-col gap-4 pt-8 text-center">
           <div className="mx-auto w-[286px] h-[237px] bg-gray-300">
             
@@ -175,14 +185,7 @@ function Summary() {
             {t('settleUpSaved')}
           </div>
         </div>
-      )}
-
-      <Button
-        isBottom
-        text={!selectedId ? t('close') : t('settleUp')}
-        onClick={!selectedId ? closeApp : settleUp}
-        isBusy={isBusy}
-      />
+      </Overlay>
     </Screen>
   )
 }

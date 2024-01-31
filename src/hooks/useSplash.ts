@@ -19,7 +19,7 @@ export const useSplash = () => {
 
   const error = txError || usersError || chatError || txPatchError || currenciesError || unknownCurrencyError
 
-  const isSplash = isLoading || error || isSuccess
+  const isSplash = Boolean(isLoading || error || isSuccess)
 
   return { isSplash, isLoading, error, isSuccess }
 }
