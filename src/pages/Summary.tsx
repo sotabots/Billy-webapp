@@ -2,7 +2,6 @@
 import Lottie from 'lottie-react'
 import { useState } from 'react'
 import { useTranslation } from 'react-i18next'
-// import { useNavigate } from 'react-router-dom'
 
 import Button from '../kit/Button'
 import Header from '../kit/Header'
@@ -46,7 +45,6 @@ function Summary() {
 
   /*
   useInit()
-  const navigate = useNavigate()
   const { currencies, transaction, setTransaction, setSuccess, setTxPatchError } = useStore()
 
   const patchTransaction = usePatchTransaction()
@@ -77,8 +75,7 @@ function Summary() {
 
   const goDetailedSummary = () => {
     // todo
-    alert('goDetailedSummary')
-    // navigate('/select-currency')
+    window.open('https://docs.google.com/spreadsheets/d/1BxiMVs0XRA5nFMdKvBdBZjgmUUqptlbs74OgvE2upms/edit','_blank')
   }
 
   const settleUp = async () => {

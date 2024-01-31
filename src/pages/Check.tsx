@@ -114,6 +114,7 @@ function Check() {
       await feedback(EVENT.SEND_TRANSACTION)
       console.log(JSON.stringify(confirmedTransaction, null, 2))
       const resJson = await patchTransaction(confirmedTransaction)
+      // todo: maybe not 200
       console.log('patch res json', resJson)
       setSuccess(true)
       setTimeout(() => {
