@@ -1,4 +1,5 @@
 // import cx from 'classnames'
+import Lottie from 'lottie-react'
 import { useState } from 'react'
 import { useTranslation } from 'react-i18next'
 // import { useNavigate } from 'react-router-dom'
@@ -21,6 +22,9 @@ import { useCurrencies } from '../hooks'
 // import { usePatchTransaction } from '../api'
 // import { formatAmount } from '../utils'
 // import type { TShare } from '../types'
+
+import lottieKoalaSettledUp from '../assets/lottie-koala-settled-up.json'
+import lottieKoalaSuccess from '../assets/lottie-koala-success.json'
 
 function Summary() {
   const { t } = useTranslation()
@@ -127,7 +131,6 @@ function Summary() {
         </div>
       )}
 
-
       {!isSelected && summary?.items && summary.items.length > 0 && (
         <div className="flex flex-col gap-2">
         {currencyIds.map((currencyId, i) => (
@@ -149,8 +152,12 @@ function Summary() {
 
       {!selectedId && summary?.items && summary.items.length === 0 && (
         <div className="w-[244px] mx-auto flex flex-col gap-6 pt-8 text-center">
-          <div className="mx-auto w-[215px] h-[200px] bg-gray-300">
-            
+          <div className="mx-auto w-[215px] h-[200px]">
+            <Lottie
+              style={{ width: 215, height: 200 }}
+              animationData={lottieKoalaSettledUp}
+              loop={true}
+            />
           </div>
           <div className="text-[24px] leading-[32px] font-semibold">
             {t('allSettledUp')}
@@ -178,8 +185,12 @@ function Summary() {
 
       <Overlay isOpen={isSuccessOpen}>
         <div className="w-[280px] mx-auto flex flex-col gap-4 pt-8 text-center">
-          <div className="mx-auto w-[286px] h-[237px] bg-gray-300">
-            
+          <div className="mx-auto w-[286px] h-[237px]">
+            <Lottie
+              style={{ width: 286, height: 237 }}
+              animationData={lottieKoalaSuccess}
+              loop={true}
+            />
           </div>
           <div className="text-[24px] leading-[32px] font-semibold">
             {t('settleUpSaved')}

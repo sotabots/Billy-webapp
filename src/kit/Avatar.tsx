@@ -1,10 +1,10 @@
 import Lottie from 'lottie-react'
 
-import lottieKoala from '../assets/lottie-koala.json'
-
 import { useTheme } from '../hooks'
 import { useStore } from '../store'
 import type { TUser } from '../types'
+
+import lottieKoalaLooking from '../assets/lottie-koala-looking.json'
 
 const apiUrl = import.meta.env.VITE_API_URL
 
@@ -63,7 +63,7 @@ function Avatar({ user, size = 40 }: TAvatar) {
       {!user && (
         <Lottie
           style={{ height: 0.8 * size }}
-          animationData={lottieKoala}
+          animationData={lottieKoalaLooking}
           loop={true}
         />
       )}
