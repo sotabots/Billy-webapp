@@ -1,4 +1,4 @@
-// import cx from 'classnames'
+import { useHapticFeedback } from '@vkruglikov/react-telegram-web-app'
 import Lottie from 'lottie-react'
 import { useState } from 'react'
 import { useTranslation } from 'react-i18next'
@@ -27,6 +27,7 @@ import lottieKoalaSuccess from '../assets/lottie-koala-success.json'
 
 function Summary() {
   const { t } = useTranslation()
+  const [, notificationOccurred] = useHapticFeedback()
 
   const { summary, setSummary } = useStore()
   const { getCurrencyById } = useCurrencies()
@@ -91,6 +92,8 @@ function Summary() {
           items: [...summary.items].filter(item => item._id !== selectedId)
         })
         setIsSuccessOpen(true)
+        console.log('success vibro')
+        notificationOccurred('success')
         setTimeout(() => {
           setSelectedId(null)
         }, 1000)
