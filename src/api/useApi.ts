@@ -1,3 +1,4 @@
+import { useInitData } from '@vkruglikov/react-telegram-web-app'
 import { useQuery } from '@tanstack/react-query'
 
 import { useStore } from '../store'
@@ -15,6 +16,7 @@ const handleJsonResponse = (res: any) => {
 }
 
 export const useTxQuery = () => {
+  const [, initData] = useInitData();
   const { setTransaction, txId } = useStore()
   console.log('useTxQuery txId', txId)
   return (
@@ -22,8 +24,11 @@ export const useTxQuery = () => {
       queryKey: ['tx', `tx-${txId}`],
       queryFn: txId
         ? () =>
-          fetch(`${apiUrl}/transactions/${txId}`)
-            .then(handleJsonResponse)
+          fetch(`${apiUrl}/transactions/${txId}`, {
+            headers: {
+              'Authorization': initData,
+            }
+          }).then(handleJsonResponse)
         : () => mockTransaction,
       onSuccess: (data) => {
         console.log('useApi: set tx', data)
@@ -35,14 +40,18 @@ export const useTxQuery = () => {
 }
 
 export const useUsersQuery = (chatId: undefined | string | null) => {
+  const [, initData] = useInitData();
   const { setUsers } = useStore()
   return (
     useQuery<TUser[], Error>({
       queryKey: ['users', `chat-${chatId}`],
       queryFn: chatId
         ? () =>
-          fetch(`${apiUrl}/chats/${chatId}/users`)
-            .then(handleJsonResponse)
+          fetch(`${apiUrl}/chats/${chatId}/users`, {
+            headers: {
+              'Authorization': initData,
+            }
+          }).then(handleJsonResponse)
             // .then(json => json.users)
         : () => mockUsers,
       onSuccess: (data) => {
@@ -56,14 +65,18 @@ export const useUsersQuery = (chatId: undefined | string | null) => {
 }
 
 export const useChatQuery = (chatId: undefined | string | null) => {
+  const [, initData] = useInitData();
   const { setChat } = useStore()
   return (
     useQuery<TChat, Error>({
       queryKey: ['chat', `chat-${chatId}`],
       queryFn: (chatId /* || !'DISABLE_MOCK_CHAT'*/)
         ? () =>
-          fetch(`${apiUrl}/chats/${chatId}`)
-            .then(handleJsonResponse)
+          fetch(`${apiUrl}/chats/${chatId}`, {
+            headers: {
+              'Authorization': initData,
+            }
+          }).then(handleJsonResponse)
         : () => mockChat,
       onSuccess: (data) => {
         console.log('useApi: set chat', data)
@@ -76,15 +89,19 @@ export const useChatQuery = (chatId: undefined | string | null) => {
 }
 
 export const useCurrenciesQuery = (chatId: undefined | string | null) => {
+  const [, initData] = useInitData();
   const { setCurrencies } = useStore()
   return (
     useQuery<TCurrency[], Error>({
       queryKey: ['currencies'],
       queryFn: (chatId || !!'DISABLE_MOCK_CURRENCIES')
         ? () =>
-          fetch(`${apiUrl}/currencies/`)
-            .then(handleJsonResponse)
-            // .then(json => json.currencies)
+          fetch(`${apiUrl}/currencies/`, {
+            headers: {
+              'Authorization': initData,
+            }
+          }).then(handleJsonResponse)
+          // .then(json => json.currencies)
         : () => mockCurrencies,
       onSuccess: (data) => {
         console.log('useApi: set currencies', data)
@@ -97,6 +114,7 @@ export const useCurrenciesQuery = (chatId: undefined | string | null) => {
 }
 
 export const usePatchTransaction = () => {
+  const [, initData] = useInitData();
   const { txId } = useStore()
   const url = txId ? `${apiUrl}/transactions/${txId}` : 'https://jsonplaceholder.typicode.com/posts/1'
   return (tx: TTransaction) =>
@@ -104,7 +122,8 @@ export const usePatchTransaction = () => {
       method: 'PUT',
       body: JSON.stringify(tx),
       headers: {
-        "Content-type": "application/json"
+        'Content-type': 'application/json',
+        'Authorization': initData,
       },
     }).then(handleJsonResponse)
 }
