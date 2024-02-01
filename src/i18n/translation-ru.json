@@ -3,6 +3,7 @@
   "bot": "бот",
   "cancel": "Отмена",
   "back": "Назад",
+  "close": "Закрыть",
   "delete": "Удалить",
   "addMore": "Добавить ещё",
   "addEveryone": "Добавить всех",
@@ -31,5 +32,13 @@
   "forYourselfAndForOthers": "За себя и за других",
   "forOthers": "За других",
   "splitEqually": "Разделить поровну",
-  "selectCurrency": "Выберите валюту"
+  "selectCurrency": "Выберите валюту",
+
+  "groupBalances": "Баланс группы",
+  "settleUpBy": "Рассчитаться по",
+  "detailedSummary": "Детализация",
+  "summaryBy": "Итог по",
+  "settleUp": "Рассчитаться",
+  "settleUpSaved": "Транзакция успешно сохранена!",
+  "allSettledUp": "Все рассчитались в этой группе"
 }

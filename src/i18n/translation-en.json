@@ -33,12 +33,12 @@
   "forOthers": "For others",
   "splitEqually": "Split equally",
   "selectCurrency": "Select currency",
-  "settleUp": "Settle up",
-  "chatBalances": "Chat balances",
+
+  "groupBalances": "Group balances",
   "settleUpBy": "Settle up by",
   "detailedSummary": "Detailed summary",
   "summaryBy": "Summary by",
-  "settleUpSuccess": "Transaction successfully saved!",
-  "allSettledUp": "You are all settled up in this group",
-  "settleUpSaved": "Transaction successfully saved"
+  "settleUp": "Settle up",
+  "settleUpSaved": "Transaction successfully saved!",
+  "allSettledUp": "You are all settled up in this group"
 }

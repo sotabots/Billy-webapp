@@ -121,7 +121,7 @@ function Summary() {
       {!(!selectedId && summary?.items && summary.items.length === 0) && (
         <div className="mb-2 px-4 flex items-center justify-between">
           <h2 className="pt-[2px] pb-[6px]">
-            {!isSelected ? t('chatBalances') : `${t('settleUpBy')} ${selectedSummaryItemCurrency?.symbol}`}
+            {!isSelected ? t('groupBalances') : `${t('settleUpBy')} ${selectedSummaryItemCurrency?.symbol}`}
           </h2>
           {!isSelected && (
             <Button
