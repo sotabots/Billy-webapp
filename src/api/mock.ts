@@ -93,7 +93,7 @@ const mockSummary: TSummary = {
   items: []
 }
 
-if (Math.random() < 0.3) {
+if (Math.random() > 0.25) {
   mockUsers.forEach((mockUser, i, arr) => {
     if (i < arr.length - 1) {
       mockSummary.items.push({
