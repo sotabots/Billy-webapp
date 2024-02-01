@@ -75,8 +75,10 @@ function Summary() {
   */
 
   const goDetailedSummary = () => {
-    // todo
-    window.open('https://docs.google.com/spreadsheets/d/1BxiMVs0XRA5nFMdKvBdBZjgmUUqptlbs74OgvE2upms/edit','_blank')
+    // todo: check
+    if (summary) {
+      window.open(summary.detailed_summary_url, '_blank')
+    }
   }
 
   const settleUp = async () => {

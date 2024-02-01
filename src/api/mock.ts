@@ -89,7 +89,7 @@ const mockChat: TChat = {
 
 const mockSummary: TSummary = {
   _id: -1,
-  detailed_summary_url: 'mock url',
+  detailed_summary_url: 'https://docs.google.com/spreadsheets/d/1BxiMVs0XRA5nFMdKvBdBZjgmUUqptlbs74OgvE2upms/edit',
   items: []
 }
 
