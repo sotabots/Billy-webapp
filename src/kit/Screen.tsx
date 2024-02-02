@@ -2,6 +2,7 @@ import cx from 'classnames'
 import { ReactNode } from 'react'
 
 import Debug from './Debug'
+import Limiter from './Limiter'
 
 type TScreen = {
   children: ReactNode,
@@ -11,11 +12,10 @@ type TScreen = {
 function Screen({ children, className }: TScreen) {
   return (
     <div className={cx('fixed top-0 left-0 w-full h-full overflow-y-auto text-text bg-bg2', className)}>
-      <div className="limiter">
+      <Limiter>
         {children}
-
         <Debug />
-      </div>
+      </Limiter>
     </div>
   )
 }

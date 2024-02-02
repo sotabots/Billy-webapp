@@ -20,11 +20,6 @@ body {
   min-height: 100vh;
 }
 
-.limiter {
-  max-width: 1000px;
-  margin: 0 auto;
-}
-
 * {
   --scrollbarBG: transparent;
   --thumbBG: #ccc8;

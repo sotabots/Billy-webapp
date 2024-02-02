@@ -2,6 +2,7 @@ import cx from 'classnames'
 import { MainButton, useHapticFeedback, useWebApp } from '@vkruglikov/react-telegram-web-app'
 
 import { useSplash } from '../hooks'
+import Limiter from './Limiter'
 import Loader from './Loader'
 
 type TButton = {
@@ -46,23 +47,34 @@ function Button({ theme = 'default', isBottom, text, disabled, isBusy, onClick }
     'settleUp': 'min-h-[24px] border border-link rounded-[4px] px-2 text-[14px] leading-[1.2em] text-link hover:brightness-[1.2] active:brightness-[1.4] transition-all whitespace-nowrap'
   }[theme]
 
+  const button = (
+    <button
+      className={cx(
+        themeStyle,
+        isBottom && '!h-[56px]',
+        'disabled:opacity-40 disabled:cursor-not-allowed'
+      )}
+      disabled={disabled || isBusy}
+      onClick={onClickVibro}
+    >
+      {text}
+    </button>
+  )
+
   return (
     <div className={cx(isBottom && 'h-[56px]')}>{/* spacer */}
-      <div className={cx(isBottom ? 'fixed bottom-0 left-0 w-full pt-1 bg-bg' : 'relative')}>{/* loader wrapper */}
+      <div className={cx('ButtonLoaderWrapper', isBottom ? 'fixed bottom-0 left-0 w-full pt-1 bg-bg' : 'relative')}>
         {isBottom && (
           <div className="absolute bottom-full left-0 w-full h-2 bg-gradient-to-t from-bg" />
         )}
-        <button
-          className={cx(
-            themeStyle,
-            isBottom && '!h-[56px]',
-            'disabled:opacity-40 disabled:cursor-not-allowed'
-          )}
-          disabled={disabled || isBusy}
-          onClick={onClickVibro}
-        >
-          {text}
-        </button>
+        {isBottom
+          ? (
+            <Limiter>
+              {button}
+            </Limiter>
+          )
+          : button
+        }
         {isBusy && <Loader size={30} />}
       </div>
     </div>
