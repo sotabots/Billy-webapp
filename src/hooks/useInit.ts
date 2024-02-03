@@ -10,14 +10,16 @@ export const useInit = () => {
   const routerLocation = useLocation()
   const [initDataUnsafe/*, initData*/] = useInitData();
 
+  const queryParameters = new URLSearchParams(routerLocation.search)
+  const queryTxId = queryParameters.get('txid')
+
+  const startParam = initDataUnsafe.start_param
+  // use `?startapp=...` as id
+  // todo: decode
+  const startParamTxId = startParam
+
   if (txId === undefined) {
-    const queryParameters = new URLSearchParams(routerLocation.search)
-    const txId = queryParameters.get('txid')
-
-    // use `?startapp=...` as id
-    const startParam = initDataUnsafe.start_param
-
-    setTxId(txId || startParam || null)
+    setTxId(queryTxId || startParamTxId || null)
   }
 
   if (
