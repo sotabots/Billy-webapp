@@ -1,6 +1,6 @@
 import { create } from 'zustand'
-import { TCurrency, TCurrencyId, TTransaction, TUser, TChat, TSummary } from './../types'
 
+import { TCurrency, TCurrencyId, TTransaction, TUser, TChat, TSummary } from '../types'
 import { mockSummary } from '../api/mock'
 
 type TStore = {

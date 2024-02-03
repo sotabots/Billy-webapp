@@ -16,9 +16,10 @@ const handleJsonResponse = (res: any) => {
 }
 
 export const useTxQuery = () => {
-  const [, initData] = useInitData();
+  const [, initData] = useInitData()
   const { setTransaction, txId } = useStore()
   console.log('useTxQuery txId', txId)
+
   return (
     useQuery<TTransaction, Error>({
       queryKey: ['tx', `tx-${txId}`],
@@ -40,8 +41,9 @@ export const useTxQuery = () => {
 }
 
 export const useUsersQuery = (chatId: undefined | string | null) => {
-  const [, initData] = useInitData();
+  const [, initData] = useInitData()
   const { setUsers } = useStore()
+
   return (
     useQuery<TUser[], Error>({
       queryKey: ['users', `chat-${chatId}`],
@@ -65,8 +67,9 @@ export const useUsersQuery = (chatId: undefined | string | null) => {
 }
 
 export const useChatQuery = (chatId: undefined | string | null) => {
-  const [, initData] = useInitData();
+  const [, initData] = useInitData()
   const { setChat } = useStore()
+
   return (
     useQuery<TChat, Error>({
       queryKey: ['chat', `chat-${chatId}`],
@@ -89,8 +92,9 @@ export const useChatQuery = (chatId: undefined | string | null) => {
 }
 
 export const useCurrenciesQuery = (chatId: undefined | string | null) => {
-  const [, initData] = useInitData();
+  const [, initData] = useInitData()
   const { setCurrencies } = useStore()
+
   return (
     useQuery<TCurrency[], Error>({
       queryKey: ['currencies'],
@@ -114,9 +118,10 @@ export const useCurrenciesQuery = (chatId: undefined | string | null) => {
 }
 
 export const usePatchTransaction = () => {
-  const [, initData] = useInitData();
+  const [, initData] = useInitData()
   const { txId } = useStore()
   const url = txId ? `${apiUrl}/transactions/${txId}` : 'https://jsonplaceholder.typicode.com/posts/1'
+
   return (tx: TTransaction) =>
     fetch(url, {
       method: 'PUT',

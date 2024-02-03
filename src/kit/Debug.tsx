@@ -4,15 +4,23 @@ import Panel from './Panel'
 
 import { useStore } from '../store'
 
-const OPEN_DEBUG_RIGHT_CLICKS = 3
+const OPEN_DEBUG_RIGHT_CLICKS = 5
 
 function Debug() {
   const { transaction, users, txId, summary } = useStore()
   const [n, setN] = useState(0)
 
+  const isTouchDevice = () =>
+    (('ontouchstart' in window) ||
+    (navigator.maxTouchPoints > 0) ||
+    // @ts-ignore
+    (navigator.msMaxTouchPoints > 0))
+
   const listener = useCallback(() => {
-    setN(n + 1)
-  }, [n, setN])
+    if (!isTouchDevice()) {
+      setN(n + 1)
+    }
+  }, [n, setN, isTouchDevice])
 
   useEffect(() => {
     window.addEventListener('contextmenu', listener)
