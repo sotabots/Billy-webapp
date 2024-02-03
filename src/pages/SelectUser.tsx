@@ -9,7 +9,7 @@ import User from '../kit/User'
 import { useInit, useUsers } from '../hooks'
 import { useStore } from '../store'
 
-function Select() {
+function SelectUser() {
   useInit()
   const { t } = useTranslation()
   const { users, unrelatedUsers, addUsers, selectUser, deleteUser } = useUsers()
@@ -61,4 +61,4 @@ function Select() {
   )
 }
 
-export default Select
+export default SelectUser

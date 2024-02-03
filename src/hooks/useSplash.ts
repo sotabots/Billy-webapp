@@ -6,9 +6,8 @@ export const useSplash = () => {
   const { isLoading: isUsersLoading, error: usersError } = useUsersQuery(!tx ? undefined : tx.chat_id)
   const { isLoading: isChatLoading, error: chatError } = useChatQuery(!tx ? undefined : tx.chat_id)
   const { isLoading: isCurrenciesLoading, error: currenciesError } = useCurrenciesQuery(!tx ? undefined : tx.chat_id)
-  const { currencies } = useStore()
 
-  const { isSuccess, txPatchError } = useStore()
+  const { currencies, txPatchError } = useStore()
 
   const isLoading = isTxLoading || isUsersLoading || isChatLoading || isCurrenciesLoading
 
@@ -19,7 +18,5 @@ export const useSplash = () => {
 
   const error = txError || usersError || chatError || txPatchError || currenciesError || unknownCurrencyError
 
-  const isSplash = Boolean(isLoading || error || isSuccess)
-
-  return { isSplash, isLoading, error, isSuccess }
+  return { isLoading, error }
 }

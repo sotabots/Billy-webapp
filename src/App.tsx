@@ -11,8 +11,9 @@ import { router } from './router'
 // import reactLogo from './assets/react.svg'
 // import viteLogo from '/vite.svg'
 
-import SplashScreen from './kit/SplashScreen'
 import DemoMode from './kit/DemoMode'
+import OverlaySplash from './overlays/OverlaySplash'
+import OverlayError from './overlays/OverlayError'
 
 const queryClient = new QueryClient()
 
@@ -24,8 +25,9 @@ function App() {
     <WebAppProvider options={{ smoothButtonsTransition: true }}>
       <QueryClientProvider client={queryClient}>
         <RouterProvider router={router} />
-        <SplashScreen />
         <DemoMode />
+        <OverlaySplash />
+        <OverlayError />
       </QueryClientProvider>
     </WebAppProvider>
   )
