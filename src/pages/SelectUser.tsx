@@ -11,6 +11,7 @@ import { useStore } from '../store'
 
 function SelectUser() {
   useInit()
+
   const { t } = useTranslation()
   const { users, unrelatedUsers, addUsers, selectUser, deleteUser } = useUsers()
   const { selectPersonId, transaction } = useStore()

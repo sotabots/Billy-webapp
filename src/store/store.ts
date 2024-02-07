@@ -24,6 +24,8 @@ type TStore = {
   txPatchError: null | Error
   setTxPatchError: (txPatchError: null | Error) => void
 
+  summaryId: undefined | string | null
+  setSummaryId: (summaryId: string | null) => void
   summary: undefined | TSummary | null
   setSummary: (summary: TSummary) => void
 }
@@ -59,6 +61,8 @@ export const useStore = create<TStore>((set, get) => ({
   txPatchError: null,
   setTxPatchError: (txPatchError) => set(({ txPatchError })),
 
+  summaryId: undefined,
+  setSummaryId: (summaryId) => set(({ summaryId })),
   summary: mockSummary,
   setSummary: (summary) => set(( { summary } )),
 }))

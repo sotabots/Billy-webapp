@@ -7,7 +7,7 @@ import { useStore } from '../store'
 const OPEN_DEBUG_RIGHT_CLICKS = 5
 
 function Debug() {
-  const { transaction, users, txId, summary } = useStore()
+  const { transaction, users, txId, summaryId, summary } = useStore()
   const [n, setN] = useState(0)
 
   const isTouchDevice = () =>
@@ -36,12 +36,13 @@ function Debug() {
         <strong>href = </strong>{location.href}
         <br />
         <br />
-        <strong>txid = </strong>{String(txId)}
-        <br />
+        <strong>summaryId = </strong>{String(summaryId)}
         <br />
         <strong>summary = </strong>
         <pre>{JSON.stringify(summary, null, 2)}</pre>
         <br />
+        <br />
+        <strong>txId = </strong>{String(txId)}
         <br />
         <strong>transaction = </strong>
         <pre>{JSON.stringify(transaction, null, 2)}</pre>

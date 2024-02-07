@@ -14,7 +14,7 @@ import DebtDetailed from '../kit/DebtDetailed'
 import { closeApp } from '../utils'
 
 // import { decimals } from '../const'
-// import { useInit } from '../hooks'
+import { useInit } from '../hooks'
 import { useStore } from '../store'
 import { useCurrencies } from '../hooks'
 // import { feedback, EVENT } from '../feedback'
@@ -26,6 +26,8 @@ import lottieKoalaSettledUp from '../assets/lottie-koala-settled-up.json'
 import lottieKoalaSuccess from '../assets/lottie-koala-success.json'
 
 function Summary() {
+  useInit()
+
   const { t } = useTranslation()
   const [, notificationOccurred] = useHapticFeedback()
 
@@ -45,7 +47,6 @@ function Summary() {
     : [...(new Set(summary.debts.map(item => item.currency_id)))]
 
   /*
-  useInit()
   const { currencies, transaction, setTransaction, setSuccess, setTxPatchError } = useStore()
 
   const patchTransaction = usePatchTransaction()

@@ -18,6 +18,7 @@ import { closeApp } from '../utils'
 
 function Start() {
   useInit()
+
   const { t } = useTranslation()
   const navigate = useNavigate()
   const { transaction, setSelectPersonId } = useStore()

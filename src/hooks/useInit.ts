@@ -6,20 +6,36 @@ import { useStore } from '../store'
 import i18n from '../i18n'
 
 export const useInit = () => {
-  const { txId, setTxId, chat } = useStore()
+  const {
+    txId, setTxId,
+    summaryId, setSummaryId,
+    chat
+  } = useStore()
   const routerLocation = useLocation()
   const [initDataUnsafe/*, initData*/] = useInitData();
 
   const queryParameters = new URLSearchParams(routerLocation.search)
   const queryTxId = queryParameters.get('txid')
+  const querySummaryId = queryParameters.get('summaryid')
 
   const startParam = initDataUnsafe.start_param
   // use `?startapp=...` as id
   // todo: decode
-  const startParamTxId = startParam
+  let startParamTxId
+  let startParamSummaryId
+
+  if (routerLocation.pathname === '/summary') {
+    startParamSummaryId = startParam
+  } else {
+    startParamTxId = startParam
+  }
 
   if (txId === undefined) {
     setTxId(queryTxId || startParamTxId || null)
+  }
+
+  if (summaryId === undefined) {
+    setSummaryId(querySummaryId || startParamSummaryId || null)
   }
 
   if (

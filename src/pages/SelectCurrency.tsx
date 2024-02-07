@@ -14,6 +14,7 @@ import { useStore } from '../store'
 
 function SelectCurrency() {
   useInit()
+
   const { t } = useTranslation()
   const navigate = useNavigate()
   const { currencies, transaction, setCurrency } = useStore()
