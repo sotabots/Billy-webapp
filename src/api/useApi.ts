@@ -21,10 +21,10 @@ const handleJsonResponse = (res: any) => {
   return res.json()
 }
 
-export const useTxQuery = () => {
+export const useGetTx = () => {
   const [, initData] = useInitData()
   const { setTransaction, txId } = useStore()
-  console.log('useTxQuery txId', txId)
+  console.log('useGetTx txId', txId)
 
   return (
     useQuery<TTransaction, Error>({
@@ -32,6 +32,7 @@ export const useTxQuery = () => {
       queryFn: txId
         ? () =>
           fetch(`${apiUrl}/transactions/${txId}`, {
+            method: 'GET',
             headers: {
               'Authorization': initData,
             }
@@ -46,7 +47,7 @@ export const useTxQuery = () => {
   )
 }
 
-export const useUsersQuery = (chatId: undefined | number | null) => {
+export const useGetUsers = (chatId: undefined | number | null) => {
   const [, initData] = useInitData()
   const { setUsers } = useStore()
 
@@ -56,6 +57,7 @@ export const useUsersQuery = (chatId: undefined | number | null) => {
       queryFn: chatId
         ? () =>
           fetch(`${apiUrl}/chats/${chatId}/users`, {
+            method: 'GET',
             headers: {
               'Authorization': initData,
             }
@@ -71,7 +73,7 @@ export const useUsersQuery = (chatId: undefined | number | null) => {
   )
 }
 
-export const useChatQuery = (chatId: undefined | number | null) => {
+export const useGetChat = (chatId: undefined | number | null) => {
   const [, initData] = useInitData()
   const { setChat } = useStore()
 
@@ -81,6 +83,7 @@ export const useChatQuery = (chatId: undefined | number | null) => {
       queryFn: (chatId /* || !'DISABLE_MOCK_CHAT'*/)
         ? () =>
           fetch(`${apiUrl}/chats/${chatId}`, {
+            method: 'GET',
             headers: {
               'Authorization': initData,
             }
@@ -96,7 +99,7 @@ export const useChatQuery = (chatId: undefined | number | null) => {
   )
 }
 
-export const useCurrenciesQuery = (chatId: undefined | number | null) => {
+export const useGetCurrencies = (chatId: undefined | number | null) => {
   const [, initData] = useInitData()
   const { setCurrencies } = useStore()
 
@@ -106,6 +109,7 @@ export const useCurrenciesQuery = (chatId: undefined | number | null) => {
       queryFn: (chatId || !!'DISABLE_MOCK_CURRENCIES')
         ? () =>
           fetch(`${apiUrl}/currencies/`, {
+            method: 'GET',
             headers: {
               'Authorization': initData,
             }
@@ -122,7 +126,7 @@ export const useCurrenciesQuery = (chatId: undefined | number | null) => {
   )
 }
 
-export const usePatchTransaction = () => {
+export const usePutTransaction = () => {
   const [, initData] = useInitData()
   const { txId } = useStore()
   const url = txId ? `${apiUrl}/transactions/${txId}` : 'https://jsonplaceholder.typicode.com/posts/1'
@@ -165,6 +169,7 @@ export const useGetSummary = () => {
       queryFn: summaryId
         ? () =>
           fetch(`${apiUrl}/summary/${summaryId}`, {
+            method: 'GET',
             headers: {
               'Authorization': initData,
             }

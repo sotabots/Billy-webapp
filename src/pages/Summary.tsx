@@ -53,7 +53,7 @@ function Summary() {
   /*
   const { currencies, transaction, setTransaction, setSuccess, setTxPatchError } = useStore()
 
-  const patchTransaction = usePatchTransaction()
+  const patchTransaction = usePutTransaction()
 
   const save = async () => {
     const confirmedTransaction = {

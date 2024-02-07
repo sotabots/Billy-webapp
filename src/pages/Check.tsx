@@ -15,7 +15,7 @@ import { decimals } from '../const'
 import { useCurrencies, useInit } from '../hooks'
 import { useStore } from '../store'
 import { feedback, EVENT } from '../feedback'
-import { usePatchTransaction } from '../api'
+import { usePutTransaction } from '../api'
 import { formatAmount } from '../utils'
 import type { TShare } from '../types'
 
@@ -33,7 +33,7 @@ function Check() {
 
   const { getCurrencyById } = useCurrencies()
 
-  const patchTransaction = usePatchTransaction()
+  const patchTransaction = usePutTransaction()
 
   if (!transaction) {
     return null
