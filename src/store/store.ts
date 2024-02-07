@@ -1,7 +1,6 @@
 import { create } from 'zustand'
 
 import { TCurrency, TCurrencyId, TTransaction, TUser, TChat, TSummary } from '../types'
-import { mockSummary } from '../api/mock'
 
 type TStore = {
   overlays: number[]
@@ -63,6 +62,6 @@ export const useStore = create<TStore>((set, get) => ({
 
   summaryId: undefined,
   setSummaryId: (summaryId) => set(({ summaryId })),
-  summary: mockSummary,
+  summary: undefined,
   setSummary: (summary) => set(( { summary } )),
 }))

@@ -2,8 +2,14 @@ import { useInitData } from '@vkruglikov/react-telegram-web-app'
 import { useQuery } from '@tanstack/react-query'
 
 import { useStore } from '../store'
-import { TCurrency, TTransaction, TUser, TChat } from '../types'
-import { mockTransaction, mockUsers, mockCurrencies, mockChat } from './mock'
+import { TCurrency, TTransaction, TUser, TChat, TSummary } from '../types'
+import {
+  mockTransaction,
+  mockUsers,
+  mockCurrencies,
+  mockChat,
+  mockSummary
+} from './mock'
 
 const apiUrl = import.meta.env.VITE_API_URL
 const staleTime = 5 * 60 * 1000
@@ -40,7 +46,7 @@ export const useTxQuery = () => {
   )
 }
 
-export const useUsersQuery = (chatId: undefined | string | null) => {
+export const useUsersQuery = (chatId: undefined | number | null) => {
   const [, initData] = useInitData()
   const { setUsers } = useStore()
 
@@ -66,7 +72,7 @@ export const useUsersQuery = (chatId: undefined | string | null) => {
   )
 }
 
-export const useChatQuery = (chatId: undefined | string | null) => {
+export const useChatQuery = (chatId: undefined | number | null) => {
   const [, initData] = useInitData()
   const { setChat } = useStore()
 
@@ -91,7 +97,7 @@ export const useChatQuery = (chatId: undefined | string | null) => {
   )
 }
 
-export const useCurrenciesQuery = (chatId: undefined | string | null) => {
+export const useCurrenciesQuery = (chatId: undefined | number | null) => {
   const [, initData] = useInitData()
   const { setCurrencies } = useStore()
 
@@ -131,4 +137,29 @@ export const usePatchTransaction = () => {
         'Authorization': initData,
       },
     }).then(handleJsonResponse)
+}
+
+export const useGetSummary = () => {
+  const [, initData] = useInitData()
+  const { setSummary, summaryId } = useStore()
+  console.log('useGetSummary summaryId', summaryId)
+
+  return (
+    useQuery<TSummary, Error>({
+      queryKey: ['summary', `summary-${summaryId}`],
+      queryFn: summaryId
+        ? () =>
+          fetch(`${apiUrl}/summary/${summaryId}`, {
+            headers: {
+              'Authorization': initData,
+            }
+          }).then(handleJsonResponse)
+        : () => mockSummary,
+      onSuccess: (data) => {
+        console.log('useGetSummary: setSummary', data)
+        setSummary(data)
+      },
+      staleTime
+    })
+  )
 }

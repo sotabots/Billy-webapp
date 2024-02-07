@@ -1,4 +1,5 @@
 type TUserId = number // tg id
+type TChatId = number
 
 type TUser = { // tg user
   _id: TUserId
@@ -12,7 +13,7 @@ type TUser = { // tg user
 
 type TTransaction = {
   _id: string
-  chat_id: string | null
+  chat_id: TChatId | null
   is_voice: boolean
   raw_text: string // shown if `formatted_text` does not exist
   formatted_text?: string // with <b>Name</b> highlighting
@@ -57,13 +58,14 @@ type TChat = {
 
 type TSummary = {
   debts: TDebt[]
-  url: string,
+  url: string
+  chat_id: TChatId
 }
 
 type TDebt = {
-  from_user: TUser,
-  to_user: TUser,
-  amount: number,
+  from_user: TUser
+  to_user: TUser
+  amount: number
   currency_id: TCurrencyId
 }
 

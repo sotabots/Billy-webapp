@@ -88,8 +88,9 @@ const mockChat: TChat = {
 }
 
 const mockSummary: TSummary = {
+  debts: [],
   url: 'https://docs.google.com/spreadsheets/d/1BxiMVs0XRA5nFMdKvBdBZjgmUUqptlbs74OgvE2upms/edit',
-  debts: []
+  chat_id: -1
 }
 
 if (Math.random() > 0.25) {
