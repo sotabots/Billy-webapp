@@ -65,7 +65,7 @@ shares.splice(1, 0, {
 })
 
 const mockTransaction: TTransaction = {
-  _id: '1',
+  _id: '000',
   chat_id: null,
   creator_user_id: null,
   is_voice: true,
@@ -77,7 +77,7 @@ const mockTransaction: TTransaction = {
 }
 
 const mockChat: TChat = {
-  _id: -1,
+  _id: 0,
   name: 'mock chat name',
   summary_id: 'mock summary id',
   default_currency: mockCurrencies[0]._id,
@@ -91,7 +91,7 @@ const mockChat: TChat = {
 const mockSummary: TSummary = {
   debts: [],
   url: 'https://docs.google.com/spreadsheets/d/1BxiMVs0XRA5nFMdKvBdBZjgmUUqptlbs74OgvE2upms/edit',
-  chat_id: -1
+  chat_id: 0
 }
 
 if (Math.random() > 0.25) {

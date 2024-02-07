@@ -101,7 +101,7 @@ function Summary() {
         is_confirmed: true,
         shares: [
           {
-            person_id: String(selectedDebt.from_user._id),
+            person_id: null,
             related_user_id: selectedDebt.from_user._id,
             amount: selectedDebt.amount,
             is_payer: true,
@@ -111,7 +111,7 @@ function Summary() {
             user_candidates: null
           },
           {
-            person_id: String(selectedDebt.to_user._id),
+            person_id: null,
             related_user_id: selectedDebt.to_user._id,
             amount: selectedDebt.amount,
             is_payer: false,

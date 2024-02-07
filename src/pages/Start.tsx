@@ -37,7 +37,10 @@ function Start() {
     return prevPersonIds.includes(share.person_id) ? acc : [...acc, share]
   }, [] as TShare[])
 
-  const onSelect = (personId: string) => {
+  const onSelect = (personId: string | null) => {
+    if (personId === null) {
+      return
+    }
     setSelectPersonId(personId)
     console.log('onSelect vibro')
     impactOccurred('light')

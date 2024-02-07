@@ -28,13 +28,13 @@ export type TTransaction = {
 export type TNewTransaction = Omit<TTransaction, '_id'>
 
 export type TShare = {
-  person_id: string
+  person_id: string | null
+  related_user_id: TUserId | null
   raw_name: string | null
   normalized_name: string | null // may be missing if a new user is selected
-  is_payer: boolean // paid or owed
   amount: number
+  is_payer: boolean // paid or owed
   user_candidates: /*[] |*/ null // todo
-  related_user_id: TUserId | null
 }
 
 export type TCurrencyId = string // 'RUB' | 'GEL' | 'TRY' | 'EUR'

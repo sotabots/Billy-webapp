@@ -60,7 +60,6 @@ export const useUsersQuery = (chatId: undefined | number | null) => {
               'Authorization': initData,
             }
           }).then(handleJsonResponse)
-            // .then(json => json.users)
         : () => mockUsers,
       onSuccess: (data) => {
         console.log('useApi: set users', data)
