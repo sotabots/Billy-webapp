@@ -8,8 +8,8 @@ import Header from '../kit/Header'
 import Overlay from '../kit/Overlay'
 import Panel from '../kit/Panel'
 import Screen from '../kit/Screen'
-import SummaryItem from '../kit/SummaryItem'
-import SummaryItemDetailed from '../kit/SummaryItemDetailed'
+import Debt from '../kit/Debt'
+import DebtDetailed from '../kit/DebtDetailed'
 
 import { closeApp } from '../utils'
 
@@ -32,17 +32,17 @@ function Summary() {
   const { summary, setSummary } = useStore()
   const { getCurrencyById } = useCurrencies()
 
-  const [selectedId, setSelectedId] = useState<null | number>(null)
+  const [selectedId, setSelectedId] = useState<null | string>(null)
   const isSelected = selectedId !== null
-  const selectedSummaryItem = (summary?.items || []).find(summaryItem => summaryItem._id === selectedId)
-  const selectedSummaryItemCurrency = selectedSummaryItem ? getCurrencyById(selectedSummaryItem.currency_id) : undefined
+  const selectedDebt = (summary?.debts || []).find(debt => JSON.stringify(debt) === selectedId)
+  const selectedDebtCurrency = selectedDebt ? getCurrencyById(selectedDebt.currency_id) : undefined
 
   const [isBusy, setIsBusy] = useState(false)
   const [isSuccessOpen, setIsSuccessOpen] = useState(false)
 
-  const currencyIds = !summary?.items
+  const currencyIds = !summary?.debts
     ? []
-    : [...(new Set(summary.items.map(item => item.currency_id)))]
+    : [...(new Set(summary.debts.map(item => item.currency_id)))]
 
   /*
   useInit()
@@ -77,7 +77,7 @@ function Summary() {
   const goDetailedSummary = () => {
     // todo: check
     if (summary) {
-      window.open(summary.detailed_summary_url, '_blank')
+      window.open(summary.url, '_blank')
     }
   }
 
@@ -91,7 +91,7 @@ function Summary() {
         // todo
         setSummary({
           ...summary,
-          items: [...summary.items].filter(item => item._id !== selectedId)
+          debts: [...summary.debts].filter(debt => JSON.stringify(debt) !== selectedId)
         })
         setIsSuccessOpen(true)
         console.log('success vibro')
@@ -118,10 +118,10 @@ function Summary() {
     <Screen>
       <Header onBack={!isSelected ? closeApp : () => { setSelectedId(null) }} />
 
-      {!(!selectedId && summary?.items && summary.items.length === 0) && (
+      {!(!selectedId && summary?.debts && summary.debts.length === 0) && (
         <div className="mb-2 px-4 flex items-center justify-between">
           <h2 className="pt-[2px] pb-[6px]">
-            {!isSelected ? t('groupBalances') : `${t('settleUpBy')} ${selectedSummaryItemCurrency?.symbol}`}
+            {!isSelected ? t('groupBalances') : `${t('settleUpBy')} ${selectedDebtCurrency?.symbol}`}
           </h2>
           {!isSelected && (
             <Button
@@ -133,17 +133,17 @@ function Summary() {
         </div>
       )}
 
-      {!isSelected && summary?.items && summary.items.length > 0 && (
+      {!isSelected && summary?.debts && summary.debts.length > 0 && (
         <div className="flex flex-col gap-2">
         {currencyIds.map((currencyId, i) => (
           <Panel key={`Panel-${i}`}>
             <h3>{t('summaryBy')} {getCurrencyById(currencyId)?.symbol || currencyId}</h3>
             <div className="mt-4 flex flex-col gap-4">
-              {summary.items.filter(item => item.currency_id === currencyId).map((summaryItem, j) => (
-                <SummaryItem
-                  key={`SummaryItem-${i}-${j}`}
-                  {...summaryItem}
-                  onClick={() => { setSelectedId(summaryItem._id) }}
+              {summary.debts.filter(item => item.currency_id === currencyId).map(debt => (
+                <Debt
+                  key={JSON.stringify(debt)}
+                  {...debt}
+                  onClick={() => { setSelectedId(JSON.stringify(debt)) }}
                 />
               ))}
             </div>
@@ -152,7 +152,7 @@ function Summary() {
         </div>
       )}
 
-      {!selectedId && summary?.items && summary.items.length === 0 && (
+      {!selectedId && summary?.debts && summary.debts.length === 0 && (
         <div className="w-[244px] mx-auto flex flex-col gap-6 pt-8 text-center">
           <div className="mx-auto w-[215px] h-[200px]">
             <Lottie
@@ -172,9 +172,9 @@ function Summary() {
         </div>
       )}
 
-      {selectedId && selectedSummaryItem && (
+      {selectedId && selectedDebt && (
         <Panel>
-          <SummaryItemDetailed {...selectedSummaryItem} />
+          <DebtDetailed {...selectedDebt} />
         </Panel>
       )}
 

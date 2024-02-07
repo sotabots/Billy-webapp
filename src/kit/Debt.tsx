@@ -4,17 +4,17 @@ import Button from './Button'
 
 import User from './User'
 import { useUsers } from '../hooks'
-import { TSummaryItem } from '../types'
+import { TDebt } from '../types'
 
 import { ReactComponent as ToSmallIcon } from '../img/to-small.svg'
 
 import { formatAmount } from '../utils'
 
-type TSummaryItemProps = TSummaryItem & {
+type TDebtProps = TDebt & {
   onClick: () => void
 }
 
-function SummaryItem({ from_user, to_user, amount, onClick }: TSummaryItemProps) {
+function Debt({ from_user, to_user, amount, onClick }: TDebtProps) {
   const { t } = useTranslation()
 
   const { getUserById } = useUsers()
@@ -58,4 +58,4 @@ function SummaryItem({ from_user, to_user, amount, onClick }: TSummaryItemProps)
   )
 }
 
-export default SummaryItem
+export default Debt

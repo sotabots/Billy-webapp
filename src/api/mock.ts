@@ -88,16 +88,14 @@ const mockChat: TChat = {
 }
 
 const mockSummary: TSummary = {
-  _id: -1,
-  detailed_summary_url: 'https://docs.google.com/spreadsheets/d/1BxiMVs0XRA5nFMdKvBdBZjgmUUqptlbs74OgvE2upms/edit',
-  items: []
+  url: 'https://docs.google.com/spreadsheets/d/1BxiMVs0XRA5nFMdKvBdBZjgmUUqptlbs74OgvE2upms/edit',
+  debts: []
 }
 
 if (Math.random() > 0.25) {
   mockUsers.forEach((mockUser, i, arr) => {
     if (i < arr.length - 1) {
-      mockSummary.items.push({
-        _id: Math.round(Math.random() * 1e10),
+      mockSummary.debts.push({
         from_user: mockUser,
         to_user: arr[i + 1],
         amount: parseFloat((Math.round(Math.random() * 1e6) / 10 ** decimals).toFixed(decimals)),

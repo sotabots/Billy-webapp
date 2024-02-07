@@ -1,14 +1,14 @@
 import User from './User'
 import InputAmount from './InputAmount'
 import { useUsers } from '../hooks'
-import { TSummaryItem } from '../types'
+import { TDebt } from '../types'
 
 import { ReactComponent as ToIcon } from '../img/to.svg'
 
-type TSummaryItemDetailedProps = TSummaryItem & {
+type TDebtDetailedProps = TDebt & {
 }
 
-function SummaryItemDetailed({ from_user, to_user, amount  }: TSummaryItemDetailedProps) {
+function DebtDetailed({ from_user, to_user, amount  }: TDebtDetailedProps) {
   const { getUserById } = useUsers()
 
   const fromUser = getUserById(from_user._id)
@@ -34,4 +34,4 @@ function SummaryItemDetailed({ from_user, to_user, amount  }: TSummaryItemDetail
   )
 }
 
-export default SummaryItemDetailed
+export default DebtDetailed

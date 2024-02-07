@@ -56,17 +56,15 @@ type TChat = {
 }
 
 type TSummary = {
-  _id: number, // for GET
-  detailed_summary_url: string,
-  items: TSummaryItem[]
+  debts: TDebt[]
+  url: string,
 }
 
-type TSummaryItem = {
-  _id: number, // for PUT settle up
+type TDebt = {
   from_user: TUser,
   to_user: TUser,
   amount: number,
   currency_id: TCurrencyId
 }
 
-export type { TCurrencyId, TCurrency, TUser, TUserId, TShare, TTransaction, TChat, TSummary, TSummaryItem }
+export type { TCurrencyId, TCurrency, TUser, TUserId, TShare, TTransaction, TChat, TSummary, TDebt }
