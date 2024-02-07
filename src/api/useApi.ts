@@ -2,7 +2,7 @@ import { useInitData } from '@vkruglikov/react-telegram-web-app'
 import { useQuery } from '@tanstack/react-query'
 
 import { useStore } from '../store'
-import { TCurrency, TTransaction, TUser, TChat, TSummary } from '../types'
+import { TCurrency, TTransaction, TNewTransaction, TUser, TChat, TSummary } from '../types'
 import {
   mockTransaction,
   mockUsers,
@@ -132,6 +132,22 @@ export const usePatchTransaction = () => {
     fetch(url, {
       method: 'PUT',
       body: JSON.stringify(tx),
+      headers: {
+        'Content-type': 'application/json',
+        'Authorization': initData,
+      },
+    }).then(handleJsonResponse)
+}
+
+export const usePostTransaction = () => { // summary settleup
+  const [, initData] = useInitData()
+  const { summaryId } = useStore()
+  const url = summaryId ? `${apiUrl}/transactions/` : 'https://jsonplaceholder.typicode.com/posts'
+
+  return (newTx: TNewTransaction) =>
+    fetch(url, {
+      method: 'POST',
+      body: JSON.stringify(newTx),
       headers: {
         'Content-type': 'application/json',
         'Authorization': initData,

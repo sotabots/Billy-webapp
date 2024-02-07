@@ -1,7 +1,8 @@
-type TUserId = number // tg id
-type TChatId = number
+export type TUserId = number // tg id
 
-type TUser = { // tg user
+export type TChatId = number
+
+export type TUser = { // tg user
   _id: TUserId
   username?: string // @username without @
   first_name: string
@@ -11,18 +12,22 @@ type TUser = { // tg user
   _name?: string // not used, only for mock, will be removed
 }
 
-type TTransaction = {
+export type TTransaction = {
   _id: string
   chat_id: TChatId | null
+  creator_user_id: TUserId | null
   is_voice: boolean
   raw_text: string // shown if `formatted_text` does not exist
   formatted_text?: string // with <b>Name</b> highlighting
   currency_id: TCurrencyId
   is_confirmed: boolean // set true before patch
   shares: TShare[]
+  // todo: improve
 }
 
-type TShare = {
+export type TNewTransaction = Omit<TTransaction, '_id'>
+
+export type TShare = {
   person_id: string
   raw_name: string | null
   normalized_name: string | null // may be missing if a new user is selected
@@ -32,16 +37,16 @@ type TShare = {
   related_user_id: TUserId | null
 }
 
-type TCurrencyId = string // 'RUB' | 'GEL' | 'TRY' | 'EUR'
+export type TCurrencyId = string // 'RUB' | 'GEL' | 'TRY' | 'EUR'
 
-type TCurrency = {
+export type TCurrency = {
   _id: TCurrencyId, // 'EUR'
   title: string, // 'Euro'
   symbol: string, // '€'
   in: string // 'In Euros'
 }
 
-type TChat = {
+export type TChat = {
   _id: number,
   name: string,
   summary_id: string | null
@@ -56,17 +61,15 @@ type TChat = {
   language_code: 'en' | 'ru' | 'uk'
 }
 
-type TSummary = {
+export type TSummary = {
   debts: TDebt[]
   url: string
   chat_id: TChatId
 }
 
-type TDebt = {
+export type TDebt = {
   from_user: TUser
   to_user: TUser
   amount: number
   currency_id: TCurrencyId
 }
-
-export type { TCurrencyId, TCurrency, TUser, TUserId, TShare, TTransaction, TChat, TSummary, TDebt }

@@ -1,4 +1,4 @@
-import { useHapticFeedback } from '@vkruglikov/react-telegram-web-app'
+import { useHapticFeedback, useInitData } from '@vkruglikov/react-telegram-web-app'
 import Lottie from 'lottie-react'
 import { useState } from 'react'
 import { useTranslation } from 'react-i18next'
@@ -18,18 +18,20 @@ import { useInit } from '../hooks'
 import { useStore } from '../store'
 import { useCurrencies } from '../hooks'
 // import { feedback, EVENT } from '../feedback'
-// import { usePatchTransaction } from '../api'
+import { usePostTransaction } from '../api'
 // import { formatAmount } from '../utils'
 // import type { TShare } from '../types'
 
 import lottieKoalaSettledUp from '../assets/lottie-koala-settled-up.json'
 import lottieKoalaSuccess from '../assets/lottie-koala-success.json'
+import { TNewTransaction } from '../types'
 
 function Summary() {
   useInit()
 
   const { t } = useTranslation()
   const [, notificationOccurred] = useHapticFeedback()
+  const [initDataUnsafe/*, initData*/] = useInitData();
 
   const { summary, setSummary } = useStore()
   const { getCurrencyById } = useCurrencies()
@@ -45,6 +47,8 @@ function Summary() {
   const currencyIds = !summary?.debts
     ? []
     : [...(new Set(summary.debts.map(item => item.currency_id)))]
+
+  const postTransaction = usePostTransaction()
 
   /*
   const { currencies, transaction, setTransaction, setSuccess, setTxPatchError } = useStore()
@@ -83,32 +87,62 @@ function Summary() {
   }
 
   const settleUp = async () => {
-    if (selectedId === null || !summary) {
+    if (selectedId === null || !summary || !selectedDebt) {
       return
     }
     setIsBusy(true)
-    setTimeout(() => {
-      try {
-        // todo
-        setSummary({
-          ...summary,
-          debts: [...summary.debts].filter(debt => JSON.stringify(debt) !== selectedId)
-        })
-        setIsSuccessOpen(true)
-        console.log('success vibro')
-        notificationOccurred('success')
-        setTimeout(() => {
-          setSelectedId(null)
-        }, 1000)
-        setTimeout(() => {
-          setIsSuccessOpen(false)
-        }, 2500)
-      } catch (e) {
-        // todo
-      } finally {
-        setIsBusy(false)
+    try {
+      const newTx: TNewTransaction = {
+        chat_id: summary.chat_id,
+        creator_user_id: initDataUnsafe.user?.id || null,
+        is_voice: false,
+        raw_text: `[Settle up] ${[selectedDebt.from_user.first_name, selectedDebt.from_user.last_name].join(' ')} give ${selectedDebt.amount} ${selectedDebt.currency_id} ${[selectedDebt.to_user.first_name, selectedDebt.to_user.last_name].join(' ')}`,
+        currency_id: selectedDebt.currency_id,
+        is_confirmed: true,
+        shares: [
+          {
+            person_id: String(selectedDebt.from_user._id),
+            related_user_id: selectedDebt.from_user._id,
+            amount: selectedDebt.amount,
+            is_payer: true,
+            // todo ?
+            raw_name: null,
+            normalized_name: null,
+            user_candidates: null
+          },
+          {
+            person_id: String(selectedDebt.to_user._id),
+            related_user_id: selectedDebt.to_user._id,
+            amount: selectedDebt.amount,
+            is_payer: false,
+            // todo ?
+            raw_name: null,
+            normalized_name: null,
+            user_candidates: null
+          }
+        ]
       }
-    }, 500)
+      const resJson = await postTransaction(newTx)
+      console.log('patchTransaction res', resJson)
+
+      setSummary({
+        ...summary,
+        debts: [...summary.debts].filter(debt => JSON.stringify(debt) !== selectedId)
+      })
+      setIsSuccessOpen(true)
+      console.log('success vibro')
+      notificationOccurred('success')
+      setTimeout(() => {
+        setSelectedId(null)
+      }, 1000)
+      setTimeout(() => {
+        setIsSuccessOpen(false)
+      }, 2500)
+    } catch (e) {
+      // todo
+    } finally {
+      setIsBusy(false)
+    }
   }
 
   if (!summary) {
