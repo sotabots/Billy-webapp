@@ -29,7 +29,7 @@ function Check() {
   const { t } = useTranslation()
   const navigate = useNavigate()
   const [isBusy, setIsBusy] = useState(false)
-  const { transaction, setTransaction, isSuccess, setSuccess, setTxPatchError } = useStore()
+  const { transaction, setTransaction, txComment, isSuccess, setSuccess, setTxPatchError } = useStore()
 
   const { getCurrencyById } = useCurrencies()
 
@@ -107,6 +107,7 @@ function Check() {
     }
     setTransaction({
       ...transaction,
+      ...(txComment ? { raw_text: txComment } : {}),
       shares: newShares
     })
   }
@@ -114,6 +115,7 @@ function Check() {
   const save = async () => {
     const confirmedTransaction = {
       ...transaction,
+
       is_confirmed: true
     }
     setIsBusy(true)

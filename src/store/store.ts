@@ -18,6 +18,8 @@ type TStore = {
   setChat: (chat: TChat) => void
   transaction: undefined | TTransaction,
   setTransaction: (transaction: TTransaction) => void
+  txComment: string,
+  setTxComment: (txComment: string) => void
   isSuccess: boolean | null
   setSuccess: (val: boolean | null) => void
   txPatchError: null | Error
@@ -55,6 +57,8 @@ export const useStore = create<TStore>((set, get) => ({
   setChat: (chat) => set(({ chat })),
   transaction: undefined,
   setTransaction: (transaction) => set(({ transaction })),
+  txComment: '',
+  setTxComment: (txComment) => set(({ txComment })),
   isSuccess: null,
   setSuccess: (isSuccess) => set(({ isSuccess })),
   txPatchError: null,
