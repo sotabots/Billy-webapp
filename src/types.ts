@@ -28,7 +28,7 @@ export type TTransaction = {
 export type TNewTransaction = Omit<TTransaction, '_id'>
 
 export type TShare = {
-  person_id: string | null
+  person_id: string | null // todo: only string
   related_user_id: TUserId | null
   raw_name: string | null
   normalized_name: string | null // may be missing if a new user is selected

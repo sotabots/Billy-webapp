@@ -19,7 +19,7 @@ import { useStore } from '../store'
 import { useCurrencies } from '../hooks'
 // import { feedback, EVENT } from '../feedback'
 import { usePostTransaction } from '../api'
-// import { formatAmount } from '../utils'
+import { formatAmount } from '../utils'
 // import type { TShare } from '../types'
 
 import lottieKoalaSettledUp from '../assets/lottie-koala-settled-up.json'
@@ -53,7 +53,7 @@ function Summary() {
   /*
   const { currencies, transaction, setTransaction, setSuccess, setTxPatchError } = useStore()
 
-  const patchTransaction = usePutTransaction()
+  const patchTransaction = usePatchTransaction()
 
   const save = async () => {
     const confirmedTransaction = {
@@ -96,26 +96,24 @@ function Summary() {
         chat_id: summary.chat_id,
         creator_user_id: initDataUnsafe.user?.id || null,
         is_voice: false,
-        raw_text: `[Settle up] ${[selectedDebt.from_user.first_name, selectedDebt.from_user.last_name].join(' ')} give ${selectedDebt.amount} ${selectedDebt.currency_id} ${[selectedDebt.to_user.first_name, selectedDebt.to_user.last_name].join(' ')}`,
+        raw_text: `[Settle up] ${[selectedDebt.from_user.first_name, selectedDebt.from_user.last_name].join(' ')} give ${formatAmount(selectedDebt.amount)} ${selectedDebt.currency_id} ${[selectedDebt.to_user.first_name, selectedDebt.to_user.last_name].join(' ')}`,
         currency_id: selectedDebt.currency_id,
         is_confirmed: true,
         shares: [
           {
-            person_id: null,
+            person_id: `settleup_from_user`,
             related_user_id: selectedDebt.from_user._id,
             amount: selectedDebt.amount,
             is_payer: true,
-            // todo ?
             raw_name: null,
             normalized_name: null,
             user_candidates: null
           },
           {
-            person_id: null,
+            person_id: `settleup_to_user`,
             related_user_id: selectedDebt.to_user._id,
             amount: selectedDebt.amount,
             is_payer: false,
-            // todo ?
             raw_name: null,
             normalized_name: null,
             user_candidates: null

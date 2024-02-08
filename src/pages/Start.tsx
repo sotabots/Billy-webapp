@@ -34,7 +34,7 @@ function Start() {
   // deduplicate by person_id
   const deduplicatedShares = transaction.shares.reduce((acc, share) => {
     const prevPersonIds = acc.map(acc => acc.person_id)
-    return prevPersonIds.includes(share.person_id) ? acc : [...acc, share]
+    return share.person_id !== null && prevPersonIds.includes(share.person_id) ? acc : [...acc, share]
   }, [] as TShare[])
 
   const onSelect = (personId: string | null) => {
