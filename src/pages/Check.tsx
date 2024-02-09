@@ -1,5 +1,6 @@
 import { useHapticFeedback } from '@vkruglikov/react-telegram-web-app'
 import cx from 'classnames'
+import Lottie from 'lottie-react'
 import { useState } from 'react'
 import { useTranslation } from 'react-i18next'
 import { useNavigate } from 'react-router-dom'
@@ -19,8 +20,9 @@ import { usePutTransaction } from '../api'
 import { formatAmount } from '../utils'
 import type { TShare } from '../types'
 
-import Lottie from 'lottie-react'
 import lottieSuccess from '../assets/animation-success.json'
+import { ReactComponent as EditIcon } from '../assets/edit.svg'
+import { ReactComponent as SplitIcon } from '../assets/split.svg'
 
 function Check() {
   useInit()
@@ -159,7 +161,14 @@ function Check() {
         </Panel>
 
         <Panel>
-          <h3>{t('whoPaid')}</h3>
+          <div className="flex items-center justify-between gap-3">
+            <h3>{t('whoPaid')}</h3>
+            <Button
+              theme="icon"
+              text={<EditIcon />}
+              onClick={() => {}}
+            />
+          </div>
           <div className="mt-4 flex flex-col gap-3">
             {!payedShares.length && <span className="opacity-40">({t('noShares')})</span>}
             {payedShares.map((share, shareIndex) => (
@@ -177,10 +186,24 @@ function Check() {
         <Panel>
           <div className="flex items-center justify-between gap-3">
             <h3>{t('forWhom')}</h3>
+            <Button
+              theme="icon"
+              text={<EditIcon />}
+              onClick={() => {}}
+            />
+          </div>
+          <div className="h-[24px] mt-[2px]">
             {!!oweShares.length && (!isSplitedEqually || !isBalanced) && (
               <Button
                 theme="text"
-                text={t('splitEqually')}
+                text={(
+                  <div className="inline-flex items-center gap-[2px]">
+                    <div className="w-6 h-6">
+                      <SplitIcon />
+                    </div>
+                    <div>{t('splitEqually')}</div>
+                  </div>
+                )}
                 onClick={splitEqually}
               />
             )}

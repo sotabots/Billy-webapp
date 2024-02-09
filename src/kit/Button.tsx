@@ -1,5 +1,6 @@
-import cx from 'classnames'
 import { MainButton, useHapticFeedback, useWebApp } from '@vkruglikov/react-telegram-web-app'
+import cx from 'classnames'
+import { ReactNode } from 'react'
 
 import { useStore } from '../store'
 
@@ -7,13 +8,17 @@ import Limiter from './Limiter'
 import Loader from './Loader'
 
 type TButton = {
-  text: string,
-  theme?: 'default' | 'text' | 'settleUp'
-  isBottom?: boolean
+  theme?: 'default' | 'text' | 'settleUp' | 'icon'
   disabled?: boolean
   isBusy?: boolean
   onClick: () => void
-}
+} & ({
+  isBottom: true
+  text: string,
+} | {
+  isBottom?: false
+  text: string | ReactNode,
+})
 
 function Button({ theme = 'default', isBottom, text, disabled, isBusy, onClick }: TButton) {
   const webApp = useWebApp()
@@ -46,7 +51,9 @@ function Button({ theme = 'default', isBottom, text, disabled, isBusy, onClick }
 
     'text': 'min-h-[24px] text-[14px] leading-[1.2em] text-button hover:brightness-[1.2] active:brightness-[1.4] transition-all',
 
-    'settleUp': 'min-h-[24px] border border-link rounded-[4px] px-2 text-[14px] leading-[1.2em] text-link hover:brightness-[1.2] active:brightness-[1.4] transition-all whitespace-nowrap'
+    'settleUp': 'min-h-[24px] border border-link rounded-[4px] px-2 text-[14px] leading-[1.2em] text-link hover:brightness-[1.2] active:brightness-[1.4] transition-all whitespace-nowrap',
+
+    'icon': 'block h-[24px] w-[24px] bg-transaprent p-0 opacity-40 text-text hover:opacity-70 active:opacity-100 transition-all',
   }[theme]
 
   const button = (
