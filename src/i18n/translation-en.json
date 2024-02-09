@@ -29,10 +29,9 @@
   "overdo": "Overdo",
   "paidSum": "Paid",
   "oweSum": "owe",
-  "payers": "Payers",
+  "whoPaid": "Who paid",
   "noShares": "Nobody here",
-  "forYourselfAndForOthers": "For yourself and for others",
-  "forOthers": "For others",
+  "forWhom": "For whoom",
   "splitEqually": "Split equally",
   "selectCurrency": "Select currency",
 

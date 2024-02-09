@@ -76,10 +76,6 @@ function Check() {
 
   const isButtonDisabled = !isBalanced || !(payedSum > 0) || !(oweSum > 0) || !transaction.currency_id
 
-  const payerIds = payedShares.map(share => share.related_user_id!)
-  const oweIds = oweShares.map(share => share.related_user_id!)
-  const isSelfPayers = payerIds.some(payerId => oweIds.includes(payerId))
-
   // const isSplitedEqually = oweShares.every(share => share.amount === oweShares[0].amount)
   const isSplitedEqually = false // todo
 
@@ -163,7 +159,7 @@ function Check() {
         </Panel>
 
         <Panel>
-          <h3>{t('payers')}</h3>
+          <h3>{t('whoPaid')}</h3>
           <div className="mt-4 flex flex-col gap-3">
             {!payedShares.length && <span className="opacity-40">({t('noShares')})</span>}
             {payedShares.map((share, shareIndex) => (
@@ -180,7 +176,7 @@ function Check() {
 
         <Panel>
           <div className="flex items-center justify-between gap-3">
-            <h3>{isSelfPayers ? t('forYourselfAndForOthers') : t('forOthers')}</h3>
+            <h3>{t('forWhom')}</h3>
             {!!oweShares.length && (!isSplitedEqually || !isBalanced) && (
               <Button
                 theme="text"

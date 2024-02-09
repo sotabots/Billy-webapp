@@ -29,10 +29,9 @@
   "overdo": "Перебор",
   "paidSum": "Заплатили",
   "oweSum": "должны",
-  "payers": "Заплатили",
+  "whoPaid": "Кто платил",
   "noShares": "Пусто",
-  "forYourselfAndForOthers": "За себя и за других",
-  "forOthers": "За других",
+  "forWhom": "За кого платили",
   "splitEqually": "Разделить поровну",
   "selectCurrency": "Выберите валюту",
 
