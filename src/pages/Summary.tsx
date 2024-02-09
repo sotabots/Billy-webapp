@@ -22,8 +22,8 @@ import { usePostTransaction } from '../api'
 import { formatAmount } from '../utils'
 // import type { TShare } from '../types'
 
-import lottieKoalaSettledUp from '../assets/lottie-koala-settled-up.json'
-import lottieKoalaSuccess from '../assets/lottie-koala-success.json'
+import lottieKoalaSettledUp from '../assets/animation-koala-settled-up.json'
+import lottieKoalaSuccess from '../assets/animation-koala-success.json'
 import { TNewTransaction } from '../types'
 
 function Summary() {

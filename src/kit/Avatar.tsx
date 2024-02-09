@@ -4,7 +4,7 @@ import { useTheme } from '../hooks'
 import { useStore } from '../store'
 import type { TUser } from '../types'
 
-import lottieKoalaLooking from '../assets/lottie-koala-looking.json'
+import lottieKoalaLooking from '../assets/animation-koala-looking.json'
 
 const apiUrl = import.meta.env.VITE_API_URL
 

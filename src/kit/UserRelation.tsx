@@ -6,7 +6,7 @@ import { TShare } from '../types'
 
 import User from './User'
 
-import { ReactComponent as Next } from '../img/next.svg'
+import { ReactComponent as Next } from '../assets/next.svg'
 
 type TProps = TShare & {
   onClick: MouseEventHandler<HTMLButtonElement>

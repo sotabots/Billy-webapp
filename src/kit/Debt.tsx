@@ -6,7 +6,7 @@ import User from './User'
 import { useUsers } from '../hooks'
 import { TDebt } from '../types'
 
-import { ReactComponent as ToSmallIcon } from '../img/to-small.svg'
+import { ReactComponent as ToSmallIcon } from '../assets/to-small.svg'
 
 import { formatAmount } from '../utils'
 

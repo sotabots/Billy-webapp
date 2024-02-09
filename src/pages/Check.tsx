@@ -20,7 +20,7 @@ import { formatAmount } from '../utils'
 import type { TShare } from '../types'
 
 import Lottie from 'lottie-react'
-import lottieSuccess from '../assets/lottie-success.json'
+import lottieSuccess from '../assets/animation-success.json'
 
 function Check() {
   useInit()

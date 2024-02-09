@@ -2,7 +2,7 @@ import { useTranslation } from 'react-i18next'
 import { useHapticFeedback } from '@vkruglikov/react-telegram-web-app'
 import { useNavigate } from 'react-router-dom'
 
-import { ReactComponent as Plus } from '../img/plus.svg'
+import { ReactComponent as Plus } from '../assets/plus.svg'
 import Button from '../kit/Button'
 import Divider from '../kit/Divider'
 import Header from '../kit/Header'

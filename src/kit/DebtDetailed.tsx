@@ -3,7 +3,7 @@ import InputAmount from './InputAmount'
 import { useUsers } from '../hooks'
 import { TDebt } from '../types'
 
-import { ReactComponent as ToIcon } from '../img/to.svg'
+import { ReactComponent as ToIcon } from '../assets/to.svg'
 
 type TDebtDetailedProps = TDebt & {
 }
