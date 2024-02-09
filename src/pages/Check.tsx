@@ -31,7 +31,7 @@ function Check() {
   const { t } = useTranslation()
   const navigate = useNavigate()
   const [isBusy, setIsBusy] = useState(false)
-  const { transaction, setTransaction, txComment, isSuccess, setSuccess, setTxPatchError } = useStore()
+  const { transaction, setTransaction, txComment, setIsSelectPayer, isSuccess, setSuccess, setTxPatchError } = useStore()
 
   const { getCurrencyById } = useCurrencies()
 
@@ -166,7 +166,10 @@ function Check() {
             <Button
               theme="icon"
               text={<EditIcon />}
-              onClick={() => {}}
+              onClick={() => {
+                setIsSelectPayer(true)
+                navigate('/select-users')
+              }}
             />
           </div>
           <div className="mt-4 flex flex-col gap-3">
@@ -189,7 +192,10 @@ function Check() {
             <Button
               theme="icon"
               text={<EditIcon />}
-              onClick={() => {}}
+              onClick={() => {
+                setIsSelectPayer(false)
+                navigate('/select-users')
+              }}
             />
           </div>
           <div className="h-[24px] mt-[2px]">
