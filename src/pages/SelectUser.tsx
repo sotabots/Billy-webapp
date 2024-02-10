@@ -4,7 +4,7 @@ import Button from '../kit/Button'
 import Divider from '../kit/Divider'
 import Header from '../kit/Header'
 import Screen from '../kit/Screen'
-import User from '../kit/User'
+import UserButton from '../kit/UserButton'
 
 import { useInit, useUsers } from '../hooks'
 import { useStore } from '../store'
@@ -51,9 +51,10 @@ function SelectUser() {
       <div className="mt-4 overflow-y-auto">
         {usersToShow.map((user, i, arr) => (
           <>
-            <button className="w-full px-4 py-2 hover:bg-text/5 active:bg-text/10 transition-all" onClick={selectPersonId !== null ? selectUser(user) : addUsers([user])}>
-              <User user={user} />
-            </button>
+            <UserButton
+              user={user}
+              onClick={selectPersonId !== null ? selectUser(user) : addUsers([user])}
+            />
             {i < arr.length - 1 && <Divider key={`Divider-${i}`} />}
           </>
         ))}
