@@ -8,6 +8,7 @@
   "addMore": "Додати ще",
   "addEveryone": "Додати всіх",
   "next": "Далі",
+  "apply": "Застосувати",
   "save": "Зберегти",
   "addComment": "Додати коментар",
   "yourComment": "Ваш коментар...",
@@ -23,15 +24,18 @@
   "addUser":  "Додати людину",
   "selectWhoIs": "Оберіть хто",
   "selectUser": "Оберіть",
+
   "checkout": "Перевірити витрати",
+  "selectCurrency": "Оберіть валюту",
   "lack": "Не вистачає",
   "allRight": "Все вірно",
   "overdo": "Перебір",
   "paidSum": "Оплатили",
   "oweSum": "винні",
   "whoPaid": "Хто платив",
-  "noShares": "Пусто",
   "forWhom": "За кого платили",
+  "selectAll": "Вибрати всіх",
+  "unselectAll": "Очистити вибір",
   "splitEqually": "Розділити порівну",
-  "selectCurrency": "Оберіть валюту"
+  "noShares": "Пусто"
 }

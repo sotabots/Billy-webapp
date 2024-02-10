@@ -30,10 +30,10 @@ function SelectUsers() {
 
   const isEveryoneChecked = checkedUserIds.length > 0 && users.every(user => checkedUserIds.includes(user._id))
 
-  const checkEveryone = () => {
+  const selectAll = () => {
     setCheckedUserIds(users.map(user => user._id))
   }
-  const uncheckEveryone = () => {
+  const unselectAll = () => {
     setCheckedUserIds([])
   }
 
@@ -53,8 +53,8 @@ function SelectUsers() {
         <h2 className="pt-[2px] pb-[6px]">{isSelectPayer ? t('whoPaid') : t('forWhom')}</h2>
         <Button
           theme="text"
-          text={isEveryoneChecked ? t('uncheckEveryone') : t('checkEveryone')}
-          onClick={isEveryoneChecked ? uncheckEveryone : checkEveryone}
+          text={isEveryoneChecked ? t('unselectAll') : t('selectAll')}
+          onClick={isEveryoneChecked ? unselectAll : selectAll}
         />
       </div>
 
