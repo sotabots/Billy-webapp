@@ -82,7 +82,55 @@ export const useUsers = () => {
         })
       }
     }
-    console.log('selectUser vibro')
+    // todo: move out
+    console.log('addUsers vibro')
+    selectionChanged()
+    impactOccurred('light')
+    history.back()
+  }
+
+  const updUsers = (userIds: TUserId[], isPayer: null | boolean) => () => {
+    console.log('updUsers', users)
+    if (isPayer !== null) {
+      const updSharesFiltered: TShare[] = [
+        ...transactionShares
+      ].filter(share => !(
+        share.is_payer === isPayer &&
+        share.related_user_id !== null &&
+        !userIds.includes(share.related_user_id)
+      ))
+
+      const addingUserIds = userIds.filter(userId =>
+        !transactionShares.find(share => (
+          share.is_payer === isPayer &&
+          share.related_user_id !== null &&
+          userId === share.related_user_id
+        )
+      ))
+
+      const updShares: TShare[] = [
+        ...updSharesFiltered,
+        ...addingUserIds.map(userId => (
+          {
+            person_id: `added-person-user-${userId}`, // todo: check
+            raw_name: null, //user.first_name,
+            normalized_name: null, // user.first_name,
+            is_payer: isPayer,
+            amount: 0,
+            user_candidates: null,
+            related_user_id: userId
+          }
+        ))
+      ]
+      if (transaction) {
+        setTransaction({
+          ...transaction,
+          shares: updShares
+        })
+      }
+    }
+
+    console.log('updUsers vibro')
     selectionChanged()
     impactOccurred('light')
     history.back()
@@ -101,5 +149,5 @@ export const useUsers = () => {
     history.back()
   }
 
-  return { users, unrelatedUsers, isRelationsComplete, getUserById, addUsers, selectUser, deleteUser }
+  return { users, unrelatedUsers, isRelationsComplete, getUserById, selectUser, addUsers, updUsers, deleteUser }
 }

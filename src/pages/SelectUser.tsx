@@ -52,6 +52,7 @@ function SelectUser() {
         {usersToShow.map((user, i, arr) => (
           <>
             <UserButton
+              key={i}
               user={user}
               onClick={selectPersonId !== null ? selectUser(user) : addUsers([user])}
             />
