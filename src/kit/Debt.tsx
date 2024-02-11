@@ -6,7 +6,7 @@ import User from './User'
 import { useUsers } from '../hooks'
 import { TDebt } from '../types'
 
-import { ReactComponent as ToSmallIcon } from '../assets/to-small.svg'
+import { ReactComponent as ToIcon } from '../assets/to.svg'
 
 import { formatAmount } from '../utils'
 
@@ -34,8 +34,8 @@ function Debt({ from_user, to_user, amount, onClick }: TDebtProps) {
         secondRow={(
           <div className="mt-1 flex gap-1 items-center">
             <div className="flex items-center">
-              <div className="w-4 h-3">
-                <ToSmallIcon />
+              <div className="w-[14px] h-[14px] -mt-[1px] mr-[1px]">
+                <ToIcon />
               </div>
               <div className="text-[14px] leading-[24px] font-semibold">{formatAmount(amount)}</div>
             </div>

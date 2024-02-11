@@ -24,8 +24,8 @@ function DebtDetailed({ from_user, to_user, amount  }: TDebtDetailedProps) {
         <User user={fromUser} size={48} />
         <InputAmount amount={amount} />
       </div>
-      <div className="flex gap-3 px-4">
-        <div className="h-8 w-8">
+      <div className="flex items-center gap-3 px-6">
+        <div className="h-[14px] w-[14px]">
           <ToIcon />
         </div>
         <User user={toUser} size={32} />
