@@ -9,7 +9,7 @@ type TProps = {
   children: ReactNode,
 }
 
-function Overlay ({ isOpen, isCenter, children }: TProps) {
+function Overlay({ isOpen, isCenter, children }: TProps) {
   const { overlays, setOverlays } = useStore()
   const overlay = useMemo(() => Math.round(Math.random() * 1e10), [])
 

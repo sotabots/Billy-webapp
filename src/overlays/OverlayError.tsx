@@ -5,7 +5,7 @@ import { useSplash } from '../hooks'
 
 import Overlay from '../kit/Overlay'
 
-function Error() {
+function OverlayError() {
   const { error } = useSplash()
 
   const [, notificationOccurred] = useHapticFeedback()
@@ -26,4 +26,4 @@ function Error() {
   )
 }
 
-export default Error
+export default OverlayError

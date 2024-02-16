@@ -36,6 +36,7 @@ type TStore = {
 export const useStore = create<TStore>((set, get) => ({
   overlays: [],
   setOverlays: (overlays) => set(({ overlays })),
+
   txId: undefined,
   setTxId: (txId) => set(({ txId })),
   users: [],

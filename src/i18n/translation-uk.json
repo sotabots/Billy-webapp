@@ -37,5 +37,7 @@
   "selectAll": "Вибрати всіх",
   "unselectAll": "Очистити вибір",
   "splitEqually": "Розділити порівну",
-  "noShares": "Пусто"
+  "noShares": "Пусто",
+
+  "featureSoon": "Ця функція незабаром стане доступною"
 }

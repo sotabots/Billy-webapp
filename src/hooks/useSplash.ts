@@ -14,9 +14,9 @@ export const useSplash = () => {
   const { isLoading: isChatLoading, error: chatError } = useGetChat(chatId)
   const { isLoading: isCurrenciesLoading, error: currenciesError } = useGetCurrencies(chatId)
 
-  const { currencies, txPatchError } = useStore()
-
   const isLoading = isTxLoading || isUsersLoading || isChatLoading || isCurrenciesLoading || isSummaryLoading
+
+  const { currencies, txPatchError } = useStore()
 
   const unknownCurrencyError =
     (tx?.currency_id && currencies.length && !currencies.find((currency) => currency._id === tx.currency_id))
