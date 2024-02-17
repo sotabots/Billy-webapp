@@ -6,7 +6,7 @@ import Button from '../kit/Button'
 import Header from '../kit/Header'
 import Screen from '../kit/Screen'
 
-import { closeApp } from '../utils'
+// import { closeApp } from '../utils'
 
 import { useInit } from '../hooks'
 import { feedback, EVENT } from '../feedback'
@@ -46,7 +46,7 @@ function Paywall() {
       <Button
         isBottom
         text={t('close')}
-        onClick={closeApp}
+        onClick={/*closeApp*/ () => { history.back() }}
       />
     </Screen>
   )

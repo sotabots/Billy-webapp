@@ -7,7 +7,7 @@ import { useStore } from '../store'
 const OPEN_DEBUG_RIGHT_CLICKS = 5
 
 function Debug() {
-  const { transaction, users, txId, summaryId, summary } = useStore()
+  const { transaction, users, txId, summaryId, summary, chat } = useStore()
   const [n, setN] = useState(0)
 
   const isTouchDevice = () =>
@@ -50,6 +50,10 @@ function Debug() {
         <br />
         <strong>users = </strong>
         <pre>{JSON.stringify(users, null, 2)}</pre>
+        <br />
+        <br />
+        <strong>chat = </strong>
+        <pre>{JSON.stringify(chat, null, 2)}</pre>
         <br />
         <br />
         <strong>window.Telegram?.WebApp = </strong>

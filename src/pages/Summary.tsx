@@ -2,6 +2,7 @@ import { useHapticFeedback, useInitData } from '@vkruglikov/react-telegram-web-a
 import Lottie from 'lottie-react'
 import { useState } from 'react'
 import { useTranslation } from 'react-i18next'
+import { useNavigate } from 'react-router-dom'
 
 import Button from '../kit/Button'
 import Header from '../kit/Header'
@@ -30,10 +31,11 @@ function Summary() {
   useInit()
 
   const { t } = useTranslation()
+  const navigate = useNavigate()
   const [, notificationOccurred] = useHapticFeedback()
   const [initDataUnsafe/*, initData*/] = useInitData();
 
-  const { summary, setSummary } = useStore()
+  const { summary, setSummary, chat } = useStore()
   const { getCurrencyById } = useCurrencies()
 
   const [selectedId, setSelectedId] = useState<null | string>(null)
@@ -167,22 +169,30 @@ function Summary() {
       )}
 
       {!isSelected && summary?.debts && summary.debts.length > 0 && (
-        <div className="flex flex-col gap-2">
-        {currencyIds.map((currencyId, i) => (
-          <Panel key={`Panel-${i}`}>
-            <h3>{t('summaryBy')} {getCurrencyById(currencyId)?.symbol || currencyId}</h3>
-            <div className="mt-4 flex flex-col gap-4">
-              {summary.debts.filter(item => item.currency_id === currencyId).map(debt => (
-                <Debt
-                  key={JSON.stringify(debt)}
-                  {...debt}
-                  onClick={() => { setSelectedId(JSON.stringify(debt)) }}
-                />
-              ))}
-            </div>
-          </Panel>
-        ))}
-        </div>
+        <>
+          <div className="flex flex-col gap-2">
+            {currencyIds.map((currencyId, i) => (
+              <Panel key={`Panel-${i}`}>
+                <h3>{t('summaryBy')} {getCurrencyById(currencyId)?.symbol || currencyId}</h3>
+                <div className="mt-4 flex flex-col gap-4">
+                  {summary.debts.filter(item => item.currency_id === currencyId).map(debt => (
+                    <Debt
+                      key={JSON.stringify(debt)}
+                      {...debt}
+                      onClick={() => { setSelectedId(JSON.stringify(debt)) }}
+                    />
+                  ))}
+                </div>
+              </Panel>
+            ))}
+          </div>
+
+          <Button
+            theme="subBottom"
+            text={`${t('convertAllTo')} ${chat?.default_currency || 'USD'}`}
+            onClick={() => { navigate('/paywall') }}
+          />
+        </>
       )}
 
       {!selectedId && summary?.debts && summary.debts.length === 0 && (

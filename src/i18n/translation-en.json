@@ -46,5 +46,7 @@
   "settleUp": "Settle up",
   "settleUpSaved": "Transaction successfully saved!",
   "allSettledUp": "You are all settled up in this group",
+
+  "convertAllTo": "Convert all to",
   "featureSoon": "This feature will be available soon"
 }
