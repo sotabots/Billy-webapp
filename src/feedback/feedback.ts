@@ -6,7 +6,8 @@ const token = envToken || 'NO_TOKEN' // some string is needed
 
 const EVENT = {
   OPEN_WEBAPP: 'open_webapp',
-  SEND_TRANSACTION: 'send_transaction'
+  SEND_TRANSACTION: 'send_transaction',
+  OPEN_PAYWALL: 'open_paywall'
 }
 
 const feedback = async (event: string) => {
