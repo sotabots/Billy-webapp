@@ -55,7 +55,7 @@ function Button({ theme = 'default', isBottom, text, disabled, isBusy, onClick }
 
     'icon': 'block h-[24px] w-[24px] bg-transaprent p-0 opacity-40 text-text hover:opacity-70 active:opacity-100 transition-all',
 
-    'subBottom': 'my-4 mx-auto w-full block h-10 bg-[#7E10E5] text-buttonText rounded-md text-[14px] leading-[20px] font-semibold enabled:hover:brightness-110 enabled:active:brightness-[1.2] transition-all',
+    'subBottom': 'my-4 mx-auto w-full block h-10 bg-[#7E10E5] text-buttonText rounded-md text-[14px] leading-[24px] font-semibold enabled:hover:brightness-110 enabled:active:brightness-[1.2] transition-all',
   }[theme]
 
   const button = (

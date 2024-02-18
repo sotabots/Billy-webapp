@@ -24,6 +24,7 @@ import { formatAmount } from '../utils'
 // import type { TShare } from '../types'
 
 import lottieKoalaSettledUp from '../assets/animation-koala-settled-up.json'
+import { ReactComponent as DiamondIcon } from '../assets/diamond.svg'
 import lottieKoalaSuccess from '../assets/animation-koala-success.json'
 import { TNewTransaction } from '../types'
 
@@ -189,7 +190,14 @@ function Summary() {
 
           <Button
             theme="subBottom"
-            text={`${t('convertAllTo')} ${chat?.default_currency || 'USD'}`}
+            text={
+              <div className="inline-flex items-center gap-2 h-full">
+                <div className="w-6 h-6">
+                  <DiamondIcon />
+                </div>
+                <div className="text-2">{`${t('convertAllTo')} ${chat?.default_currency || 'USD'}`}</div>
+              </div>
+            }
             onClick={() => { navigate('/paywall') }}
           />
         </>
