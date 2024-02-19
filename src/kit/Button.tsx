@@ -9,6 +9,7 @@ import Loader from './Loader'
 
 type TButton = {
   theme?: 'default' | 'text' | 'settleUp' | 'icon' | 'subBottom'
+  color?: string
   disabled?: boolean
   isBusy?: boolean
   onClick: () => void
@@ -20,7 +21,7 @@ type TButton = {
   text: string | ReactNode,
 })
 
-function Button({ theme = 'default', isBottom, text, disabled, isBusy, onClick }: TButton) {
+function Button({ theme = 'default', isBottom, color, text, disabled, isBusy, onClick }: TButton) {
   const webApp = useWebApp()
   const [impactOccurred] = useHapticFeedback()
   const { overlays } = useStore()
@@ -41,7 +42,7 @@ function Button({ theme = 'default', isBottom, text, disabled, isBusy, onClick }
         text={text}
         disabled={disabled}
         progress={isBusy}
-        color={disabled ? '#888888' : undefined}
+        color={disabled ? '#888888' : color}
         onClick={onClickVibro}
     />)
   }
@@ -65,6 +66,7 @@ function Button({ theme = 'default', isBottom, text, disabled, isBusy, onClick }
         isBottom && '!h-[40px]',
         'disabled:opacity-40 disabled:cursor-not-allowed'
       )}
+      style={{ backgroundColor: color }}
       disabled={disabled || isBusy}
       onClick={onClickVibro}
     >

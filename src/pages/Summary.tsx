@@ -24,7 +24,6 @@ import { formatAmount } from '../utils'
 // import type { TShare } from '../types'
 
 import lottieKoalaSettledUp from '../assets/animation-koala-settled-up.json'
-import { ReactComponent as DiamondIcon } from '../assets/diamond.svg'
 import lottieKoalaSuccess from '../assets/animation-koala-success.json'
 import { TNewTransaction } from '../types'
 
@@ -188,53 +187,65 @@ function Summary() {
             ))}
           </div>
 
-          <Button
-            theme="subBottom"
-            text={
-              <div className="inline-flex items-center gap-2 h-full">
-                <div className="w-6 h-6">
-                  <DiamondIcon />
-                </div>
-                <div className="text-2">{`${t('convertAllTo')} ${chat?.default_currency || 'USD'}`}</div>
-              </div>
-            }
-            onClick={() => { navigate('/paywall') }}
-          />
+          {currencyIds.length > 1 ? (
+            <Button
+              isBottom
+              color={'#7E10E5'}
+              text={`💎 ${t('convertAllTo')} ${chat?.default_currency || 'USD'}`}
+              onClick={() => { navigate('/paywall') }}
+            />
+          ) : (
+            <Button
+              isBottom
+              text={t('close')}
+              onClick={closeApp}
+            />
+          )}
         </>
       )}
 
       {!selectedId && summary?.debts && summary.debts.length === 0 && (
-        <div className="w-[244px] mx-auto flex flex-col gap-6 pt-8 text-center">
-          <div className="mx-auto w-[215px] h-[200px]">
-            <Lottie
-              style={{ width: 215, height: 200 }}
-              animationData={lottieKoalaSettledUp}
-              loop={true}
+        <>
+          <div className="w-[244px] mx-auto flex flex-col gap-6 pt-8 text-center">
+            <div className="mx-auto w-[215px] h-[200px]">
+              <Lottie
+                style={{ width: 215, height: 200 }}
+                animationData={lottieKoalaSettledUp}
+                loop={true}
+              />
+            </div>
+            <div className="text-[24px] leading-[32px] font-semibold">
+              {t('allSettledUp')}
+            </div>
+            <Button
+              theme="text"
+              text={t('detailedSummary')}
+              onClick={goDetailedSummary}
             />
           </div>
-          <div className="text-[24px] leading-[32px] font-semibold">
-            {t('allSettledUp')}
-          </div>
+
           <Button
-            theme="text"
-            text={t('detailedSummary')}
-            onClick={goDetailedSummary}
+            isBottom
+            text={t('close')}
+            onClick={closeApp}
           />
-        </div>
+        </>
       )}
 
       {selectedId && selectedDebt && (
-        <Panel>
-          <DebtDetailed {...selectedDebt} />
-        </Panel>
-      )}
+        <>
+          <Panel>
+            <DebtDetailed {...selectedDebt} />
+          </Panel>
 
-      <Button
-        isBottom
-        text={!selectedId ? t('close') : t('settleUp')}
-        onClick={!selectedId ? closeApp : settleUp}
-        isBusy={isBusy}
-      />
+          <Button
+            isBottom
+            text={t('settleUp')}
+            onClick={settleUp}
+            isBusy={isBusy}
+          />
+        </>
+      )}
 
       <Overlay isOpen={isSuccessOpen}>
         <div className="w-[280px] mx-auto flex flex-col gap-4 pt-8 text-center">
