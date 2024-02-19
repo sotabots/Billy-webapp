@@ -14,9 +14,9 @@ import {
 const apiUrl = import.meta.env.VITE_API_URL
 const staleTime = 5 * 60 * 1000
 
-const handleJsonResponse = (res: any) => {
+const handleJsonResponse = (res: Response) => {
   if (!res.ok) {
-    throw new Error(`Backend ${res.status}`);
+    throw new Error(`[${res.status}] ${res.statusText}`);
   }
   return res.json()
 }
