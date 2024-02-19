@@ -8,7 +8,7 @@ type TPanel = {
 
 function Panel({ children, className }: TPanel) {
   return (
-    <div className={cx('panel p-4 pb-6 rounded-3xl bg-bg', className)}>
+    <div className={cx('Panel p-4 pb-6 rounded-3xl bg-bg', className)}>
       {children}
     </div>
   )

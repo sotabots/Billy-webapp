@@ -56,7 +56,7 @@ button {
   cursor: pointer;
 }
 
-.panel + .panel {
+.Panel + .Panel {
   margin-top: 8px;
 }
 

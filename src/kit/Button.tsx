@@ -55,14 +55,14 @@ function Button({ theme = 'default', isBottom, text, disabled, isBusy, onClick }
 
     'icon': 'block h-[24px] w-[24px] bg-transaprent p-0 opacity-40 text-text hover:opacity-70 active:opacity-100 transition-all',
 
-    'subBottom': 'my-4 mx-auto w-full block h-10 bg-[#7E10E5] text-buttonText rounded-md text-[14px] leading-[24px] font-semibold enabled:hover:brightness-110 enabled:active:brightness-[1.2] transition-all',
+    'subBottom': 'block w-full h-10 bg-[#7E10E5] text-buttonText rounded-md text-[14px] leading-[24px] font-semibold enabled:hover:brightness-110 enabled:active:brightness-[1.2] transition-all',
   }[theme]
 
   const button = (
     <button
       className={cx(
         themeStyle,
-        isBottom && '!h-[56px]',
+        isBottom && '!h-[40px]',
         'disabled:opacity-40 disabled:cursor-not-allowed'
       )}
       disabled={disabled || isBusy}
@@ -73,12 +73,19 @@ function Button({ theme = 'default', isBottom, text, disabled, isBusy, onClick }
   )
 
   return (
-    <div className={cx(isBottom && 'h-[56px]')}>{/* spacer */}
-      <div className={cx('ButtonLoaderWrapper', isBottom ? 'fixed bottom-0 left-0 w-full pt-1 bg-bg' : 'relative')}>
-        {isBottom && (
+    <div className={cx(
+      (isBottom || theme === 'subBottom') && 'ButtonSpacer h-[56px]'
+    )}>
+      <div className={cx(
+        'ButtonLoaderWrapper',
+        (isBottom || theme === 'subBottom') ? 'fixed left-0 w-full py-2 bg-bg' : 'relative',
+        isBottom && 'bottom-0',
+        theme === 'subBottom' && (webApp.platform !== 'unknown' ? 'bottom-0' : 'bottom-[56px]'),
+      )}>
+        {(isBottom || theme === 'subBottom') && (
           <div className="absolute bottom-full left-0 w-full h-2 bg-gradient-to-t from-bg" />
         )}
-        {isBottom
+        {(isBottom || theme === 'subBottom')
           ? (
             <Limiter>
               {button}

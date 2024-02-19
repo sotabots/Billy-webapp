@@ -171,7 +171,7 @@ function Summary() {
 
       {!isSelected && summary?.debts && summary.debts.length > 0 && (
         <>
-          <div className="flex flex-col gap-2">
+          <div className="flex flex-col gap-2 pb-5">
             {currencyIds.map((currencyId, i) => (
               <Panel key={`Panel-${i}`}>
                 <h3>{t('summaryBy')} {getCurrencyById(currencyId)?.symbol || currencyId}</h3>
