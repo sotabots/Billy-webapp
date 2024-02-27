@@ -21,7 +21,7 @@ function User({ user, size = 40, secondRow, className}: TProps) {
       <Avatar user={user} size={size} />
       <div className="flex flex-col -gap-0.5 flex-1 text-left truncate">
         {!user ? (
-          <div className="text-hint truncate">({t('select')})</div>
+          <div className="text-error truncate">{t('select')}</div>
         ) : (
           <>
             <div className="truncate">{user.first_name} {user.last_name}</div>
