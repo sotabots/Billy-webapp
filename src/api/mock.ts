@@ -82,7 +82,7 @@ const _mockTransaction: TTransaction = {
   currency_id: mockCurrencies[0]._id
 }
 
-const mockChat: TChat = {
+const _mockChat: TChat = {
   _id: 0,
   name: 'mock chat name',
   summary_id: 'mock summary id',
@@ -115,7 +115,8 @@ if (Math.random() > 0.25) {
 
 // demo data
 
-const isRus = i18n.language === 'ru' || i18n.language === 'uk'
+const tgLanguageCode = window.Telegram?.WebApp.initDataUnsafe.user?.language_code || 'en'
+const isRus = tgLanguageCode === 'ru' || tgLanguageCode === 'uk'
 
 const demoUsers: TUser[] = [
   {
@@ -236,9 +237,22 @@ const demoTransaction: TTransaction = {
   ]
 }
 
+const demoChat: TChat = {
+  _id: 0,
+  name: 'demo chat name',
+  summary_id: 'demo summary id',
+  default_currency: isRus ? 'RUB' : 'USD',
+  status: 'administrator',
+  welcome_message_id: -1,
+  menu_message_id: -1,
+  pin_message_id: -1,
+  language_code: tgLanguageCode
+}
+
 const isDemo = true
 const mockUsers = isDemo ? demoUsers : _mockUsers
 const mockTransaction = isDemo ? demoTransaction : _mockTransaction
+const mockChat = isDemo ? demoChat : _mockChat
 
 export {
   mockUsers,

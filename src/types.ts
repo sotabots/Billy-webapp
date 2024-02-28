@@ -58,7 +58,7 @@ export type TChat = {
   welcome_message_id: number | null
   menu_message_id: number | null
   pin_message_id: number | null
-  language_code: 'en' | 'ru' | 'uk'
+  language_code: string // 'en' | 'ru' | 'uk' (or any string)
 }
 
 export type TSummary = {
