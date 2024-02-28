@@ -8,7 +8,8 @@ import Limiter from './Limiter'
 import Loader from './Loader'
 
 type TButton = {
-  theme?: 'default' | 'text' | 'settleUp' | 'icon' | 'subBottom'
+  theme?: 'default' | 'clear' | 'text' | 'settleUp' | 'icon' | 'subBottom'
+  className?: string
   color?: string
   disabled?: boolean
   isBusy?: boolean
@@ -21,7 +22,7 @@ type TButton = {
   text: string | ReactNode,
 })
 
-function Button({ theme = 'default', isBottom, color, text, disabled, isBusy, onClick }: TButton) {
+function Button({ theme = 'default', className, isBottom, color, text, disabled, isBusy, onClick }: TButton) {
   const webApp = useWebApp()
   const [impactOccurred] = useHapticFeedback()
   const { overlays } = useStore()
@@ -48,6 +49,8 @@ function Button({ theme = 'default', isBottom, color, text, disabled, isBusy, on
   }
 
   const themeStyle = {
+    'clear': 'enabled:hover:brightness-110 enabled:active:brightness-[1.2] transition-all',
+
     'default': 'mx-auto w-full block h-10 bg-button text-buttonText rounded-md text-[14px] leading-[20px] font-semibold enabled:hover:brightness-110 enabled:active:brightness-[1.2] transition-all',
 
     'text': 'min-h-[24px] text-[14px] leading-[1.2em] text-button hover:brightness-[1.2] active:brightness-[1.4] transition-all',
@@ -63,6 +66,7 @@ function Button({ theme = 'default', isBottom, color, text, disabled, isBusy, on
     <button
       className={cx(
         themeStyle,
+        className,
         isBottom && '!h-[40px]',
         'disabled:opacity-40 disabled:cursor-not-allowed'
       )}

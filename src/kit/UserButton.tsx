@@ -1,4 +1,5 @@
 import { useHapticFeedback } from '@vkruglikov/react-telegram-web-app'
+import cx from 'classnames'
 
 import { TUser } from '../types'
 
@@ -28,11 +29,12 @@ function UserButton({ user, isChecked, onClick }: TProps) {
       onClick={onClickVibro}
     >
       <User user={user} />
-      {isChecked && (
-        <div className="mr-2 w-6 h-6">
-          <CheckIcon />
-        </div>
-      )}
+      <div className={cx(
+        'mr-2 w-6 h-6 transition-all',
+        isChecked ? 'text-ok scale-100' : 'text-transparent scale-0'
+      )}>
+        <CheckIcon />
+      </div>
     </button>
   )
 }

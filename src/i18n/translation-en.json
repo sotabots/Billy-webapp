@@ -30,6 +30,7 @@
   "lack": "Lack",
   "allRight": "All right",
   "overdo": "Overdo",
+  "unbalanced": "The sum above is not equal to the sum below. So I can't record the transaction.",
   "paidSum": "Paid",
   "oweSum": "owe",
   "whoPaid": "Who paid",

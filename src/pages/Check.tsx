@@ -1,5 +1,4 @@
-import { useHapticFeedback } from '@vkruglikov/react-telegram-web-app'
-import cx from 'classnames'
+import { useHapticFeedback, useShowPopup } from '@vkruglikov/react-telegram-web-app'
 import Lottie from 'lottie-react'
 import { useState } from 'react'
 import { useTranslation } from 'react-i18next'
@@ -28,6 +27,8 @@ function Check() {
   useInit()
 
   const [, notificationOccurred] = useHapticFeedback()
+  const showPopup = useShowPopup()
+
   const { t } = useTranslation()
   const navigate = useNavigate()
   const [isBusy, setIsBusy] = useState(false)
@@ -158,11 +159,24 @@ function Check() {
         </div>
 
         <Panel className="!pb-4">
-          <h3 className={cx(!isBalanced && 'text-error')}>
-            {isLacks && t('lack')}
-            {isBalanced && t('allRight')}
-            {isOverdo && t('overdo')}
-          </h3>
+          {isBalanced && (
+            <h3 className="text-ok">{t('allRight')}</h3>
+          )}
+          {!isBalanced && (
+            <Button
+              theme="clear"
+              className="text-error font-semibold"
+              onClick={async () => {
+                const message = `🐨 ${t('unbalanced')}`
+                try {
+                  await showPopup({ message })
+                } catch {
+                  alert(message)
+                }
+              }}
+              text={isLacks && t('lack') || isOverdo && t('overdo')}
+            />
+          )}
           <div className="mt-1 text-[14px] leading-[20px] text-hint">{t('paidSum')} {payedSumFormatted} {currency?.symbol}, {t('oweSum')} {oweSumFormatted} {currency?.symbol}</div>
         </Panel>
 
