@@ -76,7 +76,13 @@ function Check() {
   const isOverdo = fromDecimals(payedSum) - fromDecimals(oweSum) >= fromDecimals(TOLERANCE)
   const isBalanced = !isLacks && !isOverdo
 
-  const isButtonDisabled = !isBalanced || !(payedSum > 0) || !(oweSum > 0) || !transaction.currency_id
+  const isWrongAmounts = !isBalanced || !(payedSum > 0) || !(oweSum > 0)
+  const isNoCurrency = !transaction.currency_id
+  const isButtonDisabled = isWrongAmounts || isNoCurrency
+  const buttonText =
+    isNoCurrency ? `🐨 ${t('selectCurrency')}` :
+    isWrongAmounts ? `🐨 ${t('checkAmounts')}` :
+    t('save')
 
   // const isSplitedEqually = oweShares.every(share => share.amount === oweShares[0].amount)
   const isSplitedEqually = false // todo
@@ -230,7 +236,7 @@ function Check() {
 
         <Button
           isBottom
-          text={t("save")}
+          text={buttonText}
           onClick={save}
           disabled={isButtonDisabled}
           isBusy={isBusy}
