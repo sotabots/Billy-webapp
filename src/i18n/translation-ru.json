@@ -10,6 +10,7 @@
   "next": "Далее",
   "apply": "Применить",
   "save": "Сохранить",
+
   "addComment": "Добавьте комментарий",
   "yourComment": "Ваш комментарий...",
   "message": "Сообщение",
@@ -22,6 +23,9 @@
   "author": "автор",
   "added": "доп.",
   "addUser": "Добавить человека",
+  "pleaseMatchUsers": "Выберите людей",
+  "pleaseAddUsers": "Добавьте людей",
+
   "selectWhoIs": "Выберите, кто",
   "selectUser": "Выберите",
 

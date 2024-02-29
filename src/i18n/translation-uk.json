@@ -10,6 +10,7 @@
   "next": "Далі",
   "apply": "Застосувати",
   "save": "Зберегти",
+
   "addComment": "Додати коментар",
   "yourComment": "Ваш коментар...",
   "message": "Повідомлення",
@@ -21,7 +22,10 @@
   "select": "оберіть…",
   "author": "автор",
   "added": "дод.",
-  "addUser":  "Додати людину",
+  "addUser": "Додати людину",
+  "pleaseMatchUsers": "Виберіть людей",
+  "pleaseAddUsers": "Додати людей",
+
   "selectWhoIs": "Оберіть хто",
   "selectUser": "Оберіть",
 

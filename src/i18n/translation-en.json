@@ -10,6 +10,7 @@
   "next": "Next",
   "apply": "Apply",
   "save": "Save",
+
   "addComment": "Add comment",
   "yourComment": "Your comment...",
   "message": "Message",
@@ -22,6 +23,9 @@
   "author": "author",
   "added": "added",
   "addUser": "Add user",
+  "pleaseMatchUsers": "Match users",
+  "pleaseAddUsers": "Add users",
+
   "selectWhoIs": "Select who is",
   "selectUser": "Select user",
 
