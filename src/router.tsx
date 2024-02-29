@@ -1,6 +1,6 @@
 import { createHashRouter } from 'react-router-dom'
 
-import Start from './pages/Start'
+import Match from './pages/Match'
 import SelectUser from './pages/SelectUser'
 import Check from './pages/Check'
 import SelectCurrency from './pages/SelectCurrency'
@@ -11,12 +11,12 @@ import Paywall from './pages/Paywall'
 export const router = createHashRouter([
   {
     path: "/",
-    element: <Start />,
-    errorElement: <Start />,
+    element: <Match />,
+    errorElement: <Match />,
   },
   {
     path: "*",
-    element: <Start />,
+    element: <Match />,
   },
   {
     path: "/select-user",

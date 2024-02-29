@@ -17,7 +17,7 @@ import { useStore } from '../store'
 import { TShare } from '../types'
 import { closeApp } from '../utils'
 
-function Start() {
+function Match() {
   useInit()
 
   const { t } = useTranslation()
@@ -129,4 +129,4 @@ function Start() {
   )
 }
 
-export default Start
+export default Match
