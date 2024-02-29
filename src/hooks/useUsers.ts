@@ -12,12 +12,17 @@ export const useUsers = () => {
   const usedUserIds = transactionShares.map(share => share.related_user_id)
   const unrelatedUsers = users.filter(user => !usedUserIds.includes(user._id))
 
-  // todo: check (???)
+  const countUnrelatedPersons = [...new Set(
+    transactionShares.filter(share =>
+      !(
+        share.related_user_id &&
+        users.find(user => user._id === share.related_user_id)
+      )
+    ).map(share => share.person_id)
+  )].length
+  const isRelationsComplete = countUnrelatedPersons === 0
+  // todo: improve (???)
   const isRelationsEnough = transactionShares.length > 1
-  const isRelationsComplete = transactionShares.every(share =>
-      share.related_user_id &&
-      users.find(user => user._id === share.related_user_id)
-    )
 
   const getUserById = (userId: TUserId) => {
     return users.find(user => user._id === userId)
@@ -151,5 +156,5 @@ export const useUsers = () => {
     history.back()
   }
 
-  return { users, unrelatedUsers, isRelationsEnough, isRelationsComplete, getUserById, selectUser, addUsers, updUsers, deleteUser }
+  return { users, unrelatedUsers, countUnrelatedPersons, isRelationsComplete, isRelationsEnough, getUserById, selectUser, addUsers, updUsers, deleteUser }
 }

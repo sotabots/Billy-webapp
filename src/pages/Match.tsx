@@ -23,7 +23,7 @@ function Match() {
   const { t } = useTranslation()
   const navigate = useNavigate()
   const { transaction, setSelectPersonId, txComment, setTxComment } = useStore()
-  const { unrelatedUsers, isRelationsEnough, isRelationsComplete } = useUsers()
+  const { unrelatedUsers, countUnrelatedPersons, isRelationsComplete, isRelationsEnough } = useUsers()
   const [impactOccurred] = useHapticFeedback()
 
   if (!transaction) {
@@ -57,7 +57,7 @@ function Match() {
 
   const isButtonDisabled = !isRelationsComplete || !isRelationsEnough
   const buttonText =
-    !isRelationsComplete ? `🐨 ${t('pleaseMatchUsers')}` :
+    !isRelationsComplete ? `🐨 ${t('pleaseMatchUsers')} (${countUnrelatedPersons})` :
     !isRelationsEnough ? `🐨 ${t('pleaseAddUsers')}` :
     t('next')
 
