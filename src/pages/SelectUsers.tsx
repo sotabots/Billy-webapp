@@ -17,13 +17,13 @@ function SelectUsers() {
   const { t } = useTranslation()
 
   const { users, updUsers } = useUsers()
-  const { isSelectPayer, transaction } = useStore()
+  const { isSelectPayers, transaction } = useStore()
 
-  // todo: isSelectPayer null
+  // todo: isSelectPayers null
 
   const [checkedUserIds, setCheckedUserIds] = useState<TUserId[]>(
     (transaction?.shares || [] as TShare[])
-      .filter(share => share.is_payer === isSelectPayer)
+      .filter(share => share.is_payer === isSelectPayers)
       .filter(share => share.related_user_id !== null)
       .map(share => share.related_user_id as number)
   )
@@ -50,7 +50,7 @@ function SelectUsers() {
       <Header onBack={() => { history.back() }} />
 
       <div className="mb-2 px-4 flex items-center justify-between gap-3">
-        <h2 className="pt-[2px] pb-[6px]">{isSelectPayer ? t('whoPaid') : t('forWhom')}</h2>
+        <h2 className="pt-[2px] pb-[6px]">{isSelectPayers ? t('whoPaid') : t('forWhom')}</h2>
         <Button
           theme="text"
           text={isEveryoneChecked ? t('unselectAll') : t('selectAll')}
@@ -75,7 +75,7 @@ function SelectUsers() {
       <Button
         isBottom
         text={t('apply')} // todo
-        onClick={updUsers(checkedUserIds, isSelectPayer)}
+        onClick={updUsers(checkedUserIds, isSelectPayers)}
       />
     </Screen>
   )

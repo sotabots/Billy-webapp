@@ -11,8 +11,8 @@ type TStore = {
   setUsers: (users: TUser[]) => void
   selectPersonId: string | null
   setSelectPersonId: (i: string | null) => void
-  isSelectPayer: null | boolean
-  setIsSelectPayer: (isSelectPayer: null | boolean) => void
+  isSelectPayers: null | boolean
+  setIsSelectPayers: (isSelectPayers: null | boolean) => void
   currencies: TCurrency[]
   setCurrencies: (currencies: TCurrency[]) => void
   setCurrency: (currency: TCurrencyId) => void
@@ -43,8 +43,8 @@ export const useStore = create<TStore>((set, get) => ({
   setUsers: (users) => set({ users }),
   selectPersonId: null,
   setSelectPersonId: (selectPersonId) => set({ selectPersonId }),
-  isSelectPayer: null,
-  setIsSelectPayer: (isSelectPayer) => set({ isSelectPayer }),
+  isSelectPayers: null,
+  setIsSelectPayers: (isSelectPayers) => set({ isSelectPayers }),
   currencies: [],
   setCurrencies: (currencies) => set({ currencies }),
   setCurrency: (currencyId) => {

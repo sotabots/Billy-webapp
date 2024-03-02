@@ -32,7 +32,7 @@ function Check() {
   const { t } = useTranslation()
   const navigate = useNavigate()
   const [isBusy, setIsBusy] = useState(false)
-  const { transaction, setTransaction, txComment, setIsSelectPayer, isSuccess, setSuccess, setTxPatchError } = useStore()
+  const { transaction, setTransaction, txComment, setIsSelectPayers, isSuccess, setSuccess, setTxPatchError } = useStore()
 
   const { getCurrencyById } = useCurrencies()
 
@@ -187,7 +187,7 @@ function Check() {
               theme="icon"
               text={<EditIcon />}
               onClick={() => {
-                setIsSelectPayer(true)
+                setIsSelectPayers(true)
                 navigate('/select-users')
               }}
             />
@@ -213,7 +213,7 @@ function Check() {
               theme="icon"
               text={<EditIcon />}
               onClick={() => {
-                setIsSelectPayer(false)
+                setIsSelectPayers(false)
                 navigate('/select-users')
               }}
             />
