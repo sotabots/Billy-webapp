@@ -20,6 +20,8 @@ type TStore = {
   setChat: (chat: TChat) => void
   transaction: undefined | TTransaction,
   setTransaction: (transaction: TTransaction) => void
+  isAuthorSharesInited: boolean
+  setIsAuthorSharesInited: (isAuthorSharesInited: boolean) => void
   txComment: string,
   setTxComment: (txComment: string) => void
   isSuccess: boolean | null
@@ -62,6 +64,8 @@ export const useStore = create<TStore>((set, get) => ({
   setChat: (chat) => set(({ chat })),
   transaction: undefined,
   setTransaction: (transaction) => set(({ transaction })),
+  isAuthorSharesInited: false,
+  setIsAuthorSharesInited: (isAuthorSharesInited) => set(({ isAuthorSharesInited })),
   txComment: '',
   setTxComment: (txComment) => set(({ txComment })),
   isSuccess: null,
