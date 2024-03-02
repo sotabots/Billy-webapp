@@ -68,19 +68,23 @@ export const useUsers = () => {
 
   const addUsers = (users: TUser[]) => () => {
     if (selectPersonId === null) { // add user
+      const wasPayers = transactionShares.some(share => share.is_payer)
+      const shareFromUser = ({ isPayer }: {
+        isPayer: boolean
+      }) =>
+        (user: TUser) => ({
+          person_id: `added-person-user-${user._id}`, // todo: check
+          raw_name: null, //user.first_name,
+          normalized_name: null, // user.first_name,
+          is_payer: isPayer,
+          amount: 0,
+          user_candidates: null,
+          related_user_id: user._id
+        })
       const updShares: TShare[] = [
         ...transactionShares,
-        ...users.map(user => (
-          {
-            person_id: `added-person-user-${user._id}`, // todo: check
-            raw_name: null, //user.first_name,
-            normalized_name: null, // user.first_name,
-            is_payer: false,
-            amount: 0,
-            user_candidates: null,
-            related_user_id: user._id
-          }
-        ))
+        ...(wasPayers ? [] : [shareFromUser({ isPayer: true })(users[0])]),
+        ...users.map(shareFromUser({ isPayer: false }))
       ]
       if (transaction) {
         setTransaction({
