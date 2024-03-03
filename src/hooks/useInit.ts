@@ -12,7 +12,7 @@ export const useInit = () => {
     txId, setTxId,
     summaryId, setSummaryId,
     chat,
-    transaction,
+    transaction, setTransaction,
     isAuthorSharesInited, setIsAuthorSharesInited,
   } = useStore()
   const routerLocation = useLocation()
@@ -56,10 +56,14 @@ export const useInit = () => {
         if (user) {
           console.log('author: user found, addUsers...')
           addUsers([user], { isAuthor: true })
+          setTransaction({
+            ...transaction,
+            creator_user_id: userId,
+          })
         }
       }
     }
-  }, [transaction, users, initDataUnsafe, isAuthorSharesInited, setIsAuthorSharesInited, getUserById, addUsers])
+  }, [transaction, users, initDataUnsafe, isAuthorSharesInited, setIsAuthorSharesInited, getUserById, addUsers, setTransaction])
 
   // init language
   if (
