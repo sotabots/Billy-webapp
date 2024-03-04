@@ -46,21 +46,27 @@ export const useInit = () => {
 
   // init new-tx author shares
   useEffect(() => {
-    if (transaction && users.length && initDataUnsafe.user && !isAuthorSharesInited) {
-      console.log('setIsAuthorSharesInited', true)
-      setIsAuthorSharesInited(true)
-      if (transaction.shares.length === 0) {
-        const userId = initDataUnsafe.user.id
-        console.log('author: 0 shares, userId =', userId)
-        const user = getUserById(userId)
-        if (user) {
-          console.log('author: user found, addUsers...')
-          addUsers([user], { isAuthor: true })
-          setTransaction({
-            ...transaction,
-            creator_user_id: userId,
-          })
-        }
+    if (
+      !isAuthorSharesInited &&
+      initDataUnsafe.user &&
+      transaction &&
+      transaction.creator_user_id === null &&
+      transaction.shares.length === 0 &&
+      users.length
+    ) {
+      const userId = initDataUnsafe.user.id
+      console.log('author: 0 shares, userId =', userId, 'users', users.length, users)
+      const user = getUserById(userId)
+      console.log('author user =', user)
+      if (user) {
+        console.log('setIsAuthorSharesInited', true)
+        setIsAuthorSharesInited(true)
+        console.log('author: user found, addUsers...')
+        addUsers([user], { isAuthor: true })
+        setTransaction({
+          ...transaction,
+          creator_user_id: userId,
+        })
       }
     }
   }, [transaction, users, initDataUnsafe, isAuthorSharesInited, setIsAuthorSharesInited, getUserById, addUsers, setTransaction])
