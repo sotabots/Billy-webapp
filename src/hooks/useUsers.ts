@@ -67,8 +67,10 @@ export const useUsers = () => {
   }
 
   const addUsers = (users: TUser[], { isAuthor = false }: { isAuthor?: boolean } = {}) => () => {
+    console.log('> addUsers', users)
     if (selectPersonId === null) { // add user
       const wasPayers = transactionShares.some(share => share.is_payer)
+      console.log('> addUsers wasPayers', wasPayers)
       const shareFromUser = ({ isPayer }: {
         isPayer: boolean
       }) =>
@@ -86,7 +88,9 @@ export const useUsers = () => {
         ...(wasPayers ? [] : [shareFromUser({ isPayer: true })(users[0])]),
         ...users.map(shareFromUser({ isPayer: false }))
       ]
+      console.log('> addUsers transaction', transaction)
       if (transaction) {
+        console.log('> addUsers updShares', updShares)
         setTransaction({
           ...transaction,
           shares: updShares
