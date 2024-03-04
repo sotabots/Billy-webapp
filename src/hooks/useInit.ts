@@ -74,6 +74,10 @@ export const useInit = () => {
     }
   }, [transaction, users, initDataUnsafe, isAuthorSharesInited, setIsAuthorSharesInited, getUserById, addUsers, setTransaction])
 
+  useEffect(() => {
+    console.log('author: tx changed', JSON.stringify(transaction))
+  }, [transaction])
+
   // init language
   if (
     chat?.language_code &&
