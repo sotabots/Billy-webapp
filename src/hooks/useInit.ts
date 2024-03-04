@@ -17,7 +17,7 @@ export const useInit = () => {
   } = useStore()
   const routerLocation = useLocation()
   const [initDataUnsafe/*, initData*/] = useInitData()
-  const { users, getUserById, addUsers } = useUsers()
+  const { users, getUserById } = useUsers()
 
   // init transaction/summary pages
   const queryParameters = new URLSearchParams(routerLocation.search)
@@ -62,21 +62,27 @@ export const useInit = () => {
         console.log('author: user found')
         console.log('setIsAuthorSharesInited', true)
         setIsAuthorSharesInited(true)
+
         console.log('author: tx...', JSON.stringify(transaction))
-        setInterval(() => {
-          console.log('author interval: addUsers...')
-          addUsers([user], { isAuthor: true })
-        }, 1000)
-        setInterval(() => {
-          console.log('author interval: upd creator_user_id...')
-          setTransaction({
-            ...transaction,
-            creator_user_id: userId,
-          })
-        }, 10000)
+        setTransaction({
+          ...transaction,
+          creator_user_id: userId,
+          shares: [true, false].map(isPayer => (
+            {
+              person_id: 'MESSAGE_AUTHOR',
+              raw_name: null,
+              normalized_name: 'MESSAGE_AUTHOR',
+              is_payer: isPayer,
+              amount: 0,
+              user_candidates: null,
+              related_user_id: user._id
+            }
+          ))
+        })
+        console.log('author: tx...', JSON.stringify(transaction))
       }
     }
-  }, [transaction, users, initDataUnsafe, isAuthorSharesInited, setIsAuthorSharesInited, getUserById, addUsers, setTransaction])
+  }, [transaction, users, initDataUnsafe, isAuthorSharesInited, setIsAuthorSharesInited, getUserById, setTransaction])
 
   useEffect(() => {
     console.log('author: tx changed', JSON.stringify(transaction))
