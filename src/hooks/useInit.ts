@@ -59,17 +59,18 @@ export const useInit = () => {
       const user = getUserById(userId)
       console.log('author user =', user)
       if (user) {
+        console.log('author: user found')
         console.log('setIsAuthorSharesInited', true)
         setIsAuthorSharesInited(true)
         console.log('author: tx...', JSON.stringify(transaction))
-        console.log('author: user found, addUsers...')
         setTransaction({
           ...transaction,
           creator_user_id: userId,
         })
-        setTimeout(() => {
+        setInterval(() => {
+          console.log('author: addUsers...')
           addUsers([user], { isAuthor: true })
-        }, 50)
+        }, 1000)
       }
     }
   }, [transaction, users, initDataUnsafe, isAuthorSharesInited, setIsAuthorSharesInited, getUserById, addUsers, setTransaction])
