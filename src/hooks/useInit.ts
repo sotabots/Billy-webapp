@@ -55,15 +55,9 @@ export const useInit = () => {
       users.length
     ) {
       const userId = initDataUnsafe.user.id
-      console.log('author: 0 shares, userId =', userId, 'users', users.length, users)
       const user = getUserById(userId)
-      console.log('author user =', user)
       if (user) {
-        console.log('author: user found')
-        console.log('setIsAuthorSharesInited', true)
         setIsAuthorSharesInited(true)
-
-        console.log('author: tx...', JSON.stringify(transaction))
         setTransaction({
           ...transaction,
           creator_user_id: userId,
@@ -79,14 +73,9 @@ export const useInit = () => {
             }
           ))
         })
-        console.log('author: tx...', JSON.stringify(transaction))
       }
     }
   }, [transaction, users, initDataUnsafe, isAuthorSharesInited, setIsAuthorSharesInited, getUserById, setTransaction])
-
-  useEffect(() => {
-    console.log('author: tx changed', JSON.stringify(transaction))
-  }, [transaction])
 
   // init language
   if (
