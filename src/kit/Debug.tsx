@@ -29,35 +29,30 @@ function Debug() {
     }
   }, [listener])
 
+  const out = (title: string, val: any) => (
+    <>
+      <br />
+      <strong>⚫ {title} = </strong>
+      {typeof val === 'object' && val !== null
+        ? <pre>{JSON.stringify(val, null, 2)}</pre>
+        : String(val)
+      }
+      <br />
+    </>
+  )
+
   return (
     <div className={cx(n < OPEN_DEBUG_RIGHT_CLICKS && 'h-0 overflow-hidden')}>
-      <Panel className="mt-10 text-[12px] break-words opacity-40 overflow-x-auto">
+      <Panel className="mt-10 text-[12px] break-words opacity-70 overflow-x-auto [&>pre]:whitespace-pre-wrap">
         <h2>Debug</h2>
-        <strong>href = </strong>{location.href}
-        <br />
-        <br />
-        <strong>summaryId = </strong>{String(summaryId)}
-        <br />
-        <strong>summary = </strong>
-        <pre>{JSON.stringify(summary, null, 2)}</pre>
-        <br />
-        <br />
-        <strong>txId = </strong>{String(txId)}
-        <br />
-        <strong>transaction = </strong>
-        <pre>{JSON.stringify(transaction, null, 2)}</pre>
-        <br />
-        <br />
-        <strong>users = </strong>
-        <pre>{JSON.stringify(users, null, 2)}</pre>
-        <br />
-        <br />
-        <strong>chat = </strong>
-        <pre>{JSON.stringify(chat, null, 2)}</pre>
-        <br />
-        <br />
-        <strong>window.Telegram?.WebApp = </strong>
-        <pre>{JSON.stringify(window.Telegram?.WebApp, null, 2)}</pre>
+        {out('location.href', location.href)}
+        {out('txid', txId)}
+        {out('transaction', transaction)}
+        {out('users', users)}
+        {out('chat', chat)}
+        {out('summaryId', summaryId)}
+        {out('summary', summary)}
+        {out('window.Telegram?.WebApp', window.Telegram?.WebApp)}
       </Panel>
     </div>
   )
