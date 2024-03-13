@@ -88,29 +88,10 @@ const _mockChat: TChat = {
   summary_id: 'mock summary id',
   default_currency: mockCurrencies[0]._id,
   status: 'administrator',
-  welcome_message_id: -1,
-  menu_message_id: -1,
-  pin_message_id: -1,
+  welcome_message_id: 0,
+  menu_message_id: 0,
+  pin_message_id: 0,
   language_code: 'en'
-}
-
-const mockSummary: TSummary = {
-  debts: [],
-  url: 'https://docs.google.com/spreadsheets/d/1BxiMVs0XRA5nFMdKvBdBZjgmUUqptlbs74OgvE2upms/edit',
-  chat_id: 0
-}
-
-if (Math.random() > 0.25) {
-  _mockUsers.forEach((mockUser, i, arr) => {
-    if (i < arr.length - 1) {
-      mockSummary.debts.push({
-        from_user: mockUser,
-        to_user: arr[i + 1],
-        amount: parseFloat((Math.round(Math.random() * 1e6) / 10 ** decimals).toFixed(decimals)),
-        currency_id: mockCurrencies[Math.floor(Math.random() * 3)]._id
-      })
-    }
-  })
 }
 
 // demo data
@@ -243,9 +224,9 @@ const demoChat: TChat = {
   summary_id: 'demo summary id',
   default_currency: isRus ? 'RUB' : 'USD',
   status: 'administrator',
-  welcome_message_id: -1,
-  menu_message_id: -1,
-  pin_message_id: -1,
+  welcome_message_id: 0,
+  menu_message_id: 0,
+  pin_message_id: 0,
   language_code: tgLanguageCode
 }
 
@@ -253,6 +234,21 @@ const isDemo = true
 const mockUsers = isDemo ? demoUsers : _mockUsers
 const mockTransaction = isDemo ? demoTransaction : _mockTransaction
 const mockChat = isDemo ? demoChat : _mockChat
+
+const mockSummary: TSummary = {
+  chat_id: 0,
+  url: 'https://docs.google.com/spreadsheets/d/1BxiMVs0XRA5nFMdKvBdBZjgmUUqptlbs74OgvE2upms/edit',
+  debts: Math.random() < 0.2
+    ? []
+    : mockUsers.map((mockUser, i, arr) => (
+      {
+        from_user: mockUser,
+        to_user: arr[(i === arr.length - 1) ? 0 : i + 1],
+        amount: parseFloat((Math.round(Math.random() * 1e6) / 10 ** decimals).toFixed(decimals)),
+        currency_id: mockCurrencies[Math.floor(Math.random() * 3)]._id
+      }
+    )),
+}
 
 export {
   mockUsers,
