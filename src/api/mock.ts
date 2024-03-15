@@ -83,14 +83,7 @@ const _mockTransaction: TTransaction = {
 }
 
 const _mockChat: TChat = {
-  _id: 0,
-  name: 'mock chat name',
-  summary_id: 'mock summary id',
   default_currency: mockCurrencies[0]._id,
-  status: 'administrator',
-  welcome_message_id: 0,
-  menu_message_id: 0,
-  pin_message_id: 0,
   language_code: 'en'
 }
 
@@ -219,14 +212,7 @@ const demoTransaction: TTransaction = {
 }
 
 const demoChat: TChat = {
-  _id: 0,
-  name: 'demo chat name',
-  summary_id: 'demo summary id',
   default_currency: isRus ? 'RUB' : 'USD',
-  status: 'administrator',
-  welcome_message_id: 0,
-  menu_message_id: 0,
-  pin_message_id: 0,
   language_code: tgLanguageCode
 }
 

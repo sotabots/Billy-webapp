@@ -82,7 +82,7 @@ export const useGetChat = (chatId: undefined | number | null) => {
       queryKey: ['chat', `chat-${chatId}`],
       queryFn: (chatId /* || !'DISABLE_MOCK_CHAT'*/)
         ? () =>
-          fetch(`${apiUrl}/chats/${chatId}`, {
+          fetch(`${apiUrl}/chat_settings/${chatId}`, {
             method: 'GET',
             headers: {
               'Authorization': initData,

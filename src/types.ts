@@ -47,17 +47,7 @@ export type TCurrency = {
 }
 
 export type TChat = {
-  _id: number,
-  name: string,
-  summary_id: string | null
-  // users: ...
-  // names: ...
-  // transations: ...
   default_currency: string | null
-  status: 'member' | 'administrator' | 'left' | null
-  welcome_message_id: number | null
-  menu_message_id: number | null
-  pin_message_id: number | null
   language_code: string // 'en' | 'ru' | 'uk' (or any string)
 }
 
