@@ -71,7 +71,7 @@ shares.splice(1, 0, {
 })
 
 const _mockTransaction: TTransaction = {
-  _id: '000',
+  _id: '0',
   chat_id: null,
   creator_user_id: null,
   is_voice: true,
@@ -131,7 +131,7 @@ const demoUsers: TUser[] = [
 ]
 
 const demoTransaction: TTransaction = {
-  _id: '000',
+  _id: '0',
   chat_id: null,
   creator_user_id: null,
   is_voice: true,

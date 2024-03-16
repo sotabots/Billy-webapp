@@ -46,11 +46,20 @@ export const useInit = () => {
 
   // init new-tx author shares
   useEffect(() => {
+    if ( // skip case
+      !isAuthorSharesInited &&
+      transaction &&
+      transaction._id !== '0' &&
+      transaction.shares.length > 0
+    ) {
+      setIsAuthorSharesInited(true)
+      return
+    }
+
     if (
       !isAuthorSharesInited &&
       initDataUnsafe.user &&
       transaction &&
-      transaction.creator_user_id === null &&
       transaction.shares.length === 0 &&
       users.length
     ) {
@@ -60,7 +69,7 @@ export const useInit = () => {
         setIsAuthorSharesInited(true)
         setTransaction({
           ...transaction,
-          creator_user_id: userId,
+          creator_user_id: transaction.creator_user_id || userId,
           shares: [true, false].map(isPayer => (
             {
               person_id: 'MESSAGE_AUTHOR',
