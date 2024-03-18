@@ -160,15 +160,23 @@ export const usePostTransaction = () => { // summary settleup
 
 export const useGetSummary = () => {
   const [, initData] = useInitData()
-  const { setSummary, summaryId } = useStore()
-  console.log('useGetSummary summaryId', summaryId)
+  const { setSummary, summaryId, summaryCurrencyId } = useStore()
+  console.log('useGetSummary summaryId', summaryId, summaryCurrencyId)
+
+  const url = `${apiUrl}/summary/${summaryId}` +
+    (summaryCurrencyId
+      ? `?${new URLSearchParams({
+          target_currency_id: String(summaryCurrencyId),
+        })}`
+      : ''
+    )
 
   return (
     useQuery<TSummary, Error>({
-      queryKey: ['summary', `summary-${summaryId}`],
+      queryKey: ['summary', `summary-${summaryId}-${summaryCurrencyId}`],
       queryFn: summaryId
         ? () =>
-          fetch(`${apiUrl}/summary/${summaryId}`, {
+          fetch(url , {
             method: 'GET',
             headers: {
               'Authorization': initData,

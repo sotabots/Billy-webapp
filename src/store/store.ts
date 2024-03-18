@@ -31,6 +31,8 @@ type TStore = {
 
   summaryId: undefined | string | null
   setSummaryId: (summaryId: string | null) => void
+  summaryCurrencyId: null | TCurrencyId
+  setSummaryCurrencyId: (summaryId: null | TCurrencyId) => void
   summary: undefined | TSummary | null
   setSummary: (summary: TSummary) => void
 }
@@ -75,6 +77,8 @@ export const useStore = create<TStore>((set, get) => ({
 
   summaryId: undefined,
   setSummaryId: (summaryId) => set(({ summaryId })),
+  summaryCurrencyId: null,
+  setSummaryCurrencyId: (summaryCurrencyId) => set(({ summaryCurrencyId })),
   summary: undefined,
   setSummary: (summary) => set(( { summary } )),
 }))
