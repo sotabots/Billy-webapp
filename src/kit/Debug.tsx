@@ -45,7 +45,7 @@ function Debug() {
     <div className={cx(n < OPEN_DEBUG_RIGHT_CLICKS && 'h-0 overflow-hidden')}>
       <Panel className="mt-10 text-[12px] break-words opacity-70 overflow-x-auto [&>pre]:whitespace-pre-wrap">
         <h2>Debug</h2>
-        {['USD', 'EUR', 'RUB'].map(_ => (
+        {['USD', 'EUR', 'RUB', 'ZAR'].map(_ => (
           <button
             className="m-1 p-1 block border border-black"
             onClick={() => { setSummaryCurrencyId(_) }}
