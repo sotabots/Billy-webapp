@@ -2,7 +2,6 @@ import { useHapticFeedback, useInitData } from '@vkruglikov/react-telegram-web-a
 import Lottie from 'lottie-react'
 import { useState } from 'react'
 import { useTranslation } from 'react-i18next'
-import { useNavigate } from 'react-router-dom'
 
 import Button from '../kit/Button'
 import Header from '../kit/Header'
@@ -31,11 +30,11 @@ function Summary() {
   useInit()
 
   const { t } = useTranslation()
-  const navigate = useNavigate()
+
   const [, notificationOccurred] = useHapticFeedback()
   const [initDataUnsafe/*, initData*/] = useInitData();
 
-  const { summary, setSummary, chat } = useStore()
+  const { summary, setSummary, setSummaryCurrencyId, chat } = useStore()
   const { getCurrencyById } = useCurrencies()
 
   const [selectedId, setSelectedId] = useState<null | string>(null)
@@ -195,7 +194,9 @@ function Summary() {
               isBottom
               color={'#7E10E5'}
               text={`💎 ${t('convertAllTo')} ${chat.default_currency}`}
-              onClick={() => { navigate('/paywall') }}
+              onClick={() => {
+                setSummaryCurrencyId(chat.default_currency)
+              }}
             />
           ) : (
             <Button

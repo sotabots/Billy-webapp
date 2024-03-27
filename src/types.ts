@@ -47,7 +47,7 @@ export type TCurrency = {
 }
 
 export type TChat = {
-  default_currency: string | null
+  default_currency: TCurrencyId | null
   language_code: string // 'en' | 'ru' | 'uk' (or any string)
 }
 

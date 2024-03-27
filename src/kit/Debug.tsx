@@ -1,5 +1,7 @@
 import cx from 'classnames'
 import { useCallback, useEffect, useState } from 'react'
+import { useNavigate } from 'react-router-dom'
+
 import Panel from './Panel'
 
 import { useStore } from '../store'
@@ -8,6 +10,9 @@ const OPEN_DEBUG_RIGHT_CLICKS = 5
 
 function Debug() {
   const { transaction, users, txId, summaryId, summaryCurrencyId, setSummaryCurrencyId, summary, chat } = useStore()
+
+  const navigate = useNavigate()
+
   const [n, setN] = useState(0)
 
   const isTouchDevice = () =>
@@ -51,6 +56,11 @@ function Debug() {
             onClick={() => { setSummaryCurrencyId(_) }}
           >setSummaryCurrencyId <b>{_}</b></button>
         ))}
+        <br />
+        <button
+          className="m-1 p-1 block border border-black"
+          onClick={() => { navigate('/paywall') }}
+        ><b>Go paywall</b></button>
         {out('location.href', location.href)}
         {out('txid', txId)}
         {out('transaction', transaction)}
