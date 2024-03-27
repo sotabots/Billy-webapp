@@ -187,11 +187,14 @@ function Summary() {
             ))}
           </div>
 
-          {currencyIds.length > 1 ? (
+          {chat?.default_currency && (
+            currencyIds.length > 1 ||
+            currencyIds.length === 1 && currencyIds[0] !== chat.default_currency
+          ) ? (
             <Button
               isBottom
               color={'#7E10E5'}
-              text={`💎 ${t('convertAllTo')} ${chat?.default_currency || 'USD'}`}
+              text={`💎 ${t('convertAllTo')} ${chat.default_currency}`}
               onClick={() => { navigate('/paywall') }}
             />
           ) : (
