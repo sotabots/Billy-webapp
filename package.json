@@ -1,15 +1,15 @@
 {
-  "name": "CalcKoala-webapp",
+  "name": "Billy-webapp",
   "private": true,
   "version": "0.0.0",
-  "homepage": "https://sotabots.github.io/CalcKoala-webapp/",
+  "homepage": "https://sotabots.github.io/Billy-webapp/",
   "type": "module",
   "scripts": {
     "dev": "vite",
     "build": "tsc && vite build",
     "lint": "eslint src --ext ts,tsx --report-unused-disable-directives --max-warnings 0",
     "preview": "vite preview",
-    "predeploy": "tsc && vite build --base=/CalcKoala-webapp/",
+    "predeploy": "tsc && vite build --base=/Billy-webapp/",
     "deploy": "gh-pages -d dist"
   },
   "dependencies": {
