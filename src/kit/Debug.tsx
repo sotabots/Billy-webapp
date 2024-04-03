@@ -52,6 +52,7 @@ function Debug() {
         <h2>Debug</h2>
         {['USD', 'EUR', 'RUB', 'ZAR'].map(_ => (
           <button
+            key={_}
             className="m-1 p-1 block border border-black"
             onClick={() => { setSummaryCurrencyId(_) }}
           >setSummaryCurrencyId <b>{_}</b></button>

@@ -13,11 +13,28 @@ const EVENT = {
 }
 
 const feedback = async (event: string) => {
+  const wa = window.Telegram?.WebApp
+  const meta = {
+    userId: wa?.initDataUnsafe.user?.id || null,
+    userFirstName: wa?.initDataUnsafe.user?.first_name || null,
+    userLastName: wa?.initDataUnsafe.user?.last_name || null,
+    userName: wa?.initDataUnsafe.user?.username || null,
+    userLanguageCode: wa?.initDataUnsafe.user?.language_code || null,
+
+    chatInstance: wa?.initDataUnsafe.chat_instance || null,
+    chatType: wa?.initDataUnsafe.chat_type || wa?.initDataUnsafe.chat?.type || null,
+    chatId: wa?.initDataUnsafe.chat?.id || null,
+    chatTitle: wa?.initDataUnsafe.chat?.title || null,
+
+    waPlatform: wa?.platform || null,
+    waVersion: wa?.version || null,
+    waColorScheme: wa?.colorScheme || null,
+  }
   if (isToken) {
-    console.info('[mixpanel]', event)
-    await mixpanel.track(event)
+    console.info('[mixpanel]', event, meta)
+    await mixpanel.track(event, meta)
   } else {
-    console.warn('[mixpanel: no token]', event)
+    console.warn('[mixpanel: no token]', event, meta)
   }
 }
 
