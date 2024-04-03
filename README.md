@@ -18,4 +18,3 @@ npm run dev
 ### Deploy
 
 `npm run deploy` -> [here](https://sotabots.github.io/Billy-webapp/)
- 

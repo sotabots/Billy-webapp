@@ -34,7 +34,7 @@ const feedback = async (event: string) => {
     console.info('[mixpanel]', event, meta)
     await mixpanel.track(event, meta)
   } else {
-    console.warn('[mixpanel: no token]', event, meta)
+    console.warn('[mixpanel: no token!]', event, meta)
   }
 }
 
