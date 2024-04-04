@@ -1,28 +1,24 @@
-import { useState } from 'react'
+// import { useState } from 'react'
 import { useTranslation } from 'react-i18next'
 
 import Button from '../kit/Button'
-import Header from '../kit/Header'
 import Panel from '../kit/Panel'
-import Screen from '../kit/Screen'
 
 import { closeApp } from '../utils'
 
-import { useInit } from '../hooks'
 // import { useStore } from '../store'
 // import { useCurrencies } from '../hooks'
 // import { formatAmount } from '../utils'
 
 
-function History() {
-  useInit()
-
+function History({ isFilterOpen, setIsFilterOpen }: {
+  isFilterOpen: boolean
+  setIsFilterOpen: (isFilterOpen: boolean) => void
+}) {
   const { t } = useTranslation()
 
   // const { chat } = useStore()
   // const { getCurrencyById } = useCurrencies()
-
-  const [isFilterOpen, setIsFilterOpen] = useState(false)
 
   // if (!summary) {
   //   return null
@@ -33,20 +29,18 @@ function History() {
   }
 
   return (
-    <Screen>
-      <Header onBack={!isFilterOpen ? closeApp : () => { setIsFilterOpen(false) }} />
-
+    <>
       {!isFilterOpen && (
         <>
           <div className="flex flex-col gap-2 pb-5">
             <Panel>
-              <h3>{t('category')}</h3>
+              <h3>Total</h3>
               <div className="mt-4 flex flex-col gap-4">
                 ...
               </div>
             </Panel>
             <Panel>
-              <h3>{t('Transactions')}</h3>
+              <h3>Transactions</h3>
               <div className="mt-4 flex flex-col gap-4">
                 ...
               </div>
@@ -76,7 +70,7 @@ function History() {
         </>
       )}
 
-    </Screen>
+    </>
   )
 }
 

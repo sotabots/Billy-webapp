@@ -5,7 +5,7 @@ import SelectUser from './pages/SelectUser'
 import Check from './pages/Check'
 import SelectCurrency from './pages/SelectCurrency'
 import SelectUsers from './pages/SelectUsers'
-import Summary from './pages/Summary'
+import SummaryHistory from './pages/SummaryHistory'
 import Paywall from './pages/Paywall'
 
 export const router = createHashRouter([
@@ -36,7 +36,7 @@ export const router = createHashRouter([
   },
   {
     path: "/summary",
-    element: <Summary />,
+    element: <SummaryHistory />,
   },
   {
     path: "/paywall",
