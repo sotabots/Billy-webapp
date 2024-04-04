@@ -35,6 +35,9 @@ type TStore = {
   setSummaryCurrencyId: (summaryId: null | TCurrencyId) => void
   summary: undefined | TSummary | null
   setSummary: (summary: TSummary) => void
+
+  isDebug: boolean
+  setDebug: (isDebug: boolean) => void
 }
 
 export const useStore = create<TStore>((set, get) => ({
@@ -81,4 +84,7 @@ export const useStore = create<TStore>((set, get) => ({
   setSummaryCurrencyId: (summaryCurrencyId) => set(({ summaryCurrencyId })),
   summary: undefined,
   setSummary: (summary) => set(( { summary } )),
+
+  isDebug: false,
+  setDebug: (isDebug) => set(( { isDebug } )),
 }))

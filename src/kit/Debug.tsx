@@ -9,7 +9,7 @@ import { useStore } from '../store'
 const OPEN_DEBUG_RIGHT_CLICKS = 5
 
 function Debug() {
-  const { transaction, users, txId, summaryId, summaryCurrencyId, setSummaryCurrencyId, summary, chat } = useStore()
+  const { transaction, users, txId, summaryId, summaryCurrencyId, setSummaryCurrencyId, summary, chat, isDebug, setDebug } = useStore()
 
   const navigate = useNavigate()
 
@@ -23,7 +23,11 @@ function Debug() {
 
   const listener = useCallback(() => {
     if (!isTouchDevice()) {
-      setN(n + 1)
+      const newN = n + 1
+      setN(newN)
+      if (newN % OPEN_DEBUG_RIGHT_CLICKS === 0) {
+        setDebug(!isDebug)
+      }
     }
   }, [n, setN, isTouchDevice])
 
@@ -47,7 +51,7 @@ function Debug() {
   )
 
   return (
-    <div className={cx(n < OPEN_DEBUG_RIGHT_CLICKS && 'h-0 overflow-hidden')}>
+    <div className={cx(!isDebug && 'h-0 overflow-hidden')}>
       <Panel className="mt-10 text-[12px] break-words opacity-70 overflow-x-auto [&>pre]:whitespace-pre-wrap">
         <h2>Debug</h2>
         {['USD', 'EUR', 'RUB', 'ZAR'].map(_ => (

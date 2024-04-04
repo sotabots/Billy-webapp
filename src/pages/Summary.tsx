@@ -10,6 +10,7 @@ import Panel from '../kit/Panel'
 import Screen from '../kit/Screen'
 import Debt from '../kit/Debt'
 import DebtDetailed from '../kit/DebtDetailed'
+import Tabs from '../kit/Tabs'
 
 import { closeApp } from '../utils'
 
@@ -24,17 +25,22 @@ import { formatAmount } from '../utils'
 
 import lottieKoalaSettledUp from '../assets/animation-koala-settled-up.json'
 import lottieKoalaSuccess from '../assets/animation-koala-success.json'
+import { ReactComponent as ChatIcon } from '../assets/chat.svg'
+import { ReactComponent as ChartIcon } from '../assets/chart.svg'
+
 import { TNewTransaction } from '../types'
 
 function Summary() {
   useInit()
+
+  const [tab, setTab] = useState<'balance' | 'history'>('balance')
 
   const { t } = useTranslation()
 
   const [, notificationOccurred] = useHapticFeedback()
   const [initDataUnsafe/*, initData*/] = useInitData();
 
-  const { summary, setSummary, setSummaryCurrencyId, chat } = useStore()
+  const { summary, setSummary, setSummaryCurrencyId, chat, isDebug } = useStore()
   const { getCurrencyById } = useCurrencies()
 
   const [selectedId, setSelectedId] = useState<null | string>(null)
@@ -151,6 +157,26 @@ function Summary() {
   return (
     <Screen>
       <Header onBack={!isSelected ? closeApp : () => { setSelectedId(null) }} />
+
+      {isDebug && (
+        <Tabs
+          className="mb-2"
+          tabs={[
+            {
+              icon: ChatIcon,
+              title: 'User Balance',
+              isActive: tab === 'balance',
+              onClick: () => { setTab('balance') }
+            },
+            {
+              icon: ChartIcon,
+              title: 'Total & Transactions',
+              isActive: tab === 'history',
+              onClick: () => { setTab('history') }
+            },
+          ]}
+        />
+      )}
 
       {!(!selectedId && summary?.debts && summary.debts.length === 0) && (
         <div className="mb-2 px-4 flex items-center justify-between">
