@@ -71,6 +71,8 @@ function History({ isFilterOpen, setIsFilterOpen }: {
     totalSetting.value !== totalSettingDefault.value ||
     periodSetting.value !== periodSettingDefault.value
 
+  const isArrows = periodSetting.value === 'MONTH' || periodSetting.value === 'WEEK'
+
   const applyFilter = () => {
     setIsFilterOpen(false)
   }
@@ -95,7 +97,10 @@ function History({ isFilterOpen, setIsFilterOpen }: {
                 />
               </div>
               <div className="flex flex-col gap-4">
-                <Pie />
+                <Pie
+                  onLeft={isArrows ? () => {} : null}
+                  onRight={isArrows ? () => {} : null}
+                />
                 <div className="flex flex-wrap gap-x-1 gap-y-2">
                   {['#82C4B8', '#B89AE4', '#FFBE7C', '#85BADA', '#FF9D97'].map(_ => (
                     <Category key={_} color={_} />
