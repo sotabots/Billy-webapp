@@ -6,7 +6,7 @@ const Pie = ({ }: { }) => (
     >
       <div className="w-[200px] h-[200px]" style={{
         borderRadius: '50%',
-        background: 'radial-gradient(closest-side, white 85%, transparent 85% 100%), conic-gradient(#82C4B8 0%, #82C4B8 66%, #B89AE4 66%, #B89AE4 88%, #FFBE7C 88%, #FFBE7C 100%)'
+        background: 'radial-gradient(closest-side, white 85%, transparent 86% 100%), conic-gradient(#82C4B8 0%, #82C4B8 66%, #B89AE4 66%, #B89AE4 88%, #FFBE7C 88%, #FFBE7C 100%)'
       }}>
       </div>
     </div>

@@ -5,6 +5,8 @@ import Button from '../kit/Button'
 import Panel from '../kit/Panel'
 import Pie from '../kit/Pie'
 import Category from '../kit/Category'
+import DateMark from '../kit/DateMark'
+import Transaction from '../kit/Transaction'
 
 import { closeApp } from '../utils'
 
@@ -65,9 +67,18 @@ function History({ isFilterOpen, setIsFilterOpen }: {
               </div>
             </Panel>
             <Panel>
-              <h3>Transactions</h3>
-              <div className="mt-4 flex flex-col gap-4">
-                ...
+              <div className="flex flex-col gap-4">
+                <h3>Transactions</h3>
+                <div className="flex flex-col gap-3">
+                  <DateMark time={Date.now()} />
+                  <Transaction />
+                  <DateMark time={Date.now() - 24 * 60 * 60 * 1000} />
+                  <Transaction />
+                  <Transaction />
+                  <DateMark time={Date.now() - 200 * 24 * 60 * 60 * 1000} />
+                  <Transaction />
+                  <Transaction />
+                </div>
               </div>
             </Panel>
           </div>
