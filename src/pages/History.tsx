@@ -84,7 +84,12 @@ function History({ isFilterOpen, setIsFilterOpen }: {
           <div className="flex flex-col gap-2 pb-5">
             <Panel>
               <div className="flex items-center justify-between gap-4">
-                <h3>Total</h3>
+                <h3>
+                  {({
+                    'ALL_CHAT': 'Total',
+                    'ONLY_MINE': 'My Total',
+                  })[totalSetting.value] || ''}
+                </h3>
                 <Button
                   theme="clear"
                   className="flex items-center justify-center w-8 h-8"
@@ -98,6 +103,7 @@ function History({ isFilterOpen, setIsFilterOpen }: {
               </div>
               <div className="flex flex-col gap-4">
                 <Pie
+                  period={periodSetting.value}
                   onLeft={isArrows ? () => {} : null}
                   onRight={isArrows ? () => {} : null}
                 />
