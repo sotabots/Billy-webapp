@@ -7,6 +7,7 @@ import Pie from '../kit/Pie'
 import Category from '../kit/Category'
 import DateMark from '../kit/DateMark'
 import Transaction from '../kit/Transaction'
+import RadioButtons from '../kit/RadioButtons'
 
 import { closeApp } from '../utils'
 
@@ -24,8 +25,6 @@ function History({ isFilterOpen, setIsFilterOpen }: {
 }) {
   const { t } = useTranslation()
 
-  const [isFilterActive, setIsFilterActive] = useState(false)
-
   // const { chat } = useStore()
   // const { getCurrencyById } = useCurrencies()
 
@@ -33,8 +32,46 @@ function History({ isFilterOpen, setIsFilterOpen }: {
   //   return null
   // }
 
+  const totalSettings = [
+    {
+      title: 'All chat',
+      value: 'ALL_CHAT',
+    },
+    {
+      title: 'Only mine',
+      value: 'ONLY_MINE'
+    },
+  ]
+  const totalSettingDefault = totalSettings[0]
+
+  const periodSettings = [
+    {
+      title: 'All time',
+      value: 'ALL_TIME',
+    },
+    {
+      title: 'Month',
+      value: 'MONTH'
+    },
+    {
+      title: 'Week',
+      value: 'WEEK'
+    },
+    {
+      title: 'Custom',
+      value: 'CUSTOM'
+    },
+  ]
+  const periodSettingDefault = periodSettings[0]
+
+  const [totalSetting, setTotalSetting] = useState(totalSettingDefault)
+  const [periodSetting, setPeriodSetting] = useState(periodSettingDefault)
+
+  const isFilterActive =
+    totalSetting.value !== totalSettingDefault.value ||
+    periodSetting.value !== periodSettingDefault.value
+
   const applyFilter = () => {
-    setIsFilterActive(true)
     setIsFilterOpen(false)
   }
 
@@ -93,9 +130,26 @@ function History({ isFilterOpen, setIsFilterOpen }: {
 
       {isFilterOpen && (
         <>
-          <h2 className="pt-[2px] pb-[6px]">{t('Filter')}</h2>
+          <h2 className="mb-2 px-4 pt-[2px] pb-[6px]">{t('Filter')}</h2>
           <Panel>
-            ...
+            <div className="flex flex-col gap-4">
+              <div className="flex flex-col gap-3">
+                <h3>Spending</h3>
+                <RadioButtons
+                  items={totalSettings}
+                  activeItem={totalSetting}
+                  onChange={(val) => { setTotalSetting(val) }}
+                />
+              </div>
+              <div className="flex flex-col gap-3">
+                <h3>Group by period</h3>
+                <RadioButtons
+                  items={periodSettings}
+                  activeItem={periodSetting}
+                  onChange={(val) => { setPeriodSetting(val) }}
+                />
+              </div>
+            </div>
           </Panel>
 
           <Button
