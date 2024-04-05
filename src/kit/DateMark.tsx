@@ -10,7 +10,7 @@ const DateMark = ({ time }: { time: number }) => {
       {date.toLocaleDateString('en-EN', {
         day: 'numeric',
         month: 'short',
-        ...(isCurrentYear ? {} : { year: 'numeric', })
+        ...(isCurrentYear ? {} : { year: 'numeric' })
       })}
     </div>
   )
