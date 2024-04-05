@@ -57,9 +57,9 @@ function History({ isFilterOpen, setIsFilterOpen }: {
               </div>
               <div className="flex flex-col gap-4">
                 <Pie />
-                <div className="">
-                  {[1,2,3,4,5].map(i => (
-                    <Category key={i} />
+                <div className="flex flex-wrap gap-x-1 gap-y-2">
+                  {['#82C4B8', '#B89AE4', '#FFBE7C', '#85BADA', '#FF9D97'].map(_ => (
+                    <Category key={_} color={_} />
                   ))}
                 </div>
               </div>
