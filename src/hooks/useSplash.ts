@@ -1,4 +1,4 @@
-import { useGetTx, useGetUsers, useGetChat, useGetCurrencies, useGetSummary } from '../api'
+import { useGetTx, useGetUsers, useGetChat, useGetCurrencies, useGetSummary, useGetCategories } from '../api'
 import { useStore } from '../store'
 
 export const useSplash = () => {
@@ -13,8 +13,9 @@ export const useSplash = () => {
   const { isLoading: isUsersLoading, error: usersError } = useGetUsers(chatId)
   const { isLoading: isChatLoading, error: chatError } = useGetChat(chatId)
   const { isLoading: isCurrenciesLoading, error: currenciesError } = useGetCurrencies(chatId)
+  const { isLoading: isCategoriesLoading, error: categoriesError } = useGetCategories()
 
-  const isLoading = isTxLoading || isUsersLoading || isChatLoading || isCurrenciesLoading || isSummaryLoading
+  const isLoading = isTxLoading || isUsersLoading || isChatLoading || isCurrenciesLoading || isSummaryLoading || isCategoriesLoading
 
   const { currencies, txPatchError } = useStore()
 
@@ -23,7 +24,7 @@ export const useSplash = () => {
       ? new Error(`Unknown tx currency ${tx.currency_id}`)
       : null
 
-  const error = txError || usersError || chatError || txPatchError || currenciesError || unknownCurrencyError || summaryError
+  const error = txError || usersError || chatError || txPatchError || currenciesError || unknownCurrencyError || summaryError || categoriesError
 
   return { isLoading, error }
 }

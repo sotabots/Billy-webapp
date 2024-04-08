@@ -9,7 +9,7 @@ import { useStore } from '../store'
 const OPEN_DEBUG_RIGHT_CLICKS = 5
 
 function Debug() {
-  const { transaction, users, txId, summaryId, summaryCurrencyId, setSummaryCurrencyId, summary, chat, isDebug, setDebug } = useStore()
+  const { transaction, users, txId, summaryId, summaryCurrencyId, setSummaryCurrencyId, summary, chat, categories, isDebug, setDebug } = useStore()
 
   const navigate = useNavigate()
 
@@ -38,14 +38,15 @@ function Debug() {
     }
   }, [listener])
 
-  const out = (title: string, val: any) => (
+  const out = (title: string, val: any, hide?: boolean) => (
     <>
-      <br />
-      <strong>⚫ {title} = </strong>
-      {typeof val === 'object' && val !== null
-        ? <pre>{JSON.stringify(val, null, 2)}</pre>
-        : String(val)
-      }
+      <details open={!hide}>
+        <summary><strong>{/*⚫*/}{title} = </strong></summary>
+        {typeof val === 'object' && val !== null
+          ? <pre>{JSON.stringify(val, null, 2)}</pre>
+          : String(val)
+        }
+      </details>
       <br />
     </>
   )
@@ -74,6 +75,7 @@ function Debug() {
         {out('summaryId', summaryId)}
         {out('summaryCurrencyId', summaryCurrencyId)}
         {out('summary', summary)}
+        {out('categories', categories, true)}
         {out('window.Telegram?.WebApp', window.Telegram?.WebApp)}
       </Panel>
     </div>

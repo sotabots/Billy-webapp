@@ -2,7 +2,7 @@ import { useInitData } from '@vkruglikov/react-telegram-web-app'
 import { useQuery } from '@tanstack/react-query'
 
 import { useStore } from '../store'
-import { TCurrency, TTransaction, TNewTransaction, TUser, TChat, TSummary } from '../types'
+import { TCurrency, TCategories, TTransaction, TNewTransaction, TUser, TChat, TSummary } from '../types'
 import {
   mockTransaction,
   mockUsers,
@@ -186,6 +186,29 @@ export const useGetSummary = () => {
       onSuccess: (data) => {
         console.log('useGetSummary: setSummary', data)
         setSummary(data)
+      },
+      staleTime
+    })
+  )
+}
+
+export const useGetCategories = () => {
+  const [, initData] = useInitData()
+  const { setCategories } = useStore()
+
+  return (
+    useQuery<TCategories, Error>({
+      queryKey: ['categories'],
+      queryFn: () =>
+        fetch(`${apiUrl}/general/categories`, {
+          method: 'GET',
+          headers: {
+            'Authorization': initData,
+          }
+        }).then(handleJsonResponse),
+      onSuccess: (data) => {
+        console.log('useApi: set categories', data)
+        setCategories(data)
       },
       staleTime
     })

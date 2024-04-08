@@ -63,3 +63,13 @@ export type TDebt = {
   amount: number
   currency_id: TCurrencyId
 }
+
+export type TCategories = {
+  [key: string]: {
+    name: string,
+    emoji: string | {
+      en: string,
+      ru: string,
+    }
+  }
+}

@@ -56,6 +56,10 @@ button {
   cursor: pointer;
 }
 
+summary {
+  cursor: pointer;
+}
+
 .Panel + .Panel {
   margin-top: 8px;
 }
