@@ -214,3 +214,29 @@ export const useGetCategories = () => {
     })
   )
 }
+
+export const useGetTransactions = (chatId: undefined | number | null) => {
+  const [, initData] = useInitData()
+  const { setTransactions } = useStore()
+
+  return (
+    useQuery<TTransaction[], Error>({
+      queryKey: ['transactions', `chat-${chatId}`],
+      queryFn: (chatId /* || !'DISABLE_MOCK_CHAT'*/)
+        ? () =>
+          fetch(`${apiUrl}/chats/${chatId}/transactions`, {
+            method: 'GET',
+            headers: {
+              'Authorization': initData,
+            }
+          }).then(handleJsonResponse)
+        : () => [],
+      onSuccess: (data) => {
+        console.log('useApi: set transactions', data)
+        setTransactions(data)
+      },
+      enabled: chatId !== undefined,
+      staleTime
+    })
+  )
+}

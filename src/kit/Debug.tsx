@@ -9,7 +9,7 @@ import { useStore } from '../store'
 const OPEN_DEBUG_RIGHT_CLICKS = 5
 
 function Debug() {
-  const { transaction, users, txId, summaryId, summaryCurrencyId, setSummaryCurrencyId, summary, chat, categories, isDebug, setDebug } = useStore()
+  const { transaction, users, txId, summaryId, summaryCurrencyId, setSummaryCurrencyId, summary, chat, categories, transactions, isDebug, setDebug } = useStore()
 
   const navigate = useNavigate()
 
@@ -76,6 +76,7 @@ function Debug() {
         {out('summaryCurrencyId', summaryCurrencyId)}
         {out('summary', summary)}
         {out('categories', categories, true)}
+        {out('transactions', transactions, true)}
         {out('window.Telegram?.WebApp', window.Telegram?.WebApp)}
       </Panel>
     </div>
