@@ -16,7 +16,7 @@ export const useSplash = () => {
   const { isLoading: isChatLoading, error: chatError } = useGetChat(chatId)
   const { isLoading: isCurrenciesLoading, error: currenciesError } = useGetCurrencies(chatId)
   const { isLoading: isCategoriesLoading, error: categoriesError } = useGetCategories()
-  const { isLoading: isTransactionsLoading, error: transactionsError } = useGetTransactions(chatId)
+  const { isLoading: isTransactionsLoading, /* error: transactionsError */ } = useGetTransactions(chatId)
 
   const isLoading = isTxLoading || isUsersLoading || isChatLoading || isCurrenciesLoading || isSummaryLoading || isCategoriesLoading || isTransactionsLoading
 
@@ -25,7 +25,7 @@ export const useSplash = () => {
       ? new Error(`Unknown tx currency ${tx.currency_id}`)
       : null
 
-  const error = txError || usersError || chatError || txPatchError || currenciesError || unknownCurrencyError || summaryError || categoriesError || transactionsError
+  const error = txError || usersError || chatError || txPatchError || currenciesError || unknownCurrencyError || summaryError || categoriesError /* || transactionsError */
 
   return { isLoading, error }
 }
