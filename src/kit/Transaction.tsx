@@ -1,10 +1,13 @@
 import cx from 'classnames'
+import { useNavigate } from 'react-router-dom'
 
 import Button from '../kit/Button'
 
 import { ReactComponent as EditIcon } from '../assets/edit.svg'
 
 const Transaction = ({ }: { }) => {
+  const navigate = useNavigate()
+
   const backgroundColor = ['#82C4B8', '#B89AE4', '#FFBE7C', '#85BADA', '#FF9D97'][Math.floor(Math.random() * 5)]
   const isPayer = Math.random() > 0.5
 
@@ -26,11 +29,11 @@ const Transaction = ({ }: { }) => {
         <div className="px-2 opacity-60">Some short description about tx</div>
       </div>
       <Button
-        disabled
+        // disabled
         theme="clear"
         className="w-6 h-6"
         text={<EditIcon />}
-        onClick={() => {}}
+        onClick={() => { navigate('/paywall') }}
       />
     </div>
   )

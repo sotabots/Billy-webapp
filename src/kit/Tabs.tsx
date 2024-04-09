@@ -1,6 +1,7 @@
 import cx from 'classnames'
+import { ReactNode } from 'react'
 
-const Tabs = ({ tabs, className }: {
+const Tabs = ({ tabs, className, children }: {
   tabs: {
     icon: any
     title: string
@@ -8,6 +9,7 @@ const Tabs = ({ tabs, className }: {
     onClick: VoidFunction
   }[],
   className?: string,
+  children?: ReactNode,
 }) => (
   <div className={cx('Tabs flex items-center gap-3 px-4', className)}>
     {tabs.map((tab, i) => (
@@ -25,6 +27,7 @@ const Tabs = ({ tabs, className }: {
         <span className="text-left">{tab.title}</span>
       </button>
     ))}
+    {children}
   </div>
 )
 
