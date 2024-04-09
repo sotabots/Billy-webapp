@@ -1,4 +1,4 @@
-import { useState, useRef } from 'react'
+import { useState, useRef, UIEvent } from 'react'
 // import { useTranslation } from 'react-i18next'
 
 import { closeApp } from '../utils'
@@ -32,6 +32,8 @@ function SummaryHistory() {
 
   const { isDebug } = useStore()
 
+  const [isCompactPie, setIsCompactPie] = useState<boolean>(false)
+
   const screenRef = useRef<HTMLDivElement>(null)
 
   const selectTab = (tab: TTab) => () => {
@@ -39,8 +41,15 @@ function SummaryHistory() {
     screenRef.current?.scrollTo({ top: 0, behavior: 'smooth' })
   }
 
+  const onScroll = (e: UIEvent<HTMLDivElement>) => {
+    setIsCompactPie(e.currentTarget.scrollTop > 0)
+  }
+
   return (
-    <Screen _ref={screenRef}>
+    <Screen
+      _ref={screenRef}
+      onScroll={onScroll}
+    >
       <Header onBack={
         (tab === 'balance' && isSelected && (() => { setSelectedId(null) })) ||
         (tab === 'history' && isFilterOpen && (() => { setIsFilterOpen(false) })) ||
@@ -73,11 +82,18 @@ function SummaryHistory() {
       )}
 
       {tab === 'balance' && (
-        <Summary selectedId={selectedId} setSelectedId={setSelectedId} />
+        <Summary
+          selectedId={selectedId}
+          setSelectedId={setSelectedId}
+        />
       )}
 
       {tab === 'history' && (
-        <History isFilterOpen={isFilterOpen} setIsFilterOpen={setIsFilterOpen} />
+        <History
+          isFilterOpen={isFilterOpen}
+          setIsFilterOpen={setIsFilterOpen}
+          isCompactPie={isCompactPie}
+        />
       )}
     </Screen>
   )

@@ -19,9 +19,10 @@ import { ReactComponent as FilterIcon } from '../assets/filter.svg'
 import { ReactComponent as FilterActiveIcon } from '../assets/filter-active.svg'
 
 
-function History({ isFilterOpen, setIsFilterOpen }: {
+function History({ isFilterOpen, setIsFilterOpen, isCompactPie}: {
   isFilterOpen: boolean
   setIsFilterOpen: (isFilterOpen: boolean) => void
+  isCompactPie: boolean
 }) {
   const { t } = useTranslation()
 
@@ -103,6 +104,7 @@ function History({ isFilterOpen, setIsFilterOpen }: {
               </div>
               <div className="flex flex-col gap-4">
                 <Pie
+                  isCompact={isCompactPie}
                   period={periodSetting.value}
                   onLeft={isArrows ? () => {} : null}
                   onRight={isArrows ? () => {} : null}
