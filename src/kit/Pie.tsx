@@ -5,9 +5,9 @@ import Button from '../kit/Button'
 import { ReactComponent as PageLeftIcon } from '../assets/page-left.svg'
 import { ReactComponent as PageRightIcon } from '../assets/page-right.svg'
 
-const Pie = ({ isCompact, period, onLeft, onRight }: {
+const Pie = ({ isCompact, title, period, onLeft, onRight }: {
   isCompact?: boolean
-  // title: string
+  title: string
   period: string
   onLeft: null | VoidFunction
   onRight: null | VoidFunction
@@ -40,7 +40,7 @@ const Pie = ({ isCompact, period, onLeft, onRight }: {
             transition,
             isCompact && 'scale-0'
           )}>
-          <div className="font-semibold text-[24px] leading-[32px]">$38,654.55</div>
+          <div className="font-semibold text-[24px] leading-[32px]">{title}</div>
           <div className="text-[16px] leading-[24px] text-[#5B6871] tracking-[-0.176px]">
             {period === 'ALL_TIME' && 'All time'}
           </div>

@@ -1,3 +1,4 @@
+import cx from 'classnames'
 import { useState } from 'react'
 import { useTranslation } from 'react-i18next'
 
@@ -78,6 +79,8 @@ function History({ isFilterOpen, setIsFilterOpen, isCompactPie}: {
     setIsFilterOpen(false)
   }
 
+  const title = '$38,654.55'
+
   return (
     <>
       {!isFilterOpen && (
@@ -85,12 +88,21 @@ function History({ isFilterOpen, setIsFilterOpen, isCompactPie}: {
           <div className="flex flex-col gap-2 pb-5">
             <Panel>
               <div className="flex items-center justify-between gap-4">
-                <h3>
-                  {({
-                    'ALL_CHAT': 'Total',
-                    'ONLY_MINE': 'My Total',
-                  })[totalSetting.value] || ''}
-                </h3>
+                <div className="flex items-center gap-1">
+                  <h3>
+                    {({
+                      'ALL_CHAT': 'Total',
+                      'ONLY_MINE': 'My Total',
+                    })[totalSetting.value] || ''}
+                  </h3>
+                  <div
+                    className={cx(
+                      'text-[16px] leading-[24px] text-[#0E73F6] font-semibold transition-all',
+                      !isCompactPie && 'opacity-0'
+                    )}>
+                    {title}
+                  </div>
+                </div>
                 <Button
                   theme="clear"
                   className="flex items-center justify-center w-8 h-8"
@@ -105,6 +117,7 @@ function History({ isFilterOpen, setIsFilterOpen, isCompactPie}: {
               <div className="flex flex-col gap-4">
                 <Pie
                   isCompact={isCompactPie}
+                  title={title}
                   period={periodSetting.value}
                   onLeft={isArrows ? () => {} : null}
                   onRight={isArrows ? () => {} : null}
