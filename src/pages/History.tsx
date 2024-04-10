@@ -9,6 +9,7 @@ import Category from '../kit/Category'
 import DateMark from '../kit/DateMark'
 import Transaction from '../kit/Transaction'
 import RadioButtons from '../kit/RadioButtons'
+import DatePicker from '../kit/DatePicker'
 
 import { closeApp } from '../utils'
 
@@ -80,6 +81,8 @@ function History({ isFilterOpen, setIsFilterOpen, isCompactPie}: {
   }
 
   const title = '$38,654.55'
+  const [ts1, setTs1] = useState<null | number>(null)
+  const [ts2, setTs2] = useState<null | number>(null)
 
   return (
     <>
@@ -174,6 +177,21 @@ function History({ isFilterOpen, setIsFilterOpen, isCompactPie}: {
                   activeItem={periodSetting}
                   onChange={(val) => { setPeriodSetting(val) }}
                 />
+                <div className="flex items-center gap-1">
+                  <DatePicker
+                    className="w-[50%]"
+                    placeholder="Select a first date"
+                    timestamp={ts1}
+                    onChange={setTs1}
+                  />
+                  <span>−</span>
+                  <DatePicker
+                    className="w-[50%]"
+                    placeholder="Select a last date"
+                    timestamp={ts2}
+                    onChange={setTs2}
+                  />
+                </div>
               </div>
             </div>
           </Panel>
