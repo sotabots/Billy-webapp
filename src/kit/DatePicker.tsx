@@ -10,11 +10,13 @@ function DatePicker({
   className,
   timestamp,
   placeholder,
+  isRight,
   onChange,
 }: {
   className?: string
   timestamp: number | null
   placeholder: string
+  isRight?: boolean
   onChange: (timestamp: number | null) => void
 }) {
   const [isOpen, setIsOpen] = useState(false)
@@ -37,7 +39,7 @@ function DatePicker({
                 <span>{timestamp}</span>
                 <Button
                   theme="icon"
-                  className="opacity-40"
+                  className="opacity-30"
                   text={<DateClearIcon />}
                   onClick={() => {
                     onChange(null)
@@ -53,15 +55,16 @@ function DatePicker({
                 )}>
                   {placeholder}
                 </span>
-                <DateIcon className="opacity-40" />
+                <DateIcon className="opacity-30" />
               </>
             )}
           </div>
         }
       />
       <div className={cx(
-        'absolute top-[115%] w-[264px] h-[296px] rounded-[6px] border border-[#DDE2E4] dark:border-[#6E7C87] p-5 bg-bg',
-        isOpen ? 'scale-100' : 'scale-0'
+        'absolute top-[115%] w-[264px] h-[296px] rounded-[6px] border border-[#DDE2E4] dark:border-[#6E7C87] p-5 bg-bg transition-all origin-top',
+        isRight ? 'right-0' : 'left-0',
+        isOpen ? 'scale-y-100 opacity-100' : 'scale-y-0 opacity-0 pointer-events-none',
       )}>
         <button
           onClick={() => {

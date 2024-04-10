@@ -189,6 +189,7 @@ function History({ isFilterOpen, setIsFilterOpen, isCompactPie}: {
                     className="w-[50%]"
                     placeholder="Select a last date"
                     timestamp={ts2}
+                    isRight
                     onChange={setTs2}
                   />
                 </div>
