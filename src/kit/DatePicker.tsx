@@ -2,6 +2,7 @@ import cx from 'classnames'
 import { useState } from 'react'
 
 import Button from '../kit/Button'
+import OutsideClick from '../kit/OutsideClick'
 
 import { ReactComponent as DateIcon } from '../assets/date.svg'
 import { ReactComponent as DateClearIcon } from '../assets/date-clear.svg'
@@ -22,10 +23,10 @@ function DatePicker({
   const [isOpen, setIsOpen] = useState(false)
 
   return (
-    <div className={cx(
-      'DatePicker relative',
-      className
-    )}>
+    <OutsideClick
+      className={cx('DatePicker relative', className)}
+      onClick={() => { setIsOpen(false) }}
+    >
       <Button
         theme="clear"
         className={cx(
@@ -33,34 +34,38 @@ function DatePicker({
         )}
         onClick={() => { setIsOpen(!isOpen) }}
         text={
-          <div className="flex items-center justify-between gap-[6px]">
+          <div className="relative flex items-center pr-7">
             {timestamp ? (
-              <>
-                <span>{timestamp}</span>
-                <Button
-                  theme="icon"
-                  className="opacity-30"
-                  text={<DateClearIcon />}
-                  onClick={() => {
-                    onChange(null)
-                    setIsOpen(false)
-                  }}
-                />
-              </>
+              <span className="">{timestamp}</span>
             ) : (
-              <>
-                <span className={cx(
-                  'transition-all',
-                  !isOpen && 'opacity-40'
-                )}>
-                  {placeholder}
-                </span>
-                <DateIcon className="opacity-30" />
-              </>
+              <span className={cx(
+                'transition-all',
+                !isOpen && 'opacity-40'
+              )}>
+                {placeholder}
+              </span>
             )}
+            <DateIcon className={cx(
+              'absolute top-[50%] -translate-y-[50%] right-0 w-6 h-6 transition-all',
+              timestamp ? '!opacity-0 pointer-events-none' : 'opacity-30 hover:opacity-50 active:opacity-70 active:opaity'
+            )} />
           </div>
         }
       />
+      <div className={cx(
+        'absolute top-[50%] -translate-y-[50%] right-1 w-6 h-6 transition-all',
+        !timestamp ? 'opacity-0 pointer-events-none' : 'opacity-100'
+      )}>
+        <Button
+          className="opacity-30"
+          theme="icon"
+          text={<DateClearIcon />}
+          onClick={() => {
+            onChange(null)
+            setIsOpen(false)
+          }}
+        />
+      </div>
       <div className={cx(
         'absolute top-[115%] w-[264px] h-[296px] rounded-[6px] border border-[#DDE2E4] dark:border-[#6E7C87] p-5 bg-bg transition-all origin-top',
         isRight ? 'right-0' : 'left-0',
@@ -75,7 +80,7 @@ function DatePicker({
           test
         </button>
       </div>
-    </div>
+    </OutsideClick>
   )
 }
 

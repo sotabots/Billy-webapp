@@ -80,6 +80,7 @@ function Button({ theme = 'default', className, isBottom, color, text, disabled,
 
   return (
     <div className={cx(
+      'Button',
       (isBottom || theme === 'subBottom') && 'ButtonSpacer h-[56px]'
     )}>
       <div className={cx(
