@@ -1,4 +1,4 @@
-import { useGetTx, useGetUsers, useGetChat, useGetCurrencies, useGetSummary, useGetCategories/*, useGetTransactions */ } from '../api'
+import { useGetTx, useGetUsers, useGetChat, useGetCurrencies, useGetSummary, useGetCategories, useGetTransactions } from '../api'
 import { useStore } from '../store'
 
 export const useSplash = () => {
@@ -16,7 +16,9 @@ export const useSplash = () => {
   const { isLoading: isChatLoading, error: chatError } = useGetChat(chatId)
   const { isLoading: isCurrenciesLoading, error: currenciesError } = useGetCurrencies(chatId)
   const { isLoading: isCategoriesLoading, error: categoriesError } = useGetCategories()
-  // const { isLoading: isTransactionsLoading, /* error: transactionsError */ } = useGetTransactions(chatId)
+  const { isLoading: isTransactionsLoading, error: transactionsError } = useGetTransactions(chatId)
+  // todo: remove
+  console.log('useGetTransactions', isTransactionsLoading, transactionsError)
 
   const isLoading = isTxLoading || isUsersLoading || isChatLoading || isCurrenciesLoading || isSummaryLoading || isCategoriesLoading /* || isTransactionsLoading */
 
