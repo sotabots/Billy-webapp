@@ -36,7 +36,7 @@ function Summary({
   const { t } = useTranslation()
 
   const [, notificationOccurred] = useHapticFeedback()
-  const [initDataUnsafe/*, initData*/] = useInitData();
+  const [initDataUnsafe/*, initData*/] = useInitData()
 
   const { summary, setSummary, setSummaryCurrencyId, chat } = useStore()
   const { getCurrencyById } = useCurrencies()

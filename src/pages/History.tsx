@@ -2,6 +2,8 @@ import cx from 'classnames'
 import { useState } from 'react'
 import { useTranslation } from 'react-i18next'
 
+import { TTransaction } from '../types'
+
 import Button from '../kit/Button'
 import Panel from '../kit/Panel'
 import Pie from '../kit/Pie'
@@ -87,6 +89,13 @@ function History({
   const [ts1, setTs1] = useState<null | number>(null)
   const [ts2, setTs2] = useState<null | number>(null)
 
+  type TTxGroups = {
+    time: number
+    txs: TTransaction[]
+  }[]
+
+  const txGroups: TTxGroups = []
+
   return (
     <>
       {!isFilterOpen && (
@@ -141,6 +150,15 @@ function History({
               <div className="flex flex-col gap-4">
                 <h3>{t('transactions')}</h3>
                 <div className="flex flex-col gap-3">
+                  {txGroups.map((txGroup, i) => (
+                    <div key={`txGroup-${i}`}>
+                      <DateMark time={txGroup.time} />
+                      {txGroup.txs.map((tx, j) => (
+                        <Transaction key={`tx-${i}-${j}`} tx={tx} />
+                      ))}
+                    </div>
+                  ))}
+                  {/*
                   <DateMark time={Date.now()} />
                   <Transaction />
                   <DateMark time={Date.now() - 24 * 60 * 60 * 1000} />
@@ -149,6 +167,7 @@ function History({
                   <DateMark time={Date.now() - 200 * 24 * 60 * 60 * 1000} />
                   <Transaction />
                   <Transaction />
+                  */}
                 </div>
               </div>
             </Panel>
