@@ -171,17 +171,20 @@ function History({
             <Panel>
               <div className="flex flex-col gap-4">
                 <h3>{t('transactions')}</h3>
-                <div>
+                <div className="flex flex-col gap-3">
                   {txGroups.map((txGroup, i) => (
-                    <div
-                      key={`txGroup-${i}`}
-                      className="flex flex-col gap-3"
-                    >
-                      <DateMark time={txGroup.time} />
+                    <>
+                      <DateMark
+                        key={`DateMark-${i}`}
+                        time={txGroup.time}
+                      />
                       {txGroup.txs.map((tx, j) => (
-                        <Transaction key={`tx-${i}-${j}`} tx={tx} />
+                        <Transaction
+                          key={`Transaction-${i}-${j}`}
+                          tx={tx}
+                        />
                       ))}
-                    </div>
+                    </>
                   ))}
                   {/*
                   <DateMark time={Date.now()} />
