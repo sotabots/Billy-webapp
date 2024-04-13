@@ -1,5 +1,5 @@
 import cx from 'classnames'
-import { useState } from 'react'
+import { useState, useMemo } from 'react'
 import { useTranslation } from 'react-i18next'
 
 import { TTransaction } from '../types'
@@ -38,7 +38,7 @@ function History({
 
   // const { getCurrencyById } = useCurrencies()
 
-  const { isDebug } = useStore()
+  const { isDebug, transactions } = useStore()
 
   const totalSettings = [
     {
@@ -89,12 +89,33 @@ function History({
   const [ts1, setTs1] = useState<null | number>(null)
   const [ts2, setTs2] = useState<null | number>(null)
 
+  type TGroups = {
+    [key: string]: TTransaction[]
+  }
+
   type TTxGroups = {
     time: number
     txs: TTransaction[]
   }[]
 
-  const txGroups: TTxGroups = []
+  const txGroups = useMemo(() => {
+    const groups: TGroups = (transactions || []).reduce((groups: TGroups, tx: TTransaction) => {
+      const dateKey = tx.time_created.split('T')[0]
+      if (!groups[dateKey]) {
+        groups[dateKey] = []
+      }
+      groups[dateKey].push(tx)
+      return groups
+    }, {})
+
+    const txGroups: TTxGroups  = Object.keys(groups).map((date) => {
+      return {
+        time: +(new Date(date)),
+        txs: groups[date]
+      }
+    })
+    return txGroups
+  }, [transactions])
 
   return (
     <>

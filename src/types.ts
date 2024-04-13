@@ -22,10 +22,11 @@ export type TTransaction = {
   currency_id: TCurrencyId
   is_confirmed: boolean // set true before patch
   shares: TShare[]
+  time_created: string
   // todo: improve
 }
 
-export type TNewTransaction = Omit<TTransaction, '_id'>
+export type TNewTransaction = Omit<TTransaction, '_id' | 'time_created'>
 
 export type TShare = {
   person_id: string | null // todo: only string

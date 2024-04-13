@@ -79,7 +79,8 @@ const _mockTransaction: TTransaction = {
   formatted_text: shares.map(share => `<b>${share.normalized_name}</b> ${share.is_payer ? i18n.t('paid') : i18n.t('owes')} ${share.amount}`).join(', '),
   shares,
   is_confirmed: false,
-  currency_id: mockCurrencies[0]._id
+  currency_id: mockCurrencies[0]._id,
+  time_created: (new Date()).toISOString(),
 }
 
 const _mockChat: TChat = {
@@ -208,7 +209,8 @@ const demoTransaction: TTransaction = {
       amount: isRus ? 1040 : 11,
       user_candidates: null,
     },
-  ]
+  ],
+  time_created: (new Date()).toISOString(),
 }
 
 const demoChat: TChat = {
