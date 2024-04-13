@@ -99,7 +99,8 @@ function History({
   }[]
 
   const txGroups = useMemo(() => {
-    const groups: TGroups = (transactions || []).reduce((groups: TGroups, tx: TTransaction) => {
+    const sortedTransactions = [...transactions || []].sort((tx1, tx2) => tx1.time_created > tx2.time_created ? -1 : 1)
+    const groups: TGroups = sortedTransactions.reduce((groups: TGroups, tx: TTransaction) => {
       const dateKey = tx.time_created.split('T')[0]
       if (!groups[dateKey]) {
         groups[dateKey] = []
@@ -170,9 +171,12 @@ function History({
             <Panel>
               <div className="flex flex-col gap-4">
                 <h3>{t('transactions')}</h3>
-                <div className="flex flex-col gap-3">
+                <div>
                   {txGroups.map((txGroup, i) => (
-                    <div key={`txGroup-${i}`}>
+                    <div
+                      key={`txGroup-${i}`}
+                      className="flex flex-col gap-3"
+                    >
                       <DateMark time={txGroup.time} />
                       {txGroup.txs.map((tx, j) => (
                         <Transaction key={`tx-${i}-${j}`} tx={tx} />
