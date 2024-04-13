@@ -1,6 +1,16 @@
 import { useRef, useEffect, ReactNode } from 'react'
 
-function useOutsideAlerter(ref: React.RefObject<HTMLDivElement>, onClick: VoidFunction) {
+function OutsideClick({
+  className,
+  onClick,
+  children,
+}: {
+  className?: string
+  onClick: VoidFunction
+  children: ReactNode
+}) {
+  const ref = useRef<HTMLDivElement>(null)
+
   useEffect(() => {
     const handleClickOutside = (event: any) => {
       if (ref.current && !ref.current.contains(event.target)) {
@@ -12,19 +22,6 @@ function useOutsideAlerter(ref: React.RefObject<HTMLDivElement>, onClick: VoidFu
       document.removeEventListener('mousedown', handleClickOutside)
     }
   }, [ref])
-}
-
-function OutsideClick({
-  className,
-  onClick,
-  children,
-}: {
-  className?: string
-  onClick: VoidFunction
-  children: ReactNode
-}) {
-  const ref = useRef<HTMLDivElement>(null)
-  useOutsideAlerter(ref, onClick)
 
   return (
     <div
