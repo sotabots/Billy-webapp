@@ -21,10 +21,16 @@ import { ReactComponent as FilterIcon } from '../assets/filter.svg'
 import { ReactComponent as FilterActiveIcon } from '../assets/filter-active.svg'
 
 
-function History({ isFilterOpen, setIsFilterOpen, isCompactPie}: {
+function History({
+  isFilterOpen,
+  setIsFilterOpen,
+  isCompactPie,
+  goDetailedSummary
+}: {
   isFilterOpen: boolean
   setIsFilterOpen: (isFilterOpen: boolean) => void
   isCompactPie: boolean
+  goDetailedSummary: () => void
 }) {
   const { t } = useTranslation()
 
@@ -86,49 +92,51 @@ function History({ isFilterOpen, setIsFilterOpen, isCompactPie}: {
       {!isFilterOpen && (
         <>
           <div className="flex flex-col gap-2 pb-5">
-            <Panel className={cx(!isDebug && 'hidden')}>
-              <div className="flex items-center justify-between gap-4">
-                <div className="flex items-center gap-1">
-                  <h3>
-                    {({
-                      'ALL_CHAT': 'Total',
-                      'ONLY_MINE': 'My Total',
-                    })[totalSetting.value] || ''}
-                  </h3>
-                  <div
-                    className={cx(
-                      'text-[16px] leading-[24px] text-[#0E73F6] font-semibold transition-all',
-                      !isCompactPie && 'opacity-0'
-                    )}>
-                    {title}
+            {isDebug &&
+              <Panel>
+                <div className="flex items-center justify-between gap-4">
+                  <div className="flex items-center gap-1">
+                    <h3>
+                      {({
+                        'ALL_CHAT': 'Total',
+                        'ONLY_MINE': 'My Total',
+                      })[totalSetting.value] || ''}
+                    </h3>
+                    <div
+                      className={cx(
+                        'text-[16px] leading-[24px] text-[#0E73F6] font-semibold transition-all',
+                        !isCompactPie && 'opacity-0'
+                      )}>
+                      {title}
+                    </div>
+                  </div>
+                  <Button
+                    theme="clear"
+                    className="flex items-center justify-center w-8 h-8"
+                    onClick={() => { setIsFilterOpen(true) }}
+                    text={
+                      isFilterActive
+                        ? <FilterActiveIcon />
+                        : <FilterIcon />
+                    }
+                  />
+                </div>
+                <div className="flex flex-col gap-4">
+                  <Pie
+                    isCompact={isCompactPie}
+                    title={title}
+                    period={periodSetting.value}
+                    onLeft={isArrows ? () => {} : null}
+                    onRight={isArrows ? () => {} : null}
+                  />
+                  <div className="flex flex-wrap gap-x-1 gap-y-2">
+                    {['#82C4B8', '#B89AE4', '#FFBE7C', '#85BADA', '#FF9D97'].map(_ => (
+                      <Category key={_} color={_} />
+                    ))}
                   </div>
                 </div>
-                <Button
-                  theme="clear"
-                  className="flex items-center justify-center w-8 h-8"
-                  onClick={() => { setIsFilterOpen(true) }}
-                  text={
-                    isFilterActive
-                      ? <FilterActiveIcon />
-                      : <FilterIcon />
-                  }
-                />
-              </div>
-              <div className="flex flex-col gap-4">
-                <Pie
-                  isCompact={isCompactPie}
-                  title={title}
-                  period={periodSetting.value}
-                  onLeft={isArrows ? () => {} : null}
-                  onRight={isArrows ? () => {} : null}
-                />
-                <div className="flex flex-wrap gap-x-1 gap-y-2">
-                  {['#82C4B8', '#B89AE4', '#FFBE7C', '#85BADA', '#FF9D97'].map(_ => (
-                    <Category key={_} color={_} />
-                  ))}
-                </div>
-              </div>
-            </Panel>
+              </Panel>
+            }
             <Panel>
               <div className="flex flex-col gap-4">
                 <h3>Transactions</h3>
@@ -144,6 +152,14 @@ function History({ isFilterOpen, setIsFilterOpen, isCompactPie}: {
                 </div>
               </div>
             </Panel>
+          </div>
+
+          <div className="mb-4 flex justify-center">
+            <Button
+              theme="text"
+              text={t('detailedSummary')}
+              onClick={goDetailedSummary}
+            />
           </div>
 
           <Button

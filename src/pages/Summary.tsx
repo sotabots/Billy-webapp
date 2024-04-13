@@ -24,9 +24,14 @@ import lottieKoalaSuccess from '../assets/animation-koala-success.json'
 
 import { TNewTransaction } from '../types'
 
-function Summary({ selectedId, setSelectedId }: {
+function Summary({
+  selectedId,
+  setSelectedId,
+  goDetailedSummary,
+}: {
   selectedId: null | string
   setSelectedId: (selectedId: null | string) => void
+  goDetailedSummary: () => void
 }) {
   const { t } = useTranslation()
 
@@ -77,13 +82,6 @@ function Summary({ selectedId, setSelectedId }: {
     }
   }
   */
-
-  const goDetailedSummary = () => {
-    // todo: check
-    if (summary) {
-      window.open(summary.url, '_blank')
-    }
-  }
 
   const settleUp = async () => {
     if (selectedId === null || !summary || !selectedDebt) {
@@ -148,21 +146,6 @@ function Summary({ selectedId, setSelectedId }: {
 
   return (
     <>
-      {!(!selectedId && summary?.debts && summary.debts.length === 0) && (
-        <div className="mb-2 px-4 flex items-center justify-between">
-          <h2 className="pt-[2px] pb-[6px]">
-            {!isSelected ? t('groupBalances') : `${t('settleUpBy')} ${selectedDebtCurrency?.symbol}`}
-          </h2>
-          {!isSelected && (
-            <Button
-              theme="text"
-              text={t('detailedSummary')}
-              onClick={goDetailedSummary}
-            />
-          )}
-        </div>
-      )}
-
       {!isSelected && summary?.debts && summary.debts.length > 0 && (
         <>
           <div className="flex flex-col gap-2 pb-5">
@@ -180,6 +163,14 @@ function Summary({ selectedId, setSelectedId }: {
                 </div>
               </Panel>
             ))}
+          </div>
+
+          <div className="mb-4 flex justify-center">
+            <Button
+              theme="text"
+              text={t('detailedSummary')}
+              onClick={goDetailedSummary}
+            />
           </div>
 
           {chat?.default_currency && (
@@ -217,11 +208,13 @@ function Summary({ selectedId, setSelectedId }: {
             <div className="text-[24px] leading-[32px] font-semibold">
               {t('allSettledUp')}
             </div>
-            <Button
-              theme="text"
-              text={t('detailedSummary')}
-              onClick={goDetailedSummary}
-            />
+            <div className="mb-4">
+              <Button
+                theme="text"
+                text={t('detailedSummary')}
+                onClick={goDetailedSummary}
+              />
+            </div>
           </div>
 
           <Button
@@ -234,6 +227,10 @@ function Summary({ selectedId, setSelectedId }: {
 
       {selectedId && selectedDebt && (
         <>
+          <h2 className="mb-2 px-4 pt-[2px] pb-[6px]">
+            {`${t('settleUpBy')} ${selectedDebtCurrency?.symbol}`}
+          </h2>
+
           <Panel>
             <DebtDetailed {...selectedDebt} />
           </Panel>

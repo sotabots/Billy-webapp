@@ -9,7 +9,7 @@ import Tabs from '../kit/Tabs'
 
 // import { decimals } from '../const'
 import { useInit } from '../hooks'
-// import { useStore } from '../store'
+import { useStore } from '../store'
 
 import { ReactComponent as ChatIcon } from '../assets/chat.svg'
 import { ReactComponent as ChartIcon } from '../assets/chart.svg'
@@ -20,6 +20,10 @@ import History from './History'
 function SummaryHistory() {
   useInit()
 
+  // const { t } = useTranslation()
+
+  const { summary } = useStore()
+
   type TTab = 'balance' | 'history'
   const [tab, setTab] = useState<TTab>('balance')
 
@@ -27,9 +31,6 @@ function SummaryHistory() {
   const isSelected = selectedId !== null
 
   const [isFilterOpen, setIsFilterOpen] = useState(false)
-
-  // const { t } = useTranslation()
-  // const { isDebug } = useStore()
 
   const [isCompactPie, setIsCompactPie] = useState<boolean>(false)
 
@@ -42,6 +43,12 @@ function SummaryHistory() {
 
   const onScroll = (e: UIEvent<HTMLDivElement>) => {
     setIsCompactPie(e.currentTarget.scrollTop > 0)
+  }
+
+  const goDetailedSummary = () => {
+    if (summary) {
+      window.open(summary.url, '_blank')
+    }
   }
 
   return (
@@ -60,7 +67,7 @@ function SummaryHistory() {
         tab === 'history' && isFilterOpen
       ) && (
         <Tabs
-          className="sticky top-0 pt-2 pb-1 bg-bg2 z-[1]"
+          className="sticky top-0 mb-[6px] pb-[2px] pt-2 bg-bg2 z-[1]"
           tabs={[
             {
               icon: ChatIcon,
@@ -84,6 +91,7 @@ function SummaryHistory() {
         <Summary
           selectedId={selectedId}
           setSelectedId={setSelectedId}
+          goDetailedSummary={goDetailedSummary}
         />
       )}
 
@@ -92,6 +100,7 @@ function SummaryHistory() {
           isFilterOpen={isFilterOpen}
           setIsFilterOpen={setIsFilterOpen}
           isCompactPie={isCompactPie}
+          goDetailedSummary={goDetailedSummary}
         />
       )}
     </Screen>
