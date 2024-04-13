@@ -45,6 +45,9 @@
   "noShares": "Пусто",
   "checkAmounts": "Проверьте траты",
 
+  "balance": "Баланс",
+  "totalTransactions": "Траты",
+
   "settleUpBy": "Рассчитаться по",
   "detailedSummary": "Детализация",
   "summaryBy": "Итог по",
@@ -54,5 +57,9 @@
 
   "convertAllTo": "Перевести всё в",
   "featureSoon": "Эта функция скоро станет доступна",
-  "okay": "Хорошо"
+  "okay": "Хорошо",
+
+  "transactions": "Траты",
+  "youLent": "Вы одолжили",
+  "youOwe": "Вы должны"
 }

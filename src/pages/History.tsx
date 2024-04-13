@@ -139,7 +139,7 @@ function History({
             }
             <Panel>
               <div className="flex flex-col gap-4">
-                <h3>Transactions</h3>
+                <h3>{t('transactions')}</h3>
                 <div className="flex flex-col gap-3">
                   <DateMark time={Date.now()} />
                   <Transaction />

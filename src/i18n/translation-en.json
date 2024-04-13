@@ -45,6 +45,9 @@
   "noShares": "Nobody here",
   "checkAmounts": "Check amounts",
 
+  "balance": "User Balance",
+  "totalTransactions": "Total & Transactions",
+
   "settleUpBy": "Settle up by",
   "detailedSummary": "Detailed summary",
   "summaryBy": "Summary by",
@@ -54,5 +57,9 @@
 
   "convertAllTo": "Convert all to",
   "featureSoon": "This feature will be available soon",
-  "okay": "Okay"
+  "okay": "Okay",
+
+  "transactions": "Transactions",
+  "youLent": "You lent",
+  "youOwe": "You owe"
 }

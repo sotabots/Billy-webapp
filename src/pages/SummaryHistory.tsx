@@ -1,5 +1,5 @@
 import { useState, useRef, UIEvent } from 'react'
-// import { useTranslation } from 'react-i18next'
+import { useTranslation } from 'react-i18next'
 
 import { closeApp } from '../utils'
 
@@ -20,7 +20,7 @@ import History from './History'
 function SummaryHistory() {
   useInit()
 
-  // const { t } = useTranslation()
+  const { t } = useTranslation()
 
   const { summary } = useStore()
 
@@ -71,13 +71,13 @@ function SummaryHistory() {
           tabs={[
             {
               icon: ChatIcon,
-              title: 'User Balance',
+              title: t('balance'),
               isActive: tab === 'balance',
               onClick: selectTab('balance'),
             },
             {
               icon: ChartIcon,
-              title: 'Total & Transactions',
+              title: t('totalTransactions'),
               isActive: tab === 'history',
               onClick: selectTab('history'),
             },
