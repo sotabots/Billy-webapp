@@ -9,7 +9,7 @@ import Tabs from '../kit/Tabs'
 
 // import { decimals } from '../const'
 import { useInit } from '../hooks'
-import { useStore } from '../store'
+// import { useStore } from '../store'
 
 import { ReactComponent as ChatIcon } from '../assets/chat.svg'
 import { ReactComponent as ChartIcon } from '../assets/chart.svg'
@@ -29,8 +29,7 @@ function SummaryHistory() {
   const [isFilterOpen, setIsFilterOpen] = useState(false)
 
   // const { t } = useTranslation()
-
-  const { isDebug } = useStore()
+  // const { isDebug } = useStore()
 
   const [isCompactPie, setIsCompactPie] = useState<boolean>(false)
 
@@ -56,7 +55,7 @@ function SummaryHistory() {
         closeApp
       } />
 
-      {isDebug && !(
+      {!(
         tab === 'balance' && isSelected ||
         tab === 'history' && isFilterOpen
       ) && (

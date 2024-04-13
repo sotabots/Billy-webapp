@@ -13,7 +13,7 @@ import DatePicker from '../kit/DatePicker'
 
 import { closeApp } from '../utils'
 
-// import { useStore } from '../store'
+import { useStore } from '../store'
 // import { useCurrencies } from '../hooks'
 // import { formatAmount } from '../utils'
 
@@ -28,12 +28,9 @@ function History({ isFilterOpen, setIsFilterOpen, isCompactPie}: {
 }) {
   const { t } = useTranslation()
 
-  // const { chat } = useStore()
   // const { getCurrencyById } = useCurrencies()
 
-  // if (!summary) {
-  //   return null
-  // }
+  const { isDebug } = useStore()
 
   const totalSettings = [
     {
@@ -89,7 +86,7 @@ function History({ isFilterOpen, setIsFilterOpen, isCompactPie}: {
       {!isFilterOpen && (
         <>
           <div className="flex flex-col gap-2 pb-5">
-            <Panel>
+            <Panel className={cx(!isDebug && 'hidden')}>
               <div className="flex items-center justify-between gap-4">
                 <div className="flex items-center gap-1">
                   <h3>
