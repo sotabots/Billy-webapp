@@ -11,7 +11,7 @@ import { feedback, EVENT } from '../feedback'
 
 import lottieKoalaSoon from '../assets/animation-koala-soon.json'
 
-function Paywall() {
+function Soon() {
   useInit()
 
   const { t } = useTranslation()
@@ -20,7 +20,7 @@ function Paywall() {
   useEffect(() => {
     if (!isEvent) {
       setIsEvent(true)
-      feedback(EVENT.OPEN_PAYWALL)
+      feedback(EVENT.OPEN_SOON)
     }
   }, [isEvent, setIsEvent])
 
@@ -50,4 +50,4 @@ function Paywall() {
   )
 }
 
-export default Paywall
+export default Soon

@@ -38,35 +38,39 @@ function Debug() {
     }
   }, [listener])
 
-  const out = (title: string, val: any, hide?: boolean) => (
-    <>
-      <details open={!hide}>
-        <summary><strong>{/*⚫*/}{title} = </strong></summary>
-        {typeof val === 'object' && val !== null
-          ? <pre>{JSON.stringify(val, null, 2)}</pre>
-          : String(val)
-        }
-      </details>
+  const out = (title: string, val: any, isOpen?: boolean) => (
+    <details open={isOpen}>
+      <summary className="select-none"><strong>{title} = </strong></summary>
+      {typeof val === 'object' && val !== null
+        ? <pre>{JSON.stringify(val, null, 2)}</pre>
+        : <pre>{String(val)}</pre>
+      }
       <br />
-    </>
+    </details>
   )
 
   return (
     <div className={cx(!isDebug && 'h-0 overflow-hidden')}>
       <Panel className="mt-10 text-[12px] break-words opacity-70 overflow-x-auto [&>pre]:whitespace-pre-wrap">
         <h2>Debug</h2>
-        {['USD', 'EUR', 'RUB', 'ZAR'].map(_ => (
-          <button
-            key={_}
-            className="m-1 p-1 block border border-black"
-            onClick={() => { setSummaryCurrencyId(_) }}
-          >setSummaryCurrencyId <b>{_}</b></button>
-        ))}
+        {false && (
+          ['USD', 'EUR', 'RUB', 'ZAR'].map(_ => (
+            <button
+              key={_}
+              className="m-1 p-1 block border border-black"
+              onClick={() => { setSummaryCurrencyId(_) }}
+            >setSummaryCurrencyId <b>{_}</b></button>
+          ))
+        )}
         <br />
         <button
           className="m-1 p-1 block border border-black"
           onClick={() => { navigate('/paywall') }}
-        ><b>Go paywall</b></button>
+        >
+          <b>Go soon</b>
+        </button>
+        <br />
+        {out('window.Telegram?.WebApp', window.Telegram?.WebApp)}
         {out('location.href', location.href)}
         {out('txid', txId)}
         {out('transaction', transaction)}
@@ -75,9 +79,8 @@ function Debug() {
         {out('summaryId', summaryId)}
         {out('summaryCurrencyId', summaryCurrencyId)}
         {out('summary', summary)}
-        {out('categories', categories, true)}
-        {out('transactions', transactions, true)}
-        {out('window.Telegram?.WebApp', window.Telegram?.WebApp)}
+        {out('categories', categories)}
+        {out('transactions', transactions)}
       </Panel>
     </div>
   )
