@@ -36,7 +36,11 @@ export const router = createHashRouter([
   },
   {
     path: "/summary",
-    element: <SummaryHistory />,
+    element: <SummaryHistory tab="summary" />,
+  },
+  {
+    path: "/history",
+    element: <SummaryHistory tab="history" />,
   },
   {
     path: "/soon",

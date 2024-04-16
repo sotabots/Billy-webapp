@@ -1,3 +1,4 @@
+import { useQueryClient } from '@tanstack/react-query'
 import { useHapticFeedback, useShowPopup } from '@vkruglikov/react-telegram-web-app'
 import Lottie from 'lottie-react'
 import { useState } from 'react'
@@ -32,11 +33,12 @@ function Check() {
   const { t } = useTranslation()
   const navigate = useNavigate()
   const [isBusy, setIsBusy] = useState(false)
-  const { transaction, setTransaction, txComment, setIsSelectPayers, isSuccess, setSuccess, setTxPatchError } = useStore()
+  const { transaction, setTransaction, txComment, isEditTx, setIsEditTx, setIsSelectPayers, isSuccess, setSuccess, setTxPatchError } = useStore()
 
   const { getCurrencyById } = useCurrencies()
 
   const patchTransaction = usePutTransaction()
+  const queryClient = useQueryClient()
 
   if (!transaction) {
     return null
@@ -120,7 +122,6 @@ function Check() {
   const save = async () => {
     const confirmedTransaction = {
       ...transaction,
-
       is_confirmed: true
     }
     setIsBusy(true)
@@ -133,7 +134,15 @@ function Check() {
       console.log('success vibro')
       notificationOccurred('success')
       setTimeout(() => {
-        window.Telegram?.WebApp.close()
+        if (isEditTx) {
+          queryClient.invalidateQueries({ queryKey: [
+            `tx-${transaction._id}`,
+            'transactions'
+          ] })
+          navigate('/history')
+        } else {
+          window.Telegram?.WebApp.close()
+        }
       }, 2300)
     } catch (e) {
       console.log('err', e)
@@ -147,7 +156,14 @@ function Check() {
   return (
     <>
       <Screen>
-        <Header onBack={() => { navigate('/') }} />
+        <Header onBack={() => {
+          if (isEditTx) {
+            history.back()
+            setIsEditTx(false)
+          } else {
+            navigate('/')
+          }
+        }} />
 
         <div className="mb-2 px-4 flex items-center justify-between">
           <h2 className="pt-[2px] pb-[6px]">{t('checkout')}</h2>

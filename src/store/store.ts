@@ -41,6 +41,9 @@ type TStore = {
   transactions: undefined | TTransaction[]
   setTransactions: (transactions: TTransaction[]) => void
 
+  isEditTx: boolean
+  setIsEditTx: (isEditTx: boolean) => void
+
   isDebug: boolean
   setDebug: (isDebug: boolean) => void
 }
@@ -94,6 +97,9 @@ export const useStore = create<TStore>((set, get) => ({
 
   transactions: undefined,
   setTransactions: (transactions) => set(( { transactions } )),
+
+  isEditTx: false,
+  setIsEditTx: (isEditTx) => set(( { isEditTx } )),
 
   isDebug: false,
   setDebug: (isDebug) => set(( { isDebug } )),

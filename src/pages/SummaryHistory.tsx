@@ -1,5 +1,6 @@
 import { useState, useRef, UIEvent } from 'react'
 import { useTranslation } from 'react-i18next'
+import { useNavigate } from 'react-router-dom'
 
 import { closeApp } from '../utils'
 
@@ -7,7 +8,6 @@ import Screen from '../kit/Screen'
 import Header from '../kit/Header'
 import Tabs from '../kit/Tabs'
 
-// import { decimals } from '../const'
 import { useInit } from '../hooks'
 import { useStore } from '../store'
 
@@ -17,15 +17,15 @@ import { ReactComponent as ChartIcon } from '../assets/chart.svg'
 import Summary from './Summary'
 import History from './History'
 
-function SummaryHistory() {
+type TTab = 'summary' | 'history'
+
+function SummaryHistory({ tab }: { tab: TTab }) {
   useInit()
 
   const { t } = useTranslation()
+  const navigate = useNavigate()
 
   const { summary } = useStore()
-
-  type TTab = 'balance' | 'history'
-  const [tab, setTab] = useState<TTab>('balance')
 
   const [selectedId, setSelectedId] = useState<null | string>(null)
   const isSelected = selectedId !== null
@@ -37,7 +37,7 @@ function SummaryHistory() {
   const screenRef = useRef<HTMLDivElement>(null)
 
   const selectTab = (tab: TTab) => () => {
-    setTab(tab)
+    navigate('/' + tab)
     screenRef.current?.scrollTo({ top: 0, behavior: 'smooth' })
   }
 
@@ -57,13 +57,13 @@ function SummaryHistory() {
       onScroll={onScroll}
     >
       <Header onBack={
-        (tab === 'balance' && isSelected && (() => { setSelectedId(null) })) ||
+        (tab === 'summary' && isSelected && (() => { setSelectedId(null) })) ||
         (tab === 'history' && isFilterOpen && (() => { setIsFilterOpen(false) })) ||
         closeApp
       } />
 
       {!(
-        tab === 'balance' && isSelected ||
+        tab === 'summary' && isSelected ||
         tab === 'history' && isFilterOpen
       ) && (
         <Tabs
@@ -72,8 +72,8 @@ function SummaryHistory() {
             {
               icon: ChatIcon,
               title: t('balance'),
-              isActive: tab === 'balance',
-              onClick: selectTab('balance'),
+              isActive: tab === 'summary',
+              onClick: selectTab('summary'),
             },
             {
               icon: ChartIcon,
@@ -87,7 +87,7 @@ function SummaryHistory() {
         </Tabs>
       )}
 
-      {tab === 'balance' && (
+      {tab === 'summary' && (
         <Summary
           selectedId={selectedId}
           setSelectedId={setSelectedId}

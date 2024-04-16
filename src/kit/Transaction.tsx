@@ -18,7 +18,7 @@ const Transaction = ({ tx }: { tx: TTransaction }) => {
   const { t } = useTranslation()
   const navigate = useNavigate()
   const [initDataUnsafe] = useInitData()
-  const { setTxId } = useStore()
+  const { setTxId, setIsEditTx } = useStore()
   const { getUserById } = useUsers()
 
   const backgroundColor = '#8884' || ['#82C4B8', '#B89AE4', '#FFBE7C', '#85BADA', '#FF9D97'][Math.floor(Math.random() * 5)]
@@ -66,6 +66,7 @@ const Transaction = ({ tx }: { tx: TTransaction }) => {
         text={<EditIcon />}
         onClick={() => {
           setTxId(tx._id)
+          setIsEditTx(true)
           navigate('/check')
         }}
       />
