@@ -12,8 +12,10 @@ import Overlay from '../kit/Overlay'
 import Panel from '../kit/Panel'
 import Screen from '../kit/Screen'
 
+import { useGetTransactions, useGetSummary } from '../api'
+
 import { decimals } from '../const'
-import { useCurrencies, useInit } from '../hooks'
+import { useCurrencies, useInit, useChatId } from '../hooks'
 import { useStore } from '../store'
 import { feedback, EVENT } from '../feedback'
 import { usePutTransaction } from '../api'
@@ -32,13 +34,18 @@ function Check() {
 
   const { t } = useTranslation()
   const navigate = useNavigate()
+
   const [isBusy, setIsBusy] = useState(false)
   const { transaction, setTransaction, txComment, isEditTx, setIsEditTx, setIsSelectPayers, isSuccess, setSuccess, setTxPatchError } = useStore()
 
   const { getCurrencyById } = useCurrencies()
 
   const patchTransaction = usePutTransaction()
+
+  const { chatId } = useChatId()
   const queryClient = useQueryClient()
+  const { refetch: refetchTransactions } = useGetTransactions(chatId)
+  const { refetch: refetchSummary } = useGetSummary()
 
   if (!transaction) {
     return null
@@ -135,11 +142,16 @@ function Check() {
       notificationOccurred('success')
       setTimeout(() => {
         if (isEditTx) {
+          // todo: remove?
           queryClient.invalidateQueries({ queryKey: [
             `tx-${transaction._id}`,
             'transactions'
           ] })
+          refetchTransactions()
+          refetchSummary()
+
           navigate('/history')
+          setSuccess(false)
         } else {
           window.Telegram?.WebApp.close()
         }

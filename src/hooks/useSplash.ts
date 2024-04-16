@@ -1,16 +1,14 @@
 import { useGetTx, useGetUsers, useGetChat, useGetCurrencies, useGetSummary, useGetCategories, useGetTransactions } from '../api'
+import { useChatId } from '../hooks'
 import { useStore } from '../store'
 
 export const useSplash = () => {
   const { currencies, txPatchError } = useStore()
 
   const { isLoading: isTxLoading, error: txError, data: tx } = useGetTx()
-  const { isLoading: isSummaryLoading, error: summaryError, data: summary } = useGetSummary()
+  const { isLoading: isSummaryLoading, error: summaryError } = useGetSummary()
 
-  // todo: improve
-  const chatId =
-    (!tx ? undefined : tx.chat_id) ||
-    (!summary ? undefined : summary.chat_id)
+  const { chatId } = useChatId()
 
   const { isLoading: isUsersLoading, error: usersError } = useGetUsers(chatId)
   const { isLoading: isChatLoading, error: chatError } = useGetChat(chatId)

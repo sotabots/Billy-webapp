@@ -1,4 +1,5 @@
 export * from './useAutoExpand'
+export * from './useChatId'
 export * from './useCurrencies'
 export * from './useInit'
 export * from './useSplash'
