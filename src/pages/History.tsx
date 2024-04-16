@@ -168,6 +168,7 @@ function History({
                 </div>
               </Panel>
             }
+
             <Panel>
               <div className="flex flex-col gap-4">
                 <h3>{t('transactions')}</h3>
@@ -178,24 +179,14 @@ function History({
                         key={`DateMark-${i}`}
                         time={txGroup.time}
                       />
-                      {txGroup.txs.map((tx, j) => (
+                      {txGroup.txs.map(tx => (
                         <Transaction
-                          key={`Transaction-${i}-${j}`}
+                          key={`Transaction-${tx._id}`}
                           tx={tx}
                         />
                       ))}
                     </>
                   ))}
-                  {/*
-                  <DateMark time={Date.now()} />
-                  <Transaction />
-                  <DateMark time={Date.now() - 24 * 60 * 60 * 1000} />
-                  <Transaction />
-                  <Transaction />
-                  <DateMark time={Date.now() - 200 * 24 * 60 * 60 * 1000} />
-                  <Transaction />
-                  <Transaction />
-                  */}
                 </div>
               </div>
             </Panel>
