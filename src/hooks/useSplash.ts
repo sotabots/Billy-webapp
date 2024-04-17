@@ -18,14 +18,14 @@ export const useSplash = () => {
   // todo: remove
   console.log('useGetTransactions', isTransactionsLoading, transactionsError)
 
-  const isLoading = isTxLoading || isUsersLoading || isChatLoading || isCurrenciesLoading || isSummaryLoading || isCategoriesLoading /* || isTransactionsLoading */
+  const isLoading = isTxLoading || isUsersLoading || isChatLoading || isCurrenciesLoading || isSummaryLoading || isCategoriesLoading || isTransactionsLoading
 
   const unknownCurrencyError =
     (tx?.currency_id && currencies.length && !currencies.find((currency) => currency._id === tx.currency_id))
       ? new Error(`Unknown tx currency ${tx.currency_id}`)
       : null
 
-  const error = txError || usersError || chatError || txPatchError || currenciesError || unknownCurrencyError || summaryError || categoriesError /* || transactionsError */
+  const error = txError || usersError || chatError || txPatchError || currenciesError || unknownCurrencyError || summaryError || categoriesError || transactionsError
 
   return { isLoading, error }
 }
