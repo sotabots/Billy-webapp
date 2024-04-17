@@ -81,6 +81,7 @@ const _mockTransaction: TTransaction = {
   is_confirmed: false,
   currency_id: mockCurrencies[0]._id,
   time_created: (new Date()).toISOString(),
+  nutshell: null,
 }
 
 const _mockChat: TChat = {
@@ -211,6 +212,7 @@ const demoTransaction: TTransaction = {
     },
   ],
   time_created: (new Date()).toISOString(),
+  nutshell: null,
 }
 
 const demoChat: TChat = {

@@ -104,7 +104,7 @@ function Summary({
             is_payer: true,
             raw_name: null,
             normalized_name: null,
-            user_candidates: null
+            user_candidates: null,
           },
           {
             person_id: `settleup_to_user`,
@@ -113,9 +113,10 @@ function Summary({
             is_payer: false,
             raw_name: null,
             normalized_name: null,
-            user_candidates: null
+            user_candidates: null,
           }
-        ]
+        ],
+        nutshell: null,
       }
       const resJson = await postTransaction(newTx)
       console.log('patchTransaction res', resJson)

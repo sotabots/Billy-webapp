@@ -65,7 +65,7 @@ function Debug() {
         <br />
         <button
           className="m-1 p-1 block border border-black"
-          onClick={() => { navigate('/paywall') }}
+          onClick={() => { navigate('/soon') }}
         >
           <b>Go soon</b>
         </button>
