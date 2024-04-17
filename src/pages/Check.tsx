@@ -121,7 +121,6 @@ function Check() {
     }
     setTransaction({
       ...transaction,
-      ...(txComment ? { raw_text: txComment } : {}),
       shares: newShares
     })
   }
@@ -129,6 +128,7 @@ function Check() {
   const save = async () => {
     const confirmedTransaction = {
       ...transaction,
+      ...(txComment ? { raw_text: txComment } : {}),
       is_confirmed: true
     }
     setIsBusy(true)
