@@ -18,11 +18,12 @@ const Transaction = ({ tx }: { tx: TTransaction }) => {
   const { t } = useTranslation()
   const navigate = useNavigate()
   const [initDataUnsafe] = useInitData()
-  const { setTxId, setIsEditTx } = useStore()
+  const { setTxId, setIsEditTx, categories } = useStore()
   const { getUserById } = useUsers()
 
-  const backgroundColor = '#8884' || ['#82C4B8', '#B89AE4', '#FFBE7C', '#85BADA', '#FF9D97'][Math.floor(Math.random() * 5)]
-  const emoji = ' ' || '🛒'
+  const category = categories?.[tx.category || '']
+  const backgroundColor = category?.hue ? `hsla(${category.hue}, 100%, 74%, 1)` : '#8884'
+  const emoji = category?.emoji || ' '
 
   const myShare: TShare | undefined =
     tx.shares.find(share => share.related_user_id === initDataUnsafe.user?.id && share.is_payer === true) ||

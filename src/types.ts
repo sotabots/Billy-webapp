@@ -24,6 +24,7 @@ export type TTransaction = {
   shares: TShare[]
   time_created: string
   nutshell: string | null
+  category: string | null
   // todo: improve
 }
 
@@ -68,10 +69,11 @@ export type TDebt = {
 
 export type TCategories = {
   [key: string]: {
-    name: string,
-    emoji: string | {
-      en: string,
-      ru: string,
+    hue: number
+    emoji: string
+    name: string | {
+      en: string
+      ru: string
     }
   }
 }

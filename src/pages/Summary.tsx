@@ -117,6 +117,7 @@ function Summary({
           }
         ],
         nutshell: null,
+        category: null,
       }
       const resJson = await postTransaction(newTx)
       console.log('patchTransaction res', resJson)
