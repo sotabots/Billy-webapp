@@ -23,6 +23,7 @@ export type TTransaction = {
   is_confirmed: boolean // set true before patch
   shares: TShare[]
   time_created: string
+  nutshell: string | null
   // todo: improve
 }
 

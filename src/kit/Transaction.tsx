@@ -55,9 +55,9 @@ const Transaction = ({ tx }: { tx: TTransaction }) => {
           <span>{formatAmount(myShare.amount)} {tx.currency_id}</span>
         </div>
         )}
-        {/*
-        <div className="px-2 opacity-60">Some short description about tx</div>
-         */}
+        {!!tx.nutshell && (
+          <div className="px-2 opacity-60">{tx.nutshell}</div>
+        )}
       </div>
       <Button
         // disabled
