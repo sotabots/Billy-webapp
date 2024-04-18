@@ -96,6 +96,7 @@ function Summary({
         raw_text: `[Settle up] ${[selectedDebt.from_user.first_name, selectedDebt.from_user.last_name].join(' ')} give ${formatAmount(selectedDebt.amount)} ${selectedDebt.currency_id} ${[selectedDebt.to_user.first_name, selectedDebt.to_user.last_name].join(' ')}`,
         currency_id: selectedDebt.currency_id,
         is_confirmed: true,
+        is_canceled: false,
         shares: [
           {
             person_id: `settleup_from_user`,

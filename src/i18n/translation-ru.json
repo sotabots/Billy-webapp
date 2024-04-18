@@ -61,5 +61,7 @@
 
   "transactions": "Траты",
   "youLent": "Вы одолжили",
-  "youOwe": "Вы должны"
+  "youOwe": "Вы должны",
+  "statusUnconfirmed": "Не подтверждено",
+  "statusCanceled": "Отменено"
 }

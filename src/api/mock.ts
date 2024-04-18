@@ -79,6 +79,7 @@ const _mockTransaction: TTransaction = {
   formatted_text: shares.map(share => `<b>${share.normalized_name}</b> ${share.is_payer ? i18n.t('paid') : i18n.t('owes')} ${share.amount}`).join(', '),
   shares,
   is_confirmed: false,
+  is_canceled: false,
   currency_id: mockCurrencies[0]._id,
   time_created: (new Date()).toISOString(),
   nutshell: null,
@@ -145,6 +146,7 @@ const demoTransaction: TTransaction = {
   ? '<b>Антон</b> заплатил 4500 рублей за <b>Пашу</b>, <b>Егора</b>, <b>Дашу</b> и <b>Карима</b> в ресторане. <b>Егор</b> оставил 700 рублей чаевыми. Делим счёт поровну.'
   : '<b>Anton</b> paid 45 dollars for <b>Pavel</b>, <b>George</b>, <b>Dasha</b> and <b>Karim</b> in restaurant. <b>George</b> left 10 dollars tips. Split bill equally.',
   is_confirmed: false,
+  is_canceled: false,
   currency_id: isRus ? 'RUB' : 'USD',
   shares: [
     {

@@ -47,5 +47,11 @@
 
   "convertAllTo": "Перевести всё в",
   "featureSoon": "Ця функція незабаром стане доступною",
-  "okay": "Добре"
+  "okay": "Добре",
+
+  "transactions": "Витрати",
+  "youLent": "Ви позичили",
+  "youOwe": "Ви повинні",
+  "statusUnconfirmed": "Не підтверджено",
+  "statusCanceled": "Скасовано"
 }

@@ -61,5 +61,7 @@
 
   "transactions": "Transactions",
   "youLent": "You lent",
-  "youOwe": "You owe"
+  "youOwe": "You owe",
+  "statusUnconfirmed": "Unconfirmed",
+  "statusCanceled": "Canceled"
 }

@@ -49,7 +49,7 @@ const Transaction = ({ tx }: { tx: TTransaction }) => {
         ))}
         {!!myShare && (
         <div className={cx(
-          'flex gap-2 items-center justify-between  rounded-[4px] px-2 bg-[#8881] font-semibold',
+          'flex gap-2 items-center justify-between rounded-[4px] px-2 bg-[#8881] font-semibold',
           myShare.is_payer ? 'text-[#119C2B]' : 'text-[#CC0905]'
         )}>
           <span>{myShare.is_payer ? t('youLent') : t('youOwe')}</span>
@@ -59,6 +59,20 @@ const Transaction = ({ tx }: { tx: TTransaction }) => {
         {!!tx.nutshell && (
           <div className="px-2 opacity-60">{tx.nutshell}</div>
         )}
+        <div className="flex gap-2 items-center px-2 pt-[2px] empty:hidden">
+          {[
+            ...(!tx.is_confirmed ? [{
+              color: '#D29404',
+              text: t('statusUnconfirmed'),
+            }] : []),
+            ...(tx.is_canceled ? [{
+              color: '#CC0905',
+              text: t('statusCanceled'),
+            }] : []),
+          ].map(tag => (
+            <div className="rounded-[4px] px-1 py-[2px] bg-[#8881] text-[12px] leading-[16px] font-semibold" style={{ color: tag.color }}>{tag.text}</div>
+          ))}
+        </div>
       </div>
       <Button
         // disabled

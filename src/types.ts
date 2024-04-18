@@ -21,6 +21,7 @@ export type TTransaction = {
   formatted_text?: string // with <b>Name</b> highlighting
   currency_id: TCurrencyId
   is_confirmed: boolean // set true before patch
+  is_canceled: boolean
   shares: TShare[]
   time_created: string
   nutshell: string | null
