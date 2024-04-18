@@ -61,7 +61,7 @@ const Transaction = ({ tx }: { tx: TTransaction }) => {
         {!!tx.nutshell && (
           <div className="px-2 opacity-60">{tx.nutshell}</div>
         )}
-        <div className="flex flex-wrap gap-2 px-2 pt-[2px] empty:hidden">
+        <div className="flex flex-wrap gap-x-2 gap-y-1 px-2 pt-[2px] empty:hidden">
           {[
             ...((!tx.is_confirmed && !tx.is_canceled) ? [{
               color: '#D29404',
