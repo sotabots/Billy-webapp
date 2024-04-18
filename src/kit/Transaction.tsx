@@ -32,6 +32,8 @@ const Transaction = ({ tx }: { tx: TTransaction }) => {
   const payerShares = tx.shares
     .filter(share => share.is_payer)
 
+  const editor = !tx.editor_user_id ? null : getUserById(tx.editor_user_id) || null
+
   return (
     <div className="Transaction flex gap-2">
       <div className="flex items-center justify-center w-6 h-6 rounded-full" style={{ backgroundColor }}>{emoji}</div>
@@ -59,9 +61,9 @@ const Transaction = ({ tx }: { tx: TTransaction }) => {
         {!!tx.nutshell && (
           <div className="px-2 opacity-60">{tx.nutshell}</div>
         )}
-        <div className="flex gap-2 items-center px-2 pt-[2px] empty:hidden">
+        <div className="flex flex-wrap gap-2 px-2 pt-[2px] empty:hidden">
           {[
-            ...(!tx.is_confirmed ? [{
+            ...((!tx.is_confirmed && !tx.is_canceled) ? [{
               color: '#D29404',
               text: t('statusUnconfirmed'),
             }] : []),
@@ -69,8 +71,11 @@ const Transaction = ({ tx }: { tx: TTransaction }) => {
               color: '#CC0905',
               text: t('statusCanceled'),
             }] : []),
+            ...(editor ? [{
+              text: `${t('statusEditedBy')} ${[editor.first_name, editor.last_name].filter(_ => _).join(' ') }`,
+            }] : []),
           ].map(tag => (
-            <div className="rounded-[4px] px-1 py-[2px] bg-[#8881] text-[12px] leading-[16px] font-semibold" style={{ color: tag.color }}>{tag.text}</div>
+            <div className="rounded-[8px] px-1 py-[2px] bg-[#8881] text-[12px] leading-[16px] font-semibold" style={{ color: tag.color }}>{tag.text}</div>
           ))}
         </div>
       </div>

@@ -92,6 +92,7 @@ function Summary({
       const newTx: TNewTransaction = {
         chat_id: summary.chat_id,
         creator_user_id: initDataUnsafe.user?.id || null,
+        editor_user_id: null,
         is_voice: false,
         raw_text: `[Settle up] ${[selectedDebt.from_user.first_name, selectedDebt.from_user.last_name].join(' ')} give ${formatAmount(selectedDebt.amount)} ${selectedDebt.currency_id} ${[selectedDebt.to_user.first_name, selectedDebt.to_user.last_name].join(' ')}`,
         currency_id: selectedDebt.currency_id,

@@ -16,6 +16,7 @@ export type TTransaction = {
   _id: string
   chat_id: TChatId | null
   creator_user_id: TUserId | null
+  editor_user_id: TUserId | null
   is_voice: boolean
   raw_text: string // shown if `formatted_text` does not exist
   formatted_text?: string // with <b>Name</b> highlighting

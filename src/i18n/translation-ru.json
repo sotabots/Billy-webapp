@@ -63,5 +63,6 @@
   "youLent": "Вы одолжили",
   "youOwe": "Вы должны",
   "statusUnconfirmed": "Не подтверждено",
-  "statusCanceled": "Отменено"
+  "statusCanceled": "Отменено",
+  "statusEditedBy": "Отредактировано:"
 }

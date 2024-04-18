@@ -53,5 +53,6 @@
   "youLent": "Ви позичили",
   "youOwe": "Ви повинні",
   "statusUnconfirmed": "Не підтверджено",
-  "statusCanceled": "Скасовано"
+  "statusCanceled": "Скасовано",
+  "statusEditedBy": "Редаговано:"
 }

@@ -74,6 +74,7 @@ const _mockTransaction: TTransaction = {
   _id: '0',
   chat_id: null,
   creator_user_id: null,
+  editor_user_id: null,
   is_voice: true,
   raw_text: shares.map(share => `${share.normalized_name} ${share.is_payer ? i18n.t('paid') : i18n.t('owes')} ${share.amount/* (share.amount / 10 ** decimals).toFixed(0)*/}` ).join(', '),
   formatted_text: shares.map(share => `<b>${share.normalized_name}</b> ${share.is_payer ? i18n.t('paid') : i18n.t('owes')} ${share.amount}`).join(', '),
@@ -138,6 +139,7 @@ const demoTransaction: TTransaction = {
   _id: '0',
   chat_id: null,
   creator_user_id: null,
+  editor_user_id: null,
   is_voice: true,
   raw_text: isRus
     ? 'Антон заплатил 4500 рублей за Пашу, Егора, Дашу и Карима в ресторане. Егор оставил 700 рублей чаевыми. Делим счёт поровну.'

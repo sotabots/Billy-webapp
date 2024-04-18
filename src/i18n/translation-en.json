@@ -63,5 +63,6 @@
   "youLent": "You lent",
   "youOwe": "You owe",
   "statusUnconfirmed": "Unconfirmed",
-  "statusCanceled": "Canceled"
+  "statusCanceled": "Canceled",
+  "statusEditedBy": "Edited by"
 }
