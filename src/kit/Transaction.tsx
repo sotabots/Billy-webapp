@@ -49,7 +49,7 @@ const Transaction = ({ tx }: { tx: TTransaction }) => {
             <span>{formatAmount(payerShare.amount)} {tx.currency_id}</span>
           </div>
         ))}
-        {!!myShare && (
+        {!!myShare && !(!tx.is_confirmed || tx.is_canceled) && (
         <div className={cx(
           'flex gap-2 items-center justify-between rounded-[4px] px-2 bg-[#8881] font-semibold',
           myShare.is_payer ? 'text-[#119C2B]' : 'text-[#CC0905]'
