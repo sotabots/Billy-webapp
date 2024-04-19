@@ -3,7 +3,7 @@ import { useChatId } from '../hooks'
 import { useStore } from '../store'
 
 export const useSplash = () => {
-  const { currencies, txPatchError } = useStore()
+  const { currencies, transactions, rates, txPatchError } = useStore()
 
   const { isLoading: isTxLoading, error: txError, data: tx } = useGetTx()
   const { isLoading: isSummaryLoading, error: summaryError } = useGetSummary()
@@ -26,8 +26,12 @@ export const useSplash = () => {
       ? new Error(`Unknown tx currency: ${tx.currency_id}`)
       : null
 
-  const missingRates: string[] = []
-  const missingRatesError = missingRates.length ? new Error(`Missing rates: ${missingRates.join(', ')}`) : null
+  const currencyIds: string[] = [...new Set([
+    ...(currencies.map(currency => currency._id)),
+    ...((transactions || []).map(tx => tx.currency_id))
+  ])]
+  const missingRates: string[] = !rates ? [] : currencyIds.filter(currencyId => rates[`USD${currencyId}`] === undefined)
+  const missingRatesError = missingRates.length ? new Error(`Missing rates for ${missingRates.join(', ')}`) : null
 
   const error = txError || usersError || chatError || txPatchError || currenciesError || unknownCurrencyError || ratesError || missingRatesError || summaryError || categoriesError || transactionsError
 
