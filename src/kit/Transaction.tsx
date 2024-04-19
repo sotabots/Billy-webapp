@@ -36,7 +36,12 @@ const Transaction = ({ tx }: { tx: TTransaction }) => {
 
   return (
     <div className="Transaction flex gap-2">
-      <div className="flex items-center justify-center w-6 h-6 rounded-full" style={{ backgroundColor }}>{emoji}</div>
+      <div
+        className="flex items-center justify-center w-6 h-6 rounded-full overflow-hidden text-[16px] leading-6"
+        style={{ backgroundColor }}
+      >
+        {emoji}
+      </div>
       <div className="flex-1 flex flex-col gap-[2px] text-[14px] leading-[24px]">
         {payerShares.map(payerShare => (
           <div className="flex gap-2 items-center justify-between px-2 font-semibold">
@@ -59,7 +64,7 @@ const Transaction = ({ tx }: { tx: TTransaction }) => {
         </div>
         )}
         {!!tx.nutshell && (
-          <div className="px-2 opacity-60">{tx.nutshell}</div>
+          <div className="px-2 opacity-60 first-letter:uppercase">{tx.nutshell}</div>
         )}
         <div className="flex flex-wrap gap-x-2 gap-y-1 px-2 pt-[2px] empty:hidden">
           {[
