@@ -51,6 +51,10 @@ export type TCurrency = {
   in: string // 'In Euros'
 }
 
+export type TRates = {
+  [key: string]: number
+}
+
 export type TChat = {
   default_currency: TCurrencyId | null
   language_code: string // 'en' | 'ru' | 'uk' (or any string)

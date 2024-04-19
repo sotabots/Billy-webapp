@@ -2,7 +2,7 @@ import { useInitData } from '@vkruglikov/react-telegram-web-app'
 import { useQuery } from '@tanstack/react-query'
 
 import { useStore } from '../store'
-import { TCurrency, TCategories, TTransaction, TNewTransaction, TUser, TChat, TSummary } from '../types'
+import { TCurrency, TRates, TCategories, TTransaction, TNewTransaction, TUser, TChat, TSummary } from '../types'
 import {
   mockTransaction,
   mockUsers,
@@ -121,6 +121,29 @@ export const useGetCurrencies = (chatId: undefined | number | null) => {
         setCurrencies(data)
       },
       enabled: chatId !== undefined,
+      staleTime
+    })
+  )
+}
+
+export const useGetRates = () => {
+  const [, initData] = useInitData()
+  const { setRates } = useStore()
+
+  return (
+    useQuery<TRates, Error>({
+      queryKey: ['rates'],
+      queryFn: () =>
+        fetch(`${apiUrl}/currencies/rates`, {
+          method: 'GET',
+          headers: {
+            'Authorization': initData,
+          }
+        }).then(handleJsonResponse),
+      onSuccess: (data) => {
+        console.log('useGetRates', data)
+        setRates(data)
+      },
       staleTime
     })
   )
