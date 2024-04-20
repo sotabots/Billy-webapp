@@ -2,6 +2,8 @@ import cx from 'classnames'
 
 import Button from '../kit/Button'
 
+import { useCategories } from '../hooks'
+
 import { ReactComponent as PageLeftIcon } from '../assets/page-left.svg'
 import { ReactComponent as PageRightIcon } from '../assets/page-right.svg'
 
@@ -10,15 +12,17 @@ const Pie = ({ isCompact, title, period, slices, onLeft, onRight }: {
   title: string
   period: string
   slices: ({
-    color: string,
-    value: number
+    categoryKey: string,
+    relativeValue: number
   })[]
   onLeft: null | VoidFunction
   onRight: null | VoidFunction
 }) => {
+  const { getCategoryColor } = useCategories()
+
   const transition = 'transition-all ease-linear duration-250'
 
-  const sum = slices.reduce((acc, current) => acc + current.value, 0)
+  const sum = slices.reduce((acc, slice) => acc + slice.relativeValue, 0)
 
   let acc = 0
   let gradient = ''
@@ -26,11 +30,11 @@ const Pie = ({ isCompact, title, period, slices, onLeft, onRight }: {
   for (let i = 0; i < slices.length; i++) {
     const slice = slices[i]
     const accPrev = acc
-    acc += slice.value
+    acc += slice.relativeValue
     const fromPercent = (accPrev * 100 / sum).toFixed(2)
     const toPercent = (acc * 100 / sum).toFixed(2)
-
-    gradient += `${i > 0 ? ', ' : ''}${slice.color} ${i === 0 ? 0 : fromPercent}%, ${slice.color} ${i === slices.length - 1 ? 100 : toPercent}%`
+    const color = getCategoryColor(slice.categoryKey)
+    gradient += `${i > 0 ? ', ' : ''}${color} ${i === 0 ? 0 : fromPercent}%, ${color} ${i === slices.length - 1 ? 100 : toPercent}%`
   }
 
   return (

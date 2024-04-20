@@ -92,37 +92,26 @@ function History({
   const chatCurrency = getCurrencyById(chat?.default_currency || chatDefaultCurrencyId)
   const totalTitle = `${formatAmount(total)}${chatCurrency?.symbol || '$'}`
 
-  const pieSlices = [
-    {
-      color: 'red',
-      value: 1,
-    },
-    {
-      color: 'green',
-      value: 1,
-    },
-    {
-      color: 'blue',
-      value: 1,
-    },
-    {
-      color: 'black',
-      value: 1,
-    },
-  ]
-
   const cats = [
     {
       categoryKey: 'life_entertainment',
       amountFormatted: '1$',
+      relativeValue: 2,
+    },
+    {
+      categoryKey: 'food_drinks',
+      amountFormatted: '2$',
+      relativeValue: 1,
     },
     {
       categoryKey: 'other',
-      amountFormatted: '1$',
+      amountFormatted: '3$',
+      relativeValue: 1,
     },
     {
       categoryKey: 'unknown',
-      amountFormatted: '1$',
+      amountFormatted: '4$',
+      relativeValue: 1,
     },
   ]
 
@@ -198,7 +187,7 @@ function History({
                   isCompact={isCompactPie}
                   title={totalTitle}
                   period={periodSetting.value}
-                  slices={pieSlices}
+                  slices={cats}
                   onLeft={isArrows ? () => {} : null}
                   onRight={isArrows ? () => {} : null}
                 />

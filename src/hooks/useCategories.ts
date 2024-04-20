@@ -22,7 +22,7 @@ export const useCategories = () => {
 
   const getCategoryName = (categoryKey: string | null) => {
     const category = getCategory(categoryKey)
-    return (typeof category?.name === 'object' ? category?.name.en : category?.name) || '?' // todo: improve
+    return (typeof category?.name === 'object' ? category?.name.en : category?.name) || 'Unknown' // todo: improve
   }
 
   return { getCategory, getCategoryColor, getCategoryEmoji, getCategoryName }
