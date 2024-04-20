@@ -5,20 +5,33 @@ import Button from '../kit/Button'
 import { ReactComponent as PageLeftIcon } from '../assets/page-left.svg'
 import { ReactComponent as PageRightIcon } from '../assets/page-right.svg'
 
-const Pie = ({ isCompact, title, period, onLeft, onRight }: {
+const Pie = ({ isCompact, title, period, slices, onLeft, onRight }: {
   isCompact?: boolean
   title: string
   period: string
+  slices: ({
+    color: string,
+    value: number
+  })[]
   onLeft: null | VoidFunction
   onRight: null | VoidFunction
 }) => {
   const transition = 'transition-all ease-linear duration-250'
-  const gradient =
-    '#82C4B8 0%, #82C4B8 60%, ' +
-    '#B89AE4 60%, #B89AE4 80%, ' +
-    '#FFBE7C 80%, #FFBE7C 90%, ' +
-    '#85BADA 90%, #85BADA 96%, ' +
-    '#FF9D97 96%, #FF9D97 100%'
+
+  const sum = slices.reduce((acc, current) => acc + current.value, 0)
+
+  let acc = 0
+  let gradient = ''
+
+  for (let i = 0; i < slices.length; i++) {
+    const slice = slices[i]
+    const accPrev = acc
+    acc += slice.value
+    const fromPercent = (accPrev * 100 / sum).toFixed(2)
+    const toPercent = (acc * 100 / sum).toFixed(2)
+
+    gradient += `${i > 0 ? ', ' : ''}${slice.color} ${i === 0 ? 0 : fromPercent}%, ${slice.color} ${i === slices.length - 1 ? 100 : toPercent}%`
+  }
 
   return (
     <div className="Pie relative">
