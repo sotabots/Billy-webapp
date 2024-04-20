@@ -16,8 +16,6 @@ export const useSplash = () => {
   const { isLoading: isRatesLoading, error: ratesError } = useGetRates()
   const { isLoading: isCategoriesLoading, error: categoriesError } = useGetCategories()
   const { isLoading: isTransactionsLoading, error: transactionsError } = useGetTransactions(chatId)
-  // todo: remove
-  console.log('useGetTransactions', isTransactionsLoading, transactionsError)
 
   const isLoading = isTxLoading || isUsersLoading || isChatLoading || isCurrenciesLoading || isRatesLoading || isSummaryLoading || isCategoriesLoading || isTransactionsLoading
 
@@ -30,11 +28,9 @@ export const useSplash = () => {
     ...(currencies.map(currency => currency._id)),
     ...((transactions || []).map(tx => tx.currency_id || 'USD'))
   ])]
-  console.log('currencyIds', currencyIds)
-  console.log('currencyIds 2', transactions?.filter(tx => tx.currency_id === null))
-  console.log('currencyIds 3', currencies.map(currency => currency._id))
+
   const missingRates: string[] = !rates ? [] : currencyIds.filter(currencyId => rates[`USD${currencyId}`] === undefined)
-  const missingRatesError = missingRates.length ? new Error(`Missing rates for ${missingRates.join(', ')}`) : null
+  const missingRatesError = missingRates.length ? new Error(`Missing rates for ${missingRates.map(_ => JSON.stringify(_)).join(', ')}`) : null
 
   const error = txError || usersError || chatError || txPatchError || currenciesError || unknownCurrencyError || ratesError || missingRatesError || summaryError || categoriesError || transactionsError
 
