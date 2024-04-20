@@ -28,7 +28,7 @@ export const useSplash = () => {
 
   const currencyIds: string[] = [...new Set([
     ...(currencies.map(currency => currency._id)),
-    ...((transactions || []).map(tx => tx.currency_id))
+    ...((transactions || []).map(tx => tx.currency_id || 'USD'))
   ])]
   const missingRates: string[] = !rates ? [] : currencyIds.filter(currencyId => rates[`USD${currencyId}`] === undefined)
   const missingRatesError = missingRates.length ? new Error(`Missing rates for ${missingRates.join(', ')}`) : null

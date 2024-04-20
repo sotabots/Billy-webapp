@@ -20,7 +20,7 @@ export type TTransaction = {
   is_voice: boolean
   raw_text: string // shown if `formatted_text` does not exist
   formatted_text?: string // with <b>Name</b> highlighting
-  currency_id: TCurrencyId
+  currency_id: TCurrencyId | null
   is_confirmed: boolean // set true before patch
   is_canceled: boolean
   shares: TShare[]
