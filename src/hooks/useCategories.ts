@@ -7,9 +7,12 @@ export const useCategories = () => {
     return categories?.[categoryKey || ''] || null
   }
 
-  const getCategoryColor = (categoryKey: string | null) => {
+  const getCategoryColor = (categoryKey: string | null, aplha = 1) => {
     const category = getCategory(categoryKey)
-    return category?.hue ? `hsla(${category.hue}, 100%, 74%, 1)` : '#8884'
+    const hue = category ? category.hue : 0
+    const saturation = category ? '100%' : '0%'
+    const lightness = '66%'
+    return `hsla(${hue}, ${saturation}, ${lightness}, ${aplha})`
   }
 
   const getCategoryEmoji = (categoryKey: string | null) => {
@@ -17,5 +20,10 @@ export const useCategories = () => {
     return category?.emoji || ' '
   }
 
-  return { getCategory, getCategoryColor, getCategoryEmoji }
+  const getCategoryName = (categoryKey: string | null) => {
+    const category = getCategory(categoryKey)
+    return (typeof category?.name === 'object' ? category?.name.en : category?.name) || '?' // todo: improve
+  }
+
+  return { getCategory, getCategoryColor, getCategoryEmoji, getCategoryName }
 }

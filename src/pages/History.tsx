@@ -85,7 +85,7 @@ function History({
     setIsFilterOpen(false)
   }
 
-  // const { totalTitle, totalCategories } = useTotal()
+  // const { totalTitle, totalCategories, pieSclies } = useTotal()
 
   const chatDefaultCurrencyId = 'USD'
   const total = 38654.55
@@ -108,6 +108,21 @@ function History({
     {
       color: 'black',
       value: 1,
+    },
+  ]
+
+  const cats = [
+    {
+      categoryKey: 'life_entertainment',
+      amountFormatted: '1$',
+    },
+    {
+      categoryKey: 'other',
+      amountFormatted: '1$',
+    },
+    {
+      categoryKey: 'unknown',
+      amountFormatted: '1$',
     },
   ]
 
@@ -188,8 +203,8 @@ function History({
                   onRight={isArrows ? () => {} : null}
                 />
                 <div className="flex flex-wrap gap-x-1 gap-y-2">
-                  {['#82C4B8', '#B89AE4', '#FFBE7C', '#85BADA', '#FF9D97'].map(_ => (
-                    <Category key={_} color={_} />
+                  {cats.map(cat => (
+                    <Category categoryKey={cat.categoryKey} amountFormatted={cat.amountFormatted} />
                   ))}
                 </div>
               </div>
