@@ -16,8 +16,8 @@ import DatePicker from '../kit/DatePicker'
 import { closeApp } from '../utils'
 
 import { useStore } from '../store'
-// import { useCurrencies } from '../hooks'
-// import { formatAmount } from '../utils'
+import { useCurrencies } from '../hooks'
+import { formatAmount } from '../utils'
 
 import { ReactComponent as FilterIcon } from '../assets/filter.svg'
 import { ReactComponent as FilterActiveIcon } from '../assets/filter-active.svg'
@@ -36,9 +36,9 @@ function History({
 }) {
   const { t } = useTranslation()
 
-  // const { getCurrencyById } = useCurrencies()
+  const { getCurrencyById } = useCurrencies()
 
-  const { isDebug, transactions } = useStore()
+  const { isDebug, transactions, chat } = useStore()
 
   const totalSettings = [
     {
@@ -85,7 +85,13 @@ function History({
     setIsFilterOpen(false)
   }
 
-  const title = '$38,654.55'
+  // const { totalTitle, totalCategories } = useTotal()
+
+  const chatDefaultCurrencyId = 'USD'
+  const total = 38654.55
+  const chatCurrency = getCurrencyById(chat?.default_currency || chatDefaultCurrencyId)
+  const totalTitle = `${formatAmount(total)}${chatCurrency?.symbol || '$'}`
+
   const [ts1, setTs1] = useState<null | number>(null)
   const [ts2, setTs2] = useState<null | number>(null)
 
@@ -123,24 +129,24 @@ function History({
       {!isFilterOpen && (
         <>
           <div className="flex flex-col gap-2 pb-5">
-            {isDebug &&
-              <Panel>
-                <div className="flex items-center justify-between gap-4">
-                  <div className="flex items-center gap-1">
-                    <h3>
-                      {({
-                        'ALL_CHAT': 'Total',
-                        'ONLY_MINE': 'My Total',
-                      })[totalSetting.value] || ''}
-                    </h3>
-                    <div
-                      className={cx(
-                        'text-[16px] leading-[24px] text-[#0E73F6] font-semibold transition-all',
-                        !isCompactPie && 'opacity-0'
-                      )}>
-                      {title}
-                    </div>
+            <Panel>
+              <div className="flex items-center justify-between gap-4">
+                <div className="flex items-center gap-1">
+                  <h3>
+                    {({
+                      'ALL_CHAT': 'Total',
+                      'ONLY_MINE': 'My Total',
+                    })[totalSetting.value] || ''}
+                  </h3>
+                  <div
+                    className={cx(
+                      'text-[16px] leading-[24px] text-[#0E73F6] font-semibold transition-all',
+                      !isCompactPie && 'opacity-0'
+                    )}>
+                    {totalTitle}
                   </div>
+                </div>
+                {isDebug &&
                   <Button
                     theme="clear"
                     className="flex items-center justify-center w-8 h-8"
@@ -151,23 +157,23 @@ function History({
                         : <FilterIcon />
                     }
                   />
+                }
+              </div>
+              <div className="flex flex-col gap-4">
+                <Pie
+                  isCompact={isCompactPie}
+                  title={totalTitle}
+                  period={periodSetting.value}
+                  onLeft={isArrows ? () => {} : null}
+                  onRight={isArrows ? () => {} : null}
+                />
+                <div className="flex flex-wrap gap-x-1 gap-y-2">
+                  {['#82C4B8', '#B89AE4', '#FFBE7C', '#85BADA', '#FF9D97'].map(_ => (
+                    <Category key={_} color={_} />
+                  ))}
                 </div>
-                <div className="flex flex-col gap-4">
-                  <Pie
-                    isCompact={isCompactPie}
-                    title={title}
-                    period={periodSetting.value}
-                    onLeft={isArrows ? () => {} : null}
-                    onRight={isArrows ? () => {} : null}
-                  />
-                  <div className="flex flex-wrap gap-x-1 gap-y-2">
-                    {['#82C4B8', '#B89AE4', '#FFBE7C', '#85BADA', '#FF9D97'].map(_ => (
-                      <Category key={_} color={_} />
-                    ))}
-                  </div>
-                </div>
-              </Panel>
-            }
+              </div>
+            </Panel>
 
             <Panel>
               <div className="flex flex-col gap-4">

@@ -7,7 +7,7 @@ import { TShare, TTransaction } from '../types'
 
 import Button from '../kit/Button'
 
-import { useUsers } from '../hooks'
+import { useCategories, useUsers } from '../hooks'
 
 import { ReactComponent as EditIcon } from '../assets/edit.svg'
 
@@ -18,12 +18,12 @@ const Transaction = ({ tx }: { tx: TTransaction }) => {
   const { t } = useTranslation()
   const navigate = useNavigate()
   const [initDataUnsafe] = useInitData()
-  const { setTxId, setIsEditTx, categories } = useStore()
+  const { setTxId, setIsEditTx } = useStore()
   const { getUserById } = useUsers()
+  const { getCategoryColor, getCategoryEmoji } = useCategories()
 
-  const category = categories?.[tx.category || '']
-  const backgroundColor = category?.hue ? `hsla(${category.hue}, 100%, 74%, 1)` : '#8884'
-  const emoji = category?.emoji || ' '
+  const backgroundColor = getCategoryColor(tx.category)
+  const emoji = getCategoryEmoji(tx.category)
 
   const myShare: TShare | undefined =
     tx.shares.find(share => share.related_user_id === initDataUnsafe.user?.id && share.is_payer === true) ||
