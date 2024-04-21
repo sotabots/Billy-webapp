@@ -82,10 +82,10 @@ function History({
     setIsFilterOpen(false)
   }
 
-  const { totalFormatted, totalCategories } = useTotal()
-
   const [fromTime, setFromTime] = useState<null | number>(null)
   const [toTime, setToTime] = useState<null | number>(null)
+
+  const { totalFormatted, totalCategories } = useTotal()
 
   type TGroups = {
     [key: string]: TTransaction[]
