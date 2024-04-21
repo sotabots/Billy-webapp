@@ -43,6 +43,8 @@ export const useTotal = () => {
       return acc
     }, [] as TRawCategory[])
 
+  rawCategories.sort((_1, _2) => _1.amount > _2.amount ? -1 : 1)
+
   const total = rawCategories.reduce((acc, _) => (acc + _.amount), 0)
   const totalFormatted = `${formatAmount(total)}${chatCurrencySymbol}`
 
