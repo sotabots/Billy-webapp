@@ -16,8 +16,7 @@ import DatePicker from '../kit/DatePicker'
 import { closeApp } from '../utils'
 
 import { useStore } from '../store'
-import { useCurrencies } from '../hooks'
-import { formatAmount } from '../utils'
+import { useTotal } from '../hooks'
 
 import { ReactComponent as FilterIcon } from '../assets/filter.svg'
 import { ReactComponent as FilterActiveIcon } from '../assets/filter-active.svg'
@@ -36,9 +35,7 @@ function History({
 }) {
   const { t } = useTranslation()
 
-  const { getCurrencyById } = useCurrencies()
-
-  const { isDebug, transactions, chat } = useStore()
+  const { isDebug, transactions } = useStore()
 
   const totalSettings = [
     {
@@ -85,38 +82,10 @@ function History({
     setIsFilterOpen(false)
   }
 
-  // const { totalTitle, totalCategories, pieSclies } = useTotal()
+  const { totalFormatted, totalCategories } = useTotal()
 
-  const chatDefaultCurrencyId = 'USD'
-  const total = 38654.55
-  const chatCurrency = getCurrencyById(chat?.default_currency || chatDefaultCurrencyId)
-  const totalTitle = `${formatAmount(total)}${chatCurrency?.symbol || '$'}`
-
-  const cats = [
-    {
-      categoryKey: 'life_entertainment',
-      amountFormatted: '1$',
-      relativeValue: 2,
-    },
-    {
-      categoryKey: 'food_drinks',
-      amountFormatted: '2$',
-      relativeValue: 1,
-    },
-    {
-      categoryKey: 'other',
-      amountFormatted: '3$',
-      relativeValue: 1,
-    },
-    {
-      categoryKey: 'unknown',
-      amountFormatted: '4$',
-      relativeValue: 1,
-    },
-  ]
-
-  const [ts1, setTs1] = useState<null | number>(null)
-  const [ts2, setTs2] = useState<null | number>(null)
+  const [fromTime, setFromTime] = useState<null | number>(null)
+  const [toTime, setToTime] = useState<null | number>(null)
 
   type TGroups = {
     [key: string]: TTransaction[]
@@ -167,7 +136,7 @@ function History({
                       'text-[16px] leading-[24px] text-[#0E73F6] font-semibold transition-all',
                       !isCompactPie && 'opacity-0'
                     )}>
-                    {totalTitle}
+                    {totalFormatted}
                   </div>
                 </div>
                 {isDebug &&
@@ -186,15 +155,15 @@ function History({
               <div className="flex flex-col gap-4">
                 <Pie
                   isCompact={isCompactPie}
-                  title={totalTitle}
+                  title={totalFormatted}
                   period={periodSetting.value}
-                  slices={cats}
+                  slices={totalCategories}
                   onLeft={isArrows ? () => {} : null}
                   onRight={isArrows ? () => {} : null}
                 />
                 <div className="flex flex-wrap gap-x-1 gap-y-2">
-                  {cats.map(cat => (
-                    <Category categoryKey={cat.categoryKey} amountFormatted={cat.amountFormatted} />
+                  {totalCategories.map(item => (
+                    <Category categoryKey={item.categoryKey} amountFormatted={item.amountFormatted} />
                   ))}
                 </div>
               </div>
@@ -264,16 +233,16 @@ function History({
                   <DatePicker
                     className="w-[50%]"
                     placeholder="Select a first date"
-                    timestamp={ts1}
-                    onChange={setTs1}
+                    timestamp={fromTime}
+                    onChange={setFromTime}
                   />
                   <span>−</span>
                   <DatePicker
                     className="w-[50%]"
                     placeholder="Select a last date"
-                    timestamp={ts2}
                     isRight
-                    onChange={setTs2}
+                    timestamp={toTime}
+                    onChange={setToTime}
                   />
                 </div>
               </div>
