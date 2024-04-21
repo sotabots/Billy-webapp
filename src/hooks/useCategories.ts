@@ -14,7 +14,7 @@ export const useCategories = () => {
     const category = getCategory(categoryKey)
     const hue = category ? category.hue : 0
     const saturation = category ? '100%' : '0%'
-    const lightness = '66%'
+    const lightness = category ? '66%' : '80%'
     return `hsla(${hue}, ${saturation}, ${lightness}, ${aplha})`
   }
 
