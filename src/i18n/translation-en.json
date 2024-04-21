@@ -59,6 +59,10 @@
   "featureSoon": "This feature will be available soon",
   "okay": "Okay",
 
+  "total": "Total",
+  "periodAllTime": "All time",
+  "categoryUnknown": "Unknown",
+
   "transactions": "Transactions",
   "youLent": "You lent",
   "youOwe": "You owe",

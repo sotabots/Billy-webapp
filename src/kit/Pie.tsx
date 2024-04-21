@@ -1,4 +1,5 @@
 import cx from 'classnames'
+import { useTranslation } from 'react-i18next'
 
 import Button from '../kit/Button'
 
@@ -18,6 +19,7 @@ const Pie = ({ isCompact, title, period, slices, onLeft, onRight }: {
   onLeft: null | VoidFunction
   onRight: null | VoidFunction
 }) => {
+  const { t } = useTranslation()
   const { getCategoryColor } = useCategories()
 
   const transition = 'transition-all ease-linear duration-250'
@@ -59,7 +61,7 @@ const Pie = ({ isCompact, title, period, slices, onLeft, onRight }: {
           )}>
           <div className="font-semibold text-[24px] leading-[32px]">{title}</div>
           <div className="text-[16px] leading-[24px] text-[#5B6871] tracking-[-0.176px]">
-            {period === 'ALL_TIME' && 'All time'}
+            {period === 'ALL_TIME' && t('periodAllTime')}
           </div>
         </div>
       </div>

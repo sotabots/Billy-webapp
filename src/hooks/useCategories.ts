@@ -1,6 +1,9 @@
+import { useTranslation } from 'react-i18next'
+
 import { useStore } from '../store'
 
 export const useCategories = () => {
+  const { t, i18n } = useTranslation()
   const { categories } = useStore()
 
   const getCategory = (categoryKey: string | null) => {
@@ -17,12 +20,18 @@ export const useCategories = () => {
 
   const getCategoryEmoji = (categoryKey: string | null) => {
     const category = getCategory(categoryKey)
-    return category?.emoji || ' '
+    return category?.emoji || '❔'
   }
 
   const getCategoryName = (categoryKey: string | null) => {
     const category = getCategory(categoryKey)
-    return (typeof category?.name === 'object' ? category?.name.en : category?.name) || 'Unknown' // todo: improve i18n
+    return (typeof category?.name === 'object'
+      ? (
+        Object.keys(category.name).includes(i18n.language)
+        ? category.name[i18n.language as 'en' | 'ru']
+        : category.name.en
+      )
+      : (category?.name) || t('categoryUnknown'))
   }
 
   return { getCategory, getCategoryColor, getCategoryEmoji, getCategoryName }

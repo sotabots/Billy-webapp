@@ -49,6 +49,10 @@
   "featureSoon": "Ця функція незабаром стане доступною",
   "okay": "Добре",
 
+  "total": "Всього",
+  "periodAllTime": "За все время",
+  "categoryUnknown": "Невідомо",
+
   "transactions": "Витрати",
   "youLent": "Ви позичили",
   "youOwe": "Ви повинні",

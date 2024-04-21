@@ -54,7 +54,7 @@ function History({
 
   const periodSettings = [
     {
-      title: 'All time',
+      title: t('periodAllTime'),
       value: 'ALL_TIME',
     },
     {
@@ -158,7 +158,7 @@ function History({
                 <div className="flex items-center gap-1">
                   <h3>
                     {({
-                      'ALL_CHAT': 'Total',
+                      'ALL_CHAT': t('total'),
                       'ONLY_MINE': 'My Total',
                     })[totalSetting.value] || ''}
                   </h3>

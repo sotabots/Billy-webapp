@@ -59,6 +59,10 @@
   "featureSoon": "Эта функция скоро станет доступна",
   "okay": "Хорошо",
 
+  "total": "Всего",
+  "periodAllTime": "За всё время",
+  "categoryUnknown": "Неизвестно",
+
   "transactions": "Траты",
   "youLent": "Вы одолжили",
   "youOwe": "Вы должны",

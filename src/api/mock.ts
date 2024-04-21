@@ -94,7 +94,7 @@ const _mockChat: TChat = {
 
 // demo data
 
-const tgLanguageCode = window.Telegram?.WebApp.initDataUnsafe.user?.language_code || 'en'
+const tgLanguageCode = 'ru' || window.Telegram?.WebApp.initDataUnsafe.user?.language_code || 'en'
 const isRus = tgLanguageCode === 'ru' || tgLanguageCode === 'uk'
 
 const demoUsers: TUser[] = [
