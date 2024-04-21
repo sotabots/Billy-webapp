@@ -11,7 +11,7 @@ export const useTotal = () => {
   const chatDefaultCurrencyId = 'USD'
 
   const chatCurrency = getCurrencyById(chat?.default_currency || chatDefaultCurrencyId)
-  const currencySymbol = chatCurrency?.symbol || '$'
+  const chatCurrencySymbol = chatCurrency?.symbol || '$'
 
   type TRawCategory = {
     categoryKey: string
@@ -44,7 +44,7 @@ export const useTotal = () => {
     }, [] as TRawCategory[])
 
   const total = rawCategories.reduce((acc, _) => (acc + _.amount), 0)
-  const totalFormatted = `${formatAmount(total)}${currencySymbol}`
+  const totalFormatted = `${formatAmount(total)}${chatCurrencySymbol}`
 
   const totalCategories: {
     categoryKey: string
@@ -52,23 +52,9 @@ export const useTotal = () => {
     relativeValue: number
   }[] = rawCategories.map(({ categoryKey, amount }) => ({
     categoryKey,
-    amountFormatted: `${formatAmount(2)}${currencySymbol}`,
+    amountFormatted: `${formatAmount(amount)}${chatCurrencySymbol}`,
     relativeValue: amount / total,
   }))
-  /*
-  const totalCategories = [
-    {
-      categoryKey: 'life_entertainment',
-      amountFormatted: `${formatAmount(2)}${currencySymbol}`,
-      relativeValue: 2,
-    },
-    {
-      categoryKey: 'unknown',
-      amountFormatted: `${formatAmount(1)}${currencySymbol}`,
-      relativeValue: 1,
-    },
-  ]
-  */
 
   return { totalFormatted, totalCategories }
 }
