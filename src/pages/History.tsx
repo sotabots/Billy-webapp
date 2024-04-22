@@ -1,8 +1,5 @@
 import cx from 'classnames'
-import { useState, useMemo } from 'react'
 import { useTranslation } from 'react-i18next'
-
-import { TTransaction } from '../types'
 
 import Button from '../kit/Button'
 import Panel from '../kit/Panel'
@@ -16,7 +13,7 @@ import DatePicker from '../kit/DatePicker'
 import { closeApp } from '../utils'
 
 import { useStore } from '../store'
-import { useTotal } from '../hooks'
+import { useTotal, useFilter } from '../hooks'
 
 import { ReactComponent as FilterIcon } from '../assets/filter.svg'
 import { ReactComponent as FilterActiveIcon } from '../assets/filter-active.svg'
@@ -35,86 +32,24 @@ function History({
 }) {
   const { t } = useTranslation()
 
-  const { isDebug, transactions } = useStore()
-
-  const totalSettings = [
-    {
-      title: 'All chat',
-      value: 'ALL_CHAT',
-    },
-    {
-      title: 'Only mine',
-      value: 'ONLY_MINE'
-    },
-  ]
-  const totalSettingDefault = totalSettings[0]
-
-  const periodSettings = [
-    {
-      title: t('periodAllTime'),
-      value: 'ALL_TIME',
-    },
-    {
-      title: 'Month',
-      value: 'MONTH'
-    },
-    {
-      title: 'Week',
-      value: 'WEEK'
-    },
-    {
-      title: 'Custom',
-      value: 'CUSTOM'
-    },
-  ]
-  const periodSettingDefault = periodSettings[0]
-
-  const [totalSetting, setTotalSetting] = useState(totalSettingDefault)
-  const [periodSetting, setPeriodSetting] = useState(periodSettingDefault)
-
-  const isFilterActive =
-    totalSetting.value !== totalSettingDefault.value ||
-    periodSetting.value !== periodSettingDefault.value
-
-  const isArrows = periodSetting.value === 'MONTH' || periodSetting.value === 'WEEK'
+  const { isDebug } = useStore()
 
   const applyFilter = () => {
     setIsFilterOpen(false)
   }
 
-  const [fromTime, setFromTime] = useState<null | number>(null)
-  const [toTime, setToTime] = useState<null | number>(null)
-
   const { totalFormatted, totalCategories } = useTotal()
-
-  type TGroups = {
-    [key: string]: TTransaction[]
-  }
-
-  type TTxGroups = {
-    time: number
-    txs: TTransaction[]
-  }[]
-
-  const txGroups = useMemo(() => {
-    const sortedTransactions = [...transactions || []].sort((tx1, tx2) => tx1.time_created > tx2.time_created ? -1 : 1)
-    const groups: TGroups = sortedTransactions.reduce((groups: TGroups, tx: TTransaction) => {
-      const dateKey = tx.time_created.split('T')[0]
-      if (!groups[dateKey]) {
-        groups[dateKey] = []
-      }
-      groups[dateKey].push(tx)
-      return groups
-    }, {})
-
-    const txGroups: TTxGroups  = Object.keys(groups).map((date) => {
-      return {
-        time: +(new Date(date)),
-        txs: groups[date]
-      }
-    })
-    return txGroups
-  }, [transactions])
+  const {
+    totalSettings,
+    totalSetting, setTotalSetting,
+    periodSettings,
+    periodSetting, setPeriodSetting,
+    fromTime, setFromTime,
+    toTime, setToTime,
+    isFilterActive,
+    isArrows,
+    txGroups,
+  } = useFilter()
 
   return (
     <>
