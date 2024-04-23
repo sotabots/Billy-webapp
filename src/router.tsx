@@ -5,7 +5,7 @@ import SelectUser from './pages/SelectUser'
 import Check from './pages/Check'
 import SelectCurrency from './pages/SelectCurrency'
 import SelectUsers from './pages/SelectUsers'
-import SummaryHistory from './pages/SummaryHistory'
+import SummaryBalance from './pages/SummaryBalance'
 import Soon from './pages/Soon'
 
 export const router = createHashRouter([
@@ -36,11 +36,11 @@ export const router = createHashRouter([
   },
   {
     path: "/summary",
-    element: <SummaryHistory tab="summary" />,
+    element: <SummaryBalance tab="summary" />,
   },
   {
-    path: "/history",
-    element: <SummaryHistory tab="history" />,
+    path: "/balance",
+    element: <SummaryBalance tab="balance" />,
   },
   {
     path: "/soon",

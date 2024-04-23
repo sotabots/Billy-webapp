@@ -15,11 +15,11 @@ import { ReactComponent as ChatIcon } from '../assets/chat.svg'
 import { ReactComponent as ChartIcon } from '../assets/chart.svg'
 
 import Summary from './Summary'
-import History from './History'
+import Balance from './Balance'
 
-type TTab = 'summary' | 'history'
+type TTab = 'summary' | 'balance'
 
-function SummaryHistory({ tab }: { tab: TTab }) {
+function SummaryBalance({ tab }: { tab: TTab }) {
   useInit()
 
   const { t } = useTranslation()
@@ -45,7 +45,7 @@ function SummaryHistory({ tab }: { tab: TTab }) {
     setIsCompactPie(e.currentTarget.scrollTop > 0)
   }
 
-  const goDetailedSummary = () => {
+  const goDetailed = () => {
     if (summary) {
       window.open(summary.url, '_blank')
     }
@@ -57,29 +57,29 @@ function SummaryHistory({ tab }: { tab: TTab }) {
       onScroll={onScroll}
     >
       <Header onBack={
-        (tab === 'summary' && isSelected && (() => { setSelectedId(null) })) ||
-        (tab === 'history' && isFilterOpen && (() => { setIsFilterOpen(false) })) ||
+        (tab === 'summary' && isFilterOpen && (() => { setIsFilterOpen(false) })) ||
+        (tab === 'balance' && isSelected && (() => { setSelectedId(null) })) ||
         closeApp
       } />
 
       {!(
-        tab === 'summary' && isSelected ||
-        tab === 'history' && isFilterOpen
+        tab === 'summary' && isFilterOpen ||
+        tab === 'balance' && isSelected
       ) && (
         <Tabs
           className="sticky top-0 mb-[6px] pb-[2px] pt-2 bg-bg2 z-[1]"
           tabs={[
             {
-              icon: ChatIcon,
-              title: t('balance'),
+              icon: ChartIcon,
+              title: t('totalTransactions'),
               isActive: tab === 'summary',
               onClick: selectTab('summary'),
             },
             {
-              icon: ChartIcon,
-              title: t('totalTransactions'),
-              isActive: tab === 'history',
-              onClick: selectTab('history'),
+              icon: ChatIcon,
+              title: t('balance'),
+              isActive: tab === 'balance',
+              onClick: selectTab('balance'),
             },
           ]}
         >
@@ -89,22 +89,22 @@ function SummaryHistory({ tab }: { tab: TTab }) {
 
       {tab === 'summary' && (
         <Summary
-          selectedId={selectedId}
-          setSelectedId={setSelectedId}
-          goDetailedSummary={goDetailedSummary}
-        />
-      )}
-
-      {tab === 'history' && (
-        <History
           isFilterOpen={isFilterOpen}
           setIsFilterOpen={setIsFilterOpen}
           isCompactPie={isCompactPie}
-          goDetailedSummary={goDetailedSummary}
+          goDetailed={goDetailed}
+        />
+      )}
+
+      {tab === 'balance' && (
+        <Balance
+          selectedId={selectedId}
+          setSelectedId={setSelectedId}
+          goDetailed={goDetailed}
         />
       )}
     </Screen>
   )
 }
 
-export default SummaryHistory
+export default SummaryBalance

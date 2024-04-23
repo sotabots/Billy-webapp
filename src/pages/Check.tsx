@@ -150,7 +150,7 @@ function Check() {
           refetchTransactions()
           refetchSummary()
 
-          navigate('/history')
+          navigate('/summary')
           setSuccess(false)
         } else {
           window.Telegram?.WebApp.close()

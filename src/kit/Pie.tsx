@@ -26,17 +26,22 @@ const Pie = ({ isCompact, title, period, slices, onLeft, onRight }: {
 
   const sum = slices.reduce((acc, slice) => acc + slice.relativeValue, 0)
 
+  const slicesFallback = slices.length ? slices : [{
+    categoryKey: 'unknown',
+    relativeValue: 1,
+  }]
+
   let acc = 0
   let gradient = ''
 
-  for (let i = 0; i < slices.length; i++) {
-    const slice = slices[i]
+  for (let i = 0; i < slicesFallback.length; i++) {
+    const slice = slicesFallback[i]
     const accPrev = acc
     acc += slice.relativeValue
     const fromPercent = (accPrev * 100 / sum).toFixed(2)
     const toPercent = (acc * 100 / sum).toFixed(2)
     const color = getCategoryColor(slice.categoryKey)
-    gradient += `${i > 0 ? ', ' : ''}${color} ${i === 0 ? 0 : fromPercent}%, ${color} ${i === slices.length - 1 ? 100 : toPercent}%`
+    gradient += `${i > 0 ? ', ' : ''}${color} ${i === 0 ? 0 : fromPercent}%, ${color} ${i === slicesFallback.length - 1 ? 100 : toPercent}%`
   }
 
   return (
