@@ -30,7 +30,7 @@ export const useInit = () => {
   let startParamTxId
   let startParamSummaryId
 
-  if (routerLocation.pathname === '/summary') {
+  if (routerLocation.pathname === '/summary' || routerLocation.pathname === '/balance') {
     startParamSummaryId = startParam
   } else {
     startParamTxId = startParam

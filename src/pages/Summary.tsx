@@ -19,7 +19,7 @@ import { ReactComponent as FilterIcon } from '../assets/filter.svg'
 import { ReactComponent as FilterActiveIcon } from '../assets/filter-active.svg'
 
 
-function History({
+function Summary({
   isFilterOpen,
   setIsFilterOpen,
   isCompactPie,
@@ -194,4 +194,4 @@ function History({
   )
 }
 
-export default History
+export default Summary
