@@ -6,7 +6,8 @@ import { TTransaction } from '../types'
 
 export const useTotal = () => {
   const { getCurrencyById } = useCurrencies()
-  const { transactions, rates, chat } = useStore()
+  const { transactions, /*rates,*/ chat } = useStore()
+  const rates = chat?.rates
 
   const chatDefaultCurrencyId = 'USD'
 

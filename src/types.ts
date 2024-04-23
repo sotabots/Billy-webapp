@@ -58,6 +58,7 @@ export type TRates = {
 export type TChat = {
   default_currency: TCurrencyId | null
   language_code: string // 'en' | 'ru' | 'uk' (or any string)
+  rates: TRates
 }
 
 export type TSummary = {

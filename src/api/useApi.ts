@@ -2,7 +2,7 @@ import { useInitData } from '@vkruglikov/react-telegram-web-app'
 import { useQuery } from '@tanstack/react-query'
 
 import { useStore } from '../store'
-import { TCurrency, TRates, TCategories, TTransaction, TNewTransaction, TUser, TChat, TSummary } from '../types'
+import { TCurrency, /* TRates, */ TCategories, TTransaction, TNewTransaction, TUser, TChat, TSummary } from '../types'
 import {
   mockTransaction,
   mockUsers,
@@ -106,7 +106,7 @@ export const useGetCurrencies = (chatId: undefined | number | null) => {
   return (
     useQuery<TCurrency[], Error>({
       queryKey: ['currencies'],
-      queryFn: (chatId || !!'DISABLE_MOCK_CURRENCIES')
+      queryFn: (chatId)
         ? () =>
           fetch(`${apiUrl}/currencies/`, {
             method: 'GET',
@@ -114,7 +114,6 @@ export const useGetCurrencies = (chatId: undefined | number | null) => {
               'Authorization': initData,
             }
           }).then(handleJsonResponse)
-          // .then(json => json.currencies)
         : () => mockCurrencies,
       onSuccess: (data) => {
         console.log('useApi: set currencies', data)
@@ -126,6 +125,7 @@ export const useGetCurrencies = (chatId: undefined | number | null) => {
   )
 }
 
+/*
 export const useGetRates = () => {
   const [, initData] = useInitData()
   const { setRates } = useStore()
@@ -148,6 +148,7 @@ export const useGetRates = () => {
     })
   )
 }
+*/
 
 export const usePutTransaction = () => {
   const [, initData] = useInitData()

@@ -1,4 +1,4 @@
-import { TShare, TTransaction, TUser, TChat, TSummary } from '../types'
+import { TShare, TTransaction, TUser, TChat, TSummary, TRates } from '../types'
 import { mockCurrencies } from './mockCurrencies'
 
 import { decimals } from '../const'
@@ -87,9 +87,15 @@ const _mockTransaction: TTransaction = {
   category: null,
 }
 
+const mockRates = mockCurrencies.reduce((acc, currency) => {
+  acc[`USD${currency._id}`] = 1
+  return acc
+}, {} as TRates)
+
 const _mockChat: TChat = {
   default_currency: mockCurrencies[0]._id,
-  language_code: 'en'
+  language_code: 'en',
+  rates: mockRates,
 }
 
 // demo data
@@ -223,7 +229,8 @@ const demoTransaction: TTransaction = {
 
 const demoChat: TChat = {
   default_currency: isRus ? 'RUB' : 'USD',
-  language_code: tgLanguageCode
+  language_code: tgLanguageCode,
+  rates: mockRates,
 }
 
 const isDemo = true
