@@ -64,7 +64,7 @@
   "categoryUnknown": "Неизвестно",
 
   "transactions": "Траты",
-  "yourBalance": "Ваш баланс",
+  "myBalance": "Мой баланс",
   "statusUnconfirmed": "Не подтверждено",
   "statusCanceled": "Отменено",
   "statusEditedBy": "Отредактировано:"

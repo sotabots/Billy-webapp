@@ -54,7 +54,7 @@
   "categoryUnknown": "Невідомо",
 
   "transactions": "Витрати",
-  "yourBalance": "Ваш баланс",
+  "myBalance": "Мій баланс",
   "statusUnconfirmed": "Не підтверджено",
   "statusCanceled": "Скасовано",
   "statusEditedBy": "Редаговано:"

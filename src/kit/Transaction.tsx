@@ -61,7 +61,7 @@ const Transaction = ({ tx }: { tx: TTransaction }) => {
           myBalanceDelta > 0 && 'text-[#119C2B]',
           myBalanceDelta < 0 && 'text-[#CC0905]',
         )}>
-          <span>{t('yourBalance')}</span>
+          <span>{t('myBalance')}</span>
           <span>{myBalanceDelta < 0 ? '−' : '+'} {formatAmount(Math.abs(myBalanceDelta))} {tx.currency_id}</span>
         </div>
         )}

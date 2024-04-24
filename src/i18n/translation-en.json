@@ -64,7 +64,7 @@
   "categoryUnknown": "Unknown",
 
   "transactions": "Transactions",
-  "yourBalance": "Your balance",
+  "myBalance": "My balance",
   "statusUnconfirmed": "Unconfirmed",
   "statusCanceled": "Canceled",
   "statusEditedBy": "Edited by"
