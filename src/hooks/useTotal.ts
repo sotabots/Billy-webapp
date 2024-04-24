@@ -46,6 +46,13 @@ export const useTotal = () => {
 
   rawCategories.sort((_1, _2) => _1.amount > _2.amount ? -1 : 1)
 
+  if (rawCategories.length === 0) {
+    rawCategories.push({
+      categoryKey: 'unknown',
+      amount: 0,
+    })
+  }
+
   const total = rawCategories.reduce((acc, _) => (acc + _.amount), 0)
   const totalFormatted = `${formatAmount(total)}${chatCurrencySymbol}`
 
