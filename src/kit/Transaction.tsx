@@ -25,9 +25,10 @@ const Transaction = ({ tx }: { tx: TTransaction }) => {
   const backgroundColor = getCategoryColor(tx.category)
   const emoji = getCategoryEmoji(tx.category)
 
-  const myShare: TShare | undefined =
-    tx.shares.find(share => share.related_user_id === initDataUnsafe.user?.id && share.is_payer === true) ||
-    tx.shares.find(share => share.related_user_id === initDataUnsafe.user?.id && share.is_payer === false)
+  const myShares: TShare[] = tx.shares.filter(share => share.related_user_id === initDataUnsafe.user?.id)
+  const myBalanceDelta: number = myShares.reduce((acc, share) =>
+    acc + share.amount * (share.is_payer ? 1 : -1)
+  , 0)
 
   const payerShares = tx.shares
     .filter(share => share.is_payer)
@@ -54,13 +55,14 @@ const Transaction = ({ tx }: { tx: TTransaction }) => {
             <span>{formatAmount(payerShare.amount)} {tx.currency_id}</span>
           </div>
         ))}
-        {!!myShare && !(!tx.is_confirmed || tx.is_canceled) && (
+        {!!myBalanceDelta && !(!tx.is_confirmed || tx.is_canceled) && (
         <div className={cx(
           'flex gap-2 items-center justify-between rounded-[4px] px-2 bg-[#8881] font-semibold',
-          myShare.is_payer ? 'text-[#119C2B]' : 'text-[#CC0905]'
+          myBalanceDelta > 0 && 'text-[#119C2B]',
+          myBalanceDelta < 0 && 'text-[#CC0905]',
         )}>
-          <span>{myShare.is_payer ? t('youLent') : t('youOwe')}</span>
-          <span>{formatAmount(myShare.amount)} {tx.currency_id}</span>
+          <span>{t('yourBalance')}</span>
+          <span>{myBalanceDelta < 0 ? '−' : '+'} {formatAmount(myBalanceDelta)} {tx.currency_id}</span>
         </div>
         )}
         {!!tx.nutshell && (

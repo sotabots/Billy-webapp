@@ -64,8 +64,7 @@
   "categoryUnknown": "Unknown",
 
   "transactions": "Transactions",
-  "youLent": "You lent",
-  "youOwe": "You owe",
+  "yourBalance": "Your balance",
   "statusUnconfirmed": "Unconfirmed",
   "statusCanceled": "Canceled",
   "statusEditedBy": "Edited by"

@@ -64,8 +64,7 @@
   "categoryUnknown": "Неизвестно",
 
   "transactions": "Траты",
-  "youLent": "Вы одолжили",
-  "youOwe": "Вы должны",
+  "yourBalance": "Ваш баланс",
   "statusUnconfirmed": "Не подтверждено",
   "statusCanceled": "Отменено",
   "statusEditedBy": "Отредактировано:"

@@ -54,8 +54,7 @@
   "categoryUnknown": "Невідомо",
 
   "transactions": "Витрати",
-  "youLent": "Ви позичили",
-  "youOwe": "Ви повинні",
+  "yourBalance": "Ваш баланс",
   "statusUnconfirmed": "Не підтверджено",
   "statusCanceled": "Скасовано",
   "statusEditedBy": "Редаговано:"
