@@ -105,7 +105,7 @@ export const useGetCurrencies = (chatId: undefined | number | null) => {
 
   return (
     useQuery<TCurrency[], Error>({
-      queryKey: ['currencies'],
+      queryKey: ['currencies', `chat-${chatId}`],
       queryFn: (chatId)
         ? () =>
           fetch(`${apiUrl}/currencies/`, {

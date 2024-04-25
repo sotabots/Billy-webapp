@@ -37,8 +37,8 @@ function OverlayError() {
         <div className="p-4 text-[#e00]">
           Backend error: {error?.message}
         </div>
+        <Debug />
       </div>
-      <Debug />
     </Overlay>
   )
 }

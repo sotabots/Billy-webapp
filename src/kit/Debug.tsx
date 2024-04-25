@@ -49,6 +49,10 @@ function Debug() {
     </details>
   )
 
+  if (!isDebug) {
+    return null
+  }
+
   return (
     <div className={cx(!isDebug && 'h-0 overflow-hidden')}>
       <Panel className="mt-10 text-[12px] break-words opacity-70 overflow-x-auto [&>pre]:whitespace-pre-wrap">
