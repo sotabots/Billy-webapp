@@ -4,6 +4,7 @@ import { useEffect } from 'react'
 
 import { useSplash } from '../hooks'
 
+import Debug from '../kit/Debug'
 import Overlay from '../kit/Overlay'
 
 import lottieKoalaForbidden from '../assets/animation-koala-forbidden.json'
@@ -37,6 +38,7 @@ function OverlayError() {
           Backend error: {error?.message}
         </div>
       </div>
+      <Debug />
     </Overlay>
   )
 }

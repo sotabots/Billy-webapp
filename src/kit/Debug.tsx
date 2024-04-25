@@ -1,6 +1,6 @@
 import cx from 'classnames'
 import { useCallback, useEffect, useState } from 'react'
-import { useNavigate } from 'react-router-dom'
+// import { useNavigate } from 'react-router-dom'
 
 import Panel from './Panel'
 
@@ -11,7 +11,7 @@ const OPEN_DEBUG_RIGHT_CLICKS = 5
 function Debug() {
   const { transaction, users, txId, summaryId, summaryCurrencyId, setSummaryCurrencyId, summary, chat, currencies, /*rates,*/ categories, transactions, isDebug, setDebug } = useStore()
 
-  const navigate = useNavigate()
+  // const navigate = useNavigate()
 
   const [n, setN] = useState(0)
 
@@ -63,6 +63,7 @@ function Debug() {
           ))
         )}
         <br />
+        {/*
         <button
           className="m-1 p-1 block border border-black"
           onClick={() => { navigate('/soon') }}
@@ -70,6 +71,7 @@ function Debug() {
           <b>Go soon</b>
         </button>
         <br />
+        */}
         {out('window.Telegram?.WebApp', window.Telegram?.WebApp)}
         {out('location.href', location.href)}
         {out('txid', txId)}
