@@ -1,58 +1,43 @@
-import { useState, useMemo } from 'react'
-import { useTranslation } from 'react-i18next'
+import { useInitData } from '@vkruglikov/react-telegram-web-app'
+import { useMemo, useState } from 'react'
 
 import { TTransaction } from '../types'
 
 import { useStore } from '../store'
 
 export const useFilter = () => {
-  const { t } = useTranslation()
+  const [initDataUnsafe] = useInitData()
 
-  const { transactions } = useStore()
+  const {
+    transactions,
+    isFilterOpen, setIsFilterOpen,
+    filterTotal, setFilterTotal,
+    filterTotalPre, setFilterPeriodPre,
+    filterPeriod, setFilterPeriod,
+    filterPeriodPre, setFilterTotalPre
+  } = useStore()
 
-  const totalSettings = [
-    {
-      title: t('allChat'),
-      value: 'ALL_CHAT',
-    },
-    {
-      title: t('onlyMine'),
-      value: 'ONLY_MINE'
-    },
-  ]
-  const totalSettingDefault = totalSettings[0]
-
-  const periodSettings = [
-    {
-      title: t('allTime'),
-      value: 'ALL_TIME',
-    },
-    {
-      title: t('month'),
-      value: 'MONTH'
-    },
-    {
-      title: t('week'),
-      value: 'WEEK'
-    },
-    {
-      title: t('custom'),
-      value: 'CUSTOM'
-    },
-  ]
-  const periodSettingDefault = periodSettings[0]
-
-  const [totalSetting, setTotalSetting] = useState(totalSettingDefault)
-  const [periodSetting, setPeriodSetting] = useState(periodSettingDefault)
+  const openFilter = () => {
+    setIsFilterOpen(true)
+  }
+  const closeFilter = () => {
+    setIsFilterOpen(false)
+    setFilterTotalPre(filterTotal)
+    setFilterPeriodPre(filterPeriod)
+  }
+  const applyFilter = () => {
+    setIsFilterOpen(false)
+    setFilterTotal(filterTotalPre)
+    setFilterPeriod(filterPeriodPre)
+  }
 
   const [fromTime, setFromTime] = useState<null | number>(null)
   const [toTime, setToTime] = useState<null | number>(null)
 
-  const isFilterActive =
-    totalSetting.value !== totalSettingDefault.value ||
-    periodSetting.value !== periodSettingDefault.value
+  const isFilterActive = filterTotal !== 'ALL_CHAT' || filterPeriod !== 'ALL_TIME'
+  const isArrows = filterPeriod === 'MONTH' || filterPeriod === 'WEEK'
 
-  const isArrows = periodSetting.value === 'MONTH' || periodSetting.value === 'WEEK'
+  const filteredTransactions = (transactions || []).filter(tx => filterTotal === 'ALL_CHAT' ? true : tx.shares.some(share => share.related_user_id === initDataUnsafe.user?.id))
 
   type TGroups = {
     [key: string]: TTransaction[]
@@ -64,7 +49,7 @@ export const useFilter = () => {
   }[]
 
   const txGroups = useMemo(() => {
-    const sortedTransactions = [...transactions || []].sort((tx1, tx2) => tx1.time_created > tx2.time_created ? -1 : 1)
+    const sortedTransactions = [...filteredTransactions].sort((tx1, tx2) => tx1.time_created > tx2.time_created ? -1 : 1)
     const groups: TGroups = sortedTransactions.reduce((groups: TGroups, tx: TTransaction) => {
       const dateKey = tx.time_created.split('T')[0]
       if (!groups[dateKey]) {
@@ -85,14 +70,17 @@ export const useFilter = () => {
 
   
   return {
-    periodSettings,
-    periodSetting, setPeriodSetting,
-    totalSettings,
-    totalSetting, setTotalSetting,
+    isFilterOpen,
+    openFilter,
+    closeFilter,
+    applyFilter,
+    filterTotal, filterTotalPre, setFilterTotalPre,
+    filterPeriod, filterPeriodPre, setFilterPeriodPre,
     fromTime, setFromTime,
     toTime, setToTime,
     isFilterActive,
     isArrows,
     txGroups,
+    filteredTransactions,
   }
 }

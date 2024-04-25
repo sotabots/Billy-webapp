@@ -4,9 +4,9 @@ import { formatAmount } from '../utils'
 import { useStore } from '../store'
 import { TTransaction } from '../types'
 
-export const useTotal = () => {
+export const useTotal = ({ filteredTransactions }: { filteredTransactions: TTransaction[] }) => {
   const { getCurrencyById } = useCurrencies()
-  const { transactions, /*rates,*/ chat } = useStore()
+  const { /*rates,*/ chat } = useStore()
   const rates = chat?.rates
 
   const chatDefaultCurrencyId = 'USD'
@@ -19,7 +19,7 @@ export const useTotal = () => {
     amount: number
   }
 
-  const rawCategories: TRawCategory[] = (transactions || [])
+  const rawCategories: TRawCategory[] = filteredTransactions
     .filter((tx: TTransaction) => !tx.is_canceled && tx.is_confirmed && !!tx.currency_id)
     .reduce((acc, tx) => {
       if (!rates) {

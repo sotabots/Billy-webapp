@@ -1,6 +1,6 @@
 import { create } from 'zustand'
 
-import { TCurrency, TCurrencyId, /*TRates,*/ TTransaction, TUser, TChat, TSummary, TCategories } from '../types'
+import { TCurrency, TCurrencyId, /*TRates,*/ TTransaction, TUser, TChat, TSummary, TCategories, TFilterTotal, TFilterPeriod } from '../types'
 
 type TStore = {
   overlays: number[]
@@ -45,6 +45,19 @@ type TStore = {
 
   isEditTx: boolean
   setIsEditTx: (isEditTx: boolean) => void
+
+  isFilterOpen: boolean
+  setIsFilterOpen: (isFilterOpen: boolean) => void
+
+  filterTotal: TFilterTotal
+  setFilterTotal: (filterTotal: TFilterTotal) => void
+  filterTotalPre: TFilterTotal
+  setFilterTotalPre: (filterTotalPre: TFilterTotal) => void
+
+  filterPeriod: TFilterPeriod
+  setFilterPeriod: (filterPeriod: TFilterPeriod) => void
+  filterPeriodPre: TFilterPeriod
+  setFilterPeriodPre: (filterPeriodPre: TFilterPeriod) => void
 
   isDebug: boolean
   setDebug: (isDebug: boolean) => void
@@ -104,6 +117,19 @@ export const useStore = create<TStore>((set, get) => ({
 
   isEditTx: false,
   setIsEditTx: (isEditTx) => set(( { isEditTx } )),
+
+  isFilterOpen: false,
+  setIsFilterOpen: (isFilterOpen) => set(( { isFilterOpen } )),
+
+  filterTotal: 'ALL_CHAT',
+  setFilterTotal: (filterTotal) => set(( { filterTotal } )),
+  filterTotalPre: 'ALL_CHAT',
+  setFilterTotalPre: (filterTotalPre) => set(( { filterTotalPre } )),
+
+  filterPeriod: 'ALL_TIME',
+  setFilterPeriod: (filterPeriod) => set(( { filterPeriod } )),
+  filterPeriodPre: 'ALL_TIME',
+  setFilterPeriodPre: (filterPeriodPre) => set(( { filterPeriodPre } )),
 
   isDebug: false,
   setDebug: (isDebug) => set(( { isDebug } )),

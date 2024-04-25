@@ -17,16 +17,13 @@ import { useTotal, useFilter } from '../hooks'
 
 import { ReactComponent as FilterIcon } from '../assets/filter.svg'
 import { ReactComponent as FilterActiveIcon } from '../assets/filter-active.svg'
+import { TFilterPeriod, TFilterTotal } from '../types'
 
 
 function Summary({
-  isFilterOpen,
-  setIsFilterOpen,
   isCompactPie,
   goDetailed
 }: {
-  isFilterOpen: boolean
-  setIsFilterOpen: (isFilterOpen: boolean) => void
   isCompactPie: boolean
   goDetailed: () => void
 }) {
@@ -34,22 +31,54 @@ function Summary({
 
   const { isDebug } = useStore()
 
-  const applyFilter = () => {
-    setIsFilterOpen(false)
-  }
-
-  const { totalFormatted, totalCategories } = useTotal()
   const {
-    totalSettings,
-    totalSetting, setTotalSetting,
-    periodSettings,
-    periodSetting, setPeriodSetting,
+    isFilterOpen,
+    openFilter,
+    applyFilter,
+    filterTotalPre,
+    filterPeriodPre,
+    setFilterTotalPre,
+    setFilterPeriodPre,
+    filterTotal,
+    filterPeriod,
     fromTime, setFromTime,
     toTime, setToTime,
     isFilterActive,
     isArrows,
     txGroups,
+    filteredTransactions,
   } = useFilter()
+  const { totalFormatted, totalCategories } = useTotal({ filteredTransactions })
+
+  const radioItemsTotal = [
+    {
+      title: t('allChat'),
+      value: 'ALL_CHAT',
+    },
+    {
+      title: t('onlyMine'),
+      value: 'ONLY_MINE'
+    },
+  ]
+
+  const radioItemsPeriod = [
+    {
+      title: t('allTime'),
+      value: 'ALL_TIME',
+    },
+    {
+      title: t('month'),
+      value: 'MONTH'
+    },
+    {
+      title: t('week'),
+      value: 'WEEK'
+    },
+    {
+      title: t('custom'),
+      value: 'CUSTOM'
+    },
+  ]
 
   return (
     <>
@@ -60,10 +89,8 @@ function Summary({
               <div className="flex items-center justify-between gap-4">
                 <div className="flex items-center gap-1">
                   <h3>
-                    {({
-                      'ALL_CHAT': t('total'),
-                      'ONLY_MINE': t('myTotal'),
-                    })[totalSetting.value] || ''}
+                    {filterTotal === 'ALL_CHAT' && t('total')}
+                    {filterTotal === 'ONLY_MINE' && t('myTotal')}
                   </h3>
                   <div
                     className={cx(
@@ -73,24 +100,22 @@ function Summary({
                     {totalFormatted}
                   </div>
                 </div>
-                {isDebug &&
-                  <Button
-                    theme="clear"
-                    className="flex items-center justify-center w-8 h-8"
-                    onClick={() => { setIsFilterOpen(true) }}
-                    text={
-                      isFilterActive
-                        ? <FilterActiveIcon />
-                        : <FilterIcon />
-                    }
-                  />
-                }
+                <Button
+                  theme="clear"
+                  className="flex items-center justify-center w-8 h-8"
+                  onClick={openFilter}
+                  text={
+                    isFilterActive
+                      ? <FilterActiveIcon />
+                      : <FilterIcon />
+                  }
+                />
               </div>
               <div className="flex flex-col gap-4">
                 <Pie
                   isCompact={isCompactPie}
                   title={totalFormatted}
-                  period={periodSetting.value}
+                  period={filterPeriod}
                   slices={totalCategories}
                   onLeft={isArrows ? () => {} : null}
                   onRight={isArrows ? () => {} : null}
@@ -150,17 +175,18 @@ function Summary({
               <div className="flex flex-col gap-3">
                 <h3>{t('spending')}</h3>
                 <RadioButtons
-                  items={totalSettings}
-                  activeItem={totalSetting}
-                  onChange={(val) => { setTotalSetting(val) }}
+                  items={radioItemsTotal}
+                  activeValue={filterTotalPre}
+                  onChange={(val: string) => { setFilterTotalPre(val as TFilterTotal) }}
                 />
               </div>
+              {isDebug && (
               <div className="flex flex-col gap-3">
                 <h3>{t('period')}</h3>
                 <RadioButtons
-                  items={periodSettings}
-                  activeItem={periodSetting}
-                  onChange={(val) => { setPeriodSetting(val) }}
+                  items={radioItemsPeriod}
+                  activeValue={filterPeriodPre}
+                  onChange={(val: string) => { setFilterPeriodPre(val as TFilterPeriod) }}
                 />
                 <div className="flex items-center gap-1">
                   <DatePicker
@@ -179,6 +205,7 @@ function Summary({
                   />
                 </div>
               </div>
+              )}
             </div>
           </Panel>
 

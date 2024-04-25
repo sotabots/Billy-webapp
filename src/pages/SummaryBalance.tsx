@@ -8,7 +8,7 @@ import Screen from '../kit/Screen'
 import Header from '../kit/Header'
 import Tabs from '../kit/Tabs'
 
-import { useInit } from '../hooks'
+import { useInit, useFilter } from '../hooks'
 import { useStore } from '../store'
 
 import { ReactComponent as ChatIcon } from '../assets/chat.svg'
@@ -25,12 +25,12 @@ function SummaryBalance({ tab }: { tab: TTab }) {
   const { t } = useTranslation()
   const navigate = useNavigate()
 
+  const { isFilterOpen, closeFilter } = useFilter()
+
   const { summary } = useStore()
 
   const [selectedId, setSelectedId] = useState<null | string>(null)
   const isSelected = selectedId !== null
-
-  const [isFilterOpen, setIsFilterOpen] = useState(false)
 
   const [isCompactPie, setIsCompactPie] = useState<boolean>(false)
 
@@ -57,7 +57,7 @@ function SummaryBalance({ tab }: { tab: TTab }) {
       onScroll={onScroll}
     >
       <Header onBack={
-        (tab === 'summary' && isFilterOpen && (() => { setIsFilterOpen(false) })) ||
+        (tab === 'summary' && isFilterOpen && (() => { closeFilter() })) ||
         (tab === 'balance' && isSelected && (() => { setSelectedId(null) })) ||
         closeApp
       } />
@@ -89,8 +89,6 @@ function SummaryBalance({ tab }: { tab: TTab }) {
 
       {tab === 'summary' && (
         <Summary
-          isFilterOpen={isFilterOpen}
-          setIsFilterOpen={setIsFilterOpen}
           isCompactPie={isCompactPie}
           goDetailed={goDetailed}
         />

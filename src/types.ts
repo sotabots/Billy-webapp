@@ -84,3 +84,6 @@ export type TCategories = {
     }
   }
 }
+
+export type TFilterTotal = 'ALL_CHAT' | 'ONLY_MINE'
+export type TFilterPeriod = 'ALL_TIME' | 'MONTH' | 'WEEK' | 'CUSTOM'
