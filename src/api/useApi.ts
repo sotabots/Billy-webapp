@@ -42,12 +42,13 @@ export const useGetTx = () => {
         console.log('useApi: set tx', data)
         setTransaction(data)
       },
+      enabled: txId !== undefined,
       staleTime
     })
   )
 }
 
-export const useGetUsers = (chatId: undefined | number | null) => {
+export const useGetUsers = (chatId: undefined | number) => {
   const [, initData] = useInitData()
   const { setUsers } = useStore()
 
@@ -73,7 +74,7 @@ export const useGetUsers = (chatId: undefined | number | null) => {
   )
 }
 
-export const useGetChat = (chatId: undefined | number | null) => {
+export const useGetChat = (chatId: undefined | number) => {
   const [, initData] = useInitData()
   const { setChat } = useStore()
 
@@ -99,7 +100,7 @@ export const useGetChat = (chatId: undefined | number | null) => {
   )
 }
 
-export const useGetCurrencies = (chatId: undefined | number | null) => {
+export const useGetCurrencies = (chatId: undefined | number) => {
   const [, initData] = useInitData()
   const { setCurrencies } = useStore()
 
@@ -239,7 +240,7 @@ export const useGetCategories = () => {
   )
 }
 
-export const useGetTransactions = (chatId: undefined | number | null) => {
+export const useGetTransactions = (chatId: undefined | number) => {
   const [, initData] = useInitData()
   const { setTransactions } = useStore()
 
