@@ -24,6 +24,8 @@ export const useSplash = () => {
       ? new Error(`Unknown tx currency: ${tx.currency_id}`)
       : null
 
+  console.log('splash unknownCurrencyError', !!unknownCurrencyError, unknownCurrencyError, tx, '|' , tx?.currency_id, currencies.length, !currencies.find((currency) => currency._id === tx?.currency_id))
+
   const currencyIds: string[] = [...new Set([
     ...(currencies.map(currency => currency._id)),
     ...((transactions || []).map(tx => tx.currency_id || 'USD'))
