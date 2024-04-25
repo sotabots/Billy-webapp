@@ -100,7 +100,8 @@ function Summary({
                     {totalFormatted}
                   </div>
                 </div>
-                <Button
+                {false && (
+                  <Button
                   theme="clear"
                   className="flex items-center justify-center w-8 h-8"
                   onClick={openFilter}
@@ -110,6 +111,7 @@ function Summary({
                       : <FilterIcon />
                   }
                 />
+                )}
               </div>
               <div className="flex flex-col gap-4">
                 <Pie
