@@ -62,7 +62,7 @@ function Summary({
                   <h3>
                     {({
                       'ALL_CHAT': t('total'),
-                      'ONLY_MINE': 'My Total',
+                      'ONLY_MINE': t('myTotal'),
                     })[totalSetting.value] || ''}
                   </h3>
                   <div
@@ -144,11 +144,11 @@ function Summary({
 
       {isFilterOpen && (
         <>
-          <h2 className="mb-2 px-4 pt-[2px] pb-[6px]">{t('Filter')}</h2>
+          <h2 className="mb-2 px-4 pt-[2px] pb-[6px]">{t('filter')}</h2>
           <Panel>
             <div className="flex flex-col gap-4">
               <div className="flex flex-col gap-3">
-                <h3>Spending</h3>
+                <h3>{t('spending')}</h3>
                 <RadioButtons
                   items={totalSettings}
                   activeItem={totalSetting}
@@ -156,7 +156,7 @@ function Summary({
                 />
               </div>
               <div className="flex flex-col gap-3">
-                <h3>Group by period</h3>
+                <h3>{t('period')}</h3>
                 <RadioButtons
                   items={periodSettings}
                   activeItem={periodSetting}

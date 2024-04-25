@@ -61,7 +61,7 @@ const Pie = ({ isCompact, title, period, slices, onLeft, onRight }: {
           )}>
           <div className="font-semibold text-[24px] leading-[32px]">{title}</div>
           <div className="text-[16px] leading-[24px] text-[#5B6871] tracking-[-0.176px]">
-            {period === 'ALL_TIME' && t('periodAllTime')}
+            {period === 'ALL_TIME' && t('subtitleAllTime')}
           </div>
         </div>
       </div>

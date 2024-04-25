@@ -60,8 +60,19 @@
   "okay": "Okay",
 
   "total": "Total",
-  "periodAllTime": "All time",
+  "myTotal": "My Total",
+  "subtitleAllTime": "All time",
   "categoryUnknown": "Unknown",
+
+  "filter": "Filter",
+  "spending": "Spending",
+  "allChat": "All chat",
+  "onlyMine": "Only mine",
+  "period": "Period",
+  "allTime": "All time",
+  "month": "Month",
+  "week": "Week",
+  "custom": "Custom",
 
   "transactions": "Transactions",
   "myBalance": "My balance",

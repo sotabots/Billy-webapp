@@ -12,11 +12,11 @@ export const useFilter = () => {
 
   const totalSettings = [
     {
-      title: 'All chat',
+      title: t('allChat'),
       value: 'ALL_CHAT',
     },
     {
-      title: 'Only mine',
+      title: t('onlyMine'),
       value: 'ONLY_MINE'
     },
   ]
@@ -24,19 +24,19 @@ export const useFilter = () => {
 
   const periodSettings = [
     {
-      title: t('periodAllTime'),
+      title: t('allTime'),
       value: 'ALL_TIME',
     },
     {
-      title: 'Month',
+      title: t('month'),
       value: 'MONTH'
     },
     {
-      title: 'Week',
+      title: t('week'),
       value: 'WEEK'
     },
     {
-      title: 'Custom',
+      title: t('custom'),
       value: 'CUSTOM'
     },
   ]

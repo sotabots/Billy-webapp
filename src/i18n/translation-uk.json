@@ -50,8 +50,19 @@
   "okay": "Добре",
 
   "total": "Всього",
-  "periodAllTime": "За все время",
+  "myTotal": "Моя сума",
+  "subtitleAllTime": "За все время",
   "categoryUnknown": "Невідомо",
+
+  "filter": "Фільтр",
+  "spending": "Витрати",
+  "allChat": "Весь чат",
+  "onlyMine": "Тільки мої",
+  "period": "Період",
+  "allTime": "Весь час",
+  "month": "Місяць",
+  "week": "Тиждень",
+  "custom": "Вибрати",
 
   "transactions": "Витрати",
   "myBalance": "Мій баланс",
