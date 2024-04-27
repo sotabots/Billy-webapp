@@ -85,6 +85,7 @@ const _mockTransaction: TTransaction = {
   time_created: (new Date()).toISOString(),
   nutshell: null,
   category: null,
+  is_settleup: false,
 }
 
 const mockRates = mockCurrencies.reduce((acc, currency) => {
@@ -225,6 +226,7 @@ const demoTransaction: TTransaction = {
   time_created: (new Date()).toISOString(),
   nutshell: null,
   category: null,
+  is_settleup: false,
 }
 
 const demoChat: TChat = {

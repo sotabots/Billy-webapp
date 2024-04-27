@@ -120,6 +120,7 @@ function Balance({
         ],
         nutshell: null,
         category: null,
+        is_settleup: true,
       }
       const resJson = await postTransaction(newTx)
       console.log('patchTransaction res', resJson)

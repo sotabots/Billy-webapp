@@ -28,6 +28,7 @@ export type TTransaction = {
   nutshell: string | null
   category: string | null
   // todo: improve
+  is_settleup: boolean
 }
 
 export type TNewTransaction = Omit<TTransaction, '_id' | 'time_created'>
