@@ -6,7 +6,6 @@ import User from './User'
 import { useUsers, useCurrencies } from '../hooks'
 import { TDebt } from '../types'
 
-import { useStore } from '../store'
 import { formatAmount } from '../utils'
 
 import { ReactComponent as ToIcon } from '../assets/to.svg'
@@ -15,17 +14,16 @@ type TDebtProps = TDebt & {
   onClick: () => void
 }
 
-function Debt({ from_user, to_user, amount, onClick }: TDebtProps) {
+function Debt({ from_user, to_user, amount, currency_id, onClick }: TDebtProps) {
   const { t } = useTranslation()
 
   const { getUserById } = useUsers()
-  const { chat } = useStore()
 
   const fromUser = getUserById(from_user._id)
   const toUser = getUserById(to_user._id)
 
   const { getCurrencyById } = useCurrencies()
-  const chatCurrency = getCurrencyById(chat?.default_currency || null)
+  const chatCurrency = getCurrencyById(currency_id)
 
   if (!fromUser || !toUser) {
     return null
