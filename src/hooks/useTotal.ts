@@ -9,10 +9,9 @@ export const useTotal = ({ filteredTransactions }: { filteredTransactions: TTran
   const { /*rates,*/ chat } = useStore()
   const rates = chat?.rates
 
-  const chatDefaultCurrencyId = 'USD'
-
-  const chatCurrency = getCurrencyById(chat?.default_currency || chatDefaultCurrencyId)
+  const chatCurrency = getCurrencyById(chat?.default_currency || 'USD')
   const chatCurrencySymbol = chatCurrency?.symbol || '$'
+  const chatCurrencyId = chatCurrency?._id || 'USD'
 
   type TRawCategory = {
     categoryKey: string
@@ -28,10 +27,10 @@ export const useTotal = ({ filteredTransactions }: { filteredTransactions: TTran
       const txCategory = tx.category || 'unknown'
       const itemIndex = acc.findIndex((rawCat: TRawCategory) => rawCat.categoryKey === txCategory)
       const amountInCurrency = tx.shares
-        .filter(share => share.is_payer)
+        .filter(share => !share.is_payer)
         .reduce((amountAcc, share) => amountAcc + share.amount, 0)
 
-      const amount = amountInCurrency * rates[`USD${chatDefaultCurrencyId}`] / rates[`USD${tx.currency_id}`]
+      const amount = amountInCurrency * rates[`USD${chatCurrencyId}`] / rates[`USD${tx.currency_id}`]
 
       if (itemIndex === -1) {
         acc.push({
