@@ -72,7 +72,7 @@ shares.splice(1, 0, {
 
 const _mockTransaction: TTransaction = {
   _id: '0',
-  chat_id: null,
+  chat_id: 0,
   creator_user_id: null,
   editor_user_id: null,
   is_voice: true,
@@ -143,8 +143,8 @@ const demoUsers: TUser[] = [
 ]
 
 const demoTransaction: TTransaction = {
-  _id: '0',
-  chat_id: null,
+  _id: 'demo-tx',
+  chat_id: 0,
   creator_user_id: null,
   editor_user_id: null,
   is_voice: true,
@@ -229,8 +229,10 @@ const demoTransaction: TTransaction = {
   is_settleup: false,
 }
 
+const demoCurrencyId = isRus ? 'RUB' : 'USD'
+
 const demoChat: TChat = {
-  default_currency: isRus ? 'RUB' : 'USD',
+  default_currency: demoCurrencyId,
   language_code: tgLanguageCode,
   rates: mockRates,
 }
@@ -243,17 +245,52 @@ const mockChat = isDemo ? demoChat : _mockChat
 const mockSummary: TSummary = {
   chat_id: 0,
   url: 'https://docs.google.com/spreadsheets/d/1BxiMVs0XRA5nFMdKvBdBZjgmUUqptlbs74OgvE2upms/edit',
-  debts: Math.random() < 0.2
-    ? []
-    : mockUsers.map((mockUser, i, arr) => (
-      {
-        from_user: mockUser,
-        to_user: arr[(i === arr.length - 1) ? 0 : i + 1],
-        amount: parseFloat((Math.round(Math.random() * 1e6) / 10 ** decimals).toFixed(decimals)),
-        currency_id: mockCurrencies[Math.floor(Math.random() * 3)]._id
-      }
-    )),
+  debts: mockUsers.map((mockUser, i, arr) => (
+    {
+      from_user: mockUser,
+      to_user: arr[(i === arr.length - 1) ? 0 : i + 1],
+      amount: parseFloat((Math.round(Math.random() * (isRus ? 1e6 : 1e5)) / 10 ** decimals).toFixed(decimals)),
+      currency_id: demoCurrencyId /* || mockCurrencies[Math.floor(Math.random() * 3)]._id,*/
+    }
+  )),
 }
+
+const mockTransactions: TTransaction[] = mockSummary.debts.map((debt, i) => ({
+  _id: `demo-tx-${i}`,
+  chat_id: 0,
+  creator_user_id: null,
+  editor_user_id: null,
+  is_voice: false,
+  raw_text: '',
+  formatted_text: '',
+  is_confirmed: true,
+  is_canceled: false,
+  currency_id: debt.currency_id,
+  shares: [
+    {
+      person_id: `Person-1`,
+      raw_name: debt.to_user.first_name,
+      normalized_name: debt.to_user.first_name,
+      related_user_id: debt.to_user._id,
+      is_payer: true,
+      amount: debt.amount,
+      user_candidates: null,
+    },
+    {
+      person_id: `Person-2`,
+      raw_name: debt.from_user.first_name,
+      normalized_name: debt.from_user.first_name,
+      related_user_id: debt.from_user._id,
+      is_payer: false,
+      amount: debt.amount,
+      user_candidates: null,
+    },
+  ],
+  time_created: (new Date()).toISOString(),
+  nutshell: null,
+  category: ['financial_expenses', 'food_drinks', 'housing', 'income', 'investments', 'life_entertainment', 'other', 'paid', 'shopping', 'transportation', 'utilities'][Math.floor(Math.random() * 11)],
+  is_settleup: false,
+}))
 
 export {
   mockUsers,
@@ -261,4 +298,5 @@ export {
   mockCurrencies,
   mockChat,
   mockSummary,
+  mockTransactions,
 }

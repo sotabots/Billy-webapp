@@ -3,7 +3,7 @@ import { useCategories } from '../hooks'
 const Category = ({ categoryKey, amountFormatted }: { categoryKey: string, amountFormatted: string }) => {
   const { getCategoryColor, getCategoryEmoji, getCategoryName } = useCategories()
 
-  const borderColor = getCategoryColor(categoryKey, 0.420)
+  const borderColor = getCategoryColor(categoryKey, .420)
   const color = getCategoryColor(categoryKey, 1)
   const categoryEmoji = getCategoryEmoji(categoryKey)
   const categoryName = getCategoryName(categoryKey)

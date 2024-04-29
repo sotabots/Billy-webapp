@@ -3,12 +3,13 @@ import { useTranslation } from 'react-i18next'
 import Button from './Button'
 
 import User from './User'
-import { useUsers } from '../hooks'
+import { useUsers, useCurrencies } from '../hooks'
 import { TDebt } from '../types'
 
-import { ReactComponent as ToIcon } from '../assets/to.svg'
-
+import { useStore } from '../store'
 import { formatAmount } from '../utils'
+
+import { ReactComponent as ToIcon } from '../assets/to.svg'
 
 type TDebtProps = TDebt & {
   onClick: () => void
@@ -18,9 +19,13 @@ function Debt({ from_user, to_user, amount, onClick }: TDebtProps) {
   const { t } = useTranslation()
 
   const { getUserById } = useUsers()
+  const { chat } = useStore()
 
   const fromUser = getUserById(from_user._id)
   const toUser = getUserById(to_user._id)
+
+  const { getCurrencyById } = useCurrencies()
+  const chatCurrency = getCurrencyById(chat?.default_currency || null)
 
   if (!fromUser || !toUser) {
     return null
@@ -37,7 +42,7 @@ function Debt({ from_user, to_user, amount, onClick }: TDebtProps) {
               <div className="w-[14px] h-[14px] -mt-[1px] mr-[1px]">
                 <ToIcon />
               </div>
-              <div className="text-[14px] leading-[24px] font-semibold">{formatAmount(amount)}</div>
+              <div className="text-[14px] leading-[24px] font-semibold">{formatAmount(amount)}{chatCurrency?.symbol}</div>
             </div>
             <User
               user={toUser}

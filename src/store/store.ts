@@ -5,8 +5,8 @@ import { TCurrency, TCurrencyId, /*TRates,*/ TTransaction, TUser, TChat, TSummar
 type TStore = {
   overlays: number[]
   setOverlays: (val: number[]) => void
-  txId: undefined | string | null
-  setTxId: (ixId: string | null) => void
+  txId: undefined | string
+  setTxId: (ixId: string) => void
   users: TUser[]
   setUsers: (users: TUser[]) => void
   selectPersonId: string | null
@@ -33,10 +33,10 @@ type TStore = {
   txPatchError: null | Error
   setTxPatchError: (txPatchError: null | Error) => void
 
-  summaryId: undefined | string | null
-  setSummaryId: (summaryId: string | null) => void
+  summaryId: undefined | string
+  setSummaryId: (summaryId: string) => void
   summaryCurrencyId: null | TCurrencyId
-  setSummaryCurrencyId: (summaryId: null | TCurrencyId) => void
+  setSummaryCurrencyId: (summaryCurrencyId: null | TCurrencyId) => void
   summary: undefined | TSummary
   setSummary: (summary: TSummary) => void
 

@@ -8,7 +8,8 @@ import {
   mockUsers,
   mockCurrencies,
   mockChat,
-  mockSummary
+  mockSummary,
+  mockTransactions
 } from './mock'
 
 const apiUrl = import.meta.env.VITE_API_URL
@@ -29,15 +30,17 @@ export const useGetTx = () => {
   return (
     useQuery<TTransaction, Error>({
       queryKey: ['tx', `tx-${txId}`],
-      queryFn: txId
-        ? () =>
-          fetch(`${apiUrl}/transactions/${txId}`, {
-            method: 'GET',
-            headers: {
-              'Authorization': initData,
-            }
-          }).then(handleJsonResponse)
-        : () => mockTransaction,
+      queryFn: () => {
+        if (txId?.includes('demo')) {
+          return mockTransactions.find(tx => tx._id === txId) || mockTransaction
+        }
+        return fetch(`${apiUrl}/transactions/${txId}`, {
+          method: 'GET',
+          headers: {
+            'Authorization': initData,
+          }
+        }).then(handleJsonResponse)
+      },
       onSuccess: (data) => {
         console.log('useApi: set tx', data)
         setTransaction(data)
@@ -55,15 +58,15 @@ export const useGetUsers = (chatId: undefined | number) => {
   return (
     useQuery<TUser[], Error>({
       queryKey: ['users', `chat-${chatId}`],
-      queryFn: chatId
-        ? () =>
+      queryFn: chatId === 0
+        ? () => mockUsers
+        : () =>
           fetch(`${apiUrl}/chats/${chatId}/users`, {
             method: 'GET',
             headers: {
               'Authorization': initData,
             }
-          }).then(handleJsonResponse)
-        : () => mockUsers,
+          }).then(handleJsonResponse),
       onSuccess: (data) => {
         console.log('useApi: set users', data)
         setUsers(data)
@@ -81,15 +84,15 @@ export const useGetChat = (chatId: undefined | number) => {
   return (
     useQuery<TChat, Error>({
       queryKey: ['chat', `chat-${chatId}`],
-      queryFn: (chatId /* || !'DISABLE_MOCK_CHAT'*/)
-        ? () =>
+      queryFn: chatId === 0
+        ? () => mockChat
+        : () =>
           fetch(`${apiUrl}/chats/${chatId}/settings`, {
             method: 'GET',
             headers: {
               'Authorization': initData,
             }
-          }).then(handleJsonResponse)
-        : () => mockChat,
+          }).then(handleJsonResponse),
       onSuccess: (data) => {
         console.log('useApi: set chat', data)
         setChat(data)
@@ -107,15 +110,15 @@ export const useGetCurrencies = (chatId: undefined | number) => {
   return (
     useQuery<TCurrency[], Error>({
       queryKey: ['currencies', `chat-${chatId}`],
-      queryFn: (chatId)
-        ? () =>
+      queryFn: chatId === 0
+        ? () => mockCurrencies
+        : () =>
           fetch(`${apiUrl}/currencies/`, {
             method: 'GET',
             headers: {
               'Authorization': initData,
             }
-          }).then(handleJsonResponse)
-        : () => mockCurrencies,
+          }).then(handleJsonResponse),
       onSuccess: (data) => {
         console.log('useApi: set currencies', data)
         setCurrencies(data)
@@ -154,7 +157,9 @@ export const useGetRates = () => {
 export const usePutTransaction = () => {
   const [, initData] = useInitData()
   const { txId } = useStore()
-  const url = txId ? `${apiUrl}/transactions/${txId}` : 'https://jsonplaceholder.typicode.com/posts/1'
+  const url = txId?.includes('demo')
+    ? 'https://jsonplaceholder.typicode.com/posts/1'
+    : `${apiUrl}/transactions/${txId}`
 
   return (tx: TTransaction) =>
     fetch(url, {
@@ -170,7 +175,9 @@ export const usePutTransaction = () => {
 export const usePostTransaction = () => { // summary settleup
   const [, initData] = useInitData()
   const { summaryId } = useStore()
-  const url = summaryId ? `${apiUrl}/transactions/` : 'https://jsonplaceholder.typicode.com/posts'
+  const url = summaryId?.includes('demo')
+    ? 'https://jsonplaceholder.typicode.com/posts'
+    : `${apiUrl}/transactions/`
 
   return (newTx: TNewTransaction) =>
     fetch(url, {
@@ -199,19 +206,20 @@ export const useGetSummary = () => {
   return (
     useQuery<TSummary, Error>({
       queryKey: ['summary', `summary-${summaryId}-${summaryCurrencyId}`],
-      queryFn: summaryId
-        ? () =>
+      queryFn: summaryId?.includes('demo')
+        ? () => mockSummary
+        : () =>
           fetch(url , {
             method: 'GET',
             headers: {
               'Authorization': initData,
             }
-          }).then(handleJsonResponse)
-        : () => mockSummary,
+          }).then(handleJsonResponse),
       onSuccess: (data) => {
         console.log('useGetSummary: setSummary', data)
         setSummary(data)
       },
+      enabled: summaryId !== undefined,
       staleTime
     })
   )
@@ -247,15 +255,15 @@ export const useGetTransactions = (chatId: undefined | number) => {
   return (
     useQuery<TTransaction[], Error>({
       queryKey: ['transactions', `chat-${chatId}`],
-      queryFn: (chatId /* || !'DISABLE_MOCK_CHAT'*/)
-        ? () =>
+      queryFn: chatId === 0
+        ? () => mockTransactions
+        : () =>
           fetch(`${apiUrl}/chats/${chatId}/transactions`, {
             method: 'GET',
             headers: {
               'Authorization': initData,
             }
-          }).then(handleJsonResponse)
-        : () => [],
+          }).then(handleJsonResponse),
       onSuccess: (data) => {
         console.log('useApi: set transactions', data)
         setTransactions(data)

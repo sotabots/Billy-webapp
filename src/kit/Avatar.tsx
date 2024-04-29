@@ -1,7 +1,6 @@
 import Lottie from 'lottie-react'
 
-import { useTheme } from '../hooks'
-import { useStore } from '../store'
+import { useTheme, useChatId } from '../hooks'
 import type { TUser } from '../types'
 
 import lottieKoalaLooking from '../assets/animation-koala-looking.json'
@@ -30,12 +29,11 @@ function Avatar({ user, size = 40 }: TAvatar) {
   const color = !user ? placeholderColor: (['#e17076', '#faa774', '#a695e7', '#7bc862', '#6ec9cb', '#65aadd', '#ee7aae'])[Math.abs(Number(user._id)) % 7 || 0] // peerColor
   const backgroundColor = color + '44'
 
-  const { txId, summaryId} = useStore()
+  const { chatId } = useChatId()
   const url = user?.profile_photo
   const backgroundImage = !url
     ? undefined
-    // todo: improve
-    : `url(${(txId || summaryId) ? `${apiUrl}${url}` : url})`
+    : `url(${(chatId === 0) ? url : `${apiUrl}${url}`})`
 
   const letters = (!url && fullName) ? getLetters(fullName) : null
 

@@ -37,11 +37,11 @@ export const useInit = () => {
   }
 
   if (txId === undefined) {
-    setTxId(queryTxId || startParamTxId || null)
+    setTxId(queryTxId || startParamTxId || 'demo-tx')
   }
 
   if (summaryId === undefined) {
-    setSummaryId(querySummaryId || startParamSummaryId || null)
+    setSummaryId(querySummaryId || startParamSummaryId || 'demo-summary')
   }
 
   // init new-tx author shares
