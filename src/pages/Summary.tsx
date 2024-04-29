@@ -100,7 +100,6 @@ function Summary({
                     {totalFormatted}
                   </div>
                 </div>
-                {isDebug && (
                 <Button
                   theme="clear"
                   className="flex items-center justify-center w-8 h-8"
@@ -111,7 +110,6 @@ function Summary({
                       : <FilterIcon />
                   }
                 />
-                )}
               </div>
               <div className="flex flex-col gap-4">
                 <Pie
@@ -213,7 +211,7 @@ function Summary({
 
           <Button
             isBottom
-            text={t('Apply')}
+            text={t('apply')}
             onClick={applyFilter}
           />
         </>
