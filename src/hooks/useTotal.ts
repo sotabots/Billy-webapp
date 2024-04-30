@@ -28,9 +28,8 @@ export const useTotal = ({ filteredTransactions }: { filteredTransactions: TTran
       if (!rates) {
         return acc
       }
-      const txCategory = tx.category || 'unknown'
-      const itemIndex = acc.findIndex((rawCat: TRawCategory) => rawCat.categoryKey === txCategory)
-      const amountInCurrency = tx.shares
+
+      const amountInTxCurrency = tx.shares
         .filter(share => !share.is_payer)
         .filter(share => filterTotal === 'ONLY_MINE'
           ? share.related_user_id === initDataUnsafe.user?.id
@@ -38,15 +37,19 @@ export const useTotal = ({ filteredTransactions }: { filteredTransactions: TTran
         )
         .reduce((amountAcc, share) => amountAcc + share.amount, 0)
 
-      const amount = amountInCurrency * rates[`USD${chatCurrencyId}`] / rates[`USD${tx.currency_id}`]
+      const amountInChatCurrency = tx.currency_id === chatCurrencyId
+        ? amountInTxCurrency
+        : amountInTxCurrency * rates[`USD${chatCurrencyId}`] / rates[`USD${tx.currency_id}`]
 
+      const txCategory = tx.category || 'unknown'
+      const itemIndex = acc.findIndex((rawCat: TRawCategory) => rawCat.categoryKey === txCategory)
       if (itemIndex === -1) {
         acc.push({
           categoryKey: txCategory,
-          amount
+          amount: amountInChatCurrency
         })
       } else {
-        acc[itemIndex].amount += amount
+        acc[itemIndex].amount += amountInChatCurrency
       }
       return acc
     }, [] as TRawCategory[])
