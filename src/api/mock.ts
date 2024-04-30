@@ -86,6 +86,7 @@ const _mockTransaction: TTransaction = {
   nutshell: null,
   category: null,
   is_settleup: false,
+  cashback: null,
 }
 
 const mockRates = mockCurrencies.reduce((acc, currency) => {
@@ -227,6 +228,7 @@ const demoTransaction: TTransaction = {
   nutshell: null,
   category: null,
   is_settleup: false,
+  cashback: null,
 }
 
 const demoCurrencyId = isRus ? 'RUB' : 'USD'
@@ -290,6 +292,7 @@ const mockTransactions: TTransaction[] = mockSummary.debts.map((debt, i) => ({
   nutshell: isRus ? 'Демо-трата' : 'Demo transaction',
   category: ['financial_expenses', 'food_drinks', 'housing', 'income', 'investments', 'life_entertainment', 'other', 'paid', 'shopping', 'transportation', 'utilities'][Math.floor(Math.random() * 11)],
   is_settleup: false,
+  cashback: 0.05,
 }))
 
 export {

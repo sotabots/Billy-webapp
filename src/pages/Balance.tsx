@@ -121,6 +121,7 @@ function Balance({
         nutshell: null,
         category: null,
         is_settleup: true,
+        cashback: null,
       }
       const resJson = await postTransaction(newTx)
       console.log('patchTransaction res', resJson)

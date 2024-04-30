@@ -39,9 +39,8 @@ const Transaction = ({ tx }: { tx: TTransaction }) => {
   const editor = !tx.editor_user_id ? null : getUserById(tx.editor_user_id) || null
 
   const currency = getCurrencyById(tx.currency_id)
-  const percent = 0.05
   const payerSharesAmount = payerShares.reduce((acc, _) => _.amount + acc, 0)
-  const cashbackAmount = payerSharesAmount * percent
+  const cashbackAmount = tx.cashback ? payerSharesAmount * tx.cashback : null
 
   return (
     <div className="Transaction flex gap-2">
@@ -75,10 +74,12 @@ const Transaction = ({ tx }: { tx: TTransaction }) => {
         )}
         <div className="flex gap-2 items-start justify-between px-2">
           <div className="flex-1 opacity-60 first-letter:uppercase">{tx.nutshell || 'test'}</div>
-          <div className="flex gap-1 items-center rounded-[8px] px-1 py-[2px] bg-[#ff960020] text-[12px] leading-[16px] font-semibold">
-            <img className="block w-3 h-3" src={cashback} />
-            <span>{formatAmount(cashbackAmount)}{currency?.symbol}</span>
-          </div>
+          {!!cashbackAmount && (
+            <div className="flex gap-1 items-center rounded-[8px] px-1 py-[2px] bg-[#ff960020] text-[12px] leading-[16px] font-semibold">
+              <img className="block w-3 h-3" src={cashback} />
+              <span>{formatAmount(cashbackAmount)}{currency?.symbol}</span>
+            </div>
+          )}
         </div>
         <div className="flex flex-wrap gap-x-2 gap-y-1 px-2 pt-[2px] empty:hidden">
           {[
