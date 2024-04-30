@@ -7,12 +7,14 @@ import { TShare, TTransaction } from '../types'
 
 import Button from '../kit/Button'
 
-import { useCategories, useUsers } from '../hooks'
+import { useCategories, useUsers, useCurrencies } from '../hooks'
 
 import { ReactComponent as EditIcon } from '../assets/edit.svg'
 
 import { useStore } from '../store'
 import { formatAmount } from '../utils'
+
+import cashback from '../assets/cashback.png'
 
 const Transaction = ({ tx }: { tx: TTransaction }) => {
   const { t } = useTranslation()
@@ -20,6 +22,7 @@ const Transaction = ({ tx }: { tx: TTransaction }) => {
   const [initDataUnsafe] = useInitData()
   const { setTxId, setIsEditTx } = useStore()
   const { getUserById } = useUsers()
+  const { getCurrencyById } = useCurrencies()
   const { getCategoryColor, getCategoryEmoji } = useCategories()
 
   const backgroundColor = getCategoryColor(tx.category)
@@ -34,6 +37,11 @@ const Transaction = ({ tx }: { tx: TTransaction }) => {
     .filter(share => share.is_payer)
 
   const editor = !tx.editor_user_id ? null : getUserById(tx.editor_user_id) || null
+
+  const currency = getCurrencyById(tx.currency_id)
+  const percent = 0.05
+  const payerSharesAmount = payerShares.reduce((acc, _) => _.amount + acc, 0)
+  const cashbackAmount = payerSharesAmount * percent
 
   return (
     <div className="Transaction flex gap-2">
@@ -52,7 +60,7 @@ const Transaction = ({ tx }: { tx: TTransaction }) => {
                 ? [user.first_name, user.last_name].join(' ')
                 : '??? ???'
             })()}</span>
-            <span>{formatAmount(payerShare.amount)} {tx.currency_id}</span>
+            <span>{formatAmount(payerShare.amount)}{currency?.symbol}</span>
           </div>
         ))}
         {!!myBalanceDelta && !(!tx.is_confirmed || tx.is_canceled) && (
@@ -62,12 +70,16 @@ const Transaction = ({ tx }: { tx: TTransaction }) => {
           myBalanceDelta < 0 && 'text-[#CC0905]',
         )}>
           <span>{t('myBalance')}</span>
-          <span>{myBalanceDelta < 0 ? '−' : '+'} {formatAmount(Math.abs(myBalanceDelta))} {tx.currency_id}</span>
+          <span>{myBalanceDelta < 0 ? '−' : '+'} {formatAmount(Math.abs(myBalanceDelta))}{currency?.symbol}</span>
         </div>
         )}
-        {!!tx.nutshell && (
-          <div className="px-2 opacity-60 first-letter:uppercase">{tx.nutshell}</div>
-        )}
+        <div className="flex gap-2 items-start justify-between px-2">
+          <div className="flex-1 opacity-60 first-letter:uppercase">{tx.nutshell || 'test'}</div>
+          <div className="flex gap-1 items-center rounded-[8px] px-1 py-[2px] bg-[#ff960020] text-[12px] leading-[16px] font-semibold">
+            <img className="block w-3 h-3" src={cashback} />
+            <span>{formatAmount(cashbackAmount)}{currency?.symbol}</span>
+          </div>
+        </div>
         <div className="flex flex-wrap gap-x-2 gap-y-1 px-2 pt-[2px] empty:hidden">
           {[
             ...((!tx.is_confirmed && !tx.is_canceled) ? [{
