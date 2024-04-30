@@ -38,9 +38,9 @@ export const useFilter = () => {
   const isArrows = filterPeriod === 'MONTH' || filterPeriod === 'WEEK'
 
   const filteredTransactions = (transactions || [])
-    .filter(tx => filterTotal === 'ALL_CHAT'
-      ? true
-      : tx.shares.some(share => share.related_user_id === initDataUnsafe.user?.id)
+    .filter(tx => filterTotal === 'ONLY_MINE'
+      ? tx.shares.some(share => share.related_user_id === initDataUnsafe.user?.id)
+      : true
     )
 
   type TGroups = {

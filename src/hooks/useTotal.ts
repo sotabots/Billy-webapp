@@ -1,3 +1,5 @@
+import { useInitData } from '@vkruglikov/react-telegram-web-app'
+
 import { useCurrencies } from '../hooks'
 import { formatAmount } from '../utils'
 
@@ -5,8 +7,10 @@ import { useStore } from '../store'
 import { TTransaction } from '../types'
 
 export const useTotal = ({ filteredTransactions }: { filteredTransactions: TTransaction[] }) => {
+  const [initDataUnsafe] = useInitData()
+
   const { getCurrencyById } = useCurrencies()
-  const { /*rates,*/ chat } = useStore()
+  const { /*rates,*/ chat, filterTotal } = useStore()
   const rates = chat?.rates
 
   const chatCurrency = getCurrencyById(chat?.default_currency || 'USD')
@@ -28,6 +32,10 @@ export const useTotal = ({ filteredTransactions }: { filteredTransactions: TTran
       const itemIndex = acc.findIndex((rawCat: TRawCategory) => rawCat.categoryKey === txCategory)
       const amountInCurrency = tx.shares
         .filter(share => !share.is_payer)
+        .filter(share => filterTotal === 'ONLY_MINE'
+          ? share.related_user_id === initDataUnsafe.user?.id
+          : true
+        )
         .reduce((amountAcc, share) => amountAcc + share.amount, 0)
 
       const amount = amountInCurrency * rates[`USD${chatCurrencyId}`] / rates[`USD${tx.currency_id}`]
