@@ -10,7 +10,7 @@ export const useTotal = ({ filteredTransactions }: { filteredTransactions: TTran
   const [initDataUnsafe] = useInitData()
 
   const { getCurrencyById } = useCurrencies()
-  const { /*rates,*/ chat, filterTotal } = useStore()
+  const { chat, filterTotal } = useStore()
   const rates = chat?.rates
 
   const chatCurrency = getCurrencyById(chat?.default_currency || 'USD')

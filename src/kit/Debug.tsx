@@ -9,7 +9,7 @@ import { useStore } from '../store'
 const OPEN_DEBUG_RIGHT_CLICKS = 5
 
 function Debug() {
-  const { transaction, users, txId, summaryId, summaryCurrencyId, setSummaryCurrencyId, summary, chat, currencies, /*rates,*/ categories, transactions, isDebug, setDebug } = useStore()
+  const { transaction, users, txId, summaryId, summaryCurrencyId, setSummaryCurrencyId, summary, chat, currencies, categories, transactions, isDebug, setDebug } = useStore()
 
   // const navigate = useNavigate()
 
@@ -86,7 +86,6 @@ function Debug() {
         {out('summaryCurrencyId', summaryCurrencyId)}
         {out('summary', summary)}
         {out('currencies', currencies)}
-        {/* {out('rates', rates)} */}
         {out('categories', categories)}
         {out('transactions', transactions)}
       </Panel>
