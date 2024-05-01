@@ -95,7 +95,22 @@ function Match() {
 
       <Panel>
         <div>
-          <h2>{isEmptyTx ? t('addUsers') : t('matchUsers')}</h2>
+          <div className="flex items-start justify-between">
+            <h2>{isEmptyTx ? t('addUsers') : t('matchUsers')}</h2>
+            {!!unrelatedUsers.length && (
+              <Button
+                theme="clear"
+                className="px-2 text-button h-6 items-center flex gap-[2px] font-semibold text-[14px] leading-6 hover:brightness-[1.2] active:brightness-[1.4] transition-all"
+                text={
+                  <>
+                    <Plus className="h-6 w-6 flex items-center justify-center" />
+                    <span className="whitespace-nowrap">{t('addMore')}</span>
+                  </>
+                }
+                onClick={onAdd}
+              />
+            )}
+          </div>
           {!isEmptyTx && (
             <div className="mt-1 text-[14px] leading-[20px] text-hint">🐨&nbsp;{t('willBeSaved')}</div>
           )}
@@ -111,17 +126,6 @@ function Match() {
               </div>
             ))}
           </div>
-          {!!unrelatedUsers.length && (
-            <button
-              className="mt-1 text-button h-8 w-full items-center flex gap-[9px] rounded-md hover:brightness-[1.2] active:brightness-[1.4] transition-all"
-              onClick={onAdd}
-            >
-              <span className="h-6 w-6 flex items-center justify-center">
-                <Plus />
-              </span>
-              <span>{t('addMore')}</span>
-            </button>
-          )}
         </div>
       </Panel>
 
