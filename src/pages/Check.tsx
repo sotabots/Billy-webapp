@@ -1,5 +1,5 @@
 import { useQueryClient } from '@tanstack/react-query'
-import { useHapticFeedback, useShowPopup } from '@vkruglikov/react-telegram-web-app'
+import { useHapticFeedback } from '@vkruglikov/react-telegram-web-app'
 import Lottie from 'lottie-react'
 import { useState } from 'react'
 import { useTranslation } from 'react-i18next'
@@ -10,6 +10,7 @@ import Header from '../kit/Header'
 import UserAmount from '../kit/UserAmount'
 import Overlay from '../kit/Overlay'
 import Panel from '../kit/Panel'
+import MessagePanel from '../kit/MessagePanel'
 import Screen from '../kit/Screen'
 
 import { useGetTransactions, useGetSummary } from '../api'
@@ -30,7 +31,6 @@ function Check() {
   useInit()
 
   const [, notificationOccurred] = useHapticFeedback()
-  const showPopup = useShowPopup()
 
   const { t } = useTranslation()
   const navigate = useNavigate()
@@ -186,31 +186,11 @@ function Check() {
           />
         </div>
 
-        <Panel className="!pb-4">
-          {isBalanced && (
-            <h3 className="text-ok">{t('allRight')}</h3>
-          )}
-          {!isBalanced && (
-            <Button
-              theme="clear"
-              className="text-error font-semibold"
-              onClick={async () => {
-                const message = `🐨 ${t('unbalanced')}`
-                try {
-                  await showPopup({ message })
-                } catch {
-                  alert(message)
-                }
-              }}
-              text={isLacks && t('lack') || isOverdo && t('overdo')}
-            />
-          )}
-          <div className="mt-1 text-[14px] leading-[20px] text-hint">{t('paidSum')} {payedSumFormatted} {currency?.symbol}, {t('oweSum')} {oweSumFormatted} {currency?.symbol}</div>
-        </Panel>
+        <MessagePanel />
 
         <Panel>
           <div className="flex items-center justify-between gap-3">
-            <h3>{t('whoPaid')}</h3>
+            <h3>{t('whoPaid')} {payedSumFormatted}{currency?.symbol}</h3>
             <Button
               theme="icon"
               text={<EditIcon />}
@@ -236,7 +216,7 @@ function Check() {
 
         <Panel>
           <div className="flex items-center justify-between gap-3">
-            <h3>{t('forWhom')}</h3>
+            <h3>{t('forWhom')} {oweSumFormatted}{currency?.symbol}</h3>
             <Button
               theme="icon"
               text={<EditIcon />}

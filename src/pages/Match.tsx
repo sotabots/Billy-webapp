@@ -6,11 +6,10 @@ import { ReactComponent as Plus } from '../assets/plus.svg'
 import Button from '../kit/Button'
 import Divider from '../kit/Divider'
 import Header from '../kit/Header'
-import HTMLTagRenderer from '../kit/HTMLTagRenderer'
+import MessagePanel from '../kit/MessagePanel'
 import Panel from '../kit/Panel'
 import Screen from '../kit/Screen'
 import UserRelation from '../kit/UserRelation'
-import Textarea from '../kit/Textarea'
 
 import { useInit, useUsers } from '../hooks'
 import { useStore } from '../store'
@@ -22,7 +21,7 @@ function Match() {
 
   const { t } = useTranslation()
   const navigate = useNavigate()
-  const { transaction, setSelectPersonId, txComment, setTxComment } = useStore()
+  const { transaction, setSelectPersonId } = useStore()
   const { unrelatedUsers, countUnrelatedPersons, isRelationsComplete, isRelationsEnough } = useUsers()
   const [impactOccurred] = useHapticFeedback()
 
@@ -65,33 +64,7 @@ function Match() {
     <Screen>
       <Header onBack={closeApp} />
 
-      <Panel className="flex flex-col gap-1">
-        {isEmptyTx && (
-          <>
-            <h2>{t('addComment')}</h2>
-            <Textarea
-              value={txComment}
-              placeholder={t('yourComment')}
-              onChange={setTxComment}
-            />
-          </>
-        )}
-        {!isEmptyTx && (
-          <>
-            <div className="text-[12px] leading-[1.33em] font-medium text-hint">{t('message')}</div>
-            <div>
-              {!!transaction.is_voice && (
-                <span>🎙&nbsp;</span>
-              )}
-              {transaction.formatted_text ? (
-                <HTMLTagRenderer allowedTags={['b', 'strong']} string={transaction.formatted_text} />
-              ) : (
-                <strong>{transaction.raw_text}</strong>
-              )}
-            </div>
-          </>
-        )}
-      </Panel>
+      <MessagePanel />
 
       <Panel>
         <div>
