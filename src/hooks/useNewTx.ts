@@ -36,7 +36,7 @@ export const useNewTx = () => {
     )),
     nutshell: null,
     category: null,
-    is_settleup: true,
+    is_settleup: false,
     cashback: null,
   }
 
