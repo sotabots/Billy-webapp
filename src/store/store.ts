@@ -1,6 +1,6 @@
 import { create } from 'zustand'
 
-import { TCurrency, TCurrencyId, TTransaction, TUser, TChat, TSummary, TCategories, TFilterTotal, TFilterPeriod } from '../types'
+import { TCurrency, TCurrencyId, TTransaction, TUser, TChat, TSummary, TCategories, TFilterTotal, TFilterPeriod, TNewTransaction } from '../types'
 
 type TStore = {
   overlays: number[]
@@ -20,8 +20,8 @@ type TStore = {
   setCategories: (categories: TCategories) => void
   chat: undefined | TChat
   setChat: (chat: TChat) => void
-  transaction: undefined | TTransaction,
-  setTransaction: (transaction: TTransaction) => void
+  transaction: undefined | TTransaction | TNewTransaction,
+  setTransaction: (transaction: TTransaction | TNewTransaction) => void
   isAuthorSharesInited: boolean
   setIsAuthorSharesInited: (isAuthorSharesInited: boolean) => void
   txComment: string,

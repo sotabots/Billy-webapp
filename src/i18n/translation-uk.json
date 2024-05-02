@@ -36,7 +36,7 @@
   "selectAll": "Вибрати всіх",
   "unselectAll": "Очистити вибір",
   "splitEqually": "Розділити порівну",
-  "noShares": "Пусто",
+  "nobodyHere": "(Пусто)",
   "checkAmounts": "Перевірте витрати",
 
   "convertAllTo": "Перевести всё в",
@@ -62,5 +62,8 @@
   "myBalance": "Мій баланс",
   "statusUnconfirmed": "Не підтверджено",
   "statusCanceled": "Скасовано",
-  "statusEditedBy": "Редаговано:"
+  "statusEditedBy": "Редаговано:",
+
+  "detailedSummary": "Деталізація",
+  "addTransaction": "Додати витрату"
 }

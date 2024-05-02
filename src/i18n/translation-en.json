@@ -36,14 +36,13 @@
   "selectAll": "Select all",
   "unselectAll": "Unselect all",
   "splitEqually": "Split equally",
-  "noShares": "Nobody here",
+  "nobodyHere": "(Nobody here)",
   "checkAmounts": "Check amounts",
 
   "balance": "User Balance",
   "totalTransactions": "Total & Transactions",
 
   "settleUpBy": "Settle up by",
-  "detailedSummary": "Detailed summary",
   "balanceBy": "Balance by",
   "settleUp": "Settle up",
   "settleUpSaved": "Transaction successfully saved!",
@@ -72,5 +71,8 @@
   "myBalance": "My balance",
   "statusUnconfirmed": "Unconfirmed",
   "statusCanceled": "Canceled",
-  "statusEditedBy": "Edited by"
+  "statusEditedBy": "Edited by",
+
+  "detailedSummary": "Detailed summary",
+  "addTransaction": "Add transaction"
 }

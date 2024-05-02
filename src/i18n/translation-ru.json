@@ -36,14 +36,13 @@
   "selectAll": "Выбрать всех",
   "unselectAll": "Очистить выбор",
   "splitEqually": "Разделить поровну",
-  "noShares": "Пусто",
+  "nobodyHere": "(Пусто)",
   "checkAmounts": "Проверьте траты",
 
   "balance": "Баланс",
   "totalTransactions": "Траты",
 
   "settleUpBy": "Рассчитаться по",
-  "detailedSummary": "Детализация",
   "balanceBy": "Баланс по",
   "settleUp": "Рассчитаться",
   "settleUpSaved": "Транзакция успешно сохранена!",
@@ -72,5 +71,8 @@
   "myBalance": "Мой баланс",
   "statusUnconfirmed": "Не подтверждено",
   "statusCanceled": "Отменено",
-  "statusEditedBy": "Отредактировано:"
+  "statusEditedBy": "Отредактировано:",
+
+  "detailedSummary": "Детализация",
+  "addTransaction": "Добавить трату"
 }

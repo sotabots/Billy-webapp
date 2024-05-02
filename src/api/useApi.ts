@@ -1,6 +1,7 @@
 import { useInitData } from '@vkruglikov/react-telegram-web-app'
 import { useQuery } from '@tanstack/react-query'
 
+import { useNewTx } from '../hooks'
 import { useStore } from '../store'
 import { TCurrency, TCategories, TTransaction, TNewTransaction, TUser, TChat, TSummary } from '../types'
 import {
@@ -25,14 +26,18 @@ const handleJsonResponse = (res: Response) => {
 export const useGetTx = () => {
   const [, initData] = useInitData()
   const { setTransaction, txId } = useStore()
+  const { newTx } = useNewTx()
   console.log('useGetTx txId', txId)
 
   return (
-    useQuery<TTransaction, Error>({
+    useQuery<TTransaction | TNewTransaction, Error>({
       queryKey: ['tx', `tx-${txId}`],
       queryFn: () => {
         if (txId?.includes('demo')) {
           return mockTransactions.find(tx => tx._id === txId) || mockTransaction
+        }
+        if (txId === 'NEW') {
+          return newTx
         }
         return fetch(`${apiUrl}/transactions/${txId}`, {
           method: 'GET',
@@ -157,7 +162,7 @@ export const usePostTransaction = () => { // summary settleup
   return (newTx: TNewTransaction) =>
     fetch(url, {
       method: 'POST',
-      body: JSON.stringify(newTx),
+      body: JSON.stringify({...newTx, _id: undefined}), // clear _id: 'NEW'
       headers: {
         'Content-type': 'application/json',
         'Authorization': initData,

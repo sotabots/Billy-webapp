@@ -90,6 +90,7 @@ function Balance({
     setIsBusy(true)
     try {
       const newTx: TNewTransaction = {
+        _id: 'NEW',
         chat_id: summary.chat_id,
         creator_user_id: initDataUnsafe.user?.id || null,
         editor_user_id: null,

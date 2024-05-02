@@ -87,17 +87,24 @@ function Match() {
           {!isEmptyTx && (
             <div className="mt-1 text-[14px] leading-[20px] text-hint">🐨&nbsp;{t('willBeSaved')}</div>
           )}
-          <div className="mt-2 -mx-4 overflow-y-auto">
-            {deduplicatedShares.map((share, i) => (
-              <div key={`UserRelation-Divider-${i}`}>
-                <UserRelation
-                  key={`UserRelation-${i}`}
-                  {...share}
-                  onClick={() => onSelect(share.person_id)}
-                />
-                {i < deduplicatedShares.length - 1 && <Divider key={`Divider-${i}`} />}
+          <div className="mt-2">
+            {!!deduplicatedShares.length && (
+              <div className="-mx-4 overflow-y-auto">
+                {deduplicatedShares.map((share, i) => (
+                  <div key={`UserRelation-Divider-${i}`}>
+                    <UserRelation
+                      key={`UserRelation-${i}`}
+                      {...share}
+                      onClick={() => onSelect(share.person_id)}
+                    />
+                    {i < deduplicatedShares.length - 1 && <Divider key={`Divider-${i}`} />}
+                  </div>
+                ))}
               </div>
-            ))}
+            )}
+            {!deduplicatedShares.length && (
+              <span className="opacity-40">{t('nobodyHere')}</span>
+            )}
           </div>
         </div>
       </Panel>

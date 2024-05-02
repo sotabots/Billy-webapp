@@ -1,5 +1,6 @@
 import cx from 'classnames'
 import { useTranslation } from 'react-i18next'
+import { useNavigate } from 'react-router-dom'
 
 import Button from '../kit/Button'
 import Panel from '../kit/Panel'
@@ -9,8 +10,6 @@ import DateMark from '../kit/DateMark'
 import Transaction from '../kit/Transaction'
 import RadioButtons from '../kit/RadioButtons'
 import DatePicker from '../kit/DatePicker'
-
-import { closeApp } from '../utils'
 
 import { useStore } from '../store'
 import { useTotal, useFilter } from '../hooks'
@@ -28,8 +27,9 @@ function Summary({
   goDetailed: () => void
 }) {
   const { t } = useTranslation()
+  const navigate = useNavigate()
 
-  const { isDebug } = useStore()
+  const { isDebug, setTxId, setIsEditTx } = useStore()
 
   const {
     isFilterOpen,
@@ -161,8 +161,12 @@ function Summary({
 
           <Button
             isBottom
-            text={t('close')}
-            onClick={closeApp}
+            text={t('addTransaction')}
+            onClick={() => {
+              setTxId('NEW')
+              setIsEditTx(true)
+              navigate('/check')
+            }}
           />
         </>
       )}

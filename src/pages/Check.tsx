@@ -20,9 +20,9 @@ import { decimals } from '../const'
 import { useCurrencies, useInit, useChatId } from '../hooks'
 import { useStore } from '../store'
 import { feedback, EVENT } from '../feedback'
-import { usePutTransaction } from '../api'
+import { usePostTransaction, usePutTransaction } from '../api'
 import { formatAmount } from '../utils'
-import type { TShare } from '../types'
+import type { TNewTransaction, TShare, TTransaction } from '../types'
 
 import lottieSuccess from '../assets/animation-success.json'
 import { ReactComponent as EditIcon } from '../assets/edit.svg'
@@ -41,7 +41,8 @@ function Check() {
 
   const { getCurrencyById } = useCurrencies()
 
-  const patchTransaction = usePutTransaction()
+  const postTransaction = usePostTransaction()
+  const putTransaction = usePutTransaction()
 
   const { chatId } = useChatId()
   const queryClient = useQueryClient()
@@ -127,16 +128,22 @@ function Check() {
   }
 
   const save = async () => {
-    const confirmedTransaction = {
-      ...transaction,
-      ...(txComment ? { raw_text: txComment } : {}),
-      is_confirmed: true
-    }
     setIsBusy(true)
     try {
+      const newConfirmedTransaction: TNewTransaction = {
+        ...transaction as TNewTransaction,
+        ...(txComment ? { raw_text: txComment } : {}),
+      }
+      const confirmedTransaction: TTransaction = {
+        ...transaction as TTransaction,
+        ...(txComment ? { raw_text: txComment } : {}),
+        is_confirmed: true
+      }
       await feedback(EVENT.SEND_TRANSACTION)
-      console.log(JSON.stringify(confirmedTransaction, null, 2))
-      const resJson = await patchTransaction(confirmedTransaction)
+      // console.log(JSON.stringify(confirmedTransaction, null, 2))
+      const resJson = transaction._id === 'NEW'
+        ? await postTransaction(newConfirmedTransaction)
+        : await putTransaction(confirmedTransaction)
       console.log('patch res json', resJson)
       setSuccess(true)
       console.log('success vibro')
@@ -202,7 +209,7 @@ function Check() {
             />
           </div>
           <div className="mt-4 flex flex-col gap-3">
-            {!payedShares.length && <span className="opacity-40">({t('noShares')})</span>}
+            {!payedShares.length && <span className="opacity-40">{t('nobodyHere')}</span>}
             {payedShares.map((share, shareIndex) => (
               <UserAmount
                 key={`payer-share-${shareIndex}`}
@@ -244,7 +251,7 @@ function Check() {
             )}
           </div>
           <div className="mt-4 flex flex-col gap-3">
-            {!oweShares.length && <span className="opacity-40">({t('noShares')})</span>}
+            {!oweShares.length && <span className="opacity-40">{t('nobodyHere')}</span>}
             {oweShares.map((share, shareIndex) => (
               <UserAmount
                 key={`owe-share-${shareIndex}`}

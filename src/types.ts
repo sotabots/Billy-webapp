@@ -32,7 +32,9 @@ export type TTransaction = {
   cashback: number | null
 }
 
-export type TNewTransaction = Omit<TTransaction, '_id' | 'time_created'>
+export type TNewTransaction = Omit<TTransaction, '_id' | 'time_created'> & {
+  _id: 'NEW'
+}
 
 export type TShare = {
   person_id: string | null // todo: only string
