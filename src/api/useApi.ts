@@ -1,9 +1,9 @@
 import { useInitData } from '@vkruglikov/react-telegram-web-app'
 import { useQuery } from '@tanstack/react-query'
 
-import { useNewTx } from '../hooks'
+import { useNewTx, useChatId } from '../hooks'
 import { useStore } from '../store'
-import { TCurrency, TCategories, TTransaction, TNewTransaction, TUser, TChat, TSummary } from '../types'
+import { TCurrency, TCategories, TTransaction, TNewTransaction, TUser, TChat, TSummary, TCurrencyId, TLangCode } from '../types'
 import {
   mockTransaction,
   mockUsers,
@@ -252,4 +252,40 @@ export const useGetTransactions = (chatId: undefined | number) => {
       staleTime
     })
   )
+}
+
+export const usePostChatCurrency = () => {
+  const [, initData] = useInitData()
+  const { chatId } = useChatId()
+  const url = chatId === 0
+    ? 'https://jsonplaceholder.typicode.com/posts'
+    : `${apiUrl}/chat/${chatId}/currency`
+
+  return (currencyId: TCurrencyId) =>
+    fetch(url, {
+      method: 'POST',
+      body: currencyId,
+      headers: {
+        'Content-type': 'application/json',
+        'Authorization': initData,
+      },
+    }).then(handleJsonResponse)
+}
+
+export const usePostChatLanguage = () => {
+  const [, initData] = useInitData()
+  const { chatId } = useChatId()
+  const url = chatId === 0
+    ? 'https://jsonplaceholder.typicode.com/posts'
+    : `${apiUrl}/chat/${chatId}/language`
+
+  return (langCode: TLangCode) =>
+    fetch(url, {
+      method: 'POST',
+      body: langCode,
+      headers: {
+        'Content-type': 'application/json',
+        'Authorization': initData,
+      },
+    }).then(handleJsonResponse)
 }

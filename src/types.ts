@@ -55,13 +55,15 @@ export type TCurrency = {
   in: string // 'In Euros'
 }
 
+export type TLangCode = string // 'en' | 'ru' | 'uk' (or any string)
+
 export type TRates = {
   [key: string]: number
 }
 
 export type TChat = {
   default_currency: TCurrencyId | null
-  language_code: string // 'en' | 'ru' | 'uk' (or any string)
+  language_code: TLangCode
   rates: TRates
 }
 
