@@ -264,7 +264,7 @@ export const usePostChatCurrency = () => {
   return (currencyId: TCurrencyId) =>
     fetch(url, {
       method: 'POST',
-      body: currencyId,
+      body: JSON.stringify(currencyId),
       headers: {
         'Content-type': 'application/json',
         'Authorization': initData,
@@ -282,7 +282,7 @@ export const usePostChatLanguage = () => {
   return (langCode: TLangCode) =>
     fetch(url, {
       method: 'POST',
-      body: langCode,
+      body: JSON.stringify(langCode),
       headers: {
         'Content-type': 'application/json',
         'Authorization': initData,
