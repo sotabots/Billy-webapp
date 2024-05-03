@@ -1,6 +1,6 @@
 import { useQueryClient } from '@tanstack/react-query'
 import { useHapticFeedback } from '@vkruglikov/react-telegram-web-app'
-import cx from 'classnames'
+
 import Lottie from 'lottie-react'
 import { useState } from 'react'
 import { useTranslation } from 'react-i18next'
@@ -198,7 +198,7 @@ function Check() {
 
         <Panel>
           <div className="flex items-center justify-between gap-3">
-            <h3>{t('whoPaid')} <span className={cx(!isBalanced && 'text-error')}>{payedSumFormatted}{currency?.symbol}</span></h3>
+            <h3>{t('whoPaid')} <span>{payedSumFormatted}{currency?.symbol}</span></h3>
             <Button
               theme="icon"
               text={<EditIcon />}
@@ -224,7 +224,7 @@ function Check() {
 
         <Panel>
           <div className="flex items-center justify-between gap-3">
-            <h3>{t('forWhom')} <span className={cx(!isBalanced && 'text-error')}>{oweSumFormatted}{currency?.symbol}</span></h3>
+            <h3>{t('forWhom')} <span>{oweSumFormatted}{currency?.symbol}</span></h3>
             <Button
               theme="icon"
               text={<EditIcon />}
