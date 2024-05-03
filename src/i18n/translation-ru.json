@@ -39,6 +39,7 @@
   "nobodyHere": "(Пусто)",
   "checkAmounts": "Проверьте траты",
   "cancelTransaction": "Удалить трату",
+  "sureToCancelTransaction": "Вы уверены, что хотите удалить трату? Её можно будет вернуть через список трат.",
 
   "balance": "Баланс",
   "totalTransactions": "Траты",
