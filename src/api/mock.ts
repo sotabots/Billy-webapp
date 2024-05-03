@@ -288,11 +288,15 @@ const mockTransactions: TTransaction[] = mockSummary.debts.map((debt, i) => ({
       user_candidates: null,
     },
   ],
-  time_created: (new Date()).toISOString(),
-  nutshell: isRus ? 'Демо-трата' : 'Demo transaction',
-  category: ['financial_expenses', 'food_drinks', 'housing', 'income', 'investments', 'life_entertainment', 'other', 'paid', 'shopping', 'transportation', 'utilities'][Math.floor(Math.random() * 11)],
+  time_created: (new Date(+(new Date) - i)).toISOString(),
+  nutshell: i === 0
+    ? (isRus ? 'Расчёт' : 'Settle up')
+    : (isRus ? 'Демо-трата' : 'Demo transaction'),
+  category: i === 0
+    ? 'paid'
+    : ['financial_expenses', 'food_drinks', 'housing', 'income', 'investments', 'life_entertainment', 'shopping', 'transportation', 'utilities'][Math.floor(Math.random() * 10)],
   is_settleup: false,
-  cashback: 0.05,
+  cashback: i === 0 ? 0.05 : null,
 }))
 
 export {
