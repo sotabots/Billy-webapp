@@ -66,7 +66,7 @@ export const useGetUsers = (chatId: undefined | number) => {
       queryFn: chatId === 0
         ? () => mockUsers
         : () =>
-          fetch(`${apiUrl}/chats/${chatId}/users`, {
+          fetch(`${apiUrl}/chat/${chatId}/users`, {
             method: 'GET',
             headers: {
               'Authorization': initData,
@@ -92,7 +92,7 @@ export const useGetChat = (chatId: undefined | number) => {
       queryFn: chatId === 0
         ? () => mockChat
         : () =>
-          fetch(`${apiUrl}/chats/${chatId}/settings`, {
+          fetch(`${apiUrl}/chat/${chatId}/settings`, {
             method: 'GET',
             headers: {
               'Authorization': initData,
