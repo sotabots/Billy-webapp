@@ -3,11 +3,13 @@ import { useLocation } from 'react-router-dom'
 import { useInitData } from '@vkruglikov/react-telegram-web-app'
 
 import { useStore } from '../store'
-import { useUsers } from '../hooks'
+import { useUsers, useTgSettings } from '../hooks'
 
 import i18n from '../i18n'
 
 export const useInit = () => {
+  useTgSettings()
+
   const {
     txId, setTxId,
     summaryId, setSummaryId,

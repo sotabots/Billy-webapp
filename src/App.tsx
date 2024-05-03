@@ -3,7 +3,7 @@ import { WebAppProvider } from '@vkruglikov/react-telegram-web-app';
 
 import { RouterProvider } from 'react-router-dom'
 
-import { useAutoExpand, useTheme } from './hooks'
+import { useTgAutoExpand, useTheme } from './hooks'
 
 import './i18n';
 import { router } from './router'
@@ -19,7 +19,7 @@ const queryClient = new QueryClient()
 
 function App() {
   useTheme()
-  useAutoExpand()
+  useTgAutoExpand()
 
   return (
     <WebAppProvider options={{ smoothButtonsTransition: true }}>

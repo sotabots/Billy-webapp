@@ -16,7 +16,12 @@ declare global {
         headerColor: string
         backgroundColor: string
         isClosingConfirmationEnabled: boolean
-        close: () => void
+        close: VoidFunction
+        SettingsButton?: {
+          show: VoidFunction
+          onClick: (callback: VoidFunction) => void
+          offClick: (offClick: VoidFunction) => void
+        }
         // ...and more
         // see https://core.telegram.org/bots/webapps#initializing-mini-apps
       }
