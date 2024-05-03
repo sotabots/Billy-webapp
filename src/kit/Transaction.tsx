@@ -95,7 +95,13 @@ const Transaction = ({ tx }: { tx: TTransaction }) => {
               text: `${t('statusEditedBy')} ${[editor.first_name, editor.last_name].filter(_ => _).join(' ') }`,
             }] : []),
           ].map(tag => (
-            <div className="rounded-[8px] px-1 py-[2px] bg-[#8881] text-[12px] leading-[16px] font-semibold" style={{ color: tag.color }}>{tag.text}</div>
+            <div
+              key={tag.text}
+              className="rounded-[8px] px-1 py-[2px] bg-[#8881] text-[12px] leading-[16px] font-semibold"
+              style={{ color: tag.color }}
+            >
+              {tag.text}
+            </div>
           ))}
         </div>
       </div>

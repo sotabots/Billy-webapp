@@ -297,7 +297,7 @@ function Check() {
           </div>
         </Panel>
 
-        {!transaction.is_canceled && (
+        {!transaction.is_canceled && transaction._id !== 'NEW' && (
           <div className="m-4">
             <Button
               theme="clear"

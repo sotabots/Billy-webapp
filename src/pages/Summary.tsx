@@ -122,7 +122,11 @@ function Summary({
                 />
                 <div className="flex flex-wrap gap-x-1 gap-y-2">
                   {totalCategories.map(item => (
-                    <Category categoryKey={item.categoryKey} amountFormatted={item.amountFormatted} />
+                    <Category
+                      key={item.categoryKey}
+                      categoryKey={item.categoryKey}
+                      amountFormatted={item.amountFormatted}
+                    />
                   ))}
                 </div>
               </div>
