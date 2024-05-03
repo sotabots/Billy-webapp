@@ -14,7 +14,7 @@ import Panel from '../kit/Panel'
 import MessagePanel from '../kit/MessagePanel'
 import Screen from '../kit/Screen'
 
-import { useGetTransactions, useGetSummary } from '../api'
+import { useGetTx, useGetTransactions, useGetSummary } from '../api'
 
 import { decimals } from '../const'
 import { useCurrencies, useInit, useChatId } from '../hooks'
@@ -48,6 +48,7 @@ function Check() {
 
   const { chatId } = useChatId()
   const queryClient = useQueryClient()
+  const { refetch: refetchTransaction } = useGetTx()
   const { refetch: refetchTransactions } = useGetTransactions(chatId)
   const { refetch: refetchSummary } = useGetSummary()
 
@@ -158,6 +159,7 @@ function Check() {
             `tx-${transaction._id}`,
             'transactions'
           ] })
+          refetchTransaction()
           refetchTransactions()
           refetchSummary()
 
