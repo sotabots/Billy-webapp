@@ -67,5 +67,10 @@
   "statusEditedBy": "Редаговано:",
 
   "detailedSummary": "Деталізація",
-  "addTransaction": "Додати витрату"
+  "addTransaction": "Додати витрату",
+
+  "currency": "Валюта",
+  "language": "Мова",
+  "chooseCurrency": "Виберіть валюту",
+  "chooseLanguage": "Виберіть мову"
 }

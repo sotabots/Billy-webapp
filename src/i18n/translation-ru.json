@@ -76,5 +76,10 @@
   "statusEditedBy": "Отредактировано:",
 
   "detailedSummary": "Детализация",
-  "addTransaction": "Добавить трату"
+  "addTransaction": "Добавить трату",
+
+  "currency": "Валюта",
+  "language": "Язык",
+  "chooseCurrency": "Выберите валюту",
+  "chooseLanguage": "Выберите язык"
 }

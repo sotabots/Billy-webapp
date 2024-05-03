@@ -32,25 +32,34 @@ function Settings() {
   const [isCurrencyOpen, setIsCurrencyOpen] = useState(false)
   const [isLanguageOpen, setIsLanguageOpen] = useState(false)
 
+  const closeInnerPages = () => {
+    setIsCurrencyOpen(false)
+    setIsLanguageOpen(false)
+  }
+
+  const isOpen = isCurrencyOpen || isLanguageOpen
+
   return (
     <Screen>
-      <Header onBack={() => { history.back() }} />
+      <Header onBack={() => { isOpen ? closeInnerPages() : history.back() }} />
 
-      <div className="m-4 rounded-[12px] overflow-hidden">
-        <MenuItem
-          icon={<SettingsCurrencyIcon />}
-          title={t('currency')}
-          value={chat?.default_currency || ''}
-          onClick={() => { setIsCurrencyOpen(true) }}
-        />
-        <Divider className="mr-0 !bg-[#D5DADD]" />
-        <MenuItem
-          icon={<SettingsLanguageIcon />}
-          title={t('language')}
-          value={chat?.language_code.toUpperCase() || ''}
-          onClick={() => { setIsLanguageOpen(true) }}
-        />
-      </div>
+      {!isOpen && (
+        <div className="m-4 rounded-[12px] overflow-hidden">
+          <MenuItem
+            icon={<SettingsCurrencyIcon />}
+            title={t('currency')}
+            value={chat?.default_currency || ''}
+            onClick={() => { setIsCurrencyOpen(true) }}
+          />
+          <Divider className="mr-0 !bg-[#D5DADD]" />
+          <MenuItem
+            icon={<SettingsLanguageIcon />}
+            title={t('language')}
+            value={chat?.language_code.toUpperCase() || ''}
+            onClick={() => { setIsLanguageOpen(true) }}
+          />
+        </div>
+      )}
 
       {isCurrencyOpen && (
         <div />

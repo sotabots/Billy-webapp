@@ -76,5 +76,10 @@
   "statusEditedBy": "Edited by",
 
   "detailedSummary": "Detailed summary",
-  "addTransaction": "Add transaction"
+  "addTransaction": "Add transaction",
+
+  "currency": "Currency",
+  "language": "Language",
+  "chooseCurrency": "Choose a currency",
+  "chooseLanguage": "Choose a language"
 }
