@@ -1,4 +1,3 @@
-import Lottie from 'lottie-react'
 import { useEffect, useState } from 'react'
 import { useTranslation } from 'react-i18next'
 
@@ -9,9 +8,7 @@ import Screen from '../kit/Screen'
 import { useInit } from '../hooks'
 import { feedback, EVENT } from '../feedback'
 
-import lottieKoalaSoon from '../assets/animation-koala-soon.json'
-
-function Soon() {
+function Settings() {
   useInit()
 
   const { t } = useTranslation()
@@ -20,7 +17,7 @@ function Soon() {
   useEffect(() => {
     if (!isEvent) {
       setIsEvent(true)
-      feedback(EVENT.OPEN_SOON)
+      feedback(EVENT.OPEN_SETTINGS)
     }
   }, [isEvent, setIsEvent])
 
@@ -29,25 +26,16 @@ function Soon() {
       <Header onBack={() => { history.back() }} />
 
       <div className="w-[280px] mx-auto flex flex-col gap-4 pt-[112px] text-center">
-        <div className="mx-auto w-[123px] h-[114px]">
-          <Lottie
-            style={{ width: 123, height: 114 }}
-            animationData={lottieKoalaSoon}
-            loop={true}
-          />
-        </div>
-        <div className="text-[24px] leading-[32px] font-semibold">
-          {t('featureSoon')}
-        </div>
+        settings
       </div>
 
       <Button
         isBottom
-        text={t('okay')}
+        text={t('close')}
         onClick={() => { history.back() }}
       />
     </Screen>
   )
 }
 
-export default Soon
+export default Settings

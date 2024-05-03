@@ -9,6 +9,7 @@ const EVENT = {
   OPEN_PAGE_TRANSACTION: 'open_page_transaction',
   OPEN_PAGE_SUMMARY: 'open_page_summary',
   SEND_TRANSACTION: 'send_transaction',
+  OPEN_SETTINGS: 'open_settings',
   OPEN_SOON: 'open_soon'
 }
 
