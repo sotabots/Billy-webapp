@@ -238,7 +238,7 @@ export const useGetTransactions = (chatId: undefined | number) => {
       queryFn: chatId === 0
         ? () => mockTransactions
         : () =>
-          fetch(`${apiUrl}/chats/${chatId}/transactions`, {
+          fetch(`${apiUrl}/chat/${chatId}/transactions`, {
             method: 'GET',
             headers: {
               'Authorization': initData,
