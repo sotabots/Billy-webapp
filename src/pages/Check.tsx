@@ -186,14 +186,14 @@ function Check() {
         message,
         buttons: [
           {
-            id: 'cancel',
-            text: t('cancel'),
-            type: 'cancel'
-          },
-          {
             id: 'delete',
             text: t('delete'),
-            type: 'destructive'
+            type: 'destructive',
+          },
+          {
+            id: 'cancel',
+            text: t('cancel'),
+            type: 'default',
           },
         ],
       })
