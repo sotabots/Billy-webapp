@@ -39,6 +39,7 @@
   "nobodyHere": "(Nobody here)",
   "checkAmounts": "Check amounts",
   "cancelTransaction": "Delete transaction",
+  "sureToCancelTransaction": "Are you sure you want to delete the transaction? It can be restored in the list of transactions.",
 
   "balance": "User Balance",
   "totalTransactions": "Total & Transactions",

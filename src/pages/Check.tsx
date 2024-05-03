@@ -1,5 +1,5 @@
 import { useQueryClient } from '@tanstack/react-query'
-import { useHapticFeedback,  } from '@vkruglikov/react-telegram-web-app'
+import { useHapticFeedback, useShowPopup } from '@vkruglikov/react-telegram-web-app'
 
 import Lottie from 'lottie-react'
 import { useState } from 'react'
@@ -33,6 +33,7 @@ function Check() {
   useInit()
 
   const [, notificationOccurred] = useHapticFeedback()
+  const showPopup = useShowPopup()
 
   const { t } = useTranslation()
   const navigate = useNavigate()
@@ -175,8 +176,34 @@ function Check() {
     }
   }
 
-  const cancel = () => {
-    save({ isCanceled: true })
+  const cancel = async () => {
+    const title = t('cancelTransaction')
+    const message = t('sureToCancelTransaction')
+    let answerButtonId: string
+    try {
+      answerButtonId = await showPopup({
+        title,
+        message,
+        buttons: [
+          {
+            id: 'cancel',
+            text: t('cancel'),
+            type: 'cancel'
+          },
+          {
+            id: 'delete',
+            text: t('delete'),
+            type: 'destructive'
+          },
+        ],
+      })
+    } catch {
+      answerButtonId = confirm(message) ? 'delete' : 'cancel'
+    }
+
+    if (answerButtonId === 'delete') {
+      save({ isCanceled: true })
+    }
   }
 
   return (
