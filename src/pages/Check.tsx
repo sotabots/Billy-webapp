@@ -1,5 +1,5 @@
 import { useQueryClient } from '@tanstack/react-query'
-import { useHapticFeedback } from '@vkruglikov/react-telegram-web-app'
+import { useHapticFeedback,  } from '@vkruglikov/react-telegram-web-app'
 
 import Lottie from 'lottie-react'
 import { useState } from 'react'
@@ -27,6 +27,7 @@ import type { TNewTransaction, TShare, TTransaction } from '../types'
 import lottieSuccess from '../assets/animation-success.json'
 import { ReactComponent as EditIcon } from '../assets/edit.svg'
 import { ReactComponent as SplitIcon } from '../assets/split.svg'
+import { ReactComponent as DeleteIcon } from '../assets/delete.svg'
 
 function Check() {
   useInit()
@@ -127,7 +128,7 @@ function Check() {
     })
   }
 
-  const save = async () => {
+  const save = async ({ isCanceled = false } = {}) => {
     setIsBusy(true)
     try {
       const newConfirmedTransaction: TNewTransaction = {
@@ -137,6 +138,7 @@ function Check() {
       const confirmedTransaction: TTransaction = {
         ...transaction as TTransaction,
         ...(txComment ? { raw_text: txComment } : {}),
+        is_canceled: !!isCanceled,
         is_confirmed: true
       }
       await feedback(EVENT.SEND_TRANSACTION)
@@ -171,6 +173,10 @@ function Check() {
     } finally {
       setIsBusy(false)
     }
+  }
+
+  const cancel = () => {
+    save({ isCanceled: true })
   }
 
   return (
@@ -263,6 +269,23 @@ function Check() {
             ))}
           </div>
         </Panel>
+
+        {!transaction.is_canceled && (
+          <div className="m-4">
+            <Button
+              theme="clear"
+              className="w-full border border-[#DDE2E4] dark:border-[#6E7C87] rounded-[6px]"
+              text={
+                <div className="min-h-[40px] flex items-center justify-center gap-2 text-[14px] leading-[24px]">
+                  <DeleteIcon />
+                  <span>{t('cancelTransaction')}</span>
+                </div>
+              }
+              onClick={cancel}
+              isBusy={isBusy}
+            />
+          </div>
+        )}
 
         <Button
           isBottom

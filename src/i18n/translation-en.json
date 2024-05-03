@@ -38,6 +38,7 @@
   "splitEqually": "Split equally",
   "nobodyHere": "(Nobody here)",
   "checkAmounts": "Check amounts",
+  "cancelTransaction": "Delete transaction",
 
   "balance": "User Balance",
   "totalTransactions": "Total & Transactions",
