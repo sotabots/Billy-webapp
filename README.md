@@ -1,8 +1,9 @@
 # 🐨 Billy ([telegram webapp](https://t.me/BillyMoney_bot?start=from_github))
 
 ## Links
-- [Tg bot](https://t.me/BillyMoney_bot?start=from_github)
-- [Community](https://t.me/Billy_Community)
+- 🐨 **[Service](https://t.me/BillyMoney_bot?start=from_github)**
+- 🌐 [Landing page](https://billy.money)
+- 💬 [Community](https://t.me/Billy_Community)
 
 ## What is it?
 
