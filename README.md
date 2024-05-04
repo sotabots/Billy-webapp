@@ -1,4 +1,4 @@
-# 🗣🤖 Billy webapp
+# 🐨 Billy ([telegram webapp](https://t.me/BalanceUs_bot?start=from_github))
 
 ## Links
 - [Tg bot](https://t.me/BalanceUs_bot?start=from_github)
@@ -23,4 +23,4 @@ npm run dev
 
 ### Deploy
 
-`npm run deploy` -> [here](https://sotabots.github.io/Billy-webapp/)
+(master) `npm run deploy` -> [here](https://sotabots.github.io/Billy-webapp/)
