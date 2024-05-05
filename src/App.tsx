@@ -8,9 +8,6 @@ import { useTgAutoExpand, useTheme } from './hooks'
 import './i18n';
 import { router } from './router'
 
-// import reactLogo from './assets/react.svg'
-// import viteLogo from '/vite.svg'
-
 import DemoMode from './kit/DemoMode'
 import OverlaySplash from './overlays/OverlaySplash'
 import OverlayError from './overlays/OverlayError'

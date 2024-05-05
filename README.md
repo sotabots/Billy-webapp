@@ -1,7 +1,7 @@
 # 🐨 Billy ([telegram webapp](https://t.me/BillyMoney_bot?start=from_github))
 
 ## Links
-- 🐨 **[Service](https://t.me/BillyMoney_bot?start=from_github)**
+- 🐨 **[Billy](https://t.me/BillyMoney_bot?start=from_github)**
 - 🌐 [Landing page](https://billy.money)
 - 💬 [Community](https://t.me/Billy_Community)
 
