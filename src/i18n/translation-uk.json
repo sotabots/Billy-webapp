@@ -41,7 +41,16 @@
   "cancelTransaction": "Видалити витрати",
   "sureToCancelTransaction": "Ви впевнені, що хочете видалити витрати? Її можна буде повернути через список витрат.",
 
-  "convertAllTo": "Перевести всё в",
+  "balance": "Баланс",
+  "totalTransactions": "Витрати",
+
+  "settleUpBy": "Розрахуватись по",
+  "balanceBy": "Баланс по",
+  "settleUp": "Розрахуватися",
+  "settleUpSaved": "Транзакцію успішно збережено!",
+  "allSettledUp": "Усі розрахувалися у цій групі",
+
+  "convertAllTo": "Подивитися все у",
   "featureSoon": "Ця функція незабаром стане доступною",
   "okay": "Добре",
 
