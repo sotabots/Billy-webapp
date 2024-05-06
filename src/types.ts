@@ -50,12 +50,16 @@ export type TCurrencyId = string // 'RUB' | 'GEL' | 'TRY' | 'EUR'
 
 export type TCurrency = {
   _id: TCurrencyId, // 'EUR'
-  title: string, // 'Euro'
-  symbol: string, // '€'
-  in: string // 'In Euros'
+  title: {
+    en: string // 'Euro'
+    ru: string
+    uk: string
+  },
+  symbol: string // '€'
+  flag: string // 🇪🇺
 }
 
-export type TLangCode = string // 'en' | 'ru' | 'uk' (or any string)
+export type TLanguageCode = 'en' | 'ru' | 'uk'
 
 export type TRates = {
   [key: string]: number
@@ -63,7 +67,7 @@ export type TRates = {
 
 export type TChat = {
   default_currency: TCurrencyId | null
-  language_code: TLangCode
+  language_code: TLanguageCode
   rates: TRates
 }
 

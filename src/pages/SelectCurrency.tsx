@@ -9,13 +9,13 @@ import RadioButton from '../kit/RadioButton'
 import Screen from '../kit/Screen'
 
 import { useInit } from '../hooks'
-import { TCurrencyId } from '../types'
+import { TCurrencyId, TLanguageCode } from '../types'
 import { useStore } from '../store'
 
 function SelectCurrency() {
   useInit()
 
-  const { t } = useTranslation()
+  const { t, i18n } = useTranslation()
   const navigate = useNavigate()
   const { currencies, transaction, setCurrency } = useStore()
   const [impactOccurred, , selectionChanged] = useHapticFeedback()
@@ -37,20 +37,20 @@ function SelectCurrency() {
         <h2>{t('selectCurrency')}</h2>
       </div>
       <div className="mt-4 overflow-y-auto">
-        {currencies.map((currencyItem, i) => (
-          <div key={`currencies-${currencyItem._id}`}>
+        {currencies.map((currency, i) => (
+          <div key={`currencies-${currency._id}`}>
             <RadioButton
               group="currencies"
               label={(
                 <>
-                  <span className="font-semibold">{currencyItem.symbol}</span>
+                  <span className="font-semibold">{currency.symbol}</span>
                   {' '}
-                  <span>{currencyItem.title}</span>
+                  <span>{currency.title[i18n.language as TLanguageCode]}</span>
                 </>
               )}
-              key={`currencies-${currencyItem._id}`}
-              value={currencyItem._id}
-              checked={transaction?.currency_id === currencyItem._id}
+              key={`currencies-${currency._id}`}
+              value={currency._id}
+              checked={transaction?.currency_id === currency._id}
               onChange={onChange}
             />
             {i < currencies.length - 1 && <Divider key={`Divider-${i}`} />}

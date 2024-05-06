@@ -14,7 +14,7 @@ import { usePostChatCurrency, usePostChatLanguage, useGetChat } from '../api'
 import { useChatId, useInit } from '../hooks'
 import { feedback, EVENT } from '../feedback'
 import { useStore } from '../store'
-import { TCurrencyId, TLangCode } from '../types'
+import { TCurrencyId, TLanguageCode } from '../types'
 
 import { ReactComponent as SettingsCurrencyIcon } from '../assets/settings-currency.svg'
 import { ReactComponent as SettingsLanguageIcon } from '../assets/settings-language.svg'
@@ -22,7 +22,7 @@ import { ReactComponent as SettingsLanguageIcon } from '../assets/settings-langu
 function Settings() {
   useInit()
 
-  const { t } = useTranslation()
+  const { t, i18n } = useTranslation()
   const { currencies, chat } = useStore()
 
   const [isEvent, setIsEvent] = useState(false)
@@ -79,13 +79,13 @@ function Settings() {
     setBusy(false)
   }
 
-  const onChangeLanguage = async (langCode: TLangCode) => {
+  const onChangeLanguage = async (languageCode: TLanguageCode) => {
     selectionChanged()
     impactOccurred('medium')
     setBusy(true)
     let isSuccess = true
     try {
-      await postChatLanguage(langCode)
+      await postChatLanguage(languageCode)
     } catch {
       isSuccess = false
     }
@@ -97,7 +97,10 @@ function Settings() {
     setBusy(false)
   }
 
-  const langs = [
+  const langs: {
+    _id: TLanguageCode,
+    title: string
+  }[] = [
     {
       _id: 'en',
       title: 'English',
@@ -161,7 +164,7 @@ function Settings() {
                     <>
                       <span className="font-semibold">{currencyItem.symbol}</span>
                       {' '}
-                      <span>{currencyItem.title}</span>
+                      <span>{currencyItem.title[i18n.language as TLanguageCode]}</span>
                     </>
                   )}
                   key={`currencies-${currencyItem._id}`}
@@ -200,7 +203,7 @@ function Settings() {
                   key={`currencies-${lang._id}`}
                   value={lang._id}
                   checked={chat?.language_code === lang._id}
-                  onChange={onChangeLanguage}
+                  onChange={(langCode) => { onChangeLanguage(langCode as TLanguageCode) }}
                 />
                 {i < currencies.length - 1 && <Divider key={`Divider-${i}`} />}
               </div>

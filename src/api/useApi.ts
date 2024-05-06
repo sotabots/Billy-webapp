@@ -3,7 +3,7 @@ import { useQuery } from '@tanstack/react-query'
 
 import { useNewTx, useChatId } from '../hooks'
 import { useStore } from '../store'
-import { TCurrency, TCategories, TTransaction, TNewTransaction, TUser, TChat, TSummary, TCurrencyId, TLangCode } from '../types'
+import { TCurrency, TCategories, TTransaction, TNewTransaction, TUser, TChat, TSummary, TCurrencyId, TLanguageCode } from '../types'
 import {
   mockTransaction,
   mockUsers,
@@ -279,10 +279,10 @@ export const usePostChatLanguage = () => {
     ? 'https://jsonplaceholder.typicode.com/posts'
     : `${apiUrl}/chat/${chatId}/language`
 
-  return (langCode: TLangCode) =>
+  return (languageCode: TLanguageCode) =>
     fetch(url, {
       method: 'POST',
-      body: JSON.stringify({ language_code: langCode }),
+      body: JSON.stringify({ language_code: languageCode }),
       headers: {
         'Content-type': 'application/json',
         'Authorization': initData,

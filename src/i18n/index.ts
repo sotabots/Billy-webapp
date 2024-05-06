@@ -2,17 +2,21 @@
 import i18next from 'i18next'
 import { initReactI18next } from 'react-i18next'
 
+import { TLanguageCode } from '../types'
+
 import translationEn from './translation-en.json'
 import translationRu from './translation-ru.json'
 import translationUk from './translation-uk.json'
 
+const langs: TLanguageCode[] = ['en', 'ru', 'uk']
+
 i18next.use(initReactI18next).init({
   // if you're using a language detector, do not define the lng option
   // lng: window.Telegram?.WebApp.initDataUnsafe.user?.language_code === 'ru' ? 'ru' : 'en',
-  lng: 'en',
-  fallbackLng: ['en', 'ru', 'uk'],
-  supportedLngs: ['en', 'ru', 'uk'],
-  debug: true,
+  lng: langs[0],
+  fallbackLng: langs,
+  supportedLngs: langs,
+  debug: false,
   resources: {
     en: { translation: translationEn },
     ru: { translation: translationRu },

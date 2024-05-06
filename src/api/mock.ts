@@ -1,4 +1,4 @@
-import { TShare, TTransaction, TUser, TChat, TSummary, TRates } from '../types'
+import { TShare, TTransaction, TUser, TChat, TSummary, TRates, TLanguageCode } from '../types'
 import { mockCurrencies } from './mockCurrencies'
 
 import { decimals } from '../const'
@@ -81,7 +81,7 @@ const _mockTransaction: TTransaction = {
   shares,
   is_confirmed: false,
   is_canceled: false,
-  currency_id: mockCurrencies[0]._id,
+  currency_id: 'USD',
   time_created: (new Date()).toISOString(),
   nutshell: null,
   category: null,
@@ -95,15 +95,18 @@ const mockRates = mockCurrencies.reduce((acc, currency) => {
 }, {} as TRates)
 
 const _mockChat: TChat = {
-  default_currency: mockCurrencies[0]._id,
+  default_currency: 'USD',
   language_code: 'en',
   rates: mockRates,
 }
 
 // demo data
 
-const tgLanguageCode = window.Telegram?.WebApp.initDataUnsafe.user?.language_code || 'en'
-const isRus = tgLanguageCode === 'ru' || tgLanguageCode === 'uk'
+const tgLanguageCode = window.Telegram?.WebApp.initDataUnsafe.user?.language_code
+const demoLanguage: TLanguageCode = (tgLanguageCode && i18n.languages.includes(tgLanguageCode))
+  ? tgLanguageCode as TLanguageCode
+  : 'en'
+const isRus = demoLanguage === 'ru' || demoLanguage === 'uk'
 
 const demoUsers: TUser[] = [
   {
@@ -235,7 +238,7 @@ const demoCurrencyId = isRus ? 'RUB' : 'USD'
 
 const demoChat: TChat = {
   default_currency: demoCurrencyId,
-  language_code: tgLanguageCode,
+  language_code: demoLanguage,
   rates: mockRates,
 }
 

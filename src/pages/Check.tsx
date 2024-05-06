@@ -22,7 +22,7 @@ import { useStore } from '../store'
 import { feedback, EVENT } from '../feedback'
 import { usePostTransaction, usePutTransaction } from '../api'
 import { formatAmount } from '../utils'
-import type { TNewTransaction, TShare, TTransaction } from '../types'
+import type { TNewTransaction, TShare, TTransaction, TLanguageCode } from '../types'
 
 import lottieSuccess from '../assets/animation-success.json'
 import { ReactComponent as EditIcon } from '../assets/edit.svg'
@@ -35,7 +35,7 @@ function Check() {
   const [, notificationOccurred] = useHapticFeedback()
   const showPopup = useShowPopup()
 
-  const { t } = useTranslation()
+  const { t, i18n } = useTranslation()
   const navigate = useNavigate()
 
   const [isBusy, setIsBusy] = useState(false)
@@ -224,7 +224,7 @@ function Check() {
           <h2 className="pt-[2px] pb-[6px]">{t('checkout')}</h2>
           <Button
             theme="text"
-            text={currency ? currency.in : t('selectCurrency')}
+            text={currency ? currency.title[i18n.language as TLanguageCode] : t('selectCurrency')}
             onClick={() => { navigate('/select-currency') }}
           />
         </div>
