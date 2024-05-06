@@ -73,7 +73,7 @@ const Transaction = ({ tx }: { tx: TTransaction }) => {
         </div>
         )}
         <div className="flex gap-2 items-start justify-between px-2">
-          <div className="flex-1 opacity-60 first-letter:uppercase">{tx.nutshell || 'test'}</div>
+          <div className="flex-1 opacity-60 first-letter:uppercase">{tx.nutshell}</div>
           {!!cashbackAmount && (
             <div className="flex gap-1 items-center rounded-[8px] px-1 py-[2px] bg-[#ff960020] text-[12px] leading-[16px] font-semibold">
               <img className="block w-3 h-3" src={cashback} />
