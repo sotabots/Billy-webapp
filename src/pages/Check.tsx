@@ -13,6 +13,7 @@ import Overlay from '../kit/Overlay'
 import Panel from '../kit/Panel'
 import MessagePanel from '../kit/MessagePanel'
 import Screen from '../kit/Screen'
+import Toggle from '../kit/Toggle'
 
 import { useGetTx, useGetTransactions, useGetSummary } from '../api'
 
@@ -38,8 +39,7 @@ function Check() {
   const { t, i18n } = useTranslation()
   const navigate = useNavigate()
 
-  const [isBusy, setIsBusy] = useState(false)
-  const { transaction, setTransaction, txComment, isEditTx, setIsEditTx, setIsSelectPayers, isSuccess, setSuccess, setTxPatchError } = useStore()
+  const { transaction, setTransaction, txComment, isEditTx, setIsEditTx, setIsSelectPayers, isSuccess, setSuccess, setTxPatchError, isDebug } = useStore()
 
   const { getCurrencyById } = useCurrencies()
 
@@ -51,6 +51,9 @@ function Check() {
   const { refetch: refetchTransaction } = useGetTx()
   const { refetch: refetchTransactions } = useGetTransactions(chatId)
   const { refetch: refetchSummary } = useGetSummary()
+
+  const [isEqually, setIsEqually] = useState(true)
+  const [isBusy, setIsBusy] = useState(false)
 
   if (!transaction) {
     return null
@@ -269,8 +272,9 @@ function Check() {
               }}
             />
           </div>
-          <div className="h-[24px] mt-[2px]">
+          <div className="min-h-[24px] mt-[2px]">
             {!!oweShares.length && (!isSplitedEqually || !isBalanced) && (
+              <>
               <Button
                 theme="text"
                 text={(
@@ -283,6 +287,14 @@ function Check() {
                 )}
                 onClick={splitEqually}
               />
+              {isDebug && (
+                <Toggle
+                  label={t('splitEqually')}
+                  value={isEqually}
+                  onChange={setIsEqually}
+                />
+              )}
+              </>
             )}
           </div>
           <div className="mt-4 flex flex-col gap-3">
