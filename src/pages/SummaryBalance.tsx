@@ -8,6 +8,7 @@ import Screen from '../kit/Screen'
 import Header from '../kit/Header'
 import Tabs from '../kit/Tabs'
 
+import { useGetSummarySheetRebuild } from '../api'
 import { useInit, useFilter } from '../hooks'
 import { useStore } from '../store'
 
@@ -28,6 +29,7 @@ function SummaryBalance({ tab }: { tab: TTab }) {
   const { isFilterOpen, closeFilter } = useFilter()
 
   const { summary } = useStore()
+  const getSummarySheetRebuild = useGetSummarySheetRebuild()
 
   const [selectedId, setSelectedId] = useState<null | string>(null)
   const isSelected = selectedId !== null
@@ -48,6 +50,7 @@ function SummaryBalance({ tab }: { tab: TTab }) {
   const goDetailed = () => {
     if (summary) {
       window.open(summary.url, '_blank')
+      getSummarySheetRebuild()
     }
   }
 

@@ -289,3 +289,20 @@ export const usePostChatLanguage = () => {
       },
     }).then(handleJsonResponse)
 }
+
+export const useGetSummarySheetRebuild = () => {
+  const [, initData] = useInitData()
+  const { summaryId } = useStore()
+  const url = (!summaryId || summaryId?.includes('demo'))
+    ? 'https://jsonplaceholder.typicode.com/posts'
+    : `${apiUrl}/summary/${summaryId}/gsheet`
+
+  return () =>
+    fetch(url, {
+      method: 'GET',
+      headers: {
+        'Content-type': 'application/json',
+        'Authorization': initData,
+      },
+    }).then(handleJsonResponse)
+}
