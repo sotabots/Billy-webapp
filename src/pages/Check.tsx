@@ -227,7 +227,7 @@ function Check() {
           <h2 className="pt-[2px] pb-[6px]">{t('checkout')}</h2>
           <Button
             theme="text"
-            text={currency ? currency.title[i18n.language as TLanguageCode] : t('selectCurrency')}
+            text={currency ? `${currency.flag} ${currency.title[i18n.language as TLanguageCode]}` : t('selectCurrency')}
             onClick={() => { navigate('/select-currency') }}
           />
         </div>

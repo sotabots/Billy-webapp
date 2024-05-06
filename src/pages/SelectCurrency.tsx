@@ -45,6 +45,8 @@ function SelectCurrency() {
                 <>
                   <span className="font-semibold">{currency.symbol}</span>
                   {' '}
+                  <span>{currency.flag}</span>
+                  {' '}
                   <span>{currency.title[i18n.language as TLanguageCode]}</span>
                 </>
               )}
