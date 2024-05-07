@@ -23,12 +23,12 @@ import lottieKoalaSuccess from '../assets/animation-koala-success.json'
 import { TNewTransaction } from '../types'
 
 function Balance({
-  selectedId,
-  setSelectedId,
+  selectedDebtId,
+  setSelectedDebtId,
   goDetailed,
 }: {
-  selectedId: null | string
-  setSelectedId: (selectedId: null | string) => void
+  selectedDebtId: null | string
+  setSelectedDebtId: (selectedDebtId: null | string) => void
   goDetailed: () => void
 }) {
   const { t } = useTranslation()
@@ -39,8 +39,8 @@ function Balance({
   const { summary, setSummary, setSummaryCurrencyId, chat, setTxPatchError } = useStore()
   const { getCurrencyById } = useCurrencies()
 
-  const isSelected = selectedId !== null
-  const selectedDebt = (summary?.debts || []).find(debt => JSON.stringify(debt) === selectedId)
+  const isSelected = selectedDebtId !== null
+  const selectedDebt = (summary?.debts || []).find(debt => JSON.stringify(debt) === selectedDebtId)
   const selectedDebtCurrency = selectedDebt ? getCurrencyById(selectedDebt.currency_id) : undefined
 
   const [isBusy, setIsBusy] = useState(false)
@@ -53,7 +53,7 @@ function Balance({
   const postTransaction = usePostTransaction()
 
   const settleUp = async () => {
-    if (selectedId === null || !summary || !selectedDebt) {
+    if (selectedDebtId === null || !summary || !selectedDebt) {
       return
     }
     setIsBusy(true)
@@ -100,13 +100,13 @@ function Balance({
 
       setSummary({
         ...summary,
-        debts: [...summary.debts].filter(debt => JSON.stringify(debt) !== selectedId)
+        debts: [...summary.debts].filter(debt => JSON.stringify(debt) !== selectedDebtId)
       })
       setIsSuccessOpen(true)
       console.log('success vibro')
       notificationOccurred('success')
       setTimeout(() => {
-        setSelectedId(null)
+        setSelectedDebtId(null)
       }, 1000)
       setTimeout(() => {
         setIsSuccessOpen(false)
@@ -136,7 +136,7 @@ function Balance({
                     <Debt
                       key={JSON.stringify(debt)}
                       {...debt}
-                      onClick={() => { setSelectedId(JSON.stringify(debt)) }}
+                      onClick={() => { setSelectedDebtId(JSON.stringify(debt)) }}
                     />
                   ))}
                 </div>
@@ -174,7 +174,7 @@ function Balance({
         </>
       )}
 
-      {!selectedId && summary?.debts && summary.debts.length === 0 && (
+      {!selectedDebtId && summary?.debts && summary.debts.length === 0 && (
         <>
           <div className="w-[244px] mx-auto flex flex-col gap-6 pt-8 text-center">
             <div className="mx-auto w-[215px] h-[200px]">
@@ -204,7 +204,7 @@ function Balance({
         </>
       )}
 
-      {selectedId && selectedDebt && (
+      {selectedDebtId && selectedDebt && (
         <>
           <h2 className="mb-2 px-4 pt-[2px] pb-[6px]">
             {`${t('settleUpBy')} ${selectedDebtCurrency?.symbol}`}

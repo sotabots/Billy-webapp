@@ -31,8 +31,8 @@ function SummaryBalance({ tab }: { tab: TTab }) {
   const { summary } = useStore()
   const getSummarySheetRebuild = useGetSummarySheetRebuild()
 
-  const [selectedId, setSelectedId] = useState<null | string>(null)
-  const isSelected = selectedId !== null
+  const [selectedDebtId, setSelectedDebtId] = useState<null | string>(null)
+  const isSelectedDebt = selectedDebtId !== null
 
   const [isCompactPie, setIsCompactPie] = useState<boolean>(false)
 
@@ -61,13 +61,13 @@ function SummaryBalance({ tab }: { tab: TTab }) {
     >
       <Header onBack={
         (tab === 'summary' && isFilterOpen && (() => { closeFilter() })) ||
-        (tab === 'balance' && isSelected && (() => { setSelectedId(null) })) ||
+        (tab === 'balance' && isSelectedDebt && (() => { setSelectedDebtId(null) })) ||
         closeApp
       } />
 
       {!(
         tab === 'summary' && isFilterOpen ||
-        tab === 'balance' && isSelected
+        tab === 'balance' && isSelectedDebt
       ) && (
         <Tabs
           className="sticky top-0 mb-[6px] pb-[2px] pt-2 bg-bg2 z-[1]"
@@ -99,8 +99,8 @@ function SummaryBalance({ tab }: { tab: TTab }) {
 
       {tab === 'balance' && (
         <Balance
-          selectedId={selectedId}
-          setSelectedId={setSelectedId}
+          selectedDebtId={selectedDebtId}
+          setSelectedDebtId={setSelectedDebtId}
           goDetailed={goDetailed}
         />
       )}
