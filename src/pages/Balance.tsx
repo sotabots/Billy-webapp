@@ -11,13 +11,11 @@ import DebtDetailed from '../kit/DebtDetailed'
 
 import { closeApp } from '../utils'
 
-// import { decimals } from '../const'
 import { useStore } from '../store'
 import { useCurrencies } from '../hooks'
-// import { feedback, EVENT } from '../feedback'
+import { feedback, EVENT } from '../feedback'
 import { usePostTransaction } from '../api'
 import { formatAmount } from '../utils'
-// import type { TShare } from '../types'
 
 import lottieKoalaSettledUp from '../assets/animation-koala-settled-up.json'
 import lottieKoalaSuccess from '../assets/animation-koala-success.json'
@@ -36,9 +34,9 @@ function Balance({
   const { t } = useTranslation()
 
   const [, notificationOccurred] = useHapticFeedback()
-  const [initDataUnsafe/*, initData*/] = useInitData()
+  const [initDataUnsafe] = useInitData()
 
-  const { summary, setSummary, setSummaryCurrencyId, chat } = useStore()
+  const { summary, setSummary, setSummaryCurrencyId, chat, setTxPatchError } = useStore()
   const { getCurrencyById } = useCurrencies()
 
   const isSelected = selectedId !== null
@@ -53,35 +51,6 @@ function Balance({
     : [...(new Set(summary.debts.map(item => item.currency_id)))]
 
   const postTransaction = usePostTransaction()
-
-  /*
-  const { currencies, transaction, setTransaction, setSuccess, setTxPatchError } = useStore()
-
-  const patchTransaction = usePatchTransaction()
-
-  const save = async () => {
-    const confirmedTransaction = {
-      ...transaction,
-      is_confirmed: true
-    }
-    setIsBusy(true)
-    try {
-      await feedback(EVENT.SEND_TRANSACTION)
-      console.log(JSON.stringify(confirmedTransaction, null, 2))
-      const resJson = await patchTransaction(confirmedTransaction)
-      console.log('patch res json', resJson)
-      setSuccess(true)
-      setTimeout(() => {
-        window.Telegram?.WebApp.close()
-      }, 2300)
-    } catch (e) {
-      setSuccess(false)
-      setTxPatchError(e as Error)
-    } finally {
-      setIsBusy(false)
-    }
-  }
-  */
 
   const settleUp = async () => {
     if (selectedId === null || !summary || !selectedDebt) {
@@ -124,6 +93,8 @@ function Balance({
         is_settleup: true,
         cashback: null,
       }
+
+      await feedback(EVENT.SEND_SETTLEUP)
       const resJson = await postTransaction(newTx)
       console.log('patchTransaction res', resJson)
 
@@ -141,7 +112,8 @@ function Balance({
         setIsSuccessOpen(false)
       }, 2500)
     } catch (e) {
-      // todo
+      setIsSuccessOpen(false)
+      setTxPatchError(e as Error)
     } finally {
       setIsBusy(false)
     }
