@@ -16,7 +16,7 @@ import { closeApp } from '../utils'
 import { useStore } from '../store'
 import { useCurrencies } from '../hooks'
 import { feedback, EVENT } from '../feedback'
-import { usePostTransaction } from '../api'
+import { usePostTransaction, useGetSummary } from '../api'
 import { formatAmount } from '../utils'
 
 import lottieKoalaSettledUp from '../assets/animation-koala-settled-up.json'
@@ -46,7 +46,8 @@ function Balance({
   const [, notificationOccurred] = useHapticFeedback()
   const [initDataUnsafe] = useInitData()
 
-  const { summary, setSummary, setSummaryCurrencyId, chat, users, setTxPatchError } = useStore()
+  const { refetch: refetchSummary } = useGetSummary()
+  const { summary, /*setSummary,*/ setSummaryCurrencyId, chat, users, setTxPatchError } = useStore()
   const { getCurrencyById } = useCurrencies()
 
   const selectedDebt = (summary?.debts || []).find(debt => JSON.stringify(debt) === selectedDebtId)
@@ -107,16 +108,19 @@ function Balance({
       const resJson = await postTransaction(newTx)
       console.log('patchTransaction res', resJson)
 
+      /*
       setSummary({
         ...summary,
         debts: [...summary.debts].filter(debt => JSON.stringify(debt) !== selectedDebtId)
       })
+      */
       setIsSuccessOpen(true)
       console.log('success vibro')
       notificationOccurred('success')
       setTimeout(() => {
         setSelectedDebtId(null)
         setCustomRecipientId(null)
+        refetchSummary()
       }, 1000)
       setTimeout(() => {
         setIsSuccessOpen(false)
