@@ -33,6 +33,7 @@ function SummaryBalance({ tab }: { tab: TTab }) {
 
   const [selectedDebtId, setSelectedDebtId] = useState<null | string>(null)
   const isSelectedDebt = selectedDebtId !== null
+  const [isRecipientsOpen, setIsRecipientsOpen] = useState<boolean>(false)
 
   const [isCompactPie, setIsCompactPie] = useState<boolean>(false)
 
@@ -60,9 +61,10 @@ function SummaryBalance({ tab }: { tab: TTab }) {
       onScroll={onScroll}
     >
       <Header onBack={
-        (tab === 'summary' && isFilterOpen && (() => { closeFilter() })) ||
-        (tab === 'balance' && isSelectedDebt && (() => { setSelectedDebtId(null) })) ||
-        closeApp
+        (tab === 'summary' && isFilterOpen && (() => { closeFilter() }))
+        || (tab === 'balance' && isRecipientsOpen && (() => { setIsRecipientsOpen(false) }))
+        || (tab === 'balance' && isSelectedDebt && (() => { setSelectedDebtId(null) }))
+        || closeApp
       } />
 
       {!(
@@ -101,6 +103,8 @@ function SummaryBalance({ tab }: { tab: TTab }) {
         <Balance
           selectedDebtId={selectedDebtId}
           setSelectedDebtId={setSelectedDebtId}
+          isRecipientsOpen={isRecipientsOpen}
+          setIsRecipientsOpen={setIsRecipientsOpen}
           goDetailed={goDetailed}
         />
       )}

@@ -25,11 +25,15 @@ import { TNewTransaction } from '../types'
 function Balance({
   selectedDebtId,
   setSelectedDebtId,
+  isRecipientsOpen,
+  setIsRecipientsOpen,
   goDetailed,
 }: {
   selectedDebtId: null | string
   setSelectedDebtId: (selectedDebtId: null | string) => void
-  goDetailed: () => void
+  isRecipientsOpen: boolean
+  setIsRecipientsOpen: (isRecipientsOpen: boolean) => void
+  goDetailed: VoidFunction
 }) {
   const { t } = useTranslation()
 
@@ -39,7 +43,6 @@ function Balance({
   const { summary, setSummary, setSummaryCurrencyId, chat, setTxPatchError } = useStore()
   const { getCurrencyById } = useCurrencies()
 
-  const isSelected = selectedDebtId !== null
   const selectedDebt = (summary?.debts || []).find(debt => JSON.stringify(debt) === selectedDebtId)
   const selectedDebtCurrency = selectedDebt ? getCurrencyById(selectedDebt.currency_id) : undefined
 
@@ -125,7 +128,7 @@ function Balance({
 
   return (
     <>
-      {!isSelected && summary?.debts && summary.debts.length > 0 && (
+      {!selectedDebt && summary?.debts && summary.debts.length > 0 && (
         <>
           <div className="flex flex-col gap-2 pb-5">
             {currencyIds.map((currencyId, i) => (
@@ -174,7 +177,7 @@ function Balance({
         </>
       )}
 
-      {!selectedDebtId && summary?.debts && summary.debts.length === 0 && (
+      {!selectedDebt && summary?.debts && summary.debts.length === 0 && (
         <>
           <div className="w-[244px] mx-auto flex flex-col gap-6 pt-8 text-center">
             <div className="mx-auto w-[215px] h-[200px]">
@@ -204,14 +207,17 @@ function Balance({
         </>
       )}
 
-      {selectedDebtId && selectedDebt && (
+      {!!selectedDebt && !isRecipientsOpen && (
         <>
           <h2 className="mb-2 px-4 pt-[2px] pb-[6px]">
             {`${t('settleUpBy')} ${selectedDebtCurrency?.symbol}`}
           </h2>
 
           <Panel>
-            <DebtDetailed {...selectedDebt} />
+            <DebtDetailed
+              {...selectedDebt}
+              onClickRecipient={() => { setIsRecipientsOpen(true) }}
+            />
           </Panel>
 
           <Button
@@ -220,6 +226,14 @@ function Balance({
             onClick={settleUp}
             isBusy={isBusy}
           />
+        </>
+      )}
+
+      {!!selectedDebt && isRecipientsOpen && (
+        <>
+          <h2 className="mb-2 px-4 pt-[2px] pb-[6px]">{t('selectUser')}</h2>
+
+          ...recipients
         </>
       )}
 

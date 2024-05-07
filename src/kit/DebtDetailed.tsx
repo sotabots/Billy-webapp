@@ -1,14 +1,15 @@
 import User from './User'
 import InputAmount from './InputAmount'
+import Button from './Button'
+
 import { useUsers } from '../hooks'
 import { TDebt } from '../types'
 
 import { ReactComponent as ToIcon } from '../assets/to.svg'
 
-type TDebtDetailedProps = TDebt & {
-}
-
-function DebtDetailed({ from_user, to_user, amount  }: TDebtDetailedProps) {
+function DebtDetailed({ from_user, to_user, amount, onClickRecipient }: TDebt & {
+  onClickRecipient: VoidFunction
+}) {
   const { getUserById } = useUsers()
 
   const fromUser = getUserById(from_user._id)
@@ -24,12 +25,19 @@ function DebtDetailed({ from_user, to_user, amount  }: TDebtDetailedProps) {
         <User user={fromUser} size={48} />
         <InputAmount amount={amount} />
       </div>
-      <div className="flex items-center gap-3 px-6">
-        <div className="h-[14px] w-[14px]">
-          <ToIcon />
-        </div>
-        <User user={toUser} size={32} />
-      </div>
+      <Button
+        theme="clear"
+        className="w-full flex items-center gap-3 px-6"
+        onClick={onClickRecipient}
+        text={
+          <>
+            <div className="h-[14px] w-[14px]">
+              <ToIcon />
+            </div>
+            <User user={toUser} size={32} />
+          </>
+        }
+      />
     </div>
   )
 }
