@@ -8,6 +8,8 @@ import Overlay from '../kit/Overlay'
 import Panel from '../kit/Panel'
 import Debt from '../kit/Debt'
 import DebtDetailed from '../kit/DebtDetailed'
+import Divider from '../kit/Divider'
+import UserButton from '../kit/UserButton'
 
 import { closeApp } from '../utils'
 
@@ -20,19 +22,23 @@ import { formatAmount } from '../utils'
 import lottieKoalaSettledUp from '../assets/animation-koala-settled-up.json'
 import lottieKoalaSuccess from '../assets/animation-koala-success.json'
 
-import { TNewTransaction } from '../types'
+import { TNewTransaction, TUserId } from '../types'
 
 function Balance({
   selectedDebtId,
   setSelectedDebtId,
   isRecipientsOpen,
   setIsRecipientsOpen,
+  customRecipientId,
+  setCustomRecipientId,
   goDetailed,
 }: {
   selectedDebtId: null | string
   setSelectedDebtId: (selectedDebtId: null | string) => void
   isRecipientsOpen: boolean
   setIsRecipientsOpen: (isRecipientsOpen: boolean) => void
+  customRecipientId: null | TUserId
+  setCustomRecipientId: (customRecipientId: null | TUserId) => void
   goDetailed: VoidFunction
 }) {
   const { t } = useTranslation()
@@ -40,7 +46,7 @@ function Balance({
   const [, notificationOccurred] = useHapticFeedback()
   const [initDataUnsafe] = useInitData()
 
-  const { summary, setSummary, setSummaryCurrencyId, chat, setTxPatchError } = useStore()
+  const { summary, setSummary, setSummaryCurrencyId, chat, users, setTxPatchError } = useStore()
   const { getCurrencyById } = useCurrencies()
 
   const selectedDebt = (summary?.debts || []).find(debt => JSON.stringify(debt) === selectedDebtId)
@@ -83,7 +89,7 @@ function Balance({
           },
           {
             person_id: `settleup_to_user`,
-            related_user_id: selectedDebt.to_user._id,
+            related_user_id: customRecipientId || selectedDebt.to_user._id,
             amount: selectedDebt.amount,
             is_payer: false,
             raw_name: null,
@@ -110,6 +116,7 @@ function Balance({
       notificationOccurred('success')
       setTimeout(() => {
         setSelectedDebtId(null)
+        setCustomRecipientId(null)
       }, 1000)
       setTimeout(() => {
         setIsSuccessOpen(false)
@@ -216,6 +223,7 @@ function Balance({
           <Panel>
             <DebtDetailed
               {...selectedDebt}
+              customRecipientId={customRecipientId}
               onClickRecipient={() => { setIsRecipientsOpen(true) }}
             />
           </Panel>
@@ -233,7 +241,21 @@ function Balance({
         <>
           <h2 className="mb-2 px-4 pt-[2px] pb-[6px]">{t('selectUser')}</h2>
 
-          ...recipients
+          <div className="mt-4 overflow-y-auto">
+            {users.filter(user => user._id !== selectedDebt.from_user._id).map((user, i, arr) => (
+              <>
+                <UserButton
+                  key={i}
+                  user={user}
+                  onClick={() => {
+                    setCustomRecipientId(user._id)
+                    setIsRecipientsOpen(false)
+                  }}
+                />
+                {i < arr.length - 1 && <Divider key={`Divider-${i}`} />}
+              </>
+            ))}
+          </div>
         </>
       )}
 

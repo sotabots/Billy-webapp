@@ -11,6 +11,7 @@ import Tabs from '../kit/Tabs'
 import { useGetSummarySheetRebuild } from '../api'
 import { useInit, useFilter } from '../hooks'
 import { useStore } from '../store'
+import { TUserId } from '../types'
 
 import { ReactComponent as ChatIcon } from '../assets/chat.svg'
 import { ReactComponent as ChartIcon } from '../assets/chart.svg'
@@ -34,6 +35,7 @@ function SummaryBalance({ tab }: { tab: TTab }) {
   const [selectedDebtId, setSelectedDebtId] = useState<null | string>(null)
   const isSelectedDebt = selectedDebtId !== null
   const [isRecipientsOpen, setIsRecipientsOpen] = useState<boolean>(false)
+  const [customRecipientId, setCustomRecipientId] = useState<null | TUserId>(null)
 
   const [isCompactPie, setIsCompactPie] = useState<boolean>(false)
 
@@ -61,9 +63,16 @@ function SummaryBalance({ tab }: { tab: TTab }) {
       onScroll={onScroll}
     >
       <Header onBack={
-        (tab === 'summary' && isFilterOpen && (() => { closeFilter() }))
-        || (tab === 'balance' && isRecipientsOpen && (() => { setIsRecipientsOpen(false) }))
-        || (tab === 'balance' && isSelectedDebt && (() => { setSelectedDebtId(null) }))
+        (tab === 'summary' && isFilterOpen && (() => {
+          closeFilter()
+        }))
+        || (tab === 'balance' && isRecipientsOpen && (() => {
+          setIsRecipientsOpen(false)
+        }))
+        || (tab === 'balance' && isSelectedDebt && (() => {
+          setSelectedDebtId(null)
+          setCustomRecipientId(null)
+        }))
         || closeApp
       } />
 
@@ -105,6 +114,8 @@ function SummaryBalance({ tab }: { tab: TTab }) {
           setSelectedDebtId={setSelectedDebtId}
           isRecipientsOpen={isRecipientsOpen}
           setIsRecipientsOpen={setIsRecipientsOpen}
+          customRecipientId={customRecipientId}
+          setCustomRecipientId={setCustomRecipientId}
           goDetailed={goDetailed}
         />
       )}

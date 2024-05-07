@@ -6,7 +6,7 @@ import { TShare } from '../types'
 
 import User from './User'
 
-import { ReactComponent as Next } from '../assets/next.svg'
+import { ReactComponent as NextIcon } from '../assets/next.svg'
 
 type TProps = TShare & {
   onClick: MouseEventHandler<HTMLButtonElement>
@@ -38,7 +38,7 @@ function UserRelation({ normalized_name, related_user_id, onClick }: TProps) {
         <User /*size={32}*/ user={user} />
       </div>
       <div className="h-6 w-6 text-hint opacity-50">
-        <Next />
+        <NextIcon />
       </div>
     </button>
   )
