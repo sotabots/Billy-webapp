@@ -73,14 +73,14 @@ export const useUsers = () => {
       const shareFromUser = ({ isPayer }: {
         isPayer: boolean
       }) =>
-        (user: TUser) => ({
+        (user: TUser): TShare => ({
           person_id: isAuthor ? 'MESSAGE_AUTHOR' : `added-person-user-${user._id}`,
           raw_name: null,
           normalized_name: isAuthor ? 'MESSAGE_AUTHOR' : null,
           is_payer: isPayer,
           amount: 0,
-          user_candidates: null,
-          related_user_id: user._id
+          related_user_id: user._id,
+          is_fixed_amount: false,
         })
 
       const updShares: TShare[] = [
@@ -128,8 +128,8 @@ export const useUsers = () => {
             normalized_name: null, // user.first_name,
             is_payer: isPayer,
             amount: 0,
-            user_candidates: null,
-            related_user_id: userId
+            related_user_id: userId,
+            is_fixed_amount: false,
           }
         ))
       ]

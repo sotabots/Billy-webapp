@@ -79,8 +79,8 @@ export const useInit = () => {
               normalized_name: 'MESSAGE_AUTHOR',
               is_payer: isPayer,
               amount: 0,
-              user_candidates: null,
-              related_user_id: user._id
+              related_user_id: user._id,
+              is_fixed_amount: false,
             }
           ))
         })

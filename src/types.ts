@@ -23,6 +23,7 @@ export type TTransaction = {
   currency_id: TCurrencyId | null
   is_confirmed: boolean // set true before patch
   is_canceled: boolean
+  is_equally: boolean | null
   shares: TShare[]
   time_created: string
   nutshell: string | null
@@ -43,7 +44,7 @@ export type TShare = {
   normalized_name: string | null // may be missing if a new user is selected
   amount: number
   is_payer: boolean // paid or owed
-  user_candidates: /*[] |*/ null // todo
+  is_fixed_amount: boolean
 }
 
 export type TCurrencyId = string // 'RUB' | 'GEL' | 'TRY' | 'EUR'

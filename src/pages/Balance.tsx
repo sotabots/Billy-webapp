@@ -78,6 +78,7 @@ function Balance({
         currency_id: selectedDebt.currency_id,
         is_confirmed: true,
         is_canceled: false,
+        is_equally: true,
         shares: [
           {
             person_id: `settleup_from_user`,
@@ -86,7 +87,7 @@ function Balance({
             is_payer: true,
             raw_name: null,
             normalized_name: null,
-            user_candidates: null,
+            is_fixed_amount: false,
           },
           {
             person_id: `settleup_to_user`,
@@ -95,7 +96,7 @@ function Balance({
             is_payer: false,
             raw_name: null,
             normalized_name: null,
-            user_candidates: null,
+            is_fixed_amount: false,
           }
         ],
         nutshell: null,

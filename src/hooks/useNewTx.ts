@@ -23,6 +23,7 @@ export const useNewTx = () => {
     currency_id: chat?.default_currency || null,
     is_confirmed: true,
     is_canceled: false,
+    is_equally: true,
     shares: !user ? [] : [true, false].map(isPayer => (
       {
         person_id: 'MESSAGE_AUTHOR',
@@ -30,8 +31,8 @@ export const useNewTx = () => {
         normalized_name: 'MESSAGE_AUTHOR',
         is_payer: isPayer,
         amount: 0,
-        user_candidates: null,
-        related_user_id: user._id
+        related_user_id: user._id,
+        is_fixed_amount: false,
       }
     )),
     nutshell: null,

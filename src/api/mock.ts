@@ -61,7 +61,7 @@ const shares: TShare[] = _mockUsers.slice(0, 4).map((user, i) => ({
   is_payer: i == 0,
   // amount: Math.round(Math.random() * 1e2) * 10 ** decimals
   amount: parseFloat((Math.round(Math.random() * 1e4) / 10 ** decimals).toFixed(decimals)),
-  user_candidates: null,
+  is_fixed_amount: true,
 }))
 
 shares.splice(1, 0, {
@@ -81,6 +81,7 @@ const _mockTransaction: TTransaction = {
   shares,
   is_confirmed: false,
   is_canceled: false,
+  is_equally: false,
   currency_id: 'USD',
   time_created: (new Date()).toISOString(),
   nutshell: null,
@@ -160,6 +161,7 @@ const demoTransaction: TTransaction = {
   : '<b>Anton</b> paid 45 dollars for <b>Pavel</b>, <b>George</b>, <b>Dasha</b> and <b>Karim</b> in restaurant. <b>George</b> left 10 dollars tips. Split bill equally.',
   is_confirmed: false,
   is_canceled: false,
+  is_equally: true,
   currency_id: isRus ? 'RUB' : 'USD',
   shares: [
     {
@@ -169,7 +171,7 @@ const demoTransaction: TTransaction = {
       related_user_id: demoUsers[1]._id,
       is_payer: true,
       amount: isRus ? 4500 : 45,
-      user_candidates: null,
+      is_fixed_amount: false,
     },
     {
       person_id: `Person-2`,
@@ -178,7 +180,7 @@ const demoTransaction: TTransaction = {
       related_user_id: demoUsers[2]._id,
       is_payer: true,
       amount: isRus ? 700 : 10,
-      user_candidates: null,
+      is_fixed_amount: false,
     },
 
     {
@@ -188,7 +190,7 @@ const demoTransaction: TTransaction = {
       related_user_id: demoUsers[0]._id,
       is_payer: false,
       amount: isRus ? 1040 : 11,
-      user_candidates: null,
+      is_fixed_amount: false,
     },
     {
       person_id: `Person-2`,
@@ -197,7 +199,7 @@ const demoTransaction: TTransaction = {
       related_user_id: demoUsers[2]._id,
       is_payer: false,
       amount: isRus ? 1040 : 11,
-      user_candidates: null,
+      is_fixed_amount: false,
     },
     {
       person_id: `Person-3`,
@@ -206,7 +208,7 @@ const demoTransaction: TTransaction = {
       related_user_id: demoUsers[3]._id,
       is_payer: false,
       amount: isRus ? 1040 : 11,
-      user_candidates: null,
+      is_fixed_amount: false,
     },
     {
       person_id: `Person-4`,
@@ -215,7 +217,7 @@ const demoTransaction: TTransaction = {
       related_user_id: demoUsers[4]._id,
       is_payer: false,
       amount: isRus ? 1040 : 11,
-      user_candidates: null,
+      is_fixed_amount: false,
     },
     {
       person_id: `Person-1`,
@@ -224,7 +226,7 @@ const demoTransaction: TTransaction = {
       related_user_id: demoUsers[1]._id,
       is_payer: false,
       amount: isRus ? 1040 : 11,
-      user_candidates: null,
+      is_fixed_amount: false,
     },
   ],
   time_created: (new Date()).toISOString(),
@@ -270,6 +272,7 @@ const mockTransactions: TTransaction[] = mockSummary.debts.map((debt, i) => ({
   formatted_text: '',
   is_confirmed: true,
   is_canceled: false,
+  is_equally: true,
   currency_id: debt.currency_id,
   shares: [
     {
@@ -279,7 +282,7 @@ const mockTransactions: TTransaction[] = mockSummary.debts.map((debt, i) => ({
       related_user_id: debt.to_user._id,
       is_payer: true,
       amount: debt.amount,
-      user_candidates: null,
+      is_fixed_amount: false,
     },
     {
       person_id: `Person-2`,
@@ -288,7 +291,7 @@ const mockTransactions: TTransaction[] = mockSummary.debts.map((debt, i) => ({
       related_user_id: debt.from_user._id,
       is_payer: false,
       amount: debt.amount,
-      user_candidates: null,
+      is_fixed_amount: false,
     },
   ],
   time_created: (new Date(+(new Date) - i)).toISOString(),
