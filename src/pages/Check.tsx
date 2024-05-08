@@ -27,7 +27,6 @@ import type { TNewTransaction, TShare, TTransaction, TLanguageCode } from '../ty
 
 import lottieSuccess from '../assets/animation-success.json'
 import { ReactComponent as EditIcon } from '../assets/edit.svg'
-import { ReactComponent as SplitIcon } from '../assets/split.svg'
 import { ReactComponent as DeleteIcon } from '../assets/delete.svg'
 
 function Check() {
@@ -39,7 +38,7 @@ function Check() {
   const { t, i18n } = useTranslation()
   const navigate = useNavigate()
 
-  const { transaction, setTransaction, txComment, isEditTx, setIsEditTx, setIsSelectPayers, isSuccess, setSuccess, setTxPatchError, isDebug } = useStore()
+  const { transaction, setTransaction, txComment, isEditTx, setIsEditTx, setIsSelectPayers, isSuccess, setSuccess, setTxPatchError } = useStore()
 
   const { getCurrencyById } = useCurrencies()
 
@@ -102,9 +101,7 @@ function Check() {
     isWrongAmounts ? `🐨 ${t('checkAmounts')}` :
     t('save')
 
-  // const isSplitedEqually = oweShares.every(share => share.amount === oweShares[0].amount)
-  const isSplitedEqually = false // todo
-
+  // @ts-expect-error
   const splitEqually = () => {
     // const newAmount = parseFloat((payedSum / oweShares.length).toFixed(decimals))
     const newAmount = parseFloat(
@@ -273,29 +270,11 @@ function Check() {
             />
           </div>
           <div className="min-h-[24px] mt-[2px]">
-            {!!oweShares.length && (!isSplitedEqually || !isBalanced) && (
-              <>
-              <Button
-                theme="text"
-                text={(
-                  <div className="inline-flex items-center gap-[2px]">
-                    <div className="w-6 h-6">
-                      <SplitIcon />
-                    </div>
-                    <div>{t('splitEqually')}</div>
-                  </div>
-                )}
-                onClick={splitEqually}
-              />
-              {isDebug && (
-                <Toggle
-                  label={t('splitEqually')}
-                  value={isEqually}
-                  onChange={setIsEqually}
-                />
-              )}
-              </>
-            )}
+            <Toggle
+              label={t('splitEqually')}
+              value={isEqually}
+              onChange={setIsEqually}
+            />
           </div>
           <div className="mt-4 flex flex-col gap-3">
             {!oweShares.length && <span className="opacity-40">{t('nobodyHere')}</span>}
