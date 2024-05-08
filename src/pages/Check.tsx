@@ -2,7 +2,7 @@ import { useQueryClient } from '@tanstack/react-query'
 import { useHapticFeedback, useShowPopup } from '@vkruglikov/react-telegram-web-app'
 
 import Lottie from 'lottie-react'
-import { useState } from 'react'
+import { useState, useEffect } from 'react'
 import { useTranslation } from 'react-i18next'
 import { useNavigate } from 'react-router-dom'
 
@@ -51,8 +51,44 @@ function Check() {
   const { refetch: refetchTransactions } = useGetTransactions(chatId)
   const { refetch: refetchSummary } = useGetSummary()
 
-  const [isEqually, setIsEqually] = useState(true)
   const [isBusy, setIsBusy] = useState(false)
+
+  useEffect(() => {
+    if (transaction && transaction.is_equally) {
+      const getEquallyShares: (transaction: TTransaction | TNewTransaction) => TShare[] = () => {
+        // const newAmount = parseFloat((payedSum / oweShares.length).toFixed(decimals))
+        const newAmount = parseFloat(
+          (
+            Math.floor((10**decimals * payedSum / oweShares.length)) / 10**decimals
+          ).toFixed(decimals)
+        )
+        const newAmountUp = payedSum - (oweShares.length - 1) * newAmount
+    
+        const newShares = [...transaction.shares]
+        let isFirstOweShare = false
+        for (let newShare of newShares) {
+          if (newShare.is_payer || !newShare.related_user_id) {
+            continue
+          }
+          if (!isFirstOweShare) {
+            isFirstOweShare = true
+            newShare.amount = newAmountUp
+          } else {
+            newShare.amount = newAmount
+          }
+        }
+        return newShares
+      }
+
+      const equallyShares = getEquallyShares(transaction)
+      if (JSON.stringify(equallyShares) !== JSON.stringify(transaction.shares)) {
+        setTransaction({
+          ...transaction,
+          shares: equallyShares
+        })
+      }
+    }
+  }, [transaction?.shares, transaction?.is_equally, setTransaction])
 
   if (!transaction) {
     return null
@@ -92,8 +128,8 @@ function Check() {
   const isLacks = fromDecimals(oweSum) - fromDecimals(payedSum) >= fromDecimals(TOLERANCE)
   const isOverdo = fromDecimals(payedSum) - fromDecimals(oweSum) >= fromDecimals(TOLERANCE)
   const isBalanced = !isLacks && !isOverdo
-
   const isWrongAmounts = !isBalanced || !(payedSum > 0) || !(oweSum > 0)
+
   const isNoCurrency = !transaction.currency_id
   const isButtonDisabled = isWrongAmounts || isNoCurrency
   const buttonText =
@@ -101,32 +137,10 @@ function Check() {
     isWrongAmounts ? `🐨 ${t('checkAmounts')}` :
     t('save')
 
-  // @ts-expect-error
-  const splitEqually = () => {
-    // const newAmount = parseFloat((payedSum / oweShares.length).toFixed(decimals))
-    const newAmount = parseFloat(
-      (
-        Math.floor((10**decimals * payedSum / oweShares.length)) / 10**decimals
-      ).toFixed(decimals)
-    )
-    const newAmountUp = payedSum - (oweShares.length - 1) * newAmount
-
-    const newShares = [...transaction.shares]
-    let isFirstOweShare = false
-    for (let newShare of newShares) {
-      if (newShare.is_payer || !newShare.related_user_id) {
-        continue
-      }
-      if (!isFirstOweShare) {
-        isFirstOweShare = true
-        newShare.amount = newAmountUp
-      } else {
-        newShare.amount = newAmount
-      }
-    }
+  const toggleIsEqually = () => {
     setTransaction({
       ...transaction,
-      shares: newShares
+      is_equally: !transaction.is_equally,
     })
   }
 
@@ -272,8 +286,8 @@ function Check() {
           <div className="min-h-[24px] mt-[2px]">
             <Toggle
               label={t('splitEqually')}
-              value={isEqually}
-              onChange={setIsEqually}
+              value={!!transaction.is_equally}
+              onChange={toggleIsEqually}
             />
           </div>
           <div className="mt-4 flex flex-col gap-3">

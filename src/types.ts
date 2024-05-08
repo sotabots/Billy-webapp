@@ -23,7 +23,7 @@ export type TTransaction = {
   currency_id: TCurrencyId | null
   is_confirmed: boolean // set true before patch
   is_canceled: boolean
-  is_equally: boolean | null
+  is_equally: boolean
   shares: TShare[]
   time_created: string
   nutshell: string | null
