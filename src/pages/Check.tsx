@@ -94,6 +94,10 @@ function Check() {
     setTransaction({
       ...transaction,
       is_equally: !transaction.is_equally,
+      shares: !transaction.is_equally ? transaction.shares : transaction.shares.map(share => ({
+        ...share,
+        is_fixed_amount: false
+      }))
     })
   }
 
