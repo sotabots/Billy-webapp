@@ -53,42 +53,45 @@ function Check() {
 
   const [isBusy, setIsBusy] = useState(false)
 
-  useEffect(() => {
-    if (transaction && transaction.is_equally) {
-      const getEquallyShares: (transaction: TTransaction | TNewTransaction) => TShare[] = () => {
-        // const newAmount = parseFloat((payedSum / oweShares.length).toFixed(decimals))
-        const newAmount = parseFloat(
-          (
-            Math.floor((10**decimals * payedSum / oweShares.length)) / 10**decimals
-          ).toFixed(decimals)
-        )
-        const newAmountUp = payedSum - (oweShares.length - 1) * newAmount
-    
-        const newShares = [...transaction.shares]
-        let isFirstOweShare = false
-        for (let newShare of newShares) {
-          if (newShare.is_payer || !newShare.related_user_id) {
-            continue
-          }
-          if (!isFirstOweShare) {
-            isFirstOweShare = true
-            newShare.amount = newAmountUp
-          } else {
-            newShare.amount = newAmount
-          }
-        }
-        return newShares
-      }
+  const rebalanceEquallyTx: (tx: TTransaction | TNewTransaction) => TTransaction | TNewTransaction = (tx) => {
+    if (!tx.is_equally) {
+      return tx
+    }
+    // const newAmount = parseFloat((payedSum / oweShares.length).toFixed(decimals))
+    const newAmount = parseFloat(
+      (
+        Math.floor((10**decimals * payedSum / oweShares.length)) / 10**decimals
+      ).toFixed(decimals)
+    )
+    const newAmountUp = payedSum - (oweShares.length - 1) * newAmount
 
-      const equallyShares = getEquallyShares(transaction)
-      if (JSON.stringify(equallyShares) !== JSON.stringify(transaction.shares)) {
-        setTransaction({
-          ...transaction,
-          shares: equallyShares
-        })
+    const newShares = [...tx.shares]
+    let isFirstOweShare = false
+    for (let newShare of newShares) {
+      if (newShare.is_payer || !newShare.related_user_id) {
+        continue
+      }
+      if (!isFirstOweShare) {
+        isFirstOweShare = true
+        newShare.amount = newAmountUp
+      } else {
+        newShare.amount = newAmount
       }
     }
-  }, [transaction?.shares, transaction?.is_equally, setTransaction])
+    if (JSON.stringify(newShares) === JSON.stringify(tx.shares)) {
+      return tx
+    }
+    return {
+      ...tx,
+      shares: newShares
+    }
+  }
+
+  useEffect(() => {
+    if (transaction) {
+      setTransaction(rebalanceEquallyTx(transaction))
+    }
+  }, [transaction, setTransaction])
 
   if (!transaction) {
     return null
@@ -105,10 +108,11 @@ function Check() {
     if (~shareIndex) {
       const updShares = [...transaction.shares]
       updShares[shareIndex].amount = amount
-      setTransaction({
+      const updTx = {
         ...transaction,
         shares: updShares
-      })
+      }
+      setTransaction(rebalanceEquallyTx(updTx))
     }
   }
 
