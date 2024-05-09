@@ -53,40 +53,6 @@ function Check() {
 
   const [isBusy, setIsBusy] = useState(false)
 
-  const rebalanceEquallyTx: (tx: TTransaction | TNewTransaction) => TTransaction | TNewTransaction = (tx) => {
-    if (!tx.is_equally) {
-      return tx
-    }
-    // const newAmount = parseFloat((payedSum / oweShares.length).toFixed(decimals))
-    const newAmount = parseFloat(
-      (
-        Math.floor((10**decimals * payedSum / oweShares.length)) / 10**decimals
-      ).toFixed(decimals)
-    )
-    const newAmountUp = payedSum - (oweShares.length - 1) * newAmount
-
-    const newShares = [...tx.shares]
-    let isFirstOweShare = false
-    for (let newShare of newShares) {
-      if (newShare.is_payer || !newShare.related_user_id) {
-        continue
-      }
-      if (!isFirstOweShare) {
-        isFirstOweShare = true
-        newShare.amount = newAmountUp
-      } else {
-        newShare.amount = newAmount
-      }
-    }
-    if (JSON.stringify(newShares) === JSON.stringify(tx.shares)) {
-      return tx
-    }
-    return {
-      ...tx,
-      shares: newShares
-    }
-  }
-
   useEffect(() => {
     if (transaction) {
       setTransaction(rebalanceEquallyTx(transaction))
@@ -95,25 +61,6 @@ function Check() {
 
   if (!transaction) {
     return null
-  }
-
-  const currency = getCurrencyById(transaction.currency_id)
-
-  const changeAmount = (share: TShare, amount: number) => {
-    const shareIndex = transaction.shares.findIndex(s =>
-      s.person_id === share.person_id
-      && s.related_user_id === share.related_user_id
-      && s.is_payer === share.is_payer
-    )
-    if (~shareIndex) {
-      const updShares = [...transaction.shares]
-      updShares[shareIndex].amount = amount
-      const updTx = {
-        ...transaction,
-        shares: updShares
-      }
-      setTransaction(rebalanceEquallyTx(updTx))
-    }
   }
 
   // todo: move out
@@ -134,6 +81,7 @@ function Check() {
   const isBalanced = !isLacks && !isOverdo
   const isWrongAmounts = !isBalanced || !(payedSum > 0) || !(oweSum > 0)
 
+  const currency = getCurrencyById(transaction.currency_id)
   const isNoCurrency = !transaction.currency_id
   const isButtonDisabled = isWrongAmounts || isNoCurrency
   const buttonText =
@@ -141,11 +89,70 @@ function Check() {
     isWrongAmounts ? `🐨 ${t('checkAmounts')}` :
     t('save')
 
+
   const toggleIsEqually = () => {
     setTransaction({
       ...transaction,
       is_equally: !transaction.is_equally,
     })
+  }
+
+  const changeAmount = (share: TShare, amount: number) => {
+    const shareIndex = transaction.shares.findIndex(s =>
+      s.person_id === share.person_id
+      && s.related_user_id === share.related_user_id
+      && s.is_payer === share.is_payer
+    )
+    if (~shareIndex) {
+      const updShares = [...transaction.shares]
+      updShares[shareIndex].amount = amount
+      if (transaction.is_equally && !share.is_payer) {
+        share.is_fixed_amount = true
+      }
+      const updTx = {
+        ...transaction,
+        shares: updShares
+      }
+      setTransaction(rebalanceEquallyTx(updTx))
+    }
+  }
+
+  const rebalanceEquallyTx: (tx: TTransaction | TNewTransaction) => TTransaction | TNewTransaction = (tx) => {
+    if (!tx.is_equally) {
+      return tx
+    }
+    const oweSharesFixed = oweShares.filter(share => share.is_fixed_amount)
+    const oweSharesFixedSum = oweSharesFixed.reduce((acc, share) => acc + share.amount, 0)
+    const divisibleSum = Math.max(0, payedSum - oweSharesFixedSum)
+    const oweSharesUnfixed = oweShares.filter(share => !share.is_fixed_amount)
+
+    const newAmount = parseFloat(
+      (
+        Math.floor((10**decimals * divisibleSum / oweSharesUnfixed.length)) / 10**decimals
+      ).toFixed(decimals)
+    )
+    const newAmountUp = divisibleSum - (oweSharesUnfixed.length - 1) * newAmount
+
+    const newShares = [...tx.shares]
+    let isFirstOweShare = false
+    for (let newShare of newShares) {
+      if (newShare.is_payer || !newShare.related_user_id || newShare.is_fixed_amount) {
+        continue
+      }
+      if (!isFirstOweShare) {
+        isFirstOweShare = true
+        newShare.amount = newAmountUp
+      } else {
+        newShare.amount = newAmount
+      }
+    }
+    if (JSON.stringify(newShares) === JSON.stringify(tx.shares)) {
+      return tx
+    }
+    return {
+      ...tx,
+      shares: newShares
+    }
   }
 
   const save = async ({ isCanceled = false } = {}) => {
