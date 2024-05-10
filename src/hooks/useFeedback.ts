@@ -39,7 +39,8 @@ type TEvent =
   'edit_payers_expshares_web' |
   'set_payers_expshares_web' |
   'edit_debtors_expshares_web' |
-  'change_currency_expshares_web' |
+  'set_debtors_expshares_web' |
+  'change_currency_expshares_web' | // todo: rename?
   'set_currency_expshares_web' |
   'press_cancel_transaction_expshares_web' |
   'confirm_cancel_transaction_expshares_web' |

@@ -100,7 +100,7 @@ export const useUsers = () => {
     history.back()
   }
 
-  const updUsers = (userIds: TUserId[], isPayer: null | boolean) => () => {
+  const updUsers = (userIds: TUserId[], isPayer: null | boolean) => {
     console.log('updUsers', users)
     if (isPayer !== null) {
       const updSharesFiltered: TShare[] = [

@@ -8,7 +8,7 @@ import Header from '../kit/Header'
 import RadioButton from '../kit/RadioButton'
 import Screen from '../kit/Screen'
 
-import { useInit } from '../hooks'
+import { useFeedback, useInit } from '../hooks'
 import { TCurrencyId, TLanguageCode } from '../types'
 import { useStore } from '../store'
 
@@ -19,6 +19,7 @@ function SelectCurrency() {
   const navigate = useNavigate()
   const { currencies, transaction, setCurrency } = useStore()
   const [impactOccurred, , selectionChanged] = useHapticFeedback()
+  const { feedback } = useFeedback()
 
   const onChange = useCallback((currencyId: TCurrencyId) => {
     setCurrency(currencyId)
@@ -26,6 +27,7 @@ function SelectCurrency() {
     selectionChanged()
     impactOccurred('medium')
     navigate('/check')
+    feedback('set_currency_expshares_web')
     // history.back()
   }, [impactOccurred, selectionChanged, navigate, setCurrency])
 

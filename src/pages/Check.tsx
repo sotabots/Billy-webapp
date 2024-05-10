@@ -91,10 +91,16 @@ function Check() {
 
 
   const toggleIsEqually = () => {
+    const updIsEqually = !transaction.is_equally
+    if (updIsEqually) {
+      feedback('set_equal_share_expshares_web')
+    } else {
+      feedback('unset_equal_share_expshares_web')
+    }
     setTransaction({
       ...transaction,
-      is_equally: !transaction.is_equally,
-      shares: !transaction.is_equally ? transaction.shares : transaction.shares.map(share => ({
+      is_equally: updIsEqually,
+      shares: updIsEqually ? transaction.shares : transaction.shares.map(share => ({
         ...share,
         is_fixed_amount: false
       }))
@@ -212,6 +218,7 @@ function Check() {
     const message = t('sureToCancelTransaction')
     let answerButtonId: string
     try {
+      feedback('press_cancel_transaction_expshares_web')
       answerButtonId = await showPopup({
         title,
         message,
@@ -234,6 +241,7 @@ function Check() {
 
     if (answerButtonId === 'delete') {
       save({ isCanceled: true })
+      feedback('confirm_cancel_transaction_expshares_web')
     }
   }
 
@@ -254,7 +262,10 @@ function Check() {
           <Button
             theme="text"
             text={currency ? `${currency.flag} ${currency.title[i18n.language as TLanguageCode]}` : t('selectCurrency')}
-            onClick={() => { navigate('/select-currency') }}
+            onClick={() => {
+              navigate('/select-currency')
+              feedback('change_currency_expshares_web')
+            }}
           />
         </div>
 
@@ -269,6 +280,7 @@ function Check() {
               onClick={() => {
                 setIsSelectPayers(true)
                 navigate('/select-users')
+                feedback('edit_payers_expshares_web')
               }}
             />
           </div>
@@ -295,6 +307,7 @@ function Check() {
               onClick={() => {
                 setIsSelectPayers(false)
                 navigate('/select-users')
+                feedback('edit_debtors_expshares_web')
               }}
             />
           </div>
