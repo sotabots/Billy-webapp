@@ -11,7 +11,7 @@ import Panel from '../kit/Panel'
 import Screen from '../kit/Screen'
 import UserRelation from '../kit/UserRelation'
 
-import { useInit, useUsers } from '../hooks'
+import { useFeedback, useInit, useUsers } from '../hooks'
 import { useStore } from '../store'
 import { TShare } from '../types'
 import { closeApp } from '../utils'
@@ -24,6 +24,7 @@ function Match() {
   const { transaction, setSelectPersonId } = useStore()
   const { unrelatedUsers, countUnrelatedPersons, isRelationsComplete, isRelationsEnough } = useUsers()
   const [impactOccurred] = useHapticFeedback()
+  const { feedback } = useFeedback()
 
   if (!transaction) {
     return null
@@ -48,6 +49,7 @@ function Match() {
   }
 
   const onAdd = () => {
+    feedback('press_add_user_expnames_web')
     setSelectPersonId(null)
     console.log('onAdd vibro')
     impactOccurred('light')

@@ -30,9 +30,10 @@ type TEvent =
 
   // Match names
   'press_add_user_expnames_web' |
-  'users_expnames_web' | // ???
+  'set_users_expnames_web' |
   'press_change_user_expnames_web' |
   'set_user_expnames_web' |
+  'delete_user_expnames_web' |
 
   // Checkout
   'edit_payers_expshares_web' |

@@ -62,6 +62,7 @@ function Settings() {
   const { refetch: refetchChat } = useGetChat(chatId)
 
   const onChangeCurrency = async (currencyId: TCurrencyId) => {
+    feedback('set_currency_settings_web')
     selectionChanged()
     impactOccurred('medium')
     setBusy(true)
@@ -80,6 +81,7 @@ function Settings() {
   }
 
   const onChangeLanguage = async (languageCode: TLanguageCode) => {
+    feedback('set_language_settings_web')
     selectionChanged()
     impactOccurred('medium')
     setBusy(true)
@@ -126,7 +128,10 @@ function Settings() {
               icon={<SettingsCurrencyIcon />}
               title={t('currency')}
               value={chat?.default_currency || ''}
-              onClick={() => { setIsCurrencyOpen(true) }}
+              onClick={() => {
+                setIsCurrencyOpen(true)
+                feedback('press_currency_settings_web')
+              }}
             />
             <Divider className="mr-0 !bg-[#D5DADD]" />
             <MenuItem
@@ -138,7 +143,10 @@ function Settings() {
                   chat.language_code.toUpperCase())
                 : ''
               }
-              onClick={() => { setIsLanguageOpen(true) }}
+              onClick={() => {
+                setIsLanguageOpen(true)
+                feedback('press_language_settings_web')
+              }}
             />
           </div>
 
