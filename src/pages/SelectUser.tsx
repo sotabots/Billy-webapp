@@ -6,7 +6,7 @@ import Header from '../kit/Header'
 import Screen from '../kit/Screen'
 import UserButton from '../kit/UserButton'
 
-import { useInit, useUsers } from '../hooks'
+import { useFeedback, useInit, useUsers } from '../hooks'
 import { useStore } from '../store'
 
 function SelectUser() {
@@ -15,6 +15,7 @@ function SelectUser() {
   const { t } = useTranslation()
   const { users, unrelatedUsers, addUsers, selectUser, deleteUser } = useUsers()
   const { selectPersonId, transaction } = useStore()
+  const { feedback } = useFeedback()
 
   const usersToShow = selectPersonId !== null ? users : unrelatedUsers
   const forName = selectPersonId !== null ? (transaction?.shares || []).find(share => share.person_id === selectPersonId)?.normalized_name : null
@@ -36,14 +37,20 @@ function SelectUser() {
           <Button
             theme="text"
             text={t('delete')}
-            onClick={deleteUser(selectPersonId)}
+            onClick={() => {
+              deleteUser(selectPersonId)
+              feedback('delete_user_expnames_web')
+            }}
           />
         )}
         {selectPersonId === null && usersToShow.length > 1 && (
           <Button
             theme="text"
             text={t('addEveryone')}
-            onClick={addUsers(usersToShow)}
+            onClick={() => {
+              addUsers(usersToShow)
+              feedback('set_users_expnames_web')
+            }}
           />
         )}
       </div>
@@ -54,7 +61,15 @@ function SelectUser() {
             <UserButton
               key={i}
               user={user}
-              onClick={selectPersonId !== null ? selectUser(user) : addUsers([user])}
+              onClick={() => {
+                if (selectPersonId !== null) {
+                  selectUser(user)
+                  feedback('set_user_expnames_web')
+                } else {
+                  addUsers([user])
+                  feedback('set_users_expnames_web')
+                }
+              }}
             />
             {i < arr.length - 1 && <Divider key={`Divider-${i}`} />}
           </>

@@ -28,7 +28,7 @@ export const useUsers = () => {
     return users.find(user => user._id === userId)
   }
 
-  const selectUser = (user: TUser) => () => {
+  const selectUser = (user: TUser) => {
     if (selectPersonId !== null) { // change user
       const updShares: TShare[] = [...transactionShares]
       const doubledUserIndexes: number[] = []
@@ -66,7 +66,7 @@ export const useUsers = () => {
     history.back()
   }
 
-  const addUsers = (users: TUser[], { isAuthor = false }: { isAuthor?: boolean } = {}) => () => {
+  const addUsers = (users: TUser[], { isAuthor = false }: { isAuthor?: boolean } = {}) => {
     if (selectPersonId === null && transaction) { // add user
       const wasPayers = transactionShares.some(share => share.is_payer)
 
@@ -147,7 +147,7 @@ export const useUsers = () => {
     history.back()
   }
 
-  const deleteUser = (personId: string) => () => {
+  const deleteUser = (personId: string) => {
     const updShares = [...transactionShares].filter(share => share.person_id !== personId)
     if (transaction) {
       setTransaction({

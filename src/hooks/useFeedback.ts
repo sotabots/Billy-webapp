@@ -30,7 +30,7 @@ type TEvent =
 
   // Match names
   'press_add_user_expnames_web' |
-  'set_users_expnames_web' |
+  'set_users_expnames_web' | // todo: add after SelectUser refactor
   'press_change_user_expnames_web' |
   'set_user_expnames_web' |
   'delete_user_expnames_web' |
@@ -76,6 +76,8 @@ export const useFeedback = () => {
       userLastName: wa?.initDataUnsafe.user?.last_name || null,
       userName: wa?.initDataUnsafe.user?.username || null,
       userLanguageCode: wa?.initDataUnsafe.user?.language_code || null,
+      // @ts-expect-error // todo: fix '@vkruglikov/react-telegram-web-app'
+      userIsPremium: wa?.initDataUnsafe.user?.is_premium || null,
 
       chatInstance: wa?.initDataUnsafe.chat_instance || null,
       chatType: wa?.initDataUnsafe.chat_type || wa?.initDataUnsafe.chat?.type || null,

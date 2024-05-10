@@ -49,11 +49,11 @@ function Match() {
   }
 
   const onAdd = () => {
-    feedback('press_add_user_expnames_web')
     setSelectPersonId(null)
     console.log('onAdd vibro')
     impactOccurred('light')
     navigate('/select-user')
+    feedback('press_add_user_expnames_web')
   }
 
   const isButtonDisabled = !isRelationsComplete || !isRelationsEnough
@@ -97,7 +97,10 @@ function Match() {
                     <UserRelation
                       key={`UserRelation-${i}`}
                       {...share}
-                      onClick={() => onSelect(share.person_id)}
+                      onClick={() => {
+                        feedback('press_change_user_expnames_web')
+                        onSelect(share.person_id)
+                      }}
                     />
                     {i < deduplicatedShares.length - 1 && <Divider key={`Divider-${i}`} />}
                   </div>

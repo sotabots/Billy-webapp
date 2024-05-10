@@ -62,7 +62,6 @@ function Settings() {
   const { refetch: refetchChat } = useGetChat(chatId)
 
   const onChangeCurrency = async (currencyId: TCurrencyId) => {
-    feedback('set_currency_settings_web')
     selectionChanged()
     impactOccurred('medium')
     setBusy(true)
@@ -76,12 +75,12 @@ function Settings() {
     if (isSuccess) {
       refetchChat()
       closeInnerPages()
+      feedback('set_currency_settings_web')
     }
     setBusy(false)
   }
 
   const onChangeLanguage = async (languageCode: TLanguageCode) => {
-    feedback('set_language_settings_web')
     selectionChanged()
     impactOccurred('medium')
     setBusy(true)
@@ -95,6 +94,7 @@ function Settings() {
     if (isSuccess) {
       refetchChat()
       closeInnerPages()
+      feedback('set_language_settings_web')
     }
     setBusy(false)
   }
