@@ -6,8 +6,7 @@ import Button from '../kit/Button'
 import Header from '../kit/Header'
 import Screen from '../kit/Screen'
 
-import { useInit } from '../hooks'
-import { feedback, EVENT } from '../feedback'
+import { useInit, useFeedback } from '../hooks'
 
 import lottieKoalaSoon from '../assets/animation-koala-soon.json'
 
@@ -15,12 +14,14 @@ function Soon() {
   useInit()
 
   const { t } = useTranslation()
+  const { feedback } = useFeedback()
+
   const [isEvent, setIsEvent] = useState(false)
 
   useEffect(() => {
     if (!isEvent) {
       setIsEvent(true)
-      feedback(EVENT.OPEN_SOON)
+      feedback('open_soon')
     }
   }, [isEvent, setIsEvent])
 

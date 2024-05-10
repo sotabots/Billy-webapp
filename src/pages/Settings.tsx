@@ -11,8 +11,7 @@ import MenuItem from '../kit/MenuItem'
 import RadioButton from '../kit/RadioButton'
 
 import { usePostChatCurrency, usePostChatLanguage, useGetChat } from '../api'
-import { useChatId, useInit } from '../hooks'
-import { feedback, EVENT } from '../feedback'
+import { useChatId, useInit, useFeedback } from '../hooks'
 import { useStore } from '../store'
 import { TCurrencyId, TLanguageCode } from '../types'
 
@@ -24,13 +23,14 @@ function Settings() {
 
   const { t, i18n } = useTranslation()
   const { currencies, chat } = useStore()
+  const { feedback } = useFeedback()
 
   const [isEvent, setIsEvent] = useState(false)
 
   useEffect(() => {
     if (!isEvent) {
       setIsEvent(true)
-      feedback(EVENT.OPEN_SETTINGS)
+      feedback('open_settings')
     }
   }, [isEvent, setIsEvent])
 

@@ -2,14 +2,16 @@ import cx from 'classnames'
 import { useCallback, useEffect, useState } from 'react'
 // import { useNavigate } from 'react-router-dom'
 
-import Panel from './Panel'
-
+import { useChatId } from '../hooks'
 import { useStore } from '../store'
+
+import Panel from './Panel'
 
 const OPEN_DEBUG_RIGHT_CLICKS = 5
 
 function Debug() {
   const { transaction, users, txId, summaryId, summaryCurrencyId, setSummaryCurrencyId, summary, chat, currencies, categories, transactions, isDebug, setDebug } = useStore()
+  const { chatId } = useChatId()
 
   // const navigate = useNavigate()
 
@@ -40,12 +42,13 @@ function Debug() {
 
   const out = (title: string, val: any, isOpen?: boolean) => (
     <details open={isOpen}>
-      <summary className="select-none"><strong>{title} = </strong></summary>
-      {typeof val === 'object' && val !== null
-        ? <pre>{JSON.stringify(val, null, 2)}</pre>
-        : <pre>{String(val)}</pre>
-      }
-      <br />
+      <summary className="select-none font-semibold">{title} =</summary>
+      <pre className="p-[0.3em] mb-[1em] leading-[1.1em] whitespace-break-spaces bg-[#8883]">
+        {typeof val === 'object' && val !== null
+          ? JSON.stringify(val, null, 2)
+          : String(val)
+        }
+      </pre>
     </details>
   )
 
@@ -81,6 +84,7 @@ function Debug() {
         {out('txid', txId)}
         {out('transaction', transaction)}
         {out('users', users)}
+        {out('chatId', chatId)}
         {out('chat', chat)}
         {out('summaryId', summaryId)}
         {out('summaryCurrencyId', summaryCurrencyId)}

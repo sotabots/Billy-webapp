@@ -18,9 +18,8 @@ import Toggle from '../kit/Toggle'
 import { useGetTx, useGetTransactions, useGetSummary } from '../api'
 
 import { decimals } from '../const'
-import { useCurrencies, useInit, useChatId } from '../hooks'
+import { useCurrencies, useInit, useChatId, useFeedback } from '../hooks'
 import { useStore } from '../store'
-import { feedback, EVENT } from '../feedback'
 import { usePostTransaction, usePutTransaction } from '../api'
 import { formatAmount } from '../utils'
 import type { TNewTransaction, TShare, TTransaction, TLanguageCode } from '../types'
@@ -37,6 +36,7 @@ function Check() {
 
   const { t, i18n } = useTranslation()
   const navigate = useNavigate()
+  const { feedback } = useFeedback()
 
   const { transaction, setTransaction, txComment, isEditTx, setIsEditTx, setIsSelectPayers, isSuccess, setSuccess, setTxPatchError } = useStore()
 
@@ -172,7 +172,7 @@ function Check() {
         is_canceled: !!isCanceled,
         is_confirmed: true
       }
-      await feedback(EVENT.SEND_TRANSACTION)
+      await feedback('send_transaction')
       // console.log(JSON.stringify(confirmedTransaction, null, 2))
       const resJson = transaction._id === 'NEW'
         ? await postTransaction(newConfirmedTransaction)

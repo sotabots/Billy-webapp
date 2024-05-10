@@ -1,6 +1,7 @@
 export * from './useCategories'
 export * from './useChatId'
 export * from './useCurrencies'
+export * from './useFeedback'
 export * from './useFilter'
 export * from './useInit'
 export * from './useNewTx'

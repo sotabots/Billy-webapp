@@ -14,8 +14,7 @@ import UserButton from '../kit/UserButton'
 import { closeApp } from '../utils'
 
 import { useStore } from '../store'
-import { useCurrencies } from '../hooks'
-import { feedback, EVENT } from '../feedback'
+import { useCurrencies, useFeedback } from '../hooks'
 import { usePostTransaction, useGetSummary } from '../api'
 import { formatAmount } from '../utils'
 
@@ -45,6 +44,7 @@ function Balance({
 
   const [, notificationOccurred] = useHapticFeedback()
   const [initDataUnsafe] = useInitData()
+  const { feedback } = useFeedback()
 
   const { refetch: refetchSummary } = useGetSummary()
   const { summary, /*setSummary,*/ setSummaryCurrencyId, chat, users, setTxPatchError } = useStore()
@@ -105,7 +105,7 @@ function Balance({
         cashback: null,
       }
 
-      await feedback(EVENT.SEND_SETTLEUP)
+      await feedback('send_settleup')
       const resJson = await postTransaction(newTx)
       console.log('patchTransaction res', resJson)
 
