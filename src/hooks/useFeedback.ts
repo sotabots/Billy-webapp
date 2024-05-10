@@ -19,7 +19,6 @@ type TEvent =
   'open_settings' |
   'open_soon' |
   'send_transaction' |
-  'send_settleup' |
 
   // Settings
   'open_settings_web' |

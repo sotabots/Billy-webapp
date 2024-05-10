@@ -2,7 +2,7 @@ import User from './User'
 import InputAmount from './InputAmount'
 import Button from './Button'
 
-import { useUsers } from '../hooks'
+import { useFeedback, useUsers } from '../hooks'
 import { TDebt, TUserId } from '../types'
 
 import { ReactComponent as ToIcon } from '../assets/to.svg'
@@ -12,6 +12,7 @@ function DebtDetailed({ from_user, to_user, amount, customRecipientId, onClickRe
   customRecipientId: null | TUserId
   onClickRecipient: VoidFunction
 }) {
+  const { feedback } = useFeedback()
   const { getUserById } = useUsers()
 
   const fromUser = getUserById(from_user._id)
@@ -30,7 +31,10 @@ function DebtDetailed({ from_user, to_user, amount, customRecipientId, onClickRe
       <Button
         theme="clear"
         className="w-full flex items-center gap-3 pl-6 py-1 rounded-[6px] hover:bg-text/5 active:bg-text/10 transition-all"
-        onClick={onClickRecipient}
+        onClick={() => {
+          onClickRecipient()
+          feedback('change_user_settleup_web')
+        }}
         text={
           <>
             <div className="h-[14px] w-[14px]">

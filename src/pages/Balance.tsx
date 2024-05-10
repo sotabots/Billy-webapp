@@ -105,7 +105,7 @@ function Balance({
         cashback: null,
       }
 
-      await feedback('send_settleup')
+      await feedback('confirm_settleup_web')
       const resJson = await postTransaction(newTx)
       console.log('patchTransaction res', resJson)
 
@@ -151,7 +151,10 @@ function Balance({
                     <Debt
                       key={JSON.stringify(debt)}
                       {...debt}
-                      onClick={() => { setSelectedDebtId(JSON.stringify(debt)) }}
+                      onClick={() => {
+                        setSelectedDebtId(JSON.stringify(debt))
+                        feedback('settle_up_balances_web')
+                      }}
                     />
                   ))}
                 </div>
@@ -163,7 +166,10 @@ function Balance({
             <Button
               theme="text"
               text={t('detailedSummary')}
-              onClick={goDetailed}
+              onClick={() => {
+                goDetailed()
+                feedback('press_details_balances_web')
+              }}
             />
           </div>
 
@@ -177,6 +183,7 @@ function Balance({
               text={`💎 ${t('convertAllTo')} ${chat.default_currency}`}
               onClick={() => {
                 setSummaryCurrencyId(chat.default_currency)
+                feedback('show_single_currency_balances_web')
               }}
             />
           ) : (
@@ -255,6 +262,7 @@ function Balance({
                   onClick={() => {
                     setCustomRecipientId(user._id)
                     setIsRecipientsOpen(false)
+                    feedback('set_user_settleup_web')
                   }}
                 />
                 {i < arr.length - 1 && <Divider key={`Divider-${i}`} />}

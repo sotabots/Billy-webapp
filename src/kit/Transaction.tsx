@@ -7,7 +7,7 @@ import { TShare, TTransaction } from '../types'
 
 import Button from '../kit/Button'
 
-import { useCategories, useUsers, useCurrencies } from '../hooks'
+import { useCategories, useUsers, useCurrencies, useFeedback } from '../hooks'
 
 import { ReactComponent as EditIcon } from '../assets/edit.svg'
 
@@ -24,6 +24,7 @@ const Transaction = ({ tx }: { tx: TTransaction }) => {
   const { getUserById } = useUsers()
   const { getCurrencyById } = useCurrencies()
   const { getCategoryColor, getCategoryEmoji } = useCategories()
+  const { feedback } = useFeedback()
 
   const backgroundColor = getCategoryColor(tx.category)
   const emoji = getCategoryEmoji(tx.category)
@@ -114,6 +115,7 @@ const Transaction = ({ tx }: { tx: TTransaction }) => {
           setTxId(tx._id)
           setIsEditTx(true)
           navigate('/check')
+          feedback('edit_transaction_total_web')
         }}
       />
     </div>

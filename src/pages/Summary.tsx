@@ -12,7 +12,7 @@ import RadioButtons from '../kit/RadioButtons'
 import DatePicker from '../kit/DatePicker'
 
 import { useStore } from '../store'
-import { useTotal, useFilter } from '../hooks'
+import { useTotal, useFilter, useFeedback } from '../hooks'
 
 import { ReactComponent as FilterIcon } from '../assets/filter.svg'
 import { ReactComponent as FilterActiveIcon } from '../assets/filter-active.svg'
@@ -28,6 +28,7 @@ function Summary({
 }) {
   const { t } = useTranslation()
   const navigate = useNavigate()
+  const { feedback } = useFeedback()
 
   const { isDebug, setTxId, setIsEditTx } = useStore()
 
@@ -103,7 +104,10 @@ function Summary({
                 <Button
                   theme="clear"
                   className="flex items-center justify-center w-8 h-8"
-                  onClick={openFilter}
+                  onClick={() => {
+                    openFilter()
+                    feedback('press_filter_total_web')
+                  }}
                   text={
                     isFilterActive
                       ? <FilterActiveIcon />
@@ -159,7 +163,10 @@ function Summary({
             <Button
               theme="text"
               text={t('detailedSummary')}
-              onClick={goDetailed}
+              onClick={() => {
+                goDetailed()
+                feedback('press_details_total_web')
+              }}
             />
           </div>
 
@@ -170,6 +177,7 @@ function Summary({
               setTxId('NEW')
               setIsEditTx(true)
               navigate('/check')
+              feedback('add_expense_total_web')
             }}
           />
         </>

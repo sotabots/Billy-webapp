@@ -9,7 +9,7 @@ import Header from '../kit/Header'
 import Tabs from '../kit/Tabs'
 
 import { useGetSummarySheetRebuild } from '../api'
-import { useInit, useFilter } from '../hooks'
+import { useInit, useFilter, useFeedback } from '../hooks'
 import { useStore } from '../store'
 import { TUserId } from '../types'
 
@@ -26,6 +26,7 @@ function SummaryBalance({ tab }: { tab: TTab }) {
 
   const { t } = useTranslation()
   const navigate = useNavigate()
+  const { feedback } = useFeedback()
 
   const { isFilterOpen, closeFilter } = useFilter()
 
@@ -41,9 +42,18 @@ function SummaryBalance({ tab }: { tab: TTab }) {
 
   const screenRef = useRef<HTMLDivElement>(null)
 
-  const selectTab = (tab: TTab) => () => {
-    navigate('/' + tab)
+  const selectTab = (newTab: TTab) => () => {
+    if (newTab === tab) {
+      return
+    }
+    navigate('/' + newTab)
     screenRef.current?.scrollTo({ top: 0, behavior: 'smooth' })
+    if (newTab === 'summary') {
+      feedback('show_total_balances_web')
+    }
+    if (newTab === 'balance') {
+      feedback('show_balances_total_web')
+    }
   }
 
   const onScroll = (e: UIEvent<HTMLDivElement>) => {
