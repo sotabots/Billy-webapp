@@ -19,7 +19,50 @@ type TEvent =
   'open_settings' |
   'open_soon' |
   'send_transaction' |
-  'send_settleup'
+  'send_settleup' |
+
+  // Settings
+  'open_settings_web' |
+  'press_currency_settings_web' |
+  'set_currency_settings_web' |
+  'press_language_settings_web' |
+  'set_language_settings_web' |
+
+  // Match names
+  'press_add_user_expnames_web' |
+  'users_expnames_web' | // ???
+  'press_change_user_expnames_web' |
+  'set_user_expnames_web' |
+
+  // Checkout
+  'edit_payers_expshares_web' |
+  'set_payers_expshares_web' |
+  'edit_debtors_expshares_web' |
+  'change_currency_expshares_web' |
+  'set_currency_expshares_web' |
+  'press_cancel_transaction_expshares_web' |
+  'confirm_cancel_transaction_expshares_web' |
+  'set_equal_share_expshares_web' |
+  'unset_equal_share_expshares_web' |
+
+  // Total
+  'show_balances_total_web' |
+  'add_expense_total_web' |
+  'edit_transaction_total_web' |
+  'press_filter_total_web' |
+  'press_details_total_web' |
+
+  // Balances
+  'show_total_balances_web' |
+  'show_single_currency_balances_web' |
+  'settle_up_balances_web' |
+  'press_details_balances_web' |
+
+  // Settle Up
+  'change_user_settleup_web' |
+  'set_user_settleup_web' |
+  'confirm_settleup_web'
+
 
 export const useFeedback = () => {
   const { chatId } = useChatId()
