@@ -57,7 +57,11 @@ function SummaryBalance({ tab }: { tab: TTab }) {
   }
 
   const onScroll = (e: UIEvent<HTMLDivElement>) => {
-    setIsCompactPie(e.currentTarget.scrollTop > 0)
+    // temp disabled
+    // todo: fix/enable
+    if (false) {
+      setIsCompactPie(e.currentTarget.scrollTop > 0)
+    }
   }
 
   const goDetailed = () => {
