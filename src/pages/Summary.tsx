@@ -136,7 +136,7 @@ function Summary({
               </div>
             </Panel>
 
-            <Panel>
+            <Panel className="!mt-0">
               <div className="flex flex-col gap-4">
                 <h3>{t('transactions')}</h3>
                 <div className="flex flex-col gap-3">

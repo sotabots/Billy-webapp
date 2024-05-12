@@ -1,4 +1,6 @@
 import { useHapticFeedback, useInitData } from '@vkruglikov/react-telegram-web-app'
+
+import cx from 'classnames'
 import Lottie from 'lottie-react'
 import { useState } from 'react'
 import { useTranslation } from 'react-i18next'
@@ -138,13 +140,28 @@ function Balance({
     return null
   }
 
+  const myBalance = 1
+  const myBalanceSymbol = '$' // todo: get from summaryCurrencyId
+
   return (
     <>
       {!selectedDebt && summary?.debts && summary.debts.length > 0 && (
         <>
           <div className="flex flex-col gap-2 pb-5">
+            <Panel className="!pb-4">
+              <div className="flex items-center justify-between">
+                <h3>{t('myBalance')}</h3>
+                <div className={cx(
+                  'text-[16px] leading-6 capitalize',
+                  myBalance > 0 && 'text-plus',
+                  myBalance < 0 && 'text-minus',
+                )}>
+                  {myBalance < 0 ? '−' : ''} {formatAmount(Math.abs(myBalance))}{myBalanceSymbol}
+                </div>
+              </div>
+            </Panel>
             {currencyIds.map((currencyId, i) => (
-              <Panel key={`Panel-${i}`}>
+              <Panel key={`Panel-${i}`} className="!mt-0">
                 <h3>{t('balanceBy')} {getCurrencyById(currencyId)?.symbol || currencyId}</h3>
                 <div className="mt-4 flex flex-col gap-4">
                   {summary.debts.filter(item => item.currency_id === currencyId).map(debt => (

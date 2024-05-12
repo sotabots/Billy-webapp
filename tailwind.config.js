@@ -20,6 +20,8 @@ export default {
           'buttonText': '#F6F8F9',
           'error': '#CC0905',
           'ok': '#18C549',
+          'plus': '#119C2B',
+          'minus': '#CC0905',
        },
        'dark': {
           'text': '#F6F8F9',
@@ -31,6 +33,8 @@ export default {
           'buttonText': '#F6F8F9',
           'error': '#F76659',
           'ok': '#18C549',
+          'plus': '#47D16C',
+          'minus': '#F76659',
        },
     })
  ],
