@@ -16,7 +16,7 @@ import UserButton from '../kit/UserButton'
 import { closeApp } from '../utils'
 
 import { useStore } from '../store'
-import { useCurrencies, useFeedback } from '../hooks'
+import { useBalance, useCurrencies, useFeedback } from '../hooks'
 import { usePostTransaction, useGetSummary } from '../api'
 import { formatAmount } from '../utils'
 
@@ -61,6 +61,8 @@ function Balance({
   const currencyIds = !summary?.debts
     ? []
     : [...(new Set(summary.debts.map(item => item.currency_id)))]
+
+  const { balance, balanceFormatted } = useBalance()
 
   const postTransaction = usePostTransaction()
 
@@ -140,9 +142,6 @@ function Balance({
     return null
   }
 
-  const myBalance = 1
-  const myBalanceSymbol = '$' // todo: get from summaryCurrencyId
-
   return (
     <>
       {!selectedDebt && summary?.debts && summary.debts.length > 0 && (
@@ -150,13 +149,13 @@ function Balance({
           <div className="flex flex-col gap-2 pb-5">
             <Panel className="!pb-4">
               <div className="flex items-center justify-between">
-                <h3>{t('myBalance')}</h3>
+                <h3 className="capitalize">{t('myBalance')}</h3>
                 <div className={cx(
-                  'text-[16px] leading-6 capitalize',
-                  myBalance > 0 && 'text-plus',
-                  myBalance < 0 && 'text-minus',
+                  'text-[16px] leading-6',
+                  balance > 0 && 'text-plus',
+                  balance < 0 && 'text-minus',
                 )}>
-                  {myBalance < 0 ? '−' : ''} {formatAmount(Math.abs(myBalance))}{myBalanceSymbol}
+                  {balanceFormatted}
                 </div>
               </div>
             </Panel>

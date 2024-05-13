@@ -1,13 +1,12 @@
-import { useInitData } from '@vkruglikov/react-telegram-web-app'
 import cx from 'classnames'
 import { useTranslation } from 'react-i18next'
 import { useNavigate } from 'react-router-dom'
 
-import { TShare, TTransaction } from '../types'
+import { TTransaction } from '../types'
 
 import Button from '../kit/Button'
 
-import { useCategories, useUsers, useCurrencies, useFeedback } from '../hooks'
+import { useCategories, useUsers, useCurrencies, useFeedback, useTransaction } from '../hooks'
 
 import { ReactComponent as EditIcon } from '../assets/edit.svg'
 
@@ -19,7 +18,7 @@ import cashback from '../assets/cashback.png'
 const Transaction = ({ tx }: { tx: TTransaction }) => {
   const { t } = useTranslation()
   const navigate = useNavigate()
-  const [initDataUnsafe] = useInitData()
+
   const { setTxId, setIsEditTx } = useStore()
   const { getUserById } = useUsers()
   const { getCurrencyById } = useCurrencies()
@@ -29,10 +28,8 @@ const Transaction = ({ tx }: { tx: TTransaction }) => {
   const backgroundColor = getCategoryColor(tx.category)
   const emoji = getCategoryEmoji(tx.category)
 
-  const myShares: TShare[] = tx.shares.filter(share => share.related_user_id === initDataUnsafe.user?.id)
-  const myBalanceDelta: number = myShares.reduce((acc, share) =>
-    acc + share.amount * (share.is_payer ? 1 : -1)
-  , 0)
+  const { getMyBalanceDelta } = useTransaction()
+  const myBalanceDelta = getMyBalanceDelta(tx)
 
   const payerShares = tx.shares
     .filter(share => share.is_payer)
