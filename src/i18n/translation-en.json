@@ -41,6 +41,9 @@
   "cancelTransaction": "Delete expense",
   "sureToCancelTransaction": "Are you sure you want to delete the expense? It can be restored in the list of expenses.",
 
+  "selectCategory": "Select category",
+  "noCategory": "No category",
+
   "balance": "User Balance",
   "totalTransactions": "Expenses & Total",
 
@@ -57,7 +60,6 @@
   "total": "Total",
   "myTotal": "My Total",
   "subtitleAllTime": "All time",
-  "noCategory": "No category",
 
   "filter": "Filter",
   "spending": "Spending",

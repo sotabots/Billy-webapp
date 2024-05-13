@@ -1,4 +1,5 @@
 import { useTranslation } from 'react-i18next'
+import { useNavigate } from 'react-router-dom'
 
 import HTMLTagRenderer from '../kit/HTMLTagRenderer'
 import Button from '../kit/Button'
@@ -13,6 +14,7 @@ import CategoryAvatar from './CategoryAvatar'
 const MessagePanel = () => {
   const { t } = useTranslation()
   const { transaction, txComment, setTxComment } = useStore()
+  const navigate = useNavigate()
 
   const isEmptyTx = !transaction?.formatted_text && !transaction?.raw_text
 
@@ -59,7 +61,9 @@ const MessagePanel = () => {
               <EditIcon className="opacity-40 text-text group-hover/button:opacity-70 group-active/button:opacity-100 transition-all" />
             </>
           )}
-          onClick={() => {}}
+          onClick={() => {
+            navigate('/select-category')
+          }}
         />
       </div>
     </Panel>

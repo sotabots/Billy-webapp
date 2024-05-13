@@ -5,6 +5,7 @@ import SelectUser from './pages/SelectUser'
 import Check from './pages/Check'
 import SelectCurrency from './pages/SelectCurrency'
 import SelectUsers from './pages/SelectUsers'
+import SelectCategory from './pages/SelectCategory'
 import SummaryBalance from './pages/SummaryBalance'
 import Settings from './pages/Settings'
 import Soon from './pages/Soon'
@@ -34,6 +35,10 @@ export const router = createHashRouter([
   {
     path: "/select-users",
     element: <SelectUsers />,
+  },
+  {
+    path: "/select-category",
+    element: <SelectCategory />,
   },
   {
     path: "/summary",

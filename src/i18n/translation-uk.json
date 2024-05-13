@@ -41,6 +41,9 @@
   "cancelTransaction": "Видалити витрати",
   "sureToCancelTransaction": "Ви впевнені, що хочете видалити витрати? Її можна буде повернути через список витрат.",
 
+  "selectCategory": "Оберіть категорію",
+  "noCategory": "Без категорії",
+
   "balance": "Баланс",
   "totalTransactions": "Витрати",
 
@@ -57,7 +60,6 @@
   "total": "Всього",
   "myTotal": "Моя сума",
   "subtitleAllTime": "За все время",
-  "noCategory": "Без категорії",
 
   "filter": "Фільтр",
   "spending": "Витрати",

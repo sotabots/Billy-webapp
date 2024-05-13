@@ -41,6 +41,9 @@
   "cancelTransaction": "Удалить трату",
   "sureToCancelTransaction": "Вы уверены, что хотите удалить трату? Её можно будет вернуть через список трат.",
 
+  "selectCategory": "Выберите категорию",
+  "noCategory": "Без категории",
+
   "balance": "Баланс",
   "totalTransactions": "Траты",
 
@@ -57,7 +60,6 @@
   "total": "Всего",
   "myTotal": "Моя сумма",
   "subtitleAllTime": "За всё время",
-  "noCategory": "Без категории",
 
   "filter": "Фильтр",
   "spending": "Траты",

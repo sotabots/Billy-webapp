@@ -1,6 +1,13 @@
 import { useCategories } from '../hooks'
 
-const Category = ({ categoryKey, amountFormatted }: { categoryKey: string, amountFormatted?: string }) => {
+import Button from '../kit/Button'
+
+const Category = ({ categoryKey, amountFormatted, isActive, onClick }: {
+  categoryKey: string,
+  amountFormatted?: string,
+  isActive?: boolean,
+  onClick?: VoidFunction
+}) => {
   const { getCategoryColor, getCategoryEmoji, getCategoryName } = useCategories()
 
   const borderColor = getCategoryColor(categoryKey, .420)
@@ -8,17 +15,40 @@ const Category = ({ categoryKey, amountFormatted }: { categoryKey: string, amoun
   const categoryEmoji = getCategoryEmoji(categoryKey)
   const categoryName = getCategoryName(categoryKey)
 
-  return (
-    <div
-      className="Category flex gap-2 px-2 border rounded-[6px] text-[14px] leading-[24px] tracking-[-0.084em]"
-      style={{ borderColor, color }}
-    >
+  const style = {
+    borderColor: isActive ? color : borderColor,
+    color: isActive ? 'white' : color,
+    backgroundColor: isActive ? color : 'transparent'
+  }
+
+  const className = 'Category flex gap-2 px-2 border rounded-[6px] text-[14px] leading-[24px] tracking-[-0.084em] transition-all'
+
+  const inner = (
+    <>
       <span className="flex items-center justify-center">{categoryEmoji}</span>
       <span className="">{categoryName}</span>
       {!!amountFormatted && (
         <span className="font-semibold">{amountFormatted}</span>
       )}
-    </div>
-)}
+    </>
+  )
+
+  return (
+    onClick ? (
+      <Button
+        theme="clear"
+        text={<div className={className} style={style}>{inner}</div>}
+        onClick={onClick}
+      />
+    ) : (
+      <div
+        className={className}
+        style={style}
+      >
+        {inner}
+      </div>
+    )
+  )
+}
 
 export default Category
