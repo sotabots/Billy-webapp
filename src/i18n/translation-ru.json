@@ -57,7 +57,7 @@
   "total": "Всего",
   "myTotal": "Моя сумма",
   "subtitleAllTime": "За всё время",
-  "categoryUnknown": "Неизвестно",
+  "noCategory": "Без категории",
 
   "filter": "Фильтр",
   "spending": "Траты",

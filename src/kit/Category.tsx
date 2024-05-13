@@ -1,6 +1,6 @@
 import { useCategories } from '../hooks'
 
-const Category = ({ categoryKey, amountFormatted }: { categoryKey: string, amountFormatted: string }) => {
+const Category = ({ categoryKey, amountFormatted }: { categoryKey: string, amountFormatted?: string }) => {
   const { getCategoryColor, getCategoryEmoji, getCategoryName } = useCategories()
 
   const borderColor = getCategoryColor(categoryKey, .420)
@@ -10,12 +10,14 @@ const Category = ({ categoryKey, amountFormatted }: { categoryKey: string, amoun
 
   return (
     <div
-      className="flex gap-2 px-2 border rounded-[6px] text-[14px] leading-[24px] tracking-[-0.084em]"
+      className="Category flex gap-2 px-2 border rounded-[6px] text-[14px] leading-[24px] tracking-[-0.084em]"
       style={{ borderColor, color }}
     >
       <span className="flex items-center justify-center">{categoryEmoji}</span>
       <span className="">{categoryName}</span>
-      <span className="font-semibold">{amountFormatted}</span>
+      {!!amountFormatted && (
+        <span className="font-semibold">{amountFormatted}</span>
+      )}
     </div>
 )}
 

@@ -4,9 +4,10 @@ import { useNavigate } from 'react-router-dom'
 
 import { TTransaction } from '../types'
 
-import Button from '../kit/Button'
+import Button from './Button'
+import CategoryAvatar from './CategoryAvatar'
 
-import { useCategories, useUsers, useCurrencies, useFeedback, useTransaction } from '../hooks'
+import { useUsers, useCurrencies, useFeedback, useTransaction } from '../hooks'
 
 import { ReactComponent as EditIcon } from '../assets/edit.svg'
 
@@ -22,11 +23,7 @@ const Transaction = ({ tx }: { tx: TTransaction }) => {
   const { setTxId, setIsEditTx } = useStore()
   const { getUserById } = useUsers()
   const { getCurrencyById } = useCurrencies()
-  const { getCategoryColor, getCategoryEmoji } = useCategories()
   const { feedback } = useFeedback()
-
-  const backgroundColor = getCategoryColor(tx.category)
-  const emoji = getCategoryEmoji(tx.category)
 
   const { getMyBalanceDelta } = useTransaction()
   const myBalanceDelta = getMyBalanceDelta(tx)
@@ -42,12 +39,7 @@ const Transaction = ({ tx }: { tx: TTransaction }) => {
 
   return (
     <div className="Transaction flex gap-2">
-      <div
-        className="flex items-center justify-center w-6 h-6 rounded-full overflow-hidden text-[16px] leading-6"
-        style={{ backgroundColor }}
-      >
-        {emoji}
-      </div>
+      <CategoryAvatar tx={tx} isCategoryName={false} />
       <div className="flex-1 flex flex-col gap-[2px] text-[14px] leading-[24px]">
         {payerShares.map(payerShare => (
           <div className="flex gap-2 items-center justify-between px-2 font-semibold">

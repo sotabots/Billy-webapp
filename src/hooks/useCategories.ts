@@ -31,7 +31,7 @@ export const useCategories = () => {
         ? category.name[i18n.language as 'en' | 'ru']
         : category.name.en
       )
-      : (category?.name) || t('categoryUnknown'))
+      : (category?.name) || t('noCategory'))
   }
 
   return { getCategory, getCategoryColor, getCategoryEmoji, getCategoryName }
