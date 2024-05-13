@@ -38,16 +38,16 @@
   "splitEqually": "Split equally",
   "nobodyHere": "(Nobody here)",
   "checkAmounts": "Check amounts",
-  "cancelTransaction": "Delete transaction",
-  "sureToCancelTransaction": "Are you sure you want to delete the transaction? It can be restored in the list of transactions.",
+  "cancelTransaction": "Delete expense",
+  "sureToCancelTransaction": "Are you sure you want to delete the expense? It can be restored in the list of expenses.",
 
   "balance": "User Balance",
-  "totalTransactions": "Total & Transactions",
+  "totalTransactions": "Expenses & Total",
 
   "settleUpBy": "Settle up by",
   "balanceBy": "Balance by",
   "settleUp": "Settle up",
-  "settleUpSaved": "Transaction successfully saved!",
+  "settleUpSaved": "Expense successfully saved!",
   "allSettledUp": "You are all settled up in this group",
 
   "convertAllTo": "See everything in",
@@ -69,14 +69,14 @@
   "week": "Week",
   "custom": "Custom",
 
-  "transactions": "Transactions",
+  "transactions": "Expenses",
   "myBalance": "My balance",
   "statusUnconfirmed": "Unconfirmed",
   "statusCanceled": "Canceled",
   "statusEditedBy": "Edited by",
 
   "detailedSummary": "Detailed summary",
-  "addTransaction": "Add transaction",
+  "addTransaction": "Add Expense",
 
   "currency": "Currency",
   "language": "Language",
