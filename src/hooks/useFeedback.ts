@@ -8,12 +8,11 @@ const token = envToken || 'NO_TOKEN' // some string is needed
 mixpanel.init(token)
 
 const wa = window.Telegram?.WebApp
-if (wa?.initDataUnsafe.user?.id) {
-  mixpanel.identify(String(wa?.initDataUnsafe.user?.id))
-}
+// if (wa?.initDataUnsafe.user?.id) {
+//  mixpanel.identify(String(wa?.initDataUnsafe.user?.id))
+// }
 
 type TEvent =
-  'open_webapp' |
   'open_page_transaction' |
   'open_page_summary' |
   'open_settings' |
@@ -70,23 +69,23 @@ export const useFeedback = () => {
 
   const feedback = async (event: TEvent) => {
     const meta = {
-      userId: wa?.initDataUnsafe.user?.id || null,
       distinct_id: wa?.initDataUnsafe.user?.id || null,
-      userFirstName: wa?.initDataUnsafe.user?.first_name || null,
-      userLastName: wa?.initDataUnsafe.user?.last_name || null,
-      userName: wa?.initDataUnsafe.user?.username || null,
-      userLanguageCode: wa?.initDataUnsafe.user?.language_code || null,
-      // @ts-expect-error // todo: fix '@vkruglikov/react-telegram-web-app'
-      userIsPremium: wa?.initDataUnsafe.user?.is_premium || null,
+      // userId: wa?.initDataUnsafe.user?.id || null,
+      // userFirstName: wa?.initDataUnsafe.user?.first_name || null,
+      // userLastName: wa?.initDataUnsafe.user?.last_name || null,
+      // userName: wa?.initDataUnsafe.user?.username || null,
+      // userLanguageCode: wa?.initDataUnsafe.user?.language_code || null,
+      // //@ts-expect-error // todo: fix '@vkruglikov/react-telegram-web-app'
+      // userIsPremium: wa?.initDataUnsafe.user?.is_premium || null,
 
-      chatInstance: wa?.initDataUnsafe.chat_instance || null,
-      chatType: wa?.initDataUnsafe.chat_type || wa?.initDataUnsafe.chat?.type || null,
-      chatId: chatId,
-      chatTitle: chatId === 0 ? 'DEMO' : (wa?.initDataUnsafe.chat?.title || null),
+      chat_instance: wa?.initDataUnsafe.chat_instance || null,
+      chat_iype: wa?.initDataUnsafe.chat_type || wa?.initDataUnsafe.chat?.type || null,
+      chat_id: chatId,
+      chat_title: chatId === 0 ? 'DEMO' : (wa?.initDataUnsafe.chat?.title || null),
 
-      waPlatform: wa?.platform || null,
-      waVersion: wa?.version || null,
-      waColorScheme: wa?.colorScheme || null,
+      wa_platform: wa?.platform || null,
+      wa_version: wa?.version || null,
+      wa_color_scheme: wa?.colorScheme || null,
     }
     if (isToken) {
       console.info('[feedback]', event, meta)
