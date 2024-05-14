@@ -104,7 +104,9 @@ const Transaction = ({ tx }: { tx: TTransaction }) => {
           setTxId(tx._id)
           setIsEditTx(true)
           navigate('/check')
-          feedback('edit_transaction_total_web')
+          feedback('edit_transaction_total_web', {
+            txId: tx._id
+          })
         }}
       />
     </div>
