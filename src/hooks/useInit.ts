@@ -1,9 +1,10 @@
-import { useEffect } from 'react'
-import { useLocation } from 'react-router-dom'
 import { useInitData } from '@vkruglikov/react-telegram-web-app'
 
+import { useEffect, useState } from 'react'
+import { useLocation } from 'react-router-dom'
+
 import { useStore } from '../store'
-import { useUsers, useTgSettings } from '../hooks'
+import { useChatId, useFeedback, useUsers, useTgSettings } from '../hooks'
 
 import i18n from '../i18n'
 
@@ -96,4 +97,22 @@ export const useInit = () => {
   ) {
     i18n.changeLanguage(chat.language_code)
   }
+
+  // feedback app and page
+  const { chatId } = useChatId()
+  const { feedback } = useFeedback()
+  const [isFeedback, setIsFeedback] = useState(false)
+
+  useEffect(() => {
+    if (chatId !== undefined && !isFeedback) {
+      feedback('open_app_web')
+      if (routerLocation.pathname === '/summary') {
+        feedback('open_page_summary_web')
+      }
+      if (routerLocation.pathname === '/') {
+        feedback('open_page_transaction_web')
+      }
+      setIsFeedback(true)
+    }
+  }, [chatId, isFeedback, setIsFeedback])
 }
