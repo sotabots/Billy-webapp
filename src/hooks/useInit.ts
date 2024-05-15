@@ -105,7 +105,7 @@ export const useInit = () => {
 
   useEffect(() => {
     if (chatId !== undefined && !isFeedback) {
-      feedback('open_app_web')
+      // feedback('open_app_web')
       if (routerLocation.pathname === '/summary') {
         feedback('open_page_summary_web')
       }

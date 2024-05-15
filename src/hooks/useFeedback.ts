@@ -69,7 +69,7 @@ export const useFeedback = () => {
   const { chatId } = useChatId()
   const { transaction, transactions } = useStore()
 
-  const feedback = async (event: TEvent, { txId }: { txId?: string } = {}) => {
+  const feedback = async (event: TEvent, data: { [index:string]: string } = {}) => {
     const txDataEvents: TEvent[] = [
       'press_add_user_expnames_web',
       'set_users_expnames_web',
@@ -88,8 +88,8 @@ export const useFeedback = () => {
       'unset_equal_share_expshares_web',
       'edit_transaction_total_web',
     ]
-    const _transaction = (txId && transactions)
-      ? transactions.find(tx => tx._id === txId)
+    const _transaction = (data.transaction_id && transactions)
+      ? transactions.find(tx => tx._id === data.transaction_id)
       : transaction
     const txData = txDataEvents.includes(event)
       ? {
@@ -124,6 +124,7 @@ export const useFeedback = () => {
       wa_color_scheme: wa?.colorScheme || null,
 
       ...txData,
+      ...data,
     }
     if (isToken) {
       console.info('[feedback]', event, meta)

@@ -105,7 +105,7 @@ const Transaction = ({ tx }: { tx: TTransaction }) => {
           setIsEditTx(true)
           navigate('/check')
           feedback('edit_transaction_total_web', {
-            txId: tx._id
+            transaction_id: tx._id
           })
         }}
       />
