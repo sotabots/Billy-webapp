@@ -21,7 +21,7 @@ function Soon() {
   useEffect(() => {
     if (!isEvent) {
       setIsEvent(true)
-      feedback('open_soon')
+      feedback('open_soon_web')
     }
   }, [isEvent, setIsEvent])
 

@@ -178,7 +178,7 @@ function Check() {
         is_canceled: !!isCanceled,
         is_confirmed: true
       }
-      await feedback('send_transaction')
+      await feedback('send_transaction_web')
       // console.log(JSON.stringify(confirmedTransaction, null, 2))
       const resJson = transaction._id === 'NEW'
         ? await postTransaction(newConfirmedTransaction)

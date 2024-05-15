@@ -1,6 +1,6 @@
 import { useHapticFeedback } from '@vkruglikov/react-telegram-web-app'
 
-import { useEffect, useState } from 'react'
+import { useState } from 'react'
 import { useTranslation } from 'react-i18next'
 
 import Button from '../kit/Button'
@@ -24,15 +24,6 @@ function Settings() {
   const { t, i18n } = useTranslation()
   const { currencies, chat } = useStore()
   const { feedback } = useFeedback()
-
-  const [isEvent, setIsEvent] = useState(false)
-
-  useEffect(() => {
-    if (!isEvent) {
-      setIsEvent(true)
-      feedback('open_settings')
-    }
-  }, [isEvent, setIsEvent])
 
   const closeInnerPages = () => {
     setIsCurrencyOpen(false)

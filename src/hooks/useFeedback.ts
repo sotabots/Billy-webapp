@@ -14,11 +14,11 @@ const wa = window.Telegram?.WebApp
 // }
 
 type TEvent =
-  'open_page_transaction' |
-  'open_page_summary' |
-  'open_settings' |
-  'open_soon' |
-  'send_transaction' |
+  'open_app_web' |
+  'open_page_transaction_web' | // todo
+  'open_page_summary_web' | // todo
+  'open_soon_web' |
+  'send_transaction_web' |
 
   // Settings
   'open_settings_web' |
