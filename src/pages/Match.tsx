@@ -21,7 +21,7 @@ function Match() {
   const { t } = useTranslation()
   const navigate = useNavigate()
   const { setSelectPersonId } = useStore()
-  const { unrelatedUsers, countUnrelatedPersons, isRelationsComplete, isRelationsEnough } = useUsers()
+  const { unrelatedUsers, countUnrelatedPersons, isRelationsComplete, isRelationsEnough, getUserById } = useUsers()
   const { transaction, deduplicatedShares, isEmptyTx } = useTransaction()
   const [impactOccurred] = useHapticFeedback()
   const { feedback } = useFeedback()
@@ -92,7 +92,9 @@ function Match() {
                       key={`UserRelation-${i}`}
                       {...share}
                       onClick={() => {
-                        feedback('press_change_user_expnames_web')
+                        feedback('press_change_user_expnames_web', {
+                          user_prev: share.related_user_id && getUserById(share.related_user_id) || null
+                        })
                         onSelect(share.person_id)
                       }}
                     />
