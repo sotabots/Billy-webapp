@@ -1,11 +1,28 @@
 import { useInitData } from '@vkruglikov/react-telegram-web-app'
 
+import { decimals } from '../const'
 import { useStore } from '../store'
-
 import { TShare, TTransaction } from '../types'
+import { formatAmount } from '../utils'
 
 export const useTransaction = () => {
   const { transaction } = useStore()
+
+  const payedShares = (transaction?.shares || []).filter(share => share.related_user_id && share.is_payer)
+  const oweShares = (transaction?.shares || []).filter(share => share.related_user_id && !share.is_payer)
+
+  const payedSum = payedShares.reduce((acc, item) => acc + item.amount, 0)
+  const payedSumFormatted = formatAmount(payedSum)
+  const oweSum = oweShares.reduce((acc, item) => acc + item.amount, 0)
+  const oweSumFormatted = formatAmount(oweSum)
+
+  const fromDecimals = (n: number) => Math.round(n * 10**decimals)
+
+  const TOLERANCE = 0.01
+  const isLacks = fromDecimals(oweSum) - fromDecimals(payedSum) >= fromDecimals(TOLERANCE)
+  const isOverdo = fromDecimals(payedSum) - fromDecimals(oweSum) >= fromDecimals(TOLERANCE)
+  const isBalanced = !isLacks && !isOverdo
+  const isWrongAmounts = !isBalanced || !(payedSum > 0) || !(oweSum > 0)
 
   const isEmptyTx = !transaction?.formatted_text && !transaction?.raw_text
 
@@ -24,5 +41,5 @@ export const useTransaction = () => {
     return myBalanceDelta
   }
 
-  return { transaction, isEmptyTx, deduplicatedShares, getMyBalanceDelta }
+  return { transaction, payedShares, oweShares, payedSum, payedSumFormatted, oweSum, oweSumFormatted, isWrongAmounts, isEmptyTx, deduplicatedShares, getMyBalanceDelta }
 }

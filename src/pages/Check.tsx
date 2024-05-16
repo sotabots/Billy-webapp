@@ -18,10 +18,10 @@ import Toggle from '../kit/Toggle'
 import { useGetTx, useGetTransactions, useGetSummary } from '../api'
 
 import { decimals } from '../const'
-import { useCurrencies, useInit, useChatId, useFeedback } from '../hooks'
+import { useCurrencies, useInit, useChatId, useFeedback, useTransaction } from '../hooks'
 import { useStore } from '../store'
 import { usePostTransaction, usePutTransaction } from '../api'
-import { formatAmount } from '../utils'
+
 import type { TNewTransaction, TShare, TTransaction, TLanguageCode } from '../types'
 
 import lottieSuccess from '../assets/animation-success.json'
@@ -38,7 +38,8 @@ function Check() {
   const navigate = useNavigate()
   const { feedback } = useFeedback()
 
-  const { transaction, setTransaction, txComment, isEditTx, setIsEditTx, setIsSelectPayers, isSuccess, setSuccess, setTxPatchError } = useStore()
+  const { setTransaction, txComment, isEditTx, setIsEditTx, setIsSelectPayers, isSuccess, setSuccess, setTxPatchError } = useStore()
+  const { transaction, isWrongAmounts, payedShares, oweShares, payedSum, payedSumFormatted, oweSumFormatted } = useTransaction()
 
   const { getCurrencyById } = useCurrencies()
 
@@ -63,26 +64,9 @@ function Check() {
     return null
   }
 
-  // todo: move out
-
-  const payedShares = transaction.shares.filter(share => share.related_user_id && share.is_payer)
-  const oweShares = transaction.shares.filter(share => share.related_user_id && !share.is_payer)
-
-  const payedSum = payedShares.reduce((acc, item) => acc + item.amount, 0)
-  const payedSumFormatted = formatAmount(payedSum)
-  const oweSum = oweShares.reduce((acc, item) => acc + item.amount, 0)
-  const oweSumFormatted = formatAmount(oweSum)
-
-  const fromDecimals = (n: number) => Math.round(n * 10**decimals)
-
-  const TOLERANCE = 0.01
-  const isLacks = fromDecimals(oweSum) - fromDecimals(payedSum) >= fromDecimals(TOLERANCE)
-  const isOverdo = fromDecimals(payedSum) - fromDecimals(oweSum) >= fromDecimals(TOLERANCE)
-  const isBalanced = !isLacks && !isOverdo
-  const isWrongAmounts = !isBalanced || !(payedSum > 0) || !(oweSum > 0)
-
   const currency = getCurrencyById(transaction.currency_id)
   const isNoCurrency = !transaction.currency_id
+
   const isButtonDisabled = isWrongAmounts || isNoCurrency
   const buttonText =
     isNoCurrency ? `🐨 ${t('selectCurrency')}` :
@@ -280,7 +264,9 @@ function Check() {
               onClick={() => {
                 setIsSelectPayers(true)
                 navigate('/select-users')
-                feedback('edit_payers_expshares_web')
+                feedback('edit_payers_expshares_web', {
+                  payers_prev: payedShares.length
+                })
               }}
             />
           </div>
@@ -307,7 +293,9 @@ function Check() {
               onClick={() => {
                 setIsSelectPayers(false)
                 navigate('/select-users')
-                feedback('edit_debtors_expshares_web')
+                feedback('edit_debtors_expshares_web', {
+                  debtors_prev: oweShares.length
+                })
               }}
             />
           </div>

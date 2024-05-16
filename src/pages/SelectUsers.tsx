@@ -7,7 +7,7 @@ import Header from '../kit/Header'
 import Screen from '../kit/Screen'
 import UserButton from '../kit/UserButton'
 
-import { useFeedback, useInit, useUsers } from '../hooks'
+import { useFeedback, useInit, useTransaction, useUsers } from '../hooks'
 import { useStore } from '../store'
 import { TShare, TUserId, TUser } from '../types'
 
@@ -18,6 +18,7 @@ function SelectUsers() {
 
   const { users, updUsers } = useUsers()
   const { isSelectPayers, transaction } = useStore()
+  const { payedShares, oweShares } = useTransaction()
   const { feedback } = useFeedback()
 
   // todo: isSelectPayers null
@@ -79,9 +80,15 @@ function SelectUsers() {
         onClick={() => {
           updUsers(checkedUserIds, isSelectPayers)
           if (isSelectPayers) {
-            feedback('set_payers_expshares_web')
+            feedback('set_payers_expshares_web', {
+              payers_prev: payedShares.length,
+              payers_set: checkedUserIds.length,
+            })
           } else {
-            feedback('set_debtors_expshares_web')
+            feedback('set_debtors_expshares_web', {
+              debtors_prev: oweShares.length,
+              debtors_set: checkedUserIds.length,
+            })
           }
         }}
       />
