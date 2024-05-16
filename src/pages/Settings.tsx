@@ -64,9 +64,12 @@ function Settings() {
     }
 
     if (isSuccess) {
+      feedback('set_currency_settings_web', {
+        currency_prev: chat?.default_currency,
+        currency_set: currencyId,
+      })
       refetchChat()
       closeInnerPages()
-      feedback('set_currency_settings_web')
     }
     setBusy(false)
   }
@@ -83,9 +86,12 @@ function Settings() {
     }
 
     if (isSuccess) {
+      feedback('set_language_settings_web', {
+        language_prev: chat?.language_code,
+        language_set: languageCode,
+      })
       refetchChat()
       closeInnerPages()
-      feedback('set_language_settings_web')
     }
     setBusy(false)
   }
@@ -121,7 +127,9 @@ function Settings() {
               value={chat?.default_currency || ''}
               onClick={() => {
                 setIsCurrencyOpen(true)
-                feedback('press_currency_settings_web')
+                feedback('press_currency_settings_web', {
+                  currency_prev: chat?.default_currency,
+                })
               }}
             />
             <Divider className="mr-0 !bg-[#D5DADD]" />
@@ -136,7 +144,9 @@ function Settings() {
               }
               onClick={() => {
                 setIsLanguageOpen(true)
-                feedback('press_language_settings_web')
+                feedback('press_language_settings_web', {
+                  language_prev: chat?.language_code,
+                })
               }}
             />
           </div>

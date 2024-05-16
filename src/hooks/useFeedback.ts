@@ -69,7 +69,7 @@ export const useFeedback = () => {
   const { chatId } = useChatId()
   const { transaction, transactions } = useStore()
 
-  const feedback = async (event: TEvent, data: { [index:string]: string } = {}) => {
+  const feedback = async (event: TEvent, data: { [index:string]: any } = {}) => {
     const txDataEvents: TEvent[] = [
       'press_add_user_expnames_web',
       'set_users_expnames_web',
@@ -94,7 +94,7 @@ export const useFeedback = () => {
     const txData = txDataEvents.includes(event)
       ? {
           transaction_id: _transaction?._id,
-          // is_shares_determined:
+          // is_shares_determined: // todo
           is_confirmed: _transaction?.is_confirmed,
           is_canceled: _transaction?.is_canceled,
           // is_onboarding: _transaction?.is_onboarding,
