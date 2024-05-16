@@ -1,10 +1,21 @@
 import { useInitData } from '@vkruglikov/react-telegram-web-app'
 
+import { useStore } from '../store'
+
 import { TShare, TTransaction } from '../types'
 
 export const useTransaction = () => {
-  const [initDataUnsafe] = useInitData()
+  const { transaction } = useStore()
 
+  const isEmptyTx = !transaction?.formatted_text && !transaction?.raw_text
+
+  // deduplicate by person_id
+  const deduplicatedShares = (transaction?.shares || []).reduce((acc, share) => {
+    const prevPersonIds = acc.map(acc => acc.person_id)
+    return share.person_id !== null && prevPersonIds.includes(share.person_id) ? acc : [...acc, share]
+  }, [] as TShare[])
+
+  const [initDataUnsafe] = useInitData()
   const getMyBalanceDelta = (tx: TTransaction) => {
     const myShares: TShare[] = tx.shares.filter(share => share.related_user_id === initDataUnsafe.user?.id)
     const myBalanceDelta: number = myShares.reduce((acc, share) =>
@@ -13,5 +24,5 @@ export const useTransaction = () => {
     return myBalanceDelta
   }
 
-  return { getMyBalanceDelta }
+  return { transaction, isEmptyTx, deduplicatedShares, getMyBalanceDelta }
 }

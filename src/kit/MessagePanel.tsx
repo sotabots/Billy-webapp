@@ -6,6 +6,7 @@ import Button from '../kit/Button'
 import Panel from '../kit/Panel'
 import Textarea from '../kit/Textarea'
 
+import { useTransaction } from '../hooks'
 import { useStore } from '../store'
 
 import { ReactComponent as EditIcon } from '../assets/edit.svg'
@@ -13,10 +14,9 @@ import CategoryAvatar from './CategoryAvatar'
 
 const MessagePanel = () => {
   const { t } = useTranslation()
-  const { transaction, txComment, setTxComment } = useStore()
+  const { txComment, setTxComment } = useStore()
   const navigate = useNavigate()
-
-  const isEmptyTx = !transaction?.formatted_text && !transaction?.raw_text
+  const { transaction, isEmptyTx } = useTransaction()
 
   if (!transaction) {
     return null

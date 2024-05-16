@@ -11,9 +11,8 @@ import Panel from '../kit/Panel'
 import Screen from '../kit/Screen'
 import UserRelation from '../kit/UserRelation'
 
-import { useFeedback, useInit, useUsers } from '../hooks'
+import { useFeedback, useInit, useUsers, useTransaction } from '../hooks'
 import { useStore } from '../store'
-import { TShare } from '../types'
 import { closeApp } from '../utils'
 
 function Match() {
@@ -21,22 +20,15 @@ function Match() {
 
   const { t } = useTranslation()
   const navigate = useNavigate()
-  const { transaction, setSelectPersonId } = useStore()
+  const { setSelectPersonId } = useStore()
   const { unrelatedUsers, countUnrelatedPersons, isRelationsComplete, isRelationsEnough } = useUsers()
+  const { transaction, deduplicatedShares, isEmptyTx } = useTransaction()
   const [impactOccurred] = useHapticFeedback()
   const { feedback } = useFeedback()
 
   if (!transaction) {
     return null
   }
-
-  const isEmptyTx = !transaction?.formatted_text && !transaction?.raw_text
-
-  // deduplicate by person_id
-  const deduplicatedShares = transaction.shares.reduce((acc, share) => {
-    const prevPersonIds = acc.map(acc => acc.person_id)
-    return share.person_id !== null && prevPersonIds.includes(share.person_id) ? acc : [...acc, share]
-  }, [] as TShare[])
 
   const onSelect = (personId: string | null) => {
     if (personId === null) {
@@ -53,7 +45,9 @@ function Match() {
     console.log('onAdd vibro')
     impactOccurred('light')
     navigate('/select-user')
-    feedback('press_add_user_expnames_web')
+    feedback('press_add_user_expnames_web', {
+      num_users_prev: deduplicatedShares.length
+    })
   }
 
   const isButtonDisabled = !isRelationsComplete || !isRelationsEnough
