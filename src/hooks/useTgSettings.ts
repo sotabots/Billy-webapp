@@ -11,11 +11,7 @@ export const useTgSettings = () => {
   const { feedback } = useFeedback()
 
   useEffect(() => {
-    if (routerLocation.pathname === '/settings') {
-      setTimeout(() => {
-        window.Telegram?.WebApp.SettingsButton?.hide()
-      }, 100)
-    } else {
+    if (routerLocation.pathname !== '/settings') {
       window.Telegram?.WebApp.SettingsButton?.show()
     }
 
@@ -23,7 +19,7 @@ export const useTgSettings = () => {
       console.log('feedback from', routerLocation.pathname)
       feedback('open_settings_web', {
         from: {
-          '/': 'expnames',
+          // '/': 'expnames', // todo: fix
           '/select-user': 'expnames-select-user',
           '/check': 'expshares',
           '/select-currency': 'expshares-select-currency',
@@ -33,11 +29,11 @@ export const useTgSettings = () => {
           '/balance': 'balances',
           '/soon': 'soon',
           // '': 'settleup', // maybe todo
-        }[routerLocation.pathname as string] || 'other'
+        }[routerLocation.pathname] || 'expnames'
       })
       navigate('/settings')
     }
     window.Telegram?.WebApp.SettingsButton?.onClick(goSettings)
     return () => { window.Telegram?.WebApp.SettingsButton?.offClick(goSettings) }
-  }, [routerLocation.pathname])
+  }, [])
 }
