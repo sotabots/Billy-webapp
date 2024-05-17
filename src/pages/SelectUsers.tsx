@@ -81,13 +81,13 @@ function SelectUsers() {
           updUsers(checkedUserIds, isSelectPayers)
           if (isSelectPayers) {
             feedback('set_payers_expshares_web', {
-              payers_prev: payedShares.length,
-              payers_set: checkedUserIds.length,
+              num_payers_prev: payedShares.length,
+              num_payers_set: checkedUserIds.length,
             })
           } else {
             feedback('set_debtors_expshares_web', {
-              debtors_prev: oweShares.length,
-              debtors_set: checkedUserIds.length,
+              num_debtors_prev: oweShares.length,
+              num_debtors_set: checkedUserIds.length,
             })
           }
         }}

@@ -248,7 +248,9 @@ function Check() {
             text={currency ? `${currency.flag} ${currency.title[i18n.language as TLanguageCode]}` : t('selectCurrency')}
             onClick={() => {
               navigate('/select-currency')
-              feedback('change_currency_expshares_web')
+              feedback('change_currency_expshares_web', {
+                currency_prev: currency?._id || null
+              })
             }}
           />
         </div>
@@ -265,7 +267,7 @@ function Check() {
                 setIsSelectPayers(true)
                 navigate('/select-users')
                 feedback('edit_payers_expshares_web', {
-                  payers_prev: payedShares.length
+                  num_payers_prev: payedShares.length
                 })
               }}
             />
@@ -294,7 +296,7 @@ function Check() {
                 setIsSelectPayers(false)
                 navigate('/select-users')
                 feedback('edit_debtors_expshares_web', {
-                  debtors_prev: oweShares.length
+                  num_debtors_prev: oweShares.length
                 })
               }}
             />

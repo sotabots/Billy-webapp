@@ -22,12 +22,15 @@ function SelectCurrency() {
   const { feedback } = useFeedback()
 
   const onChange = useCallback((currencyId: TCurrencyId) => {
+    feedback('set_currency_expshares_web', {
+      currency_prev: transaction?.currency_id || null,
+      currency_set: currencyId
+    })
     setCurrency(currencyId)
     console.log('SelectCurrency change vibro')
     selectionChanged()
     impactOccurred('medium')
     navigate('/check')
-    feedback('set_currency_expshares_web')
     // history.back()
   }, [impactOccurred, selectionChanged, navigate, setCurrency])
 
