@@ -13,6 +13,8 @@ export const useTgSettings = () => {
   useEffect(() => {
     if (routerLocation.pathname !== '/settings') {
       window.Telegram?.WebApp.SettingsButton?.show()
+    } else {
+      window.Telegram?.WebApp.SettingsButton?.hide()
     }
 
     const goSettings = () => {
