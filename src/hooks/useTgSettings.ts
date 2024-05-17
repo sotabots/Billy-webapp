@@ -12,12 +12,15 @@ export const useTgSettings = () => {
 
   useEffect(() => {
     if (routerLocation.pathname === '/settings') {
-      window.Telegram?.WebApp.SettingsButton?.hide()
+      setTimeout(() => {
+        window.Telegram?.WebApp.SettingsButton?.hide()
+      }, 100)
     } else {
       window.Telegram?.WebApp.SettingsButton?.show()
     }
 
     const goSettings = () => {
+      console.log('feedback from', routerLocation.pathname)
       feedback('open_settings_web', {
         from: {
           '/': 'expnames',
