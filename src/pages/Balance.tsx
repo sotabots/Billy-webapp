@@ -104,7 +104,14 @@ function Balance({
         cashback: null,
       }
 
-      await feedback('confirm_settleup_web')
+      await feedback('confirm_settleup_web', {
+        amount_prev: selectedDebt.amount,
+        amount_set: selectedDebt.amount, // todo: edited amount
+        user_from: selectedDebt.from_user,
+        user_to_prev: selectedDebt.to_user,
+        user_to_set: customRecipientId && getUserById(customRecipientId) || selectedDebt.to_user,
+        currency: selectedDebt.currency_id,
+      })
       const resJson = await postTransaction(newTx)
       console.log('patchTransaction res', resJson)
 
@@ -295,9 +302,12 @@ function Balance({
                   key={i}
                   user={user}
                   onClick={() => {
+                    feedback('set_user_settleup_web', {
+                      user_to_prev: selectedDebt.to_user,
+                      user_to_set: user
+                    })
                     setCustomRecipientId(user._id)
                     setIsRecipientsOpen(false)
-                    feedback('set_user_settleup_web')
                   }}
                 />
                 {i < arr.length - 1 && <Divider key={`Divider-${i}`} />}
@@ -308,7 +318,7 @@ function Balance({
       )}
 
       <Overlay isOpen={isSuccessOpen}>
-        <div className="w-[280px] mx-auto flex flex-col gap-4 pt-8 text-center">
+        <div className="w-[280px] mx-auto flex flex-col gap-4 pt-[120px] text-center">
           <div className="mx-auto w-[286px] h-[237px]">
             <Lottie
               style={{ width: 286, height: 237 }}

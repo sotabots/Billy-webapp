@@ -8,7 +8,7 @@ import { TDebt, TUserId } from '../types'
 import { ReactComponent as ToIcon } from '../assets/to.svg'
 import { ReactComponent as NextIcon } from '../assets/next.svg'
 
-function DebtDetailed({ from_user, to_user, amount, customRecipientId, onClickRecipient }: TDebt & {
+function DebtDetailed({ from_user, to_user, amount, currency_id, customRecipientId, onClickRecipient }: TDebt & {
   customRecipientId: null | TUserId
   onClickRecipient: VoidFunction
 }) {
@@ -33,7 +33,11 @@ function DebtDetailed({ from_user, to_user, amount, customRecipientId, onClickRe
         className="w-full flex items-center gap-3 pl-6 py-1 rounded-[6px] hover:bg-text/5 active:bg-text/10 transition-all"
         onClick={() => {
           onClickRecipient()
-          feedback('change_user_settleup_web')
+          feedback('change_user_settleup_web', {
+            user_to_prev: toUser,
+            amount: amount,
+            currency: currency_id,
+          })
         }}
         text={
           <>
