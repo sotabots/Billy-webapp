@@ -2,7 +2,7 @@ import { useHapticFeedback, useInitData } from '@vkruglikov/react-telegram-web-a
 
 import cx from 'classnames'
 import Lottie from 'lottie-react'
-import { useState } from 'react'
+import { useEffect, useState } from 'react'
 import { useTranslation } from 'react-i18next'
 
 import Button from '../kit/Button'
@@ -132,6 +132,21 @@ function Balance({
     }
   }
 
+  const [feedbackData, setFeedbackData] = useState<null | {
+    currency: string,
+    num_debts_mutli_currency: number
+  }>(null)
+
+  useEffect(() => {
+    if (feedbackData && chat?.default_currency && summary?.debts && debtCurrencyIds.length === 1 && debtCurrencyIds[0] === chat.default_currency)
+    feedback('show_single_currency_balances_web', {
+      currency: feedbackData.currency,
+      num_debts_mutli_currency: feedbackData.num_debts_mutli_currency,
+      num_debts_single_currency: summary.debts.length,
+    })
+    setFeedbackData(null)
+  }, [feedbackData, setFeedbackData, chat?.default_currency, summary?.debts, debtCurrencyIds])
+
   if (!summary) {
     return null
   }
@@ -192,8 +207,11 @@ function Balance({
               color={'#7E10E5'}
               text={`💎 ${t('convertAllTo')} ${chat.default_currency}`}
               onClick={() => {
+                setFeedbackData({
+                  currency: chat.default_currency!,
+                  num_debts_mutli_currency: summary.debts.length
+                })
                 setSummaryCurrencyId(chat.default_currency)
-                feedback('show_single_currency_balances_web')
               }}
             />
           ) : (
