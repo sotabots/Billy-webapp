@@ -14,7 +14,7 @@ import Divider from '../kit/Divider'
 import UserButton from '../kit/UserButton'
 
 import { usePostTransaction, useGetSummary } from '../api'
-import { useBalance, useCurrencies, useFeedback, useSummary } from '../hooks'
+import { useBalance, useCurrencies, useFeedback, useSummary, useUsers } from '../hooks'
 import { useStore } from '../store'
 import { TNewTransaction, TUserId } from '../types'
 import { formatAmount, closeApp } from '../utils'
@@ -48,6 +48,7 @@ function Balance({
   const { refetch: refetchSummary } = useGetSummary()
   const { summary, /*setSummary,*/ setSummaryCurrencyId, chat, users, setTxPatchError } = useStore()
   const { getCurrencyById } = useCurrencies()
+  const { getUserById } = useUsers()
 
   const selectedDebt = (summary?.debts || []).find(debt => JSON.stringify(debt) === selectedDebtId)
   const selectedDebtCurrency = selectedDebt ? getCurrencyById(selectedDebt.currency_id) : undefined
@@ -145,7 +146,7 @@ function Balance({
       num_debts_single_currency: summary.debts.length,
     })
     setFeedbackData(null)
-  }, [feedbackData, setFeedbackData, chat?.default_currency, summary?.debts, debtCurrencyIds])
+  }, [feedback, feedbackData, setFeedbackData, chat?.default_currency, summary?.debts, debtCurrencyIds])
 
   if (!summary) {
     return null
@@ -178,7 +179,13 @@ function Balance({
                       {...debt}
                       onClick={() => {
                         setSelectedDebtId(JSON.stringify(debt))
-                        feedback('settle_up_balances_web')
+                        feedback('settle_up_balances_web', {
+                          user: initDataUnsafe.user?.id && getUserById(initDataUnsafe.user?.id) || null,
+                          user_from: debt.from_user,
+                          user_to: debt.to_user,
+                          amount: debt.amount,
+                          currency: debt.currency_id,
+                        })
                       }}
                     />
                   ))}
