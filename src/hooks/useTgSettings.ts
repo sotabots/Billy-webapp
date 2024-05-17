@@ -1,16 +1,16 @@
 // import { useWebApp } from '@vkruglikov/react-telegram-web-app'
 
 import { useEffect } from 'react'
-import { useNavigate } from 'react-router-dom'
+import { useLocation, useNavigate } from 'react-router-dom'
 
 import { useFeedback } from '.'
 
 export const useTgSettings = () => {
+  const routerLocation = useLocation()
   const navigate = useNavigate()
   const { feedback } = useFeedback()
 
   useEffect(() => {
-    window.Telegram?.WebApp.SettingsButton?.show()
     const goSettings = () => {
       feedback('open_settings_web')
       navigate('/settings')
@@ -18,4 +18,12 @@ export const useTgSettings = () => {
     window.Telegram?.WebApp.SettingsButton?.onClick(goSettings)
     return () => { window.Telegram?.WebApp.SettingsButton?.offClick(goSettings) }
   }, [])
+
+  useEffect(() => {
+    if (routerLocation.pathname === '/settings') {
+      window.Telegram?.WebApp.SettingsButton?.hide()
+    } else {
+      window.Telegram?.WebApp.SettingsButton?.show()
+    }
+  }, [routerLocation.pathname])
 }

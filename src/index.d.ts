@@ -19,6 +19,7 @@ declare global {
         close: VoidFunction
         SettingsButton?: {
           show: VoidFunction
+          hide: VoidFunction
           onClick: (callback: VoidFunction) => void
           offClick: (offClick: VoidFunction) => void
         }
