@@ -9,7 +9,7 @@ import Header from '../kit/Header'
 import Tabs from '../kit/Tabs'
 
 import { useGetSummarySheetRebuild } from '../api'
-import { useInit, useFilter, useFeedback } from '../hooks'
+import { useInit, useFilter, useFeedback, useSummary } from '../hooks'
 import { useStore } from '../store'
 import { TUserId } from '../types'
 
@@ -32,6 +32,7 @@ function SummaryBalance({ tab }: { tab: TTab }) {
 
   const { summary } = useStore()
   const getSummarySheetRebuild = useGetSummarySheetRebuild()
+  const { debtCurrencyIds, debts } = useSummary()
 
   const [selectedDebtId, setSelectedDebtId] = useState<null | string>(null)
   const isSelectedDebt = selectedDebtId !== null
@@ -49,10 +50,14 @@ function SummaryBalance({ tab }: { tab: TTab }) {
     navigate('/' + newTab)
     screenRef.current?.scrollTo({ top: 0, behavior: 'smooth' })
     if (newTab === 'summary') {
-      feedback('show_total_balances_web')
+      feedback('show_total_balances_web', {
+        num_debts: debts.length
+      })
     }
     if (newTab === 'balance') {
-      feedback('show_balances_total_web')
+      feedback('show_balances_total_web', {
+        currencies: debtCurrencyIds
+      })
     }
   }
 

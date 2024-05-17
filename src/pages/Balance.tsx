@@ -13,17 +13,14 @@ import DebtDetailed from '../kit/DebtDetailed'
 import Divider from '../kit/Divider'
 import UserButton from '../kit/UserButton'
 
-import { closeApp } from '../utils'
-
-import { useStore } from '../store'
-import { useBalance, useCurrencies, useFeedback } from '../hooks'
 import { usePostTransaction, useGetSummary } from '../api'
-import { formatAmount } from '../utils'
+import { useBalance, useCurrencies, useFeedback, useSummary } from '../hooks'
+import { useStore } from '../store'
+import { TNewTransaction, TUserId } from '../types'
+import { formatAmount, closeApp } from '../utils'
 
 import lottieKoalaSettledUp from '../assets/animation-koala-settled-up.json'
 import lottieKoalaSuccess from '../assets/animation-koala-success.json'
-
-import { TNewTransaction, TUserId } from '../types'
 
 function Balance({
   selectedDebtId,
@@ -58,11 +55,8 @@ function Balance({
   const [isBusy, setIsBusy] = useState(false)
   const [isSuccessOpen, setIsSuccessOpen] = useState(false)
 
-  const currencyIds = !summary?.debts
-    ? []
-    : [...(new Set(summary.debts.map(item => item.currency_id)))]
-
   const { balance, balanceFormatted } = useBalance()
+  const { debtCurrencyIds } = useSummary()
 
   const postTransaction = usePostTransaction()
 
@@ -159,7 +153,7 @@ function Balance({
                 </div>
               </div>
             </Panel>
-            {currencyIds.map((currencyId, i) => (
+            {debtCurrencyIds.map((currencyId, i) => (
               <Panel key={`Panel-${i}`} className="!mt-0">
                 <h3>{t('balanceBy')} {getCurrencyById(currencyId)?.symbol || currencyId}</h3>
                 <div className="mt-4 flex flex-col gap-4">
@@ -190,8 +184,8 @@ function Balance({
           </div>
 
           {chat?.default_currency && (
-            currencyIds.length > 1 ||
-            currencyIds.length === 1 && currencyIds[0] !== chat.default_currency
+            debtCurrencyIds.length > 1 ||
+            debtCurrencyIds.length === 1 && debtCurrencyIds[0] !== chat.default_currency
           ) ? (
             <Button
               isBottom

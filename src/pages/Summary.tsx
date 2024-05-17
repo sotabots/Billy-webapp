@@ -177,7 +177,9 @@ function Summary({
               setTxId('NEW')
               setIsEditTx(true)
               navigate('/check')
-              feedback('add_expense_total_web')
+              feedback('add_expense_total_web', {
+                num_transaction: filteredTransactions.length
+              })
             }}
           />
         </>
