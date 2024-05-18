@@ -14,11 +14,10 @@ const wa = window.Telegram?.WebApp
 // }
 
 type TEvent =
-  'open_app_web' |
+  //'open_app_web' |
   'open_page_transaction_web' | // todo
   'open_page_summary_web' | // todo
   'open_soon_web' |
-  'send_transaction_web' |
 
   // Settings
   'open_settings_web' |
@@ -45,6 +44,7 @@ type TEvent =
   'confirm_cancel_transaction_expshares_web' |
   'set_equal_share_expshares_web' |
   'unset_equal_share_expshares_web' |
+  'send_transaction_web' |
 
   // Total
   'show_balances_total_web' |
@@ -87,6 +87,7 @@ export const useFeedback = () => {
       'set_equal_share_expshares_web',
       'unset_equal_share_expshares_web',
       'edit_transaction_total_web',
+      'send_transaction_web',
     ]
     const _transaction = (data.transaction_id && transactions)
       ? transactions.find(tx => tx._id === data.transaction_id)
