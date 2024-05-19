@@ -230,12 +230,12 @@ export const useGetCategories = () => {
 
 export const useGetTransactions = (chatId: undefined | number) => {
   const [, initData] = useInitData()
-  const { setTransactions } = useStore()
+  const { setTransactions, summaryId } = useStore()
 
   return (
     useQuery<TTransaction[], Error>({
       queryKey: ['transactions', `chat-${chatId}`],
-      queryFn: chatId === 0
+      queryFn: chatId === 0 || summaryId?.includes('demo') // disable transactions request for tx-flow (startParamTxId)
         ? () => mockTransactions
         : () =>
           fetch(`${apiUrl}/chat/${chatId}/transactions`, {
@@ -248,7 +248,7 @@ export const useGetTransactions = (chatId: undefined | number) => {
         console.log('useApi: set transactions', data)
         setTransactions(data)
       },
-      enabled: chatId !== undefined,
+      enabled: chatId !== undefined && summaryId !== undefined, // todo: remove summary later?
       staleTime
     })
   )
