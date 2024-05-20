@@ -5,7 +5,7 @@ import { RouterProvider } from 'react-router-dom'
 
 import { useTgAutoExpand, useTheme } from './hooks'
 
-import './i18n';
+import './i18n'
 import { router } from './router'
 
 import DemoMode from './kit/DemoMode'

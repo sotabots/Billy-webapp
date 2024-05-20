@@ -33,10 +33,34 @@ export const useInit = () => {
   let startParamTxId
   let startParamSummaryId
 
-  if (routerLocation.pathname === '/summary' || routerLocation.pathname === '/balance') {
-    startParamSummaryId = startParam
-  } else {
-    startParamTxId = startParam
+  if (startParam) {
+    try {
+      console.log('start startParam', startParam)
+      const startParamReplaced = startParam
+        .split('-').join('+')
+        .split('_').join('/')
+      console.log('start startParamReplaced', startParamReplaced)
+      const startParamJsonEncoded = atob(startParamReplaced)
+      console.log('start startParamJsonEncoded', startParamJsonEncoded)
+      const startParamJson = JSON.parse(startParamJsonEncoded)
+      console.log('start startParamJson', startParamJson)
+
+      if ('tx_id' in startParamJson) {
+        startParamTxId = startParamJson.tx_id
+      }
+      if ('summary_id' in startParamJson) {
+        startParamSummaryId = startParamJson.summary_id
+      }
+      console.log('start startParamTxId', startParamTxId)
+      console.log('start startParamSummaryId', startParamSummaryId)
+    } catch {
+      // fallback
+      if (routerLocation.pathname === '/summary' || routerLocation.pathname === '/balance') {
+        startParamSummaryId = startParam
+      } else {
+        startParamTxId = startParam
+      }
+    }
   }
 
   if (txId === undefined) {
