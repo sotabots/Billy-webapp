@@ -5,6 +5,9 @@ import { TCurrency, TCurrencyId, TTransaction, TUser, TChat, TSummary, TCategori
 type TStore = {
   overlays: number[]
   setOverlays: (val: number[]) => void
+
+  chatIdStart: undefined | string
+  setChatIdStart: (chatIdStart: string) => void
   txId: undefined | string
   setTxId: (ixId: string) => void
   users: TUser[]
@@ -65,6 +68,8 @@ export const useStore = create<TStore>((set, get) => ({
   overlays: [],
   setOverlays: (overlays) => set(({ overlays })),
 
+  chatIdStart: undefined,
+  setChatIdStart: (chatIdStart) => set(({ chatIdStart })),
   txId: undefined,
   setTxId: (txId) => set(({ txId })),
   users: [],

@@ -12,6 +12,7 @@ export const useInit = () => {
   useTgSettings()
 
   const {
+    chatIdStart, setChatIdStart,
     txId, setTxId,
     summaryId, setSummaryId,
     chat,
@@ -32,6 +33,7 @@ export const useInit = () => {
   // todo: decode
   let startParamTxId
   let startParamSummaryId
+  let startParamChatId
 
   if (startParam) {
     try {
@@ -50,6 +52,9 @@ export const useInit = () => {
       }
       if ('summary_id' in startParamJson) {
         startParamSummaryId = startParamJson.summary_id
+      }
+      if ('chat_id' in startParamJson) {
+        startParamChatId = startParamJson.chat_id
       }
       console.log('start startParamTxId', startParamTxId)
       console.log('start startParamSummaryId', startParamSummaryId)
@@ -70,6 +75,11 @@ export const useInit = () => {
   if (summaryId === undefined) {
     setSummaryId(querySummaryId || startParamSummaryId || 'demo-summary')
   }
+
+  if (chatIdStart === undefined && startParamChatId) {
+    setChatIdStart(startParamChatId)
+  }
+
 
   // init new-tx author shares
   useEffect(() => {
