@@ -6,8 +6,8 @@ type TStore = {
   overlays: number[]
   setOverlays: (val: number[]) => void
 
-  chatIdStart: undefined | string
-  setChatIdStart: (chatIdStart: string) => void
+  chatIdStart: undefined | number
+  setChatIdStart: (chatIdStart: number) => void
   txId: undefined | string
   setTxId: (ixId: string) => void
   users: TUser[]
