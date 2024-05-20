@@ -45,8 +45,8 @@ export const useInit = () => {
       const startParamJson = JSON.parse(startParamJsonEncoded)
       console.log('start startParamJson', startParamJson)
 
-      if ('tx_id' in startParamJson) {
-        startParamTxId = startParamJson.tx_id
+      if ('transaction_id' in startParamJson) {
+        startParamTxId = startParamJson.transaction_id
       }
       if ('summary_id' in startParamJson) {
         startParamSummaryId = startParamJson.summary_id
