@@ -9,12 +9,8 @@ const token = envToken || 'NO_TOKEN' // some string is needed
 mixpanel.init(token)
 
 const wa = window.Telegram?.WebApp
-// if (wa?.initDataUnsafe.user?.id) {
-//  mixpanel.identify(String(wa?.initDataUnsafe.user?.id))
-// }
 
 type TEvent =
-  //'open_app_web' |
   'open_page_transaction_web' | // todo
   'open_page_summary_web' | // todo
   'open_soon_web' |
@@ -71,6 +67,7 @@ export const useFeedback = () => {
 
   const feedback = async (event: TEvent, data: { [index:string]: any } = {}) => {
     const txDataEvents: TEvent[] = [
+      'open_page_transaction_web',
       'press_add_user_expnames_web',
       'set_users_expnames_web',
       'press_change_user_expnames_web',

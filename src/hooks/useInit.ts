@@ -1,10 +1,10 @@
 import { useInitData } from '@vkruglikov/react-telegram-web-app'
 
-import { useEffect, useState } from 'react'
+import { useEffect } from 'react'
 import { useLocation } from 'react-router-dom'
 
 import { useStore } from '../store'
-import { useChatId, useFeedback, useUsers, useTgSettings } from '../hooks'
+import { useFeedback, useUsers, useTgSettings } from '../hooks'
 
 import i18n from '../i18n'
 
@@ -12,6 +12,8 @@ export const useInit = () => {
   useTgSettings()
 
   const {
+    flow, setFlow,
+    isFlowFeedback, setIsFlowFeedback,
     chatIdStart, setChatIdStart,
     txId, setTxId,
     summaryId, setSummaryId,
@@ -80,6 +82,14 @@ export const useInit = () => {
     setChatIdStart(startParamChatId)
   }
 
+  if (!flow) {
+    if (queryTxId || startParamTxId) {
+      setFlow('transaction')
+    }
+    if (querySummaryId || startParamSummaryId) {
+      setFlow('summary')
+    }
+  }
 
   // init new-tx author shares
   useEffect(() => {
@@ -132,21 +142,17 @@ export const useInit = () => {
     i18n.changeLanguage(chat.language_code)
   }
 
-  // feedback app and page
-  const { chatId } = useChatId()
+  // feedback page
   const { feedback } = useFeedback()
-  const [isFeedback, setIsFeedback] = useState(false)
 
   useEffect(() => {
-    if (chatId !== undefined && !isFeedback) {
-      // feedback('open_app_web')
-      if (routerLocation.pathname === '/summary') {
-        feedback('open_page_summary_web')
-      }
-      if (routerLocation.pathname === '/') {
-        feedback('open_page_transaction_web')
-      }
-      setIsFeedback(true)
+    if (!isFlowFeedback && flow === 'transaction' && transaction) {
+      setIsFlowFeedback(true)
+      feedback('open_page_transaction_web')
     }
-  }, [chatId, isFeedback, setIsFeedback])
+    if (!isFlowFeedback && flow === 'summary') {
+      setIsFlowFeedback(true)
+      feedback('open_page_summary_web')
+    }
+  }, [flow, isFlowFeedback, setIsFlowFeedback, transaction])
 }

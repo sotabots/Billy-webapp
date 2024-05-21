@@ -1,10 +1,15 @@
 import { create } from 'zustand'
 
-import { TCurrency, TCurrencyId, TTransaction, TUser, TChat, TSummary, TCategories, TFilterTotal, TFilterPeriod, TNewTransaction } from '../types'
+import { TCurrency, TCurrencyId, TTransaction, TUser, TChat, TSummary, TCategories, TFilterTotal, TFilterPeriod, TNewTransaction, TFlow } from '../types'
 
 type TStore = {
   overlays: number[]
   setOverlays: (val: number[]) => void
+
+  flow: undefined | TFlow
+  setFlow: (flow: TFlow) => void
+  isFlowFeedback: boolean
+  setIsFlowFeedback: (isFlowFeedback: boolean) => void
 
   chatIdStart: undefined | number
   setChatIdStart: (chatIdStart: number) => void
@@ -67,6 +72,11 @@ type TStore = {
 export const useStore = create<TStore>((set, get) => ({
   overlays: [],
   setOverlays: (overlays) => set(({ overlays })),
+
+  flow: undefined,
+  setFlow: (flow) => set(({ flow })),
+  isFlowFeedback: false,
+  setIsFlowFeedback: (isFlowFeedback) => set(({ isFlowFeedback })),
 
   chatIdStart: undefined,
   setChatIdStart: (chatIdStart) => set(({ chatIdStart })),
