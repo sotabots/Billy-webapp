@@ -34,7 +34,7 @@ function DebtDetailed({ from_user, to_user, amount, currency_id, customRecipient
         onClick={() => {
           onClickRecipient()
           feedback('change_user_settleup_web', {
-            user_to_prev: toUser,
+            user_to_prev: toUser._id,
             amount: amount,
             currency: currency_id,
           })

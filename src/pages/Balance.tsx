@@ -14,7 +14,7 @@ import Divider from '../kit/Divider'
 import UserButton from '../kit/UserButton'
 
 import { usePostTransaction, useGetSummary } from '../api'
-import { useBalance, useCurrencies, useFeedback, useSummary, useUsers } from '../hooks'
+import { useBalance, useCurrencies, useFeedback, useSummary } from '../hooks'
 import { useStore } from '../store'
 import { TNewTransaction, TUserId } from '../types'
 import { formatAmount, closeApp } from '../utils'
@@ -48,7 +48,6 @@ function Balance({
   const { refetch: refetchSummary } = useGetSummary()
   const { summary, /*setSummary,*/ setSummaryCurrencyId, chat, users, setTxPatchError } = useStore()
   const { getCurrencyById } = useCurrencies()
-  const { getUserById } = useUsers()
 
   const selectedDebt = (summary?.debts || []).find(debt => JSON.stringify(debt) === selectedDebtId)
   const selectedDebtCurrency = selectedDebt ? getCurrencyById(selectedDebt.currency_id) : undefined
@@ -107,9 +106,9 @@ function Balance({
       await feedback('confirm_settleup_web', {
         amount_prev: selectedDebt.amount,
         amount_set: selectedDebt.amount, // todo: edited amount
-        user_from: selectedDebt.from_user,
-        user_to_prev: selectedDebt.to_user,
-        user_to_set: customRecipientId && getUserById(customRecipientId) || selectedDebt.to_user,
+        user_from: selectedDebt.from_user._id,
+        user_to_prev: selectedDebt.to_user._id,
+        user_to_set: customRecipientId || selectedDebt.to_user._id,
         currency: selectedDebt.currency_id,
       })
       const resJson = await postTransaction(newTx)
@@ -187,9 +186,9 @@ function Balance({
                       onClick={() => {
                         setSelectedDebtId(JSON.stringify(debt))
                         feedback('settle_up_balances_web', {
-                          user: initDataUnsafe.user?.id && getUserById(initDataUnsafe.user?.id) || null,
-                          user_from: debt.from_user,
-                          user_to: debt.to_user,
+                          user: initDataUnsafe.user?.id || null,
+                          user_from: debt.from_user._id,
+                          user_to: debt.to_user._id,
                           amount: debt.amount,
                           currency: debt.currency_id,
                         })
@@ -303,8 +302,8 @@ function Balance({
                   user={user}
                   onClick={() => {
                     feedback('set_user_settleup_web', {
-                      user_to_prev: selectedDebt.to_user,
-                      user_to_set: user
+                      user_to_prev: selectedDebt.to_user._id,
+                      user_to_set: user._id
                     })
                     setCustomRecipientId(user._id)
                     setIsRecipientsOpen(false)

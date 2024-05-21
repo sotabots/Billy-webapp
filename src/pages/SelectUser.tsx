@@ -76,8 +76,8 @@ function SelectUser() {
               onClick={() => {
                 if (selectPersonId !== null) {
                   feedback('set_user_expnames_web', {
-                    user_prev: prevUser,
-                    user_set: user,
+                    user_prev: prevUser?._id || null,
+                    user_set: user._id,
                   })
                   selectUser(user)
                 } else {
