@@ -64,7 +64,7 @@ const Transaction = ({ tx }: { tx: TTransaction }) => {
         <div className="flex gap-2 items-start justify-between px-2">
           <div className="flex-1 opacity-60 first-letter:uppercase">{tx.nutshell}</div>
           {!!cashbackAmount && (
-            <div className="flex gap-1 items-center rounded-[8px] px-1 py-[2px] bg-[#FFFEEB] text-[12px] leading-[16px] font-semibold dark:text-[#1A2024]">
+            <div className="flex gap-[2px] items-center rounded-[8px] px-1 py-[2px] bg-[#FFFEEB] text-[12px] leading-[16px] font-semibold dark:text-[#1A2024]">
               <CashbackIcon className="w-4 h-4" />
               <span>{formatAmount(cashbackAmount)}{currency?.symbol}</span>
             </div>
