@@ -7,7 +7,7 @@ const DateMark = ({ time }: { time: number }) => {
 
   return (
     <div
-      className="DateMark mx-auto inline-block rounded-full px-2 bg-[#8881] text-[14px] leading-[24px] font-semibold"
+      className="DateMark mx-auto inline-block rounded-full px-2 bg-[#8881] text-[14px] leading-[24px] font-semibold dark:bg-[#B0BABF] dark:text-[#252C32]"
     >
       {date.toLocaleDateString(i18n.language, {
         day: 'numeric',
