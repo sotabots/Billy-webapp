@@ -58,7 +58,10 @@ type TEvent =
   // Settle Up
   'change_user_settleup_web' |
   'set_user_settleup_web' |
-  'confirm_settleup_web'
+  'confirm_settleup_web' |
+
+  // Special
+  'error_web'
 
 
 export const useFeedback = () => {

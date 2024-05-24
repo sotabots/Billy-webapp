@@ -83,5 +83,8 @@
   "currency": "Currency",
   "language": "Language",
   "chooseCurrency": "Choose a currency",
-  "chooseLanguage": "Choose a language"
+  "chooseLanguage": "Choose a language",
+
+  "errorForbidden": "Oh, I wasn't allowed to show you these numbers. Most likely because you are not in the chat.",
+  "errorOther": "Something didn't work, but I'm already fixing it. Try refresh the page."
 }

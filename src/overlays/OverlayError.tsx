@@ -1,41 +1,55 @@
 import { useHapticFeedback } from '@vkruglikov/react-telegram-web-app'
 import Lottie from 'lottie-react'
 import { useEffect } from 'react'
+import { useTranslation } from 'react-i18next'
 
-import { useSplash } from '../hooks'
+import { useSplash, useFeedback } from '../hooks'
 
 import Debug from '../kit/Debug'
 import Overlay from '../kit/Overlay'
 
 import lottieKoalaForbidden from '../assets/animation-koala-forbidden.json'
+import lottieKoalaError from '../assets/animation-koala-error.json'
 
 function OverlayError() {
   const { error } = useSplash()
+  const { t } = useTranslation()
+  const { feedback } = useFeedback()
 
   const [, notificationOccurred] = useHapticFeedback()
 
   useEffect(() => {
     if (error) {
-      console.log('error vibro')
+      console.error(error)
       notificationOccurred('error')
+      feedback('error_web', {
+        message: error.message || null,
+      })
     }
   }, [error, notificationOccurred])
+
+  const isForbiddenError = (String(error?.message).includes('[401]') || String(error?.message).includes('[403]'))
 
   return (
     <Overlay isOpen={!!error} isCenter>
       <div className="flex flex-col gap-4">
-        <div
-          className="mx-auto w-[123px] h-[114px]"
-          style={{ display: (String(error?.message).includes('[401]') || String(error?.message).includes('[403]')) ? 'block' : 'none' }}
-        >
-          <Lottie
-            style={{ width: 123, height: 114 }}
-            animationData={lottieKoalaForbidden}
-            loop={true}
-          />
+        <div className="mx-auto w-[123px] h-[114px]">
+          {isForbiddenError ? (
+            <Lottie
+              style={{ width: 123, height: 114 }}
+              animationData={lottieKoalaForbidden}
+              loop={true}
+            />
+          ) : (
+            <Lottie
+              style={{ width: 123, height: 114 }}
+              animationData={lottieKoalaError}
+              loop={true}
+            />
+          )}
         </div>
-        <div className="p-4 text-[#e00]">
-          Backend error: {error?.message}
+        <div className="p-4">
+          {isForbiddenError ? t('errorForbidden') : t('errorOther')}
         </div>
         <Debug />
       </div>
