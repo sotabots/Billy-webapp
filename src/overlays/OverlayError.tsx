@@ -28,7 +28,7 @@ function OverlayError() {
     }
   }, [error, notificationOccurred])
 
-  const isForbiddenError = (String(error?.message).includes('[401]') || String(error?.message).includes('[403]'))
+  const isForbiddenError = String(error?.message).includes('[401]') || String(error?.message).includes('[403]')
 
   return (
     <Overlay isOpen={!!error} isCenter>

@@ -102,7 +102,11 @@ const Transaction = ({ tx }: { tx: TTransaction }) => {
         onClick={() => {
           setTxId(tx._id)
           setIsEditTx(true)
-          navigate('/check')
+          if (tx.shares.some(share => !share.related_user_id)) {
+            navigate('/')
+          } else {
+            navigate('/check')
+          }
           feedback('edit_transaction_total_web', {
             transaction_id: tx._id
           })
