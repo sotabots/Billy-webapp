@@ -9,7 +9,6 @@ import Textarea from '../kit/Textarea'
 import { useTransaction } from '../hooks'
 import { useStore } from '../store'
 
-import { ReactComponent as EditIcon } from '../assets/edit.svg'
 import CategoryAvatar from './CategoryAvatar'
 
 const MessagePanel = () => {
@@ -54,11 +53,11 @@ const MessagePanel = () => {
       <div>
         <Button
           theme="clear"
-          className="group/button flex gap-2"
+          className="group/button flex gap-3"
           text={(
             <>
+              <h3>Category</h3>
               <CategoryAvatar tx={transaction} />
-              <EditIcon className="opacity-40 text-text group-hover/button:opacity-70 group-active/button:opacity-100 transition-all" />
             </>
           )}
           onClick={() => {
