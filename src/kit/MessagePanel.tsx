@@ -26,7 +26,7 @@ const MessagePanel = () => {
       <div className="flex flex-col gap-1">
         {isEmptyTx && (
           <>
-            <h2>{t('addComment')}</h2>
+            <h3>{t('addComment')}</h3>
             <Textarea
               value={txComment}
               placeholder={t('yourComment')}
@@ -36,7 +36,7 @@ const MessagePanel = () => {
         )}
         {!isEmptyTx && (
           <>
-            <div className="text-[12px] leading-[1.33em] font-medium text-hint">{t('message')}</div>
+            <h3>{t('message')}</h3>
             <div>
               {!!transaction.is_voice && (
                 <span>🎙&nbsp;</span>
@@ -56,7 +56,7 @@ const MessagePanel = () => {
           className="group/button flex gap-3"
           text={(
             <>
-              <h3>Category</h3>
+              <h3>{t('category')}</h3>
               <CategoryAvatar tx={transaction} />
             </>
           )}
