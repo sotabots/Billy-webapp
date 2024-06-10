@@ -44,7 +44,7 @@ function Check() {
   const { feedback } = useFeedback()
 
   const { setTransaction, txComment, isEditTx, setIsEditTx, setSelectPersonId, setIsSelectPayers, isSuccess, setSuccess, setTxPatchError } = useStore()
-  const { transaction, isWrongAmounts, payedShares, oweShares, payedSum, payedSumFormatted, oweSumFormatted, deduplicatedShares, isEmptyTx } = useTransaction()
+  const { transaction, isWrongAmounts, payedShares, oweShares, payedSum, payedSumFormatted, oweSumFormatted, deduplicatedShares } = useTransaction()
   const { unrelatedUsers, countUnrelatedPersons, isRelationsComplete, isRelationsEnough } = useUsers()
 
   const { getCurrencyById } = useCurrencies()
@@ -286,52 +286,33 @@ function Check() {
         <MessagePanel />
 
         <Panel>
-        <div>
-          <div className="flex items-start justify-between">
-            <h2>{isEmptyTx ? t('addUsers') : t('matchUsers')}</h2>
-            {!!unrelatedUsers.length && (
-              <Button
-                theme="clear"
-                className="px-2 text-button h-6 items-center flex gap-[2px] font-semibold text-[14px] leading-6 hover:brightness-[1.2] active:brightness-[1.4] transition-all"
-                text={
-                  <>
-                    <Plus className="h-6 w-6 flex items-center justify-center" />
-                    <span className="whitespace-nowrap">{t('addMore')}</span>
-                  </>
-                }
-                onClick={onAdd}
-              />
-            )}
+          <div>
+            <div className="mt-2">
+              {!!deduplicatedShares.length && (
+                <div className="-mx-4 overflow-y-auto">
+                  {deduplicatedShares.map((share, i) => (
+                    <div key={`UserRelation-Divider-${i}`}>
+                      <UserRelation
+                        key={`UserRelation-${i}`}
+                        {...share}
+                        onClick={() => {
+                          feedback('press_change_user_expnames_web', {
+                            user_prev: share.related_user_id || null
+                          })
+                          onSelect(share.person_id)
+                        }}
+                      />
+                      {i < deduplicatedShares.length - 1 && <Divider key={`Divider-${i}`} />}
+                    </div>
+                  ))}
+                </div>
+              )}
+              {!deduplicatedShares.length && (
+                <span className="opacity-40">{t('nobodyHere')}</span>
+              )}
+            </div>
           </div>
-          {!isEmptyTx && (
-            <div className="mt-1 text-[14px] leading-[20px] text-hint">🐨&nbsp;{t('willBeSaved')}</div>
-          )}
-          <div className="mt-2">
-            {!!deduplicatedShares.length && (
-              <div className="-mx-4 overflow-y-auto">
-                {deduplicatedShares.map((share, i) => (
-                  <div key={`UserRelation-Divider-${i}`}>
-                    <UserRelation
-                      key={`UserRelation-${i}`}
-                      {...share}
-                      onClick={() => {
-                        feedback('press_change_user_expnames_web', {
-                          user_prev: share.related_user_id || null
-                        })
-                        onSelect(share.person_id)
-                      }}
-                    />
-                    {i < deduplicatedShares.length - 1 && <Divider key={`Divider-${i}`} />}
-                  </div>
-                ))}
-              </div>
-            )}
-            {!deduplicatedShares.length && (
-              <span className="opacity-40">{t('nobodyHere')}</span>
-            )}
-          </div>
-        </div>
-      </Panel>
+        </Panel>
 
         <Panel>
           <div className="flex items-center justify-between gap-3">
@@ -361,6 +342,20 @@ function Check() {
             ))}
           </div>
         </Panel>
+
+        {false && !!unrelatedUsers.length && (
+          <Button
+            theme="clear"
+            className="px-2 text-button h-6 items-center flex gap-[2px] font-semibold text-[14px] leading-6 hover:brightness-[1.2] active:brightness-[1.4] transition-all"
+            text={
+              <>
+                <Plus className="h-6 w-6 flex items-center justify-center" />
+                <span className="whitespace-nowrap">{t('addMore')}</span>
+              </>
+            }
+            onClick={onAdd}
+          />
+        )}
 
         <Panel>
           <div className="flex items-center justify-between gap-3">
