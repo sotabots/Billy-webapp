@@ -15,9 +15,6 @@ import MessagePanel from '../kit/MessagePanel'
 import Screen from '../kit/Screen'
 import Toggle from '../kit/Toggle'
 
-import Divider from '../kit/Divider'
-import UserRelation from '../kit/UserRelation'
-
 import { useGetTx, useGetTransactions, useGetSummary } from '../api'
 
 import { decimals } from '../const'
@@ -73,12 +70,12 @@ function Check() {
   const currency = getCurrencyById(transaction.currency_id)
   const isNoCurrency = !transaction.currency_id
 
-  const isButtonDisabled = isWrongAmounts || isNoCurrency || !isRelationsComplete || !isRelationsEnough
+  const isButtonDisabled = !isRelationsComplete || !isRelationsEnough || isNoCurrency || isWrongAmounts
   const buttonText =
-    isNoCurrency ? `🐨 ${t('selectCurrency')}` :
-    isWrongAmounts ? `🐨 ${t('checkAmounts')}` :
     !isRelationsComplete ? `🐨 ${t('pleaseMatchUsers')} (${countUnrelatedPersons})` :
     !isRelationsEnough ? `🐨 ${t('pleaseAddUsers')}` :
+    isNoCurrency ? `🐨 ${t('selectCurrency')}` :
+    isWrongAmounts ? `🐨 ${t('checkAmounts')}` :
     t('save')
 
 
@@ -286,35 +283,6 @@ function Check() {
         <MessagePanel />
 
         <Panel>
-          <div>
-            <div className="mt-2">
-              {!!deduplicatedShares.length && (
-                <div className="-mx-4 overflow-y-auto">
-                  {deduplicatedShares.map((share, i) => (
-                    <div key={`UserRelation-Divider-${i}`}>
-                      <UserRelation
-                        key={`UserRelation-${i}`}
-                        {...share}
-                        onClick={() => {
-                          feedback('press_change_user_expnames_web', {
-                            user_prev: share.related_user_id || null
-                          })
-                          onSelect(share.person_id)
-                        }}
-                      />
-                      {i < deduplicatedShares.length - 1 && <Divider key={`Divider-${i}`} />}
-                    </div>
-                  ))}
-                </div>
-              )}
-              {!deduplicatedShares.length && (
-                <span className="opacity-40">{t('nobodyHere')}</span>
-              )}
-            </div>
-          </div>
-        </Panel>
-
-        <Panel>
           <div className="flex items-center justify-between gap-3">
             <h3>{t('whoPaid')} <span>{payedSumFormatted}{currency?.symbol}</span></h3>
             <Button
@@ -329,12 +297,18 @@ function Check() {
               }}
             />
           </div>
-          <div className="mt-4 flex flex-col gap-3">
+          <div className="mt-4 flex flex-col gap-1">
             {!payedShares.length && <span className="opacity-40">{t('nobodyHere')}</span>}
             {payedShares.map((share, shareIndex) => (
               <UserAmount
                 key={`payer-share-${shareIndex}`}
-                {...share}
+                share={share}
+                onClick={() => {
+                  feedback('press_change_user_expnames_web', {
+                    user_prev: share.related_user_id || null
+                  })
+                  onSelect(share.person_id)
+                }}
                 onChange={(value) => {
                   changeAmount(share, value)
                 }}
@@ -379,12 +353,18 @@ function Check() {
               onChange={toggleIsEqually}
             />
           </div>
-          <div className="mt-4 flex flex-col gap-3">
+          <div className="mt-4 flex flex-col gap-1">
             {!oweShares.length && <span className="opacity-40">{t('nobodyHere')}</span>}
             {oweShares.map((share, shareIndex) => (
               <UserAmount
                 key={`owe-share-${shareIndex}`}
-                {...share}
+                share={share}
+                onClick={() => {
+                  feedback('press_change_user_expnames_web', {
+                    user_prev: share.related_user_id || null
+                  })
+                  onSelect(share.person_id)
+                }}
                 onChange={(value) => {
                   changeAmount(share, value)
                 }}

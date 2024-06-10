@@ -1,25 +1,34 @@
-import User from './User'
+import { MouseEventHandler } from 'react'
+
+// import User from './User'
 import InputAmount from './InputAmount'
 import { useUsers } from '../hooks'
 import { TShare } from '../types'
 
-type TUserAmount = TShare & {
-  amount: number
+import UserRelation from '../kit/UserRelation'
+
+type TUserAmount =  & {
+  share: TShare
+  onClick: MouseEventHandler<HTMLButtonElement>
   onChange: (value: number) => void
 }
 
-function UserAmount({ related_user_id, amount, onChange }: TUserAmount) {
+function UserAmount({ share, onClick, onChange }: TUserAmount) {
   const { getUserById } = useUsers()
-  const user = related_user_id ? getUserById(related_user_id) : undefined
+  const user = share.related_user_id ? getUserById(share.related_user_id) : undefined
 
   if (!user) {
     return null
   }
 
   return (
-    <div className="flex gap-3">
-      <User user={user} size={48} />
-      <InputAmount amount={amount} onChange={onChange} />
+    <div className="flex gap-3 items-center">
+      {/* <User user={user} size={48} /> */}
+      <UserRelation
+        {...share}
+        onClick={onClick}
+      />
+      <InputAmount amount={share.amount} onChange={onChange} />
     </div>
   )
 }

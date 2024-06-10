@@ -8,8 +8,8 @@ import { formatAmount } from '../utils'
 export const useTransaction = () => {
   const { transaction } = useStore()
 
-  const payedShares = (transaction?.shares || []).filter(share => share.related_user_id && share.is_payer)
-  const oweShares = (transaction?.shares || []).filter(share => share.related_user_id && !share.is_payer)
+  const payedShares = (transaction?.shares || []).filter(share => share.is_payer)
+  const oweShares = (transaction?.shares || []).filter(share => !share.is_payer)
 
   const payedSum = payedShares.reduce((acc, item) => acc + item.amount, 0)
   const payedSumFormatted = formatAmount(payedSum)

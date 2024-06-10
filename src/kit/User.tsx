@@ -6,14 +6,13 @@ import Avatar from './Avatar'
 
 import { TUser } from '../types'
 
-type TProps = {
+function User({ user, size = 40, secondRow, spokenName, className }: {
   user?: TUser
   size?: number
   secondRow?: false | ReactNode
+  spokenName?: string | null
   className?: string
-}
-
-function User({ user, size = 40, secondRow, className}: TProps) {
+}) {
   const { t } = useTranslation()
 
   return (
@@ -24,10 +23,34 @@ function User({ user, size = 40, secondRow, className}: TProps) {
           <div className="text-error truncate">{t('select')}</div>
         ) : (
           <>
-            <div className="truncate">{user.first_name} {user.last_name}</div>
+            <div className="truncate">
+              {/* 
+              <div className="flex w-[35%] truncate">
+                {normalized_name ? (
+                  <div className="truncate">
+                    {normalized_name === 'MESSAGE_AUTHOR'
+                      ? <span className="opacity-30">({t('author')})</span>
+                      : <span className="font-medium">{normalized_name}</span>
+                    }
+                  </div>
+                ) : (
+                  <div className="truncate opacity-30">({t('added')})</div>
+                )}
+              </div>
+              */}
+              {spokenName ? (
+                <span className="font-medium">{spokenName}</span>
+              ) : (
+                <div>{user.first_name} {user.last_name}</div>
+              )}
+            </div>
             {secondRow || (secondRow === undefined && user.username && (
               <div className="text-[14px] leading-[18px] text-hint truncate">
                 @{user.username}
+              </div>
+            )) || (!user && (
+              <div className="text-[14px] leading-[18px] text-[#CC0905] truncate">
+                {t('selectUser')}
               </div>
             ))}
           </>
