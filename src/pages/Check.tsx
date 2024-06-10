@@ -36,15 +36,16 @@ import { ReactComponent as Plus } from '../assets/plus.svg'
 function Check() {
   useInit()
 
-  const [, notificationOccurred] = useHapticFeedback()
+  const [impactOccurred, notificationOccurred] = useHapticFeedback()
   const showPopup = useShowPopup()
 
   const { t, i18n } = useTranslation()
   const navigate = useNavigate()
   const { feedback } = useFeedback()
 
-  const { setTransaction, txComment, isEditTx, setIsEditTx, setIsSelectPayers, isSuccess, setSuccess, setTxPatchError } = useStore()
+  const { setTransaction, txComment, isEditTx, setIsEditTx, setSelectPersonId, setIsSelectPayers, isSuccess, setSuccess, setTxPatchError } = useStore()
   const { transaction, isWrongAmounts, payedShares, oweShares, payedSum, payedSumFormatted, oweSumFormatted, deduplicatedShares, isEmptyTx } = useTransaction()
+  const { unrelatedUsers, countUnrelatedPersons, isRelationsComplete, isRelationsEnough } = useUsers()
 
   const { getCurrencyById } = useCurrencies()
 
@@ -65,19 +66,41 @@ function Check() {
     }
   }, [transaction, setTransaction])
 
-  //if (!transaction) {
-  //  return null
-  //}
+  if (!transaction) {
+    return null
+  }
 
   const currency = getCurrencyById(transaction.currency_id)
   const isNoCurrency = !transaction.currency_id
 
-  const isButtonDisabled = isWrongAmounts || isNoCurrency
+  const isButtonDisabled = isWrongAmounts || isNoCurrency || !isRelationsComplete || !isRelationsEnough
   const buttonText =
     isNoCurrency ? `🐨 ${t('selectCurrency')}` :
     isWrongAmounts ? `🐨 ${t('checkAmounts')}` :
+    !isRelationsComplete ? `🐨 ${t('pleaseMatchUsers')} (${countUnrelatedPersons})` :
+    !isRelationsEnough ? `🐨 ${t('pleaseAddUsers')}` :
     t('save')
 
+
+  const onSelect = (personId: string | null) => {
+    if (personId === null) {
+      return
+    }
+    setSelectPersonId(personId)
+    console.log('onSelect vibro')
+    impactOccurred('light')
+    navigate('/select-user')
+  }
+
+  const onAdd = () => {
+    setSelectPersonId(null)
+    console.log('onAdd vibro')
+    impactOccurred('light')
+    navigate('/select-user')
+    feedback('press_add_user_expnames_web', {
+      num_users_prev: deduplicatedShares.length
+    })
+  }
 
   const toggleIsEqually = () => {
     const updIsEqually = !transaction.is_equally
@@ -232,41 +255,6 @@ function Check() {
       save({ isCanceled: true })
       feedback('confirm_cancel_transaction_expshares_web')
     }
-  }
-
-  // MOVED from Match
-  const isButtonDisabled = !isRelationsComplete || !isRelationsEnough
-  const buttonText =
-    !isRelationsComplete ? `🐨 ${t('pleaseMatchUsers')} (${countUnrelatedPersons})` :
-    !isRelationsEnough ? `🐨 ${t('pleaseAddUsers')}` :
-    t('next')
-
-  const { setSelectPersonId } = useStore()
-  const { unrelatedUsers, countUnrelatedPersons, isRelationsComplete, isRelationsEnough } = useUsers()
-  const [impactOccurred] = useHapticFeedback()
-
-  if (!transaction) {
-    return null
-  }
-
-  const onSelect = (personId: string | null) => {
-    if (personId === null) {
-      return
-    }
-    setSelectPersonId(personId)
-    console.log('onSelect vibro')
-    impactOccurred('light')
-    navigate('/select-user')
-  }
-
-  const onAdd = () => {
-    setSelectPersonId(null)
-    console.log('onAdd vibro')
-    impactOccurred('light')
-    navigate('/select-user')
-    feedback('press_add_user_expnames_web', {
-      num_users_prev: deduplicatedShares.length
-    })
   }
 
   return (
