@@ -1,6 +1,5 @@
 import { createHashRouter } from 'react-router-dom'
 
-import Match from './pages/Match'
 import SelectUser from './pages/SelectUser'
 import Check from './pages/Check'
 import SelectCurrency from './pages/SelectCurrency'
@@ -13,20 +12,16 @@ import Soon from './pages/Soon'
 export const router = createHashRouter([
   {
     path: "/",
-    element: <Match />,
-    errorElement: <Match />,
+    element: <Check />,
+    errorElement: <Check />,
   },
   {
     path: "*",
-    element: <Match />,
+    element: <Check />,
   },
   {
     path: "/select-user",
     element: <SelectUser />,
-  },
-  {
-    path: "/check",
-    element: <Check />,
   },
   {
     path: "/select-currency",

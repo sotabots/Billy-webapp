@@ -15,18 +15,23 @@ import MessagePanel from '../kit/MessagePanel'
 import Screen from '../kit/Screen'
 import Toggle from '../kit/Toggle'
 
+import Divider from '../kit/Divider'
+import UserRelation from '../kit/UserRelation'
+
 import { useGetTx, useGetTransactions, useGetSummary } from '../api'
 
 import { decimals } from '../const'
-import { useCurrencies, useInit, useChatId, useFeedback, useTransaction } from '../hooks'
+import { useCurrencies, useInit, useChatId, useFeedback, useTransaction, useUsers } from '../hooks'
 import { useStore } from '../store'
 import { usePostTransaction, usePutTransaction } from '../api'
 
 import type { TNewTransaction, TShare, TTransaction, TLanguageCode } from '../types'
+import { closeApp } from '../utils'
 
 import lottieSuccess from '../assets/animation-success.json'
 import { ReactComponent as EditIcon } from '../assets/edit.svg'
 import { ReactComponent as DeleteIcon } from '../assets/delete.svg'
+import { ReactComponent as Plus } from '../assets/plus.svg'
 
 function Check() {
   useInit()
@@ -39,7 +44,7 @@ function Check() {
   const { feedback } = useFeedback()
 
   const { setTransaction, txComment, isEditTx, setIsEditTx, setIsSelectPayers, isSuccess, setSuccess, setTxPatchError } = useStore()
-  const { transaction, isWrongAmounts, payedShares, oweShares, payedSum, payedSumFormatted, oweSumFormatted } = useTransaction()
+  const { transaction, isWrongAmounts, payedShares, oweShares, payedSum, payedSumFormatted, oweSumFormatted, deduplicatedShares, isEmptyTx } = useTransaction()
 
   const { getCurrencyById } = useCurrencies()
 
@@ -60,9 +65,9 @@ function Check() {
     }
   }, [transaction, setTransaction])
 
-  if (!transaction) {
-    return null
-  }
+  //if (!transaction) {
+  //  return null
+  //}
 
   const currency = getCurrencyById(transaction.currency_id)
   const isNoCurrency = !transaction.currency_id
@@ -229,6 +234,41 @@ function Check() {
     }
   }
 
+  // MOVED from Match
+  const isButtonDisabled = !isRelationsComplete || !isRelationsEnough
+  const buttonText =
+    !isRelationsComplete ? `🐨 ${t('pleaseMatchUsers')} (${countUnrelatedPersons})` :
+    !isRelationsEnough ? `🐨 ${t('pleaseAddUsers')}` :
+    t('next')
+
+  const { setSelectPersonId } = useStore()
+  const { unrelatedUsers, countUnrelatedPersons, isRelationsComplete, isRelationsEnough } = useUsers()
+  const [impactOccurred] = useHapticFeedback()
+
+  if (!transaction) {
+    return null
+  }
+
+  const onSelect = (personId: string | null) => {
+    if (personId === null) {
+      return
+    }
+    setSelectPersonId(personId)
+    console.log('onSelect vibro')
+    impactOccurred('light')
+    navigate('/select-user')
+  }
+
+  const onAdd = () => {
+    setSelectPersonId(null)
+    console.log('onAdd vibro')
+    impactOccurred('light')
+    navigate('/select-user')
+    feedback('press_add_user_expnames_web', {
+      num_users_prev: deduplicatedShares.length
+    })
+  }
+
   return (
     <>
       <Screen>
@@ -237,7 +277,7 @@ function Check() {
             history.back()
             setIsEditTx(false)
           } else {
-            navigate('/')
+            closeApp()
           }
         }} />
 
@@ -256,6 +296,54 @@ function Check() {
         </div>
 
         <MessagePanel />
+
+        <Panel>
+        <div>
+          <div className="flex items-start justify-between">
+            <h2>{isEmptyTx ? t('addUsers') : t('matchUsers')}</h2>
+            {!!unrelatedUsers.length && (
+              <Button
+                theme="clear"
+                className="px-2 text-button h-6 items-center flex gap-[2px] font-semibold text-[14px] leading-6 hover:brightness-[1.2] active:brightness-[1.4] transition-all"
+                text={
+                  <>
+                    <Plus className="h-6 w-6 flex items-center justify-center" />
+                    <span className="whitespace-nowrap">{t('addMore')}</span>
+                  </>
+                }
+                onClick={onAdd}
+              />
+            )}
+          </div>
+          {!isEmptyTx && (
+            <div className="mt-1 text-[14px] leading-[20px] text-hint">🐨&nbsp;{t('willBeSaved')}</div>
+          )}
+          <div className="mt-2">
+            {!!deduplicatedShares.length && (
+              <div className="-mx-4 overflow-y-auto">
+                {deduplicatedShares.map((share, i) => (
+                  <div key={`UserRelation-Divider-${i}`}>
+                    <UserRelation
+                      key={`UserRelation-${i}`}
+                      {...share}
+                      onClick={() => {
+                        feedback('press_change_user_expnames_web', {
+                          user_prev: share.related_user_id || null
+                        })
+                        onSelect(share.person_id)
+                      }}
+                    />
+                    {i < deduplicatedShares.length - 1 && <Divider key={`Divider-${i}`} />}
+                  </div>
+                ))}
+              </div>
+            )}
+            {!deduplicatedShares.length && (
+              <span className="opacity-40">{t('nobodyHere')}</span>
+            )}
+          </div>
+        </div>
+      </Panel>
 
         <Panel>
           <div className="flex items-center justify-between gap-3">

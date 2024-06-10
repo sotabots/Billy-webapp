@@ -21,9 +21,8 @@ export const useTgSettings = () => {
       console.log('feedback from', routerLocation.pathname)
       feedback('open_settings_web', {
         from: {
-          // '/': 'expnames', // todo: fix
+          // '/': 'expnames', // 'expshares' // todo: fix
           '/select-user': 'expnames-select-user',
-          '/check': 'expshares',
           '/select-currency': 'expshares-select-currency',
           '/select-users': 'expshares-select-users',
           '/select-category': 'expshares-select-category',
@@ -31,7 +30,7 @@ export const useTgSettings = () => {
           '/balance': 'balances',
           '/soon': 'soon',
           // '': 'settleup', // maybe todo
-        }[routerLocation.pathname] || 'expnames'
+        }[routerLocation.pathname] || 'expshares'
       })
       navigate('/settings')
     }
