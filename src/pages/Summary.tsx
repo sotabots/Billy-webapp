@@ -176,7 +176,7 @@ function Summary({
             onClick={() => {
               setTxId('NEW')
               setIsEditTx(true)
-              navigate('/check')
+              navigate('/')
               feedback('add_expense_total_web', {
                 num_transaction: filteredTransactions.length
               })

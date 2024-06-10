@@ -30,7 +30,7 @@ function SelectCurrency() {
     console.log('SelectCurrency change vibro')
     selectionChanged()
     impactOccurred('medium')
-    navigate('/check')
+    navigate('/')
     // history.back()
   }, [impactOccurred, selectionChanged, navigate, setCurrency])
 
