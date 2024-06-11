@@ -1,19 +1,15 @@
 import { useHapticFeedback } from '@vkruglikov/react-telegram-web-app'
-import cx from 'classnames'
 
 import { TUser } from '../types'
 
 import User from './User'
+import CheckBox from './CheckBox'
 
-import { ReactComponent as CheckIcon } from '../assets/check.svg'
-
-type TProps = {
-  user: TUser,
-  isChecked?: boolean,
-  onClick: () => void,
-}
-
-function UserButton({ user, isChecked, onClick }: TProps) {
+function UserButton({ user, isChecked, onClick }: {
+  user: TUser
+  isChecked?: boolean
+  onClick: () => void
+}) {
   const [impactOccurred, , selectionChanged] = useHapticFeedback()
 
   const onClickVibro = () => {
@@ -29,12 +25,9 @@ function UserButton({ user, isChecked, onClick }: TProps) {
       onClick={onClickVibro}
     >
       <User user={user} />
-      <div className={cx(
-        'mr-2 w-6 h-6 transition-all',
-        isChecked ? 'text-ok scale-100' : 'text-transparent scale-0'
-      )}>
-        <CheckIcon />
-      </div>
+      {isChecked !== undefined && (
+        <CheckBox isChecked={isChecked} />
+      )}
     </button>
   )
 }
