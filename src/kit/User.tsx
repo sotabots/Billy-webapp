@@ -20,7 +20,12 @@ function User({ user, size = 40, secondRow, spokenName, className }: {
       <Avatar user={user} size={size} />
       <div className="flex flex-col -gap-0.5 flex-1 text-left truncate">
         {!user ? (
-          <div className="text-error truncate">{t('select')}</div>
+          <>
+            {spokenName && (
+              <div className="font-medium truncate">{spokenName}</div>
+            )}
+            <div className="text-[14px] leading-[20px] text-[#CC0905] truncate">{t('select')}</div>
+          </>
         ) : (
           <>
             <div className="truncate">
@@ -41,16 +46,12 @@ function User({ user, size = 40, secondRow, spokenName, className }: {
               {spokenName ? (
                 <span className="font-medium">{spokenName}</span>
               ) : (
-                <div>{user.first_name} {user.last_name}</div>
+                <span>{user.first_name} {user.last_name}</span>
               )}
             </div>
             {secondRow || (secondRow === undefined && user.username && (
               <div className="text-[14px] leading-[18px] text-hint truncate">
                 @{user.username}
-              </div>
-            )) || (!user && (
-              <div className="text-[14px] leading-[18px] text-[#CC0905] truncate">
-                {t('selectUser')}
               </div>
             ))}
           </>

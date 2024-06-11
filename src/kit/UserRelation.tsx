@@ -5,13 +5,12 @@ import { TShare } from '../types'
 
 import User from './User'
 
-type TProps = TShare & {
+function UserRelation({ share, onClick }: {
+  share: TShare
   onClick: MouseEventHandler<HTMLButtonElement>
-}
-
-function UserRelation({ normalized_name, related_user_id, onClick }: TProps) {
+}) {
   const { getUserById } = useUsers()
-  const user = related_user_id ? getUserById(related_user_id) : undefined
+  const user = share.related_user_id ? getUserById(share.related_user_id) : undefined
 
   return (
     <button
@@ -19,7 +18,7 @@ function UserRelation({ normalized_name, related_user_id, onClick }: TProps) {
       onClick={onClick}
     >
       <div className="flex truncate">
-        <User size={48} user={user} spokenName={normalized_name} />
+        <User size={48} user={user} spokenName={share.normalized_name} />
       </div>
     </button>
   )

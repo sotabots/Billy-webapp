@@ -14,7 +14,7 @@ function Checkbox({ className, isChecked }: {
     )}>
       <CheckIcon className={cx(
         'w-3 h-3 text-white transition-all',
-        !isChecked ? 'opacity-0' : 'opacity-100'
+        !isChecked ? 'opacity-0 scale-0' : 'opacity-100 scale-100'
       )} />
     </div>
   )
