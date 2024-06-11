@@ -26,7 +26,7 @@ import type { TNewTransaction, TShare, TTransaction, TLanguageCode } from '../ty
 import { closeApp } from '../utils'
 
 import lottieSuccess from '../assets/animation-success.json'
-import { ReactComponent as EditIcon } from '../assets/edit.svg'
+import { ReactComponent as AddIcon } from '../assets/add.svg'
 import { ReactComponent as DeleteIcon } from '../assets/delete.svg'
 import { ReactComponent as Plus } from '../assets/plus.svg'
 
@@ -286,8 +286,16 @@ function Check() {
           <div className="flex items-center justify-between gap-3">
             <h3>{t('whoPaid')} <span>{payedSumFormatted}{currency?.symbol}</span></h3>
             <Button
-              theme="icon"
-              text={<EditIcon />}
+              theme="clear"
+              className="flex items-center justify-center gap-[2px] px-2 text-button"
+              text={
+                <>
+                  <AddIcon className="w-6 h-6" />
+                  <div className="text-[14px] leading-[24px] font-semibold">
+                    {!payedShares.length ? t('add') : t('edit')}
+                  </div>
+                </>
+              }
               onClick={() => {
                 setIsSelectPayers(true)
                 navigate('/select-users')
@@ -335,8 +343,16 @@ function Check() {
           <div className="flex items-center justify-between gap-3">
             <h3>{t('forWhom')} <span>{oweSumFormatted}{currency?.symbol}</span></h3>
             <Button
-              theme="icon"
-              text={<EditIcon />}
+              theme="clear"
+              className="flex items-center justify-center gap-[2px] px-2 text-button"
+              text={
+                <>
+                  <AddIcon className="w-6 h-6" />
+                  <div className="text-[14px] leading-[24px] font-semibold">
+                    {!oweShares.length ? t('add') : t('edit')}
+                  </div>
+                </>
+              }
               onClick={() => {
                 setIsSelectPayers(false)
                 navigate('/select-users')

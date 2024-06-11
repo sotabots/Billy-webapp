@@ -22,7 +22,7 @@ export const useUsers = () => {
   )].length
   const isRelationsComplete = countUnrelatedPersons === 0
   // todo: improve (???)
-  const isRelationsEnough = transactionShares.length > 1
+  const isRelationsEnough = transactionShares.length > 1 && transactionShares.some(share => share.is_payer) && transactionShares.some(share => !share.is_payer)
 
   const getUserById = (userId: TUserId) => {
     return users.find(user => user._id === userId)
