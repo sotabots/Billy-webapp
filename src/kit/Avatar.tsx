@@ -1,9 +1,10 @@
-import Lottie from 'lottie-react'
+// import Lottie from 'lottie-react'
 
 import { useTheme, useChatId } from '../hooks'
 import type { TUser } from '../types'
 
-import lottieKoalaLooking from '../assets/animation-koala-looking.json'
+// import lottieKoalaLooking from '../assets/animation-koala-looking.json'
+import { ReactComponent as UserIcon } from '../assets/user.svg'
 
 const apiUrl = import.meta.env.VITE_API_URL
 
@@ -25,9 +26,9 @@ function Avatar({ user, size = 40 }: TAvatar) {
   ].join(' ')
 
   const { isDark } = useTheme()
-  const placeholderColor = isDark ? '#888888' : '#bbbbbb'
-  const color = !user ? placeholderColor: (['#e17076', '#faa774', '#a695e7', '#7bc862', '#6ec9cb', '#65aadd', '#ee7aae'])[Math.abs(Number(user._id)) % 7 || 0] // peerColor
-  const backgroundColor = color + '44'
+  const placeholderBgColor = isDark ? '#D7EDFF' : '#D7EDFF'
+  const color = !user ? 'transparent' : (['#e17076', '#faa774', '#a695e7', '#7bc862', '#6ec9cb', '#65aadd', '#ee7aae'])[Math.abs(Number(user._id)) % 7 || 0] // peerColor
+  const backgroundColor = !user ? placeholderBgColor : (color + '44')
 
   const { chatId } = useChatId()
   const url = user?.profile_photo
@@ -60,11 +61,12 @@ function Avatar({ user, size = 40 }: TAvatar) {
         </div>
       }
       {!user && (
-        <Lottie
-          style={{ height: 0.8 * size }}
-          animationData={lottieKoalaLooking}
-          loop={true}
-        />
+        <UserIcon className="w-8 h-8 text-[#0452C8]" />
+        // <Lottie
+        //   style={{ height: 0.8 * size }}
+        //   animationData={lottieKoalaLooking}
+        //   loop={true}
+        // />
       )}
     </div>
   )

@@ -24,7 +24,7 @@ function User({ user, size = 40, secondRow, spokenName, className }: {
             {spokenName && (
               <div className="font-medium truncate">{spokenName}</div>
             )}
-            <div className="text-[14px] leading-[20px] text-[#CC0905] truncate">{t('select')}</div>
+            <div className="text-[14px] leading-[20px] text-error truncate">{t('select')}</div>
           </>
         ) : (
           <>
