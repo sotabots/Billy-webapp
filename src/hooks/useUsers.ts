@@ -66,7 +66,7 @@ export const useUsers = () => {
     history.back()
   }
 
-  const addUsers = (users: TUser[], { isAuthor = false }: { isAuthor?: boolean } = {}) => {
+  const addUsers = (users: TUser[]) => {
     if (selectPersonId === null && transaction) { // add user
       const wasPayers = transactionShares.some(share => share.is_payer)
 
@@ -74,9 +74,9 @@ export const useUsers = () => {
         isPayer: boolean
       }) =>
         (user: TUser): TShare => ({
-          person_id: isAuthor ? 'MESSAGE_AUTHOR' : `added-person-user-${user._id}`,
+          person_id: `added-person-user-${user._id}`,
           raw_name: null,
-          normalized_name: isAuthor ? 'MESSAGE_AUTHOR' : null,
+          normalized_name: null,
           is_payer: isPayer,
           amount: 0,
           related_user_id: user._id,

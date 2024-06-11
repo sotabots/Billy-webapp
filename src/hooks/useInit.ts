@@ -119,9 +119,9 @@ export const useInit = () => {
           creator_user_id: transaction.creator_user_id || userId,
           shares: [true, false].map(isPayer => (
             {
-              person_id: 'MESSAGE_AUTHOR',
+              person_id: `author-person-user-${user._id}`,
               raw_name: null,
-              normalized_name: 'MESSAGE_AUTHOR',
+              normalized_name: null,
               is_payer: isPayer,
               amount: 0,
               related_user_id: user._id,

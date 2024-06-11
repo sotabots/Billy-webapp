@@ -29,20 +29,6 @@ function User({ user, size = 40, secondRow, spokenName, className }: {
         ) : (
           <>
             <div className="truncate">
-              {/* 
-              <div className="flex w-[35%] truncate">
-                {normalized_name ? (
-                  <div className="truncate">
-                    {normalized_name === 'MESSAGE_AUTHOR'
-                      ? <span className="opacity-30">({t('author')})</span>
-                      : <span className="font-medium">{normalized_name}</span>
-                    }
-                  </div>
-                ) : (
-                  <div className="truncate opacity-30">({t('added')})</div>
-                )}
-              </div>
-              */}
               {spokenName ? (
                 <span className="font-medium">{spokenName}</span>
               ) : (
