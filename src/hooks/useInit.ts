@@ -111,7 +111,9 @@ export const useInit = () => {
       users.length
     ) {
       const userId = initDataUnsafe.user.id
-      const user = getUserById(userId)
+      const user = userId && getUserById(userId)
+        || getUserById(1000) // Demo Pavel shares
+        || null
       if (user) {
         setIsAuthorSharesInited(true)
         setTransaction({

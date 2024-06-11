@@ -11,7 +11,9 @@ export const useNewTx = () => {
   const { getUserById } = useUsers()
 
   const userId = initDataUnsafe.user?.id
-  const user = userId ? getUserById(userId) : null // is user in chat?
+  const user = userId && getUserById(userId) // is user in chat?
+    || getUserById(1000) // Demo Pavel shares
+    || null
 
   const newTx: TNewTransaction = {
     _id: 'NEW',
