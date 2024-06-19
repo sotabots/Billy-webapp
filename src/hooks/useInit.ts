@@ -119,7 +119,7 @@ export const useInit = () => {
         setTransaction({
           ...transaction,
           creator_user_id: transaction.creator_user_id || userId,
-          shares: [true, false].map(isPayer => (
+          shares: [true/*, false*/].map(isPayer => (
             {
               person_id: `author-person-user-${user._id}`,
               raw_name: null,

@@ -26,7 +26,7 @@ export const useNewTx = () => {
     is_confirmed: true,
     is_canceled: false,
     is_equally: true,
-    shares: !user ? [] : [true, false].map(isPayer => (
+    shares: !user ? [] : [true/*, false*/].map(isPayer => (
       {
         person_id: `author-person-user-${user._id}`,
         raw_name: null,
