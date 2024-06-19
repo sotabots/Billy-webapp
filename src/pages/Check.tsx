@@ -40,7 +40,7 @@ function Check() {
   const navigate = useNavigate()
   const { feedback } = useFeedback()
 
-  const { setTransaction, txComment, isEditTx, setIsEditTx, setSelectPersonId, setIsSelectPayers, isSuccess, setSuccess, setTxPatchError } = useStore()
+  const { setTransaction, txComment, isEditTx, setIsEditTx, setSelectPersonId, setSelectPersonIsPayer, setIsSelectPayers, isSuccess, setSuccess, setTxPatchError } = useStore()
   const { transaction, isWrongAmounts, payedShares, oweShares, payedSum, payedSumFormatted, oweSumFormatted, deduplicatedShares } = useTransaction()
   const { unrelatedUsers, countUnrelatedPersons, isRelationsComplete, isRelationsEnough } = useUsers()
 
@@ -79,16 +79,18 @@ function Check() {
     t('save')
 
 
-  const onSelect = (personId: string | null) => {
+  const onSelect = (personId: string | null, isPayer: boolean) => {
     if (personId === null) {
       return
     }
     setSelectPersonId(personId)
+    setSelectPersonIsPayer(isPayer)
     console.log('onSelect vibro')
     impactOccurred('light')
     navigate('/select-user')
   }
 
+  // todo: remove
   const onAdd = () => {
     setSelectPersonId(null)
     console.log('onAdd vibro')
@@ -154,7 +156,7 @@ function Check() {
 
     const newShares = [...tx.shares]
     let isFirstOweShare = false
-    for (let newShare of newShares) {
+    for (const newShare of newShares) {
       if (newShare.is_payer || !newShare.related_user_id || newShare.is_fixed_amount) {
         continue
       }
@@ -315,7 +317,7 @@ function Check() {
                   feedback('press_change_user_expnames_web', {
                     user_prev: share.related_user_id || null
                   })
-                  onSelect(share.person_id)
+                  onSelect(share.person_id, true)
                 }}
                 onChange={(value) => {
                   changeAmount(share, value)
@@ -379,7 +381,7 @@ function Check() {
                   feedback('press_change_user_expnames_web', {
                     user_prev: share.related_user_id || null
                   })
-                  onSelect(share.person_id)
+                  onSelect(share.person_id, false)
                 }}
                 onChange={(value) => {
                   changeAmount(share, value)

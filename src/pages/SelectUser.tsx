@@ -14,7 +14,7 @@ function SelectUser() {
 
   const { t } = useTranslation()
   const { users, unrelatedUsers, getUserById, addUsers, selectUser, deleteUser } = useUsers()
-  const { selectPersonId, transaction } = useStore()
+  const { selectPersonId, selectPersonIsPayer, transaction } = useStore()
   const { feedback } = useFeedback()
   const { deduplicatedShares } = useTransaction()
 
@@ -46,7 +46,7 @@ function SelectUser() {
             theme="text"
             text={t('delete')}
             onClick={() => {
-              deleteUser(selectPersonId)
+              deleteUser(selectPersonId, selectPersonIsPayer)
               feedback('delete_user_expnames_web', {
                 num_users_set: deduplicatedShares.length - 1,
               })

@@ -147,8 +147,8 @@ export const useUsers = () => {
     history.back()
   }
 
-  const deleteUser = (personId: string) => {
-    const updShares = [...transactionShares].filter(share => share.person_id !== personId)
+  const deleteUser = (personId: string, personIsPayer: boolean) => {
+    const updShares = [...transactionShares].filter(share => share.is_payer !== personIsPayer || share.person_id !== personId)
     if (transaction) {
       setTransaction({
         ...transaction,
