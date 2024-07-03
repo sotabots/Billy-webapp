@@ -5,23 +5,35 @@ import Button from '../kit/Button'
 import Header from '../kit/Header'
 import Screen from '../kit/Screen'
 
+import { closeApp } from '../utils'
+
 import { ReactComponent as CheckmarkIcon } from '../assets/checkmark.svg'
-// import { ReactComponent as SettingsLanguageIcon } from '../assets/settings-language.svg'
+import onboarding1 from '../assets/onboarding-1.webp'
+import onboarding3 from '../assets/onboarding-3.webp'
+import onboarding4 from '../assets/onboarding-4.webp'
 
 function Onboarding() {
   // const { t, i18n } = useTranslation()
   // const { feedback } = useFeedback()
-
   const [step, setStep] = useState(1)
 
   return (
-    <Screen className="px-4">
-      <Header /*onBack={ () => { isOpen ? closeInnerPages() : history.back() } } */ />
+    <Screen className="">
+      <Header onBack={() => {
+        if (step === 1) {
+          closeApp()
+        } else {
+          setStep(step - 1)
+        }
+      }} />
 
       {step === 1 && (
         <>
-          <div className="h-[]"></div>
-          <div className="flex flex-col gap-3 max-w-[500px]">
+          <div
+            className="h-[38vh] bg-center bg-cover"
+            style={{ backgroundImage: `url(${onboarding1})` }}
+          ></div>
+          <div className="flex flex-col gap-3 max-w-[500px] px-4 py-5">
             <h2 className="text-[24px]">Революционная запись трат</h2>
             <p>Просто добавь меня в ваш чат, чтобы начать пользоваться ботом. Траты можно записывать как текстом, так и голосовыми сообщениями! Я найду эти сообщения в чате и всё учту.</p>
           </div>
@@ -30,8 +42,11 @@ function Onboarding() {
 
       {step === 2 && (
         <>
-          <div className="h-[]"></div>
-          <div className="flex flex-col gap-3 max-w-[500px]">
+          <div
+            className="h-[38vh] bg-center bg-cover"
+            style={{ backgroundImage: `url(${onboarding1})` }}
+          ></div>
+          <div className="flex flex-col gap-3 max-w-[500px] px-4 py-5">
             <h2 className="text-[24px]">Надоело переводить друг другу деньги после каждой общей оплаты?</h2>
             <p>Достаточно, чтобы кто-то один написал о трате в чат – Билли это увидит и запишет в историю. В конце периода он просуммирует все траты и скажет, кто кому сколько должен.</p>
           </div>
@@ -40,8 +55,11 @@ function Onboarding() {
 
       {step === 3 && (
         <>
-          <div className="h-[]"></div>
-          <div className="flex flex-col gap-3 max-w-[500px]">
+          <div
+            className="h-[38vh] bg-center bg-cover"
+            style={{ backgroundImage: `url(${onboarding3})` }}
+          ></div>
+          <div className="flex flex-col gap-3 max-w-[500px] px-4 py-5">
             <h2 className="text-[24px]">Никто не хочет брать ответственность за оплату общих расходов?</h2>
             <p>Плати за друзей - получай кэшбэк в Билли реальными деньгами!</p>
           </div>
@@ -50,8 +68,11 @@ function Onboarding() {
 
       {step === 4 && (
         <>
-          <div className="h-[]"></div>
-          <div className="flex flex-col gap-3 max-w-[500px]">
+          <div
+            className="h-[38vh] bg-center bg-cover"
+            style={{ backgroundImage: `url(${onboarding4})` }}
+          ></div>
+          <div className="flex flex-col gap-3 max-w-[500px] px-4 py-5">
             <h2 className="text-[24px]">Не встанем из-за стола, пока не посчитаем, кто сколько съел?</h2>
             <p>Запиши трату сейчас, а друзья заполнят свои доли потом.</p>
           </div>
@@ -60,8 +81,11 @@ function Onboarding() {
 
       {step === 5 && (
         <>
-          <div className="h-[]"></div>
-          <div className="flex flex-col gap-4 max-w-[500px]">
+          <div
+            className="h-[38vh] bg-center bg-cover"
+            style={{ backgroundImage: `url(${onboarding4})` }}
+          ></div>
+          <div className="flex flex-col gap-4 max-w-[500px] px-4 py-5">
             <h2 className="text-[24px]">Самое удобное ведение группового бюджета!</h2>
 
             <div className="flex items-start gap-3">
@@ -94,17 +118,24 @@ function Onboarding() {
       <Button
         isBottom
         text={
-          step === 1 ? '1' :
-          step === 2 ? '2' :
-          step === 3 ? '3' :
-          step === 4 ? '4' :
-          step === 5 ? '5' : ''
+          step === 1 ? 'ТОП-3 проблемы группового расчёта' :
+          step === 2 ? 'Согласны?' :
+          step === 3 ? 'Узнали?' :
+          step === 4 ? 'Это всё?' :
+          step === 5 ? 'Попробовать записать трату' : ''
         }
         onClick={() => {
-          if (step === 5) {
-            return
+          if (step < 5) {
+            setStep(step + 1)
+          } else {
+            try {
+              // @ts-expect-error ...
+              window.Telegram?.WebApp?.send('finish')
+            } catch (e) {
+              console.error(e)
+            }
+            closeApp()
           }
-          setStep(step + 1)
         }}
       />
     </Screen>
