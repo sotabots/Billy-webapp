@@ -1,3 +1,4 @@
+import Lottie from 'lottie-react'
 import { useState } from 'react'
 // import { useTranslation } from 'react-i18next'
 
@@ -9,6 +10,7 @@ import { closeApp } from '../utils'
 
 import { ReactComponent as CheckmarkIcon } from '../assets/checkmark.svg'
 import onboarding1 from '../assets/onboarding-1.webp'
+import onboarding2Animation from '../assets/onboarding-2.json'
 import onboarding3 from '../assets/onboarding-3.webp'
 import onboarding4 from '../assets/onboarding-4.webp'
 
@@ -52,9 +54,15 @@ function Onboarding() {
       {step === 2 && (
         <>
           <div
-            className="relative h-[37vh] bg-center bg-cover"
-            style={{ backgroundImage: `url(${onboarding1})` }}
+            className="relative h-[37vh] flex items-center justify-center"
           >
+            <div className="mx-auto w-[180px] h-[180px]">
+              <Lottie
+                style={{ width: 180, height: 180 }}
+                animationData={onboarding2Animation}
+                loop={true}
+              />
+            </div>
             <Pager page={2} />
           </div>
           <div className="flex flex-col gap-5 max-w-[500px] px-4 py-6">
@@ -105,27 +113,29 @@ function Onboarding() {
           <div className="flex flex-col gap-5 max-w-[500px] px-4 py-6">
             <h2 className="text-[24px]">Самое удобное ведение группового бюджета!</h2>
 
-            <div className="flex items-start gap-3">
-              <CheckmarkIcon className="flex-shrink-0 w-[22px] h-[22px] text-button" />
-              <div className="">
-                <h3>Конвертация валют</h3>
-                <p className="text-[14px]">упростит финальные расчёты, пересчитав все траты в выбранную валюту. Особенно актуально в путешествиях!</p>
+            <div className="flex flex-col gap-3">
+              <div className="flex items-start gap-3">
+                <CheckmarkIcon className="flex-shrink-0 w-[22px] h-[22px] text-button" />
+                <div className="">
+                  <h3>Конвертация валют</h3>
+                  <p className="text-[14px]">Билли упростит финальные расчёты, пересчитав все траты в выбранную валюту. Особенно актуально в путешествиях!</p>
+                </div>
               </div>
-            </div>
 
-            <div className="flex items-start gap-3">
-              <CheckmarkIcon className="flex-shrink-0 w-[22px] h-[22px] text-button" />
-              <div className="">
-                <h3>Категории</h3>
-                <p className="text-[14px]">Билли автоматически определит и проставит категорию для каждой траты, а в конце предоставит анализ самых больших из них.</p>
+              <div className="flex items-start gap-3">
+                <CheckmarkIcon className="flex-shrink-0 w-[22px] h-[22px] text-button" />
+                <div className="">
+                  <h3>Категории</h3>
+                  <p className="text-[14px]">Билли определит категорию для каждой траты, а в конце покажет анализ самых больших из них</p>
+                </div>
               </div>
-            </div>
 
-            <div className="flex items-start gap-3">
-              <CheckmarkIcon className="flex-shrink-0 w-[22px] h-[22px] text-button" />
-              <div className="">
-                <h3>Настройки языка и валюты</h3>
-                <p className="text-[14px]">Выбери удобный язык и валюту для ведения общих трат.</p>
+              <div className="flex items-start gap-3">
+                <CheckmarkIcon className="flex-shrink-0 w-[22px] h-[22px] text-button" />
+                <div className="">
+                  <h3>Настройки языка и валюты</h3>
+                  <p className="text-[14px]">Выбери удобный язык и валюту для ведения общих трат</p>
+                </div>
               </div>
             </div>
           </div>
@@ -135,7 +145,7 @@ function Onboarding() {
       <Button
         isBottom
         text={
-          step === 1 ? 'ТОП-3 проблемы группового расчёта' :
+          step === 1 ? 'Узнать больше' :
           step === 2 ? 'Согласны?' :
           step === 3 ? 'Узнали?' :
           step === 4 ? 'Это всё?' :
