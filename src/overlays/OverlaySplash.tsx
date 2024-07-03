@@ -6,6 +6,10 @@ import Overlay from '../kit/Overlay'
 function OverlaySplash() {
   const { isLoading } = useSplash()
 
+  if (location.href.includes('onboarding')) {
+    return null
+  }
+
   return (
     <Overlay isOpen={isLoading} isCenter>
       <Loader size={50} />

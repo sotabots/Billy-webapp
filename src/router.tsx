@@ -7,6 +7,7 @@ import SelectUsers from './pages/SelectUsers'
 import SelectCategory from './pages/SelectCategory'
 import SummaryBalance from './pages/SummaryBalance'
 import Settings from './pages/Settings'
+import Onboarding from './pages/Onboarding'
 import Soon from './pages/Soon'
 
 export const router = createHashRouter([
@@ -46,6 +47,10 @@ export const router = createHashRouter([
   {
     path: "/settings",
     element: <Settings />,
+  },
+  {
+    path: "/onboarding",
+    element: <Onboarding />,
   },
   {
     path: "/soon",
