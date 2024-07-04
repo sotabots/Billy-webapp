@@ -118,7 +118,7 @@ function Onboarding() {
                 <CheckmarkIcon className="flex-shrink-0 w-[22px] h-[22px] text-button" />
                 <div className="">
                   <h3>Конвертация валют</h3>
-                  <p className="text-[14px]">Билли упростит финальные расчёты, пересчитав все траты в выбранную валюту. Особенно актуально в путешествиях!</p>
+                  <p className="text-[14px]">Упростит финальные расчёты, пересчитав все траты в выбранную валюту. Особенно актуально в путешествиях!</p>
                 </div>
               </div>
 
@@ -130,6 +130,7 @@ function Onboarding() {
                 </div>
               </div>
 
+              {/*
               <div className="flex items-start gap-3">
                 <CheckmarkIcon className="flex-shrink-0 w-[22px] h-[22px] text-button" />
                 <div className="">
@@ -137,6 +138,7 @@ function Onboarding() {
                   <p className="text-[14px]">Выбери удобный язык и валюту для ведения общих трат</p>
                 </div>
               </div>
+              */}
             </div>
           </div>
         </>
