@@ -147,7 +147,7 @@ function Onboarding() {
       <Button
         isBottom
         text={
-          step === 1 ? 'Узнать больше' :
+          step === 1 ? 'ТОП-3 проблемы группового расчёта' :
           step === 2 ? 'Согласны?' :
           step === 3 ? 'Узнали?' :
           step === 4 ? 'Это всё?' :
