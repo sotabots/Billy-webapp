@@ -61,13 +61,13 @@ export type TEvent =
   'confirm_settleup_web' |
 
   // Onboarding
-  'onboarding_started' |
-  'onboarding_revolution_adding_next' |
-  'onboarding_balance_next' |
-  'onboarding_cashback_next' |
-  'onboarding_edit_later_next' |
-  'onboarding_features_next' |
-  'onboarding_finished' |
+  'onb_tool_started' |
+  'onb_tool_revolution_adding_next' |
+  'onb_tool_balance_next' |
+  'onb_tool_cashback_next' |
+  'onb_tool_edit_later_next' |
+  'onb_tool_features_next' |
+  'onb_tool_finished' |
 
   // Special
   'error_web'

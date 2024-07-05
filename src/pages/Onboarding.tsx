@@ -31,9 +31,9 @@ function Onboarding() {
   useEffect(() => {
     if (!isInitialFeedback) {
       setIsInitialFeedback(true)
-      feedback('onboarding_started')
+      feedback('onb_tool_started')
     }
-  }, [isInitialFeedback, feedback])
+  }, [isInitialFeedback])
 
   return (
     <Screen className="">
@@ -165,20 +165,23 @@ function Onboarding() {
           step === 5 ? 'Попробовать записать трату' : ''
         }
         onClick={async () => {
+          if (step <= 5) {
+            const eventOfStep: TEvent[] = [
+              'onb_tool_revolution_adding_next',
+              'onb_tool_balance_next',
+              'onb_tool_cashback_next',
+              'onb_tool_edit_later_next',
+              'onb_tool_features_next',
+            ]
+            const eventIndex = step - 1
+            feedback(eventOfStep[eventIndex])
+          }
           if (step < 5) {
             setStep(step + 1)
-            const eventOfStep: TEvent[] = [
-              'onboarding_revolution_adding_next',
-              'onboarding_balance_next',
-              'onboarding_cashback_next',
-              'onboarding_edit_later_next',
-              'onboarding_features_next',
-            ]
-            feedback(eventOfStep[step])
           }
           if (step === 5) {
             setIsButtonBusy(true)
-            await feedback('onboarding_finished')
+            await feedback('onb_tool_finished')
             try {
               // @ts-expect-error ...
               window.Telegram?.WebApp?.send('finish')
