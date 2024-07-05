@@ -10,7 +10,7 @@ mixpanel.init(token)
 
 const wa = window.Telegram?.WebApp
 
-type TEvent =
+export type TEvent =
   'open_page_transaction_web' | // todo
   'open_page_summary_web' | // todo
   'open_soon_web' |
@@ -59,6 +59,15 @@ type TEvent =
   'change_user_settleup_web' |
   'set_user_settleup_web' |
   'confirm_settleup_web' |
+
+  // Onboarding
+  'onboarding_started' |
+  'onboarding_revolution_adding_next' |
+  'onboarding_balance_next' |
+  'onboarding_cashback_next' |
+  'onboarding_edit_later_next' |
+  'onboarding_features_next' |
+  'onboarding_finished' |
 
   // Special
   'error_web'

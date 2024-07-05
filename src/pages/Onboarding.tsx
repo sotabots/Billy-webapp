@@ -1,11 +1,12 @@
 import Lottie from 'lottie-react'
-import { useState } from 'react'
+import { useEffect, useState } from 'react'
 // import { useTranslation } from 'react-i18next'
 
 import Button from '../kit/Button'
 import Header from '../kit/Header'
 import Screen from '../kit/Screen'
 
+import { useFeedback, TEvent } from '../hooks'
 import { closeApp } from '../utils'
 
 import { ReactComponent as CheckmarkIcon } from '../assets/checkmark.svg'
@@ -22,8 +23,17 @@ const Pager = ({ page }: {
 
 function Onboarding() {
   // const { t, i18n } = useTranslation()
-  // const { feedback } = useFeedback()
+  const { feedback } = useFeedback()
   const [step, setStep] = useState(1)
+  const [isButtonBusy, setIsButtonBusy] = useState(false)
+
+  const [isInitialFeedback, setIsInitialFeedback] = useState(false)
+  useEffect(() => {
+    if (!isInitialFeedback) {
+      setIsInitialFeedback(true)
+      feedback('onboarding_started')
+    }
+  }, [isInitialFeedback, feedback])
 
   return (
     <Screen className="">
@@ -146,6 +156,7 @@ function Onboarding() {
 
       <Button
         isBottom
+        isBusy={isButtonBusy}
         text={
           step === 1 ? 'ТОП-3 проблемы группового расчёта' :
           step === 2 ? 'Согласны?' :
@@ -153,10 +164,21 @@ function Onboarding() {
           step === 4 ? 'Это всё?' :
           step === 5 ? 'Попробовать записать трату' : ''
         }
-        onClick={() => {
+        onClick={async () => {
           if (step < 5) {
             setStep(step + 1)
-          } else {
+            const eventOfStep: TEvent[] = [
+              'onboarding_revolution_adding_next',
+              'onboarding_balance_next',
+              'onboarding_cashback_next',
+              'onboarding_edit_later_next',
+              'onboarding_features_next',
+            ]
+            feedback(eventOfStep[step])
+          }
+          if (step === 5) {
+            setIsButtonBusy(true)
+            await feedback('onboarding_finished')
             try {
               // @ts-expect-error ...
               window.Telegram?.WebApp?.send('finish')
