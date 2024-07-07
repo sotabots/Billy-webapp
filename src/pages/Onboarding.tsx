@@ -1,4 +1,3 @@
-import Lottie from 'lottie-react'
 import { useEffect, useState } from 'react'
 // import { useTranslation } from 'react-i18next'
 
@@ -10,10 +9,11 @@ import { useFeedback, TEvent } from '../hooks'
 import { closeApp } from '../utils'
 
 import { ReactComponent as CheckmarkIcon } from '../assets/checkmark.svg'
-import onboarding1 from '../assets/onboarding-1.webp'
-import onboarding2Animation from '../assets/onboarding-2.json'
-import onboarding3 from '../assets/onboarding-3.webp'
-import onboarding4 from '../assets/onboarding-4.webp'
+import onboarding1 from '../assets/onboarding-1.jpg'
+import onboarding2 from '../assets/onboarding-2.jpg'
+import onboarding3 from '../assets/onboarding-3.jpg'
+import onboarding4 from '../assets/onboarding-4.jpg'
+import onboarding5 from '../assets/onboarding-5.jpg'
 
 const Pager = ({ page }: {
   page: number
@@ -48,10 +48,9 @@ function Onboarding() {
       {step === 1 && (
         <>
           <div
-            className="relative h-[37vh] bg-center bg-cover"
+            className="relative h-[37vh] bg-[#ffca6a] bg-center bg-cover bg-no-repeat"
             style={{ backgroundImage: `url(${onboarding1})` }}
           >
-            {/* <div className="absolute left-0 bottom-0 w-full h-[50px] bg-gradient-to-b from-transparent to-white" /> */}
             <Pager page={1} />
           </div>
           <div className="flex flex-col gap-5 max-w-[500px] mx-auto px-4 py-6">
@@ -64,15 +63,9 @@ function Onboarding() {
       {step === 2 && (
         <>
           <div
-            className="relative h-[37vh] flex items-center justify-center"
+            className="relative h-[37vh] bg-[#ffca6a] bg-center bg-cover bg-no-repeat"
+            style={{ backgroundImage: `url(${onboarding2})` }}
           >
-            <div className="mx-auto w-[180px] h-[180px]">
-              <Lottie
-                style={{ width: 180, height: 180 }}
-                animationData={onboarding2Animation}
-                loop={true}
-              />
-            </div>
             <Pager page={2} />
           </div>
           <div className="flex flex-col gap-5 max-w-[500px] mx-auto px-4 py-6">
@@ -85,7 +78,7 @@ function Onboarding() {
       {step === 3 && (
         <>
           <div
-            className="relative h-[37vh] bg-center bg-cover"
+            className="relative h-[37vh] bg-[#ffca6a] bg-center bg-cover bg-no-repeat"
             style={{ backgroundImage: `url(${onboarding3})` }}
           >
             <Pager page={3} />
@@ -100,7 +93,7 @@ function Onboarding() {
       {step === 4 && (
         <>
           <div
-            className="relative h-[37vh] bg-center bg-cover"
+            className="relative h-[37vh] bg-[#ffca6a] bg-center bg-cover bg-no-repeat"
             style={{ backgroundImage: `url(${onboarding4})` }}
           >
             <Pager page={4} />
@@ -115,8 +108,8 @@ function Onboarding() {
       {step === 5 && (
         <>
           <div
-            className="relative h-[37vh] bg-center bg-cover"
-            style={{ backgroundImage: `url(${onboarding4})` }}
+            className="relative h-[37vh] bg-[#ffca6a] bg-center bg-cover bg-no-repeat"
+            style={{ backgroundImage: `url(${onboarding5})` }}
           >
             <Pager page={5} />
           </div>
