@@ -5,6 +5,7 @@ import Button from '../kit/Button'
 import Header from '../kit/Header'
 import Screen from '../kit/Screen'
 
+import { usePostUserOnboarding } from '../api'
 import { useFeedback, TEvent } from '../hooks'
 import { closeApp } from '../utils'
 
@@ -22,6 +23,7 @@ const Pager = ({ page }: {
 )
 
 function Onboarding() {
+  const postUserOnboarding = usePostUserOnboarding()
   // const { t, i18n } = useTranslation()
   const { feedback } = useFeedback()
   const [step, setStep] = useState(1)
@@ -32,6 +34,7 @@ function Onboarding() {
     if (!isInitialFeedback) {
       setIsInitialFeedback(true)
       feedback('onb_tool_started')
+      postUserOnboarding()
     }
   }, [isInitialFeedback])
 

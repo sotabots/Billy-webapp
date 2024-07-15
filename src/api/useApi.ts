@@ -306,3 +306,20 @@ export const useGetSummarySheetRebuild = () => {
       },
     }).then(handleJsonResponse)
 }
+
+export const usePostUserOnboarding = () => {
+  const [initDataUnsafe, initData] = useInitData()
+  const url = initDataUnsafe.user
+    ? `${apiUrl}/users/${initDataUnsafe.user.id}/start_onb`
+    : 'https://jsonplaceholder.typicode.com/posts'
+
+  return () =>
+    fetch(url, {
+      method: 'POST',
+      body: JSON.stringify({ user: initDataUnsafe.user }),
+      headers: {
+        'Content-type': 'application/json',
+        'Authorization': initData,
+      },
+    }).then(handleJsonResponse)
+}
