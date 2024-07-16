@@ -17,26 +17,30 @@ function Debug() {
 
   const [n, setN] = useState(0)
 
-  const isTouchDevice = () =>
-    (('ontouchstart' in window) ||
-    (navigator.maxTouchPoints > 0) ||
-    // @ts-ignore
-    (navigator.msMaxTouchPoints > 0))
-
-  const listener = useCallback(() => {
-    if (!isTouchDevice()) {
+  const listener = useCallback((e: MouseEvent) => {
+    if (e.which === 3) {
       const newN = n + 1
       setN(newN)
       if (newN % OPEN_DEBUG_RIGHT_CLICKS === 0) {
         setDebug(!isDebug)
       }
     }
-  }, [n, setN, isTouchDevice])
+  }, [n, setN])
 
   useEffect(() => {
-    window.addEventListener('contextmenu', listener)
+    const handler = setTimeout(() => {
+      setN(0)
+    }, 800)
+
     return () => {
-      window.removeEventListener('contextmenu', listener)
+      clearTimeout(handler)
+    }
+  }, [n, setN])
+
+  useEffect(() => {
+    window.addEventListener('mousedown', listener)
+    return () => {
+      window.removeEventListener('mousedown', listener)
     }
   }, [listener])
 
