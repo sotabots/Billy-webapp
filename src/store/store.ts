@@ -10,6 +10,8 @@ type TStore = {
   setFlow: (flow: TFlow) => void
   isFlowFeedback: boolean
   setIsFlowFeedback: (isFlowFeedback: boolean) => void
+  isOnboardingFeedback: boolean
+  setIsOnboardingFeedback: (isOnboardingFeedback: boolean) => void
 
   chatIdStart: undefined | number
   setChatIdStart: (chatIdStart: number) => void
@@ -79,6 +81,8 @@ export const useStore = create<TStore>((set, get) => ({
   setFlow: (flow) => set(({ flow })),
   isFlowFeedback: false,
   setIsFlowFeedback: (isFlowFeedback) => set(({ isFlowFeedback })),
+  isOnboardingFeedback: false,
+  setIsOnboardingFeedback: (isOnboardingFeedback) => set(({ isOnboardingFeedback })),
 
   chatIdStart: undefined,
   setChatIdStart: (chatIdStart) => set(({ chatIdStart })),

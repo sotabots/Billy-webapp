@@ -3,8 +3,10 @@ import { useInitData } from '@vkruglikov/react-telegram-web-app'
 import { useEffect } from 'react'
 import { useLocation } from 'react-router-dom'
 
+import { usePostUserOnboarding } from '../api'
 import { useStore } from '../store'
 import { useFeedback, useUsers, useTgSettings } from '../hooks'
+
 
 import i18n from '../i18n'
 
@@ -14,6 +16,7 @@ export const useInit = () => {
   const {
     flow, setFlow,
     isFlowFeedback, setIsFlowFeedback,
+    isOnboardingFeedback, setIsOnboardingFeedback,
     chatIdStart, setChatIdStart,
     txId, setTxId,
     summaryId, setSummaryId,
@@ -30,12 +33,20 @@ export const useInit = () => {
   const queryTxId = queryParameters.get('txid')
   const querySummaryId = queryParameters.get('summaryid')
 
-  const startParam = initDataUnsafe.start_param
-  // use `?startapp=...` as id
-  // todo: decode
+  let startParam = initDataUnsafe.start_param
+
+  if (!startParam) {
+    const queryParameters = new URLSearchParams(routerLocation.search)
+    const queryStartParam = queryParameters.get('start')
+    if (queryStartParam) {
+      startParam = queryStartParam
+    }
+  }
+
   let startParamTxId
   let startParamSummaryId
   let startParamChatId
+  let startParamRef: undefined | number
 
   if (startParam) {
     try {
@@ -64,6 +75,12 @@ export const useInit = () => {
       // fallback
       if (routerLocation.pathname === '/summary' || routerLocation.pathname === '/balance') {
         startParamSummaryId = startParam
+      } else if (routerLocation.pathname === '/onboarding') {
+        try {
+          startParamRef = parseInt(startParam)
+        } catch (e) {
+          console.error(e)
+        }
       } else {
         startParamTxId = startParam
       }
@@ -157,4 +174,21 @@ export const useInit = () => {
       feedback('open_page_summary_web')
     }
   }, [flow, isFlowFeedback, setIsFlowFeedback, transaction])
+
+
+  // onboarding
+  const postUserOnboarding = usePostUserOnboarding()
+
+  useEffect(() => {
+    if (!isOnboardingFeedback) {
+      setIsOnboardingFeedback(true)
+      feedback('onb_tool_started')
+      if (startParamRef) {
+        feedback('onb_shared_user_launch')
+      }
+      postUserOnboarding({
+        ref: startParamRef
+      })
+    }
+  }, [isOnboardingFeedback])
 }

@@ -1,12 +1,11 @@
-import { useEffect, useState } from 'react'
+import { useState } from 'react'
 // import { useTranslation } from 'react-i18next'
 
 import Button from '../kit/Button'
 import Header from '../kit/Header'
 import Screen from '../kit/Screen'
 
-import { usePostUserOnboarding } from '../api'
-import { useFeedback, TEvent } from '../hooks'
+import { useFeedback, TEvent, useInit } from '../hooks'
 import { closeApp } from '../utils'
 
 import { ReactComponent as CheckmarkIcon } from '../assets/checkmark.svg'
@@ -23,20 +22,12 @@ const Pager = ({ page }: {
 )
 
 function Onboarding() {
-  const postUserOnboarding = usePostUserOnboarding()
+  useInit()
+
   // const { t, i18n } = useTranslation()
   const { feedback } = useFeedback()
   const [step, setStep] = useState(1)
   const [isButtonBusy, setIsButtonBusy] = useState(false)
-
-  const [isInitialFeedback, setIsInitialFeedback] = useState(false)
-  useEffect(() => {
-    if (!isInitialFeedback) {
-      setIsInitialFeedback(true)
-      feedback('onb_tool_started')
-      postUserOnboarding()
-    }
-  }, [isInitialFeedback])
 
   return (
     <Screen className="">

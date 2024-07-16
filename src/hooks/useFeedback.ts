@@ -61,6 +61,8 @@ export type TEvent =
   'confirm_settleup_web' |
 
   // Onboarding
+  'onb_shared_user_launch' |
+
   'onb_tool_started' |
   'onb_tool_revolution_adding_next' |
   'onb_tool_balance_next' |

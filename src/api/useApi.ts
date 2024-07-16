@@ -313,10 +313,15 @@ export const usePostUserOnboarding = () => {
     ? `${apiUrl}/users/${initDataUnsafe.user.id}/start_onb`
     : 'https://jsonplaceholder.typicode.com/posts'
 
-  return () =>
+  return ({ ref }: {
+    ref?: number
+  }) =>
     fetch(url, {
       method: 'POST',
-      body: JSON.stringify({ user: initDataUnsafe.user }),
+      body: JSON.stringify({
+        user: initDataUnsafe.user,
+        ref,
+      }),
       headers: {
         'Content-type': 'application/json',
         'Authorization': initData,
