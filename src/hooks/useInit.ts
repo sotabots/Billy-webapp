@@ -180,7 +180,7 @@ export const useInit = () => {
   const postUserOnboarding = usePostUserOnboarding()
 
   useEffect(() => {
-    if (!isOnboardingFeedback) {
+    if (!isOnboardingFeedback && routerLocation.pathname === '/onboarding') {
       setIsOnboardingFeedback(true)
       feedback('onb_tool_started')
       if (startParamRef) {
