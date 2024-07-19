@@ -182,7 +182,9 @@ export const useInit = () => {
   useEffect(() => {
     if (!isOnboardingFeedback && routerLocation.pathname === '/onboarding') {
       setIsOnboardingFeedback(true)
-      feedback('onb_tool_started')
+      feedback('onb_tool_started', {
+        share_launch: !!startParamRef
+       })
       if (startParamRef) {
         feedback('onb_shared_user_launch')
       }
