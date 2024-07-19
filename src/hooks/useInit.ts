@@ -184,9 +184,12 @@ export const useInit = () => {
       setIsOnboardingFeedback(true)
       feedback('onb_tool_started', {
         share_launch: !!startParamRef
-       })
+      })
       if (startParamRef) {
         feedback('onb_shared_user_launch')
+        feedback('share_link_invitee_open', {
+          distinct_id: startParamRef
+        })
       }
       postUserOnboarding({
         ref: startParamRef

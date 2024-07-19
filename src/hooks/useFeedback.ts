@@ -62,6 +62,7 @@ export type TEvent =
 
   // Onboarding
   'onb_shared_user_launch' |
+  'share_link_invitee_open' |
 
   'onb_tool_started' |
   'onb_tool_revolution_adding_next' |
