@@ -14,7 +14,7 @@ type TScreen = {
 function Screen({ children, className, _ref, onScroll }: TScreen) {
   return (
     <div
-      className={cx('Screen fixed top-0 left-0 w-full h-full overflow-y-auto text-text bg-bg2', className)}
+      className={cx('Screen relative w-full min-h-[100vh] text-text bg-bg2', className)}
       ref={_ref}
       onScroll={onScroll}
     >

@@ -1,5 +1,5 @@
 import type { ChangeEvent } from 'react'
-import { useEffect, useState } from 'react'
+import { useEffect, useState, useRef } from 'react'
 
 import { formatAmount, unformatAmount } from '../utils'
 import { visible_decimals } from '../const'
@@ -83,14 +83,29 @@ function InputAmount({ amount, onChange }: TInputAmount) {
     setCurrentString(formatAmount(amount))
   }
 
+  const inputRef = useRef<HTMLInputElement>(null)
+  const scrollOnFocus = () => {
+    if (inputRef.current) {
+      const offset = inputRef.current.getBoundingClientRect().top + window.scrollY - 100;
+      window.scrollTo({
+        top: offset,
+        behavior: 'smooth'
+      });
+    }
+  };
+
   return (
     <input
+      ref={inputRef}
       type="text"
       className="w-[117px] h-10 p-2 rounded-md border border-[#DDE2E4] dark:border-[#6E7C87] dark:bg-[#303940] text-right text-[16px] text-text dark:text-[#FFFFFF] leading-[24px] focus:ring-2 focus:ring-button focus:outline-none appearance-none transition-all selection:bg-button selection:text-buttonText"
       inputMode="decimal"
       placeholder="0"
       value={currentString}
-      onFocus={(e) => { e.target.select() }}
+      onFocus={(e) => {
+        e.target.select()
+        scrollOnFocus()
+      }}
       onBlur={onBlur}
       onChange={onChangeString}
     />
