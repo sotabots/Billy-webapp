@@ -1,3 +1,4 @@
+import { useWebApp } from '@vkruglikov/react-telegram-web-app'
 import { useState } from 'react'
 // import { useTranslation } from 'react-i18next'
 
@@ -24,6 +25,7 @@ const Pager = ({ page }: {
 function Onboarding() {
   useInit()
 
+  const WebApp = useWebApp()
   // const { t, i18n } = useTranslation()
   const { feedback } = useFeedback()
   const [step, setStep] = useState(1)
@@ -175,6 +177,9 @@ function Onboarding() {
             } catch (e) {
               console.error(e)
             }
+            WebApp.openTelegramLink('https://t.me/BillyMoney_Bot', {
+              try_instant_view: true,
+            })
             closeApp()
           }
         }}
