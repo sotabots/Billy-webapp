@@ -70,6 +70,8 @@ export type TRates = {
 export type TChat = {
   default_currency: TCurrencyId | null
   language_code: TLanguageCode
+  silent_mode: boolean
+  is_admin: boolean
   rates: TRates
 }
 

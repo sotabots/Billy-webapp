@@ -290,6 +290,26 @@ export const usePostChatLanguage = () => {
     }).then(handleJsonResponse)
 }
 
+export const usePostChatSilent = () => {
+  const [, initData] = useInitData()
+  const { chatId } = useChatId()
+  const url = chatId === 0
+    ? 'https://jsonplaceholder.typicode.com/posts'
+    : `${apiUrl}/chat/${chatId}/silent`
+
+  return (isSilentMode: boolean) =>
+    fetch(url, {
+      method: 'POST',
+      body: JSON.stringify({
+        silent_mode: isSilentMode,
+      }),
+      headers: {
+        'Content-type': 'application/json',
+        'Authorization': initData,
+      },
+    }).then(handleJsonResponse)
+}
+
 export const useGetSummarySheetRebuild = () => {
   const [, initData] = useInitData()
   const { summaryId } = useStore()

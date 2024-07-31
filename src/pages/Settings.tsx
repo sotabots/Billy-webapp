@@ -11,7 +11,7 @@ import MenuItem from '../kit/MenuItem'
 import MenuGroup from '../kit/MenuGroup'
 import RadioButton from '../kit/RadioButton'
 
-import { usePostChatCurrency, usePostChatLanguage, useGetChat } from '../api'
+import { usePostChatCurrency, usePostChatLanguage, usePostChatSilent, useGetChat } from '../api'
 import { useChatId, useInit, useFeedback } from '../hooks'
 import { useStore } from '../store'
 import { TCurrencyId, TLanguageCode } from '../types'
@@ -48,6 +48,7 @@ function Settings() {
 
   const postChatCurrency = usePostChatCurrency()
   const postChatLanguage = usePostChatLanguage()
+  const postChatSilent = usePostChatSilent()
 
   const [impactOccurred, , selectionChanged] = useHapticFeedback()
 
@@ -97,6 +98,23 @@ function Settings() {
     }
     setBusy(false)
   }
+
+  const toggleSilent = async () => {
+    impactOccurred('medium')
+    setBusy(true)
+    let isSuccess = true
+    try {
+      await postChatSilent(!chat?.silent_mode)
+    } catch {
+      isSuccess = false
+    }
+
+    if (isSuccess) {
+      refetchChat()
+    }
+    setBusy(false)
+  }
+
 
   const langs: {
     _id: TLanguageCode,
@@ -156,14 +174,10 @@ function Settings() {
           <MenuGroup className="mt-4">
             <MenuItem
               icon={<SettingsMessageIcon />}
-              title={t('currency')}
-              isEnabled={true}
-              onClick={() => {
-                setIsCurrencyOpen(true)
-                feedback('press_currency_settings_web', {
-                  currency_prev: chat?.default_currency,
-                })
-              }}
+              title={`${!chat?.is_admin ? (t('forAdmin') + ' ') : ''}${t('leaveMessages')}`}
+              isEnabled={chat?.silent_mode}
+              disabled={!chat?.is_admin}
+              onClick={toggleSilent}
             />
           </MenuGroup>
 

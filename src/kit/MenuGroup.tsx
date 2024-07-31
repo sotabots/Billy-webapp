@@ -6,7 +6,7 @@ const MenuGroup = ({ className, children }: {
   children: ReactNode,
 }) => {
   return (
-    <div className={cx('MenuGroup rounded-[12px] overflow-hidden', className)}>
+    <div className={cx('MenuGroup rounded-[12px] bg-bg overflow-hidden', className)}>
       {children}
     </div>
   )

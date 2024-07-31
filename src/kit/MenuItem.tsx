@@ -3,23 +3,25 @@ import { ReactComponent as SettingsGoIcon } from '../assets/settings-go.svg'
 import Button from './Button'
 import Toggle from './Toggle'
 
-const MenuItem = ({ icon, title, value, isEnabled, onClick }: {
+const MenuItem = ({ icon, title, value, isEnabled, disabled, onClick }: {
   icon: any
   title: string
   value?: string
   isEnabled?: boolean
+  disabled?: boolean
   onClick: VoidFunction
 }) => {
   return (
     <Button
       theme="clear"
-      className="flex items-center justify-between gap-4 w-full min-h-[44px] bg-bg px-4 py-2"
+      className="flex items-center justify-between gap-2 w-full min-h-[44px] px-4 py-2"
+      disabled={disabled}
       onClick={onClick}
       text={
         <>
           <div className="flex items-center gap-2">
             <span>{icon}</span>
-            <span>{title}</span>
+            <span className="text-left leading-[1em]">{title}</span>
           </div>
           {value &&
             <div className="flex items-center gap-1">

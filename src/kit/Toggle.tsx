@@ -22,7 +22,8 @@ function Toggle({ size, label, value, onChange }: {
             <div className={cx(
               'absolute top-[50%] -translate-y-[50%] rounded-full bg-white transition-all',
               size === 'big' ? 'h-4 w-4' : 'h-2 w-2',
-              value ? 'right-[2px]' : 'right-[12px]'
+              value ? 'right-[2px]' :
+                size === 'big' ? 'right-[14px]' : 'right-[12px]'
             )} />
           </div>
           {label &&
