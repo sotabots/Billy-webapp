@@ -109,13 +109,17 @@ export const useFeedback = () => {
     const txData = txDataEvents.includes(event)
       ? {
           transaction_id: _transaction?._id,
-          // is_shares_determined: // todo
           is_confirmed: _transaction?.is_confirmed,
           is_canceled: _transaction?.is_canceled,
-          // is_onboarding: _transaction?.is_onboarding,
           raw_text: _transaction?.raw_text,
           category: _transaction?.category,
-          // microcategory: _transaction?.microcategory,
+
+          // is_onboarding:
+          amount: _transaction?.shares.filter(share => share.is_payer).reduce((acc, share) => acc + share.amount, 0),
+          chat_id: _transaction?.chat_id,
+          currency_id: _transaction?.currency_id,
+          is_shares_determined: _transaction?.shares.every(share => share.related_user_id),
+          nutshell: _transaction?.nutshell,
         }
       : {}
 
