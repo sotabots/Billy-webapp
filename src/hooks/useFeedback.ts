@@ -61,6 +61,8 @@ export type TEvent =
   'confirm_settleup_web' |
 
   // Onboarding
+  'onb_started' |
+
   'onb_shared_user_launch' |
   'share_link_invitee_open' |
 

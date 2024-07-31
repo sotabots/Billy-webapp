@@ -186,6 +186,7 @@ export const useInit = () => {
         share_launch: !!startParamRef
       })
       if (startParamRef) {
+        feedback('onb_started')
         feedback('onb_shared_user_launch')
         feedback('share_link_invitee_open', {
           distinct_id: startParamRef
