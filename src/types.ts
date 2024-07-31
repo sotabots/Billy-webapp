@@ -31,6 +31,7 @@ export type TTransaction = {
   // todo: improve
   is_settleup: boolean
   cashback: number | null
+  is_onboarding?: boolean // todo: remove '?' later
 }
 
 export type TNewTransaction = Omit<TTransaction, '_id' | 'time_created'> & {

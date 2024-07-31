@@ -114,7 +114,7 @@ export const useFeedback = () => {
           raw_text: _transaction?.raw_text,
           category: _transaction?.category,
 
-          // is_onboarding:
+          is_onboarding: _transaction?.is_onboarding,
           amount: _transaction?.shares.filter(share => share.is_payer).reduce((acc, share) => acc + share.amount, 0),
           chat_id: _transaction?.chat_id,
           currency_id: _transaction?.currency_id,
