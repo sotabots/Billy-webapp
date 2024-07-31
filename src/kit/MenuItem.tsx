@@ -29,6 +29,7 @@ const MenuItem = ({ icon, title, value, isEnabled, onClick }: {
           }
           {isEnabled !== undefined &&
             <Toggle
+              size="big"
               value={isEnabled}
             />
           }
