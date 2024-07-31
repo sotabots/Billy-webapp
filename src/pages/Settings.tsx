@@ -8,6 +8,7 @@ import Header from '../kit/Header'
 import Screen from '../kit/Screen'
 import Divider from '../kit/Divider'
 import MenuItem from '../kit/MenuItem'
+import MenuGroup from '../kit/MenuGroup'
 import RadioButton from '../kit/RadioButton'
 
 import { usePostChatCurrency, usePostChatLanguage, useGetChat } from '../api'
@@ -17,6 +18,7 @@ import { TCurrencyId, TLanguageCode } from '../types'
 
 import { ReactComponent as SettingsCurrencyIcon } from '../assets/settings-currency.svg'
 import { ReactComponent as SettingsLanguageIcon } from '../assets/settings-language.svg'
+import { ReactComponent as SettingsMessageIcon } from '../assets/settings-message.svg'
 
 function Settings() {
   useInit()
@@ -119,8 +121,8 @@ function Settings() {
       <Header onBack={() => { isOpen ? closeInnerPages() : history.back() }} />
 
       {!isOpen && (
-        <>
-          <div className="m-4 rounded-[12px] overflow-hidden">
+        <div className="p-4">
+          <MenuGroup className="--mt-5">
             <MenuItem
               icon={<SettingsCurrencyIcon />}
               title={t('currency')}
@@ -149,14 +151,28 @@ function Settings() {
                 })
               }}
             />
-          </div>
+          </MenuGroup>
+
+          <MenuGroup className="mt-4">
+            <MenuItem
+              icon={<SettingsMessageIcon />}
+              title={t('currency')}
+              isEnabled={true}
+              onClick={() => {
+                setIsCurrencyOpen(true)
+                feedback('press_currency_settings_web', {
+                  currency_prev: chat?.default_currency,
+                })
+              }}
+            />
+          </MenuGroup>
 
           <Button
             isBottom
             text={t('close')}
             onClick={() => { history.back() }}
           />
-        </>
+        </div>
       )}
 
       {isCurrencyOpen && (

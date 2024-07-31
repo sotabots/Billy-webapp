@@ -3,9 +3,9 @@ import cx from 'classnames'
 import Button from '../kit/Button'
 
 function Toggle({ label, value, onChange }: {
-  label: string,
+  label?: string,
   value: boolean,
-  onChange: (value: boolean) => void
+  onChange?: (value: boolean) => void
 }) {
   return (
     <Button
@@ -22,10 +22,12 @@ function Toggle({ label, value, onChange }: {
               value ? 'right-[2px]' : 'right-[12px]'
             )} />
           </div>
-          <div className="flex-1 text-[14px] leading-6 text-button">{label}</div>
+          {label &&
+            <div className="flex-1 text-[14px] leading-6 text-button">{label}</div>
+          }
         </>
       )}
-      onClick={() => { onChange(!value) }}
+      onClick={() => { onChange?.(!value) }}
     />
   )
 }

@@ -1,5 +1,5 @@
 import cx from 'classnames'
-import { ReactNode } from 'react'
+import type { ReactNode } from 'react'
 
 const Limiter = ({ className, children }: {
   className?: string,
