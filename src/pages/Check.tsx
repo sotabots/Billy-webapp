@@ -181,7 +181,10 @@ function Check() {
     try {
       const newConfirmedTransaction: TNewTransaction = {
         ...transaction as TNewTransaction,
-        ...(txComment ? { raw_text: txComment } : {}),
+        ...(txComment ? {
+          raw_text: txComment,
+          nutshell: txComment,
+        } : {}),
       }
       const confirmedTransaction: TTransaction = {
         ...transaction as TTransaction,
