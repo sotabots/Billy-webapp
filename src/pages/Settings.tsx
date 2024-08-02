@@ -175,7 +175,7 @@ function Settings() {
             <MenuItem
               icon={<SettingsMessageIcon />}
               title={`${!chat?.is_admin ? (t('forAdmin') + ' ') : ''}${t('leaveMessages')}`}
-              isEnabled={chat?.silent_mode}
+              isEnabled={!chat?.silent_mode}
               disabled={!chat?.is_admin}
               onClick={toggleSilent}
             />
