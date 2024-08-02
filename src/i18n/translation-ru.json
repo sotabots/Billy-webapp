@@ -81,6 +81,11 @@
 
   "currency": "Валюта",
   "language": "Язык",
+  "cashback": "Кешбэк",
+  "setCashback": "Установить кешбэк",
+  "monthlyLimit": "Месячный лимит",
+  "setLimit": "Установить лимит",
+  "soon": "(скоро)",
   "chooseCurrency": "Выберите валюту",
   "chooseLanguage": "Выберите язык",
   "leaveMessages": "Оставлять сообщения Billy в чате",

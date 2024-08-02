@@ -19,6 +19,8 @@ import { TCurrencyId, TLanguageCode } from '../types'
 import { ReactComponent as SettingsCurrencyIcon } from '../assets/settings-currency.svg'
 import { ReactComponent as SettingsLanguageIcon } from '../assets/settings-language.svg'
 import { ReactComponent as SettingsMessageIcon } from '../assets/settings-message.svg'
+import { ReactComponent as SettingsCashbackIcon } from '../assets/settings-cashback.svg'
+import { ReactComponent as SettingsLimitIcon } from '../assets/settings-limit.svg'
 
 function Settings() {
   useInit()
@@ -168,6 +170,22 @@ function Settings() {
                   language_prev: chat?.language_code,
                 })
               }}
+            />
+            <Divider className="mr-0 !bg-[#D5DADD]" />
+            <MenuItem
+              icon={<SettingsCashbackIcon />}
+              title={t('cashback')}
+              value={t('soon') || t('setCashback')}
+              disabled={true}
+              onClick={() => { /**/ }}
+            />
+            <Divider className="mr-0 !bg-[#D5DADD]" />
+            <MenuItem
+              icon={<SettingsLimitIcon />}
+              title={t('monthlyLimit')}
+              value={t('soon') || t('setLimit')}
+              disabled={true}
+              onClick={() => { /**/ }}
             />
           </MenuGroup>
 

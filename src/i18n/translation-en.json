@@ -81,6 +81,11 @@
 
   "currency": "Currency",
   "language": "Language",
+  "cashback": "Cashback",
+  "setCashback": "Set a cashback",
+  "monthlyLimit": "Monthly limit",
+  "setLimit": "Set a limit",
+  "soon": "(soon)",
   "chooseCurrency": "Choose a currency",
   "chooseLanguage": "Choose a language",
   "leaveMessages": "Leave Billy’s messages in chat",
