@@ -9,6 +9,7 @@ import Loader from './Loader'
 
 type TButton = {
   theme?: 'default' | 'clear' | 'text' | 'settleUp' | 'icon' | 'subBottom'
+  wrapperClassName?: string
   className?: string
   color?: string
   disabled?: boolean
@@ -22,7 +23,7 @@ type TButton = {
   text: string | ReactNode,
 })
 
-function Button({ theme = 'default', className, isBottom, color, text, disabled, isBusy, onClick }: TButton) {
+function Button({ theme = 'default', wrapperClassName, className, isBottom, color, text, disabled, isBusy, onClick }: TButton) {
   const webApp = useWebApp()
   const [impactOccurred] = useHapticFeedback()
   const { overlays } = useStore()
@@ -81,7 +82,8 @@ function Button({ theme = 'default', className, isBottom, color, text, disabled,
   return (
     <div className={cx(
       'Button',
-      (isBottom || theme === 'subBottom') && 'ButtonSpacer h-[56px]'
+      (isBottom || theme === 'subBottom') && 'ButtonSpacer h-[56px]',
+      wrapperClassName,
     )}>
       <div className={cx(
         'ButtonLoaderWrapper',

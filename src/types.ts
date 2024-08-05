@@ -72,6 +72,9 @@ export type TChat = {
   language_code: TLanguageCode
   silent_mode: boolean
   is_admin: boolean
+  mode: 'family' | 'travel'
+  cashback?: number
+  monthly_limit?: number
   rates: TRates
 }
 

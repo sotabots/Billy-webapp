@@ -1,4 +1,5 @@
 import { useHapticFeedback } from '@vkruglikov/react-telegram-web-app'
+import cx from 'classnames'
 
 import { useState } from 'react'
 import { useTranslation } from 'react-i18next'
@@ -21,6 +22,9 @@ import { ReactComponent as SettingsLanguageIcon } from '../assets/settings-langu
 import { ReactComponent as SettingsMessageIcon } from '../assets/settings-message.svg'
 import { ReactComponent as SettingsCashbackIcon } from '../assets/settings-cashback.svg'
 import { ReactComponent as SettingsLimitIcon } from '../assets/settings-limit.svg'
+
+import { ReactComponent as ModePersonalIcon } from '../assets/mode-personal.svg'
+import { ReactComponent as ModeGroupIcon } from '../assets/mode-group.svg'
 
 function Settings() {
   useInit()
@@ -45,7 +49,7 @@ function Settings() {
   }, [chat?.default_currency, setCurrency])
   */
 
-  const isOpen = isCurrencyOpen || isLanguageOpen
+  const isInnerOpen = isCurrencyOpen || isLanguageOpen
   const [/*isBusy*/, setBusy] = useState(false)
 
   const postChatCurrency = usePostChatCurrency()
@@ -138,11 +142,52 @@ function Settings() {
 
   return (
     <Screen>
-      <Header onBack={() => { isOpen ? closeInnerPages() : history.back() }} />
+      <Header onBack={() => { isInnerOpen ? closeInnerPages() : history.back() }} />
 
-      {!isOpen && (
+      {!isInnerOpen && (
         <div className="p-4">
-          <MenuGroup className="--mt-5">
+          <div className="text-center text-[18px] leading-[24px] font-semibold">{t('chatType')}</div>
+          <div className="mt-2 text-center text-[14px] leading-[20px]">{t('chatTypeDescription')}</div>
+
+          <div className="mt-3 flex items-center p-1 rounded-[12px] bg-bg">
+            <div className="flex flex-grow basis-0">
+              <Button
+                theme="clear"
+                wrapperClassName="w-full"
+                className={cx(
+                  'w-full flex items-center justify-center gap-[2px] p-2 rounded-[8px]',
+                  Math.random() > 0 ? 'bg-text/5' : 'text-text/70',
+                )}
+                text={
+                  <>
+                    <ModePersonalIcon className="h-6 w-6" />
+                    <span>{t('personalExpenses')}</span>
+                  </>
+                }
+                onClick={() => { /* */ }}
+              />
+            </div>
+            <div className="flex flex-grow basis-0">
+              <Button
+                theme="clear"
+                wrapperClassName="w-full"
+                className={cx(
+                  'w-full flex items-center justify-center gap-[2px] p-2 rounded-[8px]',
+                  Math.random() < 0 ? 'bg-text/5' : 'text-text/70',
+                )}
+                text={
+                  <>
+                    <ModeGroupIcon className="h-6 w-6" />
+                    <span>{t('splittingBills')}</span>
+                  </>
+                }
+                onClick={() => { /* */ }}
+              />
+            </div>
+          </div>
+
+
+          <MenuGroup className="mt-5">
             <MenuItem
               icon={<SettingsCurrencyIcon />}
               title={t('currency')}

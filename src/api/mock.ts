@@ -101,6 +101,7 @@ const _mockChat: TChat = {
   is_admin: false,
   silent_mode: false,
   rates: mockRates,
+  mode: 'family',
 }
 
 // demo data
@@ -246,6 +247,7 @@ const demoChat: TChat = {
   is_admin: false,
   silent_mode: false,
   rates: mockRates,
+  mode: 'family',
 }
 
 const isDemo = true
