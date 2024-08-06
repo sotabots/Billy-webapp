@@ -12,7 +12,7 @@ import MenuItem from '../kit/MenuItem'
 import MenuGroup from '../kit/MenuGroup'
 import RadioButton from '../kit/RadioButton'
 
-import { usePostChatCurrency, usePostChatLanguage, usePostChatSilent, useGetChat } from '../api'
+import { usePostChatCurrency, usePostChatLanguage, usePostChatSilent, useGetChat, usePostChatMonthlyLimit, usePostChatCashback } from '../api'
 import { useChatId, useInit, useFeedback } from '../hooks'
 import { useStore } from '../store'
 import { TCurrencyId, TLanguageCode } from '../types'
@@ -33,28 +33,30 @@ function Settings() {
   const { currencies, chat } = useStore()
   const { feedback } = useFeedback()
 
+  const [isCurrencyOpen, setIsCurrencyOpen] = useState(false)
+  const [isLanguageOpen, setIsLanguageOpen] = useState(false)
+  const [isLimitOpen, setIsLimitOpen] = useState(false)
+  const [isCashbackOpen, setIsCashbackOpen] = useState(false)
+
+  const isInnerOpen = isCurrencyOpen || isLanguageOpen || isLimitOpen || isCashbackOpen
+
   const closeInnerPages = () => {
     setIsCurrencyOpen(false)
     setIsLanguageOpen(false)
+    setIsLimitOpen(false)
+    setIsCashbackOpen(false)
   }
 
-  const [isCurrencyOpen, setIsCurrencyOpen] = useState(false)
-  const [isLanguageOpen, setIsLanguageOpen] = useState(false)
+  const [monthlyLimit, setMonthlyLimit] = useState(chat?.monthly_limit || 0)
+  const [cashback, setCashback] = useState(chat?.cashback || 0)
 
-  /*
-  const [currency, setCurrency] = useState<TCurrencyId>(chat?.default_currency || 'USD')
-
-  useEffect(() => {
-    setCurrency(chat?.default_currency || 'USD')
-  }, [chat?.default_currency, setCurrency])
-  */
-
-  const isInnerOpen = isCurrencyOpen || isLanguageOpen
-  const [/*isBusy*/, setBusy] = useState(false)
+  const [isBusy, setBusy] = useState(false)
 
   const postChatCurrency = usePostChatCurrency()
   const postChatLanguage = usePostChatLanguage()
   const postChatSilent = usePostChatSilent()
+  const postChatMonthlyLimit = usePostChatMonthlyLimit()
+  const postChatCashback = usePostChatCashback()
 
   const [impactOccurred, , selectionChanged] = useHapticFeedback()
 
@@ -121,6 +123,37 @@ function Settings() {
     setBusy(false)
   }
 
+  const saveMonthlyLimit = async () => {
+    impactOccurred('medium')
+    setBusy(true)
+    let isSuccess = true
+    try {
+      await postChatMonthlyLimit(monthlyLimit)
+    } catch {
+      isSuccess = false
+    }
+
+    if (isSuccess) {
+      refetchChat()
+    }
+    setBusy(false)
+  }
+
+  const saveCashback = async () => {
+    impactOccurred('medium')
+    setBusy(true)
+    let isSuccess = true
+    try {
+      await postChatCashback(cashback)
+    } catch {
+      isSuccess = false
+    }
+
+    if (isSuccess) {
+      refetchChat()
+    }
+    setBusy(false)
+  }
 
   const langs: {
     _id: TLanguageCode,
@@ -218,19 +251,17 @@ function Settings() {
             />
             <Divider className="mr-0 !bg-[#D5DADD]" />
             <MenuItem
-              icon={<SettingsCashbackIcon />}
-              title={t('cashback')}
-              value={t('soon') || t('setCashback')}
-              disabled={true}
-              onClick={() => { /**/ }}
+              icon={<SettingsLimitIcon />}
+              title={t('monthlyLimit')}
+              value={t('setLimit')}
+              onClick={() => { setIsLimitOpen(true) }}
             />
             <Divider className="mr-0 !bg-[#D5DADD]" />
             <MenuItem
-              icon={<SettingsLimitIcon />}
-              title={t('monthlyLimit')}
-              value={t('soon') || t('setLimit')}
-              disabled={true}
-              onClick={() => { /**/ }}
+              icon={<SettingsCashbackIcon />}
+              title={t('cashback')}
+              value={t('setCashback')}
+              onClick={() => { setIsCashbackOpen(true) }}
             />
           </MenuGroup>
 
@@ -319,6 +350,46 @@ function Settings() {
             isBusy={isBusy}
           />
           */}
+        </>
+      )}
+
+      {isLimitOpen && (
+        <>
+          <div className="px-4">
+            {t('setMonthlyMaximum')}
+          </div>
+          <div className="mt-4 overflow-y-auto">
+            <input
+              value={monthlyLimit}
+              onChange={(e) => { setMonthlyLimit(Number(e.target.value)) }}
+            />
+          </div>
+          <Button
+            isBottom
+            text={t('apply')}
+            onClick={() => { saveMonthlyLimit() }}
+            isBusy={isBusy}
+          />
+        </>
+      )}
+
+      {isCashbackOpen && (
+        <>
+          <div className="px-4">
+            {t('setMonthlyMaximum')}
+          </div>
+          <div className="mt-4 overflow-y-auto">
+          <input
+              value={monthlyLimit}
+              onChange={(e) => { setCashback(Number(e.target.value)) }}
+            />
+          </div>
+          <Button
+            isBottom
+            text={t('apply')}
+            onClick={() => { saveCashback() }}
+            isBusy={isBusy}
+          />
         </>
       )}
     </Screen>

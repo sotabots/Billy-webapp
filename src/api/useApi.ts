@@ -310,6 +310,46 @@ export const usePostChatSilent = () => {
     }).then(handleJsonResponse)
 }
 
+export const usePostChatMonthlyLimit = () => {
+  const [, initData] = useInitData()
+  const { chatId } = useChatId()
+  const url = chatId === 0
+    ? 'https://jsonplaceholder.typicode.com/posts'
+    : `${apiUrl}/chat/${chatId}/monthly_limit`
+
+  return (monthlyLimit: number) =>
+    fetch(url, {
+      method: 'POST',
+      body: JSON.stringify({
+        monthly_limit: monthlyLimit,
+      }),
+      headers: {
+        'Content-type': 'application/json',
+        'Authorization': initData,
+      },
+    }).then(handleJsonResponse)
+}
+
+export const usePostChatCashback = () => {
+  const [, initData] = useInitData()
+  const { chatId } = useChatId()
+  const url = chatId === 0
+    ? 'https://jsonplaceholder.typicode.com/posts'
+    : `${apiUrl}/chat/${chatId}/cashback`
+
+  return (cashback: number) =>
+    fetch(url, {
+      method: 'POST',
+      body: JSON.stringify({
+        cashback: cashback,
+      }),
+      headers: {
+        'Content-type': 'application/json',
+        'Authorization': initData,
+      },
+    }).then(handleJsonResponse)
+}
+
 export const useGetSummarySheetRebuild = () => {
   const [, initData] = useInitData()
   const { summaryId } = useStore()
