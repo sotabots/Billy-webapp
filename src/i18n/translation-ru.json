@@ -79,6 +79,10 @@
   "detailedSummary": "Детализация",
   "addTransaction": "Добавить трату",
 
+  "chatType": "Тип чата",
+  "chatTypeDescription": "Для личных расходов у вас есть ежемесячные лимиты, в противном случае их нет",
+  "personalExpenses": "Личные Расходы",
+  "splittingBills": "Разделение Счетов",
   "currency": "Валюта",
   "language": "Язык",
   "cashback": "Кешбэк",

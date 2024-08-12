@@ -79,6 +79,10 @@
   "detailedSummary": "Detailed summary",
   "addTransaction": "Add Expense",
 
+  "chatType": "Chat type",
+  "chatTypeDescription": "For personal expenses you have monthly limits, otherwise you don’t have it",
+  "personalExpenses": "Personal Expenses",
+  "splittingBills": "Splitting Bills",
   "currency": "Currency",
   "language": "Language",
   "cashback": "Cashback",
