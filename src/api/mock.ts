@@ -102,6 +102,8 @@ const _mockChat: TChat = {
   silent_mode: false,
   rates: mockRates,
   mode: 'family',
+  cashback: 0,
+  monthly_limit: 0,
 }
 
 // demo data
@@ -248,6 +250,8 @@ const demoChat: TChat = {
   silent_mode: false,
   rates: mockRates,
   mode: 'family',
+  cashback: 0,
+  monthly_limit: 0,
 }
 
 const isDemo = true
