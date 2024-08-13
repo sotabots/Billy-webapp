@@ -11,6 +11,7 @@ import Divider from '../kit/Divider'
 import MenuItem from '../kit/MenuItem'
 import MenuGroup from '../kit/MenuGroup'
 import RadioButton from '../kit/RadioButton'
+import InputAmount from '../kit/InputAmount'
 
 import { usePostChatCurrency, usePostChatLanguage, usePostChatSilent, useGetChat, usePostChatMode, usePostChatMonthlyLimit, usePostChatCashback } from '../api'
 import { useChatId, useInit, useFeedback } from '../hooks'
@@ -374,14 +375,17 @@ function Settings() {
 
       {isLimitOpen && (
         <>
-          <div className="px-4">
-            {t('setMonthlyMaximum')}
-          </div>
-          <div className="mt-4 overflow-y-auto">
-            <input
-              value={monthlyLimit}
-              onChange={(e) => { setMonthlyLimit(Number(e.target.value)) }}
-            />
+          <div className="text-center mt-[140px]">
+            <div className="px-4 text-[#84919A]">
+              {t('setMonthlyMaximum')}
+            </div>
+            <div className="mt-4 overflow-y-auto">
+              <InputAmount
+                amount={monthlyLimit}
+                onChange={setMonthlyLimit}
+                decimals={0}
+              />
+            </div>
           </div>
           <Button
             isBottom
@@ -394,14 +398,17 @@ function Settings() {
 
       {isCashbackOpen && (
         <>
-          <div className="px-4">
-            {t('setMonthlyMaximum')}
-          </div>
-          <div className="mt-4 overflow-y-auto">
-          <input
-              value={monthlyLimit}
-              onChange={(e) => { setCashback(Number(e.target.value)) }}
-            />
+          <div className="text-center mt-[140px]">
+            <div className="px-4 text-[#84919A]">
+              {t('setMonthlyMaximum')}
+            </div>
+            <div className="mt-4 overflow-y-auto">
+              <InputAmount
+                amount={cashback}
+                onChange={setCashback}
+                decimals={0}
+              />
+            </div>
           </div>
           <Button
             isBottom

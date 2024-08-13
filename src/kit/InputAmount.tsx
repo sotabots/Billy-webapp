@@ -4,13 +4,8 @@ import { useEffect, useState, useRef } from 'react'
 import { formatAmount, unformatAmount } from '../utils'
 import { visible_decimals } from '../const'
 
-type TInputAmount = {
-  amount: number
-  onChange?: (value: number) => void
-}
-
-const filter = (oldString: string, newStringRaw: string) => {
-  const MAX_DECIMALS = visible_decimals
+const filter = (oldString: string, newStringRaw: string, decimals: number) => {
+  const MAX_DECIMALS = decimals
   const MAX_LENGTH = 10
 
   const WITHOUT_CHARS = /[^0-9.]/
@@ -25,6 +20,10 @@ const filter = (oldString: string, newStringRaw: string) => {
     return oldString
   }
 
+  if (MAX_DECIMALS === 0 && newString.includes('.')) {
+    return oldString
+  }
+
   const [oldStringBeforeDot, oldStringAfterDot] = oldString.split('.')
   const [newStringBeforeDot, newStringAfterDot] = newString.split('.')
 
@@ -33,6 +32,7 @@ const filter = (oldString: string, newStringRaw: string) => {
   }
 
   if (
+    MAX_DECIMALS > 0 &&
     oldStringAfterDot === '0'.repeat(MAX_DECIMALS - 1) &&
     newStringAfterDot === '0'.repeat(MAX_DECIMALS)
   ) {
@@ -43,7 +43,7 @@ const filter = (oldString: string, newStringRaw: string) => {
     return oldString
   }
 
-  if (oldString === '' && newString === '.') {
+  if (MAX_DECIMALS > 0 && oldString === '' && newString === '.') {
     return '0.'
   }
 
@@ -51,20 +51,24 @@ const filter = (oldString: string, newStringRaw: string) => {
     return ''
   }
 
-  if (oldString !== '0.' && newString === '0') {
+  if (MAX_DECIMALS > 0 && oldString !== '0.' && newString === '0') {
     return '0.'
   }
 
   return newString
 }
 
-function InputAmount({ amount, onChange }: TInputAmount) {
-  const [currentString, setCurrentString] = useState<string>(formatAmount(amount))
+function InputAmount({ amount, onChange, decimals = visible_decimals }: {
+  amount: number
+  onChange?: (value: number) => void
+  decimals?: number
+}) {
+  const [currentString, setCurrentString] = useState<string>(formatAmount(amount, decimals))
 
   useEffect(() => {
     const currentAmount = unformatAmount(currentString)
     if (amount !== currentAmount) {
-      setCurrentString(formatAmount(amount))
+      setCurrentString(formatAmount(amount, decimals))
     }
   }, [amount, currentString])
 
@@ -73,14 +77,14 @@ function InputAmount({ amount, onChange }: TInputAmount) {
       return
     }
     const changedString = e.target.value
-    const newString = filter(currentString, changedString)
+    const newString = filter(currentString, changedString, decimals)
     setCurrentString(newString)
     const newAmount = unformatAmount(newString)
     onChange(newAmount)
   }
 
   const onBlur = () => {
-    setCurrentString(formatAmount(amount))
+    setCurrentString(formatAmount(amount, decimals))
   }
 
   const inputRef = useRef<HTMLInputElement>(null)
