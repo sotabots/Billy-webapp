@@ -276,19 +276,22 @@ function Settings() {
               }}
             />
             <Divider className="mr-0 !bg-[#D5DADD]" />
-            <MenuItem
-              icon={<SettingsLimitIcon />}
-              title={t('monthlyLimit')}
-              value={chat?.monthly_limit ? `${formatAmount(chat.monthly_limit)}${chatCurrency?.symbol}` : t('setLimit')}
-              onClick={() => { setIsLimitOpen(true) }}
-            />
-            <Divider className="mr-0 !bg-[#D5DADD]" />
-            <MenuItem
-              icon={<SettingsCashbackIcon />}
-              title={t('cashback')}
-              value={cashback ? `${cashback}%` : t('setCashback')}
-              onClick={() => { setIsCashbackOpen(true) }}
-            />
+            {!!chat && chat.mode === 'family' &&
+              <MenuItem
+                icon={<SettingsLimitIcon />}
+                title={t('monthlyLimit')}
+                value={chat?.monthly_limit ? `${formatAmount(chat.monthly_limit)}${chatCurrency?.symbol}` : t('setLimit')}
+                onClick={() => { setIsLimitOpen(true) }}
+              />
+            }
+            {!!chat && chat.mode === 'travel' &&
+              <MenuItem
+                icon={<SettingsCashbackIcon />}
+                title={t('cashback')}
+                value={cashback ? `${cashback}%` : t('setCashback')}
+                onClick={() => { setIsCashbackOpen(true) }}
+              />
+            }
           </MenuGroup>
 
           <MenuGroup className="mt-4">
