@@ -286,7 +286,7 @@ function Settings() {
             <MenuItem
               icon={<SettingsCashbackIcon />}
               title={t('cashback')}
-              value={chat?.cashback ? `${chat.cashback}%` : t('setCashback')}
+              value={cashback ? `${cashback}%` : t('setCashback')}
               onClick={() => { setIsCashbackOpen(true) }}
             />
           </MenuGroup>
