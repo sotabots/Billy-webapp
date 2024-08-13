@@ -14,9 +14,10 @@ import RadioButton from '../kit/RadioButton'
 import InputAmount from '../kit/InputAmount'
 
 import { usePostChatCurrency, usePostChatLanguage, usePostChatSilent, useGetChat, usePostChatMode, usePostChatMonthlyLimit, usePostChatCashback } from '../api'
-import { useChatId, useInit, useFeedback } from '../hooks'
+import { useChatId, useInit, useFeedback, useCurrencies } from '../hooks'
 import { useStore } from '../store'
 import { TCurrencyId, TLanguageCode, TMode } from '../types'
+import { formatAmount } from '../utils'
 
 import { ReactComponent as SettingsCurrencyIcon } from '../assets/settings-currency.svg'
 import { ReactComponent as SettingsLanguageIcon } from '../assets/settings-language.svg'
@@ -49,7 +50,7 @@ function Settings() {
   }
 
   const [monthlyLimit, setMonthlyLimit] = useState(chat?.monthly_limit || 0)
-  const [cashback, setCashback] = useState(chat?.cashback || 0)
+  const [cashback, setCashback] = useState((chat?.cashback || 0) * 100)
 
   const [isBusy, setBusy] = useState(false)
 
@@ -153,6 +154,7 @@ function Settings() {
 
     if (isSuccess) {
       refetchChat()
+      closeInnerPages()
     }
     setBusy(false)
   }
@@ -162,13 +164,14 @@ function Settings() {
     setBusy(true)
     let isSuccess = true
     try {
-      await postChatCashback(cashback)
+      await postChatCashback(cashback / 100)
     } catch {
       isSuccess = false
     }
 
     if (isSuccess) {
       refetchChat()
+      closeInnerPages()
     }
     setBusy(false)
   }
@@ -190,6 +193,9 @@ function Settings() {
       title: 'Український',
     },
   ]
+
+  const { getCurrencyById } = useCurrencies()
+  const chatCurrency = getCurrencyById(chat?.default_currency || 'USD')
 
   return (
     <Screen>
@@ -273,14 +279,14 @@ function Settings() {
             <MenuItem
               icon={<SettingsLimitIcon />}
               title={t('monthlyLimit')}
-              value={t('setLimit')}
+              value={chat?.monthly_limit ? `${formatAmount(chat.monthly_limit)}${chatCurrency?.symbol}` : t('setLimit')}
               onClick={() => { setIsLimitOpen(true) }}
             />
             <Divider className="mr-0 !bg-[#D5DADD]" />
             <MenuItem
               icon={<SettingsCashbackIcon />}
               title={t('cashback')}
-              value={t('setCashback')}
+              value={chat?.cashback ? `${chat.cashback}%` : t('setCashback')}
               onClick={() => { setIsCashbackOpen(true) }}
             />
           </MenuGroup>
@@ -377,13 +383,14 @@ function Settings() {
         <>
           <div className="text-center mt-[140px]">
             <div className="px-4 text-[#84919A]">
-              {t('setMonthlyMaximum')}
+              {t('setLimitTitle')}
             </div>
-            <div className="mt-4 overflow-y-auto">
+            <div className="mt-4">
               <InputAmount
                 amount={monthlyLimit}
                 onChange={setMonthlyLimit}
                 decimals={0}
+                unit={chatCurrency?.symbol}
               />
             </div>
           </div>
@@ -400,13 +407,15 @@ function Settings() {
         <>
           <div className="text-center mt-[140px]">
             <div className="px-4 text-[#84919A]">
-              {t('setMonthlyMaximum')}
+              {t('setCashbackTitle')}
             </div>
-            <div className="mt-4 overflow-y-auto">
+            <div className="mt-4">
               <InputAmount
                 amount={cashback}
                 onChange={setCashback}
                 decimals={0}
+                max={50}
+                unit={'%'}
               />
             </div>
           </div>

@@ -89,6 +89,8 @@
   "setCashback": "Set a cashback",
   "monthlyLimit": "Monthly limit",
   "setLimit": "Set a limit",
+  "setCashbackTitle": "Set chat’s cashback",
+  "setLimitTitle": "Set your monthly maximum",
   "soon": "(soon)",
   "chooseCurrency": "Choose a currency",
   "chooseLanguage": "Choose a language",
