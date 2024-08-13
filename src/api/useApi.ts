@@ -3,7 +3,7 @@ import { useQuery } from '@tanstack/react-query'
 
 import { useNewTx, useChatId } from '../hooks'
 import { useStore } from '../store'
-import { TCurrency, TCategories, TTransaction, TNewTransaction, TUser, TChat, TSummary, TCurrencyId, TLanguageCode } from '../types'
+import { TCurrency, TCategories, TTransaction, TNewTransaction, TUser, TChat, TSummary, TCurrencyId, TLanguageCode, TMode } from '../types'
 import {
   mockTransaction,
   mockUsers,
@@ -252,6 +252,24 @@ export const useGetTransactions = (chatId: undefined | number) => {
       staleTime
     })
   )
+}
+
+export const usePostChatMode = () => {
+  const [, initData] = useInitData()
+  const { chatId } = useChatId()
+  const url = chatId === 0
+    ? 'https://jsonplaceholder.typicode.com/posts'
+    : `${apiUrl}/chat/${chatId}/mode`
+
+  return (mode: TMode) =>
+    fetch(url, {
+      method: 'POST',
+      body: JSON.stringify({ mode }),
+      headers: {
+        'Content-type': 'application/json',
+        'Authorization': initData,
+      },
+    }).then(handleJsonResponse)
 }
 
 export const usePostChatCurrency = () => {

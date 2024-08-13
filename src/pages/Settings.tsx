@@ -12,10 +12,10 @@ import MenuItem from '../kit/MenuItem'
 import MenuGroup from '../kit/MenuGroup'
 import RadioButton from '../kit/RadioButton'
 
-import { usePostChatCurrency, usePostChatLanguage, usePostChatSilent, useGetChat, usePostChatMonthlyLimit, usePostChatCashback } from '../api'
+import { usePostChatCurrency, usePostChatLanguage, usePostChatSilent, useGetChat, usePostChatMode, usePostChatMonthlyLimit, usePostChatCashback } from '../api'
 import { useChatId, useInit, useFeedback } from '../hooks'
 import { useStore } from '../store'
-import { TCurrencyId, TLanguageCode } from '../types'
+import { TCurrencyId, TLanguageCode, TMode } from '../types'
 
 import { ReactComponent as SettingsCurrencyIcon } from '../assets/settings-currency.svg'
 import { ReactComponent as SettingsLanguageIcon } from '../assets/settings-language.svg'
@@ -52,6 +52,7 @@ function Settings() {
 
   const [isBusy, setBusy] = useState(false)
 
+  const postChatMode = usePostChatMode()
   const postChatCurrency = usePostChatCurrency()
   const postChatLanguage = usePostChatLanguage()
   const postChatSilent = usePostChatSilent()
@@ -62,6 +63,22 @@ function Settings() {
 
   const { chatId } = useChatId()
   const { refetch: refetchChat } = useGetChat(chatId)
+
+  const saveMode = async (mode: TMode) => {
+    impactOccurred('medium')
+    setBusy(true)
+    let isSuccess = true
+    try {
+      await postChatMode(mode)
+    } catch {
+      isSuccess = false
+    }
+
+    if (isSuccess) {
+      refetchChat()
+    }
+    setBusy(false)
+  }
 
   const onChangeCurrency = async (currencyId: TCurrencyId) => {
     selectionChanged()
@@ -189,7 +206,7 @@ function Settings() {
                 wrapperClassName="w-full"
                 className={cx(
                   'w-full flex items-center justify-center gap-[2px] p-2 rounded-[8px]',
-                  Math.random() > 0 ? 'bg-text/5' : 'text-text/70',
+                  chat?.mode === 'family' ? 'bg-text/5' : 'text-text/70',
                 )}
                 text={
                   <>
@@ -197,7 +214,8 @@ function Settings() {
                     <span>{t('personalExpenses')}</span>
                   </>
                 }
-                onClick={() => { /* */ }}
+                onClick={() => { saveMode('family') }}
+                disabled={!chat}
               />
             </div>
             <div className="flex flex-grow basis-0">
@@ -206,7 +224,7 @@ function Settings() {
                 wrapperClassName="w-full"
                 className={cx(
                   'w-full flex items-center justify-center gap-[2px] p-2 rounded-[8px]',
-                  Math.random() < 0 ? 'bg-text/5' : 'text-text/70',
+                  chat?.mode === 'travel' ? 'bg-text/5' : 'text-text/70',
                 )}
                 text={
                   <>
@@ -214,7 +232,8 @@ function Settings() {
                     <span>{t('splittingBills')}</span>
                   </>
                 }
-                onClick={() => { /* */ }}
+                onClick={() => { saveMode('travel') }}
+                disabled={!chat}
               />
             </div>
           </div>

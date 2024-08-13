@@ -67,12 +67,14 @@ export type TRates = {
   [key: string]: number
 }
 
+export type TMode = 'family' | 'travel'
+
 export type TChat = {
   default_currency: TCurrencyId | null
   language_code: TLanguageCode
   silent_mode: boolean
   is_admin: boolean
-  mode: 'family' | 'travel'
+  mode: TMode
   cashback: number
   monthly_limit: number
   rates: TRates
