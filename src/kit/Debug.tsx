@@ -83,6 +83,7 @@ function Debug() {
         </button>
         <br />
         */}
+        <a href="https://t.me/$57jAnvUn6ElOIwMAscGfUwoljzY">https://t.me/$57jAnvUn6ElOIwMAscGfUwoljzY</a>
         {out('window.Telegram?.WebApp', window.Telegram?.WebApp)}
         {out('location.href', location.href)}
         {out('txid', txId)}
