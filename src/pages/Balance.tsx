@@ -211,29 +211,21 @@ function Balance({
             />
           </div>
 
-          {chat?.default_currency && (
-            debtCurrencyIds.length > 1 ||
-            debtCurrencyIds.length === 1 && debtCurrencyIds[0] !== chat.default_currency
-          ) ? (
-            <Button
-              isBottom
-              color={'#7E10E5'}
-              text={`💎 ${t('convertAllTo')} ${chat.default_currency}`}
-              onClick={() => {
-                setFeedbackData({
-                  currency: chat.default_currency!,
-                  num_debts_mutli_currency: summary.debts.length
-                })
-                setSummaryCurrencyId(chat.default_currency)
-              }}
-            />
-          ) : (
-            <Button
-              isBottom
-              text={t('close')}
-              onClick={closeApp}
-            />
-          )}
+          <Button
+            isBottom
+            // color={'#7E10E5'}
+            text={`💱 ${t('convertAllTo')}`}
+            onClick={() => { setSummaryCurrencyId('USD') }}
+          />
+          {/*
+          todo: on select
+
+          setFeedbackData({
+                currency: chat.default_currency!,
+                num_debts_mutli_currency: summary.debts.length
+              })
+              setSummaryCurrencyId(chat.default_currency)
+          */}
         </>
       )}
 
