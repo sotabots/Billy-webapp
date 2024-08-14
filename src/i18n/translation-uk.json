@@ -80,9 +80,9 @@
   "addTransaction": "Додати витрату",
 
   "chatType": "Тип чату",
-  "chatTypeDescription": "Для особистих витрат у вас є місячні ліміти, інакше ви їх не маєте",
-  "personalExpenses": "Особисті Витрати",
-  "splittingBills": "Поділ векселів",
+  "chatTypeDescription": "Для особистого бюджету у вас є щомісячні ліміти, для розподілу чеків є кешбек",
+  "personalExpenses": "Особистий бюджет",
+  "splittingBills": "Розподіл чеків",
   "currency": "Валюта",
   "language": "Мова",
   "cashback": "Кешбек",

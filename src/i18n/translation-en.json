@@ -80,9 +80,9 @@
   "addTransaction": "Add Expense",
 
   "chatType": "Chat type",
-  "chatTypeDescription": "For personal expenses you have monthly limits, otherwise you don’t have it",
-  "personalExpenses": "Personal Expenses",
-  "splittingBills": "Splitting Bills",
+  "chatTypeDescription": "For personal budget you have monthly limits, for sharing bills you have cashback option",
+  "personalExpenses": "Personal budget",
+  "splittingBills": "Share bills",
   "currency": "Currency",
   "language": "Language",
   "cashback": "Cashback",
