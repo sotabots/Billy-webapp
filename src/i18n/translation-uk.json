@@ -74,7 +74,8 @@
   "myBalance": "Мій баланс",
   "statusUnconfirmed": "Не підтверджено",
   "statusCanceled": "Скасовано",
-  "statusEditedBy": "Редаговано:",
+  "statusEditedBy": "Ред.:",
+  "statusCreatedBy": "Створено:",
 
   "detailedSummary": "Деталізація",
   "addTransaction": "Додати витрату",

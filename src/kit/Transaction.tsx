@@ -30,6 +30,7 @@ const Transaction = ({ tx }: { tx: TTransaction }) => {
   const payerShares = tx.shares
     .filter(share => share.is_payer)
 
+  const creator = !tx.creator_user_id ? null : getUserById(tx.creator_user_id) || null
   const editor = !tx.editor_user_id ? null : getUserById(tx.editor_user_id) || null
 
   const currency = getCurrencyById(tx.currency_id)
@@ -80,9 +81,15 @@ const Transaction = ({ tx }: { tx: TTransaction }) => {
               color: '#CC0905',
               text: t('statusCanceled'),
             }] : []),
-            ...(editor ? [{
-              text: `${t('statusEditedBy')} ${[editor.first_name, editor.last_name].filter(_ => _).join(' ') }`,
-            }] : []),
+            ...(editor
+              ? [{
+                  text: `${t('statusEditedBy')} ${[editor.first_name, editor.last_name].filter(_ => _).join(' ') }`,
+                }]
+              : creator
+                ? [{
+                    text: `${t('statusCreatedBy')} ${[creator.first_name, creator.last_name].filter(_ => _).join(' ') }`,
+                  }]
+                : []),
           ].map(tag => (
             <div
               key={tag.text}

@@ -74,7 +74,8 @@
   "myBalance": "Мой баланс",
   "statusUnconfirmed": "Не подтверждено",
   "statusCanceled": "Отменено",
-  "statusEditedBy": "Отредактировано:",
+  "statusEditedBy": "Ред.:",
+  "statusCreatedBy": "Создано:",
 
   "detailedSummary": "Детализация",
   "addTransaction": "Добавить трату",
