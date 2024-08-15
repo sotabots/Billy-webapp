@@ -146,14 +146,15 @@ function Balance({
 
   const [feedbackData, setFeedbackData] = useState<null | {
     currency: string,
-    num_debts_mutli_currency: number
+    // num_debts_mutli_currency: number
   }>(null)
 
   useEffect(() => {
     if (feedbackData && chat?.default_currency && summary?.debts && debtCurrencyIds.length === 1 && debtCurrencyIds[0] === chat.default_currency)
     feedback('show_single_currency_balances_web', {
       currency: feedbackData.currency,
-      num_debts_mutli_currency: feedbackData.num_debts_mutli_currency,
+      // todo: fix
+      // num_debts_mutli_currency: feedbackData.num_debts_mutli_currency,
       num_debts_single_currency: summary.debts.length,
     })
     setFeedbackData(null)
@@ -186,7 +187,7 @@ function Balance({
           onChange={(currencyId: TCurrencyId) => {
             setFeedbackData({
               currency: currencyId,
-              num_debts_mutli_currency: summary.debts.length
+              // num_debts_mutli_currency: summary.debts.length
             })
             setSummaryCurrencyId(currencyId)
             setIsCurrencyOpen(false)
