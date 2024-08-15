@@ -51,7 +51,7 @@ function Balance({
   const { feedback } = useFeedback()
 
   const { refetch: refetchSummary } = useGetSummary()
-  const { summary, summaryCurrencyId, setSummaryCurrencyId, chat, users, setTxPatchError } = useStore()
+  const { summary, summaryCurrencyId, setSummaryCurrencyId, chat, users, setTxPatchError, isDebug } = useStore()
   const { getCurrencyById } = useCurrencies()
 
   const selectedDebt = (summary?.debts || []).find(debt => JSON.stringify(debt) === selectedDebtId)
@@ -169,7 +169,7 @@ function Balance({
       <>
         <div className=" flex items-center justify-between gap-3 px-4">
           <h2>{t('selectCurrency')}</h2>
-          {summaryCurrencyId !== null &&
+          {isDebug && summaryCurrencyId !== null &&
             <Button
               theme="clear"
               className="flex items-center justify-center gap-[2px] px-2 text-button"
