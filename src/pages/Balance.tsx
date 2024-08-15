@@ -12,17 +12,20 @@ import Debt from '../kit/Debt'
 import DebtDetailed from '../kit/DebtDetailed'
 import Divider from '../kit/Divider'
 import UserButton from '../kit/UserButton'
+import Currencies from '../kit/Currencies'
 
 import { usePostTransaction, useGetSummary } from '../api'
 import { useBalance, useCurrencies, useFeedback, useSummary } from '../hooks'
 import { useStore } from '../store'
-import { TNewTransaction, TUserId } from '../types'
+import { TCurrencyId, TNewTransaction, TUserId } from '../types'
 import { formatAmount, closeApp } from '../utils'
 
 import lottieKoalaSettledUp from '../assets/animation-koala-settled-up.json'
 import lottieKoalaSuccess from '../assets/animation-koala-success.json'
 
 function Balance({
+  isCurrencyOpen,
+  setIsCurrencyOpen,
   selectedDebtId,
   setSelectedDebtId,
   isRecipientsOpen,
@@ -31,6 +34,8 @@ function Balance({
   setCustomRecipientId,
   goDetailed,
 }: {
+  isCurrencyOpen: boolean
+  setIsCurrencyOpen: (isCurrencyOpen: boolean) => void
   selectedDebtId: null | string
   setSelectedDebtId: (selectedDebtId: null | string) => void
   isRecipientsOpen: boolean
@@ -46,7 +51,7 @@ function Balance({
   const { feedback } = useFeedback()
 
   const { refetch: refetchSummary } = useGetSummary()
-  const { summary, /*setSummary,*/ setSummaryCurrencyId, chat, users, setTxPatchError } = useStore()
+  const { summary, summaryCurrencyId, setSummaryCurrencyId, chat, users, setTxPatchError } = useStore()
   const { getCurrencyById } = useCurrencies()
 
   const selectedDebt = (summary?.debts || []).find(debt => JSON.stringify(debt) === selectedDebtId)
@@ -158,6 +163,28 @@ function Balance({
     return null
   }
 
+  if (isCurrencyOpen) {
+    return (
+      <>
+        <div className="px-4">
+          <h2>{t('selectCurrency')}</h2>
+        </div>
+        <Currencies
+          className="mt-4"
+          value={summaryCurrencyId || chat?.default_currency}
+          onChange={(currencyId: TCurrencyId) => {
+            setFeedbackData({
+              currency: currencyId,
+              num_debts_mutli_currency: summary.debts.length
+            })
+            setSummaryCurrencyId(currencyId)
+            setIsCurrencyOpen(false)
+          }}
+        />
+      </>
+    )
+  }
+
   return (
     <>
       {!selectedDebt && summary?.debts && summary.debts.length > 0 && (
@@ -215,17 +242,8 @@ function Balance({
             isBottom
             // color={'#7E10E5'}
             text={`💱 ${t('convertAllTo')}`}
-            onClick={() => { setSummaryCurrencyId('USD') }}
+            onClick={() => { setIsCurrencyOpen(true) }}
           />
-          {/*
-          todo: on select
-
-          setFeedbackData({
-                currency: chat.default_currency!,
-                num_debts_mutli_currency: summary.debts.length
-              })
-              setSummaryCurrencyId(chat.default_currency)
-          */}
         </>
       )}
 
