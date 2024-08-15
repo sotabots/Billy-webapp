@@ -166,8 +166,19 @@ function Balance({
   if (isCurrencyOpen) {
     return (
       <>
-        <div className="px-4">
+        <div className=" flex items-center justify-between gap-3 px-4">
           <h2>{t('selectCurrency')}</h2>
+          {summaryCurrencyId !== null &&
+            <Button
+              theme="clear"
+              className="flex items-center justify-center gap-[2px] px-2 text-button"
+              text={t('reset')}
+              onClick={() => {
+                setSummaryCurrencyId(null)
+                setIsCurrencyOpen(false)
+              }}
+            />
+          }
         </div>
         <Currencies
           className="mt-4"
