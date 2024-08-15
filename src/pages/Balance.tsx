@@ -150,7 +150,7 @@ function Balance({
   }>(null)
 
   useEffect(() => {
-    if (feedbackData && chat?.default_currency && summary?.debts && debtCurrencyIds.length === 1 && debtCurrencyIds[0] === chat.default_currency)
+    if (feedbackData && summaryCurrencyId && summary?.debts && debtCurrencyIds.length === 1 && debtCurrencyIds[0] === summaryCurrencyId)
     feedback('show_single_currency_balances_web', {
       currency: feedbackData.currency,
       // todo: fix
@@ -158,7 +158,7 @@ function Balance({
       num_debts_single_currency: summary.debts.length,
     })
     setFeedbackData(null)
-  }, [feedback, feedbackData, setFeedbackData, chat?.default_currency, summary?.debts, debtCurrencyIds])
+  }, [feedback, feedbackData, setFeedbackData, summaryCurrencyId, summary?.debts, debtCurrencyIds])
 
   if (!summary) {
     return null
