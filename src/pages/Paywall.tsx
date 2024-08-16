@@ -10,6 +10,7 @@ import Panel from '../kit/Panel'
 import { useInit /*, useFeedback */ } from '../hooks'
 
 import lottieKoalaStars from '../assets/animation-koala-stars.json'
+import { ReactComponent as CheckColored } from '../assets/check-colored.svg'
 import star from '../assets/star.png'
 
 function Paywall() {
@@ -56,11 +57,20 @@ function Paywall() {
               />
             </div>
           </div>
+          <div className="flex flex-col gap-2">
+            {['featureExpenses', 'featureCategories', 'featureCashback'].map(_ => (
+              <div className="flex gap-1 items-center text-[14px] leading-[24px] font-semibold">
+                <CheckColored />
+                {t(_)}
+              </div>
+            ))}
+          </div>
         </div>
       </Panel>
 
       <Button
         theme="clear"
+        wrapperClassName="mt-10"
         className="flex items-center justify-center gap-2 w-full h-[50px] rounded-[6px] bg-gradient-to-r from-[#1C6ED8] to-[#0CD7E4] text-[#F6F8F9] text-[14px] font-semibold"
         text={
           <>
