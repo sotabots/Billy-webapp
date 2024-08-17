@@ -83,7 +83,7 @@ function Debug() {
         </button>
         <br />
         */}
-        <a href="/#/paywall">Go paywall</a>
+        <a href="/Billy-webapp/#/paywall">Go paywall</a>
         <br />
         <br />
         {/* <a href="https://t.me/$57jAnvUn6ElOIwMAscGfUwoljzY">https://t.me/$57jAnvUn6ElOIwMAscGfUwoljzY</a> */}
