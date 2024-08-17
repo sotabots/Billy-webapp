@@ -46,10 +46,14 @@ function Paywall() {
   const postPayment = usePostPayment()
 
   const goPay = async () => {
-    const invoice = await postPayment({ amount: plan })
-    console.log(invoice)
-    // const link = 'https://t.me/$57jAnvUn6ElOIwMAscGfUwoljzY'
-    // location.replace(link)
+    try {
+      const invoice = await postPayment({ amount: plan })
+      if (invoice?.url) {
+        location.replace(invoice.url)
+      }
+    } catch (e) {
+      console.error(e)
+    }
   }
 
   return (
