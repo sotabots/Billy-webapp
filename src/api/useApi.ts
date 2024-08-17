@@ -406,3 +406,24 @@ export const usePostUserOnboarding = () => {
       },
     }).then(handleJsonResponse)
 }
+
+export const usePostPayment = () => {
+  const [, initData] = useInitData()
+
+  return ({ amount }: {
+    amount: number
+  }) => {
+    const url = `${apiUrl}/payments/?${new URLSearchParams({
+      amount: String(amount)
+    })}`
+    return fetch(url, {
+      method: 'POST',
+      // body: JSON.stringify({
+      // }),
+      headers: {
+        'Content-type': 'application/json',
+        'Authorization': initData,
+      },
+    }).then(handleJsonResponse)
+  }
+}

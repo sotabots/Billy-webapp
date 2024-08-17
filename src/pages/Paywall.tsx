@@ -10,6 +10,7 @@ import Divider from '../kit/Divider'
 import Plan from '../kit/Plan'
 
 import { useInit /*, useFeedback */ } from '../hooks'
+import { usePostPayment } from '../api'
 
 import lottieKoalaStars from '../assets/animation-koala-stars.json'
 import { ReactComponent as CheckColored } from '../assets/check-colored.svg'
@@ -39,9 +40,17 @@ function Paywall() {
     '-webkit-text-fill-color': 'transparent',
   }
 
-  const link = 'https://t.me/$57jAnvUn6ElOIwMAscGfUwoljzY'
 
   const [plan, setPlan] = useState(20)
+
+  const postPayment = usePostPayment()
+
+  const goPay = async () => {
+    const invoice = await postPayment({ amount: plan })
+    console.log(invoice)
+    // const link = 'https://t.me/$57jAnvUn6ElOIwMAscGfUwoljzY'
+    // location.replace(link)
+  }
 
   return (
     <Screen>
@@ -74,8 +83,17 @@ function Paywall() {
 
       <div className="p-4 pb-6">
         <Plan
+          label={'Test'}
+          title={`0 ${t('days')}`}
+          stars={1}
+          fiat={`0 ₽`}
+          isActive={plan === 1}
+          onClick={() => { setPlan(1) }}
+        />
+        <Divider className="my-3 mx-0" />
+
+        <Plan
           label={t('forWeekend')}
-          labelColor={'#000000'}
           title={`3 ${t('days')}`}
           stars={20}
           fiat={`299₽`}
@@ -124,7 +142,7 @@ function Paywall() {
               <img src={star} className="w-6 h-6" />
             </>
           }
-          onClick={() => { location.replace(link) }}
+          onClick={goPay}
         />
       </div>
     </Screen>

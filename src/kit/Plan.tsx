@@ -43,7 +43,7 @@ function Plan({ className, label, labelColor, title, stars, fiat, discount, isAc
           <div className="rounded-[14px] bg-bg text-[#6E7C87] text-left">
             {label &&
               <div
-                className="absolute left-[10px] -top-[14px] inline-block mb-1 px-2 py-[2px] rounded-[20px] text-[#ffffff] text-[13px] leading-[18px] font-semibold"
+                className="absolute left-[10px] -top-[14px] inline-block mb-1 px-2 py-[2px] rounded-[20px] text-[#ffffff] text-[13px] leading-[18px] font-semibold bg-text"
                 style={{ backgroundColor: labelColor }}
               >
                 {label}
