@@ -1,6 +1,6 @@
 import cx from 'classnames'
 import { useCallback, useEffect, useState } from 'react'
-// import { useNavigate } from 'react-router-dom'
+import { useNavigate } from 'react-router-dom'
 
 import { useChatId } from '../hooks'
 import { useStore } from '../store'
@@ -13,7 +13,7 @@ function Debug() {
   const { transaction, users, txId, summaryId, summaryCurrencyId, setSummaryCurrencyId, summary, chat, currencies, categories, transactions, isDebug, setDebug } = useStore()
   const { chatId } = useChatId()
 
-  // const navigate = useNavigate()
+  const navigate = useNavigate()
 
   const [n, setN] = useState(0)
 
@@ -74,16 +74,18 @@ function Debug() {
           ))
         )}
         <br />
-        {/*
+
         <button
           className="m-1 p-1 block border border-black"
-          onClick={() => { navigate('/soon') }}
+          onClick={() => { navigate('/paywall') }}
         >
-          <b>Go soon</b>
+          <b>Go paywall</b>
         </button>
         <br />
-        */}
+        
+        {/*
         <a href="https://t.me/$57jAnvUn6ElOIwMAscGfUwoljzY">https://t.me/$57jAnvUn6ElOIwMAscGfUwoljzY</a>
+        */}
         {out('window.Telegram?.WebApp', window.Telegram?.WebApp)}
         {out('location.href', location.href)}
         {out('txid', txId)}
