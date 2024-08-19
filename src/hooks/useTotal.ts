@@ -1,9 +1,8 @@
 import { useInitData } from '@vkruglikov/react-telegram-web-app'
 
-import { useCurrencies } from '../hooks'
+import { useCurrencies, useStore } from '../hooks'
 import { formatAmount } from '../utils'
 
-import { useStore } from '../store'
 import { TTransaction } from '../types'
 
 export const useTotal = ({ filteredTransactions }: { filteredTransactions: TTransaction[] }) => {

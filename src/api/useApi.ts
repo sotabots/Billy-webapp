@@ -1,8 +1,7 @@
 import { useInitData } from '@vkruglikov/react-telegram-web-app'
 import { useQuery } from '@tanstack/react-query'
 
-import { useNewTx, useChatId } from '../hooks'
-import { useStore } from '../store'
+import { useNewTx, useChatId, useStore } from '../hooks'
 import { TCurrency, TCategories, TTransaction, TNewTransaction, TUser, TChat, TSummary, TCurrencyId, TLanguageCode, TMode } from '../types'
 import {
   mockTransaction,

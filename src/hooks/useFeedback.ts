@@ -1,7 +1,6 @@
 import mixpanel from 'mixpanel-browser'
 
-import { useChatId } from '../hooks'
-import { useStore } from '../store'
+import { useStore, useChatId } from '../hooks'
 
 const envToken = import.meta.env.VITE_FEEDBACK_TOKEN
 const isToken = !!envToken

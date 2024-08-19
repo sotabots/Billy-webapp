@@ -1,6 +1,6 @@
 import { useHapticFeedback } from '@vkruglikov/react-telegram-web-app'
 
-import { useStore } from '../store'
+import { useStore } from './'
 import type { TUser, TUserId, TShare } from '../types'
 
 export const useUsers = () => {

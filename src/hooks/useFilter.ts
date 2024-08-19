@@ -3,7 +3,7 @@ import { useState } from 'react'
 
 import { TTransaction } from '../types'
 
-import { useStore } from '../store'
+import { useStore } from './'
 
 export const useFilter = () => {
   const [initDataUnsafe] = useInitData()

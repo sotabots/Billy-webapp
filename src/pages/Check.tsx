@@ -18,8 +18,7 @@ import Toggle from '../kit/Toggle'
 import { useGetTx, useGetTransactions, useGetSummary } from '../api'
 
 import { decimals } from '../const'
-import { useCurrencies, useInit, useChatId, useFeedback, useTransaction, useUsers } from '../hooks'
-import { useStore } from '../store'
+import { useStore, useCurrencies, useInit, useChatId, useFeedback, useTransaction, useUsers } from '../hooks'
 import { usePostTransaction, usePutTransaction } from '../api'
 
 import type { TNewTransaction, TShare, TTransaction, TLanguageCode } from '../types'

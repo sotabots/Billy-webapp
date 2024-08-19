@@ -2,7 +2,7 @@ import { MainButton, useHapticFeedback, useWebApp } from '@vkruglikov/react-tele
 import cx from 'classnames'
 import { ReactNode } from 'react'
 
-import { useStore } from '../store'
+import { useStore } from '../hooks'
 
 import Limiter from './Limiter'
 import Loader from './Loader'

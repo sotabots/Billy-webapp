@@ -7,12 +7,11 @@ import { TTransaction } from '../types'
 import Button from './Button'
 import CategoryAvatar from './CategoryAvatar'
 
-import { useUsers, useCurrencies, useFeedback, useTransaction } from '../hooks'
+import { useStore, useUsers, useCurrencies, useFeedback, useTransaction } from '../hooks'
 
 import { ReactComponent as EditIcon } from '../assets/edit.svg'
 import { ReactComponent as CashbackIcon } from '../assets/cashback.svg'
 
-import { useStore } from '../store'
 import { formatAmount } from '../utils'
 
 const Transaction = ({ tx }: { tx: TTransaction }) => {

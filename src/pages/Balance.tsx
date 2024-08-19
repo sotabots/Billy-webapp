@@ -14,8 +14,7 @@ import Divider from '../kit/Divider'
 import UserButton from '../kit/UserButton'
 
 import { usePostTransaction, useGetSummary } from '../api'
-import { useBalance, useCurrencies, useFeedback, useSummary } from '../hooks'
-import { useStore } from '../store'
+import { useStore, useBalance, useCurrencies, useFeedback, useSummary } from '../hooks'
 import { TNewTransaction, TUserId } from '../types'
 import { formatAmount, closeApp } from '../utils'
 

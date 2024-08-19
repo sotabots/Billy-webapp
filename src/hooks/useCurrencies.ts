@@ -1,4 +1,4 @@
-import { useStore } from '../store'
+import { useStore } from './'
 import type { TCurrencyId } from '../types'
 
 export const useCurrencies = () => {

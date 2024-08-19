@@ -11,8 +11,7 @@ import Transaction from '../kit/Transaction'
 import RadioButtons from '../kit/RadioButtons'
 import DatePicker from '../kit/DatePicker'
 
-import { useStore } from '../store'
-import { useTotal, useFilter, useFeedback } from '../hooks'
+import { useStore, useTotal, useFilter, useFeedback } from '../hooks'
 
 import { ReactComponent as FilterIcon } from '../assets/filter.svg'
 import { ReactComponent as FilterActiveIcon } from '../assets/filter-active.svg'

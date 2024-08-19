@@ -8,9 +8,8 @@ import Header from '../kit/Header'
 import RadioButton from '../kit/RadioButton'
 import Screen from '../kit/Screen'
 
-import { useFeedback, useInit } from '../hooks'
+import { useStore, useFeedback, useInit } from '../hooks'
 import { TCurrencyId, TLanguageCode } from '../types'
-import { useStore } from '../store'
 
 function SelectCurrency() {
   useInit()

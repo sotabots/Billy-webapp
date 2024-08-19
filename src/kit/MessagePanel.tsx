@@ -6,8 +6,7 @@ import Button from '../kit/Button'
 import Panel from '../kit/Panel'
 import Textarea from '../kit/Textarea'
 
-import { useTransaction } from '../hooks'
-import { useStore } from '../store'
+import { useStore, useTransaction } from '../hooks'
 
 import CategoryAvatar from './CategoryAvatar'
 
