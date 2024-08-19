@@ -410,14 +410,13 @@ export const usePostPayment = () => {
   const [, initData] = useInitData()
 
   return ({ amount, productKey }: TPlan) => {
-    const url = `${apiUrl}/payments/?${new URLSearchParams({
-      amount: String(amount),
-      product_key: productKey,
-    })}`
+    const url = `${apiUrl}/payments/`
     return fetch(url, {
       method: 'POST',
-      // body: JSON.stringify({
-      // }),
+      body: JSON.stringify({
+        amount: String(amount),
+        product_key: productKey,
+      }),
       headers: {
         'Content-type': 'application/json',
         'Authorization': initData,
