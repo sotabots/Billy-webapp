@@ -108,3 +108,15 @@ export type TFilterTotal = 'ALL_CHAT' | 'ONLY_MINE'
 export type TFilterPeriod = 'ALL_TIME' | 'MONTH' | 'WEEK' | 'CUSTOM'
 
 export type TFlow = 'transaction' | 'summary'
+
+export type TPlanProductKey =
+'debug_subscription' |
+'1_year_subscription' |
+'1_month_subscription' |
+'1_week_subscription' |
+'3_days_subscription'
+
+export type TPlan = {
+  amount: number
+  productKey: TPlanProductKey
+}

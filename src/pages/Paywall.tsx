@@ -1,5 +1,5 @@
 import Lottie from 'lottie-react'
-import { /* useEffect,*/ useState } from 'react'
+import { useState } from 'react'
 import { useTranslation } from 'react-i18next'
 
 import Button from '../kit/Button'
@@ -9,8 +9,9 @@ import Panel from '../kit/Panel'
 import Divider from '../kit/Divider'
 import Plan from '../kit/Plan'
 
-import { useInit /*, useFeedback */ } from '../hooks'
+import { useInit } from '../hooks'
 import { usePostPayment } from '../api'
+import { TPlan } from '../types'
 
 import lottieKoalaStars from '../assets/animation-koala-stars.json'
 import { ReactComponent as CheckColored } from '../assets/check-colored.svg'
@@ -20,18 +21,6 @@ function Paywall() {
   useInit()
 
   const { t } = useTranslation()
-  // const { feedback } = useFeedback()
-
-  // const [isEvent, setIsEvent] = useState(false)
-
-  /*
-  useEffect(() => {
-    if (!isEvent) {
-      setIsEvent(true)
-      feedback('open_soon_web')
-    }
-  }, [isEvent, setIsEvent])
-  */
 
   const textGradient = {
     background: 'linear-gradient(85.8deg, #1C6ED8 3.42%, rgba(12, 215, 228, 0.99) 96.58%)',
@@ -40,20 +29,26 @@ function Paywall() {
     '-webkit-text-fill-color': 'transparent',
   }
 
+  const [isBusy, setIsBusy] = useState(false)
 
-  const [plan, setPlan] = useState(20)
+  const [plan, setPlan] = useState<TPlan>({
+    amount: 20,
+    productKey: '3_days_subscription',
+  })
 
   const postPayment = usePostPayment()
 
   const goPay = async () => {
+    setIsBusy(true)
     try {
-      const invoice = await postPayment({ amount: plan })
+      const invoice = await postPayment(plan)
       if (invoice?.url) {
-        // location.replace(invoice.url)
         window.Telegram?.WebApp.openInvoice?.(invoice.url)
       }
     } catch (e) {
       console.error(e)
+    } finally {
+      setIsBusy(false)
     }
   }
 
@@ -92,8 +87,13 @@ function Paywall() {
           title={`0 ${t('days')}`}
           stars={1}
           fiat={`0 ₽`}
-          isActive={plan === 1}
-          onClick={() => { setPlan(1) }}
+          isActive={plan.amount === 1}
+          onClick={() => {
+            setPlan({
+              amount: 1,
+              productKey: 'debug_subscription',
+            })
+          }}
         />
         <Divider className="my-3 mx-0" />
 
@@ -102,8 +102,13 @@ function Paywall() {
           title={`3 ${t('days')}`}
           stars={20}
           fiat={`299₽`}
-          isActive={plan === 20}
-          onClick={() => { setPlan(20) }}
+          isActive={plan.amount === 20}
+          onClick={() => {
+            setPlan({
+              amount: 20,
+              productKey: '3_days_subscription',
+            })
+          }}
         />
 
         <Divider className="my-3 mx-0" />
@@ -116,23 +121,38 @@ function Paywall() {
             stars={2500}
             fiat={`4999₽`}
             discount={'50%'}
-            isActive={plan === 2500}
-            onClick={() => { setPlan(2500) }}
+            isActive={plan.amount === 2500}
+            onClick={() => {
+              setPlan({
+                amount: 2500,
+                productKey: '1_year_subscription',
+              })
+            }}
           />
           <Plan
             title={`1 ${t('month')}`}
             stars={250}
             fiat={`1999₽`}
             discount={'30%'}
-            isActive={plan === 250}
-            onClick={() => { setPlan(250) }}
+            isActive={plan.amount === 250}
+            onClick={() => {
+              setPlan({
+                amount: 250,
+                productKey: '1_month_subscription',
+              })
+            }}
           />
           <Plan
             title={`7 ${t('days')}`}
             stars={80}
             fiat={`699₽`}
-            isActive={plan === 80}
-            onClick={() => { setPlan(80) }}
+            isActive={plan.amount === 80}
+            onClick={() => {
+              setPlan({
+                amount: 80,
+                productKey: '1_week_subscription',
+              })
+            }}
           />
         </div>
       </div>
@@ -143,11 +163,12 @@ function Paywall() {
           className="flex items-center justify-center gap-2 w-full h-[50px] rounded-[6px] bg-gradient-to-r from-[#1C6ED8] to-[#0CD7E4] text-[#F6F8F9] text-[14px] font-semibold"
           text={
             <>
-              <span>{t('buyFor')} {plan}</span>
+              <span>{t('buyFor')} {plan.amount}</span>
               <img src={star} className="w-6 h-6" />
             </>
           }
           onClick={goPay}
+          isBusy={isBusy}
         />
       </div>
     </Screen>

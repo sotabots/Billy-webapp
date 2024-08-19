@@ -2,7 +2,7 @@ import { useInitData } from '@vkruglikov/react-telegram-web-app'
 import { useQuery } from '@tanstack/react-query'
 
 import { useNewTx, useChatId, useStore } from '../hooks'
-import { TCurrency, TCategories, TTransaction, TNewTransaction, TUser, TChat, TSummary, TCurrencyId, TLanguageCode, TMode } from '../types'
+import { TCurrency, TCategories, TTransaction, TNewTransaction, TUser, TChat, TSummary, TCurrencyId, TLanguageCode, TMode, TPlan } from '../types'
 import {
   mockTransaction,
   mockUsers,
@@ -409,11 +409,10 @@ export const usePostUserOnboarding = () => {
 export const usePostPayment = () => {
   const [, initData] = useInitData()
 
-  return ({ amount }: {
-    amount: number
-  }) => {
+  return ({ amount, productKey }: TPlan) => {
     const url = `${apiUrl}/payments/?${new URLSearchParams({
-      amount: String(amount)
+      amount: String(amount),
+      product_key: productKey,
     })}`
     return fetch(url, {
       method: 'POST',
