@@ -49,7 +49,8 @@ function Paywall() {
     try {
       const invoice = await postPayment({ amount: plan })
       if (invoice?.url) {
-        location.replace(invoice.url)
+        // location.replace(invoice.url)
+        window.Telegram?.WebApp.openInvoice?.(invoice.url)
       }
     } catch (e) {
       console.error(e)
