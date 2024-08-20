@@ -8,6 +8,7 @@ export type TUser = { // tg user
   first_name: string
   last_name?: string
   profile_photo: string | null // avatar url
+  has_active_subscription?: boolean
 
   _name?: string // not used, only for mock, will be removed
 }
