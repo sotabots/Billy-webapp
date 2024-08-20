@@ -71,7 +71,11 @@ function Paywall() {
             </div>
           </div>
           <div className="flex flex-col gap-2">
-            {['featureExpenses', 'featureCategories', 'featureCashback'].map(_ => (
+            {[
+              'featureExpenses',
+              'featureCategories',
+              'featureCashback',
+            ].map(_ => (
               <div className="flex gap-1 items-center text-[14px] leading-[24px] font-semibold">
                 <CheckColored />
                 {t(_)}
@@ -99,7 +103,7 @@ function Paywall() {
 
         <Plan
           label={t('forWeekend')}
-          title={`3 ${t('days')}`}
+          title={`3 ${t('days_')}`}
           stars={20}
           fiat={`299₽`}
           isActive={plan.amount === 20}
@@ -130,7 +134,7 @@ function Paywall() {
             }}
           />
           <Plan
-            title={`1 ${t('month')}`}
+            title={`1 ${t('month_')}`}
             stars={250}
             fiat={`1999₽`}
             discount={'30%'}
