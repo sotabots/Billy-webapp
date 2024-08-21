@@ -160,10 +160,13 @@ function Paywall() {
           />
         </div>
       </div>
-      <div className="sticky px-4 py-2 bottom-0">
+      <div className="sticky px-4 bottom-0 bg-bg2" style={{
+        paddingBottom: 'env(safe-area-inset-bottom)'
+      }}>
+        <div className="absolute bottom-full left-0 w-full h-2 bg-gradient-to-t from-bg2" />
         <Button
           theme="clear"
-          wrapperClassName="mt-5"
+          wrapperClassName="py-2"
           className="flex items-center justify-center gap-2 w-full h-[50px] rounded-[6px] bg-gradient-to-r from-[#1C6ED8] to-[#0CD7E4] text-[#F6F8F9] text-[14px] font-semibold"
           text={
             <>
