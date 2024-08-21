@@ -9,7 +9,7 @@ import Panel from '../kit/Panel'
 import Divider from '../kit/Divider'
 import Plan from '../kit/Plan'
 
-import { useInit } from '../hooks'
+import { useInit, useStore } from '../hooks'
 import { usePostPayment } from '../api'
 import { TPlan } from '../types'
 
@@ -20,6 +20,7 @@ import star from '../assets/star.png'
 function Paywall() {
   useInit()
 
+  const { isDebug } = useStore()
   const { t } = useTranslation()
 
   const textGradient = {
@@ -86,22 +87,24 @@ function Paywall() {
       </Panel>
 
       <div className="p-4 pb-6">
-        {/*
-        <Plan
-          label={'Test'}
-          title={`0 ${t('days')}`}
-          stars={1}
-          fiat={`0 ₽`}
-          isActive={plan.amount === 1}
-          onClick={() => {
-            setPlan({
-              amount: 1,
-              productKey: 'debug_subscription',
-            })
-          }}
-        />
-        <Divider className="my-3 mx-0" />
-        */}
+        {isDebug &&
+          <>
+            <Plan
+              label={'Test (Debug)'}
+              title={`0 ${t('days')}`}
+              stars={1}
+              fiat={`0 ₽`}
+              isActive={plan.amount === 1}
+              onClick={() => {
+                setPlan({
+                  amount: 1,
+                  productKey: 'debug_subscription',
+                })
+              }}
+            />
+            <Divider className="my-3 mx-0" />
+          </>
+        }
 
         <Plan
           label={t('forWeekend')}
