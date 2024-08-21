@@ -86,6 +86,7 @@ function Paywall() {
       </Panel>
 
       <div className="p-4 pb-6">
+        {/*
         <Plan
           label={'Test'}
           title={`0 ${t('days')}`}
@@ -100,6 +101,7 @@ function Paywall() {
           }}
         />
         <Divider className="my-3 mx-0" />
+        */}
 
         <Plan
           label={t('forWeekend')}
@@ -166,7 +168,7 @@ function Paywall() {
         <div className="absolute bottom-full left-0 w-full h-2 bg-gradient-to-t from-bg2" />
         <Button
           theme="clear"
-          wrapperClassName="py-2"
+          wrapperClassName="pb-4 pt-1"
           className="flex items-center justify-center gap-2 w-full h-[50px] rounded-[6px] bg-gradient-to-r from-[#1C6ED8] to-[#0CD7E4] text-[#F6F8F9] text-[14px] font-semibold"
           text={
             <>
