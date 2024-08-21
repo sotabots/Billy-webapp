@@ -82,11 +82,21 @@ const Transaction = ({ tx }: { tx: TTransaction }) => {
             }] : []),
             ...(editor
               ? [{
-                  text: `${t('statusEditedBy')} ${[editor.first_name, editor.last_name].filter(_ => _).join(' ') }`,
+                  text: `${t('statusEditedBy')} ${
+                    (editor.shortened_name
+                      ? [editor.shortened_name]
+                      : [editor.first_name, editor.last_name]
+                    ).filter(_ => _).join(' ')
+                  }`,
                 }]
               : creator
                 ? [{
-                    text: `${t('statusCreatedBy')} ${[creator.first_name, creator.last_name].filter(_ => _).join(' ') }`,
+                    text: `${t('statusCreatedBy')} ${
+                      (creator.shortened_name
+                        ? [creator.shortened_name]
+                        : [creator.first_name, creator.last_name]
+                      ).filter(_ => _).join(' ')
+                    }`,
                   }]
                 : []),
           ].map(tag => (
