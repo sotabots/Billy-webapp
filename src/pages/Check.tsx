@@ -296,7 +296,7 @@ function Check() {
                 <>
                   <AddIcon className="w-6 h-6" />
                   <div className="text-[14px] leading-[24px] font-semibold">
-                    {!payedShares.length ? t('add') : t('edit')}
+                    {t('add')}
                   </div>
                 </>
               }
@@ -353,7 +353,7 @@ function Check() {
                 <>
                   <AddIcon className="w-6 h-6" />
                   <div className="text-[14px] leading-[24px] font-semibold">
-                    {!oweShares.length ? t('add') : t('edit')}
+                    {t('add')}
                   </div>
                 </>
               }
