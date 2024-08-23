@@ -45,13 +45,13 @@ export const useUsers = () => {
       }
       // remove doubles only after setting
       for (const doubledUserIndex of doubledUserIndexes.reverse()) {
-        if (updShares[doubledUserIndex].normalized_name) {
+        //if (updShares[doubledUserIndex].normalized_name) {
           // remove initially existing
           updShares[doubledUserIndex].related_user_id = null
-        } else {
+        //} else {
           // remove added
-          updShares.splice(doubledUserIndex, 1)
-        }
+        //  updShares.splice(doubledUserIndex, 1)
+        //}
       }
       if (transaction) {
         setTransaction({
