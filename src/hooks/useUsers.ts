@@ -44,7 +44,7 @@ export const useUsers = () => {
         }
       }
       // remove doubles only after setting
-      for (const doubledUserIndex of doubledUserIndexes.reverse()) {
+      for (const doubledUserIndex of doubledUserIndexes/*.reverse()*/) {
         //if (updShares[doubledUserIndex].normalized_name) {
           // remove initially existing
           updShares[doubledUserIndex].related_user_id = null
@@ -53,6 +53,14 @@ export const useUsers = () => {
         //  updShares.splice(doubledUserIndex, 1)
         //}
       }
+
+      // move reseted doubles to top
+      const topShares: TShare[] = []
+      for (const doubledUserIndex of doubledUserIndexes.reverse()) {
+        topShares.push(...updShares.splice(doubledUserIndex, 1))
+      }
+      updShares.unshift(...topShares.reverse())
+
       if (transaction) {
         setTransaction({
           ...transaction,
