@@ -47,13 +47,16 @@ function SelectCurrency() {
               reverse
               group="currencies"
               label={(
-                <>
-                  <span className="font-semibold">{currency.symbol}</span>
-                  {' '}
-                  <span>{currency.flag}</span>
-                  {' '}
-                  <span>{currency.title[i18n.language as TLanguageCode]}</span>
-                </>
+                <div className="flex gap-2">
+                  <div className="w-8 h-8 bg-text/5 rounded-full overflow-hidden">
+                    <span className="text-8 leading-8">{currency.flag}</span>
+                  </div>
+                  <div className="flex flex-col -gap-[2px]">
+                    {/* <span className="font-semibold">{currency.symbol}</span> */}
+                    <div className="text-[14px] leading-[20px]">{currency.title[i18n.language as TLanguageCode]}</div>
+                    <div className="text-[12px] leading-[16px] uppercase text-hint">{currency._id}</div>
+                  </div>
+                </div>
               )}
               key={`currencies-${currency._id}`}
               value={currency._id}
