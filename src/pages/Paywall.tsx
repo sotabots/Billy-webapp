@@ -106,23 +106,22 @@ function Paywall() {
           </>
         }
 
-        <Plan
-          label={t('forWeekend')}
-          title={`3 ${t('days_')}`}
-          stars={15}
-          fiat={'29₽'}
-          isActive={plan.amount === 15}
-          onClick={() => {
-            setPlan({
-              amount: 15,
-              productKey: '3_days_subscription',
-            })
-          }}
-        />
-
-        <Divider className="my-3 mx-0" />
-
         <div className="flex flex-col gap-2">
+          <Plan
+            label={t('forWeekend')}
+            title={`3 ${t('days_')}`}
+            stars={15}
+            fiat={'29₽'}
+            isActive={plan.amount === 15}
+            onClick={() => {
+              setPlan({
+                amount: 15,
+                productKey: '3_days_subscription',
+              })
+            }}
+          />
+
+          {/* <Divider className="my-3 mx-0" /> */}
           <Plan
             title={`7 ${t('days')}`}
             stars={50}
@@ -149,7 +148,7 @@ function Paywall() {
             }}
           />
           <Plan
-            label={t('profitable')}
+            /* label={t('profitable')} */
             labelColor={'#4094F7'}
             title={`12 ${t('months')}`}
             stars={1250}
