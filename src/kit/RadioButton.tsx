@@ -29,8 +29,8 @@ function RadioButton({ reverse, group, label, value, checked, onChange }: {
       <div className="p-1.5">
         <div
           className={cx(
-            'flex items-center justify-center w-5 h-5 border-2 rounded-full text-hint',
-            checked && '!text-link'
+            'flex items-center justify-center w-5 h-5 border-2 rounded-full',
+            checked ? 'border-link' : 'border-hint'
           )}
         >
           <div className={cx('w-[10px] h-[10px] rounded-full bg-link opacity-0 transition-all', checked && '!opacity-100')} />
