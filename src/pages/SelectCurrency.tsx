@@ -44,6 +44,7 @@ function SelectCurrency() {
         {currencies.map((currency, i) => (
           <div key={`currencies-${currency._id}`}>
             <RadioButton
+              reverse
               group="currencies"
               label={(
                 <>
