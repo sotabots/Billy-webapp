@@ -61,6 +61,9 @@ export type TCurrency = {
   },
   symbol: string // '€'
   flag: string // 🇪🇺
+  is_crypto: boolean
+  is_fiat: boolean
+  is_used_in_chat?: boolean
 }
 
 export type TLanguageCode = 'en' | 'ru' | 'uk'
