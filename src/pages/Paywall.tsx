@@ -33,7 +33,7 @@ function Paywall() {
   const [isBusy, setIsBusy] = useState(false)
 
   const [plan, setPlan] = useState<TPlan>({
-    amount: 20,
+    amount: 15,
     productKey: '3_days_subscription',
   })
 
@@ -93,7 +93,7 @@ function Paywall() {
               label={'Test (Debug)'}
               title={`0 ${t('days')}`}
               stars={1}
-              fiat={`0 ₽`}
+              fiat={'0 ₽'}
               isActive={plan.amount === 1}
               onClick={() => {
                 setPlan({
@@ -109,12 +109,12 @@ function Paywall() {
         <Plan
           label={t('forWeekend')}
           title={`3 ${t('days_')}`}
-          stars={20}
-          fiat={`299₽`}
-          isActive={plan.amount === 20}
+          stars={15}
+          fiat={'29₽'}
+          isActive={plan.amount === 15}
           onClick={() => {
             setPlan({
-              amount: 20,
+              amount: 15,
               productKey: '3_days_subscription',
             })
           }}
@@ -124,42 +124,42 @@ function Paywall() {
 
         <div className="flex flex-col gap-2">
           <Plan
-            label={t('profitable')}
-            labelColor={'#4094F7'}
-            title={`12 ${t('months')}`}
-            stars={2500}
-            fiat={`4999₽`}
-            discount={'50%'}
-            isActive={plan.amount === 2500}
+            title={`7 ${t('days')}`}
+            stars={50}
+            fiat={'99₽'}
+            isActive={plan.amount === 50}
             onClick={() => {
               setPlan({
-                amount: 2500,
-                productKey: '1_year_subscription',
+                amount: 50,
+                productKey: '1_week_subscription',
               })
             }}
           />
           <Plan
             title={`1 ${t('month_')}`}
-            stars={250}
-            fiat={`1999₽`}
-            discount={'30%'}
-            isActive={plan.amount === 250}
+            stars={125}
+            fiat={'249₽'}
+            discount={'40%'}
+            isActive={plan.amount === 125}
             onClick={() => {
               setPlan({
-                amount: 250,
+                amount: 125,
                 productKey: '1_month_subscription',
               })
             }}
           />
           <Plan
-            title={`7 ${t('days')}`}
-            stars={80}
-            fiat={`699₽`}
-            isActive={plan.amount === 80}
+            label={t('profitable')}
+            labelColor={'#4094F7'}
+            title={`12 ${t('months')}`}
+            stars={1250}
+            fiat={'2490₽'}
+            discount={'50%'}
+            isActive={plan.amount === 1250}
             onClick={() => {
               setPlan({
-                amount: 80,
-                productKey: '1_week_subscription',
+                amount: 1250,
+                productKey: '1_year_subscription',
               })
             }}
           />
