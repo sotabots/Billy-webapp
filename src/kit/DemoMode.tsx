@@ -6,7 +6,7 @@ const DemoMode = () => {
   const { chatId } = useChatId()
   const { t } = useTranslation()
 
-  if (location.href.includes('onboarding')) {
+  if (location.href.includes('onboarding') || location.href.includes('paywall')) {
     return null
   }
 
