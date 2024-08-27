@@ -136,8 +136,8 @@ function Onboarding() {
                 <div className="flex items-start gap-3">
                   <CheckmarkIcon className="flex-shrink-0 w-[22px] h-[22px] text-button" />
                   <div className="">
-                    <h3>Категории</h3>
-                    <p className="text-[14px]">Билли определит категорию для каждой траты, а в конце покажет анализ самых больших из них</p>
+                    <h3>Бот чистит свои сообщения в чате</h3>
+                    <p className="text-[14px]">Билли подчищает все служебные сообщения в чате, оставляя всю важную информацию в интерфейсе приложения</p>
                   </div>
                 </div>
 
@@ -164,7 +164,7 @@ function Onboarding() {
           step === 2 ? 'Согласны?' :
           step === 3 ? 'Узнали?' :
           step === 4 ? 'Это всё?' :
-          step === 5 ? 'Попробовать записать трату' : ''
+          step === 5 ? 'Узнать о Billy Pro' : ''
         }
         onClick={async () => {
           if (step <= 5) {
