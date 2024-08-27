@@ -71,6 +71,7 @@ export type TEvent =
   'onb_tool_cashback_next' |
   'onb_tool_edit_later_next' |
   'onb_tool_features_next' |
+  'onb_tool_pro_next' |
   'onb_tool_finished' |
 
   // Special
