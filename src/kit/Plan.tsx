@@ -37,13 +37,13 @@ function Plan({ className, label, labelColor, title, stars, fiat, discount, isAc
       text={
         <div className={cx(
           'relative rounded-[16px] p-[2px] transition-all',
-          isActive ? 'bg-gradient-to-r from-[#1C6ED8] to-[#0CD7E4FC]' : 'bg-[#DDE2E4]',
+          isActive ? 'bg-gradient-to-r from-[#1C6ED8] to-[#0CD7E4FC]' : 'bg-[#DDE2E4] dark:bg-[#B0BABF]',
           label && 'mt-[14px]'
         )}>
           <div className="rounded-[14px] bg-bg text-[#6E7C87] text-left">
             {label &&
               <div
-                className="absolute left-[10px] -top-[14px] inline-block mb-1 px-2 py-[2px] rounded-[20px] text-[#ffffff] text-[13px] leading-[18px] font-semibold bg-text"
+                className="absolute left-[10px] -top-[14px] inline-block mb-1 px-2 py-[2px] rounded-[20px] text-[#ffffff] dark:text-[#252C32] text-[13px] leading-[18px] font-semibold bg-text dark:bg-[#B0BABF]"
                 style={{ backgroundColor: labelColor }}
               >
                 {label}
@@ -53,7 +53,7 @@ function Plan({ className, label, labelColor, title, stars, fiat, discount, isAc
               <div className="w-full flex flex-col gap-[2px]">
                 <div className={cx(
                   'font-semibold text-[16px] leading-[24px] transition-all',
-                  isActive ? 'text-text' : 'text-[#5B6871]'
+                  isActive ? 'text-text' : 'text-[#5B6871] dark:text-[#F6F8F9]'
                 )}>{title}</div>
                 <div className="flex items-center gap-1 text-[16px] leading-[24px]">
                   <img src={star} className="w-4 h-4" />
