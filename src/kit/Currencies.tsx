@@ -4,18 +4,22 @@ import { useTranslation } from 'react-i18next'
 import Divider from '../kit/Divider'
 import RadioButton from '../kit/RadioButton'
 
-import { TCurrencyId, TLanguageCode } from '../types'
+import { TCurrency, TCurrencyId, TLanguageCode } from '../types'
 import { useStore } from '../hooks'
 
-function Currencies({ className, value, onChange }: {
+const CurrenciesGroup = ({ className, title, currencies, value, onChange }: {
   className?: string
+  title?: string
+  currencies: TCurrency[]
   value?: TCurrencyId | null
   onChange: (currencyId: TCurrencyId) => void
-}) {
+}) => {
   const { i18n } = useTranslation()
-  const { currencies } = useStore()
   return (
-    <div className={cx('Currencies overflow-y-auto', className)}>
+    <div className={cx('CurrenciesGroup overflow-y-auto', className)}>
+      {title &&
+        <div className="mx-4 mb-2 text-[12px] leading-[16px] text-[#5B6871] font-semibold">{title}</div>
+      }
       {currencies.map((currency, i) => (
         <div key={`currencies-${currency._id}`}>
           <RadioButton
@@ -41,6 +45,35 @@ function Currencies({ className, value, onChange }: {
           {i < currencies.length - 1 && <Divider key={`Divider-${i}`} />}
         </div>
       ))}
+    </div>
+  )
+}
+
+function Currencies({ className, value, onChange }: {
+  className?: string
+  value?: TCurrencyId | null
+  onChange: (currencyId: TCurrencyId) => void
+}) {
+  const { t } = useTranslation()
+  const { currencies } = useStore()
+
+  const recentCurrencies = currencies.slice(2, 4)
+
+  return (
+    <div className={cx('Currencies overflow-y-auto', className)}>
+      <CurrenciesGroup
+        className="mb-4"
+        title={t('recentCurrencies')}
+        currencies={recentCurrencies}
+        value={value}
+        onChange={onChange}
+      />
+      <CurrenciesGroup
+        title={t('allCurrencies')}
+        currencies={currencies}
+        value={value}
+        onChange={onChange}
+      />
     </div>
   )
 }

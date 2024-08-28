@@ -26,6 +26,9 @@
   "selectWhoIs": "Select who is",
   "selectUser": "Select user",
 
+  "recentCurrencies": "Recent",
+  "allCurrencies": "All",
+
   "checkout": "Checkout",
   "selectCurrency": "Select currency",
   "whoPaid": "Who paid",
