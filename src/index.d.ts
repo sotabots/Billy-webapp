@@ -23,6 +23,7 @@ declare global {
           onClick: (callback: VoidFunction) => void
           offClick: (offClick: VoidFunction) => void
         }
+        openInvoice?: (url: string /*, callback?: Function */) => void
         // ...and more
         // see https://core.telegram.org/bots/webapps#initializing-mini-apps
       }

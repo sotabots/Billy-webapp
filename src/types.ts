@@ -8,6 +8,8 @@ export type TUser = { // tg user
   first_name: string
   last_name?: string
   profile_photo: string | null // avatar url
+  has_active_subscription?: boolean
+  shortened_name?: string
 
   _name?: string // not used, only for mock, will be removed
 }
@@ -59,6 +61,9 @@ export type TCurrency = {
   },
   symbol: string // '€'
   flag: string // 🇪🇺
+  is_crypto: boolean
+  is_fiat: boolean
+  is_used_in_chat?: boolean
 }
 
 export type TLanguageCode = 'en' | 'ru' | 'uk'
@@ -108,3 +113,15 @@ export type TFilterTotal = 'ALL_CHAT' | 'ONLY_MINE'
 export type TFilterPeriod = 'ALL_TIME' | 'MONTH' | 'WEEK' | 'CUSTOM'
 
 export type TFlow = 'transaction' | 'summary'
+
+export type TPlanProductKey =
+'debug_subscription' |
+'1_year_subscription' |
+'1_month_subscription' |
+'1_week_subscription' |
+'3_days_subscription'
+
+export type TPlan = {
+  amount: number
+  productKey: TPlanProductKey
+}

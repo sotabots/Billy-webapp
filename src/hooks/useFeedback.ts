@@ -1,7 +1,6 @@
 import mixpanel from 'mixpanel-browser'
 
-import { useChatId } from '../hooks'
-import { useStore } from '../store'
+import { useStore, useChatId } from '../hooks'
 
 const envToken = import.meta.env.VITE_FEEDBACK_TOKEN
 const isToken = !!envToken
@@ -72,6 +71,7 @@ export type TEvent =
   'onb_tool_cashback_next' |
   'onb_tool_edit_later_next' |
   'onb_tool_features_next' |
+  'onb_tool_pro_next' |
   'onb_tool_finished' |
 
   // Special

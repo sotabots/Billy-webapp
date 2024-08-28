@@ -1,9 +1,8 @@
 import { useInitData } from '@vkruglikov/react-telegram-web-app'
 import { useQuery } from '@tanstack/react-query'
 
-import { useNewTx, useChatId } from '../hooks'
-import { useStore } from '../store'
-import { TCurrency, TCategories, TTransaction, TNewTransaction, TUser, TChat, TSummary, TCurrencyId, TLanguageCode, TMode } from '../types'
+import { useNewTx, useChatId, useStore } from '../hooks'
+import { TCurrency, TCategories, TTransaction, TNewTransaction, TUser, TChat, TSummary, TCurrencyId, TLanguageCode, TMode, TPlan } from '../types'
 import {
   mockTransaction,
   mockUsers,
@@ -405,4 +404,23 @@ export const usePostUserOnboarding = () => {
         'Authorization': initData,
       },
     }).then(handleJsonResponse)
+}
+
+export const usePostPayment = () => {
+  const [, initData] = useInitData()
+
+  return ({ amount, productKey }: TPlan) => {
+    const url = `${apiUrl}/payments/`
+    return fetch(url, {
+      method: 'POST',
+      body: JSON.stringify({
+        amount: String(amount),
+        product_key: productKey,
+      }),
+      headers: {
+        'Content-type': 'application/json',
+        'Authorization': initData,
+      },
+    }).then(handleJsonResponse)
+  }
 }

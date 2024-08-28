@@ -5,7 +5,7 @@ import Divider from '../kit/Divider'
 import RadioButton from '../kit/RadioButton'
 
 import { TCurrencyId, TLanguageCode } from '../types'
-import { useStore } from '../store'
+import { useStore } from '../hooks'
 
 function Currencies({ className, value, onChange }: {
   className?: string

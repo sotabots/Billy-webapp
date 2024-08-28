@@ -1,5 +1,6 @@
 import { useWebApp } from '@vkruglikov/react-telegram-web-app'
 import { useState } from 'react'
+import { useNavigate } from 'react-router-dom'
 // import { useTranslation } from 'react-i18next'
 
 import Button from '../kit/Button'
@@ -15,18 +16,20 @@ import onboarding2 from '../assets/onboarding-2.jpg'
 import onboarding3 from '../assets/onboarding-3.jpg'
 import onboarding4 from '../assets/onboarding-4.jpg'
 import onboarding5 from '../assets/onboarding-5.jpg'
+import onboarding6 from '../assets/onboarding-6.jpg'
 
 import { useSwipeable } from 'react-swipeable'
 
 const Pager = ({ page }: {
   page: number
 }) => (
-  <div className="absolute right-2 top-2 --bottom-[14px] --left-[50%] --translate-x-[50%] rounded-full px-2 py-[2px] bg-white font-bold shadow-md border border-[#eee] text-[#aaa]">{page}/5</div>
+  <div className="absolute right-2 top-2 --bottom-[14px] --left-[50%] --translate-x-[50%] rounded-full px-2 py-[2px] bg-white font-bold shadow-md border border-[#eee] text-[#aaa]">{page}/6</div>
 )
 
 function Onboarding() {
   useInit()
 
+  const navigate = useNavigate()
   const WebApp = useWebApp()
   // const { t, i18n } = useTranslation()
   const { feedback } = useFeedback()
@@ -35,7 +38,7 @@ function Onboarding() {
 
   const swipes = useSwipeable({
     onSwipedLeft: () => {
-      setStep(Math.min(5, step + 1))
+      setStep(Math.min(6, step + 1))
     },
     onSwipedRight: () => {
       setStep(Math.max(1, step - 1))
@@ -136,8 +139,8 @@ function Onboarding() {
                 <div className="flex items-start gap-3">
                   <CheckmarkIcon className="flex-shrink-0 w-[22px] h-[22px] text-button" />
                   <div className="">
-                    <h3>Категории</h3>
-                    <p className="text-[14px]">Билли определит категорию для каждой траты, а в конце покажет анализ самых больших из них</p>
+                    <h3>Бот чистит свои сообщения в чате</h3>
+                    <p className="text-[14px]">Билли подчищает все служебные сообщения в чате, оставляя всю важную информацию в интерфейсе приложения</p>
                   </div>
                 </div>
 
@@ -154,6 +157,46 @@ function Onboarding() {
             </div>
           </>
         )}
+
+        {step === 6 && (
+          <>
+            <div
+              className="relative h-[37vh] bg-[#ffca6a] bg-center bg-cover bg-no-repeat"
+              style={{ backgroundImage: `url(${onboarding6})` }}
+            >
+              <Pager page={6} />
+            </div>
+            <div className="flex flex-col gap-5 max-w-[500px] mx-auto px-4 py-6">
+              <h2 className="text-[24px]">Преимущества с подпиской Billy Premium</h2>
+
+              <div className="flex flex-col gap-3">
+                <div className="flex items-start gap-3">
+                  <CheckmarkIcon className="flex-shrink-0 w-[22px] h-[22px] text-button" />
+                  <div className="">
+                    <h3>Безлимитный ввод трат голосом или текстом</h3>
+                    <p className="text-[14px]">В бесплатной версии доступно только 4 записи голосом или текстом в общих чатах. При этом вводить траты внутри бота ты всегда можешь без ограничений.</p>
+                  </div>
+                </div>
+
+                <div className="flex items-start gap-3">
+                  <CheckmarkIcon className="flex-shrink-0 w-[22px] h-[22px] text-button" />
+                  <div className="">
+                    <h3>Категории</h3>
+                    <p className="text-[14px]">Билли автоматически определит и проставит категорию для каждой траты, а в конце предоставит анализ самых больших из них.</p>
+                  </div>
+                </div>
+
+                <div className="flex items-start gap-3">
+                  <CheckmarkIcon className="flex-shrink-0 w-[22px] h-[22px] text-button" />
+                  <div className="">
+                    <h3>Кешбэк</h3>
+                    <p className="text-[14px]">Получай кешбэк, оплачивая общие траты.</p>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </>
+        )}
       </div>
 
       <Button
@@ -164,24 +207,26 @@ function Onboarding() {
           step === 2 ? 'Согласны?' :
           step === 3 ? 'Узнали?' :
           step === 4 ? 'Это всё?' :
-          step === 5 ? 'Попробовать записать трату' : ''
+          step === 5 ? 'Узнать о Billy Pro' :
+          step === 6 ? 'Хочу Billy Pro' : ''
         }
         onClick={async () => {
-          if (step <= 5) {
+          if (step <= 6) {
             const eventOfStep: TEvent[] = [
               'onb_tool_revolution_adding_next',
               'onb_tool_balance_next',
               'onb_tool_cashback_next',
               'onb_tool_edit_later_next',
               'onb_tool_features_next',
+              'onb_tool_pro_next',
             ]
             const eventIndex = step - 1
             feedback(eventOfStep[eventIndex])
           }
-          if (step < 5) {
+          if (step < 6) {
             setStep(step + 1)
           }
-          if (step === 5) {
+          if (step === 6) {
             setIsButtonBusy(true)
             await feedback('onb_tool_finished')
             try {
@@ -190,10 +235,17 @@ function Onboarding() {
             } catch (e) {
               console.error(e)
             }
-            WebApp.openTelegramLink('https://t.me/BillyMoney_Bot', {
-              try_instant_view: true,
-            })
-            closeApp()
+
+            //
+            if (Math.random() < 0) {
+              WebApp.openTelegramLink('https://t.me/BillyMoney_Bot', {
+                try_instant_view: true,
+              })
+              closeApp()
+            }
+            //
+
+            navigate('/paywall')
           }
         }}
       />

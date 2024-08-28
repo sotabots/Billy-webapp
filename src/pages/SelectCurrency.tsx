@@ -7,9 +7,8 @@ import Header from '../kit/Header'
 import Screen from '../kit/Screen'
 import Currencies from '../kit/Currencies'
 
-import { useFeedback, useInit } from '../hooks'
+import { useStore, useFeedback, useInit } from '../hooks'
 import { TCurrencyId } from '../types'
-import { useStore } from '../store'
 
 function SelectCurrency() {
   useInit()

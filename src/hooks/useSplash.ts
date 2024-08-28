@@ -1,6 +1,5 @@
 import { useGetTx, useGetUsers, useGetChat, useGetCurrencies, useGetSummary, useGetCategories, useGetTransactions } from '../api'
-import { useChatId } from '../hooks'
-import { useStore } from '../store'
+import { useStore, useChatId } from '../hooks'
 
 export const useSplash = () => {
   const { currencies, transactions, txPatchError } = useStore()

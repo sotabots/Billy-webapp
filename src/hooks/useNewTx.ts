@@ -1,7 +1,6 @@
 import { useInitData } from '@vkruglikov/react-telegram-web-app'
 
-import { /*useChatId,*/ useUsers } from '../hooks'
-import { useStore } from '../store'
+import { /*useChatId,*/ useUsers, useStore } from '../hooks'
 import type { TNewTransaction } from '../types'
 
 export const useNewTx = () => {

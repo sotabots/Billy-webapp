@@ -2,8 +2,7 @@ import cx from 'classnames'
 import { useCallback, useEffect, useState } from 'react'
 // import { useNavigate } from 'react-router-dom'
 
-import { useChatId } from '../hooks'
-import { useStore } from '../store'
+import { useStore, useChatId } from '../hooks'
 
 import Panel from './Panel'
 
@@ -79,11 +78,16 @@ function Debug() {
           className="m-1 p-1 block border border-black"
           onClick={() => { navigate('/soon') }}
         >
-          <b>Go soon</b>
+          <b>Go paywall</b>
         </button>
         <br />
         */}
-        <a href="https://t.me/$57jAnvUn6ElOIwMAscGfUwoljzY">https://t.me/$57jAnvUn6ElOIwMAscGfUwoljzY</a>
+        <br />
+        <a href="/Billy-webapp/#/paywall">Go paywall!</a>
+        <br />
+        <br />
+        <br />
+        {/* <a href="https://t.me/$57jAnvUn6ElOIwMAscGfUwoljzY">https://t.me/$57jAnvUn6ElOIwMAscGfUwoljzY</a> */}
         {out('window.Telegram?.WebApp', window.Telegram?.WebApp)}
         {out('location.href', location.href)}
         {out('txid', txId)}

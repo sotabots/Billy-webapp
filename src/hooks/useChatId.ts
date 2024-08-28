@@ -1,5 +1,5 @@
 import { useGetTx, useGetSummary } from '../api'
-import { useStore } from '../store'
+import { useStore } from './'
 
 export const useChatId = () => {
   const { data: tx } = useGetTx()

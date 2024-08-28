@@ -9,6 +9,7 @@ import SummaryBalance from './pages/SummaryBalance'
 import Settings from './pages/Settings'
 import Onboarding from './pages/Onboarding'
 import Soon from './pages/Soon'
+import Paywall from './pages/Paywall'
 
 export const router = createHashRouter([
   {
@@ -55,5 +56,9 @@ export const router = createHashRouter([
   {
     path: "/soon",
     element: <Soon />,
+  },
+  {
+    path: "/paywall",
+    element: <Paywall />,
   },
 ])

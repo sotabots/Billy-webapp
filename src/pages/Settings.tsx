@@ -14,8 +14,7 @@ import RadioButton from '../kit/RadioButton'
 import InputAmount from '../kit/InputAmount'
 
 import { usePostChatCurrency, usePostChatLanguage, usePostChatSilent, useGetChat, usePostChatMode, usePostChatMonthlyLimit, usePostChatCashback } from '../api'
-import { useChatId, useInit, useFeedback, useCurrencies } from '../hooks'
-import { useStore } from '../store'
+import { useStore, useChatId, useInit, useFeedback, useCurrencies } from '../hooks'
 import { TCurrencyId, TLanguageCode, TMode } from '../types'
 import { formatAmount } from '../utils'
 

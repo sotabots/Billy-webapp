@@ -32,7 +32,6 @@
   "whoPaid": "Who paid",
   "forWhom": "For whoom",
   "add": "Add",
-  "edit": "Edit",
   "selectAll": "Select all",
   "unselectAll": "Unselect all",
   "splitEqually": "Split equally",
@@ -98,6 +97,20 @@
   "chooseLanguage": "Choose a language",
   "leaveMessages": "Leave Billy’s messages in chat",
   "forAdmin": "(Admin)",
+
+  "manageExpensesWith": "Manage expenses with",
+  "featureExpenses": "Unlimited addition of expenses",
+  "featureCategories": "Defining and analyzing expenses by category",
+  "featureCashback": "Cashback for paying for shared expenses",
+  "days_": "days",
+  "days": "days",
+  "month_": "month",
+  "months": "months",
+  "forWeekend": "For the weekend",
+  "profitable": "Profitable",
+  "buyFor": "Buy for",
+  "stars": "stars",
+  "discount": "Discount",
 
   "errorForbidden": "Oh, I wasn't allowed to show you these numbers. Most likely because you are not in the chat.",
   "errorOther": "Something didn't work, but I'm already fixing it. Try refresh the page."

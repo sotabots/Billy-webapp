@@ -150,6 +150,6 @@ export const useStore = create<TStore>((set, get) => ({
   filterPeriodPre: 'ALL_TIME',
   setFilterPeriodPre: (filterPeriodPre) => set(( { filterPeriodPre } )),
 
-  isDebug: false,
+  isDebug: [143871296, 330528429, 436721347].includes(window.Telegram?.WebApp.initDataUnsafe.user?.id || 0) /*|| false*/,
   setDebug: (isDebug) => set(( { isDebug } )),
 }))

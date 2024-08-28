@@ -18,8 +18,7 @@ import Toggle from '../kit/Toggle'
 import { useGetTx, useGetTransactions, useGetSummary } from '../api'
 
 import { decimals } from '../const'
-import { useCurrencies, useInit, useChatId, useFeedback, useTransaction, useUsers } from '../hooks'
-import { useStore } from '../store'
+import { useStore, useCurrencies, useInit, useChatId, useFeedback, useTransaction, useUsers } from '../hooks'
 import { usePostTransaction, usePutTransaction } from '../api'
 
 import type { TNewTransaction, TShare, TTransaction, TLanguageCode } from '../types'
@@ -297,7 +296,7 @@ function Check() {
                 <>
                   <AddIcon className="w-6 h-6" />
                   <div className="text-[14px] leading-[24px] font-semibold">
-                    {!payedShares.length ? t('add') : t('edit')}
+                    {t('add')}
                   </div>
                 </>
               }
@@ -354,7 +353,7 @@ function Check() {
                 <>
                   <AddIcon className="w-6 h-6" />
                   <div className="text-[14px] leading-[24px] font-semibold">
-                    {!oweShares.length ? t('add') : t('edit')}
+                    {t('add')}
                   </div>
                 </>
               }

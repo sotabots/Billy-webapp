@@ -9,8 +9,7 @@ import Screen from '../kit/Screen'
 import Panel from '../kit/Panel'
 import Category from '../kit/Category'
 
-import { useInit } from '../hooks'
-import { useStore } from '../store'
+import { useStore, useInit } from '../hooks'
 
 function SelectCategory() {
   useInit()

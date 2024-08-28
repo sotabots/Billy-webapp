@@ -1,6 +1,6 @@
 import { useTranslation } from 'react-i18next'
 
-import { useStore } from '../store'
+import { useStore } from './'
 
 export const useCategories = () => {
   const { t, i18n } = useTranslation()

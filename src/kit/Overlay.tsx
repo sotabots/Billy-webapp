@@ -1,7 +1,7 @@
 import cx from 'classnames'
 import { ReactNode, useMemo, useEffect } from 'react'
 
-import { useStore } from '../store'
+import { useStore } from '../hooks'
 
 type TProps = {
   isOpen: boolean,

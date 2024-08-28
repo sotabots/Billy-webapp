@@ -9,7 +9,9 @@ export const mockCurrencies: TCurrency[] = [
           uk: "Доллар"
       },
       symbol: "$",
-      flag: "🇺🇸"
+      flag: "🇺🇸",
+      is_crypto: false,
+      is_fiat: true,
   },
   {
       _id: "VND",
@@ -19,7 +21,9 @@ export const mockCurrencies: TCurrency[] = [
           uk: "Донг"
       },
       symbol: "đ",
-      flag: "🇻🇳"
+      flag: "🇻🇳",
+      is_crypto: false,
+      is_fiat: true,
   },
   {
       _id: "EUR",
@@ -29,7 +33,9 @@ export const mockCurrencies: TCurrency[] = [
           uk: "Евро"
       },
       symbol: "€",
-      flag: "🇪🇺"
+      flag: "🇪🇺",
+      is_crypto: false,
+      is_fiat: true,
   },
   {
       _id: "RUB",
@@ -39,7 +45,9 @@ export const mockCurrencies: TCurrency[] = [
           uk: "Рубли"
       },
       symbol: "₽",
-      flag: "🇷🇺"
+      flag: "🇷🇺",
+      is_crypto: false,
+      is_fiat: true,
   },
   {
       _id: "GEL",
@@ -49,7 +57,9 @@ export const mockCurrencies: TCurrency[] = [
           uk: "Ларi"
       },
       symbol: "₾",
-      flag: "🇬🇪"
+      flag: "🇬🇪",
+      is_crypto: false,
+      is_fiat: true,
   },
   {
       _id: "TRY",
@@ -59,7 +69,9 @@ export const mockCurrencies: TCurrency[] = [
           uk: "Лiра"
       },
       symbol: "₺",
-      flag: "🇹🇷"
+      flag: "🇹🇷",
+      is_crypto: false,
+      is_fiat: true,
   },
   {
       _id: "GBP",
@@ -69,7 +81,9 @@ export const mockCurrencies: TCurrency[] = [
           uk: "Фунт"
       },
       symbol: "£",
-      flag: "🇬🇧"
+      flag: "🇬🇧",
+      is_crypto: false,
+      is_fiat: true,
   },
   {
       _id: "UAH",
@@ -79,7 +93,9 @@ export const mockCurrencies: TCurrency[] = [
           uk: "Грiвна"
       },
       symbol: "₴",
-      flag: "🇺🇦"
+      flag: "🇺🇦",
+      is_crypto: false,
+      is_fiat: true,
   },
   {
       _id: "KZT",
@@ -89,7 +105,9 @@ export const mockCurrencies: TCurrency[] = [
           uk: "Тенге"
       },
       symbol: "₸",
-      flag: "🇰🇿"
+      flag: "🇰🇿",
+      is_crypto: false,
+      is_fiat: true,
   },
   {
       _id: "BYN",
@@ -99,7 +117,9 @@ export const mockCurrencies: TCurrency[] = [
           uk: "Рубль"
       },
       symbol: "Br",
-      flag: "🇧🇾"
+      flag: "🇧🇾",
+      is_crypto: false,
+      is_fiat: true,
   },
   {
       _id: "AZN",
@@ -109,7 +129,9 @@ export const mockCurrencies: TCurrency[] = [
           uk: "Манат"
       },
       symbol: "₼",
-      flag: "🇦🇿"
+      flag: "🇦🇿",
+      is_crypto: false,
+      is_fiat: true,
   },
   {
       _id: "AMD",
@@ -119,7 +141,9 @@ export const mockCurrencies: TCurrency[] = [
           uk: "Драм"
       },
       symbol: "֏",
-      flag: "🇦🇲"
+      flag: "🇦🇲",
+      is_crypto: false,
+      is_fiat: true,
   },
   {
       _id: "MDL",
@@ -129,7 +153,9 @@ export const mockCurrencies: TCurrency[] = [
           uk: "Лев"
       },
       symbol: "L",
-      flag: "🇲🇩"
+      flag: "🇲🇩",
+      is_crypto: false,
+      is_fiat: true,
   },
   {
       _id: "KGS",
@@ -139,7 +165,9 @@ export const mockCurrencies: TCurrency[] = [
           uk: "Сом"
       },
       symbol: "с",
-      flag: "🇰🇬"
+      flag: "🇰🇬",
+      is_crypto: false,
+      is_fiat: true,
   },
   {
       _id: "TJS",
@@ -149,7 +177,9 @@ export const mockCurrencies: TCurrency[] = [
           uk: "Сомони"
       },
       symbol: "ЅМ",
-      flag: "🇹🇯"
+      flag: "🇹🇯",
+      is_crypto: false,
+      is_fiat: true,
   },
   {
       _id: "UZS",
@@ -159,7 +189,9 @@ export const mockCurrencies: TCurrency[] = [
           uk: "Сом"
       },
       symbol: "сўм",
-      flag: "🇺🇿"
+      flag: "🇺🇿",
+      is_crypto: false,
+      is_fiat: true,
   },
   {
       _id: "KRW",
@@ -169,7 +201,9 @@ export const mockCurrencies: TCurrency[] = [
           uk: "Вон"
       },
       symbol: "₩",
-      flag: "🇰🇷"
+      flag: "🇰🇷",
+      is_crypto: false,
+      is_fiat: true,
   },
   {
       _id: "JPY",
@@ -179,7 +213,9 @@ export const mockCurrencies: TCurrency[] = [
           uk: "Иена"
       },
       symbol: "¥",
-      flag: "🇯🇵"
+      flag: "🇯🇵",
+      is_crypto: false,
+      is_fiat: true,
   },
   {
       _id: "CNY",
@@ -189,7 +225,9 @@ export const mockCurrencies: TCurrency[] = [
           uk: "Юань"
       },
       symbol: "¥",
-      flag: "🇨🇳"
+      flag: "🇨🇳",
+      is_crypto: false,
+      is_fiat: true,
   },
   {
       _id: "RSD",
@@ -199,7 +237,9 @@ export const mockCurrencies: TCurrency[] = [
           uk: "Дiнар"
       },
       symbol: "дин",
-      flag: "🇷🇸"
+      flag: "🇷🇸",
+      is_crypto: false,
+      is_fiat: true,
   },
   {
       _id: "THB",
@@ -209,7 +249,9 @@ export const mockCurrencies: TCurrency[] = [
           uk: "Бат"
       },
       symbol: "฿",
-      flag: "🇹🇭"
+      flag: "🇹🇭",
+      is_crypto: false,
+      is_fiat: true,
   },
   {
       _id: "ZAR",
@@ -219,7 +261,9 @@ export const mockCurrencies: TCurrency[] = [
           uk: "Рэнд"
       },
       symbol: "R",
-      flag: "🇿🇦"
+      flag: "🇿🇦",
+      is_crypto: false,
+      is_fiat: true,
   },
   {
       _id: "AED",
@@ -229,7 +273,9 @@ export const mockCurrencies: TCurrency[] = [
           uk: "Дiрхам"
       },
       symbol: "Dh",
-      flag: "🇦🇪"
+      flag: "🇦🇪",
+      is_crypto: false,
+      is_fiat: true,
   },
   {
       _id: "SCR",
@@ -239,7 +285,9 @@ export const mockCurrencies: TCurrency[] = [
           uk: "Рупии"
       },
       symbol: "Rs",
-      flag: "🇸🇨"
+      flag: "🇸🇨",
+      is_crypto: false,
+      is_fiat: true,
   },
   {
       _id: "DZD",
@@ -249,7 +297,9 @@ export const mockCurrencies: TCurrency[] = [
           uk: "Дiнар"
       },
       symbol: "DA",
-      flag: "🇩🇿"
+      flag: "🇩🇿",
+      is_crypto: false,
+      is_fiat: true,
   },
   {
       _id: "INR",
@@ -259,7 +309,9 @@ export const mockCurrencies: TCurrency[] = [
           uk: "Рупии"
       },
       symbol: "₹",
-      flag: "🇮🇳"
+      flag: "🇮🇳",
+      is_crypto: false,
+      is_fiat: true,
   },
   {
       _id: "IDR",
@@ -269,7 +321,9 @@ export const mockCurrencies: TCurrency[] = [
           uk: "Рупии"
       },
       symbol: "Rp",
-      flag: "🇮🇩"
+      flag: "🇮🇩",
+      is_crypto: false,
+      is_fiat: true,
   },
   {
       _id: "ILS",
@@ -279,6 +333,8 @@ export const mockCurrencies: TCurrency[] = [
           uk: "Шекелi"
       },
       symbol: "₪",
-      flag: "🇮🇱"
+      flag: "🇮🇱",
+      is_crypto: false,
+      is_fiat: true,
   }
 ]

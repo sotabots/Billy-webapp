@@ -1,4 +1,4 @@
-import { useStore } from '../store'
+import { useStore } from './'
 import { TDebt } from '../types'
 
 export const useSummary = () => {

@@ -1,7 +1,6 @@
-import { useCurrencies, useTransaction } from '../hooks'
+import { useStore, useCurrencies, useTransaction } from '../hooks'
 import { formatAmount } from '../utils'
 
-import { useStore } from '../store'
 import { TTransaction } from '../types'
 
 export const useBalance = () => {

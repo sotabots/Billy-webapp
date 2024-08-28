@@ -4,8 +4,7 @@ import { useEffect } from 'react'
 import { useLocation } from 'react-router-dom'
 
 import { usePostUserOnboarding } from '../api'
-import { useStore } from '../store'
-import { useFeedback, useUsers, useTgSettings } from '../hooks'
+import { useStore, useFeedback, useUsers, useTgSettings } from '../hooks'
 
 
 import i18n from '../i18n'

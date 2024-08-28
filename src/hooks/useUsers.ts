@@ -1,6 +1,6 @@
 import { useHapticFeedback } from '@vkruglikov/react-telegram-web-app'
 
-import { useStore } from '../store'
+import { useStore } from './'
 import type { TUser, TUserId, TShare } from '../types'
 
 export const useUsers = () => {
@@ -44,15 +44,23 @@ export const useUsers = () => {
         }
       }
       // remove doubles only after setting
-      for (const doubledUserIndex of doubledUserIndexes.reverse()) {
-        if (updShares[doubledUserIndex].normalized_name) {
+      for (const doubledUserIndex of doubledUserIndexes/*.reverse()*/) {
+        //if (updShares[doubledUserIndex].normalized_name) {
           // remove initially existing
           updShares[doubledUserIndex].related_user_id = null
-        } else {
+        //} else {
           // remove added
-          updShares.splice(doubledUserIndex, 1)
-        }
+        //  updShares.splice(doubledUserIndex, 1)
+        //}
       }
+
+      // move reseted doubles to top
+      const topShares: TShare[] = []
+      for (const doubledUserIndex of doubledUserIndexes.reverse()) {
+        topShares.push(...updShares.splice(doubledUserIndex, 1))
+      }
+      updShares.unshift(...topShares.reverse())
+
       if (transaction) {
         setTransaction({
           ...transaction,

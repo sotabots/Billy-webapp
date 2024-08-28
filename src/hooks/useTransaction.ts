@@ -1,7 +1,7 @@
 import { useInitData } from '@vkruglikov/react-telegram-web-app'
 
 import { decimals } from '../const'
-import { useStore } from '../store'
+import { useStore } from './'
 import { TShare, TTransaction } from '../types'
 import { formatAmount } from '../utils'
 

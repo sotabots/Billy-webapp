@@ -7,8 +7,7 @@ import Header from '../kit/Header'
 import Screen from '../kit/Screen'
 import UserButton from '../kit/UserButton'
 
-import { useFeedback, useInit, useTransaction, useUsers } from '../hooks'
-import { useStore } from '../store'
+import { useStore, useFeedback, useInit, useTransaction, useUsers } from '../hooks'
 import { TShare, TUserId, TUser } from '../types'
 
 function SelectUsers() {

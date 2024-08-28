@@ -10,8 +10,7 @@ import Header from '../kit/Header'
 import Tabs from '../kit/Tabs'
 
 import { useGetSummarySheetRebuild } from '../api'
-import { useInit, useFilter, useFeedback, useSummary } from '../hooks'
-import { useStore } from '../store'
+import { useStore, useInit, useFilter, useFeedback, useSummary } from '../hooks'
 import { TUserId } from '../types'
 
 import { ReactComponent as ChatIcon } from '../assets/chat.svg'

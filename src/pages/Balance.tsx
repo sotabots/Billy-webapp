@@ -15,8 +15,7 @@ import UserButton from '../kit/UserButton'
 import Currencies from '../kit/Currencies'
 
 import { usePostTransaction, useGetSummary } from '../api'
-import { useBalance, useCurrencies, useFeedback, useSummary } from '../hooks'
-import { useStore } from '../store'
+import { useStore, useBalance, useCurrencies, useFeedback, useSummary } from '../hooks'
 import { TCurrencyId, TNewTransaction, TUserId } from '../types'
 import { formatAmount, closeApp } from '../utils'
 
