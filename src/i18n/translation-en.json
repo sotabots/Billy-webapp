@@ -25,6 +25,8 @@
 
   "selectWhoIs": "Select who is",
   "selectUser": "Select user",
+  "notSelectedUsers": "Not selected yet",
+  "selectedUsers": "All the rest",
 
   "recentCurrencies": "Recent",
   "allCurrencies": "All",

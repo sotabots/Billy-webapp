@@ -25,6 +25,8 @@
 
   "selectWhoIs": "Выберите, кто",
   "selectUser": "Выберите",
+  "notSelectedUsers": "Еще не выбраны",
+  "selectedUsers": "Все остальные",
 
   "recentCurrencies": "Недавние",
   "allCurrencies": "Все",
