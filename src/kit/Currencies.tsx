@@ -58,6 +58,7 @@ function Currencies({ className, value, onChange }: {
   const { currencies } = useStore()
 
   const recentCurrencies = currencies.filter(currency => currency.is_used_in_chat)
+  const restCurrencies = currencies.filter(currency => !currency.is_used_in_chat)
 
   return (
     <div className={cx('Currencies overflow-y-auto', className)}>
@@ -70,12 +71,14 @@ function Currencies({ className, value, onChange }: {
           onChange={onChange}
         />
       }
-      <CurrenciesGroup
-        title={t('allCurrencies')}
-        currencies={currencies}
-        value={value}
-        onChange={onChange}
-      />
+      {restCurrencies.length > 0 &&
+        <CurrenciesGroup
+          title={t('allCurrencies')}
+          currencies={restCurrencies}
+          value={value}
+          onChange={onChange}
+        />
+      }
     </div>
   )
 }
