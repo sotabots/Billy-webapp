@@ -28,7 +28,7 @@ const CurrenciesGroup = ({ className, title, currencies, value, onChange }: {
             group="currencies"
             label={(
               <div className="flex gap-2">
-                <div className="w-8 h-8 bg-text/5 rounded-full overflow-hidden">
+                <div className="w-8 h-8 bg-text/5 rounded-full overflow-hidden text-center">
                   <span className="text-8 leading-8">{currency.flag}</span>
                 </div>
                 <div className="flex flex-col -gap-[2px]">
