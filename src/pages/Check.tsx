@@ -27,7 +27,6 @@ import { closeApp } from '../utils'
 import lottieSuccess from '../assets/animation-success.json'
 import { ReactComponent as AddIcon } from '../assets/add.svg'
 import { ReactComponent as DeleteIcon } from '../assets/delete.svg'
-import { ReactComponent as Plus } from '../assets/plus.svg'
 
 function Check() {
   useInit()
@@ -40,8 +39,8 @@ function Check() {
   const { feedback } = useFeedback()
 
   const { setTransaction, txComment, isEditTx, setIsEditTx, setSelectPersonId, setSelectPersonIsPayer, setIsSelectPayers, isSuccess, setSuccess, setTxPatchError } = useStore()
-  const { transaction, isWrongAmounts, payedShares, oweShares, payedSum, payedSumFormatted, oweSumFormatted, deduplicatedShares } = useTransaction()
-  const { unrelatedUsers, countUnrelatedPersons, isRelationsComplete, isRelationsEnough } = useUsers()
+  const { transaction, isWrongAmounts, payedShares, oweShares, payedSum, payedSumFormatted, oweSumFormatted } = useTransaction()
+  const { countUnrelatedPersons, isRelationsComplete, isRelationsEnough } = useUsers()
 
   const { getCurrencyById } = useCurrencies()
 
@@ -87,17 +86,6 @@ function Check() {
     console.log('onSelect vibro')
     impactOccurred('light')
     navigate('/select-user')
-  }
-
-  // todo: remove
-  const onAdd = () => {
-    setSelectPersonId(null)
-    console.log('onAdd vibro')
-    impactOccurred('light')
-    navigate('/select-user')
-    feedback('press_add_user_expnames_web', {
-      num_users_prev: deduplicatedShares.length
-    })
   }
 
   const toggleIsEqually = () => {
@@ -328,20 +316,6 @@ function Check() {
             ))}
           </div>
         </Panel>
-
-        {false && !!unrelatedUsers.length && (
-          <Button
-            theme="clear"
-            className="px-2 text-button h-6 items-center flex gap-[2px] font-semibold text-[14px] leading-6 hover:brightness-[1.2] active:brightness-[1.4] transition-all"
-            text={
-              <>
-                <Plus className="h-6 w-6 flex items-center justify-center" />
-                <span className="whitespace-nowrap">{t('addMore')}</span>
-              </>
-            }
-            onClick={onAdd}
-          />
-        )}
 
         <Panel>
           <div className="flex items-center justify-between gap-3">

@@ -1,4 +1,5 @@
 import { useTranslation } from 'react-i18next'
+import { useNavigate } from 'react-router-dom'
 
 import Button from '../kit/Button'
 import Header from '../kit/Header'
@@ -12,6 +13,7 @@ import { TUser } from '../types'
 function SelectUser() {
   useInit()
 
+  const navigate = useNavigate()
   const { t } = useTranslation()
   const { users, unrelatedUsers, getUserById, addUsers, selectUser, deleteUser } = useUsers()
   const { selectPersonId, selectPersonIsPayer, transaction } = useStore()
@@ -20,9 +22,11 @@ function SelectUser() {
 
   // todo: remove selectPersonId === null case
   const usersToShow = selectPersonId !== null ? users : unrelatedUsers
+
   const forName = selectPersonId !== null
     ? (transaction?.shares || []).find(share => share.person_id === selectPersonId)?.normalized_name
     : null
+
   const title = selectPersonId !== null
     ? (
       forName
@@ -49,6 +53,11 @@ function SelectUser() {
       })
       addUsers([user])
     }
+  }
+
+  if (selectPersonId === null) {
+    navigate(-1)
+    return null
   }
 
   return (
