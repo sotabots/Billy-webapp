@@ -18,6 +18,7 @@ function SelectUser() {
   const { feedback } = useFeedback()
   const { deduplicatedShares } = useTransaction()
 
+  // todo: remove selectPersonId === null case
   const usersToShow = selectPersonId !== null ? users : unrelatedUsers
   const forName = selectPersonId !== null
     ? (transaction?.shares || []).find(share => share.person_id === selectPersonId)?.normalized_name
@@ -82,8 +83,14 @@ function SelectUser() {
         )}
       </div>
 
-      <div className="mt-4">
+      <div className="pb-8 flex flex-col gap-4">
         <UsersGroup
+          title={t('notSelectedUsers')}
+          users={usersToShow}
+          onClick={onClickUser}
+        />
+        <UsersGroup
+          title={t('selectedUsers')}
           users={usersToShow}
           onClick={onClickUser}
         />
