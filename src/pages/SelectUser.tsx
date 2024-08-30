@@ -15,13 +15,12 @@ function SelectUser() {
 
   const navigate = useNavigate()
   const { t } = useTranslation()
-  const { users, unrelatedUsers, getUserById, addUsers, selectUser, deleteUser } = useUsers()
+  const { unrelatedUsers, relatedUsers, getUserById, addUsers, selectUser, deleteUser } = useUsers()
   const { selectPersonId, selectPersonIsPayer, transaction } = useStore()
   const { feedback } = useFeedback()
   const { deduplicatedShares } = useTransaction()
 
   // todo: remove selectPersonId === null case
-  const usersToShow = selectPersonId !== null ? users : unrelatedUsers
 
   const forName = selectPersonId !== null
     ? (transaction?.shares || []).find(share => share.person_id === selectPersonId)?.normalized_name
@@ -66,7 +65,6 @@ function SelectUser() {
 
       <div className="mb-2 px-4 flex items-center justify-between gap-3">
         <h2 className="pt-[2px] pb-[6px]">{title}</h2>
-        {selectPersonId !== null && (
           <Button
             theme="text"
             text={t('delete')}
@@ -77,32 +75,23 @@ function SelectUser() {
               })
             }}
           />
-        )}
-        {selectPersonId === null && usersToShow.length > 1 && (
-          <Button
-            theme="text"
-            text={t('addEveryone')}
-            onClick={() => {
-              feedback('set_users_expnames_web', {
-                num_users_set: deduplicatedShares.length + usersToShow.length,
-              })
-              addUsers(usersToShow)
-            }}
-          />
-        )}
       </div>
 
       <div className="pb-8 flex flex-col gap-4">
-        <UsersGroup
-          title={t('notSelectedUsers')}
-          users={usersToShow}
-          onClick={onClickUser}
-        />
-        <UsersGroup
-          title={t('selectedUsers')}
-          users={usersToShow}
-          onClick={onClickUser}
-        />
+        {unrelatedUsers.length > 0 &&
+          <UsersGroup
+            title={t('notSelectedUsers')}
+            users={unrelatedUsers}
+            onClick={onClickUser}
+          />
+        }
+        {relatedUsers.length > 0 &&
+          <UsersGroup
+            title={t('selectedUsers')}
+            users={relatedUsers}
+            onClick={onClickUser}
+          />
+        }
       </div>
     </Screen>
   )

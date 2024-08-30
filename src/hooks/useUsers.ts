@@ -11,6 +11,7 @@ export const useUsers = () => {
 
   const usedUserIds = transactionShares.map(share => share.related_user_id)
   const unrelatedUsers = users.filter(user => !usedUserIds.includes(user._id))
+  const relatedUsers = users.filter(user => usedUserIds.includes(user._id))
 
   const countUnrelatedPersons = [...new Set(
     transactionShares.filter(share =>
@@ -168,5 +169,5 @@ export const useUsers = () => {
     history.back()
   }
 
-  return { users, unrelatedUsers, countUnrelatedPersons, isRelationsComplete, isRelationsEnough, getUserById, selectUser, addUsers, updUsers, deleteUser }
+  return { users, unrelatedUsers, relatedUsers, countUnrelatedPersons, isRelationsComplete, isRelationsEnough, getUserById, selectUser, addUsers, updUsers, deleteUser }
 }
