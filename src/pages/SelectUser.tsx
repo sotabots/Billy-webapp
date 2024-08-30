@@ -1,12 +1,13 @@
 import { useTranslation } from 'react-i18next'
 
 import Button from '../kit/Button'
-import Divider from '../kit/Divider'
 import Header from '../kit/Header'
 import Screen from '../kit/Screen'
-import UserButton from '../kit/UserButton'
+import { UsersGroup } from '../kit'
 
 import { useStore, useFeedback, useInit, useTransaction, useUsers } from '../hooks'
+
+import { TUser } from '../types'
 
 function SelectUser() {
   useInit()
@@ -33,6 +34,21 @@ function SelectUser() {
     ? (transaction?.shares || []).find(share => share.person_id === selectPersonId && share.related_user_id)?.related_user_id
     : null
   const prevUser = prevUserId && getUserById(prevUserId) || null
+
+  const onClickUser = (user: TUser) => {
+    if (selectPersonId !== null) {
+      feedback('set_user_expnames_web', {
+        user_prev: prevUser?._id || null,
+        user_set: user._id,
+      })
+      selectUser(user)
+    } else {
+      feedback('set_users_expnames_web', {
+        num_users_set: deduplicatedShares.length + 1,
+      })
+      addUsers([user])
+    }
+  }
 
   return (
     <Screen className="!bg-bg">
@@ -66,30 +82,11 @@ function SelectUser() {
         )}
       </div>
 
-      <div className="mt-4 overflow-y-auto">
-        {usersToShow.map((user, i, arr) => (
-          <>
-            <UserButton
-              key={i}
-              user={user}
-              onClick={() => {
-                if (selectPersonId !== null) {
-                  feedback('set_user_expnames_web', {
-                    user_prev: prevUser?._id || null,
-                    user_set: user._id,
-                  })
-                  selectUser(user)
-                } else {
-                  feedback('set_users_expnames_web', {
-                    num_users_set: deduplicatedShares.length + 1,
-                  })
-                  addUsers([user])
-                }
-              }}
-            />
-            {i < arr.length - 1 && <Divider key={`Divider-${i}`} />}
-          </>
-        ))}
+      <div className="mt-4">
+        <UsersGroup
+          users={usersToShow}
+          onClick={onClickUser}
+        />
       </div>
     </Screen>
   )
