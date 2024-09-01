@@ -7,10 +7,10 @@ import Button from './Button'
 import star from '../assets/star.png'
 
 const textGradient = {
-  background: 'linear-gradient(85.8deg, #1C6ED8 3.42%, rgba(12, 215, 228, 0.99) 96.58%)',
-  '-webkit-background-clip': 'text',
-  'background-clip': 'text',
-  '-webkit-text-fill-color': 'transparent',
+  'background': 'linear-gradient(85.8deg, #1C6ED8 3.42%, rgba(12, 215, 228, 0.99) 96.58%)',
+  'WebkitBackgroundClip': 'text',
+  'backgroundClip': 'text',
+  'WebkitTextFillColor': 'transparent',
 }
 
 function Plan({ className, label, labelColor, title, stars, fiat, discount, isActive, onClick }: {
