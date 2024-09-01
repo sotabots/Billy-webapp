@@ -63,6 +63,7 @@ function SummaryBalance({ tab }: { tab: TTab }) {
   const onScroll = (e: UIEvent<HTMLDivElement>) => {
     // temp disabled
     // todo: fix/enable
+    // eslint-disable-next-line no-constant-condition
     if (false) {
       setIsCompactPie(e.currentTarget.scrollTop > 0)
     }
