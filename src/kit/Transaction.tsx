@@ -7,7 +7,7 @@ import { TTransaction } from '../types'
 import Button from './Button'
 import CategoryAvatar from './CategoryAvatar'
 
-import { useStore, useUsers, useCurrencies, useFeedback, useTransaction } from '../hooks'
+import { useStore, useUsers, useCurrencies, useFeedback, useTransaction, usePro } from '../hooks'
 
 import { ReactComponent as CashbackIcon } from '../assets/cashback.svg'
 
@@ -16,6 +16,7 @@ import { formatAmount } from '../utils'
 const Transaction = ({ tx }: { tx: TTransaction }) => {
   const { t } = useTranslation()
   const navigate = useNavigate()
+  const { isPro } = usePro()
 
   const { setTxId, setIsEditTx } = useStore()
   const { getUserById } = useUsers()
@@ -50,7 +51,9 @@ const Transaction = ({ tx }: { tx: TTransaction }) => {
       }}
       text={
         <>
-          <CategoryAvatar tx={tx} isCategoryName={false} />
+          {isPro &&
+            <CategoryAvatar tx={tx} isCategoryName={false} />
+          }
           <div className="flex-1 flex flex-col gap-[2px] text-[14px] leading-[24px]">
             {payerShares.map(payerShare => (
               <div className="flex gap-2 items-center justify-between px-2 font-semibold">
