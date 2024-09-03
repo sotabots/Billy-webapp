@@ -167,7 +167,7 @@ function Onboarding() {
               <Pager page={6} />
             </div>
             <div className="flex flex-col gap-5 max-w-[500px] mx-auto px-4 py-6">
-              <h2 className="text-[24px]">Преимущества с подпиской Billy Premium</h2>
+              <h2 className="text-[24px]">Преимущества с подпиской Billy Pro</h2>
 
               <div className="flex flex-col gap-3">
                 <div className="flex items-start gap-3">

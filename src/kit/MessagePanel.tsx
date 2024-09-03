@@ -6,7 +6,7 @@ import Button from '../kit/Button'
 import Panel from '../kit/Panel'
 import Textarea from '../kit/Textarea'
 
-import { useStore, useTransaction } from '../hooks'
+import { usePro, useStore, useTransaction } from '../hooks'
 
 import CategoryAvatar from './CategoryAvatar'
 
@@ -15,6 +15,7 @@ const MessagePanel = () => {
   const { txComment, setTxComment } = useStore()
   const navigate = useNavigate()
   const { transaction, isEmptyTx } = useTransaction()
+  const { isPro } = usePro()
 
   if (!transaction) {
     return null
@@ -49,21 +50,23 @@ const MessagePanel = () => {
           </>
         )}
       </div>
-      <div>
-        <Button
-          theme="clear"
-          className="group/button flex gap-3"
-          text={(
-            <>
-              <h3>{t('category')}</h3>
-              <CategoryAvatar tx={transaction} />
-            </>
-          )}
-          onClick={() => {
-            navigate('/select-category')
-          }}
-        />
-      </div>
+      {isPro &&
+        <div>
+          <Button
+            theme="clear"
+            className="group/button flex gap-3"
+            text={(
+              <>
+                <h3>{t('category')}</h3>
+                <CategoryAvatar tx={transaction} />
+              </>
+            )}
+            onClick={() => {
+              navigate('/select-category')
+            }}
+          />
+        </div>
+      }
     </Panel>
   )
 }

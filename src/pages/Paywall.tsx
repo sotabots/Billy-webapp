@@ -25,9 +25,9 @@ function Paywall() {
 
   const textGradient = {
     background: 'linear-gradient(85.8deg, #1C6ED8 3.42%, rgba(12, 215, 228, 0.99) 96.58%)',
-    '-webkit-background-clip': 'text',
-    'background-clip': 'text',
-    '-webkit-text-fill-color': 'transparent',
+    'WebkitBackgroundClip': 'text',
+    'backgroundClip': 'text',
+    'WebkitTextFillColor': 'transparent',
   }
 
   const [isBusy, setIsBusy] = useState(false)
@@ -77,7 +77,10 @@ function Paywall() {
               'featureCategories',
               'featureCashback',
             ].map(_ => (
-              <div className="flex gap-1 items-center text-[14px] leading-[24px] font-semibold">
+              <div
+                key={`CheckColored-${_}`}
+                className="flex gap-1 items-center text-[14px] leading-[24px] font-semibold"
+              >
                 <CheckColored />
                 {t(_)}
               </div>

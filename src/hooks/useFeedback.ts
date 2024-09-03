@@ -22,7 +22,6 @@ export type TEvent =
   'set_language_settings_web' |
 
   // Match names
-  'press_add_user_expnames_web' |
   'set_users_expnames_web' | // todo: add after SelectUser refactor
   'press_change_user_expnames_web' |
   'set_user_expnames_web' |
@@ -85,7 +84,6 @@ export const useFeedback = () => {
   const feedback = async (event: TEvent, data: { [index:string]: any } = {}) => {
     const txDataEvents: TEvent[] = [
       'open_page_transaction_web',
-      'press_add_user_expnames_web',
       'set_users_expnames_web',
       'press_change_user_expnames_web',
       'set_user_expnames_web',

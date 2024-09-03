@@ -12,6 +12,7 @@ import MenuItem from '../kit/MenuItem'
 import MenuGroup from '../kit/MenuGroup'
 import RadioButton from '../kit/RadioButton'
 import InputAmount from '../kit/InputAmount'
+import Currencies from '../kit/Currencies'
 
 import { usePostChatCurrency, usePostChatLanguage, usePostChatSilent, useGetChat, usePostChatMode, usePostChatMonthlyLimit, usePostChatCashback } from '../api'
 import { useStore, useChatId, useInit, useFeedback, useCurrencies } from '../hooks'
@@ -30,7 +31,7 @@ import { ReactComponent as ModeGroupIcon } from '../assets/mode-group.svg'
 function Settings() {
   useInit()
 
-  const { t, i18n } = useTranslation()
+  const { t } = useTranslation()
   const { currencies, chat } = useStore()
   const { feedback } = useFeedback()
 
@@ -316,27 +317,11 @@ function Settings() {
           <div className="px-4">
             <h2>{t('chooseCurrency')}</h2>
           </div>
-          <div className="mt-4 overflow-y-auto">
-            {currencies.map((currencyItem, i) => (
-              <div key={`currencies-${currencyItem._id}`}>
-                <RadioButton
-                  group="currencies"
-                  label={(
-                    <>
-                      <span className="font-semibold">{currencyItem.symbol}</span>
-                      {' '}
-                      <span>{currencyItem.title[i18n.language as TLanguageCode]}</span>
-                    </>
-                  )}
-                  key={`currencies-${currencyItem._id}`}
-                  value={currencyItem._id}
-                  checked={chat?.default_currency === currencyItem._id}
-                  onChange={onChangeCurrency}
-                />
-                {i < currencies.length - 1 && <Divider key={`Divider-${i}`} />}
-              </div>
-            ))}
-          </div>
+          <Currencies
+            className="mt-4"
+            value={chat?.default_currency}
+            onChange={onChangeCurrency}
+          />
           {/*
           <Button
             isBottom

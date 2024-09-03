@@ -5,7 +5,6 @@
   "back": "Назад",
   "close": "Закрыть",
   "delete": "Удалить",
-  "addMore": "Добавить ещё",
   "addEveryone": "Добавить всех",
   "apply": "Применить",
   "save": "Сохранить",
@@ -26,6 +25,11 @@
 
   "selectWhoIs": "Выберите, кто",
   "selectUser": "Выберите",
+  "notSelectedUsers": "Еще не выбраны",
+  "selectedUsers": "Все остальные",
+
+  "recentCurrencies": "Недавние",
+  "allCurrencies": "Все",
 
   "checkout": "Проверить траты",
   "selectCurrency": "Выберите валюту",
@@ -55,6 +59,10 @@
   "convertAllTo": "Показать в валюте...",
   "featureSoon": "Эта функция скоро станет доступна",
   "okay": "Хорошо",
+
+  "unlockCategories": "Разблокируйте анализ по категориям",
+  "analyzeCategories": "Анализируйте каждую категорию и управляйте финансами",
+  "unlock": "Разблокировать",
 
   "total": "Всего",
   "myTotal": "Моя сумма",

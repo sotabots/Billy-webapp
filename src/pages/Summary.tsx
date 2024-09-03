@@ -11,12 +11,13 @@ import Transaction from '../kit/Transaction'
 import RadioButtons from '../kit/RadioButtons'
 import DatePicker from '../kit/DatePicker'
 
-import { useStore, useTotal, useFilter, useFeedback } from '../hooks'
+import { useStore, useTotal, useFilter, useFeedback, usePro } from '../hooks'
+import { TFilterPeriod, TFilterTotal } from '../types'
 
 import { ReactComponent as FilterIcon } from '../assets/filter.svg'
 import { ReactComponent as FilterActiveIcon } from '../assets/filter-active.svg'
-import { TFilterPeriod, TFilterTotal } from '../types'
-
+import { ReactComponent as ProPie } from '../assets/pro-pie.svg'
+import { ReactComponent as ProBadge } from '../assets/pro-badge.svg'
 
 function Summary({
   isCompactPie,
@@ -28,6 +29,7 @@ function Summary({
   const { t } = useTranslation()
   const navigate = useNavigate()
   const { feedback } = useFeedback()
+  const { isPro } = usePro()
 
   const { isDebug, setTxId, setIsEditTx } = useStore()
 
@@ -85,54 +87,84 @@ function Summary({
       {!isFilterOpen && (
         <>
           <div className="flex flex-col gap-2 pb-5">
-            <Panel>
-              <div className="flex items-center justify-between gap-4">
-                <div className="flex items-center gap-1">
-                  <h3>
-                    {filterTotal === 'ALL_CHAT' && t('total')}
-                    {filterTotal === 'ONLY_MINE' && t('myTotal')}
-                  </h3>
-                  <div
-                    className={cx(
-                      'text-[16px] leading-[24px] text-[#0E73F6] font-semibold transition-all',
-                      !isCompactPie && 'opacity-0'
-                    )}>
-                    {totalFormatted}
-                  </div>
-                </div>
-                <Button
-                  theme="clear"
-                  className="flex items-center justify-center w-8 h-8"
-                  onClick={() => {
-                    openFilter()
-                    feedback('press_filter_total_web')
-                  }}
-                  text={
-                    isFilterActive
-                      ? <FilterActiveIcon />
-                      : <FilterIcon />
-                  }
-                />
-              </div>
-              <div className="flex flex-col gap-4">
-                <Pie
-                  isCompact={isCompactPie}
-                  title={totalFormatted}
-                  period={filterPeriod}
-                  slices={totalCategories}
-                  onLeft={isArrows ? () => {} : null}
-                  onRight={isArrows ? () => {} : null}
-                />
-                <div className="flex flex-wrap gap-x-1 gap-y-2">
-                  {totalCategories.map(item => (
-                    <Category
-                      key={item.categoryKey}
-                      categoryKey={item.categoryKey}
-                      amountFormatted={item.amountFormatted}
+            <Panel className={cx(!isPro && '!pb-4')}>
+              {!isPro &&
+                <div className="flex gap-4">
+                  <div className="flex-1">
+                    <div className="text-[18px] leading-[24px] font-semibold">{t('unlockCategories')}</div>
+                    <div className="mt-1 text-[14px] leading-[20px] text-[#5B6871] dark:text-[#B0BABF]">{t('analyzeCategories')}</div>
+                    <Button
+                      wrapperClassName="mt-4"
+                      theme="clear"
+                      className="bg-button py-1 px-3 rounded-[6px] text-[#F6F8F9] text-[14px] leading-[24px] font-semibold"
+                      text={t('unlock')}
+                      onClick={() => { navigate('/paywall') }}
                     />
-                  ))}
+                  </div>
+                  <Button
+                    theme="clear"
+                    className="relative w-[104px] h-[104px]"
+                    text={
+                      <>
+                        <ProPie className="-m-2 w-[120px] h-[120px]" />
+                        <ProBadge className="absolute left-[50%] translate-x-[-50%] top-[64%] w-[73px] h-[35px]" />
+                      </>
+                    }
+                    onClick={() => { navigate('/paywall') }}
+                  />
                 </div>
-              </div>
+              }
+              {isPro &&
+                <>
+                  <div className="flex items-center justify-between gap-4">
+                    <div className="flex items-center gap-1">
+                      <h3>
+                        {filterTotal === 'ALL_CHAT' && t('total')}
+                        {filterTotal === 'ONLY_MINE' && t('myTotal')}
+                      </h3>
+                      <div
+                        className={cx(
+                          'text-[16px] leading-[24px] text-[#0E73F6] font-semibold transition-all',
+                          !isCompactPie && 'opacity-0'
+                        )}>
+                        {totalFormatted}
+                      </div>
+                    </div>
+                    <Button
+                      theme="clear"
+                      className="flex items-center justify-center w-8 h-8"
+                      onClick={() => {
+                        openFilter()
+                        feedback('press_filter_total_web')
+                      }}
+                      text={
+                        isFilterActive
+                          ? <FilterActiveIcon />
+                          : <FilterIcon />
+                      }
+                    />
+                  </div>
+                  <div className="flex flex-col gap-4">
+                    <Pie
+                      isCompact={isCompactPie}
+                      title={totalFormatted}
+                      period={filterPeriod}
+                      slices={totalCategories}
+                      onLeft={isArrows ? () => { /* */ } : null}
+                      onRight={isArrows ? () => { /* */ } : null}
+                    />
+                    <div className="flex flex-wrap gap-x-1 gap-y-2">
+                      {totalCategories.map(item => (
+                        <Category
+                          key={item.categoryKey}
+                          categoryKey={item.categoryKey}
+                          amountFormatted={item.amountFormatted}
+                        />
+                      ))}
+                    </div>
+                  </div>
+                </>
+              }
             </Panel>
 
             <Panel className="!mt-0">

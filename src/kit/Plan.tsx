@@ -7,10 +7,10 @@ import Button from './Button'
 import star from '../assets/star.png'
 
 const textGradient = {
-  background: 'linear-gradient(85.8deg, #1C6ED8 3.42%, rgba(12, 215, 228, 0.99) 96.58%)',
-  '-webkit-background-clip': 'text',
-  'background-clip': 'text',
-  '-webkit-text-fill-color': 'transparent',
+  'background': 'linear-gradient(85.8deg, #1C6ED8 3.42%, rgba(12, 215, 228, 0.99) 96.58%)',
+  'WebkitBackgroundClip': 'text',
+  'backgroundClip': 'text',
+  'WebkitTextFillColor': 'transparent',
 }
 
 function Plan({ className, label, labelColor, title, stars, fiat, discount, isActive, onClick }: {
@@ -29,6 +29,7 @@ function Plan({ className, label, labelColor, title, stars, fiat, discount, isAc
   return (
     <Button
       theme="clear"
+      wrapperClassName="Plan"
       className={cx(
         'Plan w-full',
         className,
@@ -37,13 +38,13 @@ function Plan({ className, label, labelColor, title, stars, fiat, discount, isAc
       text={
         <div className={cx(
           'relative rounded-[16px] p-[2px] transition-all',
-          isActive ? 'bg-gradient-to-r from-[#1C6ED8] to-[#0CD7E4FC]' : 'bg-[#DDE2E4] dark:bg-[#B0BABF]',
+          isActive ? 'bg-gradient-to-r from-[#1C6ED8] to-[#0CD7E4FC]' : 'bg-[#DDE2E4] dark:bg-[#5B6871]',
           label && 'mt-[14px]'
         )}>
           <div className="rounded-[14px] bg-bg text-[#6E7C87] text-left">
             {label &&
               <div
-                className="absolute left-[10px] -top-[14px] inline-block mb-1 px-2 py-[2px] rounded-[20px] text-[#ffffff] dark:text-[#252C32] text-[13px] leading-[18px] font-semibold bg-text dark:bg-[#B0BABF]"
+                className="absolute left-[10px] -top-[14px] inline-block mb-1 px-2 py-[2px] rounded-[20px] text-[#ffffff] text-[13px] leading-[18px] font-semibold bg-[#000000]"
                 style={{ backgroundColor: labelColor }}
               >
                 {label}
@@ -53,9 +54,9 @@ function Plan({ className, label, labelColor, title, stars, fiat, discount, isAc
               <div className="w-full flex flex-col gap-[2px]">
                 <div className={cx(
                   'font-semibold text-[16px] leading-[24px] transition-all',
-                  isActive ? 'text-text' : 'text-[#5B6871] dark:text-[#F6F8F9]'
+                  isActive ? 'text-text' : 'text-[#5B6871] dark:text-[#B0BABF]'
                 )}>{title}</div>
-                <div className="flex items-center gap-1 text-[16px] leading-[24px]">
+                <div className="flex items-center gap-1 text-[16px] leading-[24px] dark:text-[#9AA6AC]">
                   <img src={star} className="w-4 h-4" />
                   <span className="">{stars} {t('stars')}</span>
                   <span className="">•</span>

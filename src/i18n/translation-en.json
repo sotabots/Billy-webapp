@@ -5,7 +5,6 @@
   "back": "Back",
   "close": "Close",
   "delete": "Delete",
-  "addMore": "Add more",
   "addEveryone": "Add everyone",
   "apply": "Apply",
   "save": "Save",
@@ -26,6 +25,11 @@
 
   "selectWhoIs": "Select who is",
   "selectUser": "Select user",
+  "notSelectedUsers": "Not selected yet",
+  "selectedUsers": "All the rest",
+
+  "recentCurrencies": "Recent",
+  "allCurrencies": "All",
 
   "checkout": "Checkout",
   "selectCurrency": "Select currency",
@@ -55,6 +59,10 @@
   "convertAllTo": "Show in currency...",
   "featureSoon": "This feature will be available soon",
   "okay": "Okay",
+
+  "unlockCategories": "Unlock analysis by categories",
+  "analyzeCategories": "Analyze each category and manage your finances",
+  "unlock": "Unlock",
 
   "total": "Total",
   "myTotal": "My Total",

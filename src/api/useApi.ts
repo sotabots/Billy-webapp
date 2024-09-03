@@ -117,7 +117,7 @@ export const useGetCurrencies = (chatId: undefined | number) => {
       queryFn: chatId === 0
         ? () => mockCurrencies
         : () =>
-          fetch(`${apiUrl}/currencies/`, {
+          fetch(`${apiUrl}/currencies/?chat_id=${chatId}`, {
             method: 'GET',
             headers: {
               'Authorization': initData,
