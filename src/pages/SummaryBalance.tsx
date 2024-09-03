@@ -1,3 +1,4 @@
+import cx from 'classnames'
 import { useState, useRef, UIEvent } from 'react'
 import { useTranslation } from 'react-i18next'
 import { useNavigate } from 'react-router-dom'
@@ -37,6 +38,7 @@ function SummaryBalance({ tab }: { tab: TTab }) {
   const isSelectedDebt = selectedDebtId !== null
   const [isRecipientsOpen, setIsRecipientsOpen] = useState<boolean>(false)
   const [customRecipientId, setCustomRecipientId] = useState<null | TUserId>(null)
+  const [isCurrencyOpen, setIsCurrencyOpen] = useState(false)
 
   const [isCompactPie, setIsCompactPie] = useState<boolean>(false)
 
@@ -63,8 +65,7 @@ function SummaryBalance({ tab }: { tab: TTab }) {
   const onScroll = (e: UIEvent<HTMLDivElement>) => {
     // temp disabled
     // todo: fix/enable
-    // eslint-disable-next-line no-constant-condition
-    if (false) {
+    if (Math.random() > 1) {
       setIsCompactPie(e.currentTarget.scrollTop > 0)
     }
   }
@@ -79,12 +80,16 @@ function SummaryBalance({ tab }: { tab: TTab }) {
   return (
     <Screen
       _ref={screenRef}
+      className={cx(tab === 'balance' && isCurrencyOpen && '!bg-bg')}
       onScroll={onScroll}
     >
       <Header onBack={
         (tab === 'summary' && isFilterOpen && (() => {
           closeFilter()
         }))
+        || (tab === 'balance' && isCurrencyOpen) && (() => {
+          setIsCurrencyOpen(false)
+        })
         || (tab === 'balance' && isRecipientsOpen && (() => {
           setIsRecipientsOpen(false)
         }))
@@ -97,7 +102,8 @@ function SummaryBalance({ tab }: { tab: TTab }) {
 
       {!(
         tab === 'summary' && isFilterOpen ||
-        tab === 'balance' && isSelectedDebt
+        tab === 'balance' && isSelectedDebt ||
+        tab === 'balance' && isCurrencyOpen
       ) && (
         <Tabs
           className="sticky top-0 mb-[6px] pb-[2px] pt-2 bg-bg2 z-[1]"
@@ -129,6 +135,8 @@ function SummaryBalance({ tab }: { tab: TTab }) {
 
       {tab === 'balance' && (
         <Balance
+          isCurrencyOpen={isCurrencyOpen}
+          setIsCurrencyOpen={setIsCurrencyOpen}
           selectedDebtId={selectedDebtId}
           setSelectedDebtId={setSelectedDebtId}
           isRecipientsOpen={isRecipientsOpen}
