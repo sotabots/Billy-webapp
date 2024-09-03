@@ -249,14 +249,12 @@ function Balance({
             />
           </div>
 
-          {isDebug &&
-            <Button
-              isBottom
-              // color={'#7E10E5'}
-              text={`💱 ${t('convertAllTo')}`}
-              onClick={() => { setIsCurrencyOpen(true) }}
-            />
-          }
+          <Button
+            isBottom
+            // color={'#7E10E5'}
+            text={`💱 ${t('convertAllTo')}`}
+            onClick={() => { setIsCurrencyOpen(true) }}
+          />
         </>
       )}
 
