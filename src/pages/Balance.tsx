@@ -50,7 +50,7 @@ function Balance({
   const { feedback } = useFeedback()
 
   const { refetch: refetchSummary } = useGetSummary()
-  const { summary, summaryCurrencyId, setSummaryCurrencyId, chat, users, setTxPatchError, isDebug } = useStore()
+  const { summary, summaryCurrencyId, setSummaryCurrencyId, users, setTxPatchError, isDebug } = useStore()
   const { getCurrencyById } = useCurrencies()
 
   const selectedDebt = (summary?.debts || []).find(debt => JSON.stringify(debt) === selectedDebtId)
@@ -176,13 +176,14 @@ function Balance({
               onClick={() => {
                 setSummaryCurrencyId(null)
                 setIsCurrencyOpen(false)
+                refetchSummary()
               }}
             />
           }
         </div>
         <Currencies
           className="mt-4"
-          value={summaryCurrencyId || chat?.default_currency}
+          value={summaryCurrencyId/* || chat?.default_currency */}
           onChange={(currencyId: TCurrencyId) => {
             setFeedbackData({
               currency: currencyId,
@@ -190,6 +191,7 @@ function Balance({
             })
             setSummaryCurrencyId(currencyId)
             setIsCurrencyOpen(false)
+            refetchSummary()
           }}
         />
       </>
