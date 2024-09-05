@@ -1,3 +1,4 @@
+export * from './useAuth'
 export * from './useBalance'
 export * from './useCategories'
 export * from './useChatId'
