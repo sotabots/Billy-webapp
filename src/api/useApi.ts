@@ -171,7 +171,7 @@ export const usePostTransaction = () => { // summary settleup
 
 export const useGetSummary = () => {
   const [, initData] = useInitData()
-  const { setSummary, summaryId, summaryCurrencyId } = useStore()
+  const { summaryId, summaryCurrencyId } = useStore()
   console.log('useGetSummary summaryId', summaryId, summaryCurrencyId)
 
   const url = `${apiUrl}/summary/${summaryId}` +
@@ -194,10 +194,10 @@ export const useGetSummary = () => {
               'Authorization': initData,
             }
           }).then(handleJsonResponse),
-      onSuccess: (data) => {
-        console.log('useGetSummary: setSummary', data)
-        setSummary(data)
-      },
+      // onSuccess: (data) => {
+      //   console.log('useGetSummary: setSummary', data)
+      //   setSummary(data)
+      // },
       enabled: summaryId !== undefined,
       staleTime
     })

@@ -9,8 +9,8 @@ import Screen from '../kit/Screen'
 import Header from '../kit/Header'
 import Tabs from '../kit/Tabs'
 
-import { useGetSummarySheetRebuild } from '../api'
-import { useStore, useInit, useFilter, useFeedback, useSummary } from '../hooks'
+import { useGetSummary, useGetSummarySheetRebuild } from '../api'
+import { useInit, useFilter, useFeedback, useSummary } from '../hooks'
 import { TUserId } from '../types'
 
 import { ReactComponent as ChatIcon } from '../assets/chat.svg'
@@ -30,7 +30,7 @@ function SummaryBalance({ tab }: { tab: TTab }) {
 
   const { isFilterOpen, closeFilter } = useFilter()
 
-  const { summary } = useStore()
+  const { data: summary } = useGetSummary()
   const getSummarySheetRebuild = useGetSummarySheetRebuild()
   const { debtCurrencyIds, debts } = useSummary()
 

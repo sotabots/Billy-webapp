@@ -50,7 +50,7 @@ function Balance({
   const { feedback } = useFeedback()
 
   const { data: summary, refetch: refetchSummary } = useGetSummary()
-  const { /* summary, */ summaryCurrencyId, setSummaryCurrencyId, users, setTxPatchError, isDebug } = useStore()
+  const { summaryCurrencyId, setSummaryCurrencyId, users, setTxPatchError, isDebug } = useStore()
   const { getCurrencyById } = useCurrencies()
 
   const selectedDebt = (summary?.debts || []).find(debt => JSON.stringify(debt) === selectedDebtId)
