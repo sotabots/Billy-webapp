@@ -285,7 +285,14 @@ function Settings() {
                 icon={<SettingsLimitIcon />}
                 title={t('monthlyLimit')}
                 value={chat?.monthly_limit ? `${formatAmount(chat.monthly_limit)}${chatCurrency?.symbol}` : t('setLimit')}
-                onClick={() => { setIsLimitOpen(true) }}
+                badge={!isPro ? <ProBadge /> : undefined}
+                onClick={() => {
+                  if (isPro) {
+                    setIsLimitOpen(true)
+                  } else {
+                    navigate('/paywall')
+                  }
+                }}
               />
             }
             {!!chat && chat.mode === 'travel' &&
