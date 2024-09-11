@@ -3,6 +3,7 @@ import cx from 'classnames'
 
 import { useState } from 'react'
 import { useTranslation } from 'react-i18next'
+import { useNavigate } from 'react-router-dom'
 
 import Button from '../kit/Button'
 import Header from '../kit/Header'
@@ -15,7 +16,7 @@ import InputAmount from '../kit/InputAmount'
 import Currencies from '../kit/Currencies'
 
 import { usePostChatCurrency, usePostChatLanguage, usePostChatSilent, useGetChat, usePostChatMode, usePostChatMonthlyLimit, usePostChatCashback } from '../api'
-import { useStore, useChatId, useInit, useFeedback, useCurrencies } from '../hooks'
+import { useStore, useChatId, useInit, useFeedback, useCurrencies, usePro } from '../hooks'
 import { TCurrencyId, TLanguageCode, TMode } from '../types'
 import { formatAmount } from '../utils'
 
@@ -27,6 +28,7 @@ import { ReactComponent as SettingsLimitIcon } from '../assets/settings-limit.sv
 
 import { ReactComponent as ModePersonalIcon } from '../assets/mode-personal.svg'
 import { ReactComponent as ModeGroupIcon } from '../assets/mode-group.svg'
+import { ReactComponent as ProBadge } from '../assets/pro-badge.svg'
 
 function Settings() {
   useInit()
@@ -34,6 +36,8 @@ function Settings() {
   const { t } = useTranslation()
   const { currencies, chat } = useStore()
   const { feedback } = useFeedback()
+  const { isPro } = usePro()
+  const navigate = useNavigate()
 
   const [isCurrencyOpen, setIsCurrencyOpen] = useState(false)
   const [isLanguageOpen, setIsLanguageOpen] = useState(false)
@@ -289,7 +293,14 @@ function Settings() {
                 icon={<SettingsCashbackIcon />}
                 title={t('cashback')}
                 value={cashback ? `${cashback}%` : t('setCashback')}
-                onClick={() => { setIsCashbackOpen(true) }}
+                badge={!isPro ? <ProBadge /> : undefined}
+                onClick={() => {
+                  if (isPro) {
+                    setIsCashbackOpen(true)
+                  } else {
+                    navigate('/paywall')
+                  }
+                }}
               />
             }
           </MenuGroup>

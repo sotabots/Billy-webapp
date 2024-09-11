@@ -17,7 +17,7 @@ import { TFilterPeriod, TFilterTotal } from '../types'
 import { ReactComponent as FilterIcon } from '../assets/filter.svg'
 import { ReactComponent as FilterActiveIcon } from '../assets/filter-active.svg'
 import { ReactComponent as ProPie } from '../assets/pro-pie.svg'
-import { ReactComponent as ProBadge } from '../assets/pro-badge.svg'
+import { ReactComponent as ProBadgeRotate } from '../assets/pro-badge-rotate.svg'
 
 function Summary({
   isCompactPie,
@@ -107,7 +107,7 @@ function Summary({
                     text={
                       <>
                         <ProPie className="-m-2 w-[120px] h-[120px]" />
-                        <ProBadge className="absolute left-[50%] translate-x-[-50%] top-[64%] w-[73px] h-[35px]" />
+                        <ProBadgeRotate className="absolute left-[50%] translate-x-[-50%] top-[64%] w-[73px] h-[35px]" />
                       </>
                     }
                     onClick={() => { navigate('/paywall') }}
