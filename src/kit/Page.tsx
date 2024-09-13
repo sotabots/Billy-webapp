@@ -1,15 +1,14 @@
 import cx from 'classnames'
 import { ReactNode, UIEvent } from 'react'
 
-import Debug from './Debug'
-import Limiter from './Limiter'
+import { Debug, Limiter } from '../kit'
 
-function Page({ className, children, _ref, onScroll }: {
+export const Page = ({ className, children, _ref, onScroll }: {
   className?: string
   children: ReactNode
   _ref?: React.RefObject<HTMLDivElement>
   onScroll?: (e: UIEvent<HTMLDivElement>) => void
-}) {
+}) => {
   return (
     <div
       className={cx('Page z-0 relative w-full min-h-[100vh] text-text bg-bg2', className)}
@@ -23,5 +22,3 @@ function Page({ className, children, _ref, onScroll }: {
     </div>
   )
 }
-
-export default Page

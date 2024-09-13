@@ -1,8 +1,8 @@
 import cx from 'classnames'
 
-function Divider({ className }: {
+export const Divider =({ className }: {
   className?: string
-}) {
+}) => {
   return (
     <div className={cx(
       'Divider h-[1.5px] -my-[0.5px] mx-4 bg-[#E5E9EB] dark:bg-[#84919A]',
@@ -11,5 +11,3 @@ function Divider({ className }: {
     />
   )
 }
-
-export default Divider

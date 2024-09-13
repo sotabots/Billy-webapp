@@ -2,17 +2,17 @@ import cx from 'classnames'
 import { ReactNode } from 'react'
 import { useTranslation } from 'react-i18next'
 
-import Avatar from './Avatar'
+import { Avatar } from '../kit'
 
 import { TUser } from '../types'
 
-function User({ user, size = 40, secondRow, spokenName, className }: {
+export const User = ({ user, size = 40, secondRow, spokenName, className }: {
   user?: TUser
   size?: number
   secondRow?: false | ReactNode
   spokenName?: string | null
   className?: string
-}) {
+}) => {
   const { t } = useTranslation()
 
   return (
@@ -46,5 +46,3 @@ function User({ user, size = 40, secondRow, spokenName, className }: {
     </div>
   )
 }
-
-export default User

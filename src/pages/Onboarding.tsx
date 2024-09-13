@@ -3,9 +3,7 @@ import { useState } from 'react'
 import { useNavigate } from 'react-router-dom'
 // import { useTranslation } from 'react-i18next'
 
-import Button from '../kit/Button'
-import Header from '../kit/Header'
-import Page from '../kit/Page'
+import { Button, Header, Page } from '../kit'
 
 import { useFeedback, TEvent, useInit } from '../hooks'
 import { closeApp } from '../utils'
@@ -26,7 +24,7 @@ const Pager = ({ page }: {
   <div className="absolute right-2 top-2 --bottom-[14px] --left-[50%] --translate-x-[50%] rounded-full px-2 py-[2px] bg-white font-bold shadow-md border border-[#eee] text-[#aaa]">{page}/6</div>
 )
 
-function Onboarding() {
+export const Onboarding = () => {
   useInit()
 
   const navigate = useNavigate()
@@ -252,5 +250,3 @@ function Onboarding() {
     </Page>
   )
 }
-
-export default Onboarding

@@ -5,14 +5,7 @@ import Lottie from 'lottie-react'
 import { useEffect, useState } from 'react'
 import { useTranslation } from 'react-i18next'
 
-import Button from '../kit/Button'
-import Overlay from '../kit/Overlay'
-import Panel from '../kit/Panel'
-import Debt from '../kit/Debt'
-import DebtDetailed from '../kit/DebtDetailed'
-import Divider from '../kit/Divider'
-import UserButton from '../kit/UserButton'
-import Currencies from '../kit/Currencies'
+import { Button, Overlay, Panel, Debt, DebtDetailed, Divider, UserButton, Currencies } from '../kit'
 
 import { usePostTransaction, useGetSummary } from '../api'
 import { useStore, useBalance, useCurrencies, useFeedback, useSummary } from '../hooks'
@@ -22,7 +15,7 @@ import { formatAmount, closeApp } from '../utils'
 import lottieKoalaSettledUp from '../assets/animation-koala-settled-up.json'
 import lottieKoalaSuccess from '../assets/animation-koala-success.json'
 
-function Balance({
+export const Balance = ({
   isCurrencyOpen,
   setIsCurrencyOpen,
   selectedDebtId,
@@ -42,7 +35,7 @@ function Balance({
   customRecipientId: null | TUserId
   setCustomRecipientId: (customRecipientId: null | TUserId) => void
   goDetailed: VoidFunction
-}) {
+}) => {
   const { t } = useTranslation()
 
   const [, notificationOccurred] = useHapticFeedback()
@@ -356,5 +349,3 @@ function Balance({
     </>
   )
 }
-
-export default Balance

@@ -2,14 +2,13 @@ import { useHapticFeedback } from '@vkruglikov/react-telegram-web-app'
 
 import { TUser } from '../types'
 
-import User from './User'
-import CheckBox from './CheckBox'
+import { User, CheckBox } from '../kit'
 
-function UserButton({ user, isChecked, onClick }: {
+export const UserButton = ({ user, isChecked, onClick }: {
   user: TUser
   isChecked?: boolean
   onClick: () => void
-}) {
+}) => {
   const [impactOccurred, , selectionChanged] = useHapticFeedback()
 
   const onClickVibro = () => {
@@ -31,5 +30,3 @@ function UserButton({ user, isChecked, onClick }: {
     </button>
   )
 }
-
-export default UserButton

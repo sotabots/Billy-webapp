@@ -67,13 +67,13 @@ const filter = ({ oldString, newStringRaw, decimals, max }: {
   return newString
 }
 
-function InputAmount({ amount, onChange, decimals = visible_decimals, unit, max }: {
+export const InputAmount = ({ amount, onChange, decimals = visible_decimals, unit, max }: {
   amount: number
   onChange?: (value: number) => void
   decimals?: number
   unit?: string
   max?: number
-}) {
+}) => {
   const [currentString, setCurrentString] = useState<string>(formatAmount(amount, decimals))
 
   useEffect(() => {
@@ -136,5 +136,3 @@ function InputAmount({ amount, onChange, decimals = visible_decimals, unit, max 
     </>
   )
 }
-
-export default InputAmount

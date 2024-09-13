@@ -9,7 +9,7 @@ type THeader = {
   // onCancel?: MouseEventHandler<HTMLButtonElement>
 }
 
-function Header({ onBack /*, onCancel */ }: THeader) {
+export const Header = ({ onBack /*, onCancel */ }: THeader) => {
   const { t } = useTranslation()
   if (window.Telegram?.WebApp.platform !== 'unknown') {
     return (
@@ -41,5 +41,3 @@ function Header({ onBack /*, onCancel */ }: THeader) {
     </header>
   )
 }
-
-export default Header

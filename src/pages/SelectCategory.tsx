@@ -3,15 +3,11 @@ import { useHapticFeedback } from '@vkruglikov/react-telegram-web-app'
 import { useState } from 'react'
 import { useTranslation } from 'react-i18next'
 
-import Button from '../kit/Button'
-import Header from '../kit/Header'
-import Page from '../kit/Page'
-import Panel from '../kit/Panel'
-import Category from '../kit/Category'
+import { Button, Header, Page, Panel, Category } from '../kit'
 
 import { useStore, useInit } from '../hooks'
 
-function SelectCategory() {
+export const SelectCategory = () => {
   useInit()
 
   const [impactOccurred, , selectionChanged] = useHapticFeedback()
@@ -60,5 +56,3 @@ function SelectCategory() {
     </Page>
   )
 }
-
-export default SelectCategory

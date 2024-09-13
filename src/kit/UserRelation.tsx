@@ -3,12 +3,12 @@ import { MouseEventHandler } from 'react'
 import { useUsers } from '../hooks'
 import { TShare } from '../types'
 
-import User from './User'
+import { User } from '../kit'
 
-function UserRelation({ share, onClick }: {
+export const UserRelation = ({ share, onClick }: {
   share: TShare
   onClick: MouseEventHandler<HTMLButtonElement>
-}) {
+}) => {
   const { getUserById } = useUsers()
   const user = share.related_user_id ? getUserById(share.related_user_id) : undefined
 
@@ -23,5 +23,3 @@ function UserRelation({ share, onClick }: {
     </button>
   )
 }
-
-export default UserRelation

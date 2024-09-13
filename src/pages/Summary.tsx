@@ -2,14 +2,7 @@ import cx from 'classnames'
 import { useTranslation } from 'react-i18next'
 import { useNavigate } from 'react-router-dom'
 
-import Button from '../kit/Button'
-import Panel from '../kit/Panel'
-import Pie from '../kit/Pie'
-import Category from '../kit/Category'
-import DateMark from '../kit/DateMark'
-import Transaction from '../kit/Transaction'
-import RadioButtons from '../kit/RadioButtons'
-import DatePicker from '../kit/DatePicker'
+import { Button, Panel, Pie, Category, DateMark, Transaction, RadioButtons, DatePicker } from '../kit'
 
 import { useStore, useTotal, useFilter, useFeedback, usePro } from '../hooks'
 import { TFilterPeriod, TFilterTotal } from '../types'
@@ -19,13 +12,13 @@ import { ReactComponent as FilterActiveIcon } from '../assets/filter-active.svg'
 import { ReactComponent as ProPie } from '../assets/pro-pie.svg'
 import { ReactComponent as ProBadgeRotate } from '../assets/pro-badge-rotate.svg'
 
-function Summary({
+export const Summary = ({
   isCompactPie,
   goDetailed
 }: {
   isCompactPie: boolean
   goDetailed: () => void
-}) {
+}) => {
   const { t } = useTranslation()
   const navigate = useNavigate()
   const { feedback } = useFeedback()
@@ -269,5 +262,3 @@ function Summary({
     </>
   )
 }
-
-export default Summary

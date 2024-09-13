@@ -5,9 +5,7 @@ import { useNavigate } from 'react-router-dom'
 
 import { closeApp } from '../utils'
 
-import Page from '../kit/Page'
-import Header from '../kit/Header'
-import Tabs from '../kit/Tabs'
+import { Page, Header, Tabs } from '../kit'
 
 import { useGetSummarySheetRebuild } from '../api'
 import { useStore, useInit, useFilter, useFeedback, useSummary } from '../hooks'
@@ -16,12 +14,13 @@ import { TUserId } from '../types'
 import { ReactComponent as ChatIcon } from '../assets/chat.svg'
 import { ReactComponent as ChartIcon } from '../assets/chart.svg'
 
-import Summary from './Summary'
-import Balance from './Balance'
+import { Summary, Balance } from '../pages'
 
 type TTab = 'summary' | 'balance'
 
-function SummaryBalance({ tab }: { tab: TTab }) {
+export const SummaryBalance = ({ tab }: {
+  tab: TTab
+}) => {
   useInit()
 
   const { t } = useTranslation()
@@ -149,5 +148,3 @@ function SummaryBalance({ tab }: { tab: TTab }) {
     </Page>
   )
 }
-
-export default SummaryBalance

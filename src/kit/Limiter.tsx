@@ -1,7 +1,7 @@
 import cx from 'classnames'
 import type { ReactNode } from 'react'
 
-const Limiter = ({ className, children }: {
+export const Limiter = ({ className, children }: {
   className?: string,
   children: ReactNode,
 }) => (
@@ -9,5 +9,3 @@ const Limiter = ({ className, children }: {
     {children}
   </div>
 )
-
-export default Limiter

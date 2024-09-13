@@ -3,7 +3,10 @@ import cx from 'classnames'
 import { useCategories } from '../hooks'
 import { TNewTransaction, TTransaction } from '../types'
 
-const CategoryAvatar = ({ tx, isCategoryName = true }: { tx: TTransaction | TNewTransaction, isCategoryName?: boolean }) => {
+export const CategoryAvatar = ({ tx, isCategoryName = true }: {
+  tx: TTransaction | TNewTransaction
+  isCategoryName?: boolean
+}) => {
   const { getCategoryColor, getCategoryEmoji, getCategoryName } = useCategories()
 
   const backgroundColor = getCategoryColor(tx.category)
@@ -30,5 +33,3 @@ const CategoryAvatar = ({ tx, isCategoryName = true }: { tx: TTransaction | TNew
       )}
     </div>
 )}
-
-export default CategoryAvatar

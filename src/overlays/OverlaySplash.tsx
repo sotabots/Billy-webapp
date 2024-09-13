@@ -1,9 +1,8 @@
 import { useSplash } from '../hooks'
 
-import Loader from '../kit/Loader'
-import Overlay from '../kit/Overlay'
+import { Loader, Overlay } from '../kit'
 
-function OverlaySplash() {
+export const OverlaySplash = () => {
   const { isLoading } = useSplash()
 
   if (location.href.includes('onboarding')) {
@@ -16,5 +15,3 @@ function OverlaySplash() {
     </Overlay>
   )
 }
-
-export default OverlaySplash

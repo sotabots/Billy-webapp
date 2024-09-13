@@ -1,8 +1,7 @@
 import cx from 'classnames'
 import { useTranslation } from 'react-i18next'
 
-import Divider from '../kit/Divider'
-import RadioButton from '../kit/RadioButton'
+import { Divider, RadioButton} from '../kit'
 
 import { TCurrency, TCurrencyId, TLanguageCode } from '../types'
 

@@ -2,15 +2,13 @@ import Lottie from 'lottie-react'
 import { useEffect, useState } from 'react'
 import { useTranslation } from 'react-i18next'
 
-import Button from '../kit/Button'
-import Header from '../kit/Header'
-import Page from '../kit/Page'
+import { Button, Header, Page } from '../kit'
 
 import { useInit, useFeedback } from '../hooks'
 
 import lottieKoalaSoon from '../assets/animation-koala-soon.json'
 
-function Soon() {
+export const Soon = () => {
   useInit()
 
   const { t } = useTranslation()

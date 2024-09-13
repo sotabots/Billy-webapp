@@ -2,10 +2,9 @@ import { ReactNode } from 'react'
 
 import { ReactComponent as SettingsGoIcon } from '../assets/settings-go.svg'
 
-import Button from './Button'
-import Toggle from './Toggle'
+import { Button, Toggle } from '../kit'
 
-const MenuItem = ({ icon, title, value, badge, isEnabled, disabled, onClick }: {
+export const MenuItem = ({ icon, title, value, badge, isEnabled, disabled, onClick }: {
   icon: any
   title: string
   value?: string
@@ -44,5 +43,3 @@ const MenuItem = ({ icon, title, value, badge, isEnabled, disabled, onClick }: {
     />
   )
 }
-
-export default MenuItem

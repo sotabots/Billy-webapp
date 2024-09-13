@@ -5,15 +5,7 @@ import { useState } from 'react'
 import { useTranslation } from 'react-i18next'
 import { useNavigate } from 'react-router-dom'
 
-import Button from '../kit/Button'
-import Header from '../kit/Header'
-import Page from '../kit/Page'
-import Divider from '../kit/Divider'
-import MenuItem from '../kit/MenuItem'
-import MenuGroup from '../kit/MenuGroup'
-import RadioButton from '../kit/RadioButton'
-import InputAmount from '../kit/InputAmount'
-import Currencies from '../kit/Currencies'
+import { Button, Header, Page, Divider, MenuItem, MenuGroup, RadioButton, InputAmount, Currencies } from '../kit'
 
 import { usePostChatCurrency, usePostChatLanguage, usePostChatSilent, useGetChat, usePostChatMode, usePostChatMonthlyLimit, usePostChatCashback } from '../api'
 import { useStore, useChatId, useInit, useFeedback, useCurrencies, usePro } from '../hooks'
@@ -30,7 +22,7 @@ import { ReactComponent as ModePersonalIcon } from '../assets/mode-personal.svg'
 import { ReactComponent as ModeGroupIcon } from '../assets/mode-group.svg'
 import { ReactComponent as ProBadge } from '../assets/pro-badge.svg'
 
-function Settings() {
+export const Settings = () => {
   useInit()
 
   const { t } = useTranslation()
@@ -435,5 +427,3 @@ function Settings() {
     </Page>
   )
 }
-
-export default Settings

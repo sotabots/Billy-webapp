@@ -1,7 +1,7 @@
 import cx from 'classnames'
 import type { ReactNode } from 'react'
 
-const MenuGroup = ({ className, children }: {
+export const MenuGroup = ({ className, children }: {
   className?: string,
   children: ReactNode,
 }) => {
@@ -11,5 +11,3 @@ const MenuGroup = ({ className, children }: {
     </div>
   )
 }
-
-export default MenuGroup

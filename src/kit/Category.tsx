@@ -1,8 +1,8 @@
 import { useCategories } from '../hooks'
 
-import Button from '../kit/Button'
+import { Button } from '../kit'
 
-const Category = ({ categoryKey, amountFormatted, isActive, onClick }: {
+export const Category = ({ categoryKey, amountFormatted, isActive, onClick }: {
   categoryKey: string,
   amountFormatted?: string,
   isActive?: boolean,
@@ -50,5 +50,3 @@ const Category = ({ categoryKey, amountFormatted, isActive, onClick }: {
     )
   )
 }
-
-export default Category

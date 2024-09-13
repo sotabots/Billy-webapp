@@ -1,6 +1,6 @@
 import { useRef, useEffect, ReactNode } from 'react'
 
-function OutsideClick({
+export const OutsideClick = ({
   className,
   onClick,
   children,
@@ -8,7 +8,7 @@ function OutsideClick({
   className?: string
   onClick: VoidFunction
   children: ReactNode
-}) {
+}) => {
   const ref = useRef<HTMLDivElement>(null)
 
   useEffect(() => {
@@ -32,5 +32,3 @@ function OutsideClick({
     </div>
   )
 }
-
-export default OutsideClick

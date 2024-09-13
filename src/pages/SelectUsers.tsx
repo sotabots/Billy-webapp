@@ -1,16 +1,12 @@
 import { useState } from 'react'
 import { useTranslation } from 'react-i18next'
 
-import Button from '../kit/Button'
-import Divider from '../kit/Divider'
-import Header from '../kit/Header'
-import Page from '../kit/Page'
-import UserButton from '../kit/UserButton'
+import { Button, Divider, Header, Page, UserButton } from '../kit'
 
 import { useStore, useFeedback, useInit, useTransaction, useUsers } from '../hooks'
 import { TShare, TUserId, TUser } from '../types'
 
-function SelectUsers() {
+export const SelectUsers = () => {
   useInit()
 
   const { t } = useTranslation()
@@ -94,5 +90,3 @@ function SelectUsers() {
     </Page>
   )
 }
-
-export default SelectUsers

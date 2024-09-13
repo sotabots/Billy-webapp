@@ -2,14 +2,14 @@ import cx from 'classnames'
 import { TCurrencyId } from '../types'
 import { ReactNode } from 'react'
 
-function RadioButton({ reverse, group, label, value, checked, onChange }: {
+export const RadioButton = ({ reverse, group, label, value, checked, onChange }: {
   reverse?: boolean
   group: string
   label: string | ReactNode
   value: TCurrencyId
   checked: boolean
   onChange: (value: TCurrencyId) => void
-}) {
+}) => {
   return (
     <label
       className={cx(
@@ -40,5 +40,3 @@ function RadioButton({ reverse, group, label, value, checked, onChange }: {
     </label>
   )
 }
-
-export default RadioButton

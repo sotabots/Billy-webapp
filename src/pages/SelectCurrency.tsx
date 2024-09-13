@@ -3,14 +3,12 @@ import { useCallback } from 'react'
 import { useTranslation } from 'react-i18next'
 import { useNavigate } from 'react-router-dom'
 
-import Header from '../kit/Header'
-import Page from '../kit/Page'
-import Currencies from '../kit/Currencies'
+import { Header, Page, Currencies } from '../kit'
 
 import { useStore, useFeedback, useInit } from '../hooks'
 import { TCurrencyId } from '../types'
 
-function SelectCurrency() {
+export const SelectCurrency = () => {
   useInit()
 
   const { t } = useTranslation()
@@ -47,5 +45,3 @@ function SelectCurrency() {
     </Page>
   )
 }
-
-export default SelectCurrency

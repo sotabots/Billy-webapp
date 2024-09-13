@@ -1,6 +1,6 @@
 import cx from 'classnames'
 
-const RadioButtons = ({ items, activeValue, onChange, className }: {
+export const RadioButtons = ({ items, activeValue, onChange, className }: {
   items: {
     title: string
     value: string
@@ -24,5 +24,3 @@ const RadioButtons = ({ items, activeValue, onChange, className }: {
     ))}
   </div>
 )
-
-export default RadioButtons

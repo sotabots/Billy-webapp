@@ -1,6 +1,4 @@
-import User from './User'
-import InputAmount from './InputAmount'
-import Button from './Button'
+import { User, InputAmount, Button } from '../kit'
 
 import { useFeedback, useUsers } from '../hooks'
 import { TDebt, TUserId } from '../types'
@@ -8,10 +6,10 @@ import { TDebt, TUserId } from '../types'
 import { ReactComponent as ToIcon } from '../assets/to.svg'
 import { ReactComponent as NextIcon } from '../assets/next.svg'
 
-function DebtDetailed({ from_user, to_user, amount, currency_id, customRecipientId, onClickRecipient }: TDebt & {
+export const DebtDetailed = ({ from_user, to_user, amount, currency_id, customRecipientId, onClickRecipient }: TDebt & {
   customRecipientId: null | TUserId
   onClickRecipient: VoidFunction
-}) {
+}) => {
   const { feedback } = useFeedback()
   const { getUserById } = useUsers()
 
@@ -52,5 +50,3 @@ function DebtDetailed({ from_user, to_user, amount, currency_id, customRecipient
     </div>
   )
 }
-
-export default DebtDetailed

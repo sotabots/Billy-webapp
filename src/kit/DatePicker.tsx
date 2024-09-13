@@ -1,13 +1,12 @@
 import cx from 'classnames'
 import { useState } from 'react'
 
-import Button from '../kit/Button'
-import OutsideClick from '../kit/OutsideClick'
+import { Button, OutsideClick } from '../kit'
 
 import { ReactComponent as DateIcon } from '../assets/date.svg'
 import { ReactComponent as DateClearIcon } from '../assets/date-clear.svg'
 
-function DatePicker({
+export const DatePicker = ({
   className,
   timestamp,
   placeholder,
@@ -19,7 +18,7 @@ function DatePicker({
   placeholder: string
   isRight?: boolean
   onChange: (timestamp: number | null) => void
-}) {
+}) => {
   const [isOpen, setIsOpen] = useState(false)
 
   return (
@@ -83,5 +82,3 @@ function DatePicker({
     </OutsideClick>
   )
 }
-
-export default DatePicker

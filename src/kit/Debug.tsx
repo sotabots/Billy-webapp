@@ -4,11 +4,11 @@ import { useCallback, useEffect, useState } from 'react'
 
 import { useStore, useChatId } from '../hooks'
 
-import Panel from './Panel'
+import { Panel } from '../kit'
 
 const OPEN_DEBUG_RIGHT_CLICKS = 5
 
-function Debug() {
+export const Debug = () => {
   const { transaction, users, txId, summaryId, summaryCurrencyId, setSummaryCurrencyId, summary, chat, currencies, categories, transactions, isDebug, setDebug } = useStore()
   const { chatId } = useChatId()
 
@@ -105,5 +105,3 @@ function Debug() {
     </div>
   )
 }
-
-export default Debug

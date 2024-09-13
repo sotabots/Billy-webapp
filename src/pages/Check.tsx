@@ -6,14 +6,7 @@ import { useState, useEffect } from 'react'
 import { useTranslation } from 'react-i18next'
 import { useNavigate } from 'react-router-dom'
 
-import Button from '../kit/Button'
-import Header from '../kit/Header'
-import UserAmount from '../kit/UserAmount'
-import Overlay from '../kit/Overlay'
-import Panel from '../kit/Panel'
-import MessagePanel from '../kit/MessagePanel'
-import Page from '../kit/Page'
-import Toggle from '../kit/Toggle'
+import { Button, Header, UserAmount, Overlay, Panel, MessagePanel, Page, Toggle } from '../kit'
 
 import { useGetTx, useGetTransactions, useGetSummary } from '../api'
 
@@ -28,7 +21,7 @@ import lottieSuccess from '../assets/animation-success.json'
 import { ReactComponent as AddIcon } from '../assets/add.svg'
 import { ReactComponent as DeleteIcon } from '../assets/delete.svg'
 
-function Check() {
+export const Check = () => {
   useInit()
 
   const [impactOccurred, notificationOccurred] = useHapticFeedback()
@@ -403,5 +396,3 @@ function Check() {
     </>
   )
 }
-
-export default Check

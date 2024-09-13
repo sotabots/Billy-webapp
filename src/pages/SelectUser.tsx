@@ -1,16 +1,14 @@
 import { useTranslation } from 'react-i18next'
 import { useNavigate } from 'react-router-dom'
 
-import Button from '../kit/Button'
-import Header from '../kit/Header'
-import Page from '../kit/Page'
+import { Button, Header, Page } from '../kit'
 import { UsersGroup } from '../kit'
 
 import { useStore, useFeedback, useInit, useTransaction, useUsers } from '../hooks'
 
 import { TUser } from '../types'
 
-function SelectUser() {
+export const SelectUser = () => {
   useInit()
 
   const navigate = useNavigate()
@@ -96,5 +94,3 @@ function SelectUser() {
     </Page>
   )
 }
-
-export default SelectUser
