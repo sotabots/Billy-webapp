@@ -5,7 +5,7 @@ import { useTranslation } from 'react-i18next'
 
 import Button from '../kit/Button'
 import Header from '../kit/Header'
-import Screen from '../kit/Screen'
+import Page from '../kit/Page'
 import Panel from '../kit/Panel'
 import Category from '../kit/Category'
 
@@ -33,7 +33,7 @@ function SelectCategory() {
   }
 
   return (
-    <Screen className="">
+    <Page className="">
       <Header onBack={() => { history.back() }} />
 
       <Panel>
@@ -57,7 +57,7 @@ function SelectCategory() {
         text={t('apply')}
         onClick={apply}
       />
-    </Screen>
+    </Page>
   )
 }
 

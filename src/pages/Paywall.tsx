@@ -4,7 +4,7 @@ import { useTranslation } from 'react-i18next'
 
 import Button from '../kit/Button'
 import Header from '../kit/Header'
-import Screen from '../kit/Screen'
+import Page from '../kit/Page'
 import Panel from '../kit/Panel'
 import Divider from '../kit/Divider'
 import Plan from '../kit/Plan'
@@ -54,7 +54,7 @@ function Paywall() {
   }
 
   return (
-    <Screen>
+    <Page>
       <Header onBack={() => { history.back() }} />
 
       <Panel>
@@ -185,7 +185,7 @@ function Paywall() {
           isBusy={isBusy}
         />
       </div>
-    </Screen>
+    </Page>
   )
 }
 

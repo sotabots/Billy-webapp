@@ -4,7 +4,7 @@ import { useTranslation } from 'react-i18next'
 
 import Button from '../kit/Button'
 import Header from '../kit/Header'
-import Screen from '../kit/Screen'
+import Page from '../kit/Page'
 
 import { useInit, useFeedback } from '../hooks'
 
@@ -26,7 +26,7 @@ function Soon() {
   }, [isEvent, setIsEvent])
 
   return (
-    <Screen>
+    <Page>
       <Header onBack={() => { history.back() }} />
 
       <div className="w-[280px] mx-auto flex flex-col gap-4 pt-[112px] text-center">
@@ -47,7 +47,7 @@ function Soon() {
         text={t('okay')}
         onClick={() => { history.back() }}
       />
-    </Screen>
+    </Page>
   )
 }
 

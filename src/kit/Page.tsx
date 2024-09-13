@@ -4,17 +4,15 @@ import { ReactNode, UIEvent } from 'react'
 import Debug from './Debug'
 import Limiter from './Limiter'
 
-type TScreen = {
-  children: ReactNode,
-  className?: string,
-  _ref?: React.RefObject<HTMLDivElement>,
+function Page({ className, children, _ref, onScroll }: {
+  className?: string
+  children: ReactNode
+  _ref?: React.RefObject<HTMLDivElement>
   onScroll?: (e: UIEvent<HTMLDivElement>) => void
-}
-
-function Screen({ children, className, _ref, onScroll }: TScreen) {
+}) {
   return (
     <div
-      className={cx('Screen relative w-full min-h-[100vh] text-text bg-bg2', className)}
+      className={cx('Page z-0 relative w-full min-h-[100vh] text-text bg-bg2', className)}
       ref={_ref}
       onScroll={onScroll}
     >
@@ -26,4 +24,4 @@ function Screen({ children, className, _ref, onScroll }: TScreen) {
   )
 }
 
-export default Screen
+export default Page

@@ -7,7 +7,7 @@ import { useNavigate } from 'react-router-dom'
 
 import Button from '../kit/Button'
 import Header from '../kit/Header'
-import Screen from '../kit/Screen'
+import Page from '../kit/Page'
 import Divider from '../kit/Divider'
 import MenuItem from '../kit/MenuItem'
 import MenuGroup from '../kit/MenuGroup'
@@ -202,7 +202,7 @@ function Settings() {
   const chatCurrency = getCurrencyById(chat?.default_currency || 'USD')
 
   return (
-    <Screen>
+    <Page>
       <Header onBack={() => { isInnerOpen ? closeInnerPages() : history.back() }} />
 
       {!isInnerOpen && (
@@ -432,7 +432,7 @@ function Settings() {
           />
         </>
       )}
-    </Screen>
+    </Page>
   )
 }
 

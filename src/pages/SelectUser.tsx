@@ -3,7 +3,7 @@ import { useNavigate } from 'react-router-dom'
 
 import Button from '../kit/Button'
 import Header from '../kit/Header'
-import Screen from '../kit/Screen'
+import Page from '../kit/Page'
 import { UsersGroup } from '../kit'
 
 import { useStore, useFeedback, useInit, useTransaction, useUsers } from '../hooks'
@@ -60,7 +60,7 @@ function SelectUser() {
   }
 
   return (
-    <Screen className="!bg-bg">
+    <Page className="!bg-bg">
       <Header onBack={() => { history.back() }} />
 
       <div className="mb-2 px-4 flex items-center justify-between gap-3">
@@ -93,7 +93,7 @@ function SelectUser() {
           />
         }
       </div>
-    </Screen>
+    </Page>
   )
 }
 

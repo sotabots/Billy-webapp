@@ -5,7 +5,7 @@ import { useNavigate } from 'react-router-dom'
 
 import { closeApp } from '../utils'
 
-import Screen from '../kit/Screen'
+import Page from '../kit/Page'
 import Header from '../kit/Header'
 import Tabs from '../kit/Tabs'
 
@@ -78,7 +78,7 @@ function SummaryBalance({ tab }: { tab: TTab }) {
   }
 
   return (
-    <Screen
+    <Page
       _ref={screenRef}
       className={cx(tab === 'balance' && isCurrencyOpen && '!bg-bg')}
       onScroll={onScroll}
@@ -146,7 +146,7 @@ function SummaryBalance({ tab }: { tab: TTab }) {
           goDetailed={goDetailed}
         />
       )}
-    </Screen>
+    </Page>
   )
 }
 

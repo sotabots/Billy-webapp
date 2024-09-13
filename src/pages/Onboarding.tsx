@@ -5,7 +5,7 @@ import { useNavigate } from 'react-router-dom'
 
 import Button from '../kit/Button'
 import Header from '../kit/Header'
-import Screen from '../kit/Screen'
+import Page from '../kit/Page'
 
 import { useFeedback, TEvent, useInit } from '../hooks'
 import { closeApp } from '../utils'
@@ -46,7 +46,7 @@ function Onboarding() {
   })
 
   return (
-    <Screen className="">
+    <Page className="">
       <Header onBack={() => {
         if (step === 1) {
           closeApp()
@@ -249,7 +249,7 @@ function Onboarding() {
           }
         }}
       />
-    </Screen>
+    </Page>
   )
 }
 

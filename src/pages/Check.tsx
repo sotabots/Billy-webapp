@@ -12,7 +12,7 @@ import UserAmount from '../kit/UserAmount'
 import Overlay from '../kit/Overlay'
 import Panel from '../kit/Panel'
 import MessagePanel from '../kit/MessagePanel'
-import Screen from '../kit/Screen'
+import Page from '../kit/Page'
 import Toggle from '../kit/Toggle'
 
 import { useGetTx, useGetTransactions, useGetSummary } from '../api'
@@ -248,7 +248,7 @@ function Check() {
 
   return (
     <>
-      <Screen>
+      <Page>
         <Header onBack={() => {
           if (isEditTx) {
             history.back()
@@ -391,7 +391,7 @@ function Check() {
           disabled={isButtonDisabled}
           isBusy={isBusy}
         />
-      </Screen>
+      </Page>
 
       <Overlay isOpen={!!isSuccess} isCenter>
         <div className="w-[200px] h-[200px] p-4 text-center text-button text-[24px] font-medium">
