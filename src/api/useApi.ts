@@ -410,6 +410,7 @@ export const usePostUserOnboarding = () => {
 
 export const usePostPayment = () => {
   const { authString } = useAuth()
+  const { pwTxId } = useStore()
 
   return ({ amount, productKey }: TPlan) => {
     const url = `${apiUrl}/payments/`
@@ -418,6 +419,7 @@ export const usePostPayment = () => {
       body: JSON.stringify({
         amount: String(amount),
         product_key: productKey,
+        pw_txid: pwTxId,
       }),
       headers: {
         'Content-type': 'application/json',

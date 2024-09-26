@@ -17,6 +17,7 @@ export const useInit = () => {
     isFlowFeedback, setIsFlowFeedback,
     isOnboardingFeedback, setIsOnboardingFeedback,
     chatIdStart, setChatIdStart,
+    pwTxId, setPwTxId,
     txId, setTxId,
     summaryId, setSummaryId,
     chat,
@@ -46,6 +47,7 @@ export const useInit = () => {
   let startParamSummaryId
   let startParamChatId
   let startParamRef: undefined | number
+  let startParamPwTxId: undefined | string
 
   if (startParam) {
     try {
@@ -67,6 +69,9 @@ export const useInit = () => {
       }
       if ('chat_id' in startParamJson) {
         startParamChatId = startParamJson.chat_id
+      }
+      if ('pw_txid' in startParamJson) {
+        startParamPwTxId = startParamJson.pw_txid
       }
       console.log('start startParamTxId', startParamTxId)
       console.log('start startParamSummaryId', startParamSummaryId)
@@ -96,6 +101,10 @@ export const useInit = () => {
 
   if (chatIdStart === undefined && startParamChatId) {
     setChatIdStart(startParamChatId)
+  }
+
+  if (pwTxId === undefined && startParamPwTxId) {
+    setPwTxId(startParamPwTxId)
   }
 
   if (!flow) {
