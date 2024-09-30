@@ -111,12 +111,6 @@ export const Balance = ({
       const resJson = await postTransaction(newTx)
       console.log('patchTransaction res', resJson)
 
-      /*
-      setSummary({
-        ...summary,
-        debts: [...summary.debts].filter(debt => JSON.stringify(debt) !== selectedDebtId)
-      })
-      */
       setIsSuccessOpen(true)
       console.log('success vibro')
       notificationOccurred('success')

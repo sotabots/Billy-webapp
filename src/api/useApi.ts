@@ -194,10 +194,6 @@ export const useGetSummary = () => {
               'Authorization': authString,
             }
           }).then(handleJsonResponse),
-      // onSuccess: (data) => {
-      //   console.log('useGetSummary: setSummary', data)
-      //   setSummary(data)
-      // },
       enabled: summaryId !== undefined,
       staleTime
     })
