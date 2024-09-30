@@ -1,7 +1,7 @@
 import { useInitData } from '@vkruglikov/react-telegram-web-app'
 import { useQuery } from '@tanstack/react-query'
 
-import { useNewTx, useChatId, useStore } from '../hooks'
+import { useAuth, useNewTx, useChatId, useStore } from '../hooks'
 import { TCurrency, TCategories, TTransaction, TNewTransaction, TUser, TChat, TSummary, TCurrencyId, TLanguageCode, TMode, TPlan } from '../types'
 import {
   mockTransaction,
@@ -23,7 +23,7 @@ const handleJsonResponse = (res: Response) => {
 }
 
 export const useGetTx = () => {
-  const [, initData] = useInitData()
+  const { authString } = useAuth()
   const { setTransaction, txId } = useStore()
   const { newTx } = useNewTx()
   console.log('useGetTx txId', txId)
@@ -41,7 +41,7 @@ export const useGetTx = () => {
         return fetch(`${apiUrl}/transactions/${txId}`, {
           method: 'GET',
           headers: {
-            'Authorization': initData,
+            'Authorization': authString,
           }
         }).then(handleJsonResponse)
       },
@@ -56,7 +56,7 @@ export const useGetTx = () => {
 }
 
 export const useGetUsers = (chatId: undefined | number) => {
-  const [, initData] = useInitData()
+  const { authString } = useAuth()
   const { setUsers } = useStore()
 
   return (
@@ -68,7 +68,7 @@ export const useGetUsers = (chatId: undefined | number) => {
           fetch(`${apiUrl}/chat/${chatId}/users`, {
             method: 'GET',
             headers: {
-              'Authorization': initData,
+              'Authorization': authString,
             }
           }).then(handleJsonResponse),
       onSuccess: (data) => {
@@ -82,7 +82,7 @@ export const useGetUsers = (chatId: undefined | number) => {
 }
 
 export const useGetChat = (chatId: undefined | number) => {
-  const [, initData] = useInitData()
+  const { authString } = useAuth()
   const { setChat } = useStore()
 
   return (
@@ -94,7 +94,7 @@ export const useGetChat = (chatId: undefined | number) => {
           fetch(`${apiUrl}/chat/${chatId}/settings`, {
             method: 'GET',
             headers: {
-              'Authorization': initData,
+              'Authorization': authString,
             }
           }).then(handleJsonResponse),
       onSuccess: (data) => {
@@ -108,7 +108,7 @@ export const useGetChat = (chatId: undefined | number) => {
 }
 
 export const useGetCurrencies = (chatId: undefined | number) => {
-  const [, initData] = useInitData()
+  const { authString } = useAuth()
   const { setCurrencies } = useStore()
 
   return (
@@ -120,7 +120,7 @@ export const useGetCurrencies = (chatId: undefined | number) => {
           fetch(`${apiUrl}/currencies/?chat_id=${chatId}`, {
             method: 'GET',
             headers: {
-              'Authorization': initData,
+              'Authorization': authString,
             }
           }).then(handleJsonResponse),
       onSuccess: (data) => {
@@ -134,7 +134,7 @@ export const useGetCurrencies = (chatId: undefined | number) => {
 }
 
 export const usePutTransaction = () => {
-  const [, initData] = useInitData()
+  const { authString } = useAuth()
   const { txId } = useStore()
   const url = txId?.includes('demo')
     ? 'https://jsonplaceholder.typicode.com/posts/1'
@@ -146,13 +146,13 @@ export const usePutTransaction = () => {
       body: JSON.stringify(tx),
       headers: {
         'Content-type': 'application/json',
-        'Authorization': initData,
+        'Authorization': authString,
       },
     }).then(handleJsonResponse)
 }
 
 export const usePostTransaction = () => { // summary settleup
-  const [, initData] = useInitData()
+  const { authString } = useAuth()
   const { summaryId } = useStore()
   const url = summaryId?.includes('demo')
     ? 'https://jsonplaceholder.typicode.com/posts'
@@ -164,13 +164,13 @@ export const usePostTransaction = () => { // summary settleup
       body: JSON.stringify({...newTx, _id: undefined}), // clear _id: 'NEW'
       headers: {
         'Content-type': 'application/json',
-        'Authorization': initData,
+        'Authorization': authString,
       },
     }).then(handleJsonResponse)
 }
 
 export const useGetSummary = () => {
-  const [, initData] = useInitData()
+  const { authString } = useAuth()
   const { summaryId, summaryCurrencyId } = useStore()
   console.log('useGetSummary summaryId', summaryId, summaryCurrencyId)
 
@@ -191,7 +191,7 @@ export const useGetSummary = () => {
           fetch(url , {
             method: 'GET',
             headers: {
-              'Authorization': initData,
+              'Authorization': authString,
             }
           }).then(handleJsonResponse),
       // onSuccess: (data) => {
@@ -205,7 +205,7 @@ export const useGetSummary = () => {
 }
 
 export const useGetCategories = () => {
-  const [, initData] = useInitData()
+  const { authString } = useAuth()
   const { setCategories } = useStore()
 
   return (
@@ -215,7 +215,7 @@ export const useGetCategories = () => {
         fetch(`${apiUrl}/general/categories`, {
           method: 'GET',
           headers: {
-            'Authorization': initData,
+            'Authorization': authString,
           }
         }).then(handleJsonResponse),
       onSuccess: (data) => {
@@ -228,7 +228,7 @@ export const useGetCategories = () => {
 }
 
 export const useGetTransactions = (chatId: undefined | number) => {
-  const [, initData] = useInitData()
+  const { authString } = useAuth()
   const { setTransactions, summaryId } = useStore()
 
   return (
@@ -240,7 +240,7 @@ export const useGetTransactions = (chatId: undefined | number) => {
           fetch(`${apiUrl}/chat/${chatId}/transactions`, {
             method: 'GET',
             headers: {
-              'Authorization': initData,
+              'Authorization': authString,
             }
           }).then(handleJsonResponse),
       onSuccess: (data) => {
@@ -254,7 +254,7 @@ export const useGetTransactions = (chatId: undefined | number) => {
 }
 
 export const usePostChatMode = () => {
-  const [, initData] = useInitData()
+  const { authString } = useAuth()
   const { chatId } = useChatId()
   const url = chatId === 0
     ? 'https://jsonplaceholder.typicode.com/posts'
@@ -266,13 +266,13 @@ export const usePostChatMode = () => {
       body: JSON.stringify({ mode }),
       headers: {
         'Content-type': 'application/json',
-        'Authorization': initData,
+        'Authorization': authString,
       },
     }).then(handleJsonResponse)
 }
 
 export const usePostChatCurrency = () => {
-  const [, initData] = useInitData()
+  const { authString } = useAuth()
   const { chatId } = useChatId()
   const url = chatId === 0
     ? 'https://jsonplaceholder.typicode.com/posts'
@@ -284,13 +284,13 @@ export const usePostChatCurrency = () => {
       body: JSON.stringify({ currency_id: currencyId }),
       headers: {
         'Content-type': 'application/json',
-        'Authorization': initData,
+        'Authorization': authString,
       },
     }).then(handleJsonResponse)
 }
 
 export const usePostChatLanguage = () => {
-  const [, initData] = useInitData()
+  const { authString } = useAuth()
   const { chatId } = useChatId()
   const url = chatId === 0
     ? 'https://jsonplaceholder.typicode.com/posts'
@@ -302,13 +302,13 @@ export const usePostChatLanguage = () => {
       body: JSON.stringify({ language_code: languageCode }),
       headers: {
         'Content-type': 'application/json',
-        'Authorization': initData,
+        'Authorization': authString,
       },
     }).then(handleJsonResponse)
 }
 
 export const usePostChatSilent = () => {
-  const [, initData] = useInitData()
+  const { authString } = useAuth()
   const { chatId } = useChatId()
   const url = chatId === 0
     ? 'https://jsonplaceholder.typicode.com/posts'
@@ -322,13 +322,13 @@ export const usePostChatSilent = () => {
       }),
       headers: {
         'Content-type': 'application/json',
-        'Authorization': initData,
+        'Authorization': authString,
       },
     }).then(handleJsonResponse)
 }
 
 export const usePostChatMonthlyLimit = () => {
-  const [, initData] = useInitData()
+  const { authString } = useAuth()
   const { chatId } = useChatId()
   const url = chatId === 0
     ? 'https://jsonplaceholder.typicode.com/posts'
@@ -342,13 +342,13 @@ export const usePostChatMonthlyLimit = () => {
       }),
       headers: {
         'Content-type': 'application/json',
-        'Authorization': initData,
+        'Authorization': authString,
       },
     }).then(handleJsonResponse)
 }
 
 export const usePostChatCashback = () => {
-  const [, initData] = useInitData()
+  const { authString } = useAuth()
   const { chatId } = useChatId()
   const url = chatId === 0
     ? 'https://jsonplaceholder.typicode.com/posts'
@@ -362,13 +362,13 @@ export const usePostChatCashback = () => {
       }),
       headers: {
         'Content-type': 'application/json',
-        'Authorization': initData,
+        'Authorization': authString,
       },
     }).then(handleJsonResponse)
 }
 
 export const useGetSummarySheetRebuild = () => {
-  const [, initData] = useInitData()
+  const { authString } = useAuth()
   const { summaryId } = useStore()
   const url = (!summaryId || summaryId?.includes('demo'))
     ? 'https://jsonplaceholder.typicode.com/posts'
@@ -379,13 +379,15 @@ export const useGetSummarySheetRebuild = () => {
       method: 'GET',
       headers: {
         'Content-type': 'application/json',
-        'Authorization': initData,
+        'Authorization': authString,
       },
     }).then(handleJsonResponse)
 }
 
 export const usePostUserOnboarding = () => {
-  const [initDataUnsafe, initData] = useInitData()
+  const [initDataUnsafe] = useInitData()
+  // todo: better initData+useAuth
+  const { authString } = useAuth()
   const url = initDataUnsafe.user
     ? `${apiUrl}/users/${initDataUnsafe.user.id}/start_onb`
     : 'https://jsonplaceholder.typicode.com/posts'
@@ -401,13 +403,14 @@ export const usePostUserOnboarding = () => {
       }),
       headers: {
         'Content-type': 'application/json',
-        'Authorization': initData,
+        'Authorization': authString,
       },
     }).then(handleJsonResponse)
 }
 
 export const usePostPayment = () => {
-  const [, initData] = useInitData()
+  const { authString } = useAuth()
+  const { pwTxId } = useStore()
 
   return ({ amount, productKey }: TPlan) => {
     const url = `${apiUrl}/payments/`
@@ -416,10 +419,11 @@ export const usePostPayment = () => {
       body: JSON.stringify({
         amount: String(amount),
         product_key: productKey,
+        pw_txid: pwTxId,
       }),
       headers: {
         'Content-type': 'application/json',
-        'Authorization': initData,
+        'Authorization': authString,
       },
     }).then(handleJsonResponse)
   }

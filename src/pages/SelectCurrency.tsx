@@ -3,14 +3,12 @@ import { useCallback } from 'react'
 import { useTranslation } from 'react-i18next'
 import { useNavigate } from 'react-router-dom'
 
-import Header from '../kit/Header'
-import Screen from '../kit/Screen'
-import Currencies from '../kit/Currencies'
+import { Header, Page, Currencies } from '../kit'
 
 import { useStore, useFeedback, useInit } from '../hooks'
 import { TCurrencyId } from '../types'
 
-function SelectCurrency() {
+export const SelectCurrency = () => {
   useInit()
 
   const { t } = useTranslation()
@@ -33,7 +31,7 @@ function SelectCurrency() {
   }, [impactOccurred, selectionChanged, navigate, setCurrency])
 
   return (
-    <Screen className="!bg-bg">
+    <Page className="!bg-bg">
       <Header onBack={() => { history.back() }} />
 
       <div className="px-4">
@@ -44,8 +42,6 @@ function SelectCurrency() {
         value={transaction?.currency_id}
         onChange={onChange}
       />
-    </Screen>
+    </Page>
   )
 }
-
-export default SelectCurrency

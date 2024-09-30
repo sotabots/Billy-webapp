@@ -5,13 +5,14 @@ import { useCallback, useEffect, useState } from 'react'
 import { useStore, useChatId } from '../hooks'
 import { useGetSummary } from '../api'
 
-import Panel from './Panel'
+import { Panel } from '../kit'
 
 const OPEN_DEBUG_RIGHT_CLICKS = 5
 
-function Debug() {
+export const Debug = () => {
   const { transaction, users, txId, summaryId, summaryCurrencyId, setSummaryCurrencyId, chat, currencies, categories, transactions, isDebug, setDebug } = useStore()
   const { data: summary } = useGetSummary()
+
   const { chatId } = useChatId()
 
   // const navigate = useNavigate()
@@ -107,5 +108,3 @@ function Debug() {
     </div>
   )
 }
-
-export default Debug

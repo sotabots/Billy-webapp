@@ -2,12 +2,7 @@ import Lottie from 'lottie-react'
 import { useState } from 'react'
 import { useTranslation } from 'react-i18next'
 
-import Button from '../kit/Button'
-import Header from '../kit/Header'
-import Screen from '../kit/Screen'
-import Panel from '../kit/Panel'
-import Divider from '../kit/Divider'
-import Plan from '../kit/Plan'
+import { Button, Header, Page, Panel, Divider, Plan } from '../kit'
 
 import { useInit, useStore } from '../hooks'
 import { usePostPayment } from '../api'
@@ -17,7 +12,7 @@ import lottieKoalaStars from '../assets/animation-koala-stars.json'
 import { ReactComponent as CheckColored } from '../assets/check-colored.svg'
 import star from '../assets/star.png'
 
-function Paywall() {
+export const Paywall = () => {
   useInit()
 
   const { isDebug } = useStore()
@@ -54,7 +49,7 @@ function Paywall() {
   }
 
   return (
-    <Screen>
+    <Page>
       <Header onBack={() => { history.back() }} />
 
       <Panel>
@@ -185,8 +180,6 @@ function Paywall() {
           isBusy={isBusy}
         />
       </div>
-    </Screen>
+    </Page>
   )
 }
-
-export default Paywall

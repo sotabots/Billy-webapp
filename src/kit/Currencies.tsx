@@ -6,11 +6,11 @@ import { CurrenciesGroup } from '../kit'
 import { TCurrencyId } from '../types'
 import { useStore } from '../hooks'
 
-function Currencies({ className, value, onChange }: {
+export const Currencies = ({ className, value, onChange }: {
   className?: string
   value?: TCurrencyId | null
   onChange: (currencyId: TCurrencyId) => void
-}) {
+}) => {
   const { t } = useTranslation()
   const { currencies } = useStore()
 
@@ -39,5 +39,3 @@ function Currencies({ className, value, onChange }: {
     </div>
   )
 }
-
-export default Currencies

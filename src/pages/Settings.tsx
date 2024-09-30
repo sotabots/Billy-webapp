@@ -3,19 +3,12 @@ import cx from 'classnames'
 
 import { useState } from 'react'
 import { useTranslation } from 'react-i18next'
+import { useNavigate } from 'react-router-dom'
 
-import Button from '../kit/Button'
-import Header from '../kit/Header'
-import Screen from '../kit/Screen'
-import Divider from '../kit/Divider'
-import MenuItem from '../kit/MenuItem'
-import MenuGroup from '../kit/MenuGroup'
-import RadioButton from '../kit/RadioButton'
-import InputAmount from '../kit/InputAmount'
-import Currencies from '../kit/Currencies'
+import { Button, Header, Page, Divider, MenuItem, MenuGroup, RadioButton, InputAmount, Currencies } from '../kit'
 
 import { usePostChatCurrency, usePostChatLanguage, usePostChatSilent, useGetChat, usePostChatMode, usePostChatMonthlyLimit, usePostChatCashback } from '../api'
-import { useStore, useChatId, useInit, useFeedback, useCurrencies } from '../hooks'
+import { useStore, useChatId, useInit, useFeedback, useCurrencies, usePro } from '../hooks'
 import { TCurrencyId, TLanguageCode, TMode } from '../types'
 import { formatAmount } from '../utils'
 
@@ -27,13 +20,16 @@ import { ReactComponent as SettingsLimitIcon } from '../assets/settings-limit.sv
 
 import { ReactComponent as ModePersonalIcon } from '../assets/mode-personal.svg'
 import { ReactComponent as ModeGroupIcon } from '../assets/mode-group.svg'
+import { ReactComponent as ProBadge } from '../assets/pro-badge.svg'
 
-function Settings() {
+export const Settings = () => {
   useInit()
 
   const { t } = useTranslation()
   const { currencies, chat } = useStore()
   const { feedback } = useFeedback()
+  const { isPro } = usePro()
+  const navigate = useNavigate()
 
   const [isCurrencyOpen, setIsCurrencyOpen] = useState(false)
   const [isLanguageOpen, setIsLanguageOpen] = useState(false)
@@ -198,7 +194,7 @@ function Settings() {
   const chatCurrency = getCurrencyById(chat?.default_currency || 'USD')
 
   return (
-    <Screen>
+    <Page>
       <Header onBack={() => { isInnerOpen ? closeInnerPages() : history.back() }} />
 
       {!isInnerOpen && (
@@ -281,7 +277,14 @@ function Settings() {
                 icon={<SettingsLimitIcon />}
                 title={t('monthlyLimit')}
                 value={chat?.monthly_limit ? `${formatAmount(chat.monthly_limit)}${chatCurrency?.symbol}` : t('setLimit')}
-                onClick={() => { setIsLimitOpen(true) }}
+                badge={!isPro ? <ProBadge /> : undefined}
+                onClick={() => {
+                  if (isPro) {
+                    setIsLimitOpen(true)
+                  } else {
+                    navigate('/paywall')
+                  }
+                }}
               />
             }
             {!!chat && chat.mode === 'travel' &&
@@ -289,7 +292,14 @@ function Settings() {
                 icon={<SettingsCashbackIcon />}
                 title={t('cashback')}
                 value={cashback ? `${cashback}%` : t('setCashback')}
-                onClick={() => { setIsCashbackOpen(true) }}
+                badge={!isPro ? <ProBadge /> : undefined}
+                onClick={() => {
+                  if (isPro) {
+                    setIsCashbackOpen(true)
+                  } else {
+                    navigate('/paywall')
+                  }
+                }}
               />
             }
           </MenuGroup>
@@ -414,8 +424,6 @@ function Settings() {
           />
         </>
       )}
-    </Screen>
+    </Page>
   )
 }
-
-export default Settings

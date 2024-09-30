@@ -1,64 +1,55 @@
 import { createHashRouter } from 'react-router-dom'
 
-import SelectUser from './pages/SelectUser'
-import Check from './pages/Check'
-import SelectCurrency from './pages/SelectCurrency'
-import SelectUsers from './pages/SelectUsers'
-import SelectCategory from './pages/SelectCategory'
-import SummaryBalance from './pages/SummaryBalance'
-import Settings from './pages/Settings'
-import Onboarding from './pages/Onboarding'
-import Soon from './pages/Soon'
-import Paywall from './pages/Paywall'
+import { SelectUser, Check, SelectCurrency, SelectUsers, SelectCategory, SummaryBalance, Settings, Onboarding, Soon, Paywall } from './pages'
 
 export const router = createHashRouter([
   {
-    path: "/",
+    path: '/',
     element: <Check />,
     errorElement: <Check />,
   },
   {
-    path: "*",
+    path: '*',
     element: <Check />,
   },
   {
-    path: "/select-user",
+    path: '/select-user',
     element: <SelectUser />,
   },
   {
-    path: "/select-currency",
+    path: '/select-currency',
     element: <SelectCurrency />,
   },
   {
-    path: "/select-users",
+    path: '/select-users',
     element: <SelectUsers />,
   },
   {
-    path: "/select-category",
+    path: '/select-category',
     element: <SelectCategory />,
   },
   {
-    path: "/summary",
+    path: '/summary',
     element: <SummaryBalance tab="summary" />,
   },
   {
-    path: "/balance",
+    path: '/balance',
     element: <SummaryBalance tab="balance" />,
   },
   {
-    path: "/settings",
+    path: '/settings',
     element: <Settings />,
   },
   {
-    path: "/onboarding",
+    path: '/onboarding',
     element: <Onboarding />,
   },
   {
-    path: "/soon",
+    path: '/soon',
     element: <Soon />,
   },
   {
-    path: "/paywall",
+    path: '/paywall',
     element: <Paywall />,
   },
 ])

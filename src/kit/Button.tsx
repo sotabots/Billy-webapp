@@ -3,9 +3,7 @@ import cx from 'classnames'
 import { ReactNode } from 'react'
 
 import { useStore } from '../hooks'
-
-import Limiter from './Limiter'
-import Loader from './Loader'
+import { Limiter, Loader } from '../kit'
 
 type TButton = {
   theme?: 'default' | 'clear' | 'text' | 'settleUp' | 'icon' | 'subBottom'
@@ -23,7 +21,7 @@ type TButton = {
   text: string | ReactNode,
 })
 
-function Button({ theme = 'default', wrapperClassName, className, isBottom, color, text, disabled, isBusy, onClick }: TButton) {
+export const Button = ({ theme = 'default', wrapperClassName, className, isBottom, color, text, disabled, isBusy, onClick }: TButton) => {
   const webApp = useWebApp()
   const [impactOccurred] = useHapticFeedback()
   const { overlays } = useStore()
@@ -107,5 +105,3 @@ function Button({ theme = 'default', wrapperClassName, className, isBottom, colo
     </div>
   )
 }
-
-export default Button

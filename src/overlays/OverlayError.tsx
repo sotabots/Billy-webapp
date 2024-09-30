@@ -5,13 +5,12 @@ import { useTranslation } from 'react-i18next'
 
 import { useSplash, useFeedback } from '../hooks'
 
-import Debug from '../kit/Debug'
-import Overlay from '../kit/Overlay'
+import { Debug, Overlay } from '../kit'
 
 import lottieKoalaForbidden from '../assets/animation-koala-forbidden.json'
 import lottieKoalaError from '../assets/animation-koala-error.json'
 
-function OverlayError() {
+export const OverlayError = () => {
   const { error } = useSplash()
   const { t } = useTranslation()
   const { feedback } = useFeedback()
@@ -56,5 +55,3 @@ function OverlayError() {
     </Overlay>
   )
 }
-
-export default OverlayError

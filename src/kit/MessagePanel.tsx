@@ -1,16 +1,11 @@
 import { useTranslation } from 'react-i18next'
 import { useNavigate } from 'react-router-dom'
 
-import HTMLTagRenderer from '../kit/HTMLTagRenderer'
-import Button from '../kit/Button'
-import Panel from '../kit/Panel'
-import Textarea from '../kit/Textarea'
+import { HTMLTagRenderer, Button, Panel, Textarea, CategoryAvatar } from '../kit'
 
 import { usePro, useStore, useTransaction } from '../hooks'
 
-import CategoryAvatar from './CategoryAvatar'
-
-const MessagePanel = () => {
+export const MessagePanel = () => {
   const { t } = useTranslation()
   const { txComment, setTxComment } = useStore()
   const navigate = useNavigate()
@@ -70,5 +65,3 @@ const MessagePanel = () => {
     </Panel>
   )
 }
-
-export default MessagePanel

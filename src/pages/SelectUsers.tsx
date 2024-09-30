@@ -1,16 +1,12 @@
 import { useState } from 'react'
 import { useTranslation } from 'react-i18next'
 
-import Button from '../kit/Button'
-import Divider from '../kit/Divider'
-import Header from '../kit/Header'
-import Screen from '../kit/Screen'
-import UserButton from '../kit/UserButton'
+import { Button, Divider, Header, Page, UserButton } from '../kit'
 
 import { useStore, useFeedback, useInit, useTransaction, useUsers } from '../hooks'
 import { TShare, TUserId, TUser } from '../types'
 
-function SelectUsers() {
+export const SelectUsers = () => {
   useInit()
 
   const { t } = useTranslation()
@@ -47,7 +43,7 @@ function SelectUsers() {
   }
 
   return (
-    <Screen className="!bg-bg">
+    <Page className="!bg-bg">
       <Header onBack={() => { history.back() }} />
 
       <div className="mb-2 px-4 flex items-center justify-between gap-3">
@@ -91,8 +87,6 @@ function SelectUsers() {
           }
         }}
       />
-    </Screen>
+    </Page>
   )
 }
-
-export default SelectUsers

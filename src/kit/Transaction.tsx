@@ -4,8 +4,7 @@ import { useNavigate } from 'react-router-dom'
 
 import { TTransaction } from '../types'
 
-import Button from './Button'
-import CategoryAvatar from './CategoryAvatar'
+import { Button, CategoryAvatar } from '../kit'
 
 import { useStore, useUsers, useCurrencies, useFeedback, useTransaction, usePro } from '../hooks'
 
@@ -13,7 +12,7 @@ import { ReactComponent as CashbackIcon } from '../assets/cashback.svg'
 
 import { formatAmount } from '../utils'
 
-const Transaction = ({ tx }: { tx: TTransaction }) => {
+export const Transaction = ({ tx }: { tx: TTransaction }) => {
   const { t } = useTranslation()
   const navigate = useNavigate()
   const { isPro } = usePro()
@@ -130,5 +129,3 @@ const Transaction = ({ tx }: { tx: TTransaction }) => {
     />
   )
 }
-
-export default Transaction

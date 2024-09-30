@@ -3,20 +3,20 @@ import { WebAppProvider } from '@vkruglikov/react-telegram-web-app';
 
 import { RouterProvider } from 'react-router-dom'
 
-import { useTgAutoExpand, useTheme } from './hooks'
+import { useTgAutoExpand, useTheme, useClarity } from './hooks'
 
 import './i18n'
 import { router } from './router'
 
-import DemoMode from './kit/DemoMode'
-import OverlaySplash from './overlays/OverlaySplash'
-import OverlayError from './overlays/OverlayError'
+import { DemoMode } from './kit'
+import { OverlaySplash, OverlayError } from './overlays'
 
 const queryClient = new QueryClient()
 
 function App() {
   useTheme()
   useTgAutoExpand()
+  useClarity()
 
   return (
     <WebAppProvider options={{ smoothButtonsTransition: true }}>

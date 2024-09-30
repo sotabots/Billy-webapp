@@ -1,15 +1,13 @@
 import { MouseEventHandler } from 'react'
 
-import InputAmount from './InputAmount'
+import { InputAmount, UserRelation } from '../kit'
 import { TShare } from '../types'
 
-import UserRelation from '../kit/UserRelation'
-
-function UserAmount({ share, onClick, onChange }: {
+export const UserAmount = ({ share, onClick, onChange }: {
   share: TShare
   onClick: MouseEventHandler<HTMLButtonElement>
   onChange: (value: number) => void
-}) {
+}) => {
   return (
     <div className="flex gap-3 items-center">
       <UserRelation
@@ -20,5 +18,3 @@ function UserAmount({ share, onClick, onChange }: {
     </div>
   )
 }
-
-export default UserAmount

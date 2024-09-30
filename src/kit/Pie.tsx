@@ -1,14 +1,14 @@
 import cx from 'classnames'
 import { useTranslation } from 'react-i18next'
 
-import Button from '../kit/Button'
+import { Button } from '../kit'
 
 import { useCategories } from '../hooks'
 
 import { ReactComponent as PageLeftIcon } from '../assets/page-left.svg'
 import { ReactComponent as PageRightIcon } from '../assets/page-right.svg'
 
-const Pie = ({ isCompact, title, period, slices, onLeft, onRight }: {
+export const Pie = ({ isCompact, title, period, slices, onLeft, onRight }: {
   isCompact?: boolean
   title: string
   period: string
@@ -73,7 +73,7 @@ const Pie = ({ isCompact, title, period, slices, onLeft, onRight }: {
             (!onLeft || isCompact) && 'scale-0'
           )}
           disabled={!onLeft || isCompact}
-          onClick={onLeft || (() => {})}
+          onClick={onLeft || (() => { /* */ })}
           text={<PageLeftIcon />}
         />
       </div>
@@ -85,12 +85,10 @@ const Pie = ({ isCompact, title, period, slices, onLeft, onRight }: {
             (!onRight || isCompact) && 'scale-0'
           )}
           disabled={!onRight || isCompact}
-          onClick={onRight || (() => {})}
+          onClick={onRight || (() => { /* */})}
           text={<PageRightIcon />}
         />
       </div>
     </div>
   )
 }
-
-export default Pie

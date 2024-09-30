@@ -2,15 +2,13 @@ import Lottie from 'lottie-react'
 import { useEffect, useState } from 'react'
 import { useTranslation } from 'react-i18next'
 
-import Button from '../kit/Button'
-import Header from '../kit/Header'
-import Screen from '../kit/Screen'
+import { Button, Header, Page } from '../kit'
 
 import { useInit, useFeedback } from '../hooks'
 
 import lottieKoalaSoon from '../assets/animation-koala-soon.json'
 
-function Soon() {
+export const Soon = () => {
   useInit()
 
   const { t } = useTranslation()
@@ -26,7 +24,7 @@ function Soon() {
   }, [isEvent, setIsEvent])
 
   return (
-    <Screen>
+    <Page>
       <Header onBack={() => { history.back() }} />
 
       <div className="w-[280px] mx-auto flex flex-col gap-4 pt-[112px] text-center">
@@ -47,7 +45,7 @@ function Soon() {
         text={t('okay')}
         onClick={() => { history.back() }}
       />
-    </Screen>
+    </Page>
   )
 }
 

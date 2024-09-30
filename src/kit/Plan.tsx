@@ -2,7 +2,7 @@ import cx from 'classnames'
 
 import { useTranslation } from 'react-i18next'
 
-import Button from './Button'
+import { Button } from '../kit'
 
 import star from '../assets/star.png'
 
@@ -13,7 +13,7 @@ const textGradient = {
   'WebkitTextFillColor': 'transparent',
 }
 
-function Plan({ className, label, labelColor, title, stars, fiat, discount, isActive, onClick }: {
+export const Plan = ({ className, label, labelColor, title, stars, fiat, discount, isActive, onClick }: {
   className?: string
   label?: string
   labelColor?: string
@@ -23,7 +23,7 @@ function Plan({ className, label, labelColor, title, stars, fiat, discount, isAc
   discount?: string
   isActive: boolean
   onClick: (_: number) => void
-}) {
+}) => {
   const { t } = useTranslation()
 
   return (
@@ -76,5 +76,3 @@ function Plan({ className, label, labelColor, title, stars, fiat, discount, isAc
     />
   )
 }
-
-export default Plan

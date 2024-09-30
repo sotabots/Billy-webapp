@@ -2,10 +2,10 @@ import cx from 'classnames'
 
 import { ReactComponent as CheckIcon } from '../assets/check.svg'
 
-function Checkbox({ className, isChecked }: {
+export const CheckBox = ({ className, isChecked }: {
   className?: string
   isChecked: boolean
-}) {
+}) => {
   return (
     <div className={cx(
       'CheckBox h-5 w-5 rounded-[4px] flex items-center justify-center border transition-all',
@@ -19,5 +19,3 @@ function Checkbox({ className, isChecked }: {
     </div>
   )
 }
-
-export default Checkbox

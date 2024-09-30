@@ -1,12 +1,14 @@
+import { ReactNode } from 'react'
+
 import { ReactComponent as SettingsGoIcon } from '../assets/settings-go.svg'
 
-import Button from './Button'
-import Toggle from './Toggle'
+import { Button, Toggle } from '../kit'
 
-const MenuItem = ({ icon, title, value, isEnabled, disabled, onClick }: {
+export const MenuItem = ({ icon, title, value, badge, isEnabled, disabled, onClick }: {
   icon: any
   title: string
   value?: string
+  badge?: ReactNode
   isEnabled?: boolean
   disabled?: boolean
   onClick: VoidFunction
@@ -23,12 +25,13 @@ const MenuItem = ({ icon, title, value, isEnabled, disabled, onClick }: {
             <span>{icon}</span>
             <span className="text-left leading-[1em]">{title}</span>
           </div>
-          {value &&
+          {value && !badge &&
             <div className="flex items-center gap-1">
               <span className="opacity-50">{value}</span>
               <span className="opacity-30"><SettingsGoIcon /></span>
             </div>
           }
+          {badge}
           {isEnabled !== undefined &&
             <Toggle
               size="big"
@@ -40,5 +43,3 @@ const MenuItem = ({ icon, title, value, isEnabled, disabled, onClick }: {
     />
   )
 }
-
-export default MenuItem

@@ -1,16 +1,14 @@
 import { useTranslation } from 'react-i18next'
 import { useNavigate } from 'react-router-dom'
 
-import Button from '../kit/Button'
-import Header from '../kit/Header'
-import Screen from '../kit/Screen'
+import { Button, Header, Page } from '../kit'
 import { UsersGroup } from '../kit'
 
 import { useStore, useFeedback, useInit, useTransaction, useUsers } from '../hooks'
 
 import { TUser } from '../types'
 
-function SelectUser() {
+export const SelectUser = () => {
   useInit()
 
   const navigate = useNavigate()
@@ -60,7 +58,7 @@ function SelectUser() {
   }
 
   return (
-    <Screen className="!bg-bg">
+    <Page className="!bg-bg">
       <Header onBack={() => { history.back() }} />
 
       <div className="mb-2 px-4 flex items-center justify-between gap-3">
@@ -93,8 +91,6 @@ function SelectUser() {
           />
         }
       </div>
-    </Screen>
+    </Page>
   )
 }
-
-export default SelectUser

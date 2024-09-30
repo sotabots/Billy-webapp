@@ -8,18 +8,16 @@ import { ReactComponent as UserIcon } from '../assets/user.svg'
 
 const apiUrl = import.meta.env.VITE_API_URL
 
-type TAvatar = {
-  user?: TUser,
-  size?: number
-}
-
 const getLetters = (fullName?: string) => {
   const letterParts = fullName ? fullName.split(' ') : []
   const letters = `${letterParts[0] ? letterParts[0][0] : ''}${letterParts[1] ? letterParts[1][0] : ''}`
   return letters
 }
 
-function Avatar({ user, size = 40 }: TAvatar) {
+export const Avatar = ({ user, size = 40 }: {
+  user?: TUser,
+  size?: number
+}) => {
   const fullName = [
     ...(user?.first_name ? [user.first_name] : []),
     ...(user?.last_name ? [user.last_name] : []),
@@ -71,5 +69,3 @@ function Avatar({ user, size = 40 }: TAvatar) {
     </div>
   )
 }
-
-export default Avatar

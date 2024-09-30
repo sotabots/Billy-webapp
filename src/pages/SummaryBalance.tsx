@@ -5,9 +5,7 @@ import { useNavigate } from 'react-router-dom'
 
 import { closeApp } from '../utils'
 
-import Screen from '../kit/Screen'
-import Header from '../kit/Header'
-import Tabs from '../kit/Tabs'
+import { Page, Header, Tabs } from '../kit'
 
 import { useGetSummary, useGetSummarySheetRebuild } from '../api'
 import { useInit, useFilter, useFeedback, useSummary } from '../hooks'
@@ -16,12 +14,13 @@ import { TUserId } from '../types'
 import { ReactComponent as ChatIcon } from '../assets/chat.svg'
 import { ReactComponent as ChartIcon } from '../assets/chart.svg'
 
-import Summary from './Summary'
-import Balance from './Balance'
+import { Summary, Balance } from '../pages'
 
 type TTab = 'summary' | 'balance'
 
-function SummaryBalance({ tab }: { tab: TTab }) {
+export const SummaryBalance = ({ tab }: {
+  tab: TTab
+}) => {
   useInit()
 
   const { t } = useTranslation()
@@ -78,7 +77,7 @@ function SummaryBalance({ tab }: { tab: TTab }) {
   }
 
   return (
-    <Screen
+    <Page
       _ref={screenRef}
       className={cx(tab === 'balance' && isCurrencyOpen && '!bg-bg')}
       onScroll={onScroll}
@@ -146,8 +145,6 @@ function SummaryBalance({ tab }: { tab: TTab }) {
           goDetailed={goDetailed}
         />
       )}
-    </Screen>
+    </Page>
   )
 }
-
-export default SummaryBalance

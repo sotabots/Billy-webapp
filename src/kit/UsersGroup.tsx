@@ -1,6 +1,6 @@
 import cx from 'classnames'
-import Divider from '../kit/Divider'
-import UserButton from '../kit/UserButton'
+
+import { Divider, UserButton } from '../kit'
 
 import { TUser } from '../types'
 

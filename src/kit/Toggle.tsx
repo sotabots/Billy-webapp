@@ -1,13 +1,13 @@
 import cx from 'classnames'
 
-import Button from '../kit/Button'
+import { Button } from '../kit'
 
-function Toggle({ size, label, value, onChange }: {
+export const Toggle = ({ size, label, value, onChange }: {
   size?: 'big'
   label?: string,
   value: boolean,
   onChange?: (value: boolean) => void
-}) {
+}) => {
   return (
     <Button
       theme="clear"
@@ -35,5 +35,3 @@ function Toggle({ size, label, value, onChange }: {
     />
   )
 }
-
-export default Toggle

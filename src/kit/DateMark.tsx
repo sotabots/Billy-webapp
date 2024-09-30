@@ -1,7 +1,6 @@
 import i18n from '../i18n'
 
-const DateMark = ({ time }: { time: number }) => {
-
+export const DateMark = ({ time }: { time: number }) => {
   const date = new Date(time)
   const isCurrentYear = (new Date()).getFullYear() === date.getFullYear()
 
@@ -17,5 +16,3 @@ const DateMark = ({ time }: { time: number }) => {
     </div>
   )
 }
-
-export default DateMark

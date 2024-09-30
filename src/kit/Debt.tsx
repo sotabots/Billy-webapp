@@ -1,11 +1,8 @@
 import { useTranslation } from 'react-i18next'
 
-import Button from './Button'
-
-import User from './User'
+import { Button, User } from '../kit'
 import { useUsers, useCurrencies } from '../hooks'
 import { TDebt } from '../types'
-
 import { formatAmount } from '../utils'
 
 import { ReactComponent as ToIcon } from '../assets/to.svg'
@@ -14,7 +11,7 @@ type TDebtProps = TDebt & {
   onClick: () => void
 }
 
-function Debt({ from_user, to_user, amount, currency_id, onClick }: TDebtProps) {
+export const Debt = ({ from_user, to_user, amount, currency_id, onClick }: TDebtProps) => {
   const { t } = useTranslation()
 
   const { getUserById } = useUsers()
@@ -60,5 +57,3 @@ function Debt({ from_user, to_user, amount, currency_id, onClick }: TDebtProps) 
     </div>
   )
 }
-
-export default Debt

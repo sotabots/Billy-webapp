@@ -1,7 +1,7 @@
 import cx from 'classnames'
 import { ReactNode } from 'react'
 
-const Tabs = ({ tabs, className, children }: {
+export const Tabs = ({ tabs, className, children }: {
   tabs: {
     icon: any
     title: string
@@ -30,5 +30,3 @@ const Tabs = ({ tabs, className, children }: {
     {children}
   </div>
 )
-
-export default Tabs
