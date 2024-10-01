@@ -158,7 +158,7 @@ export const Balance = ({
       <>
         <div className=" flex items-center justify-between gap-3 px-4">
           <h2>{t('selectCurrency')}</h2>
-          {isDebug && summaryCurrencyId !== null &&
+          {summaryCurrencyId !== null &&
             <Button
               theme="clear"
               className="flex items-center justify-center gap-[2px] px-2 text-button"
@@ -244,7 +244,7 @@ export const Balance = ({
           <Button
             isBottom
             // color={'#7E10E5'}
-            text={`💱 ${t('convertAllTo')}`}
+            text={`💱 ${t('showInCurrency')}`}
             onClick={() => { setIsCurrencyOpen(true) }}
           />
         </>
