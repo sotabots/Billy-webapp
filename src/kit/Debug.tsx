@@ -3,13 +3,16 @@ import { useCallback, useEffect, useState } from 'react'
 // import { useNavigate } from 'react-router-dom'
 
 import { useStore, useChatId } from '../hooks'
+import { useGetSummary } from '../api'
 
 import { Panel } from '../kit'
 
 const OPEN_DEBUG_RIGHT_CLICKS = 5
 
 export const Debug = () => {
-  const { transaction, users, txId, summaryId, summaryCurrencyId, setSummaryCurrencyId, summary, chat, currencies, categories, transactions, isDebug, setDebug } = useStore()
+  const { transaction, users, txId, summaryId, summaryCurrencyId, setSummaryCurrencyId, chat, currencies, categories, transactions, isDebug, setDebug } = useStore()
+  const { data: summary } = useGetSummary()
+
   const { chatId } = useChatId()
 
   // const navigate = useNavigate()

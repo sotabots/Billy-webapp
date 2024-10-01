@@ -1,6 +1,6 @@
 import { create } from 'zustand'
 
-import { TCurrency, TCurrencyId, TTransaction, TUser, TChat, TSummary, TCategories, TFilterTotal, TFilterPeriod, TNewTransaction, TFlow } from '../types'
+import { TCurrency, TCurrencyId, TTransaction, TUser, TChat, TCategories, TFilterTotal, TFilterPeriod, TNewTransaction, TFlow } from '../types'
 
 type TStore = {
   overlays: number[]
@@ -49,8 +49,6 @@ type TStore = {
   setSummaryId: (summaryId: string) => void
   summaryCurrencyId: null | TCurrencyId
   setSummaryCurrencyId: (summaryCurrencyId: null | TCurrencyId) => void
-  summary: undefined | TSummary
-  setSummary: (summary: TSummary) => void
 
   transactions: undefined | TTransaction[]
   setTransactions: (transactions: TTransaction[]) => void
@@ -132,8 +130,6 @@ export const useStore = create<TStore>((set, get) => ({
   setSummaryId: (summaryId) => set(({ summaryId })),
   summaryCurrencyId: null,
   setSummaryCurrencyId: (summaryCurrencyId) => set(({ summaryCurrencyId })),
-  summary: undefined,
-  setSummary: (summary) => set(( { summary } )),
 
   transactions: undefined,
   setTransactions: (transactions) => set(( { transactions } )),

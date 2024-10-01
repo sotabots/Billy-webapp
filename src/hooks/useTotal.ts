@@ -5,7 +5,9 @@ import { formatAmount } from '../utils'
 
 import { TTransaction } from '../types'
 
-export const useTotal = ({ filteredTransactions }: { filteredTransactions: TTransaction[] }) => {
+export const useTotal = ({ filteredTransactions }: {
+  filteredTransactions: TTransaction[]
+}) => {
   const [initDataUnsafe] = useInitData()
 
   const { getCurrencyById } = useCurrencies()

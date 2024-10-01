@@ -33,6 +33,7 @@ export const useTransaction = () => {
   }, [] as TShare[])
 
   const [initDataUnsafe] = useInitData()
+
   const getMyBalanceDelta = (tx: TTransaction) => {
     const myShares: TShare[] = tx.shares.filter(share => share.related_user_id === initDataUnsafe.user?.id)
     const myBalanceDelta: number = myShares.reduce((acc, share) =>

@@ -1,8 +1,8 @@
-import { useStore } from './'
+import { useGetSummary } from '../api/useApi'
 import { TDebt } from '../types'
 
 export const useSummary = () => {
-  const { summary } = useStore()
+  const { data: summary } = useGetSummary()
 
   const debtCurrencyIds = !summary?.debts
     ? []
