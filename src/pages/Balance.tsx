@@ -45,7 +45,7 @@ export const Balance = ({
   const { chatId } = useChatId()
   const { refetch: refetchTransactions } = useGetTransactions(chatId)
   const { data: summary, refetch: refetchSummary } = useGetSummary()
-  const { summaryCurrencyId, setSummaryCurrencyId, users, setTxPatchError, isDebug } = useStore()
+  const { summaryCurrencyId, setSummaryCurrencyId, users, setTxPatchError } = useStore()
   const { getCurrencyById } = useCurrencies()
 
   const selectedDebt = (summary?.debts || []).find(debt => JSON.stringify(debt) === selectedDebtId)
