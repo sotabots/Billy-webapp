@@ -20,6 +20,8 @@ export type TEvent =
   'set_currency_settings_web' |
   'press_language_settings_web' |
   'set_language_settings_web' |
+  'press_cashback' |
+  'press_limit' |
 
   // Match names
   'set_users_expnames_web' | // todo: add after SelectUser refactor

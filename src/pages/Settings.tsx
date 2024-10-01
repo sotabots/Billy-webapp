@@ -284,6 +284,9 @@ export const Settings = () => {
                   } else {
                     navigate('/paywall')
                   }
+                  feedback('press_limit', {
+                    is_pro: isPro,
+                  })
                 }}
               />
             }
@@ -299,6 +302,9 @@ export const Settings = () => {
                   } else {
                     navigate('/paywall')
                   }
+                  feedback('press_cashback', {
+                    is_pro: isPro,
+                  })
                 }}
               />
             }
