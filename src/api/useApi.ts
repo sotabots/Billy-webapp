@@ -46,7 +46,7 @@ export const useGetTx = () => {
         }).then(handleJsonResponse)
       },
       onSuccess: (data) => {
-        console.log('useApi: set tx', data)
+        console.log('useApi onSuccess useGetTx', data)
         setTransaction(data)
       },
       enabled: txId !== undefined,
@@ -72,7 +72,7 @@ export const useGetUsers = (chatId: undefined | number) => {
             }
           }).then(handleJsonResponse),
       onSuccess: (data) => {
-        console.log('useApi: set users', data)
+        console.log('useApi onSuccess useGetUsers', data)
         setUsers(data)
       },
       enabled: chatId !== undefined,
@@ -98,7 +98,7 @@ export const useGetChat = (chatId: undefined | number) => {
             }
           }).then(handleJsonResponse),
       onSuccess: (data) => {
-        console.log('useApi: set chat', data)
+        console.log('useGetChat onSuccess useGetChat', data)
         setChat(data)
       },
       enabled: chatId !== undefined,
@@ -124,7 +124,7 @@ export const useGetCurrencies = (chatId: undefined | number) => {
             }
           }).then(handleJsonResponse),
       onSuccess: (data) => {
-        console.log('useApi: set currencies', data)
+        console.log('useApi onSuccess useGetCurrencies', data)
         setCurrencies(data)
       },
       enabled: chatId !== undefined,
@@ -215,7 +215,7 @@ export const useGetCategories = () => {
           }
         }).then(handleJsonResponse),
       onSuccess: (data) => {
-        console.log('useApi: set categories', data)
+        console.log('useApi onSuccess useGetCategories', data)
         setCategories(data)
       },
       staleTime
@@ -240,7 +240,7 @@ export const useGetTransactions = (chatId: undefined | number) => {
             }
           }).then(handleJsonResponse),
       onSuccess: (data) => {
-        console.log('useApi: set transactions', data)
+        console.log('useApi onSuccess useGetTransactions', data)
         setTransactions(data)
       },
       enabled: chatId !== undefined && summaryId !== undefined, // todo: remove summary later?

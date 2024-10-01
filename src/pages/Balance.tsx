@@ -7,8 +7,8 @@ import { useTranslation } from 'react-i18next'
 
 import { Button, Overlay, Panel, Debt, DebtDetailed, Divider, UserButton, Currencies } from '../kit'
 
-import { usePostTransaction, useGetSummary } from '../api'
-import { useStore, useBalance, useCurrencies, useFeedback, useSummary } from '../hooks'
+import { usePostTransaction, useGetSummary, useGetTransactions } from '../api'
+import { useStore, useBalance, useCurrencies, useFeedback, useSummary, useChatId } from '../hooks'
 import { TCurrencyId, TNewTransaction, TUserId } from '../types'
 import { formatAmount, closeApp } from '../utils'
 
@@ -42,6 +42,8 @@ export const Balance = ({
   const [initDataUnsafe] = useInitData()
   const { feedback } = useFeedback()
 
+  const { chatId } = useChatId()
+  const { refetch: refetchTransactions } = useGetTransactions(chatId)
   const { data: summary, refetch: refetchSummary } = useGetSummary()
   const { summaryCurrencyId, setSummaryCurrencyId, users, setTxPatchError, isDebug } = useStore()
   const { getCurrencyById } = useCurrencies()
@@ -118,6 +120,7 @@ export const Balance = ({
         setSelectedDebtId(null)
         setCustomRecipientId(null)
         refetchSummary()
+        refetchTransactions()
       }, 1000)
       setTimeout(() => {
         setIsSuccessOpen(false)
