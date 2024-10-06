@@ -40,7 +40,9 @@ export const Paywall = () => {
       const invoice = await postPayment(plan)
       if (invoice?.url) {
         window.Telegram?.WebApp.openInvoice?.(invoice.url)
-        window.Telegram?.WebApp.close()
+        setTimeout(() => {
+          window.Telegram?.WebApp.close()
+        }, 1000)
       }
     } catch (e) {
       console.error(e)
