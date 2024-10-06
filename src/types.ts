@@ -125,3 +125,5 @@ export type TPlan = {
   amount: number
   productKey: TPlanProductKey
 }
+
+export type TInvoiceStatus = 'cancelled'

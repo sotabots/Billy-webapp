@@ -1,5 +1,7 @@
 import type { InitDataUnsafe, ThemeParams } from '@vkruglikov/react-telegram-web-app'
 
+type TInvoiceStatus = 'paid' | 'cancelled' | 'failed' | 'pending'
+
 declare global {
   interface Window {
     Telegram?: {
@@ -23,7 +25,7 @@ declare global {
           onClick: (callback: VoidFunction) => void
           offClick: (offClick: VoidFunction) => void
         }
-        openInvoice?: (url: string, callback?: (status: boolean) => void) => void
+        openInvoice?: (url: string, callback?: (status: TInvoiceStatus) => void) => void
         // ...and more
         // see https://core.telegram.org/bots/webapps#initializing-mini-apps
       }

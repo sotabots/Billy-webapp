@@ -40,8 +40,7 @@ export const Paywall = () => {
       const invoice = await postPayment(plan)
       if (invoice?.url) {
         window.Telegram?.WebApp.openInvoice?.(invoice.url, (status) => {
-          console.log('invoice status', status)
-          if (status === true) {
+          if (status === 'paid') {
             window.Telegram?.WebApp.close()
           }
         })
