@@ -172,7 +172,10 @@ export const Check = () => {
         is_canceled: !!isCanceled,
         is_confirmed: true
       }
-      await feedback('send_transaction_web')
+      await feedback('send_transaction_web', {
+        is_voice: transaction.is_voice,
+        is_edited: transaction.is_confirmed,
+      })
       // console.log(JSON.stringify(confirmedTransaction, null, 2))
       const resJson = transaction._id === 'NEW'
         ? await postTransaction(newConfirmedTransaction)
