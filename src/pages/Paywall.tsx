@@ -1,5 +1,6 @@
+import { useShowPopup } from '@vkruglikov/react-telegram-web-app'
 import Lottie from 'lottie-react'
-import { useState } from 'react'
+import { useState, useEffect } from 'react'
 import { useTranslation } from 'react-i18next'
 
 import { Button, Header, Page, Panel, Divider, Plan } from '../kit'
@@ -52,6 +53,27 @@ export const Paywall = () => {
     }
   }
 
+  const showPopup = useShowPopup()
+  const [isClosedPopup, setIsClosedPopup] = useState(false)
+
+  useEffect(() => {
+    (async () => {
+      if (paywallSource === 'voice_limit' && !isClosedPopup) {
+        await showPopup({
+          title: t('voiceLimitTitle'),
+          message: t('voiceLimitMessage'),
+          buttons: [
+            {
+              id: 'ok',
+              text: t('ok'),
+              type: 'default',
+            },
+          ],
+        })
+        setIsClosedPopup(true)
+      }
+    })()
+  }, [paywallSource, isClosedPopup, showPopup, t])
 
 
   return (

@@ -9,6 +9,7 @@
   "apply": "Apply",
   "save": "Save",
   "reset": "Reset",
+  "ok": "OK",
 
   "addComment": "Add comment",
   "yourComment": "Your comment...",
@@ -119,6 +120,9 @@
   "buyFor": "Buy for",
   "stars": "stars",
   "discount": "Discount",
+
+  "voiceLimitTitle": "Limit exceeded",
+  "voiceLimitMessage": "You have reached your limit for recording voice and text expenses in this chat (4 free entries per user). Purchase Billy Pro to continue.\n\nYou can still add expenses via the 'Add Expense' button in the app.",
 
   "errorForbidden": "Oh, I wasn't allowed to show you these numbers. Most likely because you are not in the chat.",
   "errorOther": "Something didn't work, but I'm already fixing it. Try refresh the page."
