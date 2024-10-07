@@ -26,7 +26,7 @@ export const Settings = () => {
   useInit()
 
   const { t } = useTranslation()
-  const { currencies, chat } = useStore()
+  const { currencies, chat, setPaywallSource } = useStore()
   const { feedback } = useFeedback()
   const { isPro } = usePro()
   const navigate = useNavigate()
@@ -282,6 +282,7 @@ export const Settings = () => {
                   if (isPro) {
                     setIsLimitOpen(true)
                   } else {
+                    setPaywallSource('monthly_limit')
                     navigate('/paywall')
                   }
                   feedback('press_limit', {
@@ -300,6 +301,7 @@ export const Settings = () => {
                   if (isPro) {
                     setIsCashbackOpen(true)
                   } else {
+                    setPaywallSource('cashback')
                     navigate('/paywall')
                   }
                   feedback('press_cashback', {

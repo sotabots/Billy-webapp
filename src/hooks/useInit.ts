@@ -8,6 +8,7 @@ import { useStore, useFeedback, useUsers, useTgSettings } from '../hooks'
 
 
 import i18n from '../i18n'
+import { TPaywallSource } from '../types'
 
 export const useInit = () => {
   useTgSettings()
@@ -23,6 +24,7 @@ export const useInit = () => {
     chat,
     transaction, setTransaction,
     isAuthorSharesInited, setIsAuthorSharesInited,
+    paywallSource, setPaywallSource,
   } = useStore()
   const routerLocation = useLocation()
   const [initDataUnsafe/*, initData*/] = useInitData()
@@ -48,6 +50,7 @@ export const useInit = () => {
   let startParamChatId
   let startParamRef: undefined | number
   let startParamPwTxId: undefined | string
+  let startParamPaywallSource: TPaywallSource
 
   if (startParam) {
     try {
@@ -72,6 +75,9 @@ export const useInit = () => {
       }
       if ('pw_txid' in startParamJson) {
         startParamPwTxId = startParamJson.pw_txid
+      }
+      if ('paywall_source' in startParamJson) {
+        startParamPaywallSource = startParamJson.paywall_source
       }
       console.log('start startParamTxId', startParamTxId)
       console.log('start startParamSummaryId', startParamSummaryId)
@@ -105,6 +111,10 @@ export const useInit = () => {
 
   if (pwTxId === undefined && startParamPwTxId) {
     setPwTxId(startParamPwTxId)
+  }
+
+  if (paywallSource === undefined && startParamPaywallSource) {
+    setPaywallSource(startParamPaywallSource)
   }
 
   if (!flow) {

@@ -56,7 +56,7 @@ export const Paywall = () => {
 
   return (
     <Page>
-      <Header onBack={[null, 'voice_limit', 'subscription_menu'].includes(paywallSource) ? undefined : () => { history.back() }} />
+      <Header onBack={[undefined, 'voice_limit', 'subscription_menu'].includes(paywallSource) ? undefined : () => { history.back() }} />
 
       <Panel>
         <div className="flex flex-col gap-2">

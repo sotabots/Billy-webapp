@@ -24,7 +24,7 @@ export const Summary = ({
   const { feedback } = useFeedback()
   const { isPro } = usePro()
 
-  const { isDebug, setTxId, setIsEditTx } = useStore()
+  const { isDebug, setTxId, setIsEditTx, setPaywallSource } = useStore()
 
   const {
     isFilterOpen,
@@ -91,7 +91,10 @@ export const Summary = ({
                       theme="clear"
                       className="bg-button py-1 px-3 rounded-[6px] text-[#F6F8F9] text-[14px] leading-[24px] font-semibold"
                       text={t('unlock')}
-                      onClick={() => { navigate('/paywall') }}
+                      onClick={() => {
+                        setPaywallSource('summary_donut')
+                        navigate('/paywall')
+                      }}
                     />
                   </div>
                   <Button
@@ -103,7 +106,10 @@ export const Summary = ({
                         <ProBadgeRotate className="absolute left-[50%] translate-x-[-50%] top-[64%] w-[73px] h-[35px]" />
                       </>
                     }
-                    onClick={() => { navigate('/paywall') }}
+                    onClick={() => {
+                      setPaywallSource('summary_donut')
+                      navigate('/paywall')
+                    }}
                   />
                 </div>
               }

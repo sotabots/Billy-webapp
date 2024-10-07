@@ -246,8 +246,8 @@ export const Onboarding = () => {
             }
             //
 
-            navigate('/paywall')
             setPaywallSource('onboarding')
+            navigate('/paywall')
           }
         }}
       />

@@ -153,7 +153,7 @@ export const useStore = create<TStore>((set, get) => ({
   filterPeriodPre: 'ALL_TIME',
   setFilterPeriodPre: (filterPeriodPre) => set(( { filterPeriodPre } )),
 
-  paywallSource: null,
+  paywallSource: undefined,
   setPaywallSource: (paywallSource) => set(( { paywallSource } )),
 
   isDebug: [143871296, 330528429, 436721347].includes(window.Telegram?.WebApp.initDataUnsafe.user?.id || 0) /*|| false*/,
