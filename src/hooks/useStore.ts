@@ -1,6 +1,6 @@
 import { create } from 'zustand'
 
-import { TCurrency, TCurrencyId, TTransaction, TUser, TChat, TCategories, TFilterTotal, TFilterPeriod, TNewTransaction, TFlow } from '../types'
+import { TCurrency, TCurrencyId, TTransaction, TUser, TChat, TCategories, TFilterTotal, TFilterPeriod, TNewTransaction, TFlow, TPaywallSource } from '../types'
 
 type TStore = {
   overlays: number[]
@@ -68,6 +68,9 @@ type TStore = {
   setFilterPeriod: (filterPeriod: TFilterPeriod) => void
   filterPeriodPre: TFilterPeriod
   setFilterPeriodPre: (filterPeriodPre: TFilterPeriod) => void
+
+  paywallSource: TPaywallSource
+  setPaywallSource: (paywallSource: TPaywallSource) => void
 
   isDebug: boolean
   setDebug: (isDebug: boolean) => void
@@ -149,6 +152,9 @@ export const useStore = create<TStore>((set, get) => ({
   setFilterPeriod: (filterPeriod) => set(( { filterPeriod } )),
   filterPeriodPre: 'ALL_TIME',
   setFilterPeriodPre: (filterPeriodPre) => set(( { filterPeriodPre } )),
+
+  paywallSource: null,
+  setPaywallSource: (paywallSource) => set(( { paywallSource } )),
 
   isDebug: [143871296, 330528429, 436721347].includes(window.Telegram?.WebApp.initDataUnsafe.user?.id || 0) /*|| false*/,
   setDebug: (isDebug) => set(( { isDebug } )),

@@ -15,7 +15,7 @@ import star from '../assets/star.png'
 export const Paywall = () => {
   useInit()
 
-  const { isDebug } = useStore()
+  const { isDebug, paywallSource } = useStore()
   const { t } = useTranslation()
 
   const textGradient = {
@@ -52,9 +52,11 @@ export const Paywall = () => {
     }
   }
 
+
+
   return (
     <Page>
-      <Header onBack={() => { history.back() }} />
+      <Header onBack={[null, 'voice_limit', 'subscription_menu'].includes(paywallSource) ? undefined : () => { history.back() }} />
 
       <Panel>
         <div className="flex flex-col gap-2">

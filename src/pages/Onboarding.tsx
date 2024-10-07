@@ -5,7 +5,7 @@ import { useNavigate } from 'react-router-dom'
 
 import { Button, Header, Page } from '../kit'
 
-import { useFeedback, TEvent, useInit } from '../hooks'
+import { useFeedback, TEvent, useInit, useStore } from '../hooks'
 import { closeApp } from '../utils'
 
 import { ReactComponent as CheckmarkIcon } from '../assets/checkmark.svg'
@@ -31,6 +31,9 @@ export const Onboarding = () => {
   const WebApp = useWebApp()
   // const { t, i18n } = useTranslation()
   const { feedback } = useFeedback()
+
+  const { setPaywallSource } = useStore()
+
   const [step, setStep] = useState(1)
   const [isButtonBusy, setIsButtonBusy] = useState(false)
 
@@ -244,6 +247,7 @@ export const Onboarding = () => {
             //
 
             navigate('/paywall')
+            setPaywallSource('onboarding')
           }
         }}
       />
