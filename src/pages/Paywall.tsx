@@ -47,26 +47,31 @@ export const Paywall = () => {
       plan: '0_days_1_star',
       time: '0 days',
       stars: 1,
+      currency: 'XTR',
     },
     15: {
       plan: '3_days_15_stars',
       time: '3 days',
       stars: 15,
+      currency: 'XTR',
     },
     50: {
       plan: '1_week_50_stars',
       time: '1 week',
       stars: 50,
+      currency: 'XTR',
     },
     125: {
       plan: '1_month_125_stars',
       time: '1 month',
       stars: 125,
+      currency: 'XTR',
     },
     1250: {
       plan: '12_months_1250_stars',
       time: '12 months',
       stars: 1250,
+      currency: 'XTR',
     }
   }
 
