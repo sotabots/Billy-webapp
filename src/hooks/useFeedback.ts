@@ -75,13 +75,18 @@ export type TEvent =
   'onb_tool_pro_next' |
   'onb_tool_finished' |
 
+  'paywall_open' |
+  'paywall_select_plan' |
+  'paywall_pay' |
+  'paywall_pay_finish' |
+
   // Special
   'error_web'
 
 
 export const useFeedback = () => {
   const { chatId } = useChatId()
-  const { transaction, transactions } = useStore()
+  const { transaction, transactions, paywallSource } = useStore()
 
   const feedback = async (event: TEvent, data: { [index:string]: any } = {}) => {
     const txDataEvents: TEvent[] = [
@@ -123,15 +128,28 @@ export const useFeedback = () => {
         }
       : {}
 
+    const paywallDataEvents: TEvent[] = [
+      'paywall_open',
+      'paywall_select_plan',
+      'paywall_pay',
+      'paywall_pay_finish',
+    ]
+    const paywallData = paywallDataEvents.includes(event)
+      ? {
+        paywall_source: paywallSource
+      }
+      : {}
+
     const meta = {
       distinct_id: wa?.initDataUnsafe.user?.id || null,
-      // userId: wa?.initDataUnsafe.user?.id || null,
-      // userFirstName: wa?.initDataUnsafe.user?.first_name || null,
-      // userLastName: wa?.initDataUnsafe.user?.last_name || null,
-      // userName: wa?.initDataUnsafe.user?.username || null,
-      // userLanguageCode: wa?.initDataUnsafe.user?.language_code || null,
-      // //@ts-expect-error // todo: fix '@vkruglikov/react-telegram-web-app'
-      // userIsPremium: wa?.initDataUnsafe.user?.is_premium || null,
+
+      userId: wa?.initDataUnsafe.user?.id || null,
+      userFirstName: wa?.initDataUnsafe.user?.first_name || null,
+      userLastName: wa?.initDataUnsafe.user?.last_name || null,
+      userName: wa?.initDataUnsafe.user?.username || null,
+      userLanguageCode: wa?.initDataUnsafe.user?.language_code || null,
+      //@ts-expect-error // todo: fix '@vkruglikov/react-telegram-web-app'
+      userIsPremium: wa?.initDataUnsafe.user?.is_premium || null,
 
       chat_instance: wa?.initDataUnsafe.chat_instance || null,
       chat_type: wa?.initDataUnsafe.chat_type || wa?.initDataUnsafe.chat?.type || null,
@@ -143,6 +161,7 @@ export const useFeedback = () => {
       wa_color_scheme: wa?.colorScheme || null,
 
       ...txData,
+      ...paywallData,
       ...data,
     }
     if (isToken) {

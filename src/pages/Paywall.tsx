@@ -5,7 +5,7 @@ import { useTranslation } from 'react-i18next'
 
 import { Button, Header, Page, Panel, Divider, Plan } from '../kit'
 
-import { useInit, useStore } from '../hooks'
+import { useInit, useStore, useFeedback } from '../hooks'
 import { usePostPayment } from '../api'
 import { TPlan } from '../types'
 
@@ -18,6 +18,15 @@ export const Paywall = () => {
 
   const { isDebug, paywallSource } = useStore()
   const { t } = useTranslation()
+  const { feedback } = useFeedback()
+
+  const [isOpened, setIsOpened] = useState(false)
+  useEffect(() => {
+    if (!isOpened) {
+      setIsOpened(true)
+      feedback('paywall_open')
+    }
+  }, [])
 
   const textGradient = {
     background: 'linear-gradient(85.8deg, #1C6ED8 3.42%, rgba(12, 215, 228, 0.99) 96.58%)',
@@ -33,14 +42,47 @@ export const Paywall = () => {
     productKey: '3_days_subscription',
   })
 
+  const planData = {
+    1: {
+      plan: '0_days_1_star',
+      time: '0 days',
+      stars: 1,
+    },
+    15: {
+      plan: '3_days_15_stars',
+      time: '3 days',
+      stars: 15,
+    },
+    50: {
+      plan: '1_week_50_stars',
+      time: '1 week',
+      stars: 50,
+    },
+    125: {
+      plan: '1_month_125_stars',
+      time: '1 month',
+      stars: 125,
+    },
+    1250: {
+      plan: '12_months_1250_stars',
+      time: '12 months',
+      stars: 1250,
+    }
+  }
+
   const postPayment = usePostPayment()
 
   const goPay = async () => {
     setIsBusy(true)
     try {
+      await feedback('paywall_pay', planData[plan.amount])
       const invoice = await postPayment(plan)
       if (invoice?.url) {
-        window.Telegram?.WebApp.openInvoice?.(invoice.url, (status) => {
+        window.Telegram?.WebApp.openInvoice?.(invoice.url, async (status) => {
+          await feedback('paywall_pay_finish', {
+            ...planData[plan.amount],
+            payment_status: status
+          })
           if (status === 'paid') {
             window.Telegram?.WebApp.close()
           }
@@ -74,6 +116,7 @@ export const Paywall = () => {
       }
     })()
   }, [paywallSource, isClosedPopup, showPopup, t])
+
 
 
   return (
@@ -126,6 +169,7 @@ export const Paywall = () => {
                   amount: 1,
                   productKey: 'debug_subscription',
                 })
+                feedback('paywall_select_plan', planData[1])
               }}
             />
             <Divider className="my-3 mx-0" />
@@ -144,6 +188,7 @@ export const Paywall = () => {
                 amount: 15,
                 productKey: '3_days_subscription',
               })
+              feedback('paywall_select_plan', planData[15])
             }}
           />
 
@@ -158,6 +203,7 @@ export const Paywall = () => {
                 amount: 50,
                 productKey: '1_week_subscription',
               })
+              feedback('paywall_select_plan', planData[50])
             }}
           />
           <Plan
@@ -171,6 +217,7 @@ export const Paywall = () => {
                 amount: 125,
                 productKey: '1_month_subscription',
               })
+              feedback('paywall_select_plan', planData[125])
             }}
           />
           <Plan
@@ -186,6 +233,7 @@ export const Paywall = () => {
                 amount: 1250,
                 productKey: '1_year_subscription',
               })
+              feedback('paywall_select_plan', planData[1250])
             }}
           />
         </div>

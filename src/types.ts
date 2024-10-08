@@ -122,7 +122,7 @@ export type TPlanProductKey =
 '3_days_subscription'
 
 export type TPlan = {
-  amount: number
+  amount: 1 | 15 | 50 | 125 | 1250
   productKey: TPlanProductKey
 }
 
