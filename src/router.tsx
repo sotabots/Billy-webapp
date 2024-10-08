@@ -45,6 +45,10 @@ export const router = createHashRouter([
     element: <Onboarding />,
   },
   {
+    path: '/onboarding-end',
+    element: <Onboarding isEnd />,
+  },
+  {
     path: '/soon',
     element: <Soon />,
   },

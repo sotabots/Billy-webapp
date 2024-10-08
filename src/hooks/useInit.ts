@@ -85,7 +85,7 @@ export const useInit = () => {
       // fallback
       if (routerLocation.pathname === '/summary' || routerLocation.pathname === '/balance') {
         startParamSummaryId = startParam
-      } else if (routerLocation.pathname === '/onboarding') {
+      } else if (routerLocation.pathname.includes('/onboarding')) {
         try {
           startParamRef = parseInt(startParam)
         } catch (e) {
@@ -198,7 +198,7 @@ export const useInit = () => {
   const postUserOnboarding = usePostUserOnboarding()
 
   useEffect(() => {
-    if (!isOnboardingFeedback && routerLocation.pathname === '/onboarding') {
+    if (!isOnboardingFeedback && routerLocation.pathname.includes('/onboarding')) {
       setIsOnboardingFeedback(true)
       feedback('onb_tool_started', {
         share_launch: !!startParamRef

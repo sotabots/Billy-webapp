@@ -24,7 +24,9 @@ const Pager = ({ page }: {
   <div className="absolute right-2 top-2 --bottom-[14px] --left-[50%] --translate-x-[50%] rounded-full px-2 py-[2px] bg-white font-bold shadow-md border border-[#eee] text-[#aaa]">{page}/6</div>
 )
 
-export const Onboarding = () => {
+export const Onboarding = ({ isEnd }: {
+  isEnd?: boolean
+}) => {
   useInit()
 
   const navigate = useNavigate()
@@ -34,7 +36,7 @@ export const Onboarding = () => {
 
   const { setPaywallSource } = useStore()
 
-  const [step, setStep] = useState(1)
+  const [step, setStep] = useState(isEnd ? 6 : 1)
   const [isButtonBusy, setIsButtonBusy] = useState(false)
 
   const swipes = useSwipeable({
