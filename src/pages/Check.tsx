@@ -31,7 +31,7 @@ export const Check = () => {
   const navigate = useNavigate()
   const { feedback } = useFeedback()
 
-  const { setTransaction, txComment, isEditTx, setIsEditTx, setSelectPersonId, setSelectPersonIsPayer, setIsSelectPayers, isSuccess, setSuccess, setTxPatchError } = useStore()
+  const { setTransaction, txComment, isEditTx, setIsEditTx, setSelectPersonId, setSelectPersonIsPayer, setIsSelectPayers, isSuccess, setSuccess, setTxPatchError, setPaywallSource } = useStore()
   const { transaction, isWrongAmounts, payedShares, oweShares, payedSum, payedSumFormatted, oweSumFormatted } = useTransaction()
   const { countUnrelatedPersons, isRelationsComplete, isRelationsEnough } = useUsers()
 
@@ -61,14 +61,16 @@ export const Check = () => {
   const currency = getCurrencyById(transaction.currency_id)
   const isNoCurrency = !transaction.currency_id
 
+  const isGoPaywall = transaction?.is_allowed_to_confirm === false
+
   const isButtonDisabled = !isRelationsComplete || !isRelationsEnough || isNoCurrency || isWrongAmounts
   const buttonText =
     !isRelationsComplete ? `🐨 ${t('pleaseMatchUsers')} (${countUnrelatedPersons})` :
     !isRelationsEnough ? `🐨 ${t('pleaseAddUsers')}` :
     isNoCurrency ? `🐨 ${t('selectCurrency')}` :
     isWrongAmounts ? `🐨 ${t('checkAmounts')}` :
+    isGoPaywall ? `🐨 ${t('buyProForSave')}` :
     t('save')
-
 
   const onSelect = (personId: string | null, isPayer: boolean) => {
     if (personId === null) {
@@ -242,6 +244,11 @@ export const Check = () => {
     }
   }
 
+  const goPaywall = () => {
+    setPaywallSource('voice_limit')
+    navigate('/paywall')
+  }
+
   return (
     <>
       <Page>
@@ -383,7 +390,7 @@ export const Check = () => {
         <Button
           isBottom
           text={buttonText}
-          onClick={save}
+          onClick={isGoPaywall ? goPaywall : save}
           disabled={isButtonDisabled}
           isBusy={isBusy}
         />
