@@ -124,6 +124,38 @@
   "voiceLimitTitle": "Limit exceeded",
   "voiceLimitMessage": "You have reached your limit for recording voice and text expenses in this chat (4 free entries per user). Purchase Billy Pro to continue.\n\nYou can still add expenses via the 'Add Expense' button in the app.",
 
+  "slide1_title": "Revolution in splitting bills",
+  "slide1_text": "Just add me to your chat to start using the bot. Expenses can be recorded both by text and voice messages! I will find these messages in the chat and take everything into account.",
+  "slide1_button": "TOP-3 group bills issues",
+
+  "slide2_title": "Tired of transferring money to each other after each bill?",
+  "slide2_text": "It's easy to write about the expense in the chat - Billy will see it and write it down in history. At the end of the period, he will sum up all the expenses and tell who owes whom how much.",
+  "slide2_button": "Agree?",
+
+  "slide3_title": "No one want to take responsibility for pay the group bills?",
+  "slide3_text": "Pay for friends - get group cashback in Billy with real money!",
+  "slide3_button": "Recognize yourself?",
+
+  "slide4_title": "Won't get up from the table until we count who ate how much?",
+  "slide4_text": "Write down the expense now, and your friends will fill in their shares later.",
+  "slide4_button": "This is it?",
+
+  "slide5_title": "The most convenient way to manage a group budget!",
+  "slide5_subtitle1": "Currency conversion",
+  "slide5_text1": "Simplify settle up by recalculating all expenses into the selected currency. This is especially true when traveling!",
+  "slide5_subtitle2": "The bot cleans its chat messages",
+  "slide5_text2": "Billy cleans up all service messages in the chat, leaving all important information in the application interface",
+  "slide5_button": "About Billy Pro",
+
+  "slide6_title": "Benefits with a Billy Pro subscription",
+  "slide6_subtitle1": "Unlimited input of expenses by voice or text",
+  "slide6_text1": "While free version, there are only 4 voice or text recordings available in shared chats. Besides, you can always enter expenses inside the bot without restrictions.",
+  "slide6_subtitle2": "Categories",
+  "slide6_text2": "Billy will automatically select a category for each bill, and will provide an analysis",
+  "slide6_subtitle3": "Cashback",
+  "slide6_text3": "Get cashback while paying for others",
+  "slide6_button": "Give me Billy Pro",
+
   "errorForbidden": "Oh, I wasn't allowed to show you these numbers. Most likely because you are not in the chat.",
   "errorOther": "Something didn't work, but I'm already fixing it. Try refresh the page."
 }

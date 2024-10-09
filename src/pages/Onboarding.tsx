@@ -1,7 +1,6 @@
-import { useWebApp } from '@vkruglikov/react-telegram-web-app'
 import { useState } from 'react'
 import { useNavigate } from 'react-router-dom'
-// import { useTranslation } from 'react-i18next'
+import { useTranslation } from 'react-i18next'
 
 import { Button, Header, Page } from '../kit'
 
@@ -30,8 +29,7 @@ export const Onboarding = ({ isEnd }: {
   useInit()
 
   const navigate = useNavigate()
-  const WebApp = useWebApp()
-  // const { t, i18n } = useTranslation()
+  const { t } = useTranslation()
   const { feedback } = useFeedback()
 
   const { setPaywallSource } = useStore()
@@ -68,8 +66,8 @@ export const Onboarding = ({ isEnd }: {
               <Pager page={1} />
             </div>
             <div className="flex flex-col gap-5 max-w-[500px] mx-auto px-4 py-6">
-              <h2 className="text-[24px]">Революционная запись трат</h2>
-              <p>Просто добавь меня в ваш чат, чтобы начать пользоваться ботом. Траты можно записывать как текстом, так и голосовыми сообщениями! Я найду эти сообщения в чате и всё учту.</p>
+              <h2 className="text-[24px]">{t('slide1_title')}</h2>
+              <p>{t('slide1_text')}</p>
             </div>
           </>
         )}
@@ -83,8 +81,8 @@ export const Onboarding = ({ isEnd }: {
               <Pager page={2} />
             </div>
             <div className="flex flex-col gap-5 max-w-[500px] mx-auto px-4 py-6">
-              <h2 className="text-[24px]">Надоело переводить друг другу деньги после каждой общей оплаты?</h2>
-              <p>Достаточно, чтобы кто-то один написал о трате в чат – Билли это увидит и запишет в историю. В конце периода он просуммирует все траты и скажет, кто кому сколько должен.</p>
+              <h2 className="text-[24px]">{t('slide2_title')}</h2>
+              <p>{t('slide2_text')}</p>
             </div>
           </>
         )}
@@ -98,8 +96,8 @@ export const Onboarding = ({ isEnd }: {
               <Pager page={3} />
             </div>
             <div className="flex flex-col gap-5 max-w-[500px] mx-auto px-4 py-6">
-              <h2 className="text-[24px]">Никто не хочет брать ответственность за оплату общих расходов?</h2>
-              <p>Плати за друзей - получай кэшбэк в Билли реальными деньгами!</p>
+              <h2 className="text-[24px]">{t('slide3_title')}</h2>
+              <p>{t('slide3_text')}</p>
             </div>
           </>
         )}
@@ -113,8 +111,8 @@ export const Onboarding = ({ isEnd }: {
               <Pager page={4} />
             </div>
             <div className="flex flex-col gap-5 max-w-[500px] mx-auto px-4 py-6">
-              <h2 className="text-[24px]">Не встанем из-за стола, пока не посчитаем, кто сколько съел?</h2>
-              <p>Запиши трату сейчас, а друзья заполнят свои доли потом.</p>
+              <h2 className="text-[24px]">{t('slide4_title')}</h2>
+              <p>{t('slide4_text')}</p>
             </div>
           </>
         )}
@@ -128,34 +126,24 @@ export const Onboarding = ({ isEnd }: {
               <Pager page={5} />
             </div>
             <div className="flex flex-col gap-5 max-w-[500px] mx-auto px-4 py-6">
-              <h2 className="text-[24px]">Самое удобное ведение группового бюджета!</h2>
+              <h2 className="text-[24px]">{t('slide5_title')}</h2>
 
               <div className="flex flex-col gap-3">
                 <div className="flex items-start gap-3">
                   <CheckmarkIcon className="flex-shrink-0 w-[22px] h-[22px] text-button" />
                   <div className="">
-                    <h3>Конвертация валют</h3>
-                    <p className="text-[14px]">Упростит финальные расчёты, пересчитав все траты в выбранную валюту. Особенно актуально в путешествиях!</p>
+                    <h3>{t('slide5_subtitle1')}</h3>
+                    <p className="text-[14px]">{t('slide5_text1')}</p>
                   </div>
                 </div>
 
                 <div className="flex items-start gap-3">
                   <CheckmarkIcon className="flex-shrink-0 w-[22px] h-[22px] text-button" />
                   <div className="">
-                    <h3>Бот чистит свои сообщения в чате</h3>
-                    <p className="text-[14px]">Билли подчищает все служебные сообщения в чате, оставляя всю важную информацию в интерфейсе приложения</p>
+                    <h3>{t('slide5_subtitle2')}</h3>
+                    <p className="text-[14px]">{t('slide5_text2')}</p>
                   </div>
                 </div>
-
-                {/*
-                <div className="flex items-start gap-3">
-                  <CheckmarkIcon className="flex-shrink-0 w-[22px] h-[22px] text-button" />
-                  <div className="">
-                    <h3>Настройки языка и валюты</h3>
-                    <p className="text-[14px]">Выбери удобный язык и валюту для ведения общих трат</p>
-                  </div>
-                </div>
-                */}
               </div>
             </div>
           </>
@@ -170,30 +158,30 @@ export const Onboarding = ({ isEnd }: {
               <Pager page={6} />
             </div>
             <div className="flex flex-col gap-5 max-w-[500px] mx-auto px-4 py-6">
-              <h2 className="text-[24px]">Преимущества с подпиской Billy Pro</h2>
+              <h2 className="text-[24px]">{t('slide6_title')}</h2>
 
               <div className="flex flex-col gap-3">
                 <div className="flex items-start gap-3">
                   <CheckmarkIcon className="flex-shrink-0 w-[22px] h-[22px] text-button" />
                   <div className="">
-                    <h3>Безлимитный ввод трат голосом или текстом</h3>
-                    <p className="text-[14px]">В бесплатной версии доступно только 4 записи голосом или текстом в общих чатах. При этом вводить траты внутри бота ты всегда можешь без ограничений.</p>
+                    <h3>{t('slide6_subtitle1')}</h3>
+                    <p className="text-[14px]">{t('slide6_text1')}</p>
                   </div>
                 </div>
 
                 <div className="flex items-start gap-3">
                   <CheckmarkIcon className="flex-shrink-0 w-[22px] h-[22px] text-button" />
                   <div className="">
-                    <h3>Категории</h3>
-                    <p className="text-[14px]">Билли автоматически определит и проставит категорию для каждой траты, а в конце предоставит анализ самых больших из них.</p>
+                    <h3>{t('slide6_subtitle2')}</h3>
+                    <p className="text-[14px]">{t('slide6_text2')}</p>
                   </div>
                 </div>
 
                 <div className="flex items-start gap-3">
                   <CheckmarkIcon className="flex-shrink-0 w-[22px] h-[22px] text-button" />
                   <div className="">
-                    <h3>Кешбэк</h3>
-                    <p className="text-[14px]">Получай кешбэк, оплачивая общие траты.</p>
+                    <h3>{t('slide6_subtitle3')}</h3>
+                    <p className="text-[14px]">{t('slide6_text3')}</p>
                   </div>
                 </div>
               </div>
@@ -206,12 +194,12 @@ export const Onboarding = ({ isEnd }: {
         isBottom
         isBusy={isButtonBusy}
         text={
-          step === 1 ? 'ТОП-3 проблемы группового расчёта' :
-          step === 2 ? 'Согласны?' :
-          step === 3 ? 'Узнали?' :
-          step === 4 ? 'Это всё?' :
-          step === 5 ? 'Узнать о Billy Pro' :
-          step === 6 ? 'Хочу Billy Pro' : ''
+          step === 1 ? t('slide1_button') :
+          step === 2 ? t('slide2_button') :
+          step === 3 ? t('slide3_button') :
+          step === 4 ? t('slide4_button') :
+          step === 5 ? t('slide5_button') :
+          step === 6 ? t('slide6_button') : ''
         }
         onClick={async () => {
           if (step <= 6) {
@@ -238,15 +226,6 @@ export const Onboarding = ({ isEnd }: {
             } catch (e) {
               console.error(e)
             }
-
-            //
-            if (Math.random() < 0) {
-              WebApp.openTelegramLink('https://t.me/BillyMoney_Bot', {
-                try_instant_view: true,
-              })
-              closeApp()
-            }
-            //
 
             setPaywallSource('onboarding')
             navigate('/paywall')
