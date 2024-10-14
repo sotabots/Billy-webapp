@@ -89,7 +89,7 @@ export const useGetUser = (_userId?: number) => {
     useQuery<TUser, Error>({
       queryKey: ['user', `user-${id}`],
       queryFn: () =>
-        fetch(`${apiUrl}/user/${id}`, {
+        fetch(`${apiUrl}/users/${id}`, {
           method: 'GET',
           headers: {
             'Authorization': authString,
