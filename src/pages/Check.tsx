@@ -11,7 +11,7 @@ import { Button, Header, UserAmount, Overlay, Panel, MessagePanel, Page, Toggle 
 import { useGetTx, useGetTransactions, useGetSummary } from '../api'
 
 import { decimals } from '../const'
-import { useStore, useCurrencies, useInit, useChatId, useFeedback, useTransaction, useUsers } from '../hooks'
+import { useStore, useCurrencies, useInit, useChatId, useFeedback, useTransaction, useUsers, usePro } from '../hooks'
 import { usePostTransaction, usePutTransaction } from '../api'
 
 import type { TNewTransaction, TShare, TTransaction, TLanguageCode } from '../types'
@@ -31,7 +31,7 @@ export const Check = () => {
   const navigate = useNavigate()
   const { feedback } = useFeedback()
 
-  const { setTransaction, txComment, isEditTx, setIsEditTx, setSelectPersonId, setSelectPersonIsPayer, setIsSelectPayers, isSuccess, setSuccess, setTxPatchError, setPaywallSource } = useStore()
+  const { setTransaction, txComment, isEditTx, setIsEditTx, setSelectPersonId, setSelectPersonIsPayer, setIsSelectPayers, isSuccess, setSuccess, setTxPatchError, setPaywallSource, setPaywallFrom } = useStore()
   const { transaction, isWrongAmounts, payedShares, oweShares, payedSum, payedSumFormatted, oweSumFormatted } = useTransaction()
   const { countUnrelatedPersons, isRelationsComplete, isRelationsEnough } = useUsers()
 
@@ -45,6 +45,8 @@ export const Check = () => {
   const { refetch: refetchTransaction } = useGetTx()
   const { refetch: refetchTransactions } = useGetTransactions(chatId)
   const { refetch: refetchSummary } = useGetSummary()
+
+  const { isPro } = usePro()
 
   const [isBusy, setIsBusy] = useState(false)
 
@@ -61,7 +63,7 @@ export const Check = () => {
   const currency = getCurrencyById(transaction.currency_id)
   const isNoCurrency = !transaction.currency_id
 
-  const isGoPaywall = transaction?.is_allowed_to_confirm === false
+  const isGoPaywall = transaction?.is_allowed_to_confirm === false && !isPro
 
   const isButtonDisabled = !isRelationsComplete || !isRelationsEnough || isNoCurrency || isWrongAmounts
   const buttonText =
@@ -246,6 +248,7 @@ export const Check = () => {
 
   const goPaywall = () => {
     setPaywallSource('voice_limit')
+    setPaywallFrom('edit')
     navigate('/paywall')
   }
 

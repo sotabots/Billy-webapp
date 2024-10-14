@@ -5,7 +5,7 @@ import { useTranslation } from 'react-i18next'
 
 import { Button, Header, Page, Panel, Divider, Plan } from '../kit'
 
-import { useInit, useStore, useFeedback } from '../hooks'
+import { useInit, useStore, useFeedback, usePro } from '../hooks'
 import { usePostPayment } from '../api'
 import { TPlan } from '../types'
 
@@ -16,9 +16,10 @@ import star from '../assets/star.png'
 export const Paywall = () => {
   useInit()
 
-  const { isDebug, paywallSource } = useStore()
+  const { isDebug, paywallSource, paywallFrom } = useStore()
   const { t } = useTranslation()
   const { feedback } = useFeedback()
+  const { refetchPro } = usePro()
 
   const [isOpened, setIsOpened] = useState(false)
   useEffect(() => {
@@ -89,7 +90,12 @@ export const Paywall = () => {
             payment_status: status
           })
           if (status === 'paid') {
-            window.Telegram?.WebApp.close()
+            if (paywallFrom) {
+              await refetchPro()
+              history.back()
+            } else {
+              window.Telegram?.WebApp.close()
+            }
           }
         })
       }
@@ -122,11 +128,9 @@ export const Paywall = () => {
     })()
   }, [paywallSource, isClosedPopup, showPopup, t])
 
-
-
   return (
     <Page>
-      <Header onBack={[undefined, 'voice_limit', 'subscription_menu'].includes(paywallSource) ? undefined : () => { history.back() }} />
+      <Header onBack={paywallFrom ? () => { history.back() } : undefined} />
 
       <Panel>
         <div className="flex flex-col gap-2">

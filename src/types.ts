@@ -127,4 +127,6 @@ export type TPlan = {
   productKey: TPlanProductKey
 }
 
-export type TPaywallSource = undefined | 'onboarding' | 'summary_donut' | 'cashback' | 'monthly_limit' | 'voice_limit' | 'subscription_menu'
+export type TPaywallSource = undefined | 'onboarding' | 'summary_donut' | 'cashback' | 'monthly_limit' | 'voice_limit' | 'voice_limit_edit' | 'subscription_menu'
+
+export type TPaywallFrom = undefined | 'edit' | 'onboarding' | 'settings' | 'summary'

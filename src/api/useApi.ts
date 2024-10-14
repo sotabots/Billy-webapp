@@ -81,6 +81,26 @@ export const useGetUsers = (chatId: undefined | number) => {
   )
 }
 
+export const useGetUser = (_userId?: number) => {
+  const { authString, userId } = useAuth()
+  const id = _userId || userId
+
+  return (
+    useQuery<TUser, Error>({
+      queryKey: ['user', `user-${id}`],
+      queryFn: () =>
+        fetch(`${apiUrl}/user/${id}`, {
+          method: 'GET',
+          headers: {
+            'Authorization': authString,
+          }
+        }).then(handleJsonResponse),
+      enabled: !!id,
+      staleTime
+    })
+  )
+}
+
 export const useGetChat = (chatId: undefined | number) => {
   const { authString } = useAuth()
   const { setChat } = useStore()

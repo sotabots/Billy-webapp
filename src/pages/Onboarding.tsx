@@ -32,7 +32,7 @@ export const Onboarding = ({ isEnd }: {
   const { t } = useTranslation()
   const { feedback } = useFeedback()
 
-  const { setPaywallSource } = useStore()
+  const { setPaywallSource, setPaywallFrom } = useStore()
 
   const [step, setStep] = useState(isEnd ? 6 : 1)
   const [isButtonBusy, setIsButtonBusy] = useState(false)
@@ -228,6 +228,7 @@ export const Onboarding = ({ isEnd }: {
             }
 
             setPaywallSource('onboarding')
+            setPaywallFrom('onboarding')
             navigate('/paywall')
           }
         }}

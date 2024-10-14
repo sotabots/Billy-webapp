@@ -24,7 +24,7 @@ export const Summary = ({
   const { feedback } = useFeedback()
   const { isPro } = usePro()
 
-  const { isDebug, setTxId, setIsEditTx, setPaywallSource } = useStore()
+  const { isDebug, setTxId, setIsEditTx, setPaywallSource, setPaywallFrom } = useStore()
 
   const {
     isFilterOpen,
@@ -93,6 +93,7 @@ export const Summary = ({
                       text={t('unlock')}
                       onClick={() => {
                         setPaywallSource('summary_donut')
+                        setPaywallFrom('summary')
                         navigate('/paywall')
                       }}
                     />
@@ -108,6 +109,7 @@ export const Summary = ({
                     }
                     onClick={() => {
                       setPaywallSource('summary_donut')
+                      setPaywallFrom('summary')
                       navigate('/paywall')
                     }}
                   />
