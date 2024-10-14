@@ -10,13 +10,13 @@ export const useSplash = () => {
   const { chatId } = useChatId()
 
   const { isLoading: isUsersLoading, error: usersError } = useGetUsers(chatId)
-  const { isLoading: isUserLoading, error: userError } = useGetUser()
+  const { isLoading: isUserLoading, isFetching: isUserFetching, error: userError } = useGetUser()
   const { isLoading: isChatLoading, error: chatError, data: chat } = useGetChat(chatId)
   const { isLoading: isCurrenciesLoading, error: currenciesError } = useGetCurrencies(chatId)
   const { isLoading: isCategoriesLoading, error: categoriesError } = useGetCategories()
   const { isLoading: isTransactionsLoading, error: transactionsError } = useGetTransactions(chatId)
 
-  const isLoading = isTxLoading || isUsersLoading || isUserLoading || isChatLoading || isCurrenciesLoading || isSummaryLoading || isCategoriesLoading || isTransactionsLoading
+  const isLoading = isTxLoading || isUsersLoading || (isUserLoading && isUserFetching) || isChatLoading || isCurrenciesLoading || isSummaryLoading || isCategoriesLoading || isTransactionsLoading
 
   const unknownCurrencyError =
     (tx?.currency_id && currencies.length && !currencies.find((currency) => currency._id === tx.currency_id))
