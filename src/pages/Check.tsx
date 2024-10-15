@@ -11,7 +11,7 @@ import { Button, Header, UserAmount, Overlay, Panel, MessagePanel, Page, Toggle 
 import { useGetTx, useGetTransactions, useGetSummary } from '../api'
 
 import { decimals } from '../const'
-import { useStore, useCurrencies, useInit, useChatId, useFeedback, useTransaction, useUsers, usePro } from '../hooks'
+import { useStore, useCurrencies, useInit, useChatId, useFeedback, useTransaction, useUsers, useUser } from '../hooks'
 import { usePostTransaction, usePutTransaction } from '../api'
 
 import type { TNewTransaction, TShare, TTransaction, TLanguageCode } from '../types'
@@ -46,7 +46,7 @@ export const Check = () => {
   const { refetch: refetchTransactions } = useGetTransactions(chatId)
   const { refetch: refetchSummary } = useGetSummary()
 
-  const { isPro } = usePro()
+  const { isPro } = useUser()
 
   const [isBusy, setIsBusy] = useState(false)
 

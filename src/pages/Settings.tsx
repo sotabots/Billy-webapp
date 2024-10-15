@@ -8,7 +8,7 @@ import { useNavigate } from 'react-router-dom'
 import { Button, Header, Page, Divider, MenuItem, MenuGroup, RadioButton, InputAmount, Currencies } from '../kit'
 
 import { usePostChatCurrency, usePostChatLanguage, usePostChatSilent, useGetChat, usePostChatMode, usePostChatMonthlyLimit, usePostChatCashback } from '../api'
-import { useStore, useChatId, useInit, useFeedback, useCurrencies, usePro } from '../hooks'
+import { useStore, useChatId, useInit, useFeedback, useCurrencies, useUser } from '../hooks'
 import { TCurrencyId, TLanguageCode, TMode } from '../types'
 import { formatAmount } from '../utils'
 
@@ -28,7 +28,7 @@ export const Settings = () => {
   const { t } = useTranslation()
   const { currencies, chat, setPaywallSource, setPaywallFrom } = useStore()
   const { feedback } = useFeedback()
-  const { isPro } = usePro()
+  const { isPro } = useUser()
   const navigate = useNavigate()
 
   const [isCurrencyOpen, setIsCurrencyOpen] = useState(false)

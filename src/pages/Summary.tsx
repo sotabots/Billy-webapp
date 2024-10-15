@@ -4,7 +4,7 @@ import { useNavigate } from 'react-router-dom'
 
 import { Button, Panel, Pie, Category, DateMark, Transaction, RadioButtons, DatePicker } from '../kit'
 
-import { useStore, useTotal, useFilter, useFeedback, usePro } from '../hooks'
+import { useStore, useTotal, useFilter, useFeedback, useUser } from '../hooks'
 import { TFilterPeriod, TFilterTotal } from '../types'
 
 import { ReactComponent as FilterIcon } from '../assets/filter.svg'
@@ -22,7 +22,7 @@ export const Summary = ({
   const { t } = useTranslation()
   const navigate = useNavigate()
   const { feedback } = useFeedback()
-  const { isPro } = usePro()
+  const { isPro } = useUser()
 
   const { isDebug, setTxId, setIsEditTx, setPaywallSource, setPaywallFrom } = useStore()
 

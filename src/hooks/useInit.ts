@@ -4,7 +4,7 @@ import { useEffect } from 'react'
 import { useLocation } from 'react-router-dom'
 
 import { usePostUserOnboarding } from '../api'
-import { useStore, useFeedback, useUsers, useTgSettings } from '../hooks'
+import { useStore, useFeedback, useUsers, useTgSettings, useUser } from '../hooks'
 
 
 import i18n from '../i18n'
@@ -21,7 +21,6 @@ export const useInit = () => {
     pwTxId, setPwTxId,
     txId, setTxId,
     summaryId, setSummaryId,
-    chat,
     transaction, setTransaction,
     isAuthorSharesInited, setIsAuthorSharesInited,
     paywallSource, setPaywallSource,
@@ -29,6 +28,7 @@ export const useInit = () => {
   const routerLocation = useLocation()
   const [initDataUnsafe/*, initData*/] = useInitData()
   const { users, getUserById } = useUsers()
+  const { userLang } = useUser()
 
   // init transaction/summary pages
   const queryParameters = new URLSearchParams(routerLocation.search)
@@ -172,11 +172,11 @@ export const useInit = () => {
 
   // init language
   if (
-    chat?.language_code &&
-    chat.language_code !== i18n.language &&
-    i18n.languages.includes(chat.language_code)
+    userLang &&
+    userLang !== i18n.language &&
+    i18n.languages.includes(userLang)
   ) {
-    i18n.changeLanguage(chat.language_code)
+    i18n.changeLanguage(userLang)
   }
 
   // feedback page

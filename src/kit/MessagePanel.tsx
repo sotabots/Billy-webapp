@@ -3,14 +3,14 @@ import { useNavigate } from 'react-router-dom'
 
 import { HTMLTagRenderer, Button, Panel, Textarea, CategoryAvatar } from '../kit'
 
-import { usePro, useStore, useTransaction } from '../hooks'
+import { useUser, useStore, useTransaction } from '../hooks'
 
 export const MessagePanel = () => {
   const { t } = useTranslation()
   const { txComment, setTxComment } = useStore()
   const navigate = useNavigate()
   const { transaction, isEmptyTx } = useTransaction()
-  const { isPro } = usePro()
+  const { isPro } = useUser()
 
   if (!transaction) {
     return null

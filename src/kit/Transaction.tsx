@@ -6,7 +6,7 @@ import { TTransaction } from '../types'
 
 import { Button, CategoryAvatar } from '../kit'
 
-import { useStore, useUsers, useCurrencies, useFeedback, useTransaction, usePro } from '../hooks'
+import { useStore, useUsers, useCurrencies, useFeedback, useTransaction, useUser } from '../hooks'
 
 import { ReactComponent as CashbackIcon } from '../assets/cashback.svg'
 
@@ -15,7 +15,7 @@ import { formatAmount } from '../utils'
 export const Transaction = ({ tx }: { tx: TTransaction }) => {
   const { t } = useTranslation()
   const navigate = useNavigate()
-  const { isPro } = usePro()
+  const { isPro } = useUser()
 
   const { setTxId, setIsEditTx } = useStore()
   const { getUserById } = useUsers()

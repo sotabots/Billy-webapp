@@ -8,6 +8,7 @@ export type TUser = { // tg user
   first_name: string
   last_name?: string
   profile_photo: string | null // avatar url
+  language_code?: TLanguageCode
   has_active_subscription?: boolean
   shortened_name?: string
 
