@@ -305,12 +305,29 @@ export const usePostChatCurrency = () => {
     }).then(handleJsonResponse)
 }
 
-export const usePostChatLanguage = () => {
+export const usePostChatLanguage = () => { // todo: remove
   const { authString } = useAuth()
   const { chatId } = useChatId()
   const url = chatId === 0
     ? 'https://jsonplaceholder.typicode.com/posts'
     : `${apiUrl}/chat/${chatId}/language`
+
+  return (languageCode: TLanguageCode) =>
+    fetch(url, {
+      method: 'POST',
+      body: JSON.stringify({ language_code: languageCode }),
+      headers: {
+        'Content-type': 'application/json',
+        'Authorization': authString,
+      },
+    }).then(handleJsonResponse)
+}
+
+export const usePostUserLanguage = () => {
+  const { authString, userId } = useAuth()
+  const url = userId
+    ? `${apiUrl}/users/${userId}/language`
+    : 'https://jsonplaceholder.typicode.com/posts'
 
   return (languageCode: TLanguageCode) =>
     fetch(url, {

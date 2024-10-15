@@ -1,8 +1,10 @@
 import { useGetUser } from '../api'
+import { useAuth } from '../hooks/useAuth'
 import { TLanguageCode } from '../types'
 
 export const useUser = () => {
-  const { data, refetch: refetchUser } = useGetUser()
+  const { data, refetch } = useGetUser()
+  const { userId } = useAuth()
 
   const isPro = !!data?.has_active_subscription
 
@@ -12,7 +14,13 @@ export const useUser = () => {
     tgLangRaw === 'uk' ? 'uk' :
     'en'
 
-  const userLang: undefined | TLanguageCode = data?.language_code || tgLang
+  const userLang: TLanguageCode = data?.language_code || tgLang
+
+  const refetchUser = () => {
+    if (userId) {
+      refetch()
+    }
+  }
 
   return { isPro, userLang, refetchUser }
 }

@@ -7,7 +7,7 @@ import { useNavigate } from 'react-router-dom'
 
 import { Button, Header, Page, Divider, MenuItem, MenuGroup, RadioButton, InputAmount, Currencies } from '../kit'
 
-import { usePostChatCurrency, usePostChatLanguage, usePostChatSilent, useGetChat, usePostChatMode, usePostChatMonthlyLimit, usePostChatCashback } from '../api'
+import { usePostChatCurrency, usePostUserLanguage, usePostChatSilent, useGetChat, usePostChatMode, usePostChatMonthlyLimit, usePostChatCashback } from '../api'
 import { useStore, useChatId, useInit, useFeedback, useCurrencies, useUser } from '../hooks'
 import { TCurrencyId, TLanguageCode, TMode } from '../types'
 import { formatAmount } from '../utils'
@@ -28,7 +28,7 @@ export const Settings = () => {
   const { t } = useTranslation()
   const { currencies, chat, setPaywallSource, setPaywallFrom } = useStore()
   const { feedback } = useFeedback()
-  const { isPro } = useUser()
+  const { isPro, userLang, refetchUser } = useUser()
   const navigate = useNavigate()
 
   const [isCurrencyOpen, setIsCurrencyOpen] = useState(false)
@@ -52,7 +52,7 @@ export const Settings = () => {
 
   const postChatMode = usePostChatMode()
   const postChatCurrency = usePostChatCurrency()
-  const postChatLanguage = usePostChatLanguage()
+  const postUserLanguage = usePostUserLanguage()
   const postChatSilent = usePostChatSilent()
   const postChatMonthlyLimit = usePostChatMonthlyLimit()
   const postChatCashback = usePostChatCashback()
@@ -106,17 +106,17 @@ export const Settings = () => {
     setBusy(true)
     let isSuccess = true
     try {
-      await postChatLanguage(languageCode)
+      await postUserLanguage(languageCode)
     } catch {
       isSuccess = false
     }
 
     if (isSuccess) {
       feedback('set_language_settings_web', {
-        language_prev: chat?.language_code,
+        language_prev: userLang,
         language_set: languageCode,
       })
-      refetchChat()
+      refetchUser()
       closeInnerPages()
     }
     setBusy(false)
@@ -258,16 +258,16 @@ export const Settings = () => {
             <MenuItem
               icon={<SettingsLanguageIcon />}
               title={t('language')}
-              value={chat?.language_code
+              value={userLang
                 ? (
-                  langs.find(lang => lang._id === chat?.language_code)?.title ||
-                  chat.language_code.toUpperCase())
+                  langs.find(lang => lang._id === userLang)?.title ||
+                  userLang.toUpperCase())
                 : ''
               }
               onClick={() => {
                 setIsLanguageOpen(true)
                 feedback('press_language_settings_web', {
-                  language_prev: chat?.language_code,
+                  language_prev: userLang,
                 })
               }}
             />
@@ -368,7 +368,7 @@ export const Settings = () => {
                   )}
                   key={`currencies-${lang._id}`}
                   value={lang._id}
-                  checked={chat?.language_code === lang._id}
+                  checked={userLang === lang._id}
                   onChange={(langCode) => { onChangeLanguage(langCode as TLanguageCode) }}
                 />
                 {i < currencies.length - 1 && <Divider key={`Divider-${i}`} />}
