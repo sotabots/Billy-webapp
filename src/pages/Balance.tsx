@@ -244,7 +244,7 @@ export const Balance = ({
           <Button
             isBottom
             // color={'#7E10E5'}
-            text={`💱 ${t('showInCurrency')}`}
+            text={t('showInCurrency')}
             onClick={() => { setIsCurrencyOpen(true) }}
           />
         </>
