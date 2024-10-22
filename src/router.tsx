@@ -1,6 +1,6 @@
 import { createHashRouter } from 'react-router-dom'
 
-import { SelectUser, Check, SelectCurrency, SelectUsers, SelectCategory, SummaryBalance, Settings, Onboarding, Soon, Paywall } from './pages'
+import { SelectUser, Check, SelectCurrency, SelectUsers, SelectCategory, Home, Onboarding, Soon, Paywall } from './pages'
 
 export const router = createHashRouter([
   {
@@ -11,6 +11,18 @@ export const router = createHashRouter([
   {
     path: '*',
     element: <Check />,
+  },
+  {
+    path: '/summary',
+    element: <Home tab="summary" />,
+  },
+  {
+    path: '/balance',
+    element: <Home tab="balance" />,
+  },
+  {
+    path: '/settings',
+    element: <Home tab="settings" />,
   },
   {
     path: '/select-user',
@@ -27,18 +39,6 @@ export const router = createHashRouter([
   {
     path: '/select-category',
     element: <SelectCategory />,
-  },
-  {
-    path: '/summary',
-    element: <SummaryBalance tab="summary" />,
-  },
-  {
-    path: '/balance',
-    element: <SummaryBalance tab="balance" />,
-  },
-  {
-    path: '/settings',
-    element: <Settings />,
   },
   {
     path: '/onboarding',

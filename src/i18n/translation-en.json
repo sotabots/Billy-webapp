@@ -49,8 +49,9 @@
   "selectCategory": "Select category",
   "noCategory": "No category",
 
-  "balance": "Balance",
   "totalTransactions": "Expenses & Total",
+  "balance": "Balance",
+  "settings": "Chat Settings",
 
   "settleUpBy": "Settle up by",
   "balanceBy": "Balance by",

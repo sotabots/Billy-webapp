@@ -11,11 +11,11 @@ import { useGetSummary, useGetSummarySheetRebuild } from '../api'
 import { useInit, useFilter, useFeedback, useSummary } from '../hooks'
 import { TUserId } from '../types'
 
-import { Summary, Balance } from '../pages'
+import { Summary, Balance, Settings, TSettingsInner } from '../pages'
 
-type TTab = 'summary' | 'balance'
+type TTab = 'summary' | 'balance' | 'settings'
 
-export const SummaryBalance = ({ tab }: {
+export const Home = ({ tab }: {
   tab: TTab
 }) => {
   useInit()
@@ -73,6 +73,8 @@ export const SummaryBalance = ({ tab }: {
     }
   }
 
+  const [settingsInner, setSettingsInner] = useState<TSettingsInner>(null)
+
   return (
     <Page
       _ref={screenRef}
@@ -93,13 +95,21 @@ export const SummaryBalance = ({ tab }: {
           setSelectedDebtId(null)
           setCustomRecipientId(null)
         }))
+        || (tab === 'settings' && (() => {
+          if (settingsInner) {
+            setSettingsInner(null)
+          } else {
+            history.back()
+          }
+        }))
         || closeApp
       } />
 
       {!(
         tab === 'summary' && isFilterOpen ||
         tab === 'balance' && isSelectedDebt ||
-        tab === 'balance' && isCurrencyOpen
+        tab === 'balance' && isCurrencyOpen ||
+        tab === 'settings' && !!settingsInner
       ) && (
         <Tabs
           className="sticky top-0 mb-[6px] pb-[2px] pt-2 bg-bg2 z-[1]"
@@ -113,6 +123,11 @@ export const SummaryBalance = ({ tab }: {
               title: t('balance'),
               isActive: tab === 'balance',
               onClick: selectTab('balance'),
+            },
+            {
+              title: t('settings'),
+              isActive: tab === 'settings',
+              onClick: selectTab('settings'),
             },
           ]}
         >
@@ -138,6 +153,13 @@ export const SummaryBalance = ({ tab }: {
           customRecipientId={customRecipientId}
           setCustomRecipientId={setCustomRecipientId}
           goDetailed={goDetailed}
+        />
+      )}
+
+      {tab === 'settings' && (
+        <Settings
+          settingsInner={settingsInner}
+          setSettingsInner={setSettingsInner}
         />
       )}
     </Page>

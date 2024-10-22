@@ -49,8 +49,9 @@
   "selectCategory": "Оберіть категорію",
   "noCategory": "Без категорії",
 
-  "balance": "Баланс",
   "totalTransactions": "Витрати",
+  "balance": "Баланс",
+  "settings": "Налаштування чату",
 
   "settleUpBy": "Розрахуватись по",
   "balanceBy": "Баланс по",

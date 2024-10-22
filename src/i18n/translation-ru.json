@@ -49,8 +49,9 @@
   "selectCategory": "Выберите категорию",
   "noCategory": "Без категории",
 
-  "balance": "Баланс",
   "totalTransactions": "Траты",
+  "balance": "Баланс",
+  "settings": "Настройки чата",
 
   "settleUpBy": "Рассчитаться по",
   "balanceBy": "Баланс по",

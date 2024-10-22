@@ -5,7 +5,7 @@ import { useState } from 'react'
 import { useTranslation } from 'react-i18next'
 import { useNavigate } from 'react-router-dom'
 
-import { Button, Header, Page, Divider, MenuItem, MenuGroup, RadioButton, InputAmount, Currencies } from '../kit'
+import { Button, Divider, MenuItem, MenuGroup, RadioButton, InputAmount, Currencies } from '../kit'
 
 import { usePostChatCurrency, usePostUserLanguage, usePostChatSilent, useGetChat, usePostChatMode, usePostChatMonthlyLimit, usePostChatCashback } from '../api'
 import { useStore, useChatId, useInit, useFeedback, useCurrencies, useUser } from '../hooks'
@@ -22,7 +22,12 @@ import { ReactComponent as ModePersonalIcon } from '../assets/mode-personal.svg'
 import { ReactComponent as ModeGroupIcon } from '../assets/mode-group.svg'
 import { ReactComponent as ProBadge } from '../assets/pro-badge.svg'
 
-export const Settings = () => {
+export type TSettingsInner = null | 'currency' | 'language' | 'limit' | 'cashback'
+
+export const Settings = ({ settingsInner, setSettingsInner }: {
+  settingsInner: TSettingsInner
+  setSettingsInner: (_: TSettingsInner) => void
+}) => {
   useInit()
 
   const { t } = useTranslation()
@@ -30,20 +35,6 @@ export const Settings = () => {
   const { feedback } = useFeedback()
   const { isPro, userLang, refetchUser } = useUser()
   const navigate = useNavigate()
-
-  const [isCurrencyOpen, setIsCurrencyOpen] = useState(false)
-  const [isLanguageOpen, setIsLanguageOpen] = useState(false)
-  const [isLimitOpen, setIsLimitOpen] = useState(false)
-  const [isCashbackOpen, setIsCashbackOpen] = useState(false)
-
-  const isInnerOpen = isCurrencyOpen || isLanguageOpen || isLimitOpen || isCashbackOpen
-
-  const closeInnerPages = () => {
-    setIsCurrencyOpen(false)
-    setIsLanguageOpen(false)
-    setIsLimitOpen(false)
-    setIsCashbackOpen(false)
-  }
 
   const [monthlyLimit, setMonthlyLimit] = useState(chat?.monthly_limit || 0)
   const [cashback, setCashback] = useState((chat?.cashback || 0) * 100)
@@ -95,7 +86,7 @@ export const Settings = () => {
         currency_set: currencyId,
       })
       refetchChat()
-      closeInnerPages()
+      setSettingsInner(null)
     }
     setBusy(false)
   }
@@ -117,7 +108,7 @@ export const Settings = () => {
         language_set: languageCode,
       })
       refetchUser()
-      closeInnerPages()
+      setSettingsInner(null)
     }
     setBusy(false)
   }
@@ -150,7 +141,7 @@ export const Settings = () => {
 
     if (isSuccess) {
       refetchChat()
-      closeInnerPages()
+      setSettingsInner(null)
     }
     setBusy(false)
   }
@@ -167,7 +158,7 @@ export const Settings = () => {
 
     if (isSuccess) {
       refetchChat()
-      closeInnerPages()
+      setSettingsInner(null)
     }
     setBusy(false)
   }
@@ -194,10 +185,8 @@ export const Settings = () => {
   const chatCurrency = getCurrencyById(chat?.default_currency || 'USD')
 
   return (
-    <Page>
-      <Header onBack={() => { isInnerOpen ? closeInnerPages() : history.back() }} />
-
-      {!isInnerOpen && (
+    <>
+      {!settingsInner && (
         <div className="p-4">
           <div className="text-center text-[18px] leading-[24px] font-semibold">{t('chatType')}</div>
           <div className="mt-2 text-center text-[14px] leading-[20px]">{t('chatTypeDescription')}</div>
@@ -248,7 +237,7 @@ export const Settings = () => {
               title={t('currency')}
               value={chat?.default_currency || ''}
               onClick={() => {
-                setIsCurrencyOpen(true)
+                setSettingsInner('currency')
                 feedback('press_currency_settings_web', {
                   currency_prev: chat?.default_currency,
                 })
@@ -265,7 +254,7 @@ export const Settings = () => {
                 : ''
               }
               onClick={() => {
-                setIsLanguageOpen(true)
+                setSettingsInner('language')
                 feedback('press_language_settings_web', {
                   language_prev: userLang,
                 })
@@ -280,7 +269,7 @@ export const Settings = () => {
                 badge={!isPro ? <ProBadge /> : undefined}
                 onClick={() => {
                   if (isPro) {
-                    setIsLimitOpen(true)
+                    setSettingsInner('limit')
                   } else {
                     setPaywallSource('monthly_limit')
                     setPaywallFrom('settings')
@@ -300,7 +289,7 @@ export const Settings = () => {
                 badge={!isPro ? <ProBadge /> : undefined}
                 onClick={() => {
                   if (isPro) {
-                    setIsCashbackOpen(true)
+                    setSettingsInner('cashback')
                   } else {
                     setPaywallSource('cashback')
                     setPaywallFrom('settings')
@@ -332,7 +321,7 @@ export const Settings = () => {
         </div>
       )}
 
-      {isCurrencyOpen && (
+      {settingsInner === 'currency' && (
         <>
           <div className="px-4">
             <h2>{t('chooseCurrency')}</h2>
@@ -353,7 +342,7 @@ export const Settings = () => {
         </>
       )}
 
-      {isLanguageOpen && (
+      {settingsInner === 'language' && (
         <>
           <div className="px-4">
             <h2>{t('chooseLanguage')}</h2>
@@ -386,7 +375,7 @@ export const Settings = () => {
         </>
       )}
 
-      {isLimitOpen && (
+      {settingsInner === 'limit' && (
         <>
           <div className="text-center mt-[140px]">
             <div className="px-4 text-[#84919A]">
@@ -410,7 +399,7 @@ export const Settings = () => {
         </>
       )}
 
-      {isCashbackOpen && (
+      {settingsInner === 'cashback' && (
         <>
           <div className="text-center mt-[140px]">
             <div className="px-4 text-[#84919A]">
@@ -434,6 +423,6 @@ export const Settings = () => {
           />
         </>
       )}
-    </Page>
+    </>
   )
 }
