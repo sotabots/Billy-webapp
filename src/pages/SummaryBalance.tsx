@@ -11,9 +11,6 @@ import { useGetSummary, useGetSummarySheetRebuild } from '../api'
 import { useInit, useFilter, useFeedback, useSummary } from '../hooks'
 import { TUserId } from '../types'
 
-import { ReactComponent as ChatIcon } from '../assets/chat.svg'
-import { ReactComponent as ChartIcon } from '../assets/chart.svg'
-
 import { Summary, Balance } from '../pages'
 
 type TTab = 'summary' | 'balance'
@@ -108,13 +105,11 @@ export const SummaryBalance = ({ tab }: {
           className="sticky top-0 mb-[6px] pb-[2px] pt-2 bg-bg2 z-[1]"
           tabs={[
             {
-              icon: ChartIcon,
               title: t('totalTransactions'),
               isActive: tab === 'summary',
               onClick: selectTab('summary'),
             },
             {
-              icon: ChatIcon,
               title: t('balance'),
               isActive: tab === 'balance',
               onClick: selectTab('balance'),

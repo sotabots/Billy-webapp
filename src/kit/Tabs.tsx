@@ -3,7 +3,6 @@ import { ReactNode } from 'react'
 
 export const Tabs = ({ tabs, className, children }: {
   tabs: {
-    icon: any
     title: string
     isActive: boolean
     onClick: VoidFunction
@@ -18,12 +17,11 @@ export const Tabs = ({ tabs, className, children }: {
         className={cx(
           'flex flex-grow basis-0 items-center justify-center gap-1 h-[30px] border-b text-[14px] leading-[0.9em] transition-all',
           !tab.isActive
-            ? 'text-[#B0BABF] border-[#DDE2E4]'
+            ? 'text-[#5B6871] dark:text-[#B0BABF] border-[#DDE2E4]'
             : 'text-[#0E73F6] border-[#0E73F6] font-semibold'
         )}
         onClick={tab.onClick}
       >
-        <tab.icon />
         <span className="text-left">{tab.title}</span>
       </button>
     ))}
