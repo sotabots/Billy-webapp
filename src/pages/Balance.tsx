@@ -50,6 +50,13 @@ export const Balance = ({
 
   const selectedDebt = (summary?.debts || []).find(debt => JSON.stringify(debt) === selectedDebtId)
   const selectedDebtCurrency = selectedDebt ? getCurrencyById(selectedDebt.currency_id) : undefined
+  const [selectedDebtAmount, setSelectedDebtAmount] = useState<number>(0)
+
+  useEffect(() => {
+    if (selectedDebt) {
+      setSelectedDebtAmount(selectedDebt.amount)
+    }
+  }, [selectedDebt])
 
   const [isBusy, setIsBusy] = useState(false)
   const [isSuccessOpen, setIsSuccessOpen] = useState(false)
@@ -71,7 +78,7 @@ export const Balance = ({
         creator_user_id: initDataUnsafe.user?.id || null,
         editor_user_id: null,
         is_voice: false,
-        raw_text: `[Settle up] ${[selectedDebt.from_user.first_name, selectedDebt.from_user.last_name].join(' ')} give ${formatAmount(selectedDebt.amount)} ${selectedDebt.currency_id} ${[selectedDebt.to_user.first_name, selectedDebt.to_user.last_name].join(' ')}`,
+        raw_text: `[Settle up] ${[selectedDebt.from_user.first_name, selectedDebt.from_user.last_name].join(' ')} give ${formatAmount(selectedDebtAmount)} ${selectedDebt.currency_id} ${[selectedDebt.to_user.first_name, selectedDebt.to_user.last_name].join(' ')}`,
         currency_id: selectedDebt.currency_id,
         is_confirmed: true,
         is_canceled: false,
@@ -80,7 +87,7 @@ export const Balance = ({
           {
             person_id: `settleup_from_user`,
             related_user_id: selectedDebt.from_user._id,
-            amount: selectedDebt.amount,
+            amount: selectedDebtAmount,
             is_payer: true,
             raw_name: null,
             normalized_name: null,
@@ -89,7 +96,7 @@ export const Balance = ({
           {
             person_id: `settleup_to_user`,
             related_user_id: customRecipientId || selectedDebt.to_user._id,
-            amount: selectedDebt.amount,
+            amount: selectedDebtAmount,
             is_payer: false,
             raw_name: null,
             normalized_name: null,
@@ -104,7 +111,7 @@ export const Balance = ({
 
       await feedback('confirm_settleup_web', {
         amount_prev: selectedDebt.amount,
-        amount_set: selectedDebt.amount, // todo: edited amount
+        amount_set: selectedDebtAmount,
         user_from: selectedDebt.from_user._id,
         user_to_prev: selectedDebt.to_user._id,
         user_to_set: customRecipientId || selectedDebt.to_user._id,
@@ -288,7 +295,9 @@ export const Balance = ({
 
           <Panel>
             <DebtDetailed
-              {...selectedDebt}
+              debt={selectedDebt}
+              amount={selectedDebtAmount}
+              setAmount={setSelectedDebtAmount}
               customRecipientId={customRecipientId}
               onClickRecipient={() => { setIsRecipientsOpen(true) }}
             />

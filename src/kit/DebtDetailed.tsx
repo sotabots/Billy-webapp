@@ -6,12 +6,17 @@ import { TDebt, TUserId } from '../types'
 import { ReactComponent as ToIcon } from '../assets/to.svg'
 import { ReactComponent as NextIcon } from '../assets/next.svg'
 
-export const DebtDetailed = ({ from_user, to_user, amount, currency_id, customRecipientId, onClickRecipient }: TDebt & {
+export const DebtDetailed = ({ debt, amount, setAmount, customRecipientId, onClickRecipient }: {
+  debt: TDebt
+  amount: number
+  setAmount: (_: number) => void
   customRecipientId: null | TUserId
   onClickRecipient: VoidFunction
 }) => {
   const { feedback } = useFeedback()
   const { getUserById } = useUsers()
+
+  const { from_user, to_user, currency_id } = debt
 
   const fromUser = getUserById(from_user._id)
   const toUser = getUserById(customRecipientId || to_user._id)
@@ -24,7 +29,10 @@ export const DebtDetailed = ({ from_user, to_user, amount, currency_id, customRe
     <div className="flex flex-col gap-2">
       <div className="flex gap-3">
         <User user={fromUser} size={48} />
-        <InputAmount amount={amount} />
+        <InputAmount
+          amount={amount}
+          onChange={setAmount}
+        />
       </div>
       <Button
         theme="clear"
