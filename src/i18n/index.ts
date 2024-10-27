@@ -6,9 +6,8 @@ import { TLanguageCode } from '../types'
 
 import translationEn from './translation-en.json'
 import translationRu from './translation-ru.json'
-import translationUk from './translation-uk.json'
 
-const langs: TLanguageCode[] = ['en', 'ru', 'uk']
+const langs: TLanguageCode[] = ['en', 'ru']
 
 i18next.use(initReactI18next).init({
   // if you're using a language detector, do not define the lng option
@@ -20,7 +19,6 @@ i18next.use(initReactI18next).init({
   resources: {
     en: { translation: translationEn },
     ru: { translation: translationRu },
-    uk: { translation: translationUk },
   },
 })
 

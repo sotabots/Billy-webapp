@@ -68,7 +68,7 @@ export type TCurrency = {
   is_used_in_chat?: boolean
 }
 
-export type TLanguageCode = 'en' | 'ru' | 'uk'
+export type TLanguageCode = 'en' | 'ru'
 
 export type TRates = {
   [key: string]: number

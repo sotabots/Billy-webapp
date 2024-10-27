@@ -175,10 +175,6 @@ export const Settings = ({ settingsInner, setSettingsInner }: {
       _id: 'ru',
       title: 'Русский',
     },
-    {
-      _id: 'uk',
-      title: 'Український',
-    },
   ]
 
   const { getCurrencyById } = useCurrencies()

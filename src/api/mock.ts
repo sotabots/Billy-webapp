@@ -112,7 +112,7 @@ const tgLanguageCode = window.Telegram?.WebApp.initDataUnsafe.user?.language_cod
 const demoLanguage: TLanguageCode = (tgLanguageCode && i18n.languages.includes(tgLanguageCode))
   ? tgLanguageCode as TLanguageCode
   : 'en'
-const isRus = demoLanguage === 'ru' || demoLanguage === 'uk'
+const isRus = demoLanguage === 'ru'
 
 const demoUsers: TUser[] = [
   {

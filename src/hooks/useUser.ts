@@ -11,7 +11,6 @@ export const useUser = () => {
   const tgLangRaw: string | undefined = window.Telegram?.WebApp.initDataUnsafe.user?.language_code
   const tgLang: TLanguageCode =
     tgLangRaw === 'ru' ? 'ru' :
-    tgLangRaw === 'uk' ? 'uk' :
     'en'
 
   const userLang: TLanguageCode = data?.language_code || tgLang
