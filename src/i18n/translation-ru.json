@@ -49,7 +49,7 @@
   "selectCategory": "Выберите категорию",
   "noCategory": "Без категории",
 
-  "totalTransactions": "Траты",
+  "expenses": "Траты",
   "balance": "Баланс",
   "settings": "Настройки чата",
 
@@ -81,7 +81,7 @@
   "week": "Неделя",
   "custom": "Выбрать",
 
-  "transactions": "Траты",
+  "history": "История",
   "myBalance": "Мой баланс",
   "statusUnconfirmed": "Не подтверждено",
   "statusCanceled": "Отменено",

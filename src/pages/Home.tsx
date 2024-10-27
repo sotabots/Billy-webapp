@@ -115,7 +115,7 @@ export const Home = ({ tab }: {
           className="sticky top-0 mb-[6px] pb-[2px] pt-2 bg-bg2 z-[1]"
           tabs={[
             {
-              title: t('totalTransactions'),
+              title: t('expenses'),
               isActive: tab === 'summary',
               onClick: selectTab('summary'),
             },

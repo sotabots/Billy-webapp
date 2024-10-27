@@ -170,7 +170,7 @@ export const Summary = ({
 
             <Panel className="!mt-0">
               <div className="flex flex-col gap-4">
-                <h3>{t('transactions')}</h3>
+                <h3>{t('history')}</h3>
                 <div className="flex flex-col gap-3">
                   {txGroups.map((txGroup, i) => (
                     <>
