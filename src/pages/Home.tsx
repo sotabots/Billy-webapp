@@ -114,7 +114,7 @@ export const Home = ({ tab }: {
         <>
           <ChatHeader />
           <Tabs
-            className="sticky top-0 mb-[6px] pb-[2px] bg-bg2 z-[1]"
+            className="sticky top-0 mb-[6px] pb-[2px] pt-2 bg-bg2 z-[1]"
             tabs={[
               {
                 title: t('expenses'),

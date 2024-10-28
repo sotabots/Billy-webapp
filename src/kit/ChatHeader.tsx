@@ -12,7 +12,7 @@ export const ChatHeader =({ className }: {
 
   return (
     <div className={cx(
-      'ChatHeader px-4 pt-3 pb-2',
+      'ChatHeader px-4 pt-3',
       className,
      )}
     >
