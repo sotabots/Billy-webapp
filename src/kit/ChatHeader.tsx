@@ -3,12 +3,16 @@ import { useTranslation } from 'react-i18next'
 
 import { useUser } from '../hooks'
 import { Avatar } from './Avatar'
+import { VoiceLimit } from './VoiceLimit'
+import { useGetVoiceLimit } from '../api'
 
-export const ChatHeader =({ className }: {
+export const ChatHeader = ({ className }: {
   className?: string
 }) => {
   const { t } = useTranslation()
   const { me } = useUser()
+  const { data } = useGetVoiceLimit()
+  console.log('useGetVoiceLimit data', data)
 
   return (
     <div className={cx(
@@ -19,6 +23,9 @@ export const ChatHeader =({ className }: {
       <div className="flex items-center justify-between gap-4">
         <div className="flex items-center justify-start gap-2 truncate">
           <div className="text-[24px] leading-[32px] font-semibold truncate">{t('thisChat')}</div>
+          {undefined &&
+            <VoiceLimit limit={null} />
+          }
         </div>
 
         <div className="flex-nowrap">

@@ -461,3 +461,24 @@ export const usePostPayment = () => {
     }).then(handleJsonResponse)
   }
 }
+
+export const useGetVoiceLimit = () => {
+  const { authString, isAuth } = useAuth()
+  const { chatId } = useChatId()
+
+  return (
+    useQuery<any, Error>({
+      queryKey: ['voice_limit', `voice_limit-${chatId}`],
+      queryFn: () =>
+        fetch(`${apiUrl}/chat/${chatId}/voice_limit`, {
+          method: 'GET',
+          headers: {
+            'Authorization': authString,
+          }
+        }).then(handleJsonResponse),
+      enabled: !!chatId && isAuth,
+      staleTime: 40 * 1000,
+      refetchInterval: 60 * 1000,
+    })
+  )
+}
