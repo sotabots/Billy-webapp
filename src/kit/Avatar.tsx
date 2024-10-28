@@ -59,7 +59,10 @@ export const Avatar = ({ user, size = 40 }: {
         </div>
       }
       {!user && (
-        <UserIcon className="w-8 h-8 text-[#0452C8]" />
+        <UserIcon
+          style={{ width: '80%', height: '80%' }}
+          className="text-[#0452C8]"
+        />
         // <Lottie
         //   style={{ height: 0.8 * size }}
         //   animationData={lottieKoalaLooking}

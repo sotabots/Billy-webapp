@@ -5,7 +5,7 @@ import { useNavigate } from 'react-router-dom'
 
 import { closeApp } from '../utils'
 
-import { Page, Header, Tabs } from '../kit'
+import { Page, Header, Tabs, ChatHeader } from '../kit'
 
 import { useGetSummary, useGetSummarySheetRebuild } from '../api'
 import { useInit, useFilter, useFeedback, useSummary } from '../hooks'
@@ -111,28 +111,31 @@ export const Home = ({ tab }: {
         tab === 'balance' && isCurrencyOpen ||
         tab === 'settings' && !!settingsInner
       ) && (
-        <Tabs
-          className="sticky top-0 mb-[6px] pb-[2px] pt-2 bg-bg2 z-[1]"
-          tabs={[
-            {
-              title: t('expenses'),
-              isActive: tab === 'summary',
-              onClick: selectTab('summary'),
-            },
-            {
-              title: t('balance'),
-              isActive: tab === 'balance',
-              onClick: selectTab('balance'),
-            },
-            {
-              title: t('settings'),
-              isActive: tab === 'settings',
-              onClick: selectTab('settings'),
-            },
-          ]}
-        >
-          <div className="absolute top-full left-0 w-full h-1 bg-gradient-to-b from-bg2" />
-        </Tabs>
+        <>
+          <ChatHeader />
+          <Tabs
+            className="sticky top-0 mb-[6px] pb-[2px] bg-bg2 z-[1]"
+            tabs={[
+              {
+                title: t('expenses'),
+                isActive: tab === 'summary',
+                onClick: selectTab('summary'),
+              },
+              {
+                title: t('balance'),
+                isActive: tab === 'balance',
+                onClick: selectTab('balance'),
+              },
+              {
+                title: t('settings'),
+                isActive: tab === 'settings',
+                onClick: selectTab('settings'),
+              },
+            ]}
+          >
+            <div className="absolute top-full left-0 w-full h-1 bg-gradient-to-b from-bg2" />
+          </Tabs>
+        </>
       )}
 
       {tab === 'summary' && (

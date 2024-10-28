@@ -1,6 +1,6 @@
 import { useGetUser } from '../api'
 import { useAuth } from '../hooks/useAuth'
-import { TLanguageCode } from '../types'
+import { TLanguageCode, TUser } from '../types'
 
 export const useUser = () => {
   const { data, refetch } = useGetUser()
@@ -21,5 +21,7 @@ export const useUser = () => {
     }
   }
 
-  return { isPro, userLang, refetchUser }
+  const me: TUser | undefined = data
+
+  return { me, isPro, userLang, refetchUser }
 }
