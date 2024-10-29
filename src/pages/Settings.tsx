@@ -8,7 +8,7 @@ import { useNavigate } from 'react-router-dom'
 import { Button, Divider, MenuItem, MenuGroup, RadioButton, InputAmount, Currencies } from '../kit'
 
 import { usePostChatCurrency, usePostUserLanguage, usePostChatSilent, useGetChat, usePostChatMode, usePostChatMonthlyLimit, usePostChatCashback } from '../api'
-import { useStore, useChatId, useInit, useFeedback, useCurrencies, useUser } from '../hooks'
+import { useStore, useChatId, useInit, useFeedback, useCurrencies, useUser, useOpenLink } from '../hooks'
 import { TCurrencyId, TLanguageCode, TMode } from '../types'
 import { formatAmount } from '../utils'
 
@@ -35,6 +35,7 @@ export const Settings = ({ settingsInner, setSettingsInner }: {
   const { feedback } = useFeedback()
   const { isPro, userLang, refetchUser } = useUser()
   const navigate = useNavigate()
+  const { openLink } = useOpenLink()
 
   const [monthlyLimit, setMonthlyLimit] = useState(chat?.monthly_limit || 0)
   const [cashback, setCashback] = useState((chat?.cashback || 0) * 100)
@@ -183,49 +184,73 @@ export const Settings = ({ settingsInner, setSettingsInner }: {
   return (
     <>
       {!settingsInner && (
-        <div className="p-4">
-          <div className="text-center text-[18px] leading-[24px] font-semibold">{t('chatType')}</div>
-          <div className="mt-2 text-center text-[14px] leading-[20px]">{t('chatTypeDescription')}</div>
-
-          <div className="mt-3 flex items-center p-1 rounded-[12px] bg-bg">
-            <div className="flex flex-grow basis-0">
-              <Button
-                theme="clear"
-                wrapperClassName="w-full"
-                className={cx(
-                  'w-full flex items-center justify-center gap-[2px] p-2 rounded-[8px]',
-                  chat?.mode === 'family' ? 'bg-text/5' : 'text-text/70',
-                )}
-                text={
-                  <>
-                    <ModePersonalIcon className="h-6 w-6" />
-                    <span>{t('personalExpenses')}</span>
-                  </>
-                }
-                onClick={() => { saveMode('family') }}
-                disabled={!chat}
-              />
+        <div className="px-4 pb-4">
+          {!!chat && !chat.is_admin &&
+            <div className="p-4 pb-5 pr-6 border border-[#F76659]/30 rounded-[6px] bg-[#F76659]/10">
+              <div className="flex flex-col gap-3">
+                <div className="flex flex-col gap-1">
+                  <div className="text-text text-[14px] leading-[24px] font-semibold">{t('makeBillyAdminTitle')}</div>
+                  <div className="text-text/70 text-[14px] leading-[24px] ">
+                    <div className="pl-4"><span className="-ml-3">•</span> {t('makeBillyAdminFeature1')}</div>
+                    <div className="pl-4"><span className="-ml-3">•</span> {t('makeBillyAdminFeature2')}</div>
+                    <div className="pl-4"><span className="-ml-3">•</span> {t('makeBillyAdminFeature3')}</div>
+                  </div>
+                </div>
+                <Button
+                  theme='clear'
+                  className="rounded-[6px] px-3 py-1 bg-[#F76659] text-[#F6F8F9] text-[14px] leading-[24px] font-semibold"
+                  onClick={() => {
+                    openLink('https://t.me/BillyMoney_bot?startgroup=true&admin=pin_messages+delete_messages')
+                  }}
+                  text={t('makeAdmin')}
+                />
+              </div>
             </div>
-            <div className="flex flex-grow basis-0">
-              <Button
-                theme="clear"
-                wrapperClassName="w-full"
-                className={cx(
-                  'w-full flex items-center justify-center gap-[2px] p-2 rounded-[8px]',
-                  chat?.mode === 'travel' ? 'bg-text/5' : 'text-text/70',
-                )}
-                text={
-                  <>
-                    <ModeGroupIcon className="h-6 w-6" />
-                    <span>{t('splittingBills')}</span>
-                  </>
-                }
-                onClick={() => { saveMode('travel') }}
-                disabled={!chat}
-              />
+          }
+
+          <div className="my-4">
+            <div className="text-center text-[18px] leading-[24px] font-semibold">{t('chatType')}</div>
+            <div className="mt-2 text-center text-[14px] leading-[20px]">{t('chatTypeDescription')}</div>
+
+            <div className="mt-3 flex items-center p-1 rounded-[12px] bg-bg">
+              <div className="flex flex-grow basis-0">
+                <Button
+                  theme="clear"
+                  wrapperClassName="w-full"
+                  className={cx(
+                    'w-full flex items-center justify-center gap-[2px] p-2 rounded-[8px]',
+                    chat?.mode === 'family' ? 'bg-text/5' : 'text-text/70',
+                  )}
+                  text={
+                    <>
+                      <ModePersonalIcon className="h-6 w-6" />
+                      <span>{t('personalExpenses')}</span>
+                    </>
+                  }
+                  onClick={() => { saveMode('family') }}
+                  disabled={!chat}
+                />
+              </div>
+              <div className="flex flex-grow basis-0">
+                <Button
+                  theme="clear"
+                  wrapperClassName="w-full"
+                  className={cx(
+                    'w-full flex items-center justify-center gap-[2px] p-2 rounded-[8px]',
+                    chat?.mode === 'travel' ? 'bg-text/5' : 'text-text/70',
+                  )}
+                  text={
+                    <>
+                      <ModeGroupIcon className="h-6 w-6" />
+                      <span>{t('splittingBills')}</span>
+                    </>
+                  }
+                  onClick={() => { saveMode('travel') }}
+                  disabled={!chat}
+                />
+              </div>
             </div>
           </div>
-
 
           <MenuGroup className="mt-5">
             <MenuItem
