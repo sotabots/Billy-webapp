@@ -89,7 +89,7 @@ export const Summary = ({
                     <Button
                       wrapperClassName="mt-4"
                       theme="clear"
-                      className="bg-button py-1 px-3 rounded-[6px] text-[#F6F8F9] text-[14px] leading-[24px] font-semibold"
+                      className="bg-blue py-1 px-3 rounded-[6px] text-[#F6F8F9] text-[14px] leading-[24px] font-semibold"
                       text={t('unlock')}
                       onClick={() => {
                         setPaywallSource('summary_donut')

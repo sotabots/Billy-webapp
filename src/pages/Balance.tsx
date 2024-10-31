@@ -168,7 +168,7 @@ export const Balance = ({
           {summaryCurrencyId !== null &&
             <Button
               theme="clear"
-              className="flex items-center justify-center gap-[2px] px-2 text-button"
+              className="flex items-center justify-center gap-[2px] px-2 text-blue"
               text={t('reset')}
               onClick={() => {
                 setSummaryCurrencyId(null)
@@ -205,8 +205,8 @@ export const Balance = ({
                 <h3 className="capitalize">{t('myBalance')}</h3>
                 <div className={cx(
                   'text-[16px] leading-6',
-                  balance > 0 && 'text-plus',
-                  balance < 0 && 'text-minus',
+                  balance > 0 && 'text-green',
+                  balance < 0 && 'text-red',
                 )}>
                   {balanceFormatted}
                 </div>

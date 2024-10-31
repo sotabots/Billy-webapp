@@ -285,7 +285,7 @@ export const Check = () => {
             <h3>{t('whoPaid')} <span>{payedSumFormatted}{currency?.symbol}</span></h3>
             <Button
               theme="clear"
-              className="flex items-center justify-center gap-[2px] px-2 text-button"
+              className="flex items-center justify-center gap-[2px] px-2 text-blue"
               text={
                 <>
                   <AddIcon className="w-6 h-6" />
@@ -328,7 +328,7 @@ export const Check = () => {
             <h3>{t('forWhom')} <span>{oweSumFormatted}{currency?.symbol}</span></h3>
             <Button
               theme="clear"
-              className="flex items-center justify-center gap-[2px] px-2 text-button"
+              className="flex items-center justify-center gap-[2px] px-2 text-blue"
               text={
                 <>
                   <AddIcon className="w-6 h-6" />
@@ -400,7 +400,7 @@ export const Check = () => {
       </Page>
 
       <Overlay isOpen={!!isSuccess} isCenter>
-        <div className="w-[200px] h-[200px] p-4 text-center text-button text-[24px] font-medium">
+        <div className="w-[200px] h-[200px] p-4 text-center text-blue text-[24px] font-medium">
           {!!isSuccess && (
             <Lottie animationData={lottieSuccess} loop={true} />
           )}

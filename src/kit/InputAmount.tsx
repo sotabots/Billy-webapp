@@ -119,7 +119,7 @@ export const InputAmount = ({ amount, onChange, decimals = visible_decimals, uni
       <input
         ref={inputRef}
         type="text"
-        className="w-[117px] h-10 p-2 rounded-md border border-[#DDE2E4] dark:border-[#6E7C87] dark:bg-[#303940] text-right text-[16px] text-text dark:text-[#FFFFFF] leading-[24px] focus:ring-2 focus:ring-button focus:outline-none appearance-none transition-all selection:bg-button selection:text-buttonText"
+        className="w-[117px] h-10 p-2 rounded-md border border-[#DDE2E4] dark:border-[#6E7C87] dark:bg-[#303940] text-right text-[16px] text-text leading-[24px] focus:ring-2 focus:ring-blue focus:outline-none appearance-none transition-all selection:bg-blue selection:text-textButton"
         inputMode="decimal"
         placeholder="0"
         value={currentString}

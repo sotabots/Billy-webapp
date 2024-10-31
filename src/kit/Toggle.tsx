@@ -17,7 +17,7 @@ export const Toggle = ({ size, label, value, onChange }: {
           <div className={cx(
             'relative transition-all',
             size === 'big' ? 'w-[32px] h-[20px] rounded-[10px]' : 'w-[22px] h-[12px] rounded-[6px]',
-            value ? 'bg-button' : 'bg-[#B0BABF]',
+            value ? 'bg-blue' : 'bg-[#B0BABF]',
           )}>
             <div className={cx(
               'absolute top-[50%] -translate-y-[50%] rounded-full bg-white transition-all',
@@ -27,7 +27,7 @@ export const Toggle = ({ size, label, value, onChange }: {
             )} />
           </div>
           {label &&
-            <div className="flex-1 text-[14px] leading-6 text-button">{label}</div>
+            <div className="flex-1 text-[14px] leading-6 text-blue">{label}</div>
           }
         </>
       )}

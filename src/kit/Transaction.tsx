@@ -68,8 +68,8 @@ export const Transaction = ({ tx }: { tx: TTransaction }) => {
             {!!myBalanceDelta && !(!tx.is_confirmed || tx.is_canceled) && (
             <div className={cx(
               'flex gap-2 items-center justify-between rounded-[4px] px-2 bg-[#8881] font-semibold',
-              myBalanceDelta > 0 && 'text-plus',
-              myBalanceDelta < 0 && 'text-minus',
+              myBalanceDelta > 0 && 'text-green',
+              myBalanceDelta < 0 && 'text-red',
             )}>
               <span>{t('myBalance')}</span>
               <span>{myBalanceDelta < 0 ? '−' : '+'} {formatAmount(Math.abs(myBalanceDelta))}{currency?.symbol}</span>

@@ -264,7 +264,7 @@ export const Settings = ({ settingsInner, setSettingsInner }: {
                 })
               }}
             />
-            <Divider className="mr-0 !bg-[#D5DADD]" />
+            <Divider className="mr-0" />
             <MenuItem
               icon={<SettingsLanguageIcon />}
               title={t('language')}
@@ -281,7 +281,7 @@ export const Settings = ({ settingsInner, setSettingsInner }: {
                 })
               }}
             />
-            <Divider className="mr-0 !bg-[#D5DADD]" />
+            <Divider className="mr-0" />
             {!!chat && chat.mode === 'family' &&
               <MenuItem
                 icon={<SettingsLimitIcon />}

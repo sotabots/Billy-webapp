@@ -130,7 +130,7 @@ export const Onboarding = ({ isEnd }: {
 
               <div className="flex flex-col gap-3">
                 <div className="flex items-start gap-3">
-                  <CheckmarkIcon className="flex-shrink-0 w-[22px] h-[22px] text-button" />
+                  <CheckmarkIcon className="flex-shrink-0 w-[22px] h-[22px] text-blue" />
                   <div className="">
                     <h3>{t('slide5_subtitle1')}</h3>
                     <p className="text-[14px]">{t('slide5_text1')}</p>
@@ -138,7 +138,7 @@ export const Onboarding = ({ isEnd }: {
                 </div>
 
                 <div className="flex items-start gap-3">
-                  <CheckmarkIcon className="flex-shrink-0 w-[22px] h-[22px] text-button" />
+                  <CheckmarkIcon className="flex-shrink-0 w-[22px] h-[22px] text-blue" />
                   <div className="">
                     <h3>{t('slide5_subtitle2')}</h3>
                     <p className="text-[14px]">{t('slide5_text2')}</p>
@@ -162,7 +162,7 @@ export const Onboarding = ({ isEnd }: {
 
               <div className="flex flex-col gap-3">
                 <div className="flex items-start gap-3">
-                  <CheckmarkIcon className="flex-shrink-0 w-[22px] h-[22px] text-button" />
+                  <CheckmarkIcon className="flex-shrink-0 w-[22px] h-[22px] text-blue" />
                   <div className="">
                     <h3>{t('slide6_subtitle1')}</h3>
                     <p className="text-[14px]">{t('slide6_text1')}</p>
@@ -170,7 +170,7 @@ export const Onboarding = ({ isEnd }: {
                 </div>
 
                 <div className="flex items-start gap-3">
-                  <CheckmarkIcon className="flex-shrink-0 w-[22px] h-[22px] text-button" />
+                  <CheckmarkIcon className="flex-shrink-0 w-[22px] h-[22px] text-blue" />
                   <div className="">
                     <h3>{t('slide6_subtitle2')}</h3>
                     <p className="text-[14px]">{t('slide6_text2')}</p>
@@ -178,7 +178,7 @@ export const Onboarding = ({ isEnd }: {
                 </div>
 
                 <div className="flex items-start gap-3">
-                  <CheckmarkIcon className="flex-shrink-0 w-[22px] h-[22px] text-button" />
+                  <CheckmarkIcon className="flex-shrink-0 w-[22px] h-[22px] text-blue" />
                   <div className="">
                     <h3>{t('slide6_subtitle3')}</h3>
                     <p className="text-[14px]">{t('slide6_text3')}</p>

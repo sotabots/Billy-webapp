@@ -30,10 +30,10 @@ export const RadioButton = ({ reverse, group, label, value, checked, onChange }:
         <div
           className={cx(
             'flex items-center justify-center w-5 h-5 border-2 rounded-full',
-            checked ? 'border-link' : 'border-hint'
+            checked ? 'border-blue' : 'border-textSec'
           )}
         >
-          <div className={cx('w-[10px] h-[10px] rounded-full bg-link opacity-0 transition-all', checked && '!opacity-100')} />
+          <div className={cx('w-[10px] h-[10px] rounded-full bg-blue opacity-0 transition-all', checked && '!opacity-100')} />
         </div>
       </div>
       <div className="flex-1">{label}</div>

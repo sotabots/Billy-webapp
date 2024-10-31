@@ -43,7 +43,7 @@ export const Debt = ({ from_user, to_user, amount, currency_id, onClick }: TDebt
               user={toUser}
               size={24}
               secondRow={false}
-              className="gap-[2px] !text-[14px] !leading-[20px] text-hint"
+              className="gap-[2px] !text-[14px] !leading-[20px] text-textSec"
             />
           </div>
         )}

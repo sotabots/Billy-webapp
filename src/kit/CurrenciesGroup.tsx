@@ -32,7 +32,7 @@ export const CurrenciesGroup = ({ className, title, currencies, value, onChange 
                 <div className="flex flex-col -gap-[2px]">
                   {/* <span className="font-semibold">{currency.symbol}</span> */}
                   <div className="text-[14px] leading-[20px]">{currency.title[i18n.language as TLanguageCode]}</div>
-                  <div className="text-[12px] leading-[16px] uppercase text-hint">{currency._id}</div>
+                  <div className="text-[12px] leading-[16px] uppercase text-textSec">{currency._id}</div>
                 </div>
               </div>
             )}

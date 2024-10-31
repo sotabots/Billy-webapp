@@ -24,7 +24,7 @@ export const User = ({ user, size = 40, secondRow, spokenName, className }: {
             {spokenName && (
               <div className="font-medium truncate">{spokenName}</div>
             )}
-            <div className="text-[14px] leading-[20px] text-error truncate">{t('select')}</div>
+            <div className="text-[14px] leading-[20px] text-red truncate">{t('select')}</div>
           </>
         ) : (
           <>
@@ -36,7 +36,7 @@ export const User = ({ user, size = 40, secondRow, spokenName, className }: {
               )}
             </div>
             {secondRow || (secondRow === undefined && user.username && (
-              <div className="text-[14px] leading-[18px] text-hint truncate">
+              <div className="text-[14px] leading-[18px] text-textSec truncate">
                 @{user.username}
               </div>
             ))}

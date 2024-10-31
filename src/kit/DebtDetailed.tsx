@@ -51,7 +51,7 @@ export const DebtDetailed = ({ debt, amount, setAmount, customRecipientId, onCli
               <ToIcon />
             </div>
             <User user={toUser} size={32} />
-            <NextIcon className="h-6 w-6 text-hint opacity-50" />
+            <NextIcon className="h-6 w-6 text-textSec opacity-50" />
           </>
         }
       />
