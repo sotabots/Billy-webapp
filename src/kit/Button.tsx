@@ -2,7 +2,7 @@ import { MainButton, useHapticFeedback, useWebApp } from '@vkruglikov/react-tele
 import cx from 'classnames'
 import { ReactNode } from 'react'
 
-import { useStore } from '../hooks'
+import { useStore, useTheme } from '../hooks'
 import { Limiter, Loader } from '../kit'
 
 type TButton = {
@@ -25,6 +25,7 @@ export const Button = ({ theme = 'default', wrapperClassName, className, isBotto
   const webApp = useWebApp()
   const [impactOccurred] = useHapticFeedback()
   const { overlays } = useStore()
+  const { isDark } = useTheme()
 
   const onClickVibro = disabled ? () => {/* */} : () => {
     console.log('Button vibro')
@@ -42,7 +43,11 @@ export const Button = ({ theme = 'default', wrapperClassName, className, isBotto
         text={text}
         disabled={disabled}
         progress={isBusy}
-        color={disabled ? '#888888' : color}
+        color={
+          disabled ? '#888888' :
+          color ? color :
+          isDark ? '#4094F7' : '#0E73F6'
+        }
         onClick={onClickVibro}
     />)
   }
@@ -86,7 +91,7 @@ export const Button = ({ theme = 'default', wrapperClassName, className, isBotto
       <div className={cx(
         'ButtonLoaderWrapper',
         (isBottom || theme === 'subBottom') ? 'fixed left-0 w-full py-2 bg-bg' : 'relative',
-        isBottom && 'bottom-0',
+        isBottom && 'bottom-0 px-4',
         theme === 'subBottom' && (webApp.platform !== 'unknown' ? 'bottom-0' : 'bottom-[56px]'),
       )}>
         {(isBottom || theme === 'subBottom') && (
