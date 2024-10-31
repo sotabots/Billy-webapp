@@ -231,7 +231,6 @@ export const Paywall = () => {
           />
           <Plan
             /* label={t('profitable')} */
-            labelColor={'#4094F7'}
             title={`12 ${t('months')}`}
             stars={1250}
             fiat={'2490₽'}

@@ -13,10 +13,9 @@ const textGradient = {
   'WebkitTextFillColor': 'transparent',
 }
 
-export const Plan = ({ className, label, labelColor, title, stars, fiat, discount, isActive, onClick }: {
+export const Plan = ({ className, label, title, stars, fiat, discount, isActive, onClick }: {
   className?: string
   label?: string
-  labelColor?: string
   title: string
   stars: number
   fiat: string
@@ -45,7 +44,6 @@ export const Plan = ({ className, label, labelColor, title, stars, fiat, discoun
             {label &&
               <div
                 className="absolute left-[10px] -top-[14px] inline-block mb-1 px-2 py-[2px] rounded-[20px] text-[#ffffff] text-[13px] leading-[18px] font-semibold bg-[#000000]"
-                style={{ backgroundColor: labelColor }}
               >
                 {label}
               </div>

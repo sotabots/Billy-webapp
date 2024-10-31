@@ -9,7 +9,7 @@ export const CheckBox = ({ className, isChecked }: {
   return (
     <div className={cx(
       'CheckBox h-5 w-5 rounded-[4px] flex items-center justify-center border transition-all',
-      !isChecked ? 'bg-[#F6F8F9] border-[#B0BABF]' : 'bg-[#4094F7] border-[#4094F7]',
+      !isChecked ? 'bg-[#F6F8F9] border-[#B0BABF]' : 'bg-blue border-blue',
       className,
     )}>
       <CheckIcon className={cx(
