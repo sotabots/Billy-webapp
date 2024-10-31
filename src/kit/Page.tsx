@@ -1,5 +1,6 @@
 import cx from 'classnames'
 import { ReactNode, UIEvent } from 'react'
+import { ScrollRestoration } from 'react-router-dom'
 
 import { Debug, Limiter } from '../kit'
 
@@ -19,6 +20,7 @@ export const Page = ({ className, children, _ref, onScroll }: {
         {children}
         <Debug />
       </Limiter>
+      <ScrollRestoration />
     </div>
   )
 }
