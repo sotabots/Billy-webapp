@@ -129,7 +129,7 @@ export const Paywall = () => {
 
   return (
     <Page>
-      <Header onBack={paywallFrom ? () => { history.back() } : undefined} />
+      <Header />
 
       <Panel>
         <div className="flex flex-col gap-2">

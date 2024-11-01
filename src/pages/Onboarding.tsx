@@ -1,11 +1,10 @@
 import { useState } from 'react'
-import { useNavigate } from 'react-router-dom'
 import { useTranslation } from 'react-i18next'
-
+import { useNavigate } from 'react-router-dom'
+import { useSwipeable } from 'react-swipeable'
 
 import { useFeedback, TEvent, useInit, useStore } from '../hooks'
 import { Button, Header, Page } from '../kit'
-import { closeApp } from '../utils'
 
 import { ReactComponent as CheckmarkIcon } from '../assets/checkmark.svg'
 import onboarding1 from '../assets/onboarding-1.jpg'
@@ -14,8 +13,6 @@ import onboarding3 from '../assets/onboarding-3.jpg'
 import onboarding4 from '../assets/onboarding-4.jpg'
 import onboarding5 from '../assets/onboarding-5.jpg'
 import onboarding6 from '../assets/onboarding-6.jpg'
-
-import { useSwipeable } from 'react-swipeable'
 
 const Pager = ({ page }: {
   page: number
@@ -48,13 +45,11 @@ export const Onboarding = ({ isEnd }: {
 
   return (
     <Page className="">
-      <Header onBack={() => {
-        if (step === 1) {
-          closeApp()
-        } else {
-          setStep(step - 1)
-        }
-      }} />
+      <Header onBack={
+        isEnd ? undefined :
+        step === 1 ? undefined :
+        () => { setStep(step - 1) }
+      } />
 
       <div className="Swipes" {...swipes}>
         {step === 1 && (
@@ -63,7 +58,9 @@ export const Onboarding = ({ isEnd }: {
               className="relative h-[37vh] bg-[#ffca6a] bg-center bg-cover bg-no-repeat"
               style={{ backgroundImage: `url(${onboarding1})` }}
             >
-              <Pager page={1} />
+              {!isEnd &&
+                <Pager page={1} />
+              }
             </div>
             <div className="flex flex-col gap-5 max-w-[500px] mx-auto px-4 py-6">
               <h2 className="text-[24px]">{t('slide1_title')}</h2>
@@ -78,7 +75,9 @@ export const Onboarding = ({ isEnd }: {
               className="relative h-[37vh] bg-[#ffca6a] bg-center bg-cover bg-no-repeat"
               style={{ backgroundImage: `url(${onboarding2})` }}
             >
-              <Pager page={2} />
+              {!isEnd &&
+                <Pager page={2} />
+              }
             </div>
             <div className="flex flex-col gap-5 max-w-[500px] mx-auto px-4 py-6">
               <h2 className="text-[24px]">{t('slide2_title')}</h2>
@@ -93,7 +92,9 @@ export const Onboarding = ({ isEnd }: {
               className="relative h-[37vh] bg-[#ffca6a] bg-center bg-cover bg-no-repeat"
               style={{ backgroundImage: `url(${onboarding3})` }}
             >
-              <Pager page={3} />
+              {!isEnd &&
+                <Pager page={3} />
+              }
             </div>
             <div className="flex flex-col gap-5 max-w-[500px] mx-auto px-4 py-6">
               <h2 className="text-[24px]">{t('slide3_title')}</h2>
@@ -108,7 +109,9 @@ export const Onboarding = ({ isEnd }: {
               className="relative h-[37vh] bg-[#ffca6a] bg-center bg-cover bg-no-repeat"
               style={{ backgroundImage: `url(${onboarding4})` }}
             >
-              <Pager page={4} />
+              {!isEnd &&
+                <Pager page={4} />
+              }
             </div>
             <div className="flex flex-col gap-5 max-w-[500px] mx-auto px-4 py-6">
               <h2 className="text-[24px]">{t('slide4_title')}</h2>
@@ -123,7 +126,9 @@ export const Onboarding = ({ isEnd }: {
               className="relative h-[37vh] bg-[#ffca6a] bg-center bg-cover bg-no-repeat"
               style={{ backgroundImage: `url(${onboarding5})` }}
             >
-              <Pager page={5} />
+              {!isEnd &&
+                <Pager page={5} />
+              }
             </div>
             <div className="flex flex-col gap-5 max-w-[500px] mx-auto px-4 py-6">
               <h2 className="text-[24px]">{t('slide5_title')}</h2>
@@ -155,7 +160,9 @@ export const Onboarding = ({ isEnd }: {
               className="relative h-[37vh] bg-[#ffca6a] bg-center bg-cover bg-no-repeat"
               style={{ backgroundImage: `url(${onboarding6})` }}
             >
-              <Pager page={6} />
+              {!isEnd &&
+                <Pager page={6} />
+              }
             </div>
             <div className="flex flex-col gap-5 max-w-[500px] mx-auto px-4 py-6">
               <h2 className="text-[24px]">{t('slide6_title')}</h2>

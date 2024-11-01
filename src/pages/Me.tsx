@@ -11,7 +11,7 @@ export const Me = () => {
 
   return (
     <Page>
-      <Header onBack={() => { history.back() }} />
+      <Header />
 
       <Panel>
         {me?.first_name} {me?.last_name}

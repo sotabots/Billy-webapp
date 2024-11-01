@@ -24,7 +24,7 @@ export const Soon = () => {
 
   return (
     <Page>
-      <Header onBack={() => { history.back() }} />
+      <Header />
 
       <div className="w-[280px] mx-auto flex flex-col gap-4 pt-[112px] text-center">
         <div className="mx-auto w-[123px] h-[114px]">

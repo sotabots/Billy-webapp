@@ -10,7 +10,6 @@ import { decimals } from '../const'
 import { useStore, useCurrencies, useInit, useChatId, useFeedback, useTransaction, useUsers, useUser, useGetTx, useGetTransactions, useGetSummary, usePostTransaction, usePutTransaction } from '../hooks'
 import { Button, Header, UserAmount, Overlay, Panel, MessagePanel, Page, Toggle } from '../kit'
 import type { TNewTransaction, TShare, TTransaction, TLanguageCode } from '../types'
-import { closeApp } from '../utils'
 
 import lottieSuccess from '../assets/animation-success.json'
 import { ReactComponent as AddIcon } from '../assets/add.svg'
@@ -250,14 +249,14 @@ export const Check = () => {
   return (
     <>
       <Page>
-        <Header onBack={() => {
-          if (isEditTx) {
-            history.back()
-            setIsEditTx(false)
-          } else {
-            closeApp()
-          }
-        }} />
+        <Header onBack={
+          isEditTx
+            ? () => {
+              history.back()
+              setIsEditTx(false)
+            }
+            : undefined
+        } />
 
         <div className="mb-2 px-4 flex items-center justify-between">
           <h2 className="pt-[2px] pb-[6px]">{t('checkout')}</h2>

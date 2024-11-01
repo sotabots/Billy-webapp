@@ -31,7 +31,7 @@ export const SelectCurrency = () => {
 
   return (
     <Page className="!bg-bg">
-      <Header onBack={() => { history.back() }} />
+      <Header />
 
       <div className="px-4">
         <h2>{t('selectCurrency')}</h2>

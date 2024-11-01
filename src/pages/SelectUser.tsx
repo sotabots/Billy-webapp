@@ -56,7 +56,7 @@ export const SelectUser = () => {
 
   return (
     <Page className="!bg-bg">
-      <Header onBack={() => { history.back() }} />
+      <Header />
 
       <div className="mb-2 px-4 flex items-center justify-between gap-3">
         <h2 className="pt-[2px] pb-[6px]">{title}</h2>

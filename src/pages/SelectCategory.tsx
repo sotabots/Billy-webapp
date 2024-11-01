@@ -28,7 +28,7 @@ export const SelectCategory = () => {
 
   return (
     <Page className="">
-      <Header onBack={() => { history.back() }} />
+      <Header />
 
       <Panel>
         <div className="flex flex-col gap-3">

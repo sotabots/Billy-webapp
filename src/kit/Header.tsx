@@ -4,19 +4,22 @@ import { BackButton } from '@vkruglikov/react-telegram-web-app'
 
 import { ReactComponent as Back } from '../assets/back.svg'
 
-type THeader = {
+export const Header = ({ onBack /*, onCancel */ }: {
   onBack?: () => void
-  // onCancel?: MouseEventHandler<HTMLButtonElement>
-}
-
-export const Header = ({ onBack /*, onCancel */ }: THeader) => {
+}) => {
   const { t } = useTranslation()
+
+  const _onBack =
+    onBack ? onBack :
+    history.state ? () => { history.back()} :
+    undefined
+
   if (window.Telegram?.WebApp.platform !== 'unknown') {
     return (
       <div className="h-3">
-        {onBack && (
+        {!!_onBack && (
           <BackButton
-            onClick={onBack}
+            onClick={_onBack}
           />
         )}
       </div>
@@ -25,11 +28,11 @@ export const Header = ({ onBack /*, onCancel */ }: THeader) => {
 
   return (
     <header className="relative flex items-center justify-center h-[64px]">
-      {/* {onCancel &&
-        <button className="absolute left-4 top-1/2 -translate-y-1/2 text-blue hover:brightness-[1.2] active:brightness-[1.4] transition-all" onClick={onCancel}>{t('cancel')}</button>
-      } */}
-      {onBack &&
-        <button className="flex items-center gap-[5px] absolute left-4 top-1/2 -translate-y-1/2 text-blue hover:brightness-[1.2] active:brightness-[1.4] transition-all" onClick={onBack}>
+      {(!!_onBack) &&
+        <button
+          className="flex items-center gap-[5px] absolute left-4 top-1/2 -translate-y-1/2 text-blue hover:brightness-[1.2] active:brightness-[1.4] transition-all"
+          onClick={_onBack}
+        >
           <Back />
           <span>{t('back')}</span>
         </button>

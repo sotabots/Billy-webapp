@@ -7,7 +7,6 @@ import { useInit, useFilter, useFeedback, useSummary, useGetSummary, useGetSumma
 import { Page, Header, Tabs, ChatHeader } from '../kit'
 import { Summary, Balance, Settings, TSettingsInner } from '../pages'
 import { TUserId } from '../types'
-import { closeApp } from '../utils'
 
 type TTab = 'summary' | 'balance' | 'settings'
 
@@ -98,7 +97,7 @@ export const Home = ({ tab }: {
             history.back()
           }
         }))
-        || closeApp
+        || undefined
       } />
 
       {!(
