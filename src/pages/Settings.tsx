@@ -1,14 +1,11 @@
 import { useHapticFeedback } from '@vkruglikov/react-telegram-web-app'
 import cx from 'classnames'
-
 import { useState } from 'react'
 import { useTranslation } from 'react-i18next'
 import { useNavigate } from 'react-router-dom'
 
+import { useStore, useChatId, useInit, useFeedback, useCurrencies, useUser, useOpenLink, usePostChatCurrency, usePostUserLanguage, usePostChatSilent, useGetChat, usePostChatMode, usePostChatMonthlyLimit, usePostChatCashback } from '../hooks'
 import { Button, Divider, MenuItem, MenuGroup, RadioButton, InputAmount, Currencies } from '../kit'
-
-import { usePostChatCurrency, usePostUserLanguage, usePostChatSilent, useGetChat, usePostChatMode, usePostChatMonthlyLimit, usePostChatCashback } from '../api'
-import { useStore, useChatId, useInit, useFeedback, useCurrencies, useUser, useOpenLink } from '../hooks'
 import { TCurrencyId, TLanguageCode, TMode } from '../types'
 import { formatAmount } from '../utils'
 

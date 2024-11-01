@@ -1,5 +1,4 @@
-import { useGetUser } from '../api'
-import { useAuth } from '../hooks/useAuth'
+import { useGetUser, useAuth } from '../hooks'
 import { TLanguageCode, TUser } from '../types'
 
 export const useUser = () => {

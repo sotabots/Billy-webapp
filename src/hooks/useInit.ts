@@ -3,8 +3,7 @@ import { useInitData } from '@vkruglikov/react-telegram-web-app'
 import { useEffect } from 'react'
 import { useLocation } from 'react-router-dom'
 
-import { usePostUserOnboarding } from '../api'
-import { useStore, useFeedback, useUsers, useTgSettings, useUser } from '../hooks'
+import { useStore, useFeedback, useUsers, useTgSettings, useUser, usePostUserOnboarding } from '../hooks'
 
 
 import i18n from '../i18n'

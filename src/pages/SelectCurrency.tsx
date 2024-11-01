@@ -3,9 +3,8 @@ import { useCallback } from 'react'
 import { useTranslation } from 'react-i18next'
 import { useNavigate } from 'react-router-dom'
 
-import { Header, Page, Currencies } from '../kit'
-
 import { useStore, useFeedback, useInit } from '../hooks'
+import { Header, Page, Currencies } from '../kit'
 import { TCurrencyId } from '../types'
 
 export const SelectCurrency = () => {

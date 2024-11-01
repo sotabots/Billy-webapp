@@ -1,4 +1,4 @@
-import { useGetTx, useGetSummary } from '../api'
+import { useGetTx, useGetSummary } from '../hooks/useApi'
 import { useStore } from './'
 
 export const useChatId = () => {

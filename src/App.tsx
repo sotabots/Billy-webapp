@@ -1,6 +1,5 @@
 import { QueryClient, QueryClientProvider } from '@tanstack/react-query'
 import { WebAppProvider } from '@vkruglikov/react-telegram-web-app'
-
 import { RouterProvider } from 'react-router-dom'
 
 import { useTgAutoExpand, useTheme, useClarity } from './hooks'

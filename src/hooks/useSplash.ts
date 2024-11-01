@@ -1,5 +1,4 @@
-import { useGetTx, useGetUsers, useGetUser, useGetChat, useGetCurrencies, useGetSummary, useGetCategories, useGetTransactions } from '../api'
-import { useStore, useChatId } from '../hooks'
+import { useStore, useChatId, useGetTx, useGetUsers, useGetUser, useGetChat, useGetCurrencies, useGetSummary, useGetCategories, useGetTransactions } from '../hooks'
 
 export const useSplash = () => {
   const { currencies, transactions, txPatchError } = useStore()

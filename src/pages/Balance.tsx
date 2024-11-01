@@ -1,14 +1,11 @@
 import { useHapticFeedback, useInitData } from '@vkruglikov/react-telegram-web-app'
-
 import cx from 'classnames'
 import Lottie from 'lottie-react'
 import { useEffect, useState } from 'react'
 import { useTranslation } from 'react-i18next'
 
+import { useStore, useBalance, useCurrencies, useFeedback, useSummary, useChatId, usePostTransaction, useGetSummary, useGetTransactions } from '../hooks'
 import { Button, Overlay, Panel, Debt, DebtDetailed, Divider, UserButton, Currencies } from '../kit'
-
-import { usePostTransaction, useGetSummary, useGetTransactions } from '../api'
-import { useStore, useBalance, useCurrencies, useFeedback, useSummary, useChatId } from '../hooks'
 import { TCurrencyId, TNewTransaction, TUserId } from '../types'
 import { formatAmount, closeApp } from '../utils'
 

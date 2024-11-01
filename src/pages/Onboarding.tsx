@@ -2,9 +2,9 @@ import { useState } from 'react'
 import { useNavigate } from 'react-router-dom'
 import { useTranslation } from 'react-i18next'
 
-import { Button, Header, Page } from '../kit'
 
 import { useFeedback, TEvent, useInit, useStore } from '../hooks'
+import { Button, Header, Page } from '../kit'
 import { closeApp } from '../utils'
 
 import { ReactComponent as CheckmarkIcon } from '../assets/checkmark.svg'

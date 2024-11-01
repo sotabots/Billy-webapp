@@ -3,10 +3,9 @@ import Lottie from 'lottie-react'
 import { useState, useEffect } from 'react'
 import { useTranslation } from 'react-i18next'
 
-import { Button, Header, Page, Panel, Divider, Plan, Limiter } from '../kit'
 
-import { useInit, useStore, useFeedback, useUser } from '../hooks'
-import { usePostPayment } from '../api'
+import { useInit, useStore, useFeedback, useUser, usePostPayment } from '../hooks'
+import { Button, Header, Page, Panel, Divider, Plan, Limiter } from '../kit'
 import { TPlan } from '../types'
 
 import lottieKoalaStars from '../assets/animation-koala-stars.json'

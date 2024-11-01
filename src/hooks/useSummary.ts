@@ -1,4 +1,4 @@
-import { useGetSummary } from '../api/useApi'
+import { useGetSummary } from '../hooks'
 import { TDebt } from '../types'
 
 export const useSummary = () => {

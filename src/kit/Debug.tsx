@@ -2,9 +2,7 @@ import cx from 'classnames'
 import { useCallback, useEffect, useState } from 'react'
 // import { useNavigate } from 'react-router-dom'
 
-import { useStore, useChatId } from '../hooks'
-import { useGetSummary } from '../api'
-
+import { useStore, useChatId, useGetSummary } from '../hooks'
 import { Panel } from '../kit'
 
 const OPEN_DEBUG_RIGHT_CLICKS = 5

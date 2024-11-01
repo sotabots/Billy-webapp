@@ -1,11 +1,9 @@
 import { useHapticFeedback } from '@vkruglikov/react-telegram-web-app'
-
 import { useState } from 'react'
 import { useTranslation } from 'react-i18next'
 
-import { Button, Header, Page, Panel, Category } from '../kit'
-
 import { useStore, useInit } from '../hooks'
+import { Button, Header, Page, Panel, Category } from '../kit'
 
 export const SelectCategory = () => {
   useInit()

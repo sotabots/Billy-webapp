@@ -6,14 +6,9 @@ import { useState, useEffect } from 'react'
 import { useTranslation } from 'react-i18next'
 import { useNavigate } from 'react-router-dom'
 
-import { Button, Header, UserAmount, Overlay, Panel, MessagePanel, Page, Toggle } from '../kit'
-
-import { useGetTx, useGetTransactions, useGetSummary } from '../api'
-
 import { decimals } from '../const'
-import { useStore, useCurrencies, useInit, useChatId, useFeedback, useTransaction, useUsers, useUser } from '../hooks'
-import { usePostTransaction, usePutTransaction } from '../api'
-
+import { useStore, useCurrencies, useInit, useChatId, useFeedback, useTransaction, useUsers, useUser, useGetTx, useGetTransactions, useGetSummary, usePostTransaction, usePutTransaction } from '../hooks'
+import { Button, Header, UserAmount, Overlay, Panel, MessagePanel, Page, Toggle } from '../kit'
 import type { TNewTransaction, TShare, TTransaction, TLanguageCode } from '../types'
 import { closeApp } from '../utils'
 

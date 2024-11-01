@@ -2,9 +2,8 @@ import Lottie from 'lottie-react'
 import { useEffect, useState } from 'react'
 import { useTranslation } from 'react-i18next'
 
-import { Button, Header, Page } from '../kit'
-
 import { useInit, useFeedback } from '../hooks'
+import { Button, Header, Page } from '../kit'
 
 import lottieKoalaSoon from '../assets/animation-koala-soon.json'
 

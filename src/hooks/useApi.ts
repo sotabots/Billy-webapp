@@ -10,7 +10,7 @@ import {
   mockChat,
   mockSummary,
   mockTransactions
-} from './mock'
+} from './useApiMock'
 
 const apiUrl = import.meta.env.VITE_API_URL
 const staleTime = 5 * 60 * 1000

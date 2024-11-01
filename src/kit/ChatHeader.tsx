@@ -1,10 +1,9 @@
 import cx from 'classnames'
 import { useTranslation } from 'react-i18next'
 
-import { useUser } from '../hooks'
+import { useUser, useGetVoiceLimit } from '../hooks'
 import { Avatar } from './Avatar'
 import { VoiceLimit } from './VoiceLimit'
-import { useGetVoiceLimit } from '../api'
 
 export const ChatHeader = ({ className }: {
   className?: string

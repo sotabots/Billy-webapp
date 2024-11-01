@@ -3,15 +3,11 @@ import { useState, useRef, UIEvent } from 'react'
 import { useTranslation } from 'react-i18next'
 import { useNavigate } from 'react-router-dom'
 
-import { closeApp } from '../utils'
-
+import { useInit, useFilter, useFeedback, useSummary, useGetSummary, useGetSummarySheetRebuild } from '../hooks'
 import { Page, Header, Tabs, ChatHeader } from '../kit'
-
-import { useGetSummary, useGetSummarySheetRebuild } from '../api'
-import { useInit, useFilter, useFeedback, useSummary } from '../hooks'
-import { TUserId } from '../types'
-
 import { Summary, Balance, Settings, TSettingsInner } from '../pages'
+import { TUserId } from '../types'
+import { closeApp } from '../utils'
 
 type TTab = 'summary' | 'balance' | 'settings'
 

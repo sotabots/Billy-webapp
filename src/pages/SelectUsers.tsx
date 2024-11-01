@@ -1,9 +1,8 @@
 import { useState } from 'react'
 import { useTranslation } from 'react-i18next'
 
-import { Button, Divider, Header, Page, UserButton } from '../kit'
-
 import { useStore, useFeedback, useInit, useTransaction, useUsers } from '../hooks'
+import { Button, Divider, Header, Page, UserButton } from '../kit'
 import { TShare, TUserId, TUser } from '../types'
 
 export const SelectUsers = () => {
