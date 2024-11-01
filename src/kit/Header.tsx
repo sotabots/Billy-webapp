@@ -11,7 +11,7 @@ export const Header = ({ onBack /*, onCancel */ }: {
 
   const _onBack =
     onBack ? onBack :
-    history.state ? () => { history.back()} :
+    (history.state && history.state?.idx && history.state?.idx !== 0) ? () => { history.back()} :
     undefined
 
   if (window.Telegram?.WebApp.platform !== 'unknown') {
