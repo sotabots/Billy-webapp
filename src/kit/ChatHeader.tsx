@@ -1,7 +1,7 @@
 import cx from 'classnames'
 import { useTranslation } from 'react-i18next'
 
-import { useUser, useGetVoiceLimit } from '../hooks'
+import { useUser, useGetVoiceLimit, useStore } from '../hooks'
 import { Avatar } from './Avatar'
 import { VoiceLimit } from './VoiceLimit'
 
@@ -12,6 +12,11 @@ export const ChatHeader = ({ className }: {
   const { me } = useUser()
   const { data } = useGetVoiceLimit()
   console.log('useGetVoiceLimit data', data)
+
+  const { isDebug } = useStore()
+  if (!isDebug) {
+    return null
+  }
 
   return (
     <div className={cx(
