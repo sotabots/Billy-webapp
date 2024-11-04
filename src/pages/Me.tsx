@@ -17,10 +17,10 @@ export const Me = () => {
         {me?.first_name} {me?.last_name}
         ...{t('')}
         <Button
-          theme="clear"
-          text={<>...</>}
           onClick={() => { /* */ }}
-        />
+        >
+          <>...</>
+        </Button>
       </Panel>
 
     </Page>

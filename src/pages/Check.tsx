@@ -262,14 +262,15 @@ export const Check = () => {
           <h2 className="pt-[2px] pb-[6px]">{t('checkout')}</h2>
           <Button
             theme="text"
-            text={currency ? `${currency.flag} ${currency.title[i18n.language as TLanguageCode]}` : t('selectCurrency')}
             onClick={() => {
               navigate('/select-currency')
               feedback('change_currency_expshares_web', {
                 currency_prev: currency?._id || null
               })
             }}
-          />
+          >
+            {currency ? `${currency.flag} ${currency.title[i18n.language as TLanguageCode]}` : t('selectCurrency')}
+          </Button>
         </div>
 
         <MessagePanel />
@@ -278,16 +279,7 @@ export const Check = () => {
           <div className="flex items-center justify-between gap-3">
             <h3>{t('whoPaid')} <span>{payedSumFormatted}{currency?.symbol}</span></h3>
             <Button
-              theme="clear"
               className="flex items-center justify-center gap-[2px] px-2 text-blue"
-              text={
-                <>
-                  <AddIcon className="w-6 h-6" />
-                  <div className="text-[14px] leading-[24px] font-semibold">
-                    {t('add')}
-                  </div>
-                </>
-              }
               onClick={() => {
                 setIsSelectPayers(true)
                 navigate('/select-users')
@@ -295,7 +287,14 @@ export const Check = () => {
                   num_payers_prev: payedShares.length
                 })
               }}
-            />
+            >
+              <>
+                <AddIcon className="w-6 h-6" />
+                <div className="text-[14px] leading-[24px] font-semibold">
+                  {t('add')}
+                </div>
+              </>
+            </Button>
           </div>
           <div className="mt-4 flex flex-col gap-1">
             {!payedShares.length && <span className="opacity-40">{t('nobodyHere')}</span>}
@@ -321,16 +320,7 @@ export const Check = () => {
           <div className="flex items-center justify-between gap-3">
             <h3>{t('forWhom')} <span>{oweSumFormatted}{currency?.symbol}</span></h3>
             <Button
-              theme="clear"
               className="flex items-center justify-center gap-[2px] px-2 text-blue"
-              text={
-                <>
-                  <AddIcon className="w-6 h-6" />
-                  <div className="text-[14px] leading-[24px] font-semibold">
-                    {t('add')}
-                  </div>
-                </>
-              }
               onClick={() => {
                 setIsSelectPayers(false)
                 navigate('/select-users')
@@ -338,7 +328,14 @@ export const Check = () => {
                   num_debtors_prev: oweShares.length
                 })
               }}
-            />
+            >
+              <>
+                <AddIcon className="w-6 h-6" />
+                <div className="text-[14px] leading-[24px] font-semibold">
+                  {t('add')}
+                </div>
+              </>
+            </Button>
           </div>
           <div className="min-h-[24px] mt-[2px]">
             <Toggle
@@ -370,27 +367,26 @@ export const Check = () => {
         {!transaction.is_canceled && transaction._id !== 'NEW' && (
           <div className="m-4">
             <Button
-              theme="clear"
               className="w-full border border-[#DDE2E4] dark:border-[#6E7C87] rounded-[6px]"
-              text={
-                <div className="min-h-[40px] flex items-center justify-center gap-2 text-[14px] leading-[24px]">
-                  <DeleteIcon />
-                  <span>{t('cancelTransaction')}</span>
-                </div>
-              }
               onClick={cancel}
               isBusy={isBusy}
-            />
+            >
+              <div className="min-h-[40px] flex items-center justify-center gap-2 text-[14px] leading-[24px]">
+                <DeleteIcon />
+                <span>{t('cancelTransaction')}</span>
+              </div>
+            </Button>
           </div>
         )}
 
         <Button
-          isBottom
-          text={buttonText}
+          theme="bottom"
           onClick={isGoPaywall ? goPaywall : save}
           disabled={isButtonDisabled}
           isBusy={isBusy}
-        />
+        >
+          {buttonText}
+        </Button>
       </Page>
 
       <Overlay isOpen={!!isSuccess} isCenter>

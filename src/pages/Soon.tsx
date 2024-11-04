@@ -40,10 +40,11 @@ export const Soon = () => {
       </div>
 
       <Button
-        isBottom
-        text={t('okay')}
+        theme="bottom"
         onClick={() => { history.back() }}
-      />
+      >
+        {t('okay')}
+      </Button>
     </Page>
   )
 }

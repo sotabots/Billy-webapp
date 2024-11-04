@@ -62,14 +62,15 @@ export const SelectUser = () => {
         <h2 className="pt-[2px] pb-[6px]">{title}</h2>
           <Button
             theme="text"
-            text={t('delete')}
             onClick={() => {
               deleteUser(selectPersonId, selectPersonIsPayer)
               feedback('delete_user_expnames_web', {
                 num_users_set: deduplicatedShares.length - 1,
               })
             }}
-          />
+          >
+            {t('delete')}
+          </Button>
       </div>
 
       <div className="pb-8 flex flex-col gap-4">

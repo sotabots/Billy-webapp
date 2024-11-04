@@ -48,18 +48,16 @@ export const MessagePanel = () => {
       {isPro &&
         <div>
           <Button
-            theme="clear"
             className="group/button flex gap-3"
-            text={(
-              <>
-                <h3>{t('category')}</h3>
-                <CategoryAvatar tx={transaction} />
-              </>
-            )}
             onClick={() => {
               navigate('/select-category')
             }}
-          />
+          >
+            <>
+              <h3>{t('category')}</h3>
+              <CategoryAvatar tx={transaction} />
+            </>
+          </Button>
         </div>
       }
     </Panel>

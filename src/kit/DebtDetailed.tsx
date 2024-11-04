@@ -35,7 +35,6 @@ export const DebtDetailed = ({ debt, amount, setAmount, customRecipientId, onCli
         />
       </div>
       <Button
-        theme="clear"
         className="w-full flex items-center gap-3 pl-6 py-1 rounded-[6px] hover:bg-text/5 active:bg-text/10 transition-all"
         onClick={() => {
           onClickRecipient()
@@ -45,16 +44,15 @@ export const DebtDetailed = ({ debt, amount, setAmount, customRecipientId, onCli
             currency: currency_id,
           })
         }}
-        text={
-          <>
-            <div className="h-[14px] w-[14px]">
-              <ToIcon />
-            </div>
-            <User user={toUser} size={32} />
-            <NextIcon className="h-6 w-6 text-textSec opacity-50" />
-          </>
-        }
-      />
+      >
+        <>
+          <div className="h-[14px] w-[14px]">
+            <ToIcon />
+          </div>
+          <User user={toUser} size={32} />
+          <NextIcon className="h-6 w-6 text-textSec opacity-50" />
+        </>
+      </Button>
     </div>
   )
 }

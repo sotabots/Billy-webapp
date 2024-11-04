@@ -194,13 +194,13 @@ export const Settings = ({ settingsInner, setSettingsInner }: {
                   </div>
                 </div>
                 <Button
-                  theme='clear'
                   className="rounded-[6px] px-3 py-1 bg-[#F76659] text-[#F6F8F9] text-[14px] leading-[24px] font-semibold"
                   onClick={() => {
                     openLink('https://t.me/BillyMoney_bot?startgroup=true&admin=pin_messages+delete_messages')
                   }}
-                  text={t('makeAdmin')}
-                />
+                >
+                  {t('makeAdmin')}
+                </Button>
               </div>
             </div>
           }
@@ -212,39 +212,35 @@ export const Settings = ({ settingsInner, setSettingsInner }: {
             <div className="mt-3 flex items-center p-1 rounded-[12px] bg-bg">
               <div className="flex flex-grow basis-0">
                 <Button
-                  theme="clear"
                   wrapperClassName="w-full"
                   className={cx(
                     'w-full flex items-center justify-center gap-[2px] p-2 rounded-[8px]',
                     chat?.mode === 'family' ? 'bg-text/5' : 'text-text/70',
                   )}
-                  text={
-                    <>
-                      <ModePersonalIcon className="h-6 w-6" />
-                      <span>{t('personalExpenses')}</span>
-                    </>
-                  }
                   onClick={() => { saveMode('family') }}
                   disabled={!chat}
-                />
+                >
+                  <>
+                    <ModePersonalIcon className="h-6 w-6" />
+                    <span>{t('personalExpenses')}</span>
+                  </>
+                </Button>
               </div>
               <div className="flex flex-grow basis-0">
                 <Button
-                  theme="clear"
                   wrapperClassName="w-full"
                   className={cx(
                     'w-full flex items-center justify-center gap-[2px] p-2 rounded-[8px]',
                     chat?.mode === 'travel' ? 'bg-text/5' : 'text-text/70',
                   )}
-                  text={
-                    <>
-                      <ModeGroupIcon className="h-6 w-6" />
-                      <span>{t('splittingBills')}</span>
-                    </>
-                  }
                   onClick={() => { saveMode('travel') }}
                   disabled={!chat}
-                />
+                >
+                  <>
+                    <ModeGroupIcon className="h-6 w-6" />
+                    <span>{t('splittingBills')}</span>
+                  </>
+                </Button>
               </div>
             </div>
           </div>
@@ -332,10 +328,11 @@ export const Settings = ({ settingsInner, setSettingsInner }: {
           </MenuGroup>
 
           <Button
-            isBottom
-            text={t('close')}
+            theme="bottom"
             onClick={() => { history.back() }}
-          />
+          >
+            {t('close')}
+          </Button>
         </div>
       )}
 
@@ -351,11 +348,12 @@ export const Settings = ({ settingsInner, setSettingsInner }: {
           />
           {/*
           <Button
-            isBottom
-            text={t('apply')}
+            theme="bottom"
             onClick={() => { history.back() }}
             isBusy={isBusy}
-          />
+          >
+            {t('apply')}
+          </Button>
           */}
         </>
       )}
@@ -384,11 +382,12 @@ export const Settings = ({ settingsInner, setSettingsInner }: {
           </div>
           {/*
           <Button
-            isBottom
-            text={t('apply')}
+            theme="bottom"
             onClick={() => { history.back() }}
             isBusy={isBusy}
-          />
+          >
+            {t('apply')}
+          </Button>
           */}
         </>
       )}
@@ -409,11 +408,12 @@ export const Settings = ({ settingsInner, setSettingsInner }: {
             </div>
           </div>
           <Button
-            isBottom
-            text={t('apply')}
+            theme="bottom"
             onClick={() => { saveMonthlyLimit() }}
             isBusy={isBusy}
-          />
+          >
+            {t('apply')}
+          </Button>
         </>
       )}
 
@@ -434,11 +434,12 @@ export const Settings = ({ settingsInner, setSettingsInner }: {
             </div>
           </div>
           <Button
-            isBottom
-            text={t('apply')}
+            theme="bottom"
             onClick={() => { saveCashback() }}
             isBusy={isBusy}
-          />
+          >
+            {t('apply')}
+          </Button>
         </>
       )}
     </>

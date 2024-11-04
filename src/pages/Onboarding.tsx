@@ -198,16 +198,8 @@ export const Onboarding = ({ isEnd }: {
       </div>
 
       <Button
-        isBottom
+        theme="bottom"
         isBusy={isButtonBusy}
-        text={
-          step === 1 ? t('slide1_button') :
-          step === 2 ? t('slide2_button') :
-          step === 3 ? t('slide3_button') :
-          step === 4 ? t('slide4_button') :
-          step === 5 ? t('slide5_button') :
-          step === 6 ? t('slide6_button') : ''
-        }
         onClick={async () => {
           if (step <= 6) {
             const eventOfStep: TEvent[] = [
@@ -239,7 +231,16 @@ export const Onboarding = ({ isEnd }: {
             navigate('/paywall')
           }
         }}
-      />
+      >
+        {
+          step === 1 ? t('slide1_button') :
+          step === 2 ? t('slide2_button') :
+          step === 3 ? t('slide3_button') :
+          step === 4 ? t('slide4_button') :
+          step === 5 ? t('slide5_button') :
+          step === 6 ? t('slide6_button') : ''
+        }
+      </Button>
     </Page>
   )
 }

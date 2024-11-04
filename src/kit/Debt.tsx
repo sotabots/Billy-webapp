@@ -51,9 +51,10 @@ export const Debt = ({ from_user, to_user, amount, currency_id, onClick }: TDebt
 
       <Button
         theme="settleUp"
-        text={t('settleUp')}
         onClick={onClick}
-      />
+      >
+        {t('settleUp')}
+      </Button>
     </div>
   )
 }

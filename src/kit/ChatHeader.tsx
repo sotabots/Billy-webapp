@@ -1,13 +1,14 @@
 import cx from 'classnames'
 import { useTranslation } from 'react-i18next'
+import { useNavigate } from 'react-router-dom'
 
 import { useUser, useGetVoiceLimit, useStore } from '../hooks'
-import { Avatar } from './Avatar'
-import { VoiceLimit } from './VoiceLimit'
+import { Avatar, VoiceLimit, Button } from '../kit'
 
 export const ChatHeader = ({ className }: {
   className?: string
 }) => {
+  const navigate = useNavigate()
   const { t } = useTranslation()
   const { me } = useUser()
   const { data } = useGetVoiceLimit()
@@ -32,12 +33,15 @@ export const ChatHeader = ({ className }: {
           }
         </div>
 
-        <div className="flex-nowrap">
+        <Button
+          wrapperClassName="flex-nowrap"
+          onClick={() => { navigate('/me') }}
+        >
           <Avatar
             size={32}
             user={me}
           />
-        </div>
+        </Button>
       </div>
     </div>
   )

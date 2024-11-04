@@ -49,9 +49,10 @@ export const SelectUsers = () => {
         <h2 className="pt-[2px] pb-[6px]">{isSelectPayers ? t('whoPaid') : t('forWhom')}</h2>
         <Button
           theme="text"
-          text={isEveryoneChecked ? t('unselectAll') : t('selectAll')}
           onClick={isEveryoneChecked ? unselectAll : selectAll}
-        />
+        >
+          {isEveryoneChecked ? t('unselectAll') : t('selectAll')}
+        </Button>
       </div>
 
       <div className="mt-4 overflow-y-auto">
@@ -69,8 +70,7 @@ export const SelectUsers = () => {
       </div>
 
       <Button
-        isBottom
-        text={t('apply')} // todo
+        theme="bottom"
         onClick={() => {
           updUsers(checkedUserIds, isSelectPayers)
           if (isSelectPayers) {
@@ -85,7 +85,9 @@ export const SelectUsers = () => {
             })
           }
         }}
-      />
+      >
+        {t('apply') /* todo */}
+      </Button>
     </Page>
   )
 }

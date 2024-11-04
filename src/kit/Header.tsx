@@ -3,18 +3,20 @@ import { useTranslation } from 'react-i18next'
 import { BackButton } from '@vkruglikov/react-telegram-web-app'
 
 import { ReactComponent as Back } from '../assets/back.svg'
+import { usePlatform } from '../hooks'
 
 export const Header = ({ onBack /*, onCancel */ }: {
   onBack?: () => void
 }) => {
   const { t } = useTranslation()
+  const { isTg } = usePlatform()
 
   const _onBack =
     onBack ? onBack :
     (history.state && history.state?.idx && history.state?.idx !== 0) ? () => { history.back()} :
     undefined
 
-  if (window.Telegram?.WebApp.platform !== 'unknown') {
+  if (isTg) {
     return (
       <div className="h-3">
         {!!_onBack && (

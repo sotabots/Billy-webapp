@@ -67,27 +67,27 @@ export const Pie = ({ isCompact, title, period, slices, onLeft, onRight }: {
       </div>
       <div className="absolute left-0 top-[50%] -translate-y-[50%] w-6 h-6">
         <Button
-          theme="clear"
           className={cx(
             'w-6 h-6 enabled:active:scale-75',
             (!onLeft || isCompact) && 'scale-0'
           )}
           disabled={!onLeft || isCompact}
           onClick={onLeft || (() => { /* */ })}
-          text={<PageLeftIcon />}
-        />
+        >
+          <PageLeftIcon />
+        </Button>
       </div>
       <div className="absolute right-0 top-[50%] -translate-y-[50%] w-6 h-6">
         <Button
-          theme="clear"
           className={cx(
             'w-6 h-6 enabled:active:scale-75',
             (!onRight || isCompact) && 'scale-0'
           )}
           disabled={!onRight || isCompact}
           onClick={onRight || (() => { /* */})}
-          text={<PageRightIcon />}
-        />
+        >
+          <PageRightIcon />
+        </Button>
       </div>
     </div>
   )

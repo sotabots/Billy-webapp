@@ -87,31 +87,29 @@ export const Summary = ({
                     <div className="mt-1 text-[14px] leading-[20px] text-[#5B6871] dark:text-[#B0BABF]">{t('analyzeCategories')}</div>
                     <Button
                       wrapperClassName="mt-4"
-                      theme="clear"
                       className="bg-blue py-1 px-3 rounded-[6px] text-[#F6F8F9] text-[14px] leading-[24px] font-semibold"
-                      text={t('unlock')}
                       onClick={() => {
                         setPaywallSource('summary_donut')
                         setPaywallFrom('summary')
                         navigate('/paywall')
                       }}
-                    />
+                    >
+                      {t('unlock')}
+                    </Button>
                   </div>
                   <Button
-                    theme="clear"
                     className="relative w-[104px] h-[104px]"
-                    text={
-                      <>
-                        <ProPie className="-m-2 w-[120px] h-[120px]" />
-                        <ProBadgeRotate className="absolute left-[50%] translate-x-[-50%] top-[64%] w-[73px] h-[35px]" />
-                      </>
-                    }
                     onClick={() => {
                       setPaywallSource('summary_donut')
                       setPaywallFrom('summary')
                       navigate('/paywall')
                     }}
-                  />
+                  >
+                    <>
+                      <ProPie className="-m-2 w-[120px] h-[120px]" />
+                      <ProBadgeRotate className="absolute left-[50%] translate-x-[-50%] top-[64%] w-[73px] h-[35px]" />
+                    </>
+                  </Button>
                 </div>
               }
               {isPro &&
@@ -131,18 +129,18 @@ export const Summary = ({
                       </div>
                     </div>
                     <Button
-                      theme="clear"
                       className="flex items-center justify-center w-8 h-8"
                       onClick={() => {
                         openFilter()
                         feedback('press_filter_total_web')
                       }}
-                      text={
+                    >
+                      {
                         isFilterActive
                           ? <FilterActiveIcon />
                           : <FilterIcon />
                       }
-                    />
+                    </Button>
                   </div>
                   <div className="flex flex-col gap-4">
                     <Pie
@@ -193,17 +191,17 @@ export const Summary = ({
           <div className="mb-4 flex justify-center">
             <Button
               theme="text"
-              text={t('detailedSummary')}
               onClick={() => {
                 goDetailed()
                 feedback('press_details_total_web')
               }}
-            />
+            >
+              {t('detailedSummary')}
+            </Button>
           </div>
 
           <Button
-            isBottom
-            text={t('addTransaction')}
+            theme="bottom"
             onClick={() => {
               setTxId('NEW')
               setIsEditTx(true)
@@ -212,7 +210,9 @@ export const Summary = ({
                 num_transaction: filteredTransactions.length
               })
             }}
-          />
+          >
+            {t('addTransaction')}
+          </Button>
         </>
       )}
 
@@ -259,10 +259,11 @@ export const Summary = ({
           </Panel>
 
           <Button
-            isBottom
-            text={t('apply')}
+            theme="bottom"
             onClick={applyFilter}
-          />
+          >
+            {t('apply')}
+          </Button>
         </>
       )}
 

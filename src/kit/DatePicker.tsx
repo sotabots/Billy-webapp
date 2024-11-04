@@ -27,30 +27,28 @@ export const DatePicker = ({
       onClick={() => { setIsOpen(false) }}
     >
       <Button
-        theme="clear"
         className={cx(
           'w-full h-8 p-[3px] pl-3 rounded-[6px] border border-[#DDE2E4] dark:border-[#6E7C87] dark:bg-[#D5DADD] text-[14px] leading-[24px] text-text dark:text-[#48535B] transition-all',
         )}
         onClick={() => { setIsOpen(!isOpen) }}
-        text={
-          <div className="relative flex items-center pr-7">
-            {timestamp ? (
-              <span className="">{timestamp}</span>
-            ) : (
-              <span className={cx(
-                'transition-all',
-                !isOpen && 'opacity-40'
-              )}>
-                {placeholder}
-              </span>
-            )}
-            <DateIcon className={cx(
-              'absolute top-[50%] -translate-y-[50%] right-0 w-6 h-6 transition-all',
-              timestamp ? '!opacity-0 pointer-events-none' : 'opacity-30 hover:opacity-50 active:opacity-70 active:opaity'
-            )} />
-          </div>
-        }
-      />
+      >
+        <div className="relative flex items-center pr-7">
+          {timestamp ? (
+            <span className="">{timestamp}</span>
+          ) : (
+            <span className={cx(
+              'transition-all',
+              !isOpen && 'opacity-40'
+            )}>
+              {placeholder}
+            </span>
+          )}
+          <DateIcon className={cx(
+            'absolute top-[50%] -translate-y-[50%] right-0 w-6 h-6 transition-all',
+            timestamp ? '!opacity-0 pointer-events-none' : 'opacity-30 hover:opacity-50 active:opacity-70 active:opaity'
+          )} />
+        </div>
+      </Button>
       <div className={cx(
         'absolute top-[50%] -translate-y-[50%] right-1 w-6 h-6 transition-all',
         !timestamp ? 'opacity-0 pointer-events-none' : 'opacity-100'
@@ -58,12 +56,13 @@ export const DatePicker = ({
         <Button
           className="opacity-30"
           theme="icon"
-          text={<DateClearIcon />}
           onClick={() => {
             onChange(null)
             setIsOpen(false)
           }}
-        />
+        >
+          <DateClearIcon />
+        </Button>
       </div>
       <div className={cx(
         'absolute top-[115%] w-[264px] h-[296px] rounded-[6px] border border-[#DDE2E4] dark:border-[#6E7C87] p-5 bg-bg transition-all origin-top',

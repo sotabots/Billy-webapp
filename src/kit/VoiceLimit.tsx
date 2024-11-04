@@ -14,7 +14,6 @@ export const VoiceLimit =({ className, theme, limit }: {
 
   return (
     <Button
-      theme='clear'
       wrapperClassName='h-6'
       className={cx(
         'VoiceLimit h-6 border rounded-full pl-2 pr-3',
@@ -24,13 +23,12 @@ export const VoiceLimit =({ className, theme, limit }: {
           '',
         className,
       )}
-      text={
-        <div className="flex items-center gap-1">
-          <Voice className="w-4 h-4" />
-          <div className="text-[14px] leading-[24px] font-semibold">{limit !== null ? `${limit} ${t('left')}` : t('unlimited')}</div>
-        </div>
-      }
       onClick={() => { /* */ }}
-    />
+    >
+      <div className="flex items-center gap-1">
+        <Voice className="w-4 h-4" />
+        <div className="text-[14px] leading-[24px] font-semibold">{limit !== null ? `${limit} ${t('left')}` : t('unlimited')}</div>
+      </div>
+    </Button>
   )
 }

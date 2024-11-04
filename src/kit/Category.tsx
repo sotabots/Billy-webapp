@@ -36,10 +36,10 @@ export const Category = ({ categoryKey, amountFormatted, isActive, onClick }: {
   return (
     onClick ? (
       <Button
-        theme="clear"
-        text={<div className={className} style={style}>{inner}</div>}
         onClick={onClick}
-      />
+      >
+        <div className={className} style={style}>{inner}</div>
+      </Button>
     ) : (
       <div
         className={className}

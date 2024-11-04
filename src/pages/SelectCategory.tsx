@@ -47,10 +47,11 @@ export const SelectCategory = () => {
       </Panel>
 
       <Button
-        isBottom
-        text={t('apply')}
+        theme="bottom"
         onClick={apply}
-      />
+      >
+        {t('apply')}
+      </Button>
     </Page>
   )
 }

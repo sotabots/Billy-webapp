@@ -1,12 +1,11 @@
-import { MainButton, useHapticFeedback, useWebApp } from '@vkruglikov/react-telegram-web-app'
+import { MainButton, useHapticFeedback } from '@vkruglikov/react-telegram-web-app'
 import cx from 'classnames'
 import { ReactNode } from 'react'
 
-import { useStore, useTheme } from '../hooks'
+import { usePlatform, useStore, useTheme } from '../hooks'
 import { Limiter, Loader } from '../kit'
 
 type TButton = {
-  theme?: 'default' | 'clear' | 'text' | 'settleUp' | 'icon' | 'subBottom'
   wrapperClassName?: string
   className?: string
   color?: string
@@ -14,15 +13,15 @@ type TButton = {
   isBusy?: boolean
   onClick: () => void
 } & ({
-  isBottom: true
-  text: string,
+  theme: 'bottom'
+  children: string
 } | {
-  isBottom?: false
-  text: string | ReactNode,
+  theme?: 'default' | 'subBottom' | 'text' | 'settleUp' | 'icon'
+  children: ReactNode
 })
 
-export const Button = ({ theme = 'default', wrapperClassName, className, isBottom, color, text, disabled, isBusy, onClick }: TButton) => {
-  const webApp = useWebApp()
+export const Button = ({ theme = 'default', wrapperClassName, className, color, children, disabled, isBusy, onClick }: TButton) => {
+  const { isTg } = usePlatform()
   const [impactOccurred] = useHapticFeedback()
   const { overlays } = useStore()
   const { isDark } = useTheme()
@@ -33,14 +32,16 @@ export const Button = ({ theme = 'default', wrapperClassName, className, isBotto
     onClick()
   }
 
+  const isBottom = theme === 'bottom'
+
   if (isBottom && overlays.length) {
     return null
   }
 
-  if (isBottom && webApp.platform !== 'unknown') {
+  if (theme === 'bottom' && isTg) {
     return (
       <MainButton
-        text={text}
+        text={children as string}
         disabled={disabled}
         progress={isBusy}
         color={
@@ -53,32 +54,31 @@ export const Button = ({ theme = 'default', wrapperClassName, className, isBotto
   }
 
   const themeStyle = {
-    'clear': 'enabled:hover:brightness-110 enabled:active:brightness-[1.2] transition-all',
+    'default': '',
 
-    'default': 'mx-auto w-full block h-10 bg-blue text-textButton rounded-md text-[14px] leading-[20px] font-semibold enabled:hover:brightness-110 enabled:active:brightness-[1.2] transition-all',
+    'text': 'min-h-[24px] text-[14px] leading-[1.2em] text-blue enabled:hover:!brightness-[1.2] enabled:active:!brightness-[1.4] transition-all',
 
-    'text': 'min-h-[24px] text-[14px] leading-[1.2em] text-blue hover:brightness-[1.2] active:brightness-[1.4] transition-all',
-
-    'settleUp': 'min-h-[24px] border border-blue rounded-[4px] px-2 text-[14px] leading-[1.2em] text-blue hover:brightness-[1.2] active:brightness-[1.4] transition-all whitespace-nowrap',
+    'settleUp': 'min-h-[24px] border border-blue rounded-[4px] px-2 text-[14px] leading-[1.2em] text-blue enabled:hover:!brightness-[1.2] enabled:active:!brightness-[1.4] transition-all whitespace-nowrap',
 
     'icon': 'block h-[24px] w-[24px] bg-transaprent p-0 opacity-40 text-text hover:opacity-70 active:opacity-100 transition-all',
 
-    'subBottom': 'block w-full h-10 bg-[#7E10E5] text-textButton rounded-md text-[14px] leading-[24px] font-semibold enabled:hover:brightness-110 enabled:active:brightness-[1.2] transition-all',
+    'bottom': 'mx-auto w-full block h-10 bg-blue text-textButton rounded-md text-[14px] leading-[20px] font-semibold',
+
+    'subBottom': 'block w-full h-10 bg-[#7E10E5] text-textButton rounded-md text-[14px] leading-[24px] font-semibold transition-all',
   }[theme]
 
   const button = (
     <button
       className={cx(
+        'enabled:hover:brightness-[1.1] enabled:active:brightness-[1.2] transition-all disabled:opacity-40 disabled:cursor-not-allowed',
         themeStyle,
         className,
-        isBottom && '!h-[40px]',
-        'disabled:opacity-40 disabled:cursor-not-allowed'
       )}
       style={{ backgroundColor: color }}
       disabled={disabled || isBusy}
       onClick={onClickVibro}
     >
-      {text}
+      {children}
     </button>
   )
 
@@ -92,7 +92,7 @@ export const Button = ({ theme = 'default', wrapperClassName, className, isBotto
         'ButtonLoaderWrapper',
         (isBottom || theme === 'subBottom') ? 'fixed left-0 w-full py-2 bg-bg' : 'relative',
         isBottom && 'bottom-0 px-4',
-        theme === 'subBottom' && (webApp.platform !== 'unknown' ? 'bottom-0' : 'bottom-[56px]'),
+        theme === 'subBottom' && (isTg ? 'bottom-0' : 'bottom-[56px]'),
       )}>
         {(isBottom || theme === 'subBottom') && (
           <div className="absolute bottom-full left-0 w-full h-2 bg-gradient-to-t from-bg" />

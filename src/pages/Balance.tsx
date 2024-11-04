@@ -164,15 +164,15 @@ export const Balance = ({
           <h2>{t('selectCurrency')}</h2>
           {summaryCurrencyId !== null &&
             <Button
-              theme="clear"
               className="flex items-center justify-center gap-[2px] px-2 text-blue"
-              text={t('reset')}
               onClick={() => {
                 setSummaryCurrencyId(null)
                 setIsCurrencyOpen(false)
                 refetchSummary()
               }}
-            />
+            >
+              {t('reset')}
+            </Button>
           }
         </div>
         <Currencies
@@ -237,20 +237,22 @@ export const Balance = ({
           <div className="mb-4 flex justify-center">
             <Button
               theme="text"
-              text={t('detailedSummary')}
               onClick={() => {
                 goDetailed()
                 feedback('press_details_balances_web')
               }}
-            />
+            >
+              {t('detailedSummary')}
+            </Button>
           </div>
 
           <Button
-            isBottom
+            theme="bottom"
             // color={'#7E10E5'}
-            text={t('showInCurrency')}
             onClick={() => { setIsCurrencyOpen(true) }}
-          />
+          >
+            {t('showInCurrency')}
+          </Button>
         </>
       )}
 
@@ -270,17 +272,19 @@ export const Balance = ({
             <div className="mb-4">
               <Button
                 theme="text"
-                text={t('detailedSummary')}
                 onClick={goDetailed}
-              />
+              >
+                {t('detailedSummary')}
+              </Button>
             </div>
           </div>
 
           <Button
-            isBottom
-            text={t('close')}
+            theme="bottom"
             onClick={closeApp}
-          />
+          >
+            {t('close')}
+          </Button>
         </>
       )}
 
@@ -301,11 +305,12 @@ export const Balance = ({
           </Panel>
 
           <Button
-            isBottom
-            text={t('settleUp')}
+            theme="bottom"
             onClick={settleUp}
             isBusy={isBusy}
-          />
+          >
+            {t('settleUp')}
+          </Button>
         </>
       )}
 
