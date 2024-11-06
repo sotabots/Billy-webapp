@@ -11,8 +11,7 @@ export const ChatHeader = ({ className }: {
   const navigate = useNavigate()
   const { t } = useTranslation()
   const { me } = useUser()
-  const { data } = useGetVoiceLimit()
-  console.log('useGetVoiceLimit data', data)
+  const { data: voiceLimit } = useGetVoiceLimit()
 
   const { isDebug } = useStore()
   if (!isDebug) {
@@ -28,9 +27,7 @@ export const ChatHeader = ({ className }: {
       <div className="flex items-center justify-between gap-4">
         <div className="flex items-center justify-start gap-2 truncate">
           <div className="text-[24px] leading-[32px] font-semibold truncate">{t('thisChat')}</div>
-          {undefined &&
-            <VoiceLimit limit={null} />
-          }
+          <VoiceLimit limit={voiceLimit} />
         </div>
 
         <Button
