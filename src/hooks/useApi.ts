@@ -2,7 +2,7 @@ import { useInitData } from '@vkruglikov/react-telegram-web-app'
 import { useQuery } from '@tanstack/react-query'
 
 import { useAuth, useNewTx, useChatId, useStore } from '../hooks'
-import { TCurrency, TCategories, TTransaction, TNewTransaction, TUser, TChat, TSummary, TCurrencyId, TLanguageCode, TMode, TPlan } from '../types'
+import { TCurrency, TCategories, TTransaction, TNewTransaction, TUser, TChat, TSummary, TCurrencyId, TLanguageCode, TMode, TPlan, TProfile } from '../types'
 import {
   mockTransaction,
   mockUsers,
@@ -467,7 +467,7 @@ export const useGetVoiceLimit = () => {
   const { chatId } = useChatId()
 
   return (
-    useQuery<any, Error>({
+    useQuery<number, Error>({
       queryKey: ['voice_limit', `voice_limit-${chatId}`],
       queryFn: () =>
         fetch(`${apiUrl}/chat/${chatId}/voice_limit`, {
@@ -479,6 +479,23 @@ export const useGetVoiceLimit = () => {
       enabled: !!chatId && isAuth,
       staleTime: 40 * 1000,
       refetchInterval: 60 * 1000,
+    })
+  )
+}
+
+export const useGetProfile = () => {
+  const { authString, userId } = useAuth()
+  return (
+    useQuery<TProfile, Error>({
+      queryKey: [`profile-${userId}`],
+      queryFn: () =>
+        fetch(`${apiUrl}/users/profile?user_id=${userId}`, {
+          method: 'GET',
+          headers: {
+            'Authorization': authString,
+          }
+        }).then(handleJsonResponse),
+      enabled: !!userId,
     })
   )
 }

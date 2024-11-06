@@ -132,3 +132,30 @@ export type TPlan = {
 export type TPaywallSource = undefined | 'onboarding' | 'summary_donut' | 'cashback' | 'monthly_limit' | 'voice_limit' | 'voice_limit_edit' | 'subscription_menu'
 
 export type TPaywallFrom = undefined | 'edit' | 'onboarding' | 'settings' | 'summary'
+
+export type TUserChat = {
+  id: number
+  name: string
+  photo: string | null
+  voice_limit: number
+  user_balance: {
+    in_user_currency: {
+      amount: number
+      currency_id: TCurrencyId
+    },
+    in_chat_currency: {
+      amount: number
+      currency_id: TCurrencyId
+    }
+  }
+}
+
+export type TProfile = {
+  chats: TUserChat[]
+  balance: {
+    currency_id: TCurrencyId
+    total: number
+    debts: number
+    credits: number
+  }
+}
