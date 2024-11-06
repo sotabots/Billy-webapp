@@ -446,6 +446,7 @@ const _mockChat: TChat = {
   mode: 'family',
   cashback: 0,
   monthly_limit: 0,
+  name: 'Demo chat',
 }
 
 // demo data
@@ -594,6 +595,7 @@ const demoChat: TChat = {
   mode: 'family',
   cashback: 0,
   monthly_limit: 0,
+  name: isRus ? 'Демо-чат' : 'Demo chat',
 }
 
 const isDemo = true

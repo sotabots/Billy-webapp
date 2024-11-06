@@ -469,16 +469,18 @@ export const useGetVoiceLimit = () => {
   return (
     useQuery<number, Error>({
       queryKey: ['voice_limit', `voice_limit-${chatId}`],
-      queryFn: () =>
-        fetch(`${apiUrl}/chat/${chatId}/voice_limit`, {
-          method: 'GET',
-          headers: {
-            'Authorization': authString,
-          }
-        }).then(handleJsonResponse),
-      enabled: !!chatId && isAuth,
-      staleTime: 40 * 1000,
-      refetchInterval: 60 * 1000,
+      queryFn: chatId === 0
+        ? () => -1
+        : () =>
+          fetch(`${apiUrl}/chat/${chatId}/voice_limit`, {
+            method: 'GET',
+            headers: {
+              'Authorization': authString,
+            }
+          }).then(handleJsonResponse),
+      enabled: chatId === 0 || (!!chatId && isAuth),
+      // staleTime: 25 * 1000,
+      // refetchInterval: 30 * 1000,
     })
   )
 }

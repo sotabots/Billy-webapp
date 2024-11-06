@@ -86,6 +86,7 @@ export type TChat = {
   cashback: number
   monthly_limit: number
   rates: TRates
+  name: string
 }
 
 export type TSummary = {
