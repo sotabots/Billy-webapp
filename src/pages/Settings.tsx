@@ -205,6 +205,7 @@ export const Settings = ({ settingsInner, setSettingsInner }: {
             </div>
           }
 
+          {false &&
           <div className="my-4">
             <div className="text-center text-[18px] leading-[24px] font-semibold">{t('chatType')}</div>
             <div className="mt-2 text-center text-[14px] leading-[20px]">{t('chatTypeDescription')}</div>
@@ -244,6 +245,7 @@ export const Settings = ({ settingsInner, setSettingsInner }: {
               </div>
             </div>
           </div>
+          }
 
           <MenuGroup className="mt-5">
             <MenuItem
@@ -275,7 +277,7 @@ export const Settings = ({ settingsInner, setSettingsInner }: {
               }}
             />
             <Divider className="mr-0" />
-            {!!chat && chat.mode === 'family' &&
+            {null && !!chat && chat.mode === 'family' &&
               <MenuItem
                 icon={<SettingsLimitIcon />}
                 title={t('monthlyLimit')}
@@ -295,7 +297,8 @@ export const Settings = ({ settingsInner, setSettingsInner }: {
                 }}
               />
             }
-            {!!chat && chat.mode === 'travel' &&
+            {/* {!!chat && chat.mode === 'travel' && */}
+            {true &&
               <MenuItem
                 icon={<SettingsCashbackIcon />}
                 title={t('cashback')}
