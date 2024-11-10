@@ -13,8 +13,6 @@ export const ChatHeader = ({ className }: {
   const { me } = useUser()
   const { data: voiceLimit } = useGetVoiceLimit()
 
-  console.log('voiceLimit', voiceLimit)
-
   const { chat, isDebug } = useStore()
   if (!isDebug) {
     return null
@@ -34,7 +32,7 @@ export const ChatHeader = ({ className }: {
 
         <Button
           wrapperClassName="flex-nowrap"
-          onClick={() => { navigate('/me') }}
+          onClick={() => { navigate('/profile') }}
         >
           <Avatar
             size={32}

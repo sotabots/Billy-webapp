@@ -4,7 +4,7 @@ import { useTranslation } from 'react-i18next'
 import { useInit, useUser } from '../hooks'
 import { Button, Header, Page, Panel, Dropdown } from '../kit'
 
-export const Me = () => {
+export const Profile = () => {
   useInit()
 
   const { t } = useTranslation()
