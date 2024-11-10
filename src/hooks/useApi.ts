@@ -194,14 +194,10 @@ export const useGetSummary = () => {
   const { summaryId, summaryCurrencyId } = useStore()
   console.log('useGetSummary summaryId', summaryId, summaryCurrencyId)
 
-  const url = `${apiUrl}/summary` +
-    (summaryCurrencyId
-      ? `?${new URLSearchParams({
-          ...(summaryId ? { summary_id: summaryId, } : {}),
-          target_currency_id: String(summaryCurrencyId),
-        })}`
-      : ''
-    )
+  const url = `${apiUrl}/summary?${new URLSearchParams({
+    ...(summaryId ? { summary_id: summaryId } : {}),
+    ...(summaryCurrencyId ? { target_currency_id: String(summaryCurrencyId) } : {}),
+  })}`
 
   return (
     useQuery<TSummary, Error>({
