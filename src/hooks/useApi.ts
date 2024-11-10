@@ -194,9 +194,10 @@ export const useGetSummary = () => {
   const { summaryId, summaryCurrencyId } = useStore()
   console.log('useGetSummary summaryId', summaryId, summaryCurrencyId)
 
-  const url = `${apiUrl}/summary/${summaryId}` +
+  const url = `${apiUrl}/summary` +
     (summaryCurrencyId
       ? `?${new URLSearchParams({
+          ...(summaryId ? { summary_id: summaryId, } : {}),
           target_currency_id: String(summaryCurrencyId),
         })}`
       : ''
@@ -405,7 +406,7 @@ export const useGetSummarySheetRebuild = () => {
   const { summaryId } = useStore()
   const url = (!summaryId || summaryId?.includes('demo'))
     ? 'https://jsonplaceholder.typicode.com/posts'
-    : `${apiUrl}/summary/${summaryId}/gsheet`
+    : `${apiUrl}/summary/gsheet?summary_id=${summaryId}`
 
   return () =>
     fetch(url, {

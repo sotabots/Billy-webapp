@@ -8,7 +8,7 @@ import { Panel } from '../kit'
 const OPEN_DEBUG_RIGHT_CLICKS = 5
 
 export const Debug = () => {
-  const { transaction, users, txId, summaryId, summaryCurrencyId, setSummaryCurrencyId, chat, currencies, categories, transactions, isDebug, setDebug } = useStore()
+  const { transaction, users, txId, summaryCurrencyId, setSummaryCurrencyId, chat, currencies, categories, transactions, isDebug, setDebug } = useStore()
   const { data: summary } = useGetSummary()
 
   const { chatId } = useChatId()
@@ -96,7 +96,6 @@ export const Debug = () => {
         {out('users', users)}
         {out('chatId', chatId)}
         {out('chat', chat)}
-        {out('summaryId', summaryId)}
         {out('summaryCurrencyId', summaryCurrencyId)}
         {out('summary', summary)}
         {out('currencies', currencies)}
