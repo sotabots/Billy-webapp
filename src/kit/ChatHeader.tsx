@@ -13,7 +13,10 @@ export const ChatHeader = ({ className }: {
   const { me } = useUser()
   const { data: voiceLimit } = useGetVoiceLimit()
 
-  const { chat } = useStore()
+  const { chat, isDebug } = useStore()
+  if (isDebug) {
+    return null
+  }
 
   return (
     <div className={cx(
