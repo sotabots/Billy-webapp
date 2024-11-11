@@ -5,9 +5,9 @@ import { useNavigate } from 'react-router-dom'
 
 import { useCurrencies, useGetProfile, useInit, useUser } from '../hooks'
 import { Button, Header, Page, Panel, Dropdown, Chat } from '../kit'
+import { formatAmount } from '../utils'
 
 import { ReactComponent as Chevron } from '../assets/chevron.svg'
-import { formatAmount } from '../utils'
 
 export const Profile = () => {
   useInit()

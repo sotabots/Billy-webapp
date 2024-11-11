@@ -4,6 +4,7 @@ import { useTranslation } from 'react-i18next'
 import { useCurrencies } from '../hooks'
 import { Avatar } from '../kit'
 import { TUserChat } from '../types'
+import { formatAmount } from '../utils'
 
 export const Chat =({ chat }: {
   chat: TUserChat
@@ -34,11 +35,11 @@ export const Chat =({ chat }: {
               chat.user_balance.in_chat_currency.amount > 0 && 'text-green',
               chat.user_balance.in_chat_currency.amount < 0 && 'text-red',
             )}>
-              {chat.user_balance.in_chat_currency.amount > 0 ? '+' : ''}{chat.user_balance.in_chat_currency.amount} {chatCurrencySymbol}
+              {chat.user_balance.in_chat_currency.amount > 0 ? '+' : ''}{formatAmount(chat.user_balance.in_chat_currency.amount)}&nbsp;{chatCurrencySymbol}
             </div>
             {chatCurrency?._id !== userCurrency?._id &&
               <div className="text-[14px] leading-[24px] text-textSec2">
-                {chat.user_balance.in_user_currency.amount > 0 ? '+' : ''}{chat.user_balance.in_user_currency.amount} {userCurrencySymbol}
+                {chat.user_balance.in_user_currency.amount > 0 ? '+' : ''}{formatAmount(chat.user_balance.in_user_currency.amount)}&nbsp;{userCurrencySymbol}
               </div>
             }
           </>
