@@ -4,7 +4,7 @@ import { useTranslation } from 'react-i18next'
 import { useNavigate } from 'react-router-dom'
 
 import { useCurrencies, useGetProfile, useInit, useUser } from '../hooks'
-import { Button, Header, Page, Panel, Dropdown } from '../kit'
+import { Button, Header, Page, Panel, Dropdown, Chat } from '../kit'
 
 import { ReactComponent as Chevron } from '../assets/chevron.svg'
 
@@ -14,7 +14,7 @@ export const Profile = () => {
   const { t } = useTranslation()
   const navigate = useNavigate()
   const { isPro } = useUser()
-  const { data: profile } = useGetProfile()
+  const { data: profile, isLoading: isProfileLoading } = useGetProfile()
 
   const { getCurrencyById } = useCurrencies()
   const currency = getCurrencyById(profile?.balance.currency_id || 'USD')
@@ -90,6 +90,12 @@ export const Profile = () => {
             }
           </div>
           <div className="flex flex-col gap-4">
+            {profile?.chats.map(chat => (
+              <Chat key={chat.id} chat={chat} />
+            ))}
+            {!isProfileLoading && profile?.chats.length === 0 &&
+              <div>{t('profile.noChats')}</div>
+            }
           </div>
         </div>
       </Panel>

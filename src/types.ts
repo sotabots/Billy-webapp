@@ -140,6 +140,7 @@ export type TUserChat = {
   name: string
   photo: string | null
   voice_limit: number
+  is_settled_up: boolean
   user_balance: {
     in_user_currency: {
       amount: number

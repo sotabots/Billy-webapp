@@ -1,7 +1,7 @@
 // import Lottie from 'lottie-react'
 
 import { useTheme, useChatId } from '../hooks'
-import type { TUser } from '../types'
+import type { TUser, TUserChat } from '../types'
 
 // import lottieKoalaLooking from '../assets/animation-koala-looking.json'
 import { ReactComponent as UserIcon } from '../assets/user.svg'
@@ -14,22 +14,26 @@ const getLetters = (fullName?: string) => {
   return letters
 }
 
-export const Avatar = ({ user, size = 40 }: {
-  user?: TUser,
+export const Avatar = ({ user, chat, size = 40 }: {
+  user?: TUser
+  chat?: TUserChat
   size?: number
 }) => {
   const fullName = [
     ...(user?.first_name ? [user.first_name] : []),
     ...(user?.last_name ? [user.last_name] : []),
+    ...(chat?.name ? [chat.name] : []),
   ].join(' ')
 
   const { isDark } = useTheme()
   const placeholderBgColor = isDark ? '#D7EDFF' : '#D7EDFF'
-  const color = !user ? 'transparent' : (['#e17076', '#faa774', '#a695e7', '#7bc862', '#6ec9cb', '#65aadd', '#ee7aae'])[Math.abs(Number(user._id)) % 7 || 0] // peerColor
-  const backgroundColor = !user ? placeholderBgColor : (color + '44')
+  const color = (!user && !chat)
+    ? 'transparent'
+    : (['#e17076', '#faa774', '#a695e7', '#7bc862', '#6ec9cb', '#65aadd', '#ee7aae'])[Math.abs(Number(user?._id || chat?.id)) % 7 || 0] // peerColor
+  const backgroundColor = (!user && !chat) ? placeholderBgColor : (color + '44')
 
   const { chatId } = useChatId()
-  const url = user?.profile_photo
+  const url = user?.profile_photo || chat?.photo
   const backgroundImage = !url
     ? undefined
     : `url(${(chatId === 0) ? url : `${apiUrl}${url}`})`
