@@ -4,8 +4,8 @@ import { createThemes } from 'tw-colors'
 
 export default {
   content: [
-    "./index.html",
-    "./src/**/*.{js,ts,jsx,tsx}",
+    './index.html',
+    './src/**/*.{js,ts,jsx,tsx}',
   ],
   darkMode: 'class',
   plugins: [
@@ -42,5 +42,12 @@ export default {
        },
     })
  ],
+  theme: {
+    extend: {
+      backgroundImage: {
+        'pro': 'linear-gradient(to right, #1C6ED8, #0CD7E4FC)',
+      }
+    }
+  }
 }
 
