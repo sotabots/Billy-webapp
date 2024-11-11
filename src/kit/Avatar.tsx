@@ -62,7 +62,7 @@ export const Avatar = ({ user, chat, size = 40 }: {
           {letters}
         </div>
       }
-      {!user && (
+      {(!user && !chat) && (
         <UserIcon
           style={{ width: '80%', height: '80%' }}
           className="text-[#0452C8]"
