@@ -11,9 +11,9 @@ export const Profile = () => {
   const { me } = useUser()
 
   const dropdownItems = [
-    { text: t('chats.all'), value: 'ALL' },
-    { text: t('chats.active'), value: 'ACTIVE' },
-    { text: t('chats.settledUp'), value: 'SETTLED_UP' },
+    { text: t('profile.all'), value: 'ALL' },
+    { text: t('profile.notSettledUp'), value: 'ACTIVE' },
+    { text: t('profile.settledUp'), value: 'SETTLED_UP' },
   ]
 
   const [dropdownValue, setDropdownValue] = useState(dropdownItems[0].value)
@@ -23,7 +23,7 @@ export const Profile = () => {
       <Header />
 
       <Panel className="!p-4">
-        <div className="text-[24px] leading-[32px] font-semibold">{t('me.myBalance')}</div>
+        <div className="text-[24px] leading-[32px] font-semibold">{t('profile.myBalance')}</div>
         {me?.first_name} {me?.last_name}
         ...{t('')}
         <Button
@@ -36,7 +36,7 @@ export const Profile = () => {
       <Panel className="!p-4">
         <div className="flex flex-col gap-4">
           <div className="flex items-center justify-between gap-4">
-            <div className="text-[16px] leading-[24px] font-semibold">{t('me.chats')}</div>
+            <div className="text-[16px] leading-[24px] font-semibold">{t('profile.chats')}</div>
             <Dropdown
               items={dropdownItems}
               value={dropdownValue}

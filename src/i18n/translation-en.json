@@ -167,6 +167,21 @@
   "slide6_text3": "Get cashback while paying for others",
   "slide6_button": "Give me Billy Pro",
 
+  "profile": {
+    "myBalance": "My balance",
+    "debts": "My debts",
+    "credits": "My credits",
+    "moreWithPro": "More features with Billy Pro",
+    "proSub": "Billy Pro subscription",
+    "active": "Active",
+    "chats": "Chats",
+    "all": "All",
+    "notSettledUp": "Active",
+    "settledUp": "Settled up",
+    "settings": "Settings",
+    "addChat": "Add chat"
+  },
+
   "errorForbidden": "Oh, I wasn't allowed to show you these numbers. Most likely because you are not in the chat.",
   "errorOther": "Something didn't work, but I'm already fixing it. Try refresh the page."
 }
