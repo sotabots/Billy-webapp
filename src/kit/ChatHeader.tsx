@@ -13,10 +13,7 @@ export const ChatHeader = ({ className }: {
   const { me } = useUser()
   const { data: voiceLimit } = useGetVoiceLimit()
 
-  const { chat, isDebug } = useStore()
-  if (!isDebug) {
-    return null
-  }
+  const { chat } = useStore()
 
   return (
     <div className={cx(
@@ -31,7 +28,8 @@ export const ChatHeader = ({ className }: {
         </div>
 
         <Button
-          wrapperClassName="flex-nowrap"
+          wrapperClassName="flex-nowrap w-8 h-8"
+          className="w-8 h-8"
           onClick={() => { navigate('/profile') }}
         >
           <Avatar
