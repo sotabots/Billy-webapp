@@ -7,6 +7,7 @@ import { useCurrencies, useGetProfile, useInit, useUser } from '../hooks'
 import { Button, Header, Page, Panel, Dropdown, Chat } from '../kit'
 
 import { ReactComponent as Chevron } from '../assets/chevron.svg'
+import { formatAmount } from '../utils'
 
 export const Profile = () => {
   useInit()
@@ -42,18 +43,18 @@ export const Profile = () => {
               profile?.balance.total && profile.balance.total < 0 && 'text-red',
             )}>
               {!!profile?.balance.total && profile?.balance.total > 0 && '+'}
-              {profile?.balance.total || 0} {currencySymbol}
+              {formatAmount(profile?.balance.total || 0)}&nbsp;{currencySymbol}
             </div>
           </div>
 
           <div className="flex items-stretch gap-4">
             <div className="w-[50%] rounded-[16px] bg-bg2 p-3">
               <div className="text-[14px] leading-[24px] font-semibold text-textSec">{t('profile.debts')}</div>
-              <div className="text-[16px] leading-[24px] font-bold">{profile?.balance.debts || 0} {currencySymbol}</div>
+              <div className="text-[16px] leading-[24px] font-bold">{formatAmount(profile?.balance.debts || 0)}&nbsp;{currencySymbol}</div>
             </div>
             <div className="w-[50%] rounded-[16px] bg-bg2 p-3">
               <div className="text-[14px] leading-[24px] font-semibold text-textSec">{t('profile.credits')}</div>
-              <div className="text-[16px] leading-[24px] font-bold">{profile?.balance.credits || 0} {currencySymbol}</div>
+              <div className="text-[16px] leading-[24px] font-bold">{formatAmount(profile?.balance.credits || 0)}&nbsp;{currencySymbol}</div>
             </div>
           </div>
 
