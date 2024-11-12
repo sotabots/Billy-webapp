@@ -21,8 +21,9 @@ export const VoiceLimit =({ className, theme, limit }: {
       wrapperClassName='h-6'
       className={cx(
         'VoiceLimit h-6 border rounded-full pl-2 pr-3',
-        theme === 'gray' ? 'border-[#9AA6AC] text-[#9AA6AC]' :
           limit === -1 ? 'border-[#0E73F6] text-[#0E73F6]' :
+          // eslint-disable-next-line no-constant-condition
+          (true || theme === 'gray') ? 'bg-separator text-textSec' :
           'border-[#CC0905]/20 text-[#CC0905]',
         className,
       )}

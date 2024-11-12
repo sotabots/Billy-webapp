@@ -2,7 +2,7 @@ import cx from 'classnames'
 import { useTranslation } from 'react-i18next'
 
 import { useCurrencies } from '../hooks'
-import { Avatar } from '../kit'
+import { Avatar, VoiceLimit } from '../kit'
 import { TUserChat } from '../types'
 import { formatAmount } from '../utils'
 
@@ -22,7 +22,12 @@ export const Chat =({ chat }: {
     <div className={cx('Chat flex items-center justify-between gap-4')}>
       <div className="flex items-center gap-2">
         <Avatar chat={chat} />
-        <div className="text-[16px] leading-[24px] font-semibold truncate">{chat.name}</div>
+        <div className="">
+          <div className="text-[16px] leading-[24px] font-semibold truncate">{chat.name}</div>
+          {chat.voice_limit >= 0 &&
+            <VoiceLimit limit={chat.voice_limit} />
+          }
+        </div>
       </div>
       <div className="text-right">
         {chat.is_settled_up &&
