@@ -42,7 +42,7 @@ export const Avatar = ({ user, chat, size = 40 }: {
 
   return (
     <div
-      className="flex items-center justify-center rounded-full bg-cover bg-center"
+      className="flex shrink-0 items-center justify-center rounded-full bg-cover bg-center"
       style={{
         width: size,
         height: size,
