@@ -22,9 +22,8 @@ export const VoiceLimit =({ className, theme, limit }: {
       className={cx(
         'VoiceLimit h-6 rounded-full pl-2 pr-3',
           limit === -1 ? 'border border-[#0E73F6] text-[#0E73F6]' :
-          // eslint-disable-next-line no-constant-condition
-          (true || theme === 'gray') ? 'bg-bg2 text-textSec' :
-          'border border-[#CC0905]/20 text-[#d0baba]',
+          theme === 'gray' ? 'bg-bg2 text-textSec' :
+          'border border-red/20 text-red',
         className,
       )}
       onClick={() => { /* */ }}

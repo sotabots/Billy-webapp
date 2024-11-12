@@ -25,7 +25,7 @@ export const Chat =({ chat }: {
         <div className="">
           <div className="text-[16px] leading-[24px] font-semibold truncate">{chat.name}</div>
           {chat.voice_limit >= 0 &&
-            <VoiceLimit limit={chat.voice_limit} />
+            <VoiceLimit limit={chat.voice_limit} theme="gray" />
           }
         </div>
       </div>
