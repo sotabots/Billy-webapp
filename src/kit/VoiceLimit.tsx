@@ -1,5 +1,6 @@
 import cx from 'classnames'
 import { useTranslation } from 'react-i18next'
+import { useNavigate } from 'react-router-dom'
 
 import { Button } from '../kit'
 
@@ -11,6 +12,7 @@ export const VoiceLimit =({ className, theme, limit }: {
   limit?: number
 }) => {
   const { t } = useTranslation()
+  const navigate = useNavigate()
 
   if (limit === undefined) {
     return null
@@ -26,7 +28,11 @@ export const VoiceLimit =({ className, theme, limit }: {
           'border border-red/20 text-red',
         className,
       )}
-      onClick={() => { /* */ }}
+      onClick={() => {
+        if (limit >= 0) {
+          navigate('/paywall')
+        }
+      }}
     >
       <div className="flex items-center gap-1">
         <Voice className="w-4 h-4" />
