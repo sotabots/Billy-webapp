@@ -21,7 +21,7 @@ export const Chat =({ chat }: {
   return (
     <div className={cx('Chat flex items-center justify-between gap-4')}>
       <div className="flex items-center gap-2">
-        <Avatar chat={chat} />
+        <Avatar chat={chat} size={60} />
         <div className="">
           <div className="text-[16px] leading-[24px] font-semibold truncate">{chat.name}</div>
           {chat.voice_limit >= 0 &&

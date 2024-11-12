@@ -20,11 +20,11 @@ export const VoiceLimit =({ className, theme, limit }: {
     <Button
       wrapperClassName='h-6'
       className={cx(
-        'VoiceLimit h-6 border rounded-full pl-2 pr-3',
-          limit === -1 ? 'border-[#0E73F6] text-[#0E73F6]' :
+        'VoiceLimit h-6 rounded-full pl-2 pr-3',
+          limit === -1 ? 'border border-[#0E73F6] text-[#0E73F6]' :
           // eslint-disable-next-line no-constant-condition
-          (true || theme === 'gray') ? 'bg-separator text-textSec' :
-          'border-[#CC0905]/20 text-[#CC0905]',
+          (true || theme === 'gray') ? 'bg-bg2 text-textSec' :
+          'border border-[#CC0905]/20 text-[#d0baba]',
         className,
       )}
       onClick={() => { /* */ }}
