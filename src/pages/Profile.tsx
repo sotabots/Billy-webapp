@@ -104,7 +104,7 @@ export const Profile = () => {
               <Chat key={chat.id} chat={chat} />
             ))}
             {!isProfileLoading && chats.length === 0 &&
-              <div>{t('profile.noChats')}</div>
+              <div className="text-[14px] leading-[24px] text-textSec">{t('profile.noChats')}</div>
             }
           </div>
         </div>
