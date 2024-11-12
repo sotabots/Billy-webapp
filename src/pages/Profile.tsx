@@ -21,13 +21,24 @@ export const Profile = () => {
   const currency = getCurrencyById(profile?.balance.currency_id || 'USD')
   const currencySymbol = currency?.symbol || '$'
 
-  const dropdownItems = [
+  type TDropdownValue = 'ALL' | 'ACTIVE' | 'SETTLED_UP'
+
+  const dropdownItems: {
+    text: string
+    value: TDropdownValue
+  }[] = [
     { text: t('profile.all'), value: 'ALL' },
     { text: t('profile.notSettledUp'), value: 'ACTIVE' },
     { text: t('profile.settledUp'), value: 'SETTLED_UP' },
   ]
 
-  const [dropdownValue, setDropdownValue] = useState(dropdownItems[0].value)
+  const [dropdownValue, setDropdownValue] = useState<TDropdownValue>(dropdownItems[0].value)
+
+  const chats = (profile?.chats || []).filter(chat =>
+    dropdownValue === 'ACTIVE' ? !chat.is_settled_up :
+    dropdownValue === 'SETTLED_UP' ? chat.is_settled_up :
+    true
+  )
 
   return (
     <Page>
@@ -82,19 +93,17 @@ export const Profile = () => {
         <div className="flex flex-col gap-4">
           <div className="flex items-center justify-between gap-4">
             <div className="text-[16px] leading-[24px] font-semibold">{t('profile.chats')}</div>
-            {false &&
             <Dropdown
               items={dropdownItems}
               value={dropdownValue}
-              onChange={setDropdownValue}
+              onChange={(value: string) => { setDropdownValue(value as TDropdownValue) }}
             />
-            }
           </div>
           <div className="flex flex-col gap-4">
-            {profile?.chats.map(chat => (
+            {chats.map(chat => (
               <Chat key={chat.id} chat={chat} />
             ))}
-            {!isProfileLoading && profile?.chats.length === 0 &&
+            {!isProfileLoading && chats.length === 0 &&
               <div>{t('profile.noChats')}</div>
             }
           </div>

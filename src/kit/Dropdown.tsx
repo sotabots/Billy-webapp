@@ -1,4 +1,11 @@
 import cx from 'classnames'
+import { useState } from 'react'
+
+import { useTheme } from '../hooks'
+import { Button } from '../kit'
+
+import { ReactComponent as DropdownIcon } from '../assets/dropdown.svg'
+import { ReactComponent as DropdownCheck } from '../assets/dropdown-check.svg'
 
 export const Dropdown = ({ className, items, value, onChange }: {
   className?: string,
@@ -8,19 +15,52 @@ export const Dropdown = ({ className, items, value, onChange }: {
   }[],
   value: string,
   onChange: (value: string) => void
-}) => (
-  <div className={cx('Dropdown flex items-center gap-1 rounded-[6px] p-1 bg-[#8881]', className)}>
-    {items.map((item, i) => (
-      <button
-        key={i}
-        className={cx(
-          'flex-grow basis-0 h-6 rounded-[6px] text-[14px] leading-[0.9em] text-[#0E73F6] transition-all',
-          item.value === value && 'bg-[#8882] font-semibold',
-        )}
-        onClick={() => { onChange(item.value) }}
+}) => {
+  const { isDark } = useTheme()
+  const [isOpen, setIsOpen] = useState(true)
+
+  return (
+    <div className={cx('Dropdown relative', className)}>
+      <Button
+        className="Dropdown-button flex items-center pl-2 pr-1 bg-separator rounded-[4px] font-semibold text-blue"
+        onClick={() => { setIsOpen(!isOpen) }}
       >
-        <span className="">{item.text}</span>
-      </button>
-    ))}
-  </div>
-)
+        <div className="text-[14px] leading-[24px]">{items.find(item => item.value === value)?.text}</div>
+        <DropdownIcon
+          className={cx(
+            'w-6 h-6 transition-all',
+            isOpen ? '-rotate-180' : 'rotate-0',
+          )}
+        />
+      </Button>
+      <div
+        className={cx(
+          'Dropdown-list absolute right-0 top-[118%] rounded-[4px] py-1 bg-bg dark:bg-separator origin-top transition-all',
+          isOpen ? 'opacity-100 scale-y-100' : ' opacity-0 scale-y-0'
+        )}
+        style={!isDark ? { boxShadow: '0px 0px 2px 0px #0000001F, 0px 8px 16px 0px #0000001F' } : {}}
+      >
+        {items.map((item, i) => (
+          <Button
+            key={i}
+            className={cx(
+              'w-full flex items-center justify-between gap-4 px-3 py-2',
+            )}
+            onClick={() => {
+              onChange(item.value)
+              setIsOpen(!isOpen)
+            }}
+          >
+            <div className="text-[14px] leading-[24px] text-left whitespace-nowrap">{item.text}</div>
+            <DropdownCheck
+              className={cx(
+                'w-6 h-6 text-blue transition-all',
+                item.value === value ? 'opacity-100' : 'opacity-0',
+              )}
+            />
+          </Button>
+        ))}
+      </div>
+    </div>
+  )
+}
