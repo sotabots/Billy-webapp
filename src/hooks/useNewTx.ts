@@ -40,6 +40,7 @@ export const useNewTx = () => {
     nutshell: null,
     category: null,
     is_settleup: false,
+    is_personal: false,
     cashback: null,
   }
 

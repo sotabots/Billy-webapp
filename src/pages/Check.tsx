@@ -173,6 +173,8 @@ export const Check = () => {
       await feedback('send_transaction_web', {
         is_voice: transaction.is_voice,
         is_edited: transaction.is_confirmed,
+        is_settleup: transaction.is_settleup,
+        is_personal: transaction.is_personal,
       })
       // console.log(JSON.stringify(confirmedTransaction, null, 2))
       const resJson = transaction._id === 'NEW'

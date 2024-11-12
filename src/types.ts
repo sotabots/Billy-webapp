@@ -34,6 +34,7 @@ export type TTransaction = {
   category: string | null
   // todo: improve
   is_settleup: boolean
+  is_personal: boolean
   cashback: number | null
   is_onboarding?: boolean // todo: remove '?' later
   is_allowed_to_confirm?: boolean

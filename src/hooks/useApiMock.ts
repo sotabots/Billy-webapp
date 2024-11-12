@@ -429,6 +429,7 @@ const _mockTransaction: TTransaction = {
   nutshell: null,
   category: null,
   is_settleup: false,
+  is_personal: false,
   cashback: null,
 }
 
@@ -581,6 +582,7 @@ const demoTransaction: TTransaction = {
   nutshell: null,
   category: null,
   is_settleup: false,
+  is_personal: false,
   cashback: null,
 }
 
@@ -656,6 +658,7 @@ const mockTransactions: TTransaction[] = mockSummary.debts.map((debt, i) => ({
     ? 'paid'
     : ['financial_expenses', 'food_drinks', 'housing', 'income', 'investments', 'life_entertainment', 'shopping', 'transportation', 'utilities'][Math.floor(Math.random() * 10)],
   is_settleup: false,
+  is_personal: false,
   cashback: i === 0 ? 0.05 : null,
 }))
 

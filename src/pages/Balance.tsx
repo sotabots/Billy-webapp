@@ -103,6 +103,7 @@ export const Balance = ({
         nutshell: null,
         category: null,
         is_settleup: true,
+        is_personal: false,
         cashback: null,
       }
 
