@@ -36,7 +36,7 @@
   "checkout": "Checkout",
   "selectCurrency": "Select currency",
   "whoPaid": "Who paid",
-  "forWhom": "For whoom",
+  "forWhom": "For whom",
   "add": "Add",
   "selectAll": "Select all",
   "unselectAll": "Unselect all",
@@ -95,13 +95,13 @@
   "addTransaction": "Add Expense",
 
   "chatType": "Chat type",
-  "chatTypeDescription": "For personal budget you have monthly limits, for sharing bills you have cashback option",
+  "chatTypeDescription": "For personal budget you have monthly limits, for sharing bills you have cashback options",
   "personalExpenses": "Personal budget",
   "splittingBills": "Share bills",
   "makeBillyAdminTitle": "Make Billy an admin in the chat so it can function correctly:",
   "makeBillyAdminFeature1": "Delete messages with spending details to avoid spamming the chat",
   "makeBillyAdminFeature2": "Pin the spending menu for quick access",
-  "makeBillyAdminFeature3": "Add participants to mini app as they joing the chat",
+  "makeBillyAdminFeature3": "Add participants to mini app as they join the chat",
   "onlyAdmin": "Only a chat admin can do this",
   "makeAdmin": "Make an admin",
   "currency": "Currency",
@@ -143,7 +143,7 @@
   "slide2_text": "It's easy to write about the expense in the chat - Billy will see it and write it down in history. At the end of the period, he will sum up all the expenses and tell who owes whom how much.",
   "slide2_button": "Agree?",
 
-  "slide3_title": "No one want to take responsibility for pay the group bills?",
+  "slide3_title": "No one wants to take responsibility for paying the group bills?",
   "slide3_text": "Pay for friends - get group cashback in Billy with real money!",
   "slide3_button": "Recognize yourself?",
 
@@ -184,5 +184,5 @@
   },
 
   "errorForbidden": "Oh, I wasn't allowed to show you these numbers. Most likely because you are not in the chat.",
-  "errorOther": "Something didn't work, but I'm already fixing it. Try refresh the page."
+  "errorOther": "Something didn't work, but I'm already fixing it. Try refreshing the page."
 }
