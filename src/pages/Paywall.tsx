@@ -4,7 +4,7 @@ import { useState, useEffect } from 'react'
 import { useTranslation } from 'react-i18next'
 
 
-import { useInit, useStore, useFeedback, useUser, usePostPayment } from '../hooks'
+import { useInit, useStore, useFeedback, useUser, usePostPayment, useGetProfile } from '../hooks'
 import { Button, Header, Page, Panel, Divider, Plan, Limiter } from '../kit'
 import { TPlan } from '../types'
 
@@ -19,6 +19,7 @@ export const Paywall = () => {
   const { t } = useTranslation()
   const { feedback } = useFeedback()
   const { refetchUser } = useUser()
+  const { refetch: refetchProfile } = useGetProfile()
 
   const [isOpened, setIsOpened] = useState(false)
   useEffect(() => {
@@ -91,6 +92,7 @@ export const Paywall = () => {
           if (status === 'paid') {
             if (paywallFrom) {
               await refetchUser()
+              refetchProfile()
               history.back()
             } else {
               window.Telegram?.WebApp.close()

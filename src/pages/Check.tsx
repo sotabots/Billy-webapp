@@ -7,7 +7,7 @@ import { useTranslation } from 'react-i18next'
 import { useNavigate } from 'react-router-dom'
 
 import { decimals } from '../const'
-import { useStore, useCurrencies, useInit, useChatId, useFeedback, useTransaction, useUsers, useUser, useGetTx, useGetTransactions, useGetSummary, usePostTransaction, usePutTransaction } from '../hooks'
+import { useStore, useCurrencies, useInit, useChatId, useFeedback, useTransaction, useUsers, useUser, useGetTx, useGetTransactions, useGetSummary, usePostTransaction, usePutTransaction, useGetProfile } from '../hooks'
 import { Button, Header, UserAmount, Overlay, Panel, MessagePanel, Page, Toggle } from '../kit'
 import type { TNewTransaction, TShare, TTransaction, TLanguageCode } from '../types'
 
@@ -39,6 +39,7 @@ export const Check = () => {
   const { refetch: refetchTransaction } = useGetTx()
   const { refetch: refetchTransactions } = useGetTransactions(chatId)
   const { refetch: refetchSummary } = useGetSummary()
+  const { refetch: refetchProfile } = useGetProfile()
 
   const { isPro } = useUser()
 
@@ -194,6 +195,7 @@ export const Check = () => {
           refetchTransaction()
           refetchTransactions()
           refetchSummary()
+          refetchProfile()
 
           navigate('/summary')
           setSuccess(false)
