@@ -2,12 +2,13 @@ import cx from 'classnames'
 import { useTranslation } from 'react-i18next'
 
 import { useCurrencies } from '../hooks'
-import { Avatar, VoiceLimit } from '../kit'
+import { Avatar, VoiceLimit, Button } from '../kit'
 import { TUserChat } from '../types'
 import { formatAmount } from '../utils'
 
-export const Chat =({ chat }: {
+export const Chat =({ chat, onClick }: {
   chat: TUserChat
+  onClick: () => void
 }) => {
   const { t } = useTranslation()
   const { getCurrencyById } = useCurrencies()
@@ -19,7 +20,10 @@ export const Chat =({ chat }: {
   const userCurrencySymbol = userCurrency?.symbol || '$'
 
   return (
-    <div className={cx('Chat flex items-center justify-between gap-4')}>
+    <Button
+      className={cx('Chat flex items-center justify-between gap-4')}
+      onClick={onClick}
+    >
       <div className="flex items-center gap-2 truncate">
         <Avatar chat={chat} size={60} />
         <div className="truncate">
@@ -50,6 +54,6 @@ export const Chat =({ chat }: {
           </>
         }
       </div>
-    </div>
+    </Button>
   )
 }

@@ -15,6 +15,9 @@ type TStore = {
 
   chatIdStart: undefined | number
   setChatIdStart: (chatIdStart: number) => void
+  selectedChatId: undefined | number
+  setSelectedChatId: (chatId: number) => void
+
   pwTxId: undefined | string
   setPwTxId: (pwTxId: string) => void
   txId: undefined | string
@@ -89,6 +92,9 @@ export const useStore = create<TStore>((set, get) => ({
 
   chatIdStart: undefined,
   setChatIdStart: (chatIdStart) => set(({ chatIdStart })),
+  selectedChatId: undefined,
+  setSelectedChatId: (selectedChatId) => set(({ selectedChatId })),
+
   pwTxId: undefined,
   setPwTxId: (pwTxId) => set(({ pwTxId })),
   txId: undefined,

@@ -3,7 +3,7 @@ import { useState } from 'react'
 import { useTranslation } from 'react-i18next'
 import { useNavigate } from 'react-router-dom'
 
-import { useCurrencies, useGetProfile, useInit, useUser } from '../hooks'
+import { useCurrencies, useGetProfile, useInit, useStore, useUser } from '../hooks'
 import { Button, Header, Page, Panel, Dropdown, Chat } from '../kit'
 import { formatAmount } from '../utils'
 
@@ -14,6 +14,8 @@ export const Profile = () => {
 
   const { t } = useTranslation()
   const navigate = useNavigate()
+
+  const { setSelectedChatId } = useStore()
   const { isPro } = useUser()
   const { data: profile, isLoading: isProfileLoading } = useGetProfile()
 
@@ -101,7 +103,11 @@ export const Profile = () => {
           </div>
           <div className="flex flex-col gap-4">
             {chats.map(chat => (
-              <Chat key={chat.id} chat={chat} />
+              <Chat
+                key={chat.id}
+                chat={chat}
+                onClick={() => { setSelectedChatId(chat.id) }}
+              />
             ))}
             {!isProfileLoading && chats.length === 0 &&
               <div className="text-[14px] leading-[24px] text-textSec">{t('profile.noChats')}</div>
