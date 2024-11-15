@@ -6,9 +6,9 @@ export const useChatId = () => {
   const { chatIdStart, selectedChatId } = useStore()
 
   const chatId: number | undefined =
+    selectedChatId ||
     chatIdStart ||
     // (!tx ? undefined : tx.chat_id) // todo: need?
-    selectedChatId ||
     0 // todo: DEMO_CHAT_ID
 
   return { chatId }

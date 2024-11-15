@@ -106,7 +106,10 @@ export const Profile = () => {
               <Chat
                 key={chat.id}
                 chat={chat}
-                onClick={() => { setSelectedChatId(chat.id) }}
+                onClick={() => {
+                  setSelectedChatId(chat.id)
+                  history.back()
+                }}
               />
             ))}
             {!isProfileLoading && chats.length === 0 &&
