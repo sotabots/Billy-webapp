@@ -21,7 +21,7 @@ export const Chat =({ chat, onClick }: {
 
   return (
     <Button
-      className={cx('Chat flex items-center justify-between gap-4')}
+      className={cx('Chat w-full flex items-center justify-between gap-4')}
       onClick={onClick}
     >
       <div className="flex items-center gap-2 truncate">
