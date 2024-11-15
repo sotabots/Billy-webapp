@@ -13,6 +13,7 @@ import {
 } from './useApiMock'
 
 const apiUrl = import.meta.env.VITE_API_URL
+const staleTime = 5 * 60 * 1000
 
 const handleJsonResponse = (res: Response) => {
   if (!res.ok) {
@@ -49,6 +50,7 @@ export const useGetTx = () => {
         setTransaction(data)
       },
       enabled: txId !== undefined,
+      staleTime
     })
   )
 }
@@ -74,6 +76,7 @@ export const useGetUsers = (chatId: undefined | number) => {
         setUsers(data)
       },
       enabled: chatId !== undefined,
+      staleTime
     })
   )
 }
@@ -93,6 +96,7 @@ export const useGetUser = (_userId?: number) => {
           }
         }).then(handleJsonResponse),
       enabled: !!id,
+      staleTime
     })
   )
 }
@@ -118,6 +122,7 @@ export const useGetChat = (chatId: undefined | number) => {
         setChat(data)
       },
       enabled: chatId !== undefined,
+      staleTime
     })
   )
 }
@@ -143,6 +148,7 @@ export const useGetCurrencies = (chatId: undefined | number) => {
         setCurrencies(data)
       },
       enabled: chatId !== undefined,
+      staleTime
     })
   )
 }
@@ -206,6 +212,7 @@ export const useGetSummary = () => {
             }
           }).then(handleJsonResponse),
       enabled: chatId !== undefined,
+      staleTime
     })
   )
 }
@@ -228,6 +235,7 @@ export const useGetCategories = () => {
         console.log('useApi onSuccess useGetCategories', data)
         setCategories(data)
       },
+      staleTime
     })
   )
 }
@@ -253,6 +261,7 @@ export const useGetTransactions = (chatId: undefined | number) => {
         setTransactions(data)
       },
       enabled: chatId !== undefined,
+      staleTime
     })
   )
 }
