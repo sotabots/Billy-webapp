@@ -171,10 +171,10 @@ export const usePutTransaction = () => {
     }).then(handleJsonResponse)
 }
 
-export const usePostTransaction = () => { // summary settleup
+export const usePostTransaction = () => { // +settleup
   const { authString } = useAuth()
-  const { summaryId } = useStore()
-  const url = summaryId?.includes('demo')
+  const { chatId } = useChatId()
+  const url = chatId === 0
     ? 'https://jsonplaceholder.typicode.com/posts'
     : `${apiUrl}/transactions/`
 
@@ -191,18 +191,18 @@ export const usePostTransaction = () => { // summary settleup
 
 export const useGetSummary = () => {
   const { authString } = useAuth()
-  const { summaryId, summaryCurrencyId } = useStore()
-  console.log('useGetSummary summaryId', summaryId, summaryCurrencyId)
+  const { summaryCurrencyId } = useStore()
+  const { chatId } = useChatId()
 
   const url = `${apiUrl}/summary?${new URLSearchParams({
-    ...(summaryId ? { summary_id: summaryId } : {}),
+    ...(chatId ? { chat_id: String(chatId) } : {}),
     ...(summaryCurrencyId ? { target_currency_id: String(summaryCurrencyId) } : {}),
   })}`
 
   return (
     useQuery<TSummary, Error>({
-      queryKey: ['summary', `summary-${summaryId}-${summaryCurrencyId}`],
-      queryFn: summaryId?.includes('demo')
+      queryKey: ['summary', `summary-${chatId}-${summaryCurrencyId}`],
+      queryFn: chatId === 0
         ? () => mockSummary
         : () =>
           fetch(url , {
@@ -211,7 +211,7 @@ export const useGetSummary = () => {
               'Authorization': authString,
             }
           }).then(handleJsonResponse),
-      enabled: summaryId !== undefined,
+      enabled: chatId !== undefined,
       staleTime
     })
   )
@@ -242,12 +242,12 @@ export const useGetCategories = () => {
 
 export const useGetTransactions = (chatId: undefined | number) => {
   const { authString } = useAuth()
-  const { setTransactions, summaryId } = useStore()
+  const { setTransactions } = useStore()
 
   return (
     useQuery<TTransaction[], Error>({
       queryKey: ['transactions', `chat-${chatId}`],
-      queryFn: chatId === 0 || summaryId?.includes('demo') // disable transactions request for tx-flow (startParamTxId)
+      queryFn: chatId === 0 // disable transactions request for tx-flow (startParamTxId)
         ? () => mockTransactions
         : () =>
           fetch(`${apiUrl}/chat/${chatId}/transactions`, {
@@ -260,7 +260,7 @@ export const useGetTransactions = (chatId: undefined | number) => {
         console.log('useApi onSuccess useGetTransactions', data)
         setTransactions(data)
       },
-      enabled: chatId !== undefined && summaryId !== undefined, // todo: remove summary later?
+      enabled: chatId !== undefined,
       staleTime
     })
   )
@@ -399,10 +399,10 @@ export const usePostChatCashback = () => {
 
 export const useGetSummarySheetRebuild = () => {
   const { authString } = useAuth()
-  const { summaryId } = useStore()
-  const url = (!summaryId || summaryId?.includes('demo'))
+  const { chatId } = useChatId()
+  const url = chatId === 0
     ? 'https://jsonplaceholder.typicode.com/posts'
-    : `${apiUrl}/summary/gsheet?summary_id=${summaryId}`
+    : `${apiUrl}/summary/gsheet?chat_id=${chatId}`
 
   return () =>
     fetch(url, {

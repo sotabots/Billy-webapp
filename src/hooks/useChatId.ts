@@ -1,16 +1,14 @@
-import { useGetTx, useGetSummary } from '../hooks/useApi'
+// import { useGetTx } from '../hooks/useApi'
 import { useStore } from './'
 
 export const useChatId = () => {
-  const { data: tx } = useGetTx()
-  const { data: summary } = useGetSummary()
+  // const { data: tx } = useGetTx()
   const { chatIdStart } = useStore()
 
-  // todo: improve
-  const chatId =
-    chatIdStart ||
-    (!tx ? undefined : tx.chat_id) ||
-    (!summary ? undefined : summary.chat_id)
+  const chatId: number | undefined =
+    chatIdStart // ||
+    // (!tx ? undefined : tx.chat_id) // todo: need?
+    || 0
 
   return { chatId }
 }

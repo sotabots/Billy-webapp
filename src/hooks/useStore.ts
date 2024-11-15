@@ -45,8 +45,6 @@ type TStore = {
   txPatchError: null | Error
   setTxPatchError: (txPatchError: null | Error) => void
 
-  summaryId: undefined | string
-  setSummaryId: (summaryId: string) => void
   summaryCurrencyId: null | TCurrencyId
   setSummaryCurrencyId: (summaryCurrencyId: null | TCurrencyId) => void
 
@@ -131,8 +129,6 @@ export const useStore = create<TStore>((set, get) => ({
   txPatchError: null,
   setTxPatchError: (txPatchError) => set(({ txPatchError })),
 
-  summaryId: undefined,
-  setSummaryId: (summaryId) => set(({ summaryId })),
   summaryCurrencyId: null,
   setSummaryCurrencyId: (summaryCurrencyId) => set(({ summaryCurrencyId })),
 

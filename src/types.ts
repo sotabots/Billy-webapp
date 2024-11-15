@@ -137,7 +137,6 @@ export type TPaywallFrom = undefined | 'edit' | 'onboarding' | 'settings' | 'sum
 
 export type TUserChat = {
   id: number
-  summary_id: string
   name: string
   photo: string | null
   voice_limit: number

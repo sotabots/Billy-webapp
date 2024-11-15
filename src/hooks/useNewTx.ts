@@ -1,13 +1,12 @@
 import { useInitData } from '@vkruglikov/react-telegram-web-app'
 
-import { /*useChatId,*/ useUsers, useStore, useGetSummary } from '../hooks'
+import { useChatId, useUsers, useStore } from '../hooks'
 import type { TNewTransaction } from '../types'
 
 export const useNewTx = () => {
   const [initDataUnsafe] = useInitData()
   const { chat } = useStore()
-  const { data: summary } = useGetSummary()
-  // const { chatId } = useChatId() // recursion
+  const { chatId } = useChatId()
   const { getUserById } = useUsers()
 
   const userId = initDataUnsafe.user?.id
@@ -17,7 +16,7 @@ export const useNewTx = () => {
 
   const newTx: TNewTransaction = {
     _id: 'NEW',
-    chat_id: summary?.chat_id || null, // todo: improve
+    chat_id: chatId || null,
     creator_user_id: initDataUnsafe.user?.id || null,
     editor_user_id: null,
     is_voice: false,
