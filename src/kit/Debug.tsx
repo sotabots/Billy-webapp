@@ -2,14 +2,19 @@ import cx from 'classnames'
 import { useCallback, useEffect, useState } from 'react'
 // import { useNavigate } from 'react-router-dom'
 
-import { useStore, useChatId, useGetSummary } from '../hooks'
+import { useStore, useChatId, useGetSummary, useGetTransactions, useGetCategories, useGetCurrencies, useGetChat, useGetUsers } from '../hooks'
 import { Panel } from '../kit'
 
 const OPEN_DEBUG_RIGHT_CLICKS = 5
 
 export const Debug = () => {
-  const { transaction, users, txId, summaryCurrencyId, setSummaryCurrencyId, chat, currencies, categories, transactions, isDebug, setDebug } = useStore()
+  const { transaction, txId, summaryCurrencyId, setSummaryCurrencyId, isDebug, setDebug } = useStore()
   const { data: summary } = useGetSummary()
+  const { data: transactions } = useGetTransactions()
+  const { data: categories } = useGetCategories()
+  const { data: currencies } = useGetCurrencies()
+  const { data: chat } = useGetChat()
+  const { data: users } = useGetUsers()
 
   const { chatId } = useChatId()
 

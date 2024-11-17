@@ -1,6 +1,6 @@
 import { create } from 'zustand'
 
-import { TCurrency, TCurrencyId, TTransaction, TUser, TChat, TCategories, TFilterTotal, TFilterPeriod, TNewTransaction, TFlow, TPaywallSource, TPaywallFrom } from '../types'
+import { TCurrencyId, TTransaction, TFilterTotal, TFilterPeriod, TNewTransaction, TFlow, TPaywallSource, TPaywallFrom } from '../types'
 
 type TStore = {
   overlays: number[]
@@ -22,23 +22,17 @@ type TStore = {
   setPwTxId: (pwTxId: string) => void
   txId: undefined | string
   setTxId: (ixId: string) => void
-  users: TUser[]
-  setUsers: (users: TUser[]) => void
   selectPersonId: string | null
   setSelectPersonId: (i: string | null) => void
   selectPersonIsPayer: boolean
   setSelectPersonIsPayer: (_: boolean) => void
   isSelectPayers: null | boolean
   setIsSelectPayers: (isSelectPayers: null | boolean) => void
-  currencies: TCurrency[]
-  setCurrencies: (currencies: TCurrency[]) => void
   setCurrency: (currency: TCurrencyId) => void
-  categories: undefined | TCategories
-  setCategories: (categories: TCategories) => void
-  chat: undefined | TChat
-  setChat: (chat: TChat) => void
+
   transaction: undefined | TTransaction | TNewTransaction,
   setTransaction: (transaction: TTransaction | TNewTransaction) => void
+
   isAuthorSharesInited: boolean
   setIsAuthorSharesInited: (isAuthorSharesInited: boolean) => void
   txComment: string,
@@ -50,9 +44,6 @@ type TStore = {
 
   summaryCurrencyId: null | TCurrencyId
   setSummaryCurrencyId: (summaryCurrencyId: null | TCurrencyId) => void
-
-  transactions: undefined | TTransaction[]
-  setTransactions: (transactions: TTransaction[]) => void
 
   isEditTx: boolean
   setIsEditTx: (isEditTx: boolean) => void
@@ -99,16 +90,12 @@ export const useStore = create<TStore>((set, get) => ({
   setPwTxId: (pwTxId) => set(({ pwTxId })),
   txId: undefined,
   setTxId: (txId) => set(({ txId })),
-  users: [],
-  setUsers: (users) => set({ users }),
   selectPersonId: null,
   setSelectPersonId: (selectPersonId) => set({ selectPersonId }),
   selectPersonIsPayer: false,
   setSelectPersonIsPayer: (selectPersonIsPayer) => set({ selectPersonIsPayer }),
   isSelectPayers: null,
   setIsSelectPayers: (isSelectPayers) => set({ isSelectPayers }),
-  currencies: [],
-  setCurrencies: (currencies) => set({ currencies }),
   setCurrency: (currencyId) => {
     if (get().transaction === undefined) {
       return
@@ -120,10 +107,6 @@ export const useStore = create<TStore>((set, get) => ({
       }
     })
   },
-  categories: undefined,
-  setCategories: (categories) => set({ categories }),
-  chat: undefined,
-  setChat: (chat) => set(({ chat })),
   transaction: undefined,
   setTransaction: (transaction) => set(({ transaction })),
   isAuthorSharesInited: false,
@@ -137,9 +120,6 @@ export const useStore = create<TStore>((set, get) => ({
 
   summaryCurrencyId: null,
   setSummaryCurrencyId: (summaryCurrencyId) => set(({ summaryCurrencyId })),
-
-  transactions: undefined,
-  setTransactions: (transactions) => set(( { transactions } )),
 
   isEditTx: false,
   setIsEditTx: (isEditTx) => set(( { isEditTx } )),

@@ -28,7 +28,8 @@ export const Settings = ({ settingsInner, setSettingsInner }: {
   useInit()
 
   const { t } = useTranslation()
-  const { currencies, chat, setPaywallSource, setPaywallFrom } = useStore()
+  const { setPaywallSource, setPaywallFrom } = useStore()
+  const { data: chat } = useGetChat()
   const { feedback } = useFeedback()
   const { isPro, userLang, refetchUser } = useUser()
   const navigate = useNavigate()
@@ -373,12 +374,12 @@ export const Settings = ({ settingsInner, setSettingsInner }: {
                   label={(
                     <span>{lang.title}</span>
                   )}
-                  key={`currencies-${lang._id}`}
+                  key={`lang-${lang._id}`}
                   value={lang._id}
                   checked={userLang === lang._id}
                   onChange={(langCode) => { onChangeLanguage(langCode as TLanguageCode) }}
                 />
-                {i < currencies.length - 1 && <Divider key={`Divider-${i}`} />}
+                {i < langs.length - 1 && <Divider key={`Divider-${i}`} />}
               </div>
             ))}
           </div>

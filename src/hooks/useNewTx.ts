@@ -1,13 +1,13 @@
 import { useInitData } from '@vkruglikov/react-telegram-web-app'
 
-import { useChatId, useUsers, useStore } from '../hooks'
+import { useChatId, useUsers, useGetChat } from '../hooks'
 import type { TNewTransaction } from '../types'
 
 export const useNewTx = () => {
   const [initDataUnsafe] = useInitData()
-  const { chat } = useStore()
   const { chatId } = useChatId()
   const { getUserById } = useUsers()
+  const { data: chat } = useGetChat()
 
   const userId = initDataUnsafe.user?.id
   const user = userId && getUserById(userId) // is user in chat?

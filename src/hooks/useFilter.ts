@@ -2,14 +2,16 @@ import { useInitData } from '@vkruglikov/react-telegram-web-app'
 import { useState } from 'react'
 
 import { TTransaction } from '../types'
+import { useGetTransactions } from '../hooks'
 
 import { useStore } from './'
 
 export const useFilter = () => {
   const [initDataUnsafe] = useInitData()
 
+  const { data: transactions } = useGetTransactions()
+
   const {
-    transactions,
     isFilterOpen, setIsFilterOpen,
     filterTotal, setFilterTotal,
     filterTotalPre, setFilterPeriodPre,

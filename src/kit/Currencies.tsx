@@ -4,7 +4,7 @@ import { useTranslation } from 'react-i18next'
 import { CurrenciesGroup } from '../kit'
 
 import { TCurrencyId } from '../types'
-import { useStore } from '../hooks'
+import { useGetCurrencies } from '../hooks'
 
 export const Currencies = ({ className, value, onChange }: {
   className?: string
@@ -12,10 +12,10 @@ export const Currencies = ({ className, value, onChange }: {
   onChange: (currencyId: TCurrencyId) => void
 }) => {
   const { t } = useTranslation()
-  const { currencies } = useStore()
+  const { data: currencies } = useGetCurrencies()
 
-  const recentCurrencies = currencies.filter(currency => currency.is_used_in_chat)
-  const restCurrencies = currencies.filter(currency => !currency.is_used_in_chat)
+  const recentCurrencies = (currencies || []).filter(currency => currency.is_used_in_chat)
+  const restCurrencies = (currencies || []).filter(currency => !currency.is_used_in_chat)
 
   return (
     <div className={cx('Currencies overflow-y-auto', className)}>

@@ -1,6 +1,6 @@
 import mixpanel from 'mixpanel-browser'
 
-import { useStore, useChatId } from '../hooks'
+import { useStore, useChatId, useGetTransactions } from '../hooks'
 
 const envToken = import.meta.env.VITE_FEEDBACK_TOKEN
 const isToken = !!envToken
@@ -86,7 +86,8 @@ export type TEvent =
 
 export const useFeedback = () => {
   const { chatId } = useChatId()
-  const { transaction, transactions, paywallSource } = useStore()
+  const { transaction, paywallSource } = useStore()
+  const { data: transactions } = useGetTransactions()
 
   const feedback = async (event: TEvent, data: { [index:string]: any } = {}) => {
     const txDataEvents: TEvent[] = [

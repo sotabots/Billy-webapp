@@ -4,7 +4,7 @@ import Lottie from 'lottie-react'
 import { useEffect, useState } from 'react'
 import { useTranslation } from 'react-i18next'
 
-import { useStore, useBalance, useCurrencies, useFeedback, useSummary, usePostTransaction, useGetSummary, useGetTransactions, useGetProfile } from '../hooks'
+import { useStore, useBalance, useCurrencies, useFeedback, useSummary, usePostTransaction, useGetSummary, useGetTransactions, useGetProfile, useGetUsers } from '../hooks'
 import { Button, Overlay, Panel, Debt, DebtDetailed, Divider, UserButton, Currencies } from '../kit'
 import { TCurrencyId, TNewTransaction, TUserId } from '../types'
 import { formatAmount, closeApp } from '../utils'
@@ -41,7 +41,8 @@ export const Balance = ({
 
   const { refetch: refetchTransactions } = useGetTransactions()
   const { data: summary, refetch: refetchSummary } = useGetSummary()
-  const { summaryCurrencyId, setSummaryCurrencyId, users, setTxPatchError } = useStore()
+  const { summaryCurrencyId, setSummaryCurrencyId, setTxPatchError } = useStore()
+  const { data: users } = useGetUsers()
   const { refetch: refetchProfile } = useGetProfile()
   const { getCurrencyById } = useCurrencies()
 
@@ -321,7 +322,7 @@ export const Balance = ({
           <h2 className="mb-2 px-4 pt-[2px] pb-[6px]">{t('selectUser')}</h2>
 
           <div className="mt-4 overflow-y-auto">
-            {users.filter(user => user._id !== selectedDebt.from_user._id).map((user, i, arr) => (
+            {users?.filter(user => user._id !== selectedDebt.from_user._id).map((user, i, arr) => (
               <>
                 <UserButton
                   key={i}

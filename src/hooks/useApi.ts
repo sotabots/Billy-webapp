@@ -57,7 +57,6 @@ export const useGetTx = () => {
 
 export const useGetUsers = () => {
   const { authString } = useAuth()
-  const { setUsers } = useStore()
   const { chatId } = useChatId()
 
   return (
@@ -72,10 +71,6 @@ export const useGetUsers = () => {
               'Authorization': authString,
             }
           }).then(handleJsonResponse),
-      onSuccess: (data) => {
-        console.log('useApi onSuccess useGetUsers', data)
-        setUsers(data)
-      },
       enabled: chatId !== undefined,
       staleTime
     })
@@ -104,7 +99,6 @@ export const useGetUser = (_userId?: number) => {
 
 export const useGetChat = () => {
   const { authString } = useAuth()
-  const { setChat } = useStore()
   const { chatId } = useChatId()
 
   return (
@@ -119,10 +113,6 @@ export const useGetChat = () => {
               'Authorization': authString,
             }
           }).then(handleJsonResponse),
-      onSuccess: (data) => {
-        console.log('useGetChat onSuccess useGetChat', data)
-        setChat(data)
-      },
       enabled: chatId !== undefined,
       staleTime
     })
@@ -131,7 +121,6 @@ export const useGetChat = () => {
 
 export const useGetCurrencies = () => {
   const { authString } = useAuth()
-  const { setCurrencies } = useStore()
   const { chatId } = useChatId()
 
   return (
@@ -146,10 +135,6 @@ export const useGetCurrencies = () => {
               'Authorization': authString,
             }
           }).then(handleJsonResponse),
-      onSuccess: (data) => {
-        console.log('useApi onSuccess useGetCurrencies', data)
-        setCurrencies(data)
-      },
       enabled: chatId !== undefined,
       staleTime
     })
@@ -222,7 +207,6 @@ export const useGetSummary = () => {
 
 export const useGetCategories = () => {
   const { authString } = useAuth()
-  const { setCategories } = useStore()
 
   return (
     useQuery<TCategories, Error>({
@@ -234,10 +218,6 @@ export const useGetCategories = () => {
             'Authorization': authString,
           }
         }).then(handleJsonResponse),
-      onSuccess: (data) => {
-        console.log('useApi onSuccess useGetCategories', data)
-        setCategories(data)
-      },
       staleTime
     })
   )
@@ -245,7 +225,6 @@ export const useGetCategories = () => {
 
 export const useGetTransactions = () => {
   const { authString } = useAuth()
-  const { setTransactions } = useStore()
   const { chatId } = useChatId()
 
   return (
@@ -260,10 +239,6 @@ export const useGetTransactions = () => {
               'Authorization': authString,
             }
           }).then(handleJsonResponse),
-      onSuccess: (data) => {
-        console.log('useApi onSuccess useGetTransactions', data)
-        setTransactions(data)
-      },
       enabled: chatId !== undefined,
       staleTime
     })
