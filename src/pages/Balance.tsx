@@ -4,7 +4,7 @@ import Lottie from 'lottie-react'
 import { useEffect, useState } from 'react'
 import { useTranslation } from 'react-i18next'
 
-import { useStore, useBalance, useCurrencies, useFeedback, useSummary, useChatId, usePostTransaction, useGetSummary, useGetTransactions, useGetProfile } from '../hooks'
+import { useStore, useBalance, useCurrencies, useFeedback, useSummary, usePostTransaction, useGetSummary, useGetTransactions, useGetProfile } from '../hooks'
 import { Button, Overlay, Panel, Debt, DebtDetailed, Divider, UserButton, Currencies } from '../kit'
 import { TCurrencyId, TNewTransaction, TUserId } from '../types'
 import { formatAmount, closeApp } from '../utils'
@@ -39,8 +39,7 @@ export const Balance = ({
   const [initDataUnsafe] = useInitData()
   const { feedback } = useFeedback()
 
-  const { chatId } = useChatId()
-  const { refetch: refetchTransactions } = useGetTransactions(chatId)
+  const { refetch: refetchTransactions } = useGetTransactions()
   const { data: summary, refetch: refetchSummary } = useGetSummary()
   const { summaryCurrencyId, setSummaryCurrencyId, users, setTxPatchError } = useStore()
   const { refetch: refetchProfile } = useGetProfile()

@@ -55,9 +55,10 @@ export const useGetTx = () => {
   )
 }
 
-export const useGetUsers = (chatId: undefined | number) => {
+export const useGetUsers = () => {
   const { authString } = useAuth()
   const { setUsers } = useStore()
+  const { chatId } = useChatId()
 
   return (
     useQuery<TUser[], Error>({
@@ -101,9 +102,10 @@ export const useGetUser = (_userId?: number) => {
   )
 }
 
-export const useGetChat = (chatId: undefined | number) => {
+export const useGetChat = () => {
   const { authString } = useAuth()
   const { setChat } = useStore()
+  const { chatId } = useChatId()
 
   return (
     useQuery<TChat, Error>({
@@ -127,9 +129,10 @@ export const useGetChat = (chatId: undefined | number) => {
   )
 }
 
-export const useGetCurrencies = (chatId: undefined | number) => {
+export const useGetCurrencies = () => {
   const { authString } = useAuth()
   const { setCurrencies } = useStore()
+  const { chatId } = useChatId()
 
   return (
     useQuery<TCurrency[], Error>({
@@ -240,9 +243,10 @@ export const useGetCategories = () => {
   )
 }
 
-export const useGetTransactions = (chatId: undefined | number) => {
+export const useGetTransactions = () => {
   const { authString } = useAuth()
   const { setTransactions } = useStore()
+  const { chatId } = useChatId()
 
   return (
     useQuery<TTransaction[], Error>({
