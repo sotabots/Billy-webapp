@@ -89,7 +89,7 @@ export const useGetUser = (_userId?: number) => {
     useQuery<TUser, Error>({
       queryKey: ['user', `user-${id}`],
       queryFn: () =>
-        fetch(`${apiUrl}/users/${id}`, {
+        fetch(`${apiUrl}/users/details?user_id=${id}`, {
           method: 'GET',
           headers: {
             'Authorization': authString,
@@ -323,7 +323,7 @@ export const usePostChatLanguage = () => { // todo: remove
 export const usePostUserLanguage = () => {
   const { authString, userId } = useAuth()
   const url = userId
-    ? `${apiUrl}/users/${userId}/language`
+    ? `${apiUrl}/users/language?user_id=${userId}`
     : 'https://jsonplaceholder.typicode.com/posts'
 
   return (languageCode: TLanguageCode) =>
@@ -419,7 +419,7 @@ export const usePostUserOnboarding = () => {
   // todo: better initData+useAuth
   const { authString } = useAuth()
   const url = initDataUnsafe.user
-    ? `${apiUrl}/users/${initDataUnsafe.user.id}/start_onb`
+    ? `${apiUrl}/users/start_onboarding?user_id=${initDataUnsafe.user.id}`
     : 'https://jsonplaceholder.typicode.com/posts'
 
   return ({ ref }: {
