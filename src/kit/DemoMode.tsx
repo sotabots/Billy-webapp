@@ -10,7 +10,7 @@ export const DemoMode = () => {
     return null
   }
 
-  return (chatId === 0) ? (
+  return (chatId === -1 || chatId > 0) ? (
     <div className="DemoMode fixed top-0 width-auto left-[50%] -translate-x-[50%] px-4 py-[1px] text-[13px] leading-[1em] font-semibold bg-[#3a3] text-white rounded-b-md">{t('demoMode')}</div>
   ) : null
 }
