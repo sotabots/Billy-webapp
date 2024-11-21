@@ -19,7 +19,7 @@ export const Overlay = ({ isOpen, isCenter, children }: TProps) => {
     } else {
       setOverlays(overlays.filter(_ => _ != overlay))
     }
-  }, [isOpen, overlay, overlays, setOverlays])
+  }, [isOpen])
 
   return (
     <div className={cx(
