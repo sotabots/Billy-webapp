@@ -22,6 +22,12 @@ export const Overlay = ({ isOpen, isCenter, children }: TProps) => {
     }
   }, [isOpen, overlay, overlays, setOverlays])
 
+  useEffect(() => {
+    return () => {
+      setOverlays(overlays.filter(_ => _ != overlay))
+    }
+  }, [])
+
   return (
     <div className={cx(
       'Overlay fixed z-1 top-0 left-0 w-full h-full overflow-y-auto bg-bg2 transition-all',
