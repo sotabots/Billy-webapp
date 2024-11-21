@@ -28,7 +28,6 @@ type TStore = {
   setSelectPersonIsPayer: (_: boolean) => void
   isSelectPayers: null | boolean
   setIsSelectPayers: (isSelectPayers: null | boolean) => void
-  setCurrency: (currency: TCurrencyId) => void
 
   transaction: undefined | TTransaction | TNewTransaction,
   setTransaction: (transaction: TTransaction | TNewTransaction) => void
@@ -70,7 +69,7 @@ type TStore = {
   setDebug: (isDebug: boolean) => void
 }
 
-export const useStore = create<TStore>((set, get) => ({
+export const useStore = create<TStore>((set /*, get */) => ({
   overlays: [],
   setOverlays: (overlays) => set(({ overlays })),
 
@@ -96,17 +95,6 @@ export const useStore = create<TStore>((set, get) => ({
   setSelectPersonIsPayer: (selectPersonIsPayer) => set({ selectPersonIsPayer }),
   isSelectPayers: null,
   setIsSelectPayers: (isSelectPayers) => set({ isSelectPayers }),
-  setCurrency: (currencyId) => {
-    if (get().transaction === undefined) {
-      return
-    }
-    set({
-      transaction: {
-        ...get().transaction as TTransaction,
-        currency_id: currencyId
-      }
-    })
-  },
   transaction: undefined,
   setTransaction: (transaction) => set(({ transaction })),
   isAuthorSharesInited: false,

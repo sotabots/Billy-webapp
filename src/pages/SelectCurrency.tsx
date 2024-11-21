@@ -12,22 +12,28 @@ export const SelectCurrency = () => {
 
   const { t } = useTranslation()
   const navigate = useNavigate()
-  const { transaction, setCurrency } = useStore()
+  const { transaction, setTransaction } = useStore()
   const [impactOccurred, , selectionChanged] = useHapticFeedback()
   const { feedback } = useFeedback()
 
   const onChange = useCallback((currencyId: TCurrencyId) => {
+    if (!transaction) {
+      return
+    }
     feedback('set_currency_expshares_web', {
       currency_prev: transaction?.currency_id || null,
       currency_set: currencyId
     })
-    setCurrency(currencyId)
+    setTransaction({
+      ...transaction,
+      currency_id: currencyId,
+    })
     console.log('SelectCurrency change vibro')
     selectionChanged()
     impactOccurred('medium')
     navigate('/')
     // history.back()
-  }, [impactOccurred, selectionChanged, navigate, setCurrency])
+  }, [impactOccurred, selectionChanged, navigate, transaction, setTransaction])
 
   return (
     <Page className="!bg-bg">
