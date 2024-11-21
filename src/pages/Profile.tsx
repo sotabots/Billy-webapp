@@ -108,7 +108,12 @@ export const Profile = () => {
                 chat={chat}
                 onClick={() => {
                   setSelectedChatId(chat.id)
-                  history.back()
+
+                  if (history.state && history.state?.idx && history.state?.idx !== 0) {
+                    history.back()
+                  } else {
+                    navigate('/summary')
+                  }
                 }}
               />
             ))}
