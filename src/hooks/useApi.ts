@@ -24,7 +24,7 @@ const handleJsonResponse = (res: Response) => {
 
 export const useGetTx = () => {
   const { authString } = useAuth()
-  const { setTransaction, txId } = useStore()
+  const { transaction, setTransaction, txId } = useStore()
   const { newTx } = useNewTx()
   console.log('useGetTx txId', txId)
 
@@ -46,11 +46,11 @@ export const useGetTx = () => {
         }).then(handleJsonResponse)
       },
       onSuccess: (data) => {
-        console.log('useApi onSuccess useGetTx', data)
-        setTransaction(data)
+        if (data?._id && data._id !== transaction?._id) {
+          setTransaction(data)
+        }
       },
       enabled: txId !== undefined,
-      staleTime
     })
   )
 }

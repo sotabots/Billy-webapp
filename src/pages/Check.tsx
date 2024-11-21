@@ -191,6 +191,7 @@ export const Check = () => {
             `tx-${transaction._id}`,
             'transactions'
           ] })
+          setTransaction(undefined)
           refetchTransaction()
           refetchTransactions()
           refetchSummary()

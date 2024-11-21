@@ -30,7 +30,7 @@ type TStore = {
   setIsSelectPayers: (isSelectPayers: null | boolean) => void
 
   transaction: undefined | TTransaction | TNewTransaction,
-  setTransaction: (transaction: TTransaction | TNewTransaction) => void
+  setTransaction: (transaction: undefined | TTransaction | TNewTransaction) => void
 
   isAuthorSharesInited: boolean
   setIsAuthorSharesInited: (isAuthorSharesInited: boolean) => void
