@@ -4,7 +4,7 @@ import { useState } from 'react'
 import { useTranslation } from 'react-i18next'
 import { useNavigate } from 'react-router-dom'
 
-import { useStore, useChatId, useInit, useFeedback, useCurrencies, useUser, useOpenLink, usePostChatCurrency, usePostUserLanguage, usePostChatSilent, useGetChat, usePostChatMode, usePostChatMonthlyLimit, usePostChatCashback } from '../hooks'
+import { useStore, useInit, useFeedback, useCurrencies, useUser, useOpenLink, usePostChatCurrency, usePostUserLanguage, usePostChatSilent, useGetChat, usePostChatMode, usePostChatMonthlyLimit, usePostChatCashback } from '../hooks'
 import { Button, Divider, MenuItem, MenuGroup, RadioButton, InputAmount, Currencies } from '../kit'
 import { TCurrencyId, TLanguageCode, TMode } from '../types'
 import { formatAmount } from '../utils'
@@ -28,7 +28,8 @@ export const Settings = ({ settingsInner, setSettingsInner }: {
   useInit()
 
   const { t } = useTranslation()
-  const { currencies, chat, setPaywallSource, setPaywallFrom } = useStore()
+  const { setPaywallSource, setPaywallFrom } = useStore()
+  const { data: chat } = useGetChat()
   const { feedback } = useFeedback()
   const { isPro, userLang, refetchUser } = useUser()
   const navigate = useNavigate()
@@ -48,8 +49,7 @@ export const Settings = ({ settingsInner, setSettingsInner }: {
 
   const [impactOccurred, , selectionChanged] = useHapticFeedback()
 
-  const { chatId } = useChatId()
-  const { refetch: refetchChat } = useGetChat(chatId)
+  const { refetch: refetchChat } = useGetChat()
 
   const saveMode = async (mode: TMode) => {
     impactOccurred('medium')
@@ -374,12 +374,12 @@ export const Settings = ({ settingsInner, setSettingsInner }: {
                   label={(
                     <span>{lang.title}</span>
                   )}
-                  key={`currencies-${lang._id}`}
+                  key={`lang-${lang._id}`}
                   value={lang._id}
                   checked={userLang === lang._id}
                   onChange={(langCode) => { onChangeLanguage(langCode as TLanguageCode) }}
                 />
-                {i < currencies.length - 1 && <Divider key={`Divider-${i}`} />}
+                {i < langs.length - 1 && <Divider key={`Divider-${i}`} />}
               </div>
             ))}
           </div>

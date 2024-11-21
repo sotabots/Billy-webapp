@@ -19,7 +19,6 @@ export const useInit = () => {
     chatIdStart, setChatIdStart,
     pwTxId, setPwTxId,
     txId, setTxId,
-    summaryId, setSummaryId,
     transaction, setTransaction,
     isAuthorSharesInited, setIsAuthorSharesInited,
     paywallSource, setPaywallSource,
@@ -32,7 +31,6 @@ export const useInit = () => {
   // init transaction/summary pages
   const queryParameters = new URLSearchParams(routerLocation.search)
   const queryTxId = queryParameters.get('txid')
-  const querySummaryId = queryParameters.get('summaryid')
 
   let startParam = initDataUnsafe.start_param
 
@@ -45,7 +43,6 @@ export const useInit = () => {
   }
 
   let startParamTxId
-  let startParamSummaryId
   let startParamChatId
   let startParamRef: undefined | number
   let startParamPwTxId: undefined | string
@@ -66,9 +63,6 @@ export const useInit = () => {
       if ('transaction_id' in startParamJson) {
         startParamTxId = startParamJson.transaction_id
       }
-      if ('summary_id' in startParamJson) {
-        startParamSummaryId = startParamJson.summary_id
-      }
       if ('chat_id' in startParamJson) {
         startParamChatId = startParamJson.chat_id
       }
@@ -79,12 +73,9 @@ export const useInit = () => {
         startParamPaywallSource = startParamJson.paywall_source
       }
       console.log('start startParamTxId', startParamTxId)
-      console.log('start startParamSummaryId', startParamSummaryId)
     } catch {
       // fallback
-      if (routerLocation.pathname === '/summary' || routerLocation.pathname === '/balance') {
-        startParamSummaryId = startParam
-      } else if (routerLocation.pathname.includes('/onboarding')) {
+      if (routerLocation.pathname.includes('/onboarding')) {
         try {
           startParamRef = parseInt(startParam)
         } catch (e) {
@@ -98,10 +89,6 @@ export const useInit = () => {
 
   if (txId === undefined) {
     setTxId(queryTxId || startParamTxId || 'demo-tx')
-  }
-
-  if (summaryId === undefined) {
-    setSummaryId(querySummaryId || startParamSummaryId || 'demo-summary')
   }
 
   if (chatIdStart === undefined && startParamChatId) {
@@ -120,7 +107,7 @@ export const useInit = () => {
     if (queryTxId || startParamTxId) {
       setFlow('transaction')
     }
-    if (querySummaryId || startParamSummaryId) {
+    if (routerLocation.pathname.includes('/summary')) {
       setFlow('summary')
     }
   }

@@ -1,10 +1,10 @@
 import { useTranslation } from 'react-i18next'
 
-import { useStore } from './'
+import { useGetCategories } from '../hooks'
 
 export const useCategories = () => {
   const { t, i18n } = useTranslation()
-  const { categories } = useStore()
+  const { data: categories } = useGetCategories()
 
   const getCategory = (categoryKey: string | null) => {
     return categories?.[categoryKey || ''] || null

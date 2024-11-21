@@ -1,10 +1,12 @@
 import { useHapticFeedback } from '@vkruglikov/react-telegram-web-app'
 
-import { useStore } from './'
+import { useGetUsers, useStore } from '../hooks'
 import type { TUser, TUserId, TShare } from '../types'
 
 export const useUsers = () => {
-  const { users, transaction, setTransaction, selectPersonId } = useStore()
+  const { transaction, setTransaction, selectPersonId } = useStore()
+  const { data: _users } = useGetUsers()
+  const users = _users || []
   const [impactOccurred, , selectionChanged] = useHapticFeedback()
 
   const transactionShares = transaction?.shares || [] as TShare[]

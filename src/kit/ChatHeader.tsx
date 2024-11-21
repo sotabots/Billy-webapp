@@ -2,7 +2,7 @@ import cx from 'classnames'
 import { useTranslation } from 'react-i18next'
 import { useNavigate } from 'react-router-dom'
 
-import { useUser, useGetVoiceLimit, useStore } from '../hooks'
+import { useUser, useGetVoiceLimit, useGetChat } from '../hooks'
 import { Avatar, VoiceLimit, Button } from '../kit'
 
 export const ChatHeader = ({ className }: {
@@ -12,8 +12,7 @@ export const ChatHeader = ({ className }: {
   const { t } = useTranslation()
   const { me } = useUser()
   const { data: voiceLimit } = useGetVoiceLimit()
-
-  const { chat } = useStore()
+  const { data: chat } = useGetChat()
 
   return (
     <div className={cx(

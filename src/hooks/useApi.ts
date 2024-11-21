@@ -55,9 +55,9 @@ export const useGetTx = () => {
   )
 }
 
-export const useGetUsers = (chatId: undefined | number) => {
+export const useGetUsers = () => {
   const { authString } = useAuth()
-  const { setUsers } = useStore()
+  const { chatId } = useChatId()
 
   return (
     useQuery<TUser[], Error>({
@@ -71,10 +71,6 @@ export const useGetUsers = (chatId: undefined | number) => {
               'Authorization': authString,
             }
           }).then(handleJsonResponse),
-      onSuccess: (data) => {
-        console.log('useApi onSuccess useGetUsers', data)
-        setUsers(data)
-      },
       enabled: chatId !== undefined,
       staleTime
     })
@@ -101,9 +97,9 @@ export const useGetUser = (_userId?: number) => {
   )
 }
 
-export const useGetChat = (chatId: undefined | number) => {
+export const useGetChat = () => {
   const { authString } = useAuth()
-  const { setChat } = useStore()
+  const { chatId } = useChatId()
 
   return (
     useQuery<TChat, Error>({
@@ -117,19 +113,15 @@ export const useGetChat = (chatId: undefined | number) => {
               'Authorization': authString,
             }
           }).then(handleJsonResponse),
-      onSuccess: (data) => {
-        console.log('useGetChat onSuccess useGetChat', data)
-        setChat(data)
-      },
       enabled: chatId !== undefined,
       staleTime
     })
   )
 }
 
-export const useGetCurrencies = (chatId: undefined | number) => {
+export const useGetCurrencies = () => {
   const { authString } = useAuth()
-  const { setCurrencies } = useStore()
+  const { chatId } = useChatId()
 
   return (
     useQuery<TCurrency[], Error>({
@@ -143,10 +135,6 @@ export const useGetCurrencies = (chatId: undefined | number) => {
               'Authorization': authString,
             }
           }).then(handleJsonResponse),
-      onSuccess: (data) => {
-        console.log('useApi onSuccess useGetCurrencies', data)
-        setCurrencies(data)
-      },
       enabled: chatId !== undefined,
       staleTime
     })
@@ -171,10 +159,10 @@ export const usePutTransaction = () => {
     }).then(handleJsonResponse)
 }
 
-export const usePostTransaction = () => { // summary settleup
+export const usePostTransaction = () => { // +settleup
   const { authString } = useAuth()
-  const { summaryId } = useStore()
-  const url = summaryId?.includes('demo')
+  const { chatId } = useChatId()
+  const url = chatId === 0
     ? 'https://jsonplaceholder.typicode.com/posts'
     : `${apiUrl}/transactions/`
 
@@ -191,18 +179,18 @@ export const usePostTransaction = () => { // summary settleup
 
 export const useGetSummary = () => {
   const { authString } = useAuth()
-  const { summaryId, summaryCurrencyId } = useStore()
-  console.log('useGetSummary summaryId', summaryId, summaryCurrencyId)
+  const { summaryCurrencyId } = useStore()
+  const { chatId } = useChatId()
 
   const url = `${apiUrl}/summary?${new URLSearchParams({
-    ...(summaryId ? { summary_id: summaryId } : {}),
+    ...(chatId ? { chat_id: String(chatId) } : {}),
     ...(summaryCurrencyId ? { target_currency_id: String(summaryCurrencyId) } : {}),
   })}`
 
   return (
     useQuery<TSummary, Error>({
-      queryKey: ['summary', `summary-${summaryId}-${summaryCurrencyId}`],
-      queryFn: summaryId?.includes('demo')
+      queryKey: ['summary', `summary-${chatId}-${summaryCurrencyId}`],
+      queryFn: chatId === 0
         ? () => mockSummary
         : () =>
           fetch(url , {
@@ -211,7 +199,7 @@ export const useGetSummary = () => {
               'Authorization': authString,
             }
           }).then(handleJsonResponse),
-      enabled: summaryId !== undefined,
+      enabled: chatId !== undefined,
       staleTime
     })
   )
@@ -219,7 +207,6 @@ export const useGetSummary = () => {
 
 export const useGetCategories = () => {
   const { authString } = useAuth()
-  const { setCategories } = useStore()
 
   return (
     useQuery<TCategories, Error>({
@@ -231,23 +218,19 @@ export const useGetCategories = () => {
             'Authorization': authString,
           }
         }).then(handleJsonResponse),
-      onSuccess: (data) => {
-        console.log('useApi onSuccess useGetCategories', data)
-        setCategories(data)
-      },
       staleTime
     })
   )
 }
 
-export const useGetTransactions = (chatId: undefined | number) => {
+export const useGetTransactions = () => {
   const { authString } = useAuth()
-  const { setTransactions, summaryId } = useStore()
+  const { chatId } = useChatId()
 
   return (
     useQuery<TTransaction[], Error>({
       queryKey: ['transactions', `chat-${chatId}`],
-      queryFn: chatId === 0 || summaryId?.includes('demo') // disable transactions request for tx-flow (startParamTxId)
+      queryFn: chatId === 0 // disable transactions request for tx-flow (startParamTxId)
         ? () => mockTransactions
         : () =>
           fetch(`${apiUrl}/chat/${chatId}/transactions`, {
@@ -256,11 +239,7 @@ export const useGetTransactions = (chatId: undefined | number) => {
               'Authorization': authString,
             }
           }).then(handleJsonResponse),
-      onSuccess: (data) => {
-        console.log('useApi onSuccess useGetTransactions', data)
-        setTransactions(data)
-      },
-      enabled: chatId !== undefined && summaryId !== undefined, // todo: remove summary later?
+      enabled: chatId !== undefined,
       staleTime
     })
   )
@@ -399,10 +378,10 @@ export const usePostChatCashback = () => {
 
 export const useGetSummarySheetRebuild = () => {
   const { authString } = useAuth()
-  const { summaryId } = useStore()
-  const url = (!summaryId || summaryId?.includes('demo'))
+  const { chatId } = useChatId()
+  const url = chatId === 0
     ? 'https://jsonplaceholder.typicode.com/posts'
-    : `${apiUrl}/summary/gsheet?summary_id=${summaryId}`
+    : `${apiUrl}/summary/gsheet?chat_id=${chatId}`
 
   return () =>
     fetch(url, {

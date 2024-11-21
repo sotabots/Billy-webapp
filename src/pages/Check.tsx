@@ -7,7 +7,7 @@ import { useTranslation } from 'react-i18next'
 import { useNavigate } from 'react-router-dom'
 
 import { decimals } from '../const'
-import { useStore, useCurrencies, useInit, useChatId, useFeedback, useTransaction, useUsers, useUser, useGetTx, useGetTransactions, useGetSummary, usePostTransaction, usePutTransaction, useGetProfile } from '../hooks'
+import { useStore, useCurrencies, useInit, useFeedback, useTransaction, useUsers, useUser, useGetTx, useGetTransactions, useGetSummary, usePostTransaction, usePutTransaction, useGetProfile } from '../hooks'
 import { Button, Header, UserAmount, Overlay, Panel, MessagePanel, Page, Toggle } from '../kit'
 import type { TNewTransaction, TShare, TTransaction, TLanguageCode } from '../types'
 
@@ -34,10 +34,9 @@ export const Check = () => {
   const postTransaction = usePostTransaction()
   const putTransaction = usePutTransaction()
 
-  const { chatId } = useChatId()
   const queryClient = useQueryClient()
   const { refetch: refetchTransaction } = useGetTx()
-  const { refetch: refetchTransactions } = useGetTransactions(chatId)
+  const { refetch: refetchTransactions } = useGetTransactions()
   const { refetch: refetchSummary } = useGetSummary()
   const { refetch: refetchProfile } = useGetProfile()
 

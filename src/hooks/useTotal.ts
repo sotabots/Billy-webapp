@@ -1,6 +1,6 @@
 import { useInitData } from '@vkruglikov/react-telegram-web-app'
 
-import { useCurrencies, useStore } from '../hooks'
+import { useCurrencies, useGetChat, useStore } from '../hooks'
 import { formatAmount } from '../utils'
 
 import { TTransaction } from '../types'
@@ -11,7 +11,8 @@ export const useTotal = ({ filteredTransactions }: {
   const [initDataUnsafe] = useInitData()
 
   const { getCurrencyById } = useCurrencies()
-  const { chat, filterTotal } = useStore()
+  const { filterTotal } = useStore()
+  const { data: chat } = useGetChat()
   const rates = chat?.rates
 
   const chatCurrency = getCurrencyById(chat?.default_currency || 'USD')

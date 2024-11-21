@@ -2,7 +2,7 @@ import { useHapticFeedback } from '@vkruglikov/react-telegram-web-app'
 import { useState } from 'react'
 import { useTranslation } from 'react-i18next'
 
-import { useStore, useInit } from '../hooks'
+import { useStore, useInit, useGetCategories } from '../hooks'
 import { Button, Header, Page, Panel, Category } from '../kit'
 
 export const SelectCategory = () => {
@@ -10,7 +10,9 @@ export const SelectCategory = () => {
 
   const [impactOccurred, , selectionChanged] = useHapticFeedback()
   const { t } = useTranslation()
-  const { categories, transaction, setTransaction } = useStore()
+  const { transaction, setTransaction } = useStore()
+
+  const { data: categories } = useGetCategories()
 
   const [selectedCategory, setSelectedCategory] = useState<string>(transaction?.category || '')
 

@@ -1,4 +1,4 @@
-import { useStore, useCurrencies, useTransaction } from '../hooks'
+import { useStore, useCurrencies, useTransaction, useGetTransactions, useGetChat } from '../hooks'
 import { formatAmount } from '../utils'
 
 import { TTransaction } from '../types'
@@ -6,7 +6,9 @@ import { TTransaction } from '../types'
 export const useBalance = () => {
   const { getCurrencyById } = useCurrencies()
   const { getMyBalanceDelta } = useTransaction()
-  const { chat, transactions, summaryCurrencyId } = useStore()
+  const { data: transactions } = useGetTransactions()
+  const { summaryCurrencyId } = useStore()
+  const { data: chat } = useGetChat()
   const rates = chat?.rates
 
   const balanceCurrency = getCurrencyById(summaryCurrencyId || chat?.default_currency || 'USD')
