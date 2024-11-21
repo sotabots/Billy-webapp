@@ -14,12 +14,13 @@ export const Overlay = ({ isOpen, isCenter, children }: TProps) => {
   const overlay = useMemo(() => Math.round(Math.random() * 1e10), [])
 
   useEffect(() => {
-    if (isOpen) {
+    if (isOpen && !overlays.includes(overlay)) {
       setOverlays([...overlays, overlay])
-    } else {
+    }
+    if (!isOpen && overlays.includes(overlay)) {
       setOverlays(overlays.filter(_ => _ != overlay))
     }
-  }, [isOpen])
+  }, [isOpen, overlay, overlays, setOverlays])
 
   return (
     <div className={cx(
