@@ -8,7 +8,7 @@ import { Panel } from '../kit'
 const OPEN_DEBUG_RIGHT_CLICKS = 5
 
 export const Debug = () => {
-  const { transaction, txId, summaryCurrencyId, setSummaryCurrencyId, isDebug, setDebug } = useStore()
+  const { transaction, txId, summaryCurrencyId, setSummaryCurrencyId, isDebug, setDebug, overlays } = useStore()
   const { data: summary } = useGetSummary()
   const { data: transactions } = useGetTransactions()
   const { data: categories } = useGetCategories()
@@ -106,6 +106,8 @@ export const Debug = () => {
         {out('currencies', currencies)}
         {out('categories', categories)}
         {out('transactions', transactions)}
+        {out('overlays', overlays)}
+        {out('---', '---')}
       </Panel>
     </div>
   )
