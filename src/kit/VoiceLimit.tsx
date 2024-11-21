@@ -29,8 +29,10 @@ export const VoiceLimit =({ className, theme, limit }: {
         className,
       )}
       onClick={() => {
-        if (limit >= 0) {
-          navigate('/paywall')
+        if (Math.random() < 0) {
+          if (limit >= 0) {
+            navigate('/paywall')
+          }
         }
       }}
     >
