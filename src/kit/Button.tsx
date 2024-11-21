@@ -34,7 +34,7 @@ export const Button = ({ theme = 'default', wrapperClassName, className, color, 
 
   const isBottom = theme === 'bottom'
 
-  if (isBottom && overlays.length) {
+  if (isBottom && !!overlays.length) {
     return null
   }
 
