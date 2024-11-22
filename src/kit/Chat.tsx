@@ -26,7 +26,7 @@ export const Chat =({ chat, onClick }: {
     >
       <div className="flex items-center gap-2 truncate">
         <Avatar chat={chat} size={60} />
-        <div className="truncate">
+        <div className="truncate text-left">
           <div className="text-[16px] leading-[24px] font-semibold truncate">{chat.name}</div>
           {chat.voice_limit >= 0 &&
             <VoiceLimit limit={chat.voice_limit} theme="gray" />
