@@ -65,7 +65,7 @@ export const useGetUsers = () => {
       queryFn: chatId === 0
         ? () => mockUsers
         : () =>
-          fetch(`${apiUrl}/chat/${chatId}/users`, {
+          fetch(`${apiUrl}/chat/users?chat_id=${chatId}`, {
             method: 'GET',
             headers: {
               'Authorization': authString,
@@ -107,7 +107,7 @@ export const useGetChat = () => {
       queryFn: chatId === 0
         ? () => mockChat
         : () =>
-          fetch(`${apiUrl}/chat/${chatId}/settings`, {
+          fetch(`${apiUrl}/chat/settings?chat_id=${chatId}`, {
             method: 'GET',
             headers: {
               'Authorization': authString,
@@ -233,7 +233,7 @@ export const useGetTransactions = () => {
       queryFn: chatId === 0 // disable transactions request for tx-flow (startParamTxId)
         ? () => mockTransactions
         : () =>
-          fetch(`${apiUrl}/chat/${chatId}/transactions`, {
+          fetch(`${apiUrl}/chat/transactions?chat_id=${chatId}`, {
             method: 'GET',
             headers: {
               'Authorization': authString,
@@ -250,7 +250,7 @@ export const usePostChatMode = () => {
   const { chatId } = useChatId()
   const url = chatId === 0
     ? 'https://jsonplaceholder.typicode.com/posts'
-    : `${apiUrl}/chat/${chatId}/mode`
+    : `${apiUrl}/chat/mode?chat_id=${chatId}`
 
   return (mode: TMode) =>
     fetch(url, {
@@ -268,7 +268,7 @@ export const usePostChatCurrency = () => {
   const { chatId } = useChatId()
   const url = chatId === 0
     ? 'https://jsonplaceholder.typicode.com/posts'
-    : `${apiUrl}/chat/${chatId}/currency`
+    : `${apiUrl}/chat/currency?chat_id=${chatId}/`
 
   return (currencyId: TCurrencyId) =>
     fetch(url, {
@@ -286,7 +286,7 @@ export const usePostChatLanguage = () => { // todo: remove
   const { chatId } = useChatId()
   const url = chatId === 0
     ? 'https://jsonplaceholder.typicode.com/posts'
-    : `${apiUrl}/chat/${chatId}/language`
+    : `${apiUrl}/chat/language?chat_id=${chatId}/`
 
   return (languageCode: TLanguageCode) =>
     fetch(url, {
@@ -321,7 +321,7 @@ export const usePostChatSilent = () => {
   const { chatId } = useChatId()
   const url = chatId === 0
     ? 'https://jsonplaceholder.typicode.com/posts'
-    : `${apiUrl}/chat/${chatId}/silent`
+    : `${apiUrl}/chat/silent?chat_id=${chatId}`
 
   return (isSilentMode: boolean) =>
     fetch(url, {
@@ -341,7 +341,7 @@ export const usePostChatMonthlyLimit = () => {
   const { chatId } = useChatId()
   const url = chatId === 0
     ? 'https://jsonplaceholder.typicode.com/posts'
-    : `${apiUrl}/chat/${chatId}/monthly_limit`
+    : `${apiUrl}/chat/monthly_limit?chat_id=${chatId}`
 
   return (monthlyLimit: number) =>
     fetch(url, {
@@ -361,7 +361,7 @@ export const usePostChatCashback = () => {
   const { chatId } = useChatId()
   const url = chatId === 0
     ? 'https://jsonplaceholder.typicode.com/posts'
-    : `${apiUrl}/chat/${chatId}/cashback`
+    : `${apiUrl}/chat/cashback?chat_id=${chatId}`
 
   return (cashback: number) =>
     fetch(url, {
@@ -448,7 +448,7 @@ export const useGetVoiceLimit = () => {
       queryFn: chatId === 0
         ? () => -1
         : () =>
-          fetch(`${apiUrl}/chat/${chatId}/voice_limit`, {
+          fetch(`${apiUrl}/chat/voice_limit?chat_id=${chatId}`, {
             method: 'GET',
             headers: {
               'Authorization': authString,
