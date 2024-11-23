@@ -22,7 +22,7 @@ export const Dropdown = ({ className, items, value, onChange }: {
 
   return (
     <OutsideClickHandler onOutsideClick={() => { setIsOpen(false) }} >
-      <div className={cx('Dropdown relative z-0', className)}>
+      <div className={cx('Dropdown relative', className)}>
         <Button
           className="Dropdown-button flex items-center pl-2 pr-1 bg-separator rounded-[4px] font-semibold text-blue"
           onClick={() => { setIsOpen(!isOpen) }}

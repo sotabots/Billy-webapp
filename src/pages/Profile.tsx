@@ -94,7 +94,7 @@ export const Profile = () => {
       </Panel>
 
       <Panel className="!p-4">
-        <div className="flex flex-col gap-4">
+        <div className="flex flex-col gap-4 relative z-0">
           <div className="flex items-center justify-between gap-4">
             <div className="text-[16px] leading-[24px] font-semibold">{t('profile.chats')}</div>
             <Dropdown
