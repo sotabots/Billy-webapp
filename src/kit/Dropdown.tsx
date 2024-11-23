@@ -22,7 +22,7 @@ export const Dropdown = ({ className, items, value, onChange }: {
 
   return (
     <OutsideClickHandler onOutsideClick={() => { setIsOpen(false) }} >
-      <div className={cx('Dropdown relative', className)}>
+      <div className={cx('Dropdown relative z-0', className)}>
         <Button
           className="Dropdown-button flex items-center pl-2 pr-1 bg-separator rounded-[4px] font-semibold text-blue"
           onClick={() => { setIsOpen(!isOpen) }}
@@ -37,7 +37,7 @@ export const Dropdown = ({ className, items, value, onChange }: {
         </Button>
         <div
           className={cx(
-            'Dropdown-list absolute right-0 top-[118%] rounded-[4px] py-1 bg-bg dark:bg-separator origin-top transition-all',
+            'Dropdown-list z-[1] absolute right-0 top-[118%] rounded-[4px] py-1 bg-bg dark:bg-separator origin-top transition-all',
             isOpen ? 'opacity-100 scale-y-100' : ' opacity-0 scale-y-0'
           )}
           style={!isDark ? { boxShadow: '0px 0px 2px 0px #0000001F, 0px 8px 16px 0px #0000001F' } : {}}
