@@ -17,5 +17,8 @@ export const useOpenLink = () => {
       window.open(url, '_blank')?.focus()
     }
   }
-  return { openLink }
+
+  const ADD_TO_CHAT_LINK = 'https://t.me/BillyMoney_bot?startgroup=true&admin=pin_messages+delete_messages'
+
+  return { openLink, ADD_TO_CHAT_LINK }
 }

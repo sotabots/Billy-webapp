@@ -33,7 +33,7 @@ export const Settings = ({ settingsInner, setSettingsInner }: {
   const { feedback } = useFeedback()
   const { isPro, userLang, refetchUser } = useUser()
   const navigate = useNavigate()
-  const { openLink } = useOpenLink()
+  const { openLink, ADD_TO_CHAT_LINK } = useOpenLink()
 
   const [monthlyLimit, setMonthlyLimit] = useState(chat?.monthly_limit || 0)
   const [cashback, setCashback] = useState((chat?.cashback || 0) * 100)
@@ -196,7 +196,7 @@ export const Settings = ({ settingsInner, setSettingsInner }: {
                 <Button
                   className="rounded-[6px] px-3 py-1 bg-[#F76659] text-[#F6F8F9] text-[14px] leading-[24px] font-semibold"
                   onClick={() => {
-                    openLink('https://t.me/BillyMoney_bot?startgroup=true&admin=pin_messages+delete_messages')
+                    openLink(ADD_TO_CHAT_LINK)
                   }}
                 >
                   {t('makeAdmin')}

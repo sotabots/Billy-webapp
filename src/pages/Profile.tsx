@@ -3,7 +3,7 @@ import { useState } from 'react'
 import { useTranslation } from 'react-i18next'
 import { useNavigate } from 'react-router-dom'
 
-import { useCurrencies, useGetProfile, useInit, useStore, useUser } from '../hooks'
+import { useCurrencies, useGetProfile, useInit, useOpenLink, useStore, useUser } from '../hooks'
 import { Button, Header, Page, Panel, Dropdown, Chat } from '../kit'
 import { formatAmount } from '../utils'
 
@@ -22,6 +22,8 @@ export const Profile = () => {
   const { getCurrencyById } = useCurrencies()
   const currency = getCurrencyById(profile?.balance.currency_id || 'USD')
   const currencySymbol = currency?.symbol || '$'
+
+  const { openLink, ADD_TO_CHAT_LINK } = useOpenLink()
 
   type TDropdownValue = 'ALL' | 'ACTIVE' | 'SETTLED_UP'
 
@@ -123,6 +125,13 @@ export const Profile = () => {
           </div>
         </div>
       </Panel>
+
+      <Button
+        theme="bottom"
+        onClick={() => {  openLink(ADD_TO_CHAT_LINK) }}
+      >
+        {t('profile.addChat')}
+      </Button>
     </Page>
   )
 }
