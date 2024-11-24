@@ -23,7 +23,6 @@ export const Chat =({ chat, onClick }: {
     <Button
       className={cx('Chat w-full flex items-center justify-between gap-4')}
       onClick={onClick || (() => { /* */ })}
-      disabled={!onClick}
     >
       <div className="flex items-center gap-2 truncate">
         {!chat ? (

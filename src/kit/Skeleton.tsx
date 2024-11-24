@@ -6,7 +6,7 @@ export const Skeleton = ({ className, w, h }: {
   h: number
 }) => (
   <div
-    className={cx('Skeleton rounded-full bg-text/10 bg-gradient-to-r from-text/10 to-text/20 animate-skeleton', className)}
+    className={cx('Skeleton rounded-full bg-text/[0.03] bg-gradient-to-r from-text/[0.03] to-text/[0.06] animate-skeleton', className)}
     style={{ width: w, height: h, backgroundSize: '200% 100%' }}
   />
 )

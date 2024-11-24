@@ -4,7 +4,7 @@ import { useTranslation } from 'react-i18next'
 import { useNavigate } from 'react-router-dom'
 
 import { useCurrencies, useGetProfile, useInit, useLink, useStore, useUser } from '../hooks'
-import { Button, Header, Page, Panel, Dropdown, Chat } from '../kit'
+import { Button, Header, Page, Panel, Dropdown, Chat, Skeleton } from '../kit'
 import { formatAmount } from '../utils'
 
 import { ReactComponent as Chevron } from '../assets/chevron.svg'
@@ -52,24 +52,41 @@ export const Profile = () => {
         <div className="flex flex-col gap-3">
           <div className="flex items-center justify-between gap-4">
             <div className="text-[24px] leading-[32px] font-semibold">{t('profile.myBalance')}</div>
-            <div className={cx(
-              'text-[24px] leading-[32px] font-semibold',
-              profile?.balance.total && profile.balance.total > 0 && 'text-green',
-              profile?.balance.total && profile.balance.total < 0 && 'text-red',
-            )}>
-              {!!profile?.balance.total && profile?.balance.total > 0 && '+'}
-              {formatAmount(profile?.balance.total || 0)}&nbsp;{currencySymbol}
-            </div>
+            {!profile &&
+              <Skeleton w={70} h={32} />
+            }
+            {!!profile &&
+              <>
+                <div className={cx(
+                  'text-[24px] leading-[32px] font-semibold',
+                  profile?.balance.total && profile.balance.total > 0 && 'text-green',
+                  profile?.balance.total && profile.balance.total < 0 && 'text-red',
+                )}>
+                  {!!profile?.balance.total && profile?.balance.total > 0 && '+'}
+                  {formatAmount(profile?.balance.total || 0)}&nbsp;{currencySymbol}
+                </div>
+              </>
+            }
           </div>
 
           <div className="flex items-stretch gap-4">
             <div className="w-[50%] rounded-[16px] bg-bg2 p-3">
               <div className="text-[14px] leading-[24px] font-semibold text-textSec">{t('profile.debts')}</div>
-              <div className="text-[16px] leading-[24px] font-bold">{formatAmount(profile?.balance.debts || 0)}&nbsp;{currencySymbol}</div>
+              {!profile &&
+                <Skeleton w={50} h={24} />
+              }
+              {!!profile &&
+                <div className="text-[16px] leading-[24px] font-bold">{formatAmount(profile.balance.debts || 0)}&nbsp;{currencySymbol}</div>
+              }
             </div>
             <div className="w-[50%] rounded-[16px] bg-bg2 p-3">
               <div className="text-[14px] leading-[24px] font-semibold text-textSec">{t('profile.credits')}</div>
-              <div className="text-[16px] leading-[24px] font-bold">{formatAmount(profile?.balance.credits || 0)}&nbsp;{currencySymbol}</div>
+              {!profile &&
+                <Skeleton w={50} h={24} />
+              }
+              {!!profile &&
+                <div className="text-[16px] leading-[24px] font-bold">{formatAmount(profile?.balance.credits || 0)}&nbsp;{currencySymbol}</div>
+              }
             </div>
           </div>
 
