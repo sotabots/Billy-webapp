@@ -46,7 +46,16 @@ export default {
     extend: {
       backgroundImage: {
         'pro': 'linear-gradient(to right, #1C6ED8, #0CD7E4FC)',
-      }
+      },
+      animation: {
+        skeleton: 'skeleton 1s linear infinite',
+      },
+      keyframes: {
+        skeleton: {
+          '0%': { backgroundPosition: '100% center' },
+          '100%': { backgroundPosition: '-100% center' },
+        },
+      },
     }
   }
 }

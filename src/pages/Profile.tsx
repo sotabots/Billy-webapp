@@ -104,7 +104,13 @@ export const Profile = () => {
             />
           </div>
           <div className="flex flex-col gap-4">
-            {chats.map(chat => (
+            {isProfileLoading && (
+              <>
+                <Chat key="Chat-loader-1" />
+                <Chat key="Chat-loader-2" />
+              </>
+            )}
+            {!isProfileLoading && chats.length > 0 && chats.map(chat => (
               <Chat
                 key={chat.id}
                 chat={chat}
