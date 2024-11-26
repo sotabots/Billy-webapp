@@ -1,6 +1,6 @@
 import { createHashRouter } from 'react-router-dom'
 
-import { SelectUser, Check, SelectCurrency, SelectUsers, SelectCategory, Home, Onboarding, Soon, Paywall, Profile } from './pages'
+import { SelectUser, Check, SelectCurrency, SelectUsers, SelectCategory, Home, Onboarding, Soon, Paywall, Profile, UserSettings } from './pages'
 
 export const router = createHashRouter([
   {
@@ -59,5 +59,9 @@ export const router = createHashRouter([
   {
     path: '/profile',
     element: <Profile />,
+  },
+  {
+    path: '/user-settings',
+    element: <UserSettings />,
   },
 ])

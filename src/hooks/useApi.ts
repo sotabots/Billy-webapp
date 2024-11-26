@@ -2,7 +2,7 @@ import { useInitData } from '@vkruglikov/react-telegram-web-app'
 import { useQuery } from '@tanstack/react-query'
 
 import { useAuth, useNewTx, useChatId, useStore } from '../hooks'
-import { TCurrency, TCategories, TTransaction, TNewTransaction, TUser, TChat, TSummary, TCurrencyId, TLanguageCode, TMode, TPlan, TProfile } from '../types'
+import { TCurrency, TCategories, TTransaction, TNewTransaction, TUser, TChat, TSummary, TCurrencyId, TLanguageCode, TMode, TPlan, TProfile, TUserSettings } from '../types'
 import {
   mockTransaction,
   mockUsers,
@@ -468,6 +468,23 @@ export const useGetProfile = () => {
       queryKey: [`profile-${userId}`],
       queryFn: () =>
         fetch(`${apiUrl}/users/profile?user_id=${userId}`, {
+          method: 'GET',
+          headers: {
+            'Authorization': authString,
+          }
+        }).then(handleJsonResponse),
+      enabled: !!userId,
+    })
+  )
+}
+
+export const useGetUserSettings = () => {
+  const { authString, userId } = useAuth()
+  return (
+    useQuery<TUserSettings, Error>({
+      queryKey: [`userSettings-${userId}`],
+      queryFn: () =>
+        fetch(`${apiUrl}/users/settings`, {
           method: 'GET',
           headers: {
             'Authorization': authString,

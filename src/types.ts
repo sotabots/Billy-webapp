@@ -162,3 +162,14 @@ export type TProfile = {
     credits: number
   }
 }
+
+export type TUserSettings = {
+  payoff_links: {
+    additionalProp1: string
+    additionalProp2: string
+    additionalProp3: string
+  },
+  currency: TCurrencyId
+  language: string
+  notify_in_private_messages: boolean
+}
