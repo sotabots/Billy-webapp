@@ -494,3 +494,23 @@ export const useGetUserSettings = () => {
     })
   )
 }
+
+export const usePostUserSettings = () => {
+  const { authString } = useAuth()
+  const { chatId } = useChatId()
+  const url = chatId === 0
+    ? 'https://jsonplaceholder.typicode.com/posts'
+    : `${apiUrl}/users/settings`
+
+  return (userSettings: TUserSettings) =>
+    fetch(url, {
+      method: 'POST',
+      body: JSON.stringify({
+        ...userSettings,
+      }),
+      headers: {
+        'Content-type': 'application/json',
+        'Authorization': authString,
+      },
+    }).then(handleJsonResponse)
+}
