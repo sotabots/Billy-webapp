@@ -3,7 +3,7 @@ import { useState } from 'react'
 import { useTranslation } from 'react-i18next'
 import { useNavigate } from 'react-router-dom'
 
-import { useInit, useFeedback, /* useCurrencies, */ useUser, /* usePostChatCurrency, */ usePostUserLanguage, usePostChatSilent, useGetChat, useGetUserSettings, /* usePostChatMode, usePostChatMonthlyLimit, usePostChatCashback */ } from '../hooks'
+import { useInit, useUser, useGetUserSettings, usePostUserSettings } from '../hooks'
 import { Button, Divider, MenuItem, MenuGroup, RadioButton, Currencies, Page } from '../kit'
 import { /* TCurrencyId, */ TLanguageCode, /* TMode, */ TCurrencyId} from '../types'
 
@@ -17,42 +17,34 @@ export const UserSettings = () => {
   useInit()
 
   const { t } = useTranslation()
-  const { data: chat } = useGetChat()
-  const { feedback } = useFeedback()
   const { isPro, userLang } = useUser()
-  const { data: userSettings } = useGetUserSettings()
-
-  const { /* data: userSettings, */ refetch: refetchUserSettings } = useGetUserSettings()
+  const { data: userSettings, refetch: refetchUserSettings } = useGetUserSettings()
+  const postUserSettings = usePostUserSettings()
 
   const navigate = useNavigate()
 
   const [/*isBusy*/, setBusy] = useState(false)
 
-  // const postChatMode = usePostChatMode()
-  // const postChatCurrency = usePostChatCurrency()
-  const postUserLanguage = usePostUserLanguage()
-  const postChatSilent = usePostChatSilent()
-  //const postChatMonthlyLimit = usePostChatMonthlyLimit()
-  // const postChatCashback = usePostChatCashback()
-
   const [impactOccurred, , selectionChanged] = useHapticFeedback()
 
   const onChangeCurrency = async (currencyId: TCurrencyId) => {
+    if (!userSettings) {
+      return
+    }
     selectionChanged()
     impactOccurred('medium')
     setBusy(true)
     let isSuccess = true
     try {
-      // await postChatCurrency(currencyId)
+      await postUserSettings({
+        ...userSettings,
+        currency: currencyId,
+      })
     } catch {
       isSuccess = false
     }
 
     if (isSuccess) {
-      feedback('set_currency_settings_web', {
-        currency_prev: chat?.default_currency,
-        currency_set: currencyId,
-      })
       refetchUserSettings()
       setSettingsInner(null)
     }
@@ -60,32 +52,40 @@ export const UserSettings = () => {
   }
 
   const onChangeLanguage = async (languageCode: TLanguageCode) => {
+    if (!userSettings) {
+      return
+    }
     selectionChanged()
     impactOccurred('medium')
     setBusy(true)
     let isSuccess = true
     try {
-      await postUserLanguage(languageCode)
+      await postUserSettings({
+        ...userSettings,
+        language: languageCode,
+      })
     } catch {
       isSuccess = false
     }
 
     if (isSuccess) {
-      feedback('set_language_settings_web', {
-        language_prev: userLang,
-        language_set: languageCode,
-      })
       refetchUserSettings()
     }
     setBusy(false)
   }
 
-  const toggleSilent = async () => {
+  const toggleNotify = async () => {
+    if (!userSettings) {
+      return
+    }
     impactOccurred('medium')
     setBusy(true)
     let isSuccess = true
     try {
-      await postChatSilent(!chat?.silent_mode)
+      await postUserSettings({
+        ...userSettings,
+        notify_in_private_messages: !userSettings.notify_in_private_messages,
+      })
     } catch {
       isSuccess = false
     }
@@ -110,9 +110,6 @@ export const UserSettings = () => {
     },
   ]
 
-  // const { getCurrencyById } = useCurrencies()
-  // const currency = getCurrencyById(userSettings?.currency || 'USD')
-
   const [settingsInner, setSettingsInner] = useState<null | string>(null)
 
   return (
@@ -129,15 +126,14 @@ export const UserSettings = () => {
                   navigate('/paywall')
                 }
               }}
-              disabled={isPro}
+              disabled={isPro === undefined || isPro === true}
             />
             <Divider className="mr-0" />
             <MenuItem
               icon={<CardIcon />}
               title={t('userSettings.cards')}
               value={t('soon')}
-              onClick={() => {
-              }}
+              onClick={() => { /* */ }}
               disabled={true}
             />
           </MenuGroup>
@@ -170,10 +166,9 @@ export const UserSettings = () => {
           <MenuGroup className="mt-4">
             <MenuItem
               icon={<NotifyIcon />}
-              title={`${!chat?.is_admin ? (t('forAdmin') + ' ') : ''}${t('leaveMessages')}`}
-              isEnabled={!chat?.silent_mode}
-              disabled={!chat?.is_admin}
-              onClick={toggleSilent}
+              title={t('userSettings.notify')}
+              isEnabled={userSettings?.notify_in_private_messages}
+              onClick={toggleNotify}
             />
           </MenuGroup>
 

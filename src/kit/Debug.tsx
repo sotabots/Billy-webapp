@@ -91,6 +91,8 @@ export const Debug = () => {
         <br />
         <a href="/Billy-webapp/#/paywall">Go paywall!</a>
         <br />
+        <a href="/Billy-webapp/#/user-settings">Go user settings!</a>
+        <br />
         <br />
         <br />
         {/* <a href="https://t.me/$57jAnvUn6ElOIwMAscGfUwoljzY">https://t.me/$57jAnvUn6ElOIwMAscGfUwoljzY</a> */}
