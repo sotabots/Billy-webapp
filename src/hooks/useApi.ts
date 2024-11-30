@@ -496,9 +496,9 @@ export const useGetUserSettings = () => {
 }
 
 export const usePostUserSettings = () => {
-  const { authString } = useAuth()
-  const { chatId } = useChatId()
-  const url = chatId === 0
+  const { authString, isAuth } = useAuth()
+
+  const url = !isAuth
     ? 'https://jsonplaceholder.typicode.com/posts'
     : `${apiUrl}/users/settings`
 
