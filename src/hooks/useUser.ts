@@ -5,7 +5,7 @@ export const useUser = () => {
   const { data, refetch } = useGetUser()
   const { userId } = useAuth()
 
-  const isPro = !!data?.has_active_subscription
+  const isPro: boolean | undefined = data?.has_active_subscription
 
   const tgLangRaw: string | undefined = window.Telegram?.WebApp.initDataUnsafe.user?.language_code
   const tgLang: TLanguageCode =
