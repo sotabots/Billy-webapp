@@ -4,7 +4,7 @@ import { useTranslation } from 'react-i18next'
 import { useNavigate } from 'react-router-dom'
 
 import { useInit, useUser, useGetUserSettings, usePostUserSettings } from '../hooks'
-import { Button, Divider, MenuItem, MenuGroup, RadioButton, Currencies, Page } from '../kit'
+import { Button, Divider, MenuItem, MenuGroup, RadioButton, Currencies, Page, Header } from '../kit'
 import { /* TCurrencyId, */ TLanguageCode, /* TMode, */ TCurrencyId} from '../types'
 
 import { ReactComponent as ProIcon } from '../assets/user-settings-pro.svg'
@@ -114,6 +114,12 @@ export const UserSettings = () => {
 
   return (
     <Page>
+      <Header onBack={
+        settingsInner
+          ? () => { setSettingsInner(null) }
+          : undefined
+      } />
+
       {!settingsInner && (
         <div className="px-4 pb-4">
           <MenuGroup className="mt-5">
