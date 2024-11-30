@@ -70,6 +70,7 @@ export const UserSettings = () => {
 
     if (isSuccess) {
       refetchUserSettings()
+      setSettingsInner(null)
     }
     setBusy(false)
   }
@@ -92,6 +93,7 @@ export const UserSettings = () => {
 
     if (isSuccess) {
       refetchUserSettings()
+      setSettingsInner(null)
     }
     setBusy(false)
   }
