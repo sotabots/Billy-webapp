@@ -150,7 +150,7 @@ export const UserSettings = () => {
             <MenuGroup description={t('userSettings.currencyDescription')}>
               <MenuItem
                 icon={<CurrencyIcon />}
-                title={t('currency')}
+                title={t('userSettings.currency')}
                 value={userSettings?.currency || ''}
                 onClick={() => {
                   setSettingsInner('currency')
@@ -159,7 +159,7 @@ export const UserSettings = () => {
               <Divider className="" />
               <MenuItem
                 icon={<LanguageIcon />}
-                title={t('language')}
+                title={t('userSettings.appLanguage')}
                 value={userLang
                   ? (
                     langs.find(lang => lang._id === userLang)?.title ||
