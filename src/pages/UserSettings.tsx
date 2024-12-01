@@ -1,4 +1,5 @@
 import { useHapticFeedback } from '@vkruglikov/react-telegram-web-app'
+import cx from 'classnames'
 import { useState } from 'react'
 import { useTranslation } from 'react-i18next'
 import { useNavigate } from 'react-router-dom'
@@ -115,7 +116,7 @@ export const UserSettings = () => {
   const [settingsInner, setSettingsInner] = useState<null | string>(null)
 
   return (
-    <Page>
+    <Page className={cx(settingsInner ? '!bg-bg' : '')}>
       <Header onBack={
         settingsInner
           ? () => { setSettingsInner(null) }
