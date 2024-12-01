@@ -4,8 +4,8 @@ import { useTranslation } from 'react-i18next'
 import { useNavigate } from 'react-router-dom'
 
 import { useInit, useUser, useGetUserSettings, usePostUserSettings } from '../hooks'
-import { Button, Divider, MenuItem, MenuGroup, RadioButton, Currencies, Page, Header } from '../kit'
-import { /* TCurrencyId, */ TLanguageCode, /* TMode, */ TCurrencyId} from '../types'
+import { Divider, MenuItem, MenuGroup, RadioButton, Currencies, Page, Header } from '../kit'
+import { TLanguageCode, TCurrencyId} from '../types'
 
 import { ReactComponent as ProIcon } from '../assets/user-settings-pro.svg'
 import { ReactComponent as CardIcon } from '../assets/user-settings-card.svg'
@@ -124,68 +124,70 @@ export const UserSettings = () => {
 
       {!settingsInner && (
         <div className="px-4 pb-4">
-          <MenuGroup className="mt-5">
-            <MenuItem
-              icon={<ProIcon />}
-              title={t('userSettings.pro')}
-              value={isPro ? t('userSettings.active') : ''}
-              onClick={() => {
-                if (isPro === false) {
-                  navigate('/paywall')
+          <h2 className="pt-3 pb-4">{t('userSettings.title')}</h2>
+          <div className="flex flex-col gap-4">
+            <MenuGroup description={t('userSettings.cardsDescription')}>
+              <MenuItem
+                icon={<ProIcon />}
+                title={t('userSettings.pro')}
+                value={isPro ? t('userSettings.active') : ''}
+                onClick={() => {
+                  if (isPro === false) {
+                    navigate('/paywall')
+                  }
+                }}
+                disabled={isPro === undefined || isPro === true}
+              />
+              <Divider className="mr-0" />
+              <MenuItem
+                icon={<CardIcon />}
+                title={t('userSettings.cards')}
+                value={t('soon')}
+                onClick={() => { /* */ }}
+                disabled={true}
+              />
+            </MenuGroup>
+            <MenuGroup description={t('userSettings.currencyDescription')}>
+              <MenuItem
+                icon={<CurrencyIcon />}
+                title={t('currency')}
+                value={userSettings?.currency || ''}
+                onClick={() => {
+                  setSettingsInner('currency')
+                }}
+              />
+              <Divider className="" />
+              <MenuItem
+                icon={<LanguageIcon />}
+                title={t('language')}
+                value={userLang
+                  ? (
+                    langs.find(lang => lang._id === userLang)?.title ||
+                    userLang.toUpperCase())
+                  : ''
                 }
-              }}
-              disabled={isPro === undefined || isPro === true}
-            />
-            <Divider className="mr-0" />
-            <MenuItem
-              icon={<CardIcon />}
-              title={t('userSettings.cards')}
-              value={t('soon')}
-              onClick={() => { /* */ }}
-              disabled={true}
-            />
-          </MenuGroup>
-          <MenuGroup className="mt-5">
-            <MenuItem
-              icon={<CurrencyIcon />}
-              title={t('currency')}
-              value={userSettings?.currency || ''}
-              onClick={() => {
-                setSettingsInner('currency')
-              }}
-            />
-            <Divider className="mr-0" />
-            <MenuItem
-              icon={<LanguageIcon />}
-              title={t('language')}
-              value={userLang
-                ? (
-                  langs.find(lang => lang._id === userLang)?.title ||
-                  userLang.toUpperCase())
-                : ''
-              }
-              onClick={() => {
-                setSettingsInner('language')
-              }}
-            />
-            <Divider className="mr-0" />
-          </MenuGroup>
+                onClick={() => {
+                  setSettingsInner('language')
+                }}
+              />
+              <Divider className="mr-0" />
+            </MenuGroup>
 
-          <MenuGroup className="mt-4">
-            <MenuItem
-              icon={<NotifyIcon />}
-              title={t('userSettings.notify')}
-              isEnabled={userSettings?.notify_in_private_messages}
-              onClick={toggleNotify}
-            />
-          </MenuGroup>
-
-          <Button
+            <MenuGroup description={t('userSettings.notifyDescription')}>
+              <MenuItem
+                icon={<NotifyIcon />}
+                title={t('userSettings.notify')}
+                isEnabled={userSettings?.notify_in_private_messages}
+                onClick={toggleNotify}
+              />
+            </MenuGroup>
+          </div>
+          {/* <Button
             theme="bottom"
             onClick={() => { history.back() }}
           >
             {t('close')}
-          </Button>
+          </Button> */}
         </div>
       )}
 
