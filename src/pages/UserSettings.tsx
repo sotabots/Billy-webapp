@@ -127,7 +127,7 @@ export const UserSettings = () => {
         <div className="px-4 pb-4">
           <h2 className="pt-3 pb-4">{t('userSettings.title')}</h2>
           <div className="flex flex-col gap-4">
-            <MenuGroup description={t('userSettings.cardsDescription')}>
+            <MenuGroup>
               <MenuItem
                 icon={<ProIcon />}
                 title={t('userSettings.pro')}
@@ -139,7 +139,8 @@ export const UserSettings = () => {
                 }}
                 disabled={isPro === undefined || isPro === true}
               />
-              <Divider className="mr-0" />
+            </MenuGroup>
+            <MenuGroup description={t('userSettings.cardsDescription')}>
               <MenuItem
                 icon={<CardIcon />}
                 title={t('userSettings.cards')}
@@ -174,6 +175,7 @@ export const UserSettings = () => {
               <Divider className="mr-0" />
             </MenuGroup>
 
+            {null &&
             <MenuGroup description={t('userSettings.notifyDescription')}>
               <MenuItem
                 icon={<NotifyIcon />}
@@ -182,6 +184,7 @@ export const UserSettings = () => {
                 onClick={toggleNotify}
               />
             </MenuGroup>
+            }
           </div>
           {/* <Button
             theme="bottom"
