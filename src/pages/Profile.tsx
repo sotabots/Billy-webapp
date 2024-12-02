@@ -4,7 +4,7 @@ import { useTranslation } from 'react-i18next'
 import { useNavigate } from 'react-router-dom'
 
 import { useCurrencies, useGetProfile, useInit, useLink, useStore, useUser } from '../hooks'
-import { Button, Header, Page, Panel, Dropdown, Chat, Skeleton } from '../kit'
+import { Button, Header, Page, Panel, Dropdown, Chat, Skeleton, Bottom } from '../kit'
 import { formatAmount } from '../utils'
 
 import { ReactComponent as Chevron } from '../assets/chevron.svg'
@@ -149,12 +149,24 @@ export const Profile = () => {
         </div>
       </Panel>
 
-      <Button
-        theme="bottom"
-        onClick={() => {  openLink(ADD_TO_CHAT_LINK) }}
-      >
-        {t('profile.addChat')}
-      </Button>
+      <Bottom h={40}>
+        <div className="flex items-center justify-center gap-[10px]">
+          <Button
+            wrapperClassName="w-full"
+            className="w-full h-[40px] rounded-[6px] bg-separator text-blue text-[14px] font-semibold"
+            onClick={() => { navigate('/user-settings') }}
+          >
+            {t('profile.settings')}
+          </Button>
+          <Button
+            wrapperClassName="w-full w-full"
+            className="w-full h-[40px] rounded-[6px] bg-blue text-textButton text-[14px] font-semibold"
+            onClick={() => { openLink(ADD_TO_CHAT_LINK) }}
+          >
+            {t('profile.addChat')}
+          </Button>
+        </div>
+      </Bottom>
     </Page>
   )
 }

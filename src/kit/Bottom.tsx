@@ -1,10 +1,10 @@
-// import cx from 'classnames'
+import cx from 'classnames'
 import type { ReactNode } from 'react'
 
 import { Limiter } from '../kit'
 
-export const Bottom =({ /*className,*/ children, h }: {
-  // className?: string
+export const Bottom =({ className, children, h }: {
+  className?: string
   children: ReactNode
   h: number
 }) => {
@@ -24,10 +24,15 @@ export const Bottom =({ /*className,*/ children, h }: {
           }}
         />
       </div>
-      <div className="Bottom-content fixed w-full px-4 bottom-0 left-0 bg-bg2 py-2">
-        <div className="Bottom-content-shadow absolute bottom-full left-0 w-full h-2 bg-gradient-to-t from-bg2" />
-        <Limiter>
-          {children}
+      <div className={cx(
+        'Bottom-content fixed w-full px-4 bottom-0 left-0 bg-bg py-2',
+        className,
+      )}>
+        <div className="Bottom-content-shadow absolute bottom-full left-0 w-full h-2 -bg-gradient-to-t from-bg to-transparent" />
+        <Limiter className="w-full">
+          <div className={cx('Bottom-content w-full', className)}>
+            {children}
+          </div>
         </Limiter>
         <div
           className="Bottom-content-safearea"
