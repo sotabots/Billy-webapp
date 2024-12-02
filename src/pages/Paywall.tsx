@@ -5,7 +5,7 @@ import { useTranslation } from 'react-i18next'
 
 
 import { useInit, useStore, useFeedback, useUser, usePostPayment, useGetProfile } from '../hooks'
-import { Button, Header, Page, Panel, Divider, Plan, Limiter } from '../kit'
+import { Button, Header, Page, Panel, Divider, Plan, Bottom } from '../kit'
 import { TPlan } from '../types'
 
 import lottieKoalaStars from '../assets/animation-koala-stars.json'
@@ -247,30 +247,18 @@ export const Paywall = () => {
           />
         </div>
       </div>
-      <div
-        className="Spacer h-[70px]"
-        style={{
-          paddingBottom: 'env(safe-area-inset-bottom)'
-        }}
-      />
-      <div className="fixed w-full px-4 bottom-0 left-0 bg-bg2" style={{
-        paddingBottom: 'env(safe-area-inset-bottom)'
-      }}>
-        <div className="absolute bottom-full left-0 w-full h-2 bg-gradient-to-t from-bg2" />
-        <Limiter>
-          <Button
-            wrapperClassName="pb-4 pt-1"
-            className="flex items-center justify-center gap-2 w-full h-[50px] rounded-[6px] bg-gradient-to-r from-[#1C6ED8] to-[#0CD7E4] text-[#F6F8F9] text-[14px] font-semibold"
-            onClick={goPay}
-            isBusy={isBusy}
-          >
-            <>
-              <span>{t('buyFor')} {plan.amount}</span>
-              <img src={star} className="w-6 h-6" />
-            </>
-          </Button>
-        </Limiter>
-      </div>
+      <Bottom h={50}>
+        <Button
+          className="flex items-center justify-center gap-2 w-full h-[50px] rounded-[6px] bg-gradient-to-r from-[#1C6ED8] to-[#0CD7E4] text-[#F6F8F9] text-[14px] font-semibold"
+          onClick={goPay}
+          isBusy={isBusy}
+        >
+          <>
+            <span>{t('buyFor')} {plan.amount}</span>
+            <img src={star} className="w-6 h-6" />
+          </>
+        </Button>
+      </Bottom>
     </Page>
   )
 }

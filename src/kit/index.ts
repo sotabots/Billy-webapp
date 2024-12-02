@@ -1,4 +1,5 @@
 export * from './Avatar'
+export * from './Bottom'
 export * from './Button'
 export * from './Category'
 export * from './CategoryAvatar'
