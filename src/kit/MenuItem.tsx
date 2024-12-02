@@ -24,9 +24,11 @@ export const MenuItem = ({ icon, title, value, badge, isEnabled, disabled, onCli
           <span>{icon}</span>
           <span className="text-left leading-[1em]">{title}</span>
         </div>
-        {value && !badge &&
+        {!badge && isEnabled === undefined &&
           <div className="flex items-center gap-1">
-            <span className="opacity-50">{value}</span>
+            {!!value &&
+              <span className="opacity-50">{value}</span>
+            }
             <span className="opacity-30"><SettingsGoIcon /></span>
           </div>
         }
