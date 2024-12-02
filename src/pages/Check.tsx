@@ -341,13 +341,15 @@ export const Check = () => {
               </>
             </Button>
           </div>
-          <div className="min-h-[24px] mt-[2px]">
-            <Toggle
-              label={t('splitEqually')}
-              value={!!transaction.is_equally}
-              onChange={toggleIsEqually}
-            />
-          </div>
+          {oweShares.length > 1 &&
+            <div className="min-h-[24px] mt-[2px]">
+              <Toggle
+                label={t('splitEqually')}
+                value={!!transaction.is_equally}
+                onChange={toggleIsEqually}
+              />
+            </div>
+          }
           <div className="mt-4 flex flex-col gap-1">
             {!oweShares.length && <span className="opacity-40">{t('nobodyHere')}</span>}
             {oweShares.map((share, shareIndex) => (
