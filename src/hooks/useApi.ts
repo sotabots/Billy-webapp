@@ -268,7 +268,7 @@ export const usePostChatCurrency = () => {
   const { chatId } = useChatId()
   const url = chatId === 0
     ? 'https://jsonplaceholder.typicode.com/posts'
-    : `${apiUrl}/chat/currency?chat_id=${chatId}/`
+    : `${apiUrl}/chat/currency?chat_id=${chatId}`
 
   return (currencyId: TCurrencyId) =>
     fetch(url, {
@@ -286,7 +286,7 @@ export const usePostChatLanguage = () => { // todo: remove
   const { chatId } = useChatId()
   const url = chatId === 0
     ? 'https://jsonplaceholder.typicode.com/posts'
-    : `${apiUrl}/chat/language?chat_id=${chatId}/`
+    : `${apiUrl}/chat/language?chat_id=${chatId}`
 
   return (languageCode: TLanguageCode) =>
     fetch(url, {
