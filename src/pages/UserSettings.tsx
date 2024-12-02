@@ -18,7 +18,7 @@ export const UserSettings = () => {
   useInit()
 
   const { t } = useTranslation()
-  const { isPro, userLang } = useUser()
+  const { isPro, userLang, refetchUser } = useUser()
   const { data: userSettings, refetch: refetchUserSettings } = useGetUserSettings()
   const postUserSettings = usePostUserSettings()
 
@@ -71,6 +71,7 @@ export const UserSettings = () => {
 
     if (isSuccess) {
       refetchUserSettings()
+      refetchUser() // lang from user
       setSettingsInner(null)
     }
     setBusy(false)
