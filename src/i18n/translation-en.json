@@ -211,7 +211,7 @@
       "optional": "(optional)",
       "topUpLink": "Top Up Link",
       "IBAN": "IBAN",
-      "name": "Recipient name",
+      "recipientName": "Recipient name",
       "email": "E-mail",
       "walletAddress": "Wallet Address"
     },

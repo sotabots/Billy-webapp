@@ -173,3 +173,19 @@ export type TUserSettings = {
   language: string
   notify_in_private_messages: boolean
 }
+
+export type TPaymentMethod = {
+  id: string
+  title: string
+  type: 'bank' | 'crypto'
+  image: string
+  fields: {
+    id: string // wallet_address | payment_link | iban | email | recipient_name
+    isOptional?: boolean
+  }[]
+}
+
+export type TPaymentMethods = {
+  payment_methods: TPaymentMethod[]
+  message: string
+}
