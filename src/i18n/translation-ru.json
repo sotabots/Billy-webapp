@@ -11,6 +11,7 @@
   "buyProForSave": "Купить Billy Pro для подтверждения",
   "reset": "Сброс",
   "ok": "OK",
+  "add": "Добавить",
 
   "addComment": "Добавьте комментарий",
   "yourComment": "Ваш комментарий...",
@@ -37,7 +38,6 @@
   "selectCurrency": "Выберите валюту",
   "whoPaid": "Кто платил",
   "forWhom": "За кого платили",
-  "add": "Добавить",
   "selectAll": "Выбрать всех",
   "unselectAll": "Очистить выбор",
   "splitEqually": "Разделить поровну",
