@@ -208,6 +208,7 @@
     "crypto": "Crypto Wallet",
     "bank": "Bank",
     "field": {
+      "optional": "(optional)",
       "topUpLink": "Top Up Link",
       "IBAN": "IBAN",
       "name": "Recipient name",
