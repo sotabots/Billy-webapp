@@ -66,6 +66,14 @@ export const router = createHashRouter([
   },
   {
     path: '/payment-methods',
-    element: <PaymentMethods />,
+    element: <PaymentMethods page="all" />,
+  },
+  {
+    path: '/payment-methods/add',
+    element: <PaymentMethods page="add" />,
+  },
+  {
+    path: '/payment-methods/edit',
+    element: <PaymentMethods page="edit" />,
   },
 ])
