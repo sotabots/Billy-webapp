@@ -5,7 +5,7 @@ import { useTranslation } from 'react-i18next'
 import { useNavigate } from 'react-router-dom'
 
 import { useInit, useGetUserSettings, usePostUserSettings } from '../hooks'
-import { Panel, Page, Header, Button, Textarea } from '../kit'
+import { Panel, Page, Header, Button, Textarea, Switch, TSwitchItem } from '../kit'
 
 import { ReactComponent as PlusIcon } from '../assets/plus.svg'
 
@@ -22,6 +22,18 @@ export const PaymentMethods = ({ page }: {
 
   const [message, setMessage] = useState('')
   const [/*isBusy*/, setBusy] = useState(false)
+
+  const switchItems: TSwitchItem[] = [
+    {
+      title: t('paymentMethods.card'),
+      value: 'card',
+    },
+    {
+      title: t('paymentMethods.crypto'),
+      value: 'crypto',
+    },
+  ]
+  const [switchItemValue, setSwitchItemValue] = useState<string>(switchItems[0].value)
 
   const [impactOccurred, , selectionChanged] = useHapticFeedback()
 
@@ -88,7 +100,16 @@ export const PaymentMethods = ({ page }: {
 
         {page === 'add' &&
           <>
-            <h2 className="pt-3 pb-4">{t('paymentMethods.addTitle')}</h2>
+            <h2 className="mb-2 pt-3 pb-2">{t('paymentMethods.addTitle')}</h2>
+
+            <div className="flex flex-col gap-4">
+              <Switch
+                items={switchItems}
+                value={switchItemValue}
+                onChange={setSwitchItemValue}
+              />
+            </div>
+
             <Button
               theme="bottom"
               onClick={() => {

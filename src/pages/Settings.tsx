@@ -1,11 +1,10 @@
 import { useHapticFeedback } from '@vkruglikov/react-telegram-web-app'
-import cx from 'classnames'
 import { useState } from 'react'
 import { useTranslation } from 'react-i18next'
 import { useNavigate } from 'react-router-dom'
 
 import { useStore, useInit, useFeedback, useCurrencies, useUser, useLink, usePostChatCurrency, usePostUserLanguage, usePostChatSilent, useGetChat, usePostChatMode, usePostChatMonthlyLimit, usePostChatCashback } from '../hooks'
-import { Button, Divider, MenuItem, MenuGroup, RadioButton, InputAmount, Currencies } from '../kit'
+import { Button, Divider, MenuItem, MenuGroup, RadioButton, InputAmount, Currencies, Switch } from '../kit'
 import { TCurrencyId, TLanguageCode, TMode } from '../types'
 import { formatAmount } from '../utils'
 
@@ -210,40 +209,32 @@ export const Settings = ({ settingsInner, setSettingsInner }: {
             <div className="text-center text-[18px] leading-[24px] font-semibold">{t('chatType')}</div>
             <div className="mt-2 text-center text-[14px] leading-[20px]">{t('chatTypeDescription')}</div>
 
-            <div className="mt-3 flex items-center p-1 rounded-[12px] bg-bg">
-              <div className="flex flex-grow basis-0">
-                <Button
-                  wrapperClassName="w-full"
-                  className={cx(
-                    'w-full flex items-center justify-center gap-[2px] p-2 rounded-[8px]',
-                    chat?.mode === 'family' ? 'bg-text/5' : 'text-text/70',
-                  )}
-                  onClick={() => { saveMode('family') }}
-                  disabled={!chat}
-                >
-                  <>
-                    <ModePersonalIcon className="h-6 w-6" />
-                    <span>{t('personalExpenses')}</span>
-                  </>
-                </Button>
-              </div>
-              <div className="flex flex-grow basis-0">
-                <Button
-                  wrapperClassName="w-full"
-                  className={cx(
-                    'w-full flex items-center justify-center gap-[2px] p-2 rounded-[8px]',
-                    chat?.mode === 'travel' ? 'bg-text/5' : 'text-text/70',
-                  )}
-                  onClick={() => { saveMode('travel') }}
-                  disabled={!chat}
-                >
-                  <>
-                    <ModeGroupIcon className="h-6 w-6" />
-                    <span>{t('splittingBills')}</span>
-                  </>
-                </Button>
-              </div>
-            </div>
+            <Switch
+              className="mt-3"
+              items={[
+                {
+                  title: (
+                    <>
+                      <ModePersonalIcon className="h-6 w-6" />
+                      <span>{t('personalExpenses')}</span>
+                    </>
+                  ),
+                  value: 'family',
+                },
+                {
+                  title: (
+                    <>
+                      <ModeGroupIcon className="h-6 w-6" />
+                      <span>{t('splittingBills')}</span>
+                    </>
+                  ),
+                  value: 'travel',
+                }
+              ]}
+              value={chat?.mode}
+              onChange={(mode: string) => { saveMode(mode as TMode) } }
+              disabled={!chat}
+            />
           </div>
           }
 
