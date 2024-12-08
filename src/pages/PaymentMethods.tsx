@@ -5,7 +5,7 @@ import { useTranslation } from 'react-i18next'
 import { useNavigate } from 'react-router-dom'
 
 import { useInit, useGetUserSettings, usePostUserSettings } from '../hooks'
-import { Panel, Page, Header, Button } from '../kit'
+import { Panel, Page, Header, Button, Textarea } from '../kit'
 
 import { ReactComponent as PlusIcon } from '../assets/plus.svg'
 
@@ -20,6 +20,7 @@ export const PaymentMethods = ({ page }: {
 
   const navigate = useNavigate()
 
+  const [message, setMessage] = useState('')
   const [/*isBusy*/, setBusy] = useState(false)
 
   const [impactOccurred, , selectionChanged] = useHapticFeedback()
@@ -61,7 +62,7 @@ export const PaymentMethods = ({ page }: {
               description={t('paymentMethods.cardsWalletsDescription')}
             >
               <div className="flex gap-4 items-center justify-between">
-                <h3 className="">{t('cardsWallets')}</h3>
+                <h3 className="">{t('paymentMethods.cardsWallets')}</h3>
                 <Button
                   className="flex items-center justify-center gap-[2px] px-2 text-blue"
                   onClick={() => { navigate('/payment-methods/add') }}
@@ -72,17 +73,15 @@ export const PaymentMethods = ({ page }: {
               </div>
             </Panel>
             <Panel
-              className="!p-4"
-              description={t('paymentMethods.cardsWalletsDescription')}
+              className="!p-4 -mx-4"
+              description={t('paymentMethods.messageDescription')}
             >
-              <div className="flex gap-4 items-center">
-                <div className="">{t('cardsWallets')}</div>
-                <Button
-                  onClick={() => { navigate('/payment-methods/add') }}
-                >
-                  {t('add')}
-                </Button>
-              </div>
+              <h3 className="mb-1">{t('paymentMethods.message')}</h3>
+              <Textarea
+                placeholder={t('paymentMethods.messagePlaceholder')}
+                value={message}
+                onChange={(message) => { setMessage(message) }}
+              />
             </Panel>
           </>
         }
