@@ -5,7 +5,9 @@ import { useTranslation } from 'react-i18next'
 import { useNavigate } from 'react-router-dom'
 
 import { useInit, useGetUserSettings, usePostUserSettings } from '../hooks'
-import { MenuGroup, Page, Header, Button } from '../kit'
+import { Panel, Page, Header, Button } from '../kit'
+
+import { ReactComponent as PlusIcon } from '../assets/plus.svg'
 
 export const PaymentMethods = ({ page }: {
   page: 'all' | 'add' | 'edit'
@@ -54,15 +56,34 @@ export const PaymentMethods = ({ page }: {
         {page === 'all' &&
           <>
             <h2 className="pt-3 pb-4">{t('paymentMethods.title')}</h2>
-            <MenuGroup description={t('paymentMethods.cardsWalletsDescription')}>
+            <Panel
+              className="!p-4 -mx-4"
+              description={t('paymentMethods.cardsWalletsDescription')}
+            >
+              <div className="flex gap-4 items-center justify-between">
+                <h3 className="">{t('cardsWallets')}</h3>
+                <Button
+                  className="flex items-center justify-center gap-[2px] px-2 text-blue"
+                  onClick={() => { navigate('/payment-methods/add') }}
+                >
+                  <PlusIcon className="w-6 h-6" />
+                  <div className="text-[14px] leading-[24px] font-semibold">{t('add')}</div>
+                </Button>
+              </div>
+            </Panel>
+            <Panel
+              className="!p-4"
+              description={t('paymentMethods.cardsWalletsDescription')}
+            >
               <div className="flex gap-4 items-center">
+                <div className="">{t('cardsWallets')}</div>
                 <Button
                   onClick={() => { navigate('/payment-methods/add') }}
                 >
                   {t('add')}
                 </Button>
               </div>
-            </MenuGroup>
+            </Panel>
           </>
         }
 
