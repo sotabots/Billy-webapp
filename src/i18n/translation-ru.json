@@ -196,7 +196,7 @@
     "notifyDescription": "Дублировать сообщения о моих тратах в личный чат с Billy"
   },
 
-  "paymentMethods": {
+  "payoffMethods": {
     "title": "Возврат моих средств",
     "cardsWallets": "Карты, кошельки",
     "cardsWalletsDescription": "Удобные тебе карты, криптокошельки, чтобы друзья знали, куда тебе кидать деньги",

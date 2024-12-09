@@ -1,6 +1,6 @@
 import { createHashRouter } from 'react-router-dom'
 
-import { SelectUser, Check, SelectCurrency, SelectUsers, SelectCategory, Home, Onboarding, Soon, Paywall, Profile, UserSettings, PaymentMethods } from './pages'
+import { SelectUser, Check, SelectCurrency, SelectUsers, SelectCategory, Home, Onboarding, Soon, Paywall, Profile, UserSettings, PayoffMethods } from './pages'
 
 export const router = createHashRouter([
   {
@@ -65,15 +65,15 @@ export const router = createHashRouter([
     element: <UserSettings />,
   },
   {
-    path: '/payment-methods',
-    element: <PaymentMethods page="all" />,
+    path: '/payoff-methods',
+    element: <PayoffMethods page="all" />,
   },
   {
-    path: '/payment-methods/add',
-    element: <PaymentMethods page="add" />,
+    path: '/payoff-methods/add',
+    element: <PayoffMethods page="add" />,
   },
   {
-    path: '/payment-methods/edit',
-    element: <PaymentMethods page="edit" />,
+    path: '/payoff-methods/edit',
+    element: <PayoffMethods page="edit" />,
   },
 ])

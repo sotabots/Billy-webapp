@@ -174,7 +174,7 @@ export type TUserSettings = {
   notify_in_private_messages: boolean
 }
 
-export type TPaymentMethod = {
+export type TPayoffMethod = {
   id: string
   title: string
   type: 'bank' | 'crypto'
@@ -186,7 +186,7 @@ export type TPaymentMethod = {
   }[]
 }
 
-export type TPaymentMethods = {
-  payment_methods: TPaymentMethod[]
+export type TPayoffMethods = {
+  payoff_methods: TPayoffMethod[]
   message: string // or empty string
 }

@@ -196,16 +196,16 @@
     "notifyDescription": "Duplicate messages about my expenses to a private chat with Billy"
   },
 
-  "paymentMethods": {
+  "payoffMethods": {
     "title": "Ways to Receive Funds",
     "cardsWallets": "Cards, Wallets",
-    "cardsWalletsDescription": "Your Preferred Payment Methods for Receiving Money",
+    "cardsWalletsDescription": "Your Preferred Payoff Methods for Receiving Money",
     "message": "Message",
     "messagePlaceholder": "Hi! Please send the money to [add your details]. Thank you",
     "messageDescription": "If you don’t have the necessary cards or wallets, leave a message. It will be shown during the refund process",
     "add": "Add",
-    "add_": "Add Payment Method",
-    "addTitle": "Add Payment Method",
+    "add_": "Add Payoff Method",
+    "addTitle": "Add Payoff Method",
     "card": "Card",
     "crypto": "Crypto Wallet",
     "bank": "Bank",
