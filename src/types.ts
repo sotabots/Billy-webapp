@@ -182,10 +182,11 @@ export type TPaymentMethod = {
   fields: {
     id: string // wallet_address | payment_link | iban | email | recipient_name
     isOptional?: boolean
+    value: string // or empty string
   }[]
 }
 
 export type TPaymentMethods = {
   payment_methods: TPaymentMethod[]
-  message: string
+  message: string // or empty string
 }
