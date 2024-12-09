@@ -1,4 +1,4 @@
-import { TShare, TTransaction, TUser, TChat, TSummary, TRates, TLanguageCode } from '../types'
+import { TShare, TTransaction, TUser, TChat, TSummary, TRates, TLanguageCode, TPayoffMethod, TPayoffMethods } from '../types'
 
 
 import { decimals } from '../const'
@@ -662,6 +662,67 @@ const mockTransactions: TTransaction[] = mockSummary.debts.map((debt, i) => ({
   cashback: i === 0 ? 0.05 : null,
 }))
 
+const mockAllPayoffMethods: TPayoffMethod[] = [
+  {
+    id: 'tbank',
+    title: 'T-bank',
+    type: 'bank',
+    image: 'https://cdn.tbank.ru/static/pages/files/d39e9d26-fd5e-4574-9ad3-c3f2fc102598.png',
+    fields: [
+      {
+        id: 'payment_link',
+        isOptional: false,
+        value: '',
+      },
+    ]
+  },
+  {
+    id: 'wise',
+    title: 'Wise',
+    type: 'bank',
+    image: 'https://figma-alpha-api.s3.us-west-2.amazonaws.com/images/63d71b75-8de4-4d45-aa71-c8efaf8ec263',
+    fields: [
+      {
+        id: 'payment_link',
+        isOptional: false,
+        value: '',
+      },
+    ]
+  },
+  {
+    id: 'usdt_trc20',
+    title: 'USDT TRC20',
+    type: 'crypto',
+    image: 'https://cdn.worldvectorlogo.com/logos/tether.svg',
+    fields: [
+      {
+        id: 'address',
+        isOptional: false,
+        value: '',
+      },
+    ]
+  },
+  {
+    id: 'btc',
+    title: 'Bitcoin',
+    type: 'crypto',
+    image: 'https://cryptologos.cc/logos/bitcoin-btc-logo.svg',
+    fields: [
+      {
+        id: 'address',
+        isOptional: false,
+        value: '',
+      },
+    ]
+  },
+]
+
+const mockMyPayoffMethods: TPayoffMethods = {
+  message: '',
+  payoff_methods: []
+}
+
+
 export {
   mockUsers,
   mockTransaction,
@@ -669,4 +730,6 @@ export {
   mockChat,
   mockSummary,
   mockTransactions,
+  mockAllPayoffMethods,
+  mockMyPayoffMethods,
 }

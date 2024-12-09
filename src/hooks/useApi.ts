@@ -2,14 +2,16 @@ import { useInitData } from '@vkruglikov/react-telegram-web-app'
 import { useQuery } from '@tanstack/react-query'
 
 import { useAuth, useNewTx, useChatId, useStore } from '../hooks'
-import { TCurrency, TCategories, TTransaction, TNewTransaction, TUser, TChat, TSummary, TCurrencyId, TLanguageCode, TMode, TPlan, TProfile, TUserSettings } from '../types'
+import { TCurrency, TCategories, TTransaction, TNewTransaction, TUser, TChat, TSummary, TCurrencyId, TLanguageCode, TMode, TPlan, TProfile, TUserSettings, TPayoffMethods, TPayoffMethod } from '../types'
 import {
   mockTransaction,
   mockUsers,
   mockCurrencies,
   mockChat,
   mockSummary,
-  mockTransactions
+  mockTransactions,
+  mockMyPayoffMethods,
+  mockAllPayoffMethods
 } from './useApiMock'
 
 const apiUrl = import.meta.env.VITE_API_URL
@@ -507,6 +509,62 @@ export const usePostUserSettings = () => {
       method: 'POST',
       body: JSON.stringify({
         ...userSettings,
+      }),
+      headers: {
+        'Content-type': 'application/json',
+        'Authorization': authString,
+      },
+    }).then(handleJsonResponse)
+}
+
+export const useGetAllPayoffMethods = () => {
+  // const { authString, userId } = useAuth()
+  return (
+    useQuery<TPayoffMethod[], Error>({
+      queryKey: [`allPayoffMethods-${/*userId*/''}`],
+      queryFn: Math.random() > 0 // todo: remove
+        ? () => mockAllPayoffMethods
+        : () => fetch(`${apiUrl}/users/settings`, { // todo: change
+          method: 'GET',
+          /* headers: {
+            'Authorization': authString,
+          } */
+        }).then(handleJsonResponse),
+      // enabled: !!userId,
+    })
+  )
+}
+
+export const useGetMyPayoffMethods = () => {
+  const { authString, userId } = useAuth()
+  return (
+    useQuery<TPayoffMethods, Error>({
+      queryKey: [`userPayoffMethods-${userId}`],
+      queryFn: Math.random() > 0 // todo: remove
+        ? () => mockMyPayoffMethods
+        : () => fetch(`${apiUrl}/users/settings`, { // todo: change
+          method: 'GET',
+          headers: {
+            'Authorization': authString,
+          }
+        }).then(handleJsonResponse),
+      enabled: !!userId,
+    })
+  )
+}
+
+export const usePostMyPayoffMethods = () => {
+  const { authString, isAuth } = useAuth()
+
+  const url = (Math.random() > 0 || !isAuth) // todo: disable
+    ? 'https://jsonplaceholder.typicode.com/posts'
+    : `${apiUrl}/users/settings` // todo: change
+
+  return (payoffMethods: TPayoffMethods) =>
+    fetch(url, {
+      method: 'POST',
+      body: JSON.stringify({
+        ...payoffMethods,
       }),
       headers: {
         'Content-type': 'application/json',
