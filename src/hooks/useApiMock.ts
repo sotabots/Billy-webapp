@@ -719,7 +719,21 @@ const mockAllPayoffMethods: TPayoffMethod[] = [
 
 const mockMyPayoffMethods: TPayoffMethods = {
   message: '',
-  payoff_methods: []
+  payoff_methods: [
+    {
+      id: 'btc',
+      title: 'Bitcoin',
+      type: 'crypto',
+      image: 'https://cryptologos.cc/logos/bitcoin-btc-logo.svg',
+      fields: [
+        {
+          id: 'address',
+          isOptional: false,
+          value: '000000000000000000000000000000000000000000000',
+        },
+      ]
+    },
+  ]
 }
 
 

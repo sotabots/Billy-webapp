@@ -174,16 +174,18 @@ export type TUserSettings = {
   notify_in_private_messages: boolean
 }
 
+export type TPayoffMethodField = {
+  id: string // wallet_address | payment_link | iban | email | recipient_name
+  isOptional?: boolean
+  value: string // or empty string
+}
+
 export type TPayoffMethod = {
   id: string
   title: string
   type: 'bank' | 'crypto'
   image: string
-  fields: {
-    id: string // wallet_address | payment_link | iban | email | recipient_name
-    isOptional?: boolean
-    value: string // or empty string
-  }[]
+  fields: TPayoffMethodField[]
 }
 
 export type TPayoffMethods = {

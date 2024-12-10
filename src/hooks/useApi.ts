@@ -548,7 +548,7 @@ export const useGetMyPayoffMethods = () => {
             'Authorization': authString,
           }
         }).then(handleJsonResponse),
-      enabled: !!userId,
+      enabled: true || !!userId, // todo: remove true
     })
   )
 }

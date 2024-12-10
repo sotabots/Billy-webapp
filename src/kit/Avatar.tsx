@@ -14,9 +14,10 @@ const getLetters = (fullName?: string) => {
   return letters
 }
 
-export const Avatar = ({ user, chat, size = 40 }: {
-  user?: TUser
-  chat?: TUserChat
+export const Avatar = ({ user, chat, url, size = 40 }: {
+  user?: TUser // letters fallback
+  chat?: TUserChat // letters fallback
+  url?: string
   size?: number
 }) => {
   const fullName = [
@@ -32,12 +33,14 @@ export const Avatar = ({ user, chat, size = 40 }: {
     : (['#e17076', '#faa774', '#a695e7', '#7bc862', '#6ec9cb', '#65aadd', '#ee7aae'])[Math.abs(Number(user?._id || chat?.id)) % 7 || 0] // peerColor
   const backgroundColor = (!user && !chat) ? placeholderBgColor : (color + '44')
 
-  const url = user?.profile_photo || chat?.photo
-  const backgroundImage = !url
+  const _url = user?.profile_photo || chat?.photo || url
+  const backgroundImage = !_url
     ? undefined
-    : `url(${(url.includes('https://') || url.includes('/assets/'))? url : `${apiUrl}${url}`})`
+    : `url(${(_url.includes('https://') || _url.includes('/assets/'))
+      ? _url
+      : `${apiUrl}${_url}`})`
 
-  const letters = (!url && fullName) ? getLetters(fullName) : null
+  const letters = (!_url && fullName) ? getLetters(fullName) : null
 
   return (
     <div
@@ -61,7 +64,7 @@ export const Avatar = ({ user, chat, size = 40 }: {
           {letters}
         </div>
       }
-      {(!user && !chat) && (
+      {(!user && !chat && !url) && (
         <UserIcon
           style={{ width: '80%', height: '80%' }}
           className="text-[#0452C8]"

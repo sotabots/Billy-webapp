@@ -4,8 +4,8 @@ import { useState } from 'react'
 import { useTranslation } from 'react-i18next'
 import { useNavigate } from 'react-router-dom'
 
-import { useInit, useGetUserSettings, usePostUserSettings } from '../hooks'
-import { Panel, Page, Header, Button, Textarea, Switch, TSwitchItem } from '../kit'
+import { useInit, /*usePostUserSettings, */ useGetAllPayoffMethods, useGetMyPayoffMethods, usePostMyPayoffMethods } from '../hooks'
+import { Panel, Page, Header, Button, Textarea, Switch, TSwitchItem, PayoffMethod } from '../kit'
 
 import { ReactComponent as PlusIcon } from '../assets/plus.svg'
 
@@ -15,8 +15,9 @@ export const PayoffMethods = ({ page }: {
   useInit()
 
   const { t } = useTranslation()
-  const { data: userSettings, refetch: refetchUserSettings } = useGetUserSettings()
-  const postUserSettings = usePostUserSettings()
+  const { data: allPayoffMethods /*, refetch: refetchUserSettings */ } = useGetAllPayoffMethods()
+  const { data: myPayoffMethods, refetch: refetchMyPayoffMethods } = useGetMyPayoffMethods()
+  const postMyPayoffMethods = usePostMyPayoffMethods()
 
   const navigate = useNavigate()
 
@@ -37,8 +38,8 @@ export const PayoffMethods = ({ page }: {
 
   const [impactOccurred, , selectionChanged] = useHapticFeedback()
 
-  const onChangeCurrency = async () => {
-    if (!userSettings) {
+  const onSave = async () => {
+    if (!myPayoffMethods) {
       return
     }
     selectionChanged()
@@ -46,16 +47,13 @@ export const PayoffMethods = ({ page }: {
     setBusy(true)
     let isSuccess = true
     try {
-      await postUserSettings({
-        ...userSettings,
-        currency: '',
-      })
+      await postMyPayoffMethods(myPayoffMethods) // todo
     } catch {
       isSuccess = false
     }
 
     if (isSuccess) {
-      refetchUserSettings()
+      refetchMyPayoffMethods()
       history.back()
     }
     setBusy(false)
@@ -75,14 +73,29 @@ export const PayoffMethods = ({ page }: {
             >
               <div className="flex gap-4 items-center justify-between">
                 <h3 className="">{t('payoffMethods.cardsWallets')}</h3>
-                <Button
-                  className="flex items-center justify-center gap-[2px] px-2 text-blue"
-                  onClick={() => { navigate('/payoff-methods/add') }}
-                >
-                  <PlusIcon className="w-6 h-6" />
-                  <div className="text-[14px] leading-[24px] font-semibold">{t('add')}</div>
-                </Button>
+                {myPayoffMethods?.payoff_methods.length === 0 &&
+                  <Button
+                    className="flex items-center justify-center gap-[2px] px-2 text-blue"
+                    onClick={() => { navigate('/payoff-methods/add') }}
+                  >
+                    <PlusIcon className="w-6 h-6" />
+                    <div className="text-[14px] leading-[24px] font-semibold">{t('add')}</div>
+                  </Button>
+                }
               </div>
+              {!!myPayoffMethods?.payoff_methods && myPayoffMethods.payoff_methods.length > 0 &&
+                <>
+                  <div className="mt-2 -mx-4">
+                    {myPayoffMethods.payoff_methods.map(myPayoffMethod =>
+                      <PayoffMethod
+                        key={myPayoffMethod.id}
+                        payoffMethod={myPayoffMethod}
+                        onClick={() => { /* */ }}
+                      />
+                    )}
+                  </div>
+                </>
+              }
             </Panel>
             <Panel
               className="!p-4 -mx-4"
@@ -110,10 +123,14 @@ export const PayoffMethods = ({ page }: {
               />
             </div>
 
+            <div>
+              {allPayoffMethods?.map(_ => _.title)}
+            </div>
+
             <Button
               theme="bottom"
               onClick={() => {
-                onChangeCurrency()
+                onSave()
                 history.back()
               }}
             >
