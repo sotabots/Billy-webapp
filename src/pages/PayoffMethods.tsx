@@ -94,6 +94,13 @@ export const PayoffMethods = ({ page }: {
                       />
                     )}
                   </div>
+                  <Button
+                    wrapperClassName="mt-4"
+                    className="w-full min-h-[40px] rounded-[6px] text-blue bg-separator text-[14px] leading-[24px]"
+                    onClick={() => { navigate('/payoff-methods/add') }}
+                  >
+                    {t('payoffMethods.add_')}
+                  </Button>
                 </>
               }
             </Panel>
