@@ -5,7 +5,7 @@ import { useTranslation } from 'react-i18next'
 import { useNavigate } from 'react-router-dom'
 
 import { useInit, /*usePostUserSettings, */ useGetAllPayoffMethods, useGetMyPayoffMethods, usePostMyPayoffMethods } from '../hooks'
-import { Panel, Page, Header, Button, Textarea, Switch, TSwitchItem, PayoffMethod } from '../kit'
+import { Panel, Page, Header, Button, Textarea, Switch, TSwitchItem, PayoffMethod, InputText, Select, TSelectItem } from '../kit'
 
 import { ReactComponent as PlusIcon } from '../assets/plus.svg'
 
@@ -27,7 +27,7 @@ export const PayoffMethods = ({ page }: {
   const switchItems: TSwitchItem[] = [
     {
       title: t('payoffMethods.card'),
-      value: 'card',
+      value: 'bank',
     },
     {
       title: t('payoffMethods.crypto'),
@@ -35,6 +35,17 @@ export const PayoffMethods = ({ page }: {
     },
   ]
   const [switchItemValue, setSwitchItemValue] = useState<string>(switchItems[0].value)
+
+  const payoffMethodsFiltered: TSelectItem[] = (allPayoffMethods || [])
+    .filter(_ => _.type === switchItemValue)
+    .map(_ => ({
+      value: _.type,
+      title: _.title,
+    }))
+
+  const [selectValue, setSelectValue] = useState<string>('')
+
+  const [demoText, setDemoText] = useState<string>('')
 
   const [impactOccurred, , selectionChanged] = useHapticFeedback()
 
@@ -122,24 +133,28 @@ export const PayoffMethods = ({ page }: {
           <>
             <h2 className="mb-2 pt-3 pb-2">{t('payoffMethods.addTitle')}</h2>
 
-            <div className="flex flex-col gap-4">
-              <Switch
-                items={switchItems}
-                value={switchItemValue}
-                onChange={setSwitchItemValue}
-              />
-            </div>
+            <Switch
+              items={switchItems}
+              value={switchItemValue}
+              onChange={setSwitchItemValue}
+            />
 
-            <div>
-              {allPayoffMethods?.map(_ => _.title)}
+            <div className="mt-4 flex flex-col gap-4">
+              <Select
+                items={payoffMethodsFiltered}
+                value={selectValue}
+                onChange={setSelectValue}
+              />
+              <InputText
+                placeholder={'Demo placeholder'}
+                value={demoText}
+                onChange={setDemoText}
+              />
             </div>
 
             <Button
               theme="bottom"
-              onClick={() => {
-                onSave()
-                history.back()
-              }}
+              onClick={onSave}
             >
               {t('save')}
             </Button>

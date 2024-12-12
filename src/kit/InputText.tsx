@@ -30,7 +30,7 @@ export const InputText = ({ placeholder, value, onChange }: {
       <input
         ref={inputRef}
         type="text"
-        className="InputText w-[117px] h-10 p-2 rounded-md border border-[#DDE2E4] dark:border-[#6E7C87] dark:bg-[#303940] text-right text-[16px] text-text leading-[24px] focus:ring-2 focus:ring-blue focus:outline-none appearance-none transition-all selection:bg-blue selection:text-textButton"
+        className="InputText block w-full h-10 p-2 rounded-[8px] border border-separator bg-bg text-text text-[14px] leading-[20px] focus:ring-2 focus:ring-blue focus:outline-none appearance-none transition-all placeholder:text-textSec2 selection:bg-blue selection:text-textButton"
         inputMode="text"
         placeholder={placeholder}
         value={value}
