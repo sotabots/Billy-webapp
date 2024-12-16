@@ -8,6 +8,7 @@ import { useInit, /*usePostUserSettings, */ useGetAllPayoffMethods, useGetMyPayo
 import { Panel, Page, Header, Button, Textarea, Switch, TSwitchItem, PayoffMethod, InputText, Select, TSelectItem } from '../kit'
 
 import { ReactComponent as PlusIcon } from '../assets/plus.svg'
+import { Field } from '../kit/Field'
 
 export const PayoffMethods = ({ page }: {
   page: 'all' | 'add' | 'edit'
@@ -140,11 +141,15 @@ export const PayoffMethods = ({ page }: {
             />
 
             <div className="mt-4 flex flex-col gap-4">
-              <Select
-                items={payoffMethodsFiltered}
-                value={selectValue}
-                onChange={setSelectValue}
-              />
+              <Field
+                title={switchItemValue === 'bank' ? t('payoffMethods.bank') : t('payoffMethods.crypto')}
+              >
+                <Select
+                  items={payoffMethodsFiltered}
+                  value={selectValue}
+                  onChange={setSelectValue}
+                />
+              </Field>
               <InputText
                 placeholder={'Demo placeholder'}
                 value={demoText}
