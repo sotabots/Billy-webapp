@@ -174,13 +174,15 @@ export type TUserSettings = {
   notify_in_private_messages: boolean
 }
 
+export type TPayoffMethodType = 'bank' | 'crypto'
+
 export type TPayoffMethod = {
   title: string
-  type: 'bank' | 'crypto'
+  type: TPayoffMethodType
   image: string
   is_bank_ru?: boolean
   fields: {
-    [key: string]: { // wallet_address | payment_link | iban | email | recipient_name
+    [key: string]: { // TUserPayoffMethod.label: wallet_address | payment_link | iban | email | recipient_name
       type: 'string' | 'boolean'
       is_optional: boolean
     }
@@ -189,4 +191,13 @@ export type TPayoffMethod = {
 
 export type TPayoffMethods = {
   [key: string]: TPayoffMethod
+}
+
+export type TUserPayoffMethod = {
+  id: string
+  label: string
+  is_active: boolean
+  fields: {
+    [key: string]: string | boolean
+  }
 }

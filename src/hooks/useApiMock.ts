@@ -1,4 +1,4 @@
-import { TShare, TTransaction, TUser, TChat, TSummary, TRates, TLanguageCode, TPayoffMethod, TPayoffMethods } from '../types'
+import { TShare, TTransaction, TUser, TChat, TSummary, TRates, TLanguageCode, TPayoffMethod, TPayoffMethods, TUserPayoffMethod } from '../types'
 
 
 import { decimals } from '../const'
@@ -709,25 +709,16 @@ const mockAllPayoffMethods: TPayoffMethods = {
   },
 }
 
-const mockMyPayoffMethods: TPayoffMethods = {
-  message: '',
-  payoff_methods: [
-    {
-      id: 'btc',
-      title: 'Bitcoin',
-      type: 'crypto',
-      image: 'https://cryptologos.cc/logos/bitcoin-btc-logo.svg',
-      fields: [
-        {
-          id: 'address',
-          isOptional: false,
-          value: '000000000000000000000000000000000000000000000',
-        },
-      ]
-    },
-  ]
-}
-
+const mockMyPayoffMethods: TUserPayoffMethod[] = [
+  {
+    id: 'mock-user-payoff-method',
+    label: 'btc',
+    is_active: true,
+    fields: {
+      'address': '000000000000000000000000000000000000000000000',
+    }
+  },
+]
 
 export {
   mockUsers,
