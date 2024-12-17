@@ -662,60 +662,52 @@ const mockTransactions: TTransaction[] = mockSummary.debts.map((debt, i) => ({
   cashback: i === 0 ? 0.05 : null,
 }))
 
-const mockAllPayoffMethods: TPayoffMethod[] = [
-  {
-    id: 'tbank',
+const mockAllPayoffMethods: TPayoffMethods = {
+  'tbank': {
     title: 'T-bank',
     type: 'bank',
     image: 'https://cdn.tbank.ru/static/pages/files/d39e9d26-fd5e-4574-9ad3-c3f2fc102598.png',
-    fields: [
-      {
-        id: 'payment_link',
-        isOptional: false,
-        value: '',
+    fields: {
+      'payment_link': {
+        type: 'string',
+        is_optional: false,
       },
-    ]
+    }
   },
-  {
-    id: 'wise',
+  'wise': {
     title: 'Wise',
     type: 'bank',
     image: 'https://figma-alpha-api.s3.us-west-2.amazonaws.com/images/63d71b75-8de4-4d45-aa71-c8efaf8ec263',
-    fields: [
-      {
-        id: 'payment_link',
-        isOptional: false,
-        value: '',
+    fields: {
+      'payment_link': {
+        type: 'string',
+        is_optional: false,
       },
-    ]
+    }
   },
-  {
-    id: 'usdt_trc20',
+  'usdt_trc20': {
     title: 'USDT TRC20',
     type: 'crypto',
     image: 'https://cdn.worldvectorlogo.com/logos/tether.svg',
-    fields: [
-      {
-        id: 'address',
-        isOptional: false,
-        value: '',
-      },
-    ]
+    fields: {
+      'address': {
+        type: 'string',
+        is_optional: false,
+      }
+    }
   },
-  {
-    id: 'btc',
+  'btc': {
     title: 'Bitcoin',
     type: 'crypto',
     image: 'https://cryptologos.cc/logos/bitcoin-btc-logo.svg',
-    fields: [
-      {
-        id: 'address',
-        isOptional: false,
-        value: '',
-      },
-    ]
+    fields: {
+      'address': {
+        type: 'string',
+        is_optional: false,
+      }
+    },
   },
-]
+}
 
 const mockMyPayoffMethods: TPayoffMethods = {
   message: '',
