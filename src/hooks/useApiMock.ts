@@ -1,4 +1,4 @@
-import { TShare, TTransaction, TUser, TChat, TSummary, TRates, TLanguageCode, TPayoffMethod, TPayoffMethods, TUserPayoffMethod } from '../types'
+import { TShare, TTransaction, TUser, TChat, TSummary, TRates, TLanguageCode, TPayoffMethods, TUserPayoffMethod } from '../types'
 
 
 import { decimals } from '../const'

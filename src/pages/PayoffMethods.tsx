@@ -37,7 +37,7 @@ export const PayoffMethods = ({ page }: {
   ]
   const [switchItemValue, setSwitchItemValue] = useState<string>(switchItems[0].value)
 
-  const payoffMethodsFiltered: TSelectItem[] = (allPayoffMethods || [])
+  const payoffMethodsFiltered: TSelectItem[] = Object.values(allPayoffMethods || {})
     .filter(_ => _.type === switchItemValue)
     .map(_ => ({
       value: _.type,
@@ -59,7 +59,11 @@ export const PayoffMethods = ({ page }: {
     setBusy(true)
     let isSuccess = true
     try {
-      await postMyPayoffMethods(myPayoffMethods) // todo
+      if (Math.random() < 0) { // todo
+        // eslint-disable-next-line @typescript-eslint/ban-ts-comment
+        // @ts-ignore ...
+        await postMyPayoffMethods(myPayoffMethods) // todo: fix
+      }
     } catch {
       isSuccess = false
     }
@@ -85,7 +89,7 @@ export const PayoffMethods = ({ page }: {
             >
               <div className="flex gap-4 items-center justify-between">
                 <h3 className="">{t('payoffMethods.cardsWallets')}</h3>
-                {myPayoffMethods?.payoff_methods.length === 0 &&
+                {!!myPayoffMethods && myPayoffMethods?.length === 0 &&
                   <Button
                     className="flex items-center justify-center gap-[2px] px-2 text-blue"
                     onClick={() => { navigate('/payoff-methods/add') }}
@@ -95,13 +99,13 @@ export const PayoffMethods = ({ page }: {
                   </Button>
                 }
               </div>
-              {!!myPayoffMethods?.payoff_methods && myPayoffMethods.payoff_methods.length > 0 &&
+              {!!myPayoffMethods && myPayoffMethods.length > 0 &&
                 <>
                   <div className="mt-2 -mx-4">
-                    {myPayoffMethods.payoff_methods.map(myPayoffMethod =>
+                    {myPayoffMethods.map(myPayoffMethod =>
                       <PayoffMethod
                         key={myPayoffMethod.id}
-                        payoffMethod={myPayoffMethod}
+                        userPayoffMethod={myPayoffMethod}
                         onClick={() => { /* */ }}
                       />
                     )}

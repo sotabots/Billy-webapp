@@ -1,15 +1,23 @@
 import cx from 'classnames'
 
-import { TPayoffMethod } from '../types'
+import { useGetAllPayoffMethods } from '../hooks'
+import { TPayoffMethod, TUserPayoffMethod } from '../types'
 import { Button, Avatar } from '../kit'
 
 import { ReactComponent as Next } from '../assets/next.svg'
 
-export const PayoffMethod =({ className, payoffMethod, onClick }: {
+export const PayoffMethod =({ className, userPayoffMethod, onClick }: {
   className?: string
-  payoffMethod: TPayoffMethod
+  userPayoffMethod: TUserPayoffMethod
   onClick: () => void
 }) => {
+  const { data: allPayoffMethods /*, refetch: refetchUserSettings */ } = useGetAllPayoffMethods()
+  const payoffMethod: TPayoffMethod | undefined = (allPayoffMethods || {})[userPayoffMethod.label]
+
+  if (!payoffMethod) {
+    return null
+  }
+
   return (
     <Button
       className={cx(
