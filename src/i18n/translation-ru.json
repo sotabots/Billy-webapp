@@ -85,6 +85,8 @@
   "custom": "Выбрать",
 
   "history": "История",
+  "transaction": "Трата",
+  "transactionSettleUp": "Возврат денег",
   "myBalance": "Мой баланс",
   "statusUnconfirmed": "Не подтверждено",
   "statusCanceled": "Отменено",

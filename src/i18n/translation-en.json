@@ -85,6 +85,8 @@
   "custom": "Custom",
 
   "history": "History",
+  "transaction": "Expense",
+  "transactionSettleUp": "Settle up",
   "myBalance": "My balance",
   "statusUnconfirmed": "Unconfirmed",
   "statusCanceled": "Canceled",

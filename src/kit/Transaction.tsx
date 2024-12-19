@@ -68,7 +68,7 @@ export const Transaction = ({ tx }: { tx: TTransaction }) => {
           <div className={cx(tx.is_canceled && 'opacity-50')}>
             <div className="flex gap-2 items-start justify-between">
               <div className="flex-1 first-letter:uppercase line-clamp-1 font-semibold">
-                {tx.nutshell}
+                {tx.is_settleup ? t('transactionSetteUp') : (tx.nutshell || t('transaction'))}
               </div>
               <div className="flex flex-center gap-1 h-6 p-1 pr-[6px] rounded-[16px] bg-separator text-textSec2">
                 <ShareIcon className="w-4 h-4" />
