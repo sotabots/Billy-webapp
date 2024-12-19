@@ -3,7 +3,8 @@ import cx from 'classnames'
 import { useCategories } from '../hooks'
 import { TNewTransaction, TTransaction } from '../types'
 
-export const CategoryAvatar = ({ tx, isCategoryName = true }: {
+export const CategoryAvatar = ({ className, tx, isCategoryName = true }: {
+  className?: string
   tx: TTransaction | TNewTransaction
   isCategoryName?: boolean
 }) => {
@@ -19,6 +20,7 @@ export const CategoryAvatar = ({ tx, isCategoryName = true }: {
       className={cx(
         'CategoryAvatar flex items-center gap-1 h-6 select-none',
         !isCategoryName && 'cursor-help',
+        className,
       )}
       title={!isCategoryName ? categoryName : undefined}
     >
