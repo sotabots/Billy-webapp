@@ -20,7 +20,7 @@ export const Bottom =({ className, children, h }: {
         <div
           className="Bottom-spacer-safearea"
           style={{
-            paddingBottom: 'env(safe-area-inset-bottom)'
+            paddingBottom: 'var(--tg-safe-area-inset-bottom)'
           }}
         />
       </div>
@@ -37,7 +37,7 @@ export const Bottom =({ className, children, h }: {
         <div
           className="Bottom-content-safearea"
           style={{
-            paddingBottom: 'env(safe-area-inset-bottom)'
+            paddingBottom: 'var(--tg-safe-area-inset-bottom)'
           }}
         />
       </div>
