@@ -53,7 +53,6 @@ export type TEvent =
   'show_total_balances_web' |
   'show_single_currency_balances_web' |
   'settle_up_balances_web' |
-  'press_details_balances_web' |
 
   // Settle Up
   'change_user_settleup_web' |

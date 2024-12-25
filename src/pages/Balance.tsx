@@ -21,7 +21,6 @@ export const Balance = ({
   setIsRecipientsOpen,
   customRecipientId,
   setCustomRecipientId,
-  goDetailed,
 }: {
   isCurrencyOpen: boolean
   setIsCurrencyOpen: (isCurrencyOpen: boolean) => void
@@ -31,7 +30,6 @@ export const Balance = ({
   setIsRecipientsOpen: (isRecipientsOpen: boolean) => void
   customRecipientId: null | TUserId
   setCustomRecipientId: (customRecipientId: null | TUserId) => void
-  goDetailed: VoidFunction
 }) => {
   const { t } = useTranslation()
 
@@ -237,18 +235,6 @@ export const Balance = ({
             ))}
           </div>
 
-          <div className="mb-4 flex justify-center">
-            <Button
-              theme="text"
-              onClick={() => {
-                goDetailed()
-                feedback('press_details_balances_web')
-              }}
-            >
-              {t('detailedSummary')}
-            </Button>
-          </div>
-
           <Button
             theme="bottom"
             // color={'#7E10E5'}
@@ -271,14 +257,6 @@ export const Balance = ({
             </div>
             <div className="text-[24px] leading-[32px] font-semibold">
               {t('allSettledUp')}
-            </div>
-            <div className="mb-4">
-              <Button
-                theme="text"
-                onClick={goDetailed}
-              >
-                {t('detailedSummary')}
-              </Button>
             </div>
           </div>
 

@@ -167,7 +167,21 @@ export const Summary = ({
 
             <Panel className="!mt-0">
               <div className="flex flex-col gap-4">
-                <h3>{t('history')}</h3>
+                <div className="flex items-center justify-between gap-4">
+                  <div className="flex items-center justify-start gap-1">
+                    <h3>{t('history')}</h3>
+                    <Button
+                      theme="text"
+                      onClick={() => {
+                        goDetailed()
+                        feedback('press_details_total_web')
+                      }}
+                    >
+                      <h3 className="text-blue">excel</h3>
+                    </Button>
+                  </div>
+                  <div>&nbps;{/* dropdown */}</div>
+                </div>
                 <div className="flex flex-col gap-3">
                   {txGroups.map((txGroup, i) => (
                     <>
@@ -186,18 +200,6 @@ export const Summary = ({
                 </div>
               </div>
             </Panel>
-          </div>
-
-          <div className="mb-4 flex justify-center">
-            <Button
-              theme="text"
-              onClick={() => {
-                goDetailed()
-                feedback('press_details_total_web')
-              }}
-            >
-              {t('detailedSummary')}
-            </Button>
           </div>
 
           <Button

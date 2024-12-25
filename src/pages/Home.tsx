@@ -150,7 +150,6 @@ export const Home = ({ tab }: {
           setIsRecipientsOpen={setIsRecipientsOpen}
           customRecipientId={customRecipientId}
           setCustomRecipientId={setCustomRecipientId}
-          goDetailed={goDetailed}
         />
       )}
 
