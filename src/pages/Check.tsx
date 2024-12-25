@@ -371,7 +371,7 @@ export const Check = () => {
         </Panel>
 
         {!transaction.is_canceled && transaction._id !== 'NEW' && (
-          <div className="m-4">
+          <div className="p-4">
             <Button
               className="w-full border border-[#DDE2E4] dark:border-[#6E7C87] rounded-[6px]"
               onClick={cancel}
