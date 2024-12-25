@@ -181,6 +181,7 @@
     "all": "All",
     "notSettledUp": "Active",
     "settledUp": "Settled up",
+    "settledUp_": "Settled up",
     "settings": "Settings",
     "addChat": "Add to new chat"
   },

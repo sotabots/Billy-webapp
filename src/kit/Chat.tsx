@@ -51,7 +51,7 @@ export const Chat =({ chat, onClick }: {
         {!!chat && (
           <>
             {chat.is_settled_up &&
-              <div className="text-[16px] leading-[24px] text-textSec2">{t('profile.settledUp')}</div>
+              <div className="text-[16px] leading-[24px] text-textSec2 whitespace-nowrap">{t('profile.settledUp_')}</div>
             }
             {!chat.is_settled_up &&
               <>
