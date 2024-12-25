@@ -180,7 +180,7 @@ export const Summary = ({
                       <h3 className="text-blue">excel</h3>
                     </Button>
                   </div>
-                  <div>&nbps;{/* dropdown */}</div>
+                  <div>&nbsp;{/* dropdown */}</div>
                 </div>
                 <div className="flex flex-col gap-3">
                   {txGroups.map((txGroup, i) => (
