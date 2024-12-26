@@ -49,6 +49,10 @@
   "selectCategory": "Select category",
   "noCategory": "No category",
 
+  "chat": {
+    "myDebts": "My debts",
+    "myCredits": "My credits"
+  },
   "thisChat": "This chat",
   "left": "left",
   "unlimited": "unlimited",

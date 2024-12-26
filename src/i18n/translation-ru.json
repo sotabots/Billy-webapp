@@ -49,6 +49,10 @@
   "selectCategory": "Выберите категорию",
   "noCategory": "Без категории",
 
+  "chat": {
+    "myDebts": "Мой долг",
+    "myCredits": "Мне должны"
+  },
   "thisChat": "Этот чат",
   "left": "доступно",
   "unlimited": "безлимит",

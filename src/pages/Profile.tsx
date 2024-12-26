@@ -7,7 +7,7 @@ import { useCurrencies, useGetProfile, useInit, useLink, useStore, useUser } fro
 import { Button, Header, Page, Panel, Dropdown, Chat, Skeleton, Bottom } from '../kit'
 import { formatAmount } from '../utils'
 
-import { ReactComponent as Chevron } from '../assets/chevron.svg'
+import { ReactComponent as GoIcon } from '../assets/go.svg'
 
 export const Profile = () => {
   useInit()
@@ -96,7 +96,7 @@ export const Profile = () => {
               onClick={() => { navigate('/paywall') }}
             >
               <span className="text-left">{t('profile.moreWithPro')}</span>
-              <Chevron className="w-6 h-6" />
+              <GoIcon className="w-6 h-6" />
             </Button>
           ) : (
             <div
@@ -104,7 +104,7 @@ export const Profile = () => {
             >
               <span className="text-left">{t('profile.proSub')}</span>
               <span className="rounded-full px-3 bg-pro text-textButton text-[14px] leading-[24px]">{t('profile.active')}</span>
-              {/* <Chevron className="w-6 h-6" /> */}
+              {/* <GoIcon className="w-6 h-6" /> */}
             </div>
           )}
         </div>

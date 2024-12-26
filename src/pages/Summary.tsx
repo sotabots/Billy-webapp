@@ -2,10 +2,11 @@ import cx from 'classnames'
 import { useTranslation } from 'react-i18next'
 import { useNavigate } from 'react-router-dom'
 
-import { useStore, useTotal, useFilter, useFeedback, useUser } from '../hooks'
+import { useStore, useTotal, useFilter, useFeedback, useUser, useBalance } from '../hooks'
 import { Button, Panel, Pie, Category, DateMark, Transaction, RadioButtons, DatePicker } from '../kit'
 import { TFilterPeriod, TFilterTotal } from '../types'
 
+import { ReactComponent as GoIcon } from '../assets/go.svg'
 import { ReactComponent as FilterIcon } from '../assets/filter.svg'
 import { ReactComponent as FilterActiveIcon } from '../assets/filter-active.svg'
 import { ReactComponent as ProPie } from '../assets/pro-pie.svg'
@@ -24,6 +25,8 @@ export const Summary = ({
   const { isPro } = useUser()
 
   const { isDebug, setTxId, setIsEditTx, setPaywallSource, setPaywallFrom } = useStore()
+
+  const { balance, balanceFormatted } = useBalance()
 
   const {
     isFilterOpen,
@@ -79,6 +82,26 @@ export const Summary = ({
       {!isFilterOpen && (
         <>
           <div className="flex flex-col gap-2 pb-5">
+            <Button
+              className="w-full"
+              onClick={() => { navigate('/balance') }}
+            >
+              <Panel className="!pb-4">
+                <div className="flex items-center justify-between">
+                  <div className="flex items-center justify-start gap-1">
+                    <h2 className="capitalize mt-1">{t(balance > 0 ? 'chat.myCredits' : 'chat.myDebts')}:</h2>
+                    <div className={cx(
+                      'text-[24px] leading-[32px] text-textSec2 font-semibold',
+                      balance > 0 && '!text-green',
+                      balance < 0 && '!text-red',
+                    )}>
+                      {balanceFormatted}
+                    </div>
+                  </div>
+                  <GoIcon className="w-6 h-6" />
+                </div>
+              </Panel>
+            </Button>
             <Panel className={cx(!isPro && '!pb-4')}>
               {!isPro &&
                 <div className="flex gap-4">
