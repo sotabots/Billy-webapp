@@ -45,10 +45,10 @@ export const Edit = () => {
   const [isBusy, setIsBusy] = useState(false)
 
   useEffect(() => {
-    if (transaction) {
+    if (transaction && txComment !== transaction.raw_text) {
       setTxComment(transaction.raw_text)
     }
-  }, [transaction?.raw_text])
+  }, [transaction, txComment, setTxComment])
 
   useEffect(() => {
     if (transaction) {
