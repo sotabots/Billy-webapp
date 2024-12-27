@@ -9,7 +9,7 @@ export const MessagePanel = () => {
   const { t } = useTranslation()
   const { txComment, setTxComment } = useStore()
   const navigate = useNavigate()
-  const { transaction, isEmptyTx } = useTransaction()
+  const { transaction } = useTransaction()
   const { isPro } = useUser()
 
   if (!transaction) {
@@ -19,17 +19,18 @@ export const MessagePanel = () => {
   return (
     <Panel className="MessagePanel flex flex-col gap-4 !pb-4">
       <div className="flex flex-col gap-1">
-        {isEmptyTx && (
+        {/* {isEmptyTx && ( */ !null && (
           <>
-            <h3>{t('addComment')}</h3>
+            <h3>{t('message')}</h3>
+            {/* <h3>{t('addComment')}</h3> */}
             <Textarea
               value={txComment}
-              placeholder={t('yourComment')}
+              placeholder={t('addComment_')}
               onChange={setTxComment}
             />
           </>
         )}
-        {!isEmptyTx && (
+        {!!null && (
           <>
             <h3>{t('message')}</h3>
             <div>

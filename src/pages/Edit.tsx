@@ -25,7 +25,7 @@ export const Edit = () => {
   const navigate = useNavigate()
   const { feedback } = useFeedback()
 
-  const { setTransaction, txComment, isEditTx, setIsEditTx, setSelectPersonId, setSelectPersonIsPayer, setIsSelectPayers, isSuccess, setSuccess, setTxPatchError, setPaywallSource, setPaywallFrom } = useStore()
+  const { setTransaction, txComment, setTxComment, isEditTx, setIsEditTx, setSelectPersonId, setSelectPersonIsPayer, setIsSelectPayers, isSuccess, setSuccess, setTxPatchError, setPaywallSource, setPaywallFrom } = useStore()
   const { transaction, isWrongAmounts, payedShares, oweShares, payedSum, payedSumFormatted, oweSumFormatted } = useTransaction()
   const { countUnrelatedPersons, isRelationsComplete, isRelationsEnough } = useUsers()
 
@@ -43,6 +43,12 @@ export const Edit = () => {
   const { isPro } = useUser()
 
   const [isBusy, setIsBusy] = useState(false)
+
+  useEffect(() => {
+    if (transaction) {
+      setTxComment(transaction.raw_text)
+    }
+  }, [transaction?.raw_text])
 
   useEffect(() => {
     if (transaction) {
