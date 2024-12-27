@@ -160,7 +160,7 @@ export const Edit = () => {
       const newConfirmedTransaction: TNewTransaction = {
         ...transaction as TNewTransaction,
         //...(txComment ? {
-        ...(transaction.raw_text ? {
+        ...(transaction.raw_text && !transaction.nutshell ? {
           // raw_text: txComment,
           // nutshell: txComment,
           nutshell: transaction.raw_text,
