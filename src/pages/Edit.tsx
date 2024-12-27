@@ -15,7 +15,7 @@ import lottieSuccess from '../assets/animation-success.json'
 import { ReactComponent as AddIcon } from '../assets/add.svg'
 import { ReactComponent as DeleteIcon } from '../assets/delete.svg'
 
-export const Check = () => {
+export const Edit = () => {
   useInit()
 
   const [impactOccurred, notificationOccurred] = useHapticFeedback()

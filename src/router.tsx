@@ -1,16 +1,16 @@
 import { createHashRouter } from 'react-router-dom'
 
-import { SelectUser, Check, SelectCurrency, SelectUsers, SelectCategory, Home, Onboarding, Soon, Paywall, Profile, UserSettings, PayoffMethods } from './pages'
+import { SelectUser, Edit, SelectCurrency, SelectUsers, SelectCategory, Home, Onboarding, Soon, Paywall, Profile, UserSettings, PayoffMethods } from './pages'
 
 export const router = createHashRouter([
   {
     path: '/',
-    element: <Check />,
-    errorElement: <Check />,
+    element: <Edit />,
+    errorElement: <Edit />,
   },
   {
     path: '*',
-    element: <Check />,
+    element: <Edit />,
   },
   {
     path: '/summary',

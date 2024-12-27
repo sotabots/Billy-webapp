@@ -1,5 +1,5 @@
 export * from './Balance'
-export * from './Check'
+export * from './Edit'
 export * from './Home'
 export * from './Onboarding'
 export * from './PayoffMethods'
