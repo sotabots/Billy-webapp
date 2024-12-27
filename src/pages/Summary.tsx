@@ -102,6 +102,8 @@ export const Summary = ({
                 </div>
               </Panel>
             </Button>
+
+            {null &&
             <Panel className={cx(!isPro && '!pb-4')}>
               {!isPro &&
                 <div className="flex gap-4">
@@ -187,6 +189,7 @@ export const Summary = ({
                 </>
               }
             </Panel>
+            }
 
             <Panel className="!mt-0">
               <div className="flex flex-col gap-4">
