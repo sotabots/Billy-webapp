@@ -25,7 +25,7 @@ export const Edit = () => {
   const navigate = useNavigate()
   const { feedback } = useFeedback()
 
-  const { setTransaction, txComment, setTxComment, isEditTx, setIsEditTx, setSelectPersonId, setSelectPersonIsPayer, setIsSelectPayers, isSuccess, setSuccess, setTxPatchError, setPaywallSource, setPaywallFrom } = useStore()
+  const { setTransaction, isEditTx, setIsEditTx, setSelectPersonId, setSelectPersonIsPayer, setIsSelectPayers, isSuccess, setSuccess, setTxPatchError, setPaywallSource, setPaywallFrom } = useStore()
   const { transaction, isWrongAmounts, payedShares, oweShares, payedSum, payedSumFormatted, oweSumFormatted } = useTransaction()
   const { countUnrelatedPersons, isRelationsComplete, isRelationsEnough } = useUsers()
 
@@ -43,12 +43,6 @@ export const Edit = () => {
   const { isPro } = useUser()
 
   const [isBusy, setIsBusy] = useState(false)
-
-  useEffect(() => {
-    if (transaction && txComment !== transaction.raw_text) {
-      setTxComment(transaction.raw_text)
-    }
-  }, [transaction, txComment, setTxComment])
 
   useEffect(() => {
     if (transaction) {
@@ -165,14 +159,16 @@ export const Edit = () => {
     try {
       const newConfirmedTransaction: TNewTransaction = {
         ...transaction as TNewTransaction,
-        ...(txComment ? {
-          raw_text: txComment,
-          nutshell: txComment,
+        //...(txComment ? {
+        ...(transaction.raw_text ? {
+          // raw_text: txComment,
+          // nutshell: txComment,
+          nutshell: transaction.raw_text,
         } : {}),
       }
       const confirmedTransaction: TTransaction = {
         ...transaction as TTransaction,
-        ...(txComment ? { raw_text: txComment } : {}),
+        // ...(txComment ? { raw_text: txComment } : {}),
         is_canceled: !!isCanceled,
         is_confirmed: true
       }

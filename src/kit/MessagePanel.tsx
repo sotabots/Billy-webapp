@@ -7,7 +7,7 @@ import { useUser, useStore, useTransaction } from '../hooks'
 
 export const MessagePanel = () => {
   const { t } = useTranslation()
-  const { txComment, setTxComment } = useStore()
+  const { /* txComment, setTxComment, */ setTransaction } = useStore()
   const navigate = useNavigate()
   const { transaction } = useTransaction()
   const { isPro } = useUser()
@@ -24,9 +24,16 @@ export const MessagePanel = () => {
             <h3>{t('message')}</h3>
             {/* <h3>{t('addComment')}</h3> */}
             <Textarea
-              value={txComment}
               placeholder={t('addComment_')}
-              onChange={setTxComment}
+              // value={txComment}
+              // onChange={setTxComment}
+              value={transaction.raw_text}
+              onChange={(text) => {
+                setTransaction({
+                  ...transaction,
+                  raw_text: text,
+                })
+              }}
             />
           </>
         )}
