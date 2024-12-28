@@ -11,6 +11,7 @@ import { ReactComponent as FilterIcon } from '../assets/filter.svg'
 import { ReactComponent as FilterActiveIcon } from '../assets/filter-active.svg'
 import { ReactComponent as ProPie } from '../assets/pro-pie.svg'
 import { ReactComponent as ProBadgeRotate } from '../assets/pro-badge-rotate.svg'
+import pro from '../assets/pro.png'
 
 export const Summary = ({
   isCompactPie,
@@ -102,6 +103,24 @@ export const Summary = ({
                 </div>
               </Panel>
             </Button>
+
+            {!isPro &&
+              <Panel className={cx(!isPro && '!pb-4')}>
+                <div className="flex gap-4">
+                  <Button
+                    wrapperClassName="mt-4"
+                    className="bg-blue py-1 px-3 rounded-[6px] text-[#F6F8F9] text-[14px] leading-[24px] font-semibold"
+                    onClick={() => {
+                      setPaywallSource('summary_donut')
+                      setPaywallFrom('summary')
+                      navigate('/paywall')
+                    }}
+                  >
+                    <img src={pro} className="w-[65px] h-[52px]" />
+                  </Button>
+                </div>
+              </Panel>
+            }
 
             {null &&
             <Panel className={cx(!isPro && '!pb-4')}>
