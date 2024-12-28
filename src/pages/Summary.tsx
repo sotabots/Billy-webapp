@@ -2,7 +2,7 @@ import cx from 'classnames'
 import { useTranslation } from 'react-i18next'
 import { useNavigate } from 'react-router-dom'
 
-import { useStore, useTotal, useFilter, useFeedback, useUser, useBalance } from '../hooks'
+import { useStore, useTotal, useFilter, useFeedback, useUser, useBalance, useGetVoiceLimit } from '../hooks'
 import { Button, Panel, Pie, Category, DateMark, Transaction, RadioButtons, DatePicker } from '../kit'
 import { TFilterPeriod, TFilterTotal } from '../types'
 
@@ -28,6 +28,7 @@ export const Summary = ({
   const { isDebug, setTxId, setIsEditTx, setPaywallSource, setPaywallFrom } = useStore()
 
   const { balance, balanceFormatted } = useBalance()
+  const { data: voiceLimit } = useGetVoiceLimit()
 
   const {
     isFilterOpen,
@@ -104,20 +105,40 @@ export const Summary = ({
               </Panel>
             </Button>
 
-            {!isPro &&
-              <Panel className={cx(!isPro && '!pb-4')}>
-                <div className="flex gap-4">
-                  <Button
-                    wrapperClassName="mt-4"
-                    className="bg-blue py-1 px-3 rounded-[6px] text-[#F6F8F9] text-[14px] leading-[24px] font-semibold"
-                    onClick={() => {
-                      setPaywallSource('summary_donut')
-                      setPaywallFrom('summary')
-                      navigate('/paywall')
-                    }}
-                  >
-                    <img src={pro} className="w-[65px] h-[52px]" />
-                  </Button>
+            {!isPro && voiceLimit !== -1 &&
+              <Panel className="!pb-4">
+                <div className="flex items-end gap-4">
+                  <div className="flex flex-1 flex-col gap-2">
+                    <h3>
+                      test {typeof voiceLimit} {voiceLimit}
+                      {t(
+                        voiceLimit === undefined ? 'chat.getProTitle2' :
+                        voiceLimit === 0 ? 'chat.getProTitle0' :
+                        voiceLimit === 1 ? 'chat.getProTitle1' :
+                        voiceLimit >= 2 ? 'chat.getProTitle2' : '',
+                        {
+                          voiceLimit: voiceLimit === undefined
+                            ? '..'
+                            : voiceLimit
+                        }
+                      )}
+                    </h3>
+                    <div className="text-[14px] leading-[20px]">
+                      {t('chat.getProDescription')}
+                    </div>
+                  </div>
+                  <div className="flex-nowrap">
+                    <Button
+                      className="block"
+                      onClick={() => {
+                        setPaywallSource('summary_donut')
+                        setPaywallFrom('summary')
+                        navigate('/paywall')
+                      }}
+                    >
+                      <img src={pro} className="w-[65px] h-[52px]" />
+                    </Button>
+                  </div>
                 </div>
               </Panel>
             }

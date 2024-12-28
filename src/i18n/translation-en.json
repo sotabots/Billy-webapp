@@ -52,7 +52,11 @@
 
   "chat": {
     "myDebts": "My debts",
-    "myCredits": "My credits"
+    "myCredits": "My credits",
+    "getProTitle0": "You have run out of free expensing via chat messages",
+    "getProTitle1": "You can only add {{voiceLimit}} expense via chat messages",
+    "getProTitle2": "You can only add {{voiceLimit}} expenses via chat messages",
+    "getProDescription": "Unlimited addition of expenses and more with Billy Pro"
   },
   "thisChat": "This chat",
   "left": "left",
