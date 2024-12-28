@@ -110,7 +110,6 @@ export const Summary = ({
                 <div className="flex items-end gap-4">
                   <div className="flex flex-1 flex-col gap-2">
                     <h3>
-                      test {typeof voiceLimit} {voiceLimit}
                       {t(
                         voiceLimit === undefined ? 'chat.getProTitle2' :
                         voiceLimit === 0 ? 'chat.getProTitle0' :
