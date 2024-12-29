@@ -21,7 +21,7 @@ export const Category = ({ categoryKey, amountFormatted, isActive, onClick }: {
     backgroundColor: isActive ? color : 'transparent'
   }
 
-  const className = 'Category flex gap-2 px-2 border rounded-[6px] text-[14px] leading-[24px] tracking-[-0.084em] transition-all'
+  const className = 'Category flex gap-1 px-1 border rounded-full text-[13px] leading-[20px] tracking-[-0.084em] transition-all'
 
   const inner = (
     <>

@@ -215,7 +215,7 @@ export const Summary = ({
                       onLeft={isArrows ? () => { /* */ } : null}
                       onRight={isArrows ? () => { /* */ } : null}
                     />
-                    <div className="flex flex-wrap gap-x-1 gap-y-2">
+                    <div className="flex flex-wrap gap-x-1 gap-y-1">
                       {totalCategories.map(item => (
                         <Category
                           key={item.categoryKey}
