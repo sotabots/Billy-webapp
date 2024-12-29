@@ -208,7 +208,7 @@ export const Summary = ({
                   </div>
                   <div className="flex flex-col gap-4">
                     <Pie
-                      isCompact={isCompactPie}
+                      isCompact={true || isCompactPie}
                       title={totalFormatted}
                       period={filterPeriod}
                       slices={totalCategories}
