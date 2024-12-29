@@ -142,9 +142,9 @@ export const Summary = ({
               </Panel>
             }
 
-            {null &&
+            {isPro &&
             <Panel className={cx(!isPro && '!pb-4')}>
-              {!isPro &&
+              {null && !isPro &&
                 <div className="flex gap-4">
                   <div className="flex-1">
                     <div className="text-[18px] leading-[24px] font-semibold">{t('unlockCategories')}</div>
