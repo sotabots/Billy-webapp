@@ -1,4 +1,5 @@
 import { create } from 'zustand'
+import { persist } from 'zustand/middleware'
 
 import { TCurrencyId, TTransaction, TFilterTotal, TFilterPeriod, TNewTransaction, TFlow, TPaywallSource, TPaywallFrom } from '../types'
 
@@ -133,3 +134,18 @@ export const useStore = create<TStore>((set /*, get */) => ({
   isDebug: [143871296, 330528429, 436721347].includes(window.Telegram?.WebApp.initDataUnsafe.user?.id || 0) /*|| false*/,
   setDebug: (isDebug) => set(( { isDebug } )),
 }))
+
+export const usePersistStore = create<{
+  prevChatId: number | undefined
+  setPrevChatId: (prevChatId: number) => void
+}>()(
+  persist(
+    (set) => ({
+      prevChatId: undefined,
+      setPrevChatId: (prevChatId) => set({ prevChatId }),
+
+    }), {
+      name: 'persist-store',
+    },
+  ),
+)
