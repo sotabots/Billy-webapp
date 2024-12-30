@@ -3,15 +3,19 @@ import Lottie from 'lottie-react'
 import { useEffect } from 'react'
 import { useTranslation } from 'react-i18next'
 
-import { useSplash, useFeedback } from '../hooks'
+import { useSplash, useFeedback, useLink } from '../hooks'
 
-import { Debug, Overlay } from '../kit'
+import { Button, Debug, Overlay } from '../kit'
 
 import lottieKoalaForbidden from '../assets/animation-koala-forbidden.json'
 import lottieKoalaError from '../assets/animation-koala-error.json'
 
 export const OverlayError = () => {
-  const { error } = useSplash()
+  const { error: _error } = useSplash()
+  const error = Math.random() > 0 // debug
+    ? { message: 'test error' } as Error
+    : _error
+
   const { t } = useTranslation()
   const { feedback } = useFeedback()
 
@@ -28,6 +32,8 @@ export const OverlayError = () => {
   }, [error, notificationOccurred])
 
   const isForbiddenError = String(error?.message).includes('[401]') || String(error?.message).includes('[403]')
+
+  const { openLink, SUPPORT_LINK } = useLink()
 
   return (
     <Overlay isOpen={!!error} isCenter>
@@ -47,8 +53,16 @@ export const OverlayError = () => {
             />
           )}
         </div>
-        <div className="p-4">
-          {isForbiddenError ? t('errorForbidden') : t('errorOther')}
+        <div className="flex flex-col gap-4 p-4">
+          <div className="">
+            {isForbiddenError ? t('error.forbidden') : t('error.other')}
+          </div>
+          <Button
+            className="text-blue"
+            onClick={() => { openLink(SUPPORT_LINK) }}
+          >
+            {t('error.contactSupport')}
+          </Button>
         </div>
         <Debug />
       </div>

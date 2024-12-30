@@ -24,5 +24,7 @@ export const useLink = () => {
 
   const ADD_TO_CHAT_LINK = 'https://t.me/BillyMoney_bot?startgroup=true&admin=pin_messages+delete_messages'
 
-  return { isTgLink, openLink, ADD_TO_CHAT_LINK }
+  const SUPPORT_LINK = 'https://t.me/BillyMoney_support_bot'
+
+  return { isTgLink, openLink, ADD_TO_CHAT_LINK, SUPPORT_LINK }
 }

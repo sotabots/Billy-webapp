@@ -233,6 +233,9 @@
     "removeCrypto": "Remove Crypto Wallet"
   },
 
-  "errorForbidden": "Oh, I wasn't allowed to show you these numbers. Most likely because you are not in the chat.",
-  "errorOther": "Something didn't work, but I'm already fixing it. Try refreshing the page."
+  "error": {
+    "forbidden": "Oh, I wasn't allowed to show you these numbers. Most likely because you are not in the chat.",
+    "other": "Something didn't work, but I'm already fixing it. Try refreshing the page.",
+    "contactSupport": "Contact support"
+  }
 }
