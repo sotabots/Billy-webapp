@@ -186,7 +186,7 @@ export const Summary = ({
                       </h3>
                       <div
                         className={cx(
-                          'text-[16px] leading-[24px] text-[#0E73F6] font-semibold transition-all',
+                          'text-[16px] leading-[24px] text-textSec2 font-semibold transition-all',
                           !isCompactPie && 'opacity-0'
                         )}>
                         {totalFormatted}
@@ -208,7 +208,7 @@ export const Summary = ({
                   </div>
                   <div className="flex flex-col gap-4">
                     <Pie
-                      isCompact={true || isCompactPie}
+                      isCompact={isCompactPie}
                       title={totalFormatted}
                       period={filterPeriod}
                       slices={totalCategories}
