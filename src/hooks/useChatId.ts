@@ -16,7 +16,7 @@ export const useChatId = () => {
     0 // todo: DEMO_CHAT_ID
 
   useEffect(() => {
-    if (chatId !== undefined && chatId !== prevChatId) {
+    if (chatId !== undefined && chatId !== prevChatId && chatId > 0) {
       setPrevChatId(chatId)
     }
   }, [chatId, prevChatId, setPrevChatId])
