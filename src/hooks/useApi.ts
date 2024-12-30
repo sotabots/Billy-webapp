@@ -192,7 +192,7 @@ export const useGetSummary = () => {
   return (
     useQuery<TSummary, Error>({
       queryKey: ['summary', `summary-${chatId}-${summaryCurrencyId}`],
-      queryFn: chatId === 0
+      queryFn: chatId === 0 || chatId === -1 // todo? no demo summary
         ? () => mockSummary
         : () =>
           fetch(url , {
