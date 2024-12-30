@@ -12,9 +12,9 @@ import lottieKoalaError from '../assets/animation-koala-error.json'
 
 export const OverlayError = () => {
   const { error: _error } = useSplash()
-  const error = Math.random() > 0 // debug
+  const error = /* Math.random() < 0 // debug
     ? { message: 'test error' } as Error
-    : _error
+    : */ _error
 
   const { t } = useTranslation()
   const { feedback } = useFeedback()
