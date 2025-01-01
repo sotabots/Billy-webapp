@@ -51,6 +51,7 @@
   "noCategory": "No category",
 
   "chat": {
+    "chats": "Chats",
     "myDebts": "My debts",
     "myCredits": "My credits",
     "getProTitle0": "You have run out of free expensing via chat messages",

@@ -29,7 +29,7 @@ export const Header = ({ onBack /*, onCancel */ }: {
   }
 
   return (
-    <header className="sticky z-[1] top-0 flex items-center justify-center h-[64px] bg-bg">
+    <header className="Header sticky z-[1] top-0 flex items-center justify-center h-[64px] bg-bg">
       {!!_onBack &&
         <button
           className="flex items-center gap-[5px] absolute left-4 top-1/2 -translate-y-1/2 text-blue hover:brightness-[1.2] active:brightness-[1.4] transition-all"

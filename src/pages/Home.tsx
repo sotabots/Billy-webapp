@@ -3,10 +3,12 @@ import { useState, useRef, UIEvent } from 'react'
 import { useTranslation } from 'react-i18next'
 import { useNavigate } from 'react-router-dom'
 
-import { useInit, useFilter, useFeedback, useSummary, useGetSummary, useGetSummarySheetRebuild } from '../hooks'
-import { Page, Header, Tabs, ChatHeader } from '../kit'
+import { useInit, useFilter, useFeedback, useSummary, useGetSummary, useGetSummarySheetRebuild, useGetChat, useStore } from '../hooks'
+import { Page, Header, Tabs, ChatHeader, CustomHeader, Button } from '../kit'
 import { Summary, Balance, Settings, TSettingsInner } from '../pages'
 import { TUserId } from '../types'
+
+import { ReactComponent as SettingsIcon } from '../assets/settings.svg'
 
 type TTab = 'summary' | 'balance' | 'settings'
 
@@ -15,12 +17,15 @@ export const Home = ({ tab }: {
 }) => {
   useInit()
 
+  const { isDebug } = useStore()
+
   const { t } = useTranslation()
   const navigate = useNavigate()
   const { feedback } = useFeedback()
 
   const { isFilterOpen, closeFilter } = useFilter()
 
+  const { data: chat } = useGetChat()
   const { data: summary } = useGetSummary()
   const getSummarySheetRebuild = useGetSummarySheetRebuild()
   const { debtCurrencyIds, debts } = useSummary()
@@ -107,6 +112,20 @@ export const Home = ({ tab }: {
         tab === 'settings' && !!settingsInner
       ) && (
         <>
+          {isDebug &&
+          <CustomHeader
+            back={t('chats')}
+            center={chat?.name}
+            right={
+              <Button
+                wrapperClassName="w-6 h-6"
+                onClick={selectTab('settings')}
+              >
+                <SettingsIcon className="w-6 h-6" />
+              </Button>
+            }
+          />
+          }
           <ChatHeader />
           <Tabs
             className="sticky top-0 mb-[6px] pb-[2px] pt-2 bg-bg2 z-[1]"
