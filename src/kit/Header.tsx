@@ -21,7 +21,11 @@ export const Header = ({ className, todoRemove, onBack /*, onCancel */ }: {
 
   if (isTg) {
     return (
-      <div className={cx(todoRemove ? '' : 'h-3', className)}>
+      <div className={cx(
+        'Header',
+        todoRemove ? '' : 'h-3',
+        className
+      )}>
         {!!_onBack && (
           <BackButton
             onClick={_onBack}
