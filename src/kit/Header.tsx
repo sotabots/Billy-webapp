@@ -6,9 +6,10 @@ import { BackButton } from '@vkruglikov/react-telegram-web-app'
 import { ReactComponent as Back } from '../assets/back.svg'
 import { usePlatform } from '../hooks'
 
-export const Header = ({ className, onBack /*, onCancel */ }: {
+export const Header = ({ className, todoRemove, onBack /*, onCancel */ }: {
   onBack?: () => void
   className?: string
+  todoRemove?: boolean
 }) => {
   const { t } = useTranslation()
   const { isTg } = usePlatform()
@@ -20,7 +21,7 @@ export const Header = ({ className, onBack /*, onCancel */ }: {
 
   if (isTg) {
     return (
-      <div className={cx('h-3', className)}>
+      <div className={cx(todoRemove ? '' : 'h-3', className)}>
         {!!_onBack && (
           <BackButton
             onClick={_onBack}

@@ -81,7 +81,7 @@ export const Home = ({ tab }: {
       className={cx(tab === 'balance' && isCurrencyOpen && '!bg-bg')}
       onScroll={onScroll}
     >
-      <Header onBack={
+      <Header todoRemove onBack={
         (tab === 'summary' && isFilterOpen && (() => {
           closeFilter()
         }))
