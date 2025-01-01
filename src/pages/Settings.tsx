@@ -180,7 +180,7 @@ export const Settings = ({ settingsInner, setSettingsInner }: {
   return (
     <>
       {!settingsInner && (
-        <div className="px-4 pb-4">
+        <div className="p-4">
           {!!chat && !chat.is_admin &&
             <div className="p-4 pb-5 pr-6 border border-[#F76659]/30 rounded-[6px] bg-[#F76659]/10">
               <div className="flex flex-col gap-3">

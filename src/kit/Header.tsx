@@ -1,3 +1,4 @@
+import cx from 'classnames'
 // import { MouseEventHandler } from 'react'
 import { useTranslation } from 'react-i18next'
 import { BackButton } from '@vkruglikov/react-telegram-web-app'
@@ -5,8 +6,9 @@ import { BackButton } from '@vkruglikov/react-telegram-web-app'
 import { ReactComponent as Back } from '../assets/back.svg'
 import { usePlatform } from '../hooks'
 
-export const Header = ({ onBack /*, onCancel */ }: {
+export const Header = ({ className, onBack /*, onCancel */ }: {
   onBack?: () => void
+  className?: string
 }) => {
   const { t } = useTranslation()
   const { isTg } = usePlatform()
@@ -18,7 +20,7 @@ export const Header = ({ onBack /*, onCancel */ }: {
 
   if (isTg) {
     return (
-      <div className="h-3">
+      <div className={cx('h-3', className)}>
         {!!_onBack && (
           <BackButton
             onClick={_onBack}
@@ -29,7 +31,7 @@ export const Header = ({ onBack /*, onCancel */ }: {
   }
 
   return (
-    <header className="Header sticky z-[1] top-0 flex items-center justify-center h-[64px] bg-bg">
+    <header className={cx('Header sticky z-[1] top-0 flex items-center justify-center h-[64px] bg-bg', className)}>
       {!!_onBack &&
         <button
           className="flex items-center gap-[5px] absolute left-4 top-1/2 -translate-y-1/2 text-blue hover:brightness-[1.2] active:brightness-[1.4] transition-all"

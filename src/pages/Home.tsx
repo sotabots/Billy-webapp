@@ -105,52 +105,61 @@ export const Home = ({ tab }: {
         || undefined
       } />
 
-      {!(
-        tab === 'summary' && isFilterOpen ||
-        tab === 'balance' && isSelectedDebt ||
-        tab === 'balance' && isCurrencyOpen ||
-        tab === 'settings' && !!settingsInner
-      ) && (
-        <>
-          {isDebug &&
-          <CustomHeader
-            back={t('chats')}
-            center={chat?.name}
-            right={
-              <Button
-                wrapperClassName="w-6 h-6"
-                onClick={selectTab('settings')}
+      {
+        (!isDebug ? (
+          tab === 'summary' && !isFilterOpen
+        ) : (
+          !(
+            tab === 'summary' && isFilterOpen ||
+            tab === 'balance' && isSelectedDebt ||
+            tab === 'balance' && isCurrencyOpen ||
+            tab === 'settings' && !!settingsInner
+          )
+        )) && (
+          !isDebug ? (
+            <CustomHeader
+              back={t('chat.chats')}
+              onBack={() => { navigate('/profile') }}
+              center={chat?.name}
+              right={
+                <Button
+                  wrapperClassName="w-6 h-6"
+                  className="text-icon"
+                  onClick={selectTab('settings')}
+                >
+                  <SettingsIcon className="w-6 h-6" />
+                </Button>
+              }
+            />
+          ) : (
+            <>
+              <ChatHeader />
+              <Tabs
+                className="sticky top-0 mb-[6px] pb-[2px] pt-2 bg-bg2 z-[1]"
+                tabs={[
+                  {
+                    title: t('expenses'),
+                    isActive: tab === 'summary',
+                    onClick: selectTab('summary'),
+                  },
+                  {
+                    title: t('balance'),
+                    isActive: tab === 'balance',
+                    onClick: selectTab('balance'),
+                  },
+                  {
+                    title: t('settings'),
+                    isActive: tab === 'settings',
+                    onClick: selectTab('settings'),
+                  },
+                ]}
               >
-                <SettingsIcon className="w-6 h-6" />
-              </Button>
-            }
-          />
-          }
-          <ChatHeader />
-          <Tabs
-            className="sticky top-0 mb-[6px] pb-[2px] pt-2 bg-bg2 z-[1]"
-            tabs={[
-              {
-                title: t('expenses'),
-                isActive: tab === 'summary',
-                onClick: selectTab('summary'),
-              },
-              {
-                title: t('balance'),
-                isActive: tab === 'balance',
-                onClick: selectTab('balance'),
-              },
-              {
-                title: t('settings'),
-                isActive: tab === 'settings',
-                onClick: selectTab('settings'),
-              },
-            ]}
-          >
-            <div className="absolute top-full left-0 w-full h-1 bg-gradient-to-b from-bg2" />
-          </Tabs>
-        </>
-      )}
+                <div className="absolute top-full left-0 w-full h-1 bg-gradient-to-b from-bg2" />
+              </Tabs>
+            </>
+          )
+        )
+      }
 
       {tab === 'summary' && (
         <Summary
