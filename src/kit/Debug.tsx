@@ -1,6 +1,8 @@
+import { useShowPopup } from '@vkruglikov/react-telegram-web-app'
 import cx from 'classnames'
 import { useCallback, useEffect, useState } from 'react'
 // import { useNavigate } from 'react-router-dom'
+import { useTranslation } from 'react-i18next'
 
 import { useStore, useChatId, useGetSummary, useGetTransactions, useGetCategories, useGetCurrencies, useGetChat, useGetUsers } from '../hooks'
 import { Panel } from '../kit'
@@ -61,6 +63,9 @@ export const Debug = () => {
     </details>
   )
 
+  const showPopup = useShowPopup()
+  const { t } = useTranslation()
+
   if (!isDebug) {
     return null
   }
@@ -78,6 +83,26 @@ export const Debug = () => {
             >setSummaryCurrencyId <b>{_}</b></button>
           ))
         )}
+
+        <button
+          className="m-1 p-1 block border border-black"
+          onClick={() => {
+            showPopup({
+              title: 'Test Pupup',
+              message: t('chat.how'),
+              buttons: [
+                {
+                  id: 'ok',
+                  text: 'ok',
+                  type: 'default',
+                },
+              ],
+            })
+          }}
+        >
+          Test Pupup
+        </button>
+
         <br />
         {/*
         <button

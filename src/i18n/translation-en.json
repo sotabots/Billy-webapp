@@ -57,7 +57,8 @@
     "getProTitle0": "You have run out of free expensing via chat messages",
     "getProTitle1": "You can only add {{voiceLimit}} expense via chat messages",
     "getProTitle2": "You can only add {{voiceLimit}} expenses via chat messages",
-    "getProDescription": "Unlimited addition of expenses and more with Billy Pro"
+    "getProDescription": "Unlimited addition of expenses and more with Billy Pro",
+    "how": "Billy recalculates debts in such a way as to minimize the number of transfers. For example: if someone paid for you, and you paid for another person, Billy will redistribute the amounts so that you pay directly to the one who really needs it, skipping unnecessary steps."
   },
   "thisChat": "This chat",
   "left": "left",
