@@ -610,8 +610,8 @@ const mockSummary: TSummary = {
   url: 'https://docs.google.com/spreadsheets/d/1BxiMVs0XRA5nFMdKvBdBZjgmUUqptlbs74OgvE2upms/edit',
   debts: mockUsers.map((mockUser, i, arr) => (
     {
-      from_user: mockUser,
-      to_user: arr[(i === arr.length - 1) ? 0 : i + 1],
+      from_user_id: mockUser._id,
+      to_user_id: arr[(i === arr.length - 1) ? 0 : i + 1]._id,
       amount: parseFloat((Math.round(Math.random() * (isRus ? 1e6 : 1e5)) / 10 ** decimals).toFixed(decimals)),
       currency_id: demoCurrencyId /* || mockCurrencies[Math.floor(Math.random() * 3)]._id,*/
     }
@@ -633,18 +633,18 @@ const mockTransactions: TTransaction[] = mockSummary.debts.map((debt, i) => ({
   shares: [
     {
       person_id: `Person-1`,
-      raw_name: debt.to_user.first_name,
-      normalized_name: debt.to_user.first_name,
-      related_user_id: debt.to_user._id,
+      raw_name: '',
+      normalized_name: '',
+      related_user_id: 0,
       is_payer: true,
       amount: debt.amount,
       is_fixed_amount: false,
     },
     {
       person_id: `Person-2`,
-      raw_name: debt.from_user.first_name,
-      normalized_name: debt.from_user.first_name,
-      related_user_id: debt.from_user._id,
+      raw_name: '',
+      normalized_name: '',
+      related_user_id: 0,
       is_payer: false,
       amount: debt.amount,
       is_fixed_amount: false,

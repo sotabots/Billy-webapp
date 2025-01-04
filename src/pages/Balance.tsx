@@ -4,7 +4,7 @@ import Lottie from 'lottie-react'
 import { useEffect, useState } from 'react'
 import { useTranslation } from 'react-i18next'
 
-import { useStore, useBalance, useCurrencies, useFeedback, useSummary, usePostTransaction, useGetSummary, useGetTransactions, useGetProfile, useGetUsers } from '../hooks'
+import { useStore, useBalance, useCurrencies, useFeedback, useSummary, usePostTransaction, useGetSummary, useGetTransactions, useGetProfile, useGetUsers, useUsers } from '../hooks'
 import { Button, Overlay, Panel, Debt, DebtDetailed, Divider, UserButton, Currencies } from '../kit'
 import { TCurrencyId, TNewTransaction, TUserId } from '../types'
 import { formatAmount, closeApp } from '../utils'
@@ -62,6 +62,10 @@ export const Balance = ({
 
   const postTransaction = usePostTransaction()
 
+  const { getUserById } = useUsers()
+  const fromUser = getUserById(selectedDebt?.from_user_id || 0)
+  const toUser = getUserById(selectedDebt?.to_user_id || 0)
+
   const settleUp = async () => {
     if (selectedDebtId === null || !summary || !selectedDebt) {
       return
@@ -74,7 +78,7 @@ export const Balance = ({
         creator_user_id: initDataUnsafe.user?.id || null,
         editor_user_id: null,
         is_voice: false,
-        raw_text: `[Settle up] ${[selectedDebt.from_user.first_name, selectedDebt.from_user.last_name].join(' ')} give ${formatAmount(selectedDebtAmount)} ${selectedDebt.currency_id} ${[selectedDebt.to_user.first_name, selectedDebt.to_user.last_name].join(' ')}`,
+        raw_text: `[Settle up] ${[fromUser?.first_name, fromUser?.last_name].join(' ')} give ${formatAmount(selectedDebtAmount)} ${selectedDebt.currency_id} ${[toUser?.first_name, toUser?.last_name].join(' ')}`,
         currency_id: selectedDebt.currency_id,
         is_confirmed: true,
         is_canceled: false,
@@ -82,7 +86,7 @@ export const Balance = ({
         shares: [
           {
             person_id: `settleup_from_user`,
-            related_user_id: selectedDebt.from_user._id,
+            related_user_id: selectedDebt.from_user_id,
             amount: selectedDebtAmount,
             is_payer: true,
             raw_name: null,
@@ -91,7 +95,7 @@ export const Balance = ({
           },
           {
             person_id: `settleup_to_user`,
-            related_user_id: customRecipientId || selectedDebt.to_user._id,
+            related_user_id: customRecipientId || selectedDebt.to_user_id,
             amount: selectedDebtAmount,
             is_payer: false,
             raw_name: null,
@@ -109,9 +113,9 @@ export const Balance = ({
       await feedback('confirm_settleup_web', {
         amount_prev: selectedDebt.amount,
         amount_set: selectedDebtAmount,
-        user_from: selectedDebt.from_user._id,
-        user_to_prev: selectedDebt.to_user._id,
-        user_to_set: customRecipientId || selectedDebt.to_user._id,
+        user_from: selectedDebt.from_user_id,
+        user_to_prev: selectedDebt.to_user_id,
+        user_to_set: customRecipientId || selectedDebt.to_user_id,
         currency: selectedDebt.currency_id,
       })
       const resJson = await postTransaction(newTx)
@@ -222,8 +226,8 @@ export const Balance = ({
                         setSelectedDebtId(JSON.stringify(debt))
                         feedback('settle_up_balances_web', {
                           user: initDataUnsafe.user?.id || null,
-                          user_from: debt.from_user._id,
-                          user_to: debt.to_user._id,
+                          user_from: debt.from_user_id,
+                          user_to: debt.to_user_id,
                           amount: debt.amount,
                           currency: debt.currency_id,
                         })
@@ -300,14 +304,14 @@ export const Balance = ({
           <h2 className="mb-2 px-4 pt-[2px] pb-[6px]">{t('selectUser')}</h2>
 
           <div className="mt-4 overflow-y-auto">
-            {users?.filter(user => user._id !== selectedDebt.from_user._id).map((user, i, arr) => (
+            {users?.filter(user => user._id !== selectedDebt.from_user_id).map((user, i, arr) => (
               <>
                 <UserButton
                   key={i}
                   user={user}
                   onClick={() => {
                     feedback('set_user_settleup_web', {
-                      user_to_prev: selectedDebt.to_user._id,
+                      user_to_prev: selectedDebt.to_user_id,
                       user_to_set: user._id
                     })
                     setCustomRecipientId(user._id)

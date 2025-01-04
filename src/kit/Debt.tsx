@@ -11,13 +11,13 @@ type TDebtProps = TDebt & {
   onClick: () => void
 }
 
-export const Debt = ({ from_user, to_user, amount, currency_id, onClick }: TDebtProps) => {
+export const Debt = ({ from_user_id, to_user_id, amount, currency_id, onClick }: TDebtProps) => {
   const { t } = useTranslation()
 
   const { getUserById } = useUsers()
 
-  const fromUser = getUserById(from_user._id)
-  const toUser = getUserById(to_user._id)
+  const fromUser = getUserById(from_user_id)
+  const toUser = getUserById(to_user_id)
 
   const { getCurrencyById } = useCurrencies()
   const chatCurrency = getCurrencyById(currency_id)

@@ -97,8 +97,8 @@ export type TSummary = {
 }
 
 export type TDebt = {
-  from_user: TUser
-  to_user: TUser
+  from_user_id: TUserId
+  to_user_id: TUserId
   amount: number
   currency_id: TCurrencyId
 }

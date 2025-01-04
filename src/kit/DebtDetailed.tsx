@@ -16,10 +16,10 @@ export const DebtDetailed = ({ debt, amount, setAmount, customRecipientId, onCli
   const { feedback } = useFeedback()
   const { getUserById } = useUsers()
 
-  const { from_user, to_user, currency_id } = debt
+  const { from_user_id, to_user_id, currency_id } = debt
 
-  const fromUser = getUserById(from_user._id)
-  const toUser = getUserById(customRecipientId || to_user._id)
+  const fromUser = getUserById(from_user_id)
+  const toUser = getUserById(customRecipientId || to_user_id)
 
   if (!fromUser || !toUser) {
     return null
