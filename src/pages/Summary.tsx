@@ -86,7 +86,7 @@ export const Summary = ({
           <div className="flex flex-col gap-2 pb-5">
             <Button
               className="w-full"
-              onClick={() => { navigate('/balance') }}
+              onClick={balance !== 0 ? () => { navigate('/balance') } : () => { /* */ }}
             >
               <Panel className="!pb-4">
                 <div className="flex items-center justify-between">
@@ -100,7 +100,9 @@ export const Summary = ({
                       {balanceFormatted}
                     </div>
                   </div>
-                  <GoIcon className="w-6 h-6" />
+                  {balance !== 0 &&
+                    <GoIcon className="w-6 h-6" />
+                  }
                 </div>
               </Panel>
             </Button>
