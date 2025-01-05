@@ -4,7 +4,7 @@ import { useTranslation } from 'react-i18next'
 import { BackButton } from '@vkruglikov/react-telegram-web-app'
 
 import { ReactComponent as Back } from '../assets/back.svg'
-import { usePlatform } from '../hooks'
+import { useBack, usePlatform } from '../hooks'
 
 export const Header = ({ className, todoRemove, onBack /*, onCancel */ }: {
   onBack?: () => void
@@ -14,10 +14,8 @@ export const Header = ({ className, todoRemove, onBack /*, onCancel */ }: {
   const { t } = useTranslation()
   const { isTg } = usePlatform()
 
-  const _onBack =
-    onBack ? onBack :
-    (history.state && history.state?.idx && history.state?.idx !== 0) ? () => { history.back()} :
-    undefined
+  const { goBack } = useBack()
+  const _onBack: (() => void ) | undefined = onBack || goBack
 
   if (isTg) {
     return (

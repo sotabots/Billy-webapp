@@ -118,7 +118,7 @@ export const Home = ({ tab }: {
         )) && (
           !isDebug ? (
             <CustomHeader
-              back={t('chat.chats')}
+              backText={t('chat.chats')}
               onBack={() => { navigate('/profile') }}
               center={chat?.name}
               right={

@@ -3,7 +3,7 @@ import { useState } from 'react'
 import { useTranslation } from 'react-i18next'
 import { useNavigate } from 'react-router-dom'
 
-import { useCurrencies, useGetProfile, useInit, useLink, useStore, useUser } from '../hooks'
+import { useBack, useCurrencies, useGetProfile, useInit, useLink, useStore, useUser } from '../hooks'
 import { Button, Header, Page, Panel, Dropdown, Chat, Skeleton, Bottom } from '../kit'
 import { formatAmount } from '../utils'
 
@@ -43,6 +43,8 @@ export const Profile = () => {
     dropdownValue === 'SETTLED_UP' ? chat.is_settled_up :
     true
   )
+
+  const { goBack } = useBack()
 
   return (
     <Page>
@@ -134,8 +136,8 @@ export const Profile = () => {
                 onClick={() => {
                   setSelectedChatId(chat.id)
 
-                  if (history.state && history.state?.idx && history.state?.idx !== 0) {
-                    history.back()
+                  if (goBack) {
+                    goBack()
                   } else {
                     navigate('/summary')
                   }
