@@ -10,7 +10,11 @@ export const Tabs = ({ tabs, className, children }: {
   className?: string,
   children?: ReactNode,
 }) => (
-  <div className={cx('Tabs flex items-center gap-3 px-4', className)}>
+  <div className={cx(
+    'Tabs flex items-center gap-3 px-4',
+    false && 'sticky top-0 mb-[6px] pb-[2px] pt-2 bg-bg2 z-[1]', // sticky
+    className
+  )}>
     {tabs.map((tab, i) => (
       <button
         key={i}
@@ -26,5 +30,8 @@ export const Tabs = ({ tabs, className, children }: {
       </button>
     ))}
     {children}
+    {false &&
+      <div className="absolute top-full left-0 w-full h-1 bg-gradient-to-b from-bg2" />
+    }
   </div>
 )

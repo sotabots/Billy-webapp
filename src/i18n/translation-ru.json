@@ -63,9 +63,14 @@
   "thisChat": "Этот чат",
   "left": "доступно",
   "unlimited": "безлимит",
-  "expenses": "Траты",
-  "balance": "Баланс",
-  "settings": "Настройки чата",
+
+  "balance": {
+    "title": "Баланс"
+  },
+
+  "settings": {
+    "title": "Настройки чата"
+  },
 
   "settleUpBy": "Рассчитаться по",
   "balanceBy": "Баланс по",

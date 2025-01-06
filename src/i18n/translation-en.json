@@ -63,9 +63,14 @@
   "thisChat": "This chat",
   "left": "left",
   "unlimited": "unlimited",
-  "expenses": "Expenses",
-  "balance": "Balance",
-  "settings": "Chat Settings",
+
+  "balance": {
+    "title": "Balance"
+  },
+
+  "settings": {
+    "title": "Chat Settings"
+  },
 
   "settleUpBy": "Settle up by",
   "balanceBy": "Balance by",

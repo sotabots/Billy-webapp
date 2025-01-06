@@ -3,8 +3,8 @@ import { useState, useRef, UIEvent } from 'react'
 import { useTranslation } from 'react-i18next'
 import { useNavigate } from 'react-router-dom'
 
-import { useInit, useFilter, useFeedback, useSummary, useGetSummary, useGetSummarySheetRebuild, useGetChat, useStore } from '../hooks'
-import { Page, Header, Tabs, ChatHeader, CustomHeader, Button } from '../kit'
+import { useInit, useFilter, useFeedback, useSummary, useGetSummary, useGetSummarySheetRebuild, useGetChat /*, useStore */ } from '../hooks'
+import { Page, Header, CustomHeader, Button } from '../kit'
 import { Summary, Balance, Settings, TSettingsInner } from '../pages'
 import { TUserId } from '../types'
 
@@ -17,7 +17,7 @@ export const Home = ({ tab }: {
 }) => {
   useInit()
 
-  const { isDebug } = useStore()
+  // const { isDebug } = useStore()
 
   const { t } = useTranslation()
   const navigate = useNavigate()
@@ -105,18 +105,9 @@ export const Home = ({ tab }: {
         || undefined
       } />
 
-      {
-        (!isDebug ? (
-          tab === 'summary' && !isFilterOpen
-        ) : (
-          !(
-            tab === 'summary' && isFilterOpen ||
-            tab === 'balance' && isSelectedDebt ||
-            tab === 'balance' && isCurrencyOpen ||
-            tab === 'settings' && !!settingsInner
-          )
-        )) && (
-          !isDebug ? (
+      {tab === 'summary' && (
+        <>
+          {!isFilterOpen &&
             <CustomHeader
               backText={t('chat.chats')}
               onBack={() => { navigate('/profile') }}
@@ -131,61 +122,46 @@ export const Home = ({ tab }: {
                 </Button>
               }
             />
-          ) : (
-            <>
-              <ChatHeader />
-              <Tabs
-                className="sticky top-0 mb-[6px] pb-[2px] pt-2 bg-bg2 z-[1]"
-                tabs={[
-                  {
-                    title: t('expenses'),
-                    isActive: tab === 'summary',
-                    onClick: selectTab('summary'),
-                  },
-                  {
-                    title: t('balance'),
-                    isActive: tab === 'balance',
-                    onClick: selectTab('balance'),
-                  },
-                  {
-                    title: t('settings'),
-                    isActive: tab === 'settings',
-                    onClick: selectTab('settings'),
-                  },
-                ]}
-              >
-                <div className="absolute top-full left-0 w-full h-1 bg-gradient-to-b from-bg2" />
-              </Tabs>
-            </>
-          )
-        )
-      }
-
-      {tab === 'summary' && (
-        <Summary
-          isCompactPie={isCompactPie}
-          goDetailed={goDetailed}
-        />
+          }
+          <Summary
+            isCompactPie={isCompactPie}
+            goDetailed={goDetailed}
+          />
+        </>
       )}
 
       {tab === 'balance' && (
-        <Balance
-          isCurrencyOpen={isCurrencyOpen}
-          setIsCurrencyOpen={setIsCurrencyOpen}
-          selectedDebtId={selectedDebtId}
-          setSelectedDebtId={setSelectedDebtId}
-          isRecipientsOpen={isRecipientsOpen}
-          setIsRecipientsOpen={setIsRecipientsOpen}
-          customRecipientId={customRecipientId}
-          setCustomRecipientId={setCustomRecipientId}
-        />
+        <>
+          {!isSelectedDebt && !isCurrencyOpen &&
+            <CustomHeader
+              center={t('balance.title')}
+            />
+          }
+          <Balance
+            isCurrencyOpen={isCurrencyOpen}
+            setIsCurrencyOpen={setIsCurrencyOpen}
+            selectedDebtId={selectedDebtId}
+            setSelectedDebtId={setSelectedDebtId}
+            isRecipientsOpen={isRecipientsOpen}
+            setIsRecipientsOpen={setIsRecipientsOpen}
+            customRecipientId={customRecipientId}
+            setCustomRecipientId={setCustomRecipientId}
+          />
+        </>
       )}
 
       {tab === 'settings' && (
-        <Settings
-          settingsInner={settingsInner}
-          setSettingsInner={setSettingsInner}
-        />
+        <>
+          {!settingsInner &&
+            <CustomHeader
+              center={t('settings.title')}
+            />
+          }
+          <Settings
+            settingsInner={settingsInner}
+            setSettingsInner={setSettingsInner}
+          />
+        </>
       )}
     </Page>
   )

@@ -5,7 +5,7 @@ import { useNavigate } from 'react-router-dom'
 import { useUser, useGetVoiceLimit, useGetChat } from '../hooks'
 import { Avatar, VoiceLimit, Button } from '../kit'
 
-export const ChatHeader = ({ className }: {
+export const ChatHeader = ({ className }: { // todo: remove
   className?: string
 }) => {
   const navigate = useNavigate()
