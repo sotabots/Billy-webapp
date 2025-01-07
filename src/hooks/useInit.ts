@@ -3,11 +3,11 @@ import { useInitData } from '@vkruglikov/react-telegram-web-app'
 import { useEffect } from 'react'
 import { useLocation } from 'react-router-dom'
 
-import { useStore, useFeedback, useUsers, useTgSettings, useUser, usePostUserOnboarding } from '../hooks'
+import { useStore, useFeedback, useUsers, useTgSettings, useUser, usePostUserOnboarding, useAuth } from '../hooks'
 
 
 import i18n from '../i18n'
-import { TPaywallSource } from '../types'
+import { TPaywallSource, TUser } from '../types'
 
 export const useInit = () => {
   useTgSettings()
@@ -27,6 +27,7 @@ export const useInit = () => {
   const [initDataUnsafe/*, initData*/] = useInitData()
   const { users, getUserById } = useUsers()
   const { userLang } = useUser()
+  const { userId } = useAuth()
 
   // init transaction/summary pages
   const queryParameters = new URLSearchParams(routerLocation.search)
@@ -126,20 +127,19 @@ export const useInit = () => {
 
     if (
       !isAuthorSharesInited &&
-      initDataUnsafe.user &&
       transaction &&
       transaction.shares.length === 0 &&
       users.length
     ) {
-      const userId = initDataUnsafe.user.id
-      const user = userId && getUserById(userId)
+      const user: TUser | null = userId && getUserById(userId)
         || getUserById(1000) // Demo Pavel shares
         || null
+
       if (user) {
         setIsAuthorSharesInited(true)
         setTransaction({
           ...transaction,
-          creator_user_id: transaction.creator_user_id || userId,
+          creator_user_id: transaction.creator_user_id || user._id,
           shares: [true/*, false*/].map(isPayer => (
             {
               person_id: `author-person-user-${user._id}`,
@@ -154,7 +154,7 @@ export const useInit = () => {
         })
       }
     }
-  }, [transaction, users, initDataUnsafe, isAuthorSharesInited, setIsAuthorSharesInited, getUserById, setTransaction])
+  }, [transaction, users, isAuthorSharesInited, setIsAuthorSharesInited, getUserById, setTransaction])
 
   // init language
   if (

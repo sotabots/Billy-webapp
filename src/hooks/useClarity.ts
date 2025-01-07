@@ -10,6 +10,10 @@ export const useClarity = () => {
   // const { chatId } = useChatId()
   const { userId } = useAuth()
 
+  if (isDev) {
+    console.info('[clarity: DEV-MUTED]')
+  }
+
   if (CLARITY_ID) {
     clarity.init(CLARITY_ID)
     if (userId) {

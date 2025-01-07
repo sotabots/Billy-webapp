@@ -1,6 +1,4 @@
-import { useInitData } from '@vkruglikov/react-telegram-web-app'
-
-import { useCurrencies, useGetChat, useStore } from '../hooks'
+import { useAuth, useCurrencies, useGetChat, useStore } from '../hooks'
 import { formatAmount } from '../utils'
 
 import { TTransaction } from '../types'
@@ -8,7 +6,7 @@ import { TTransaction } from '../types'
 export const useTotal = ({ filteredTransactions }: {
   filteredTransactions: TTransaction[]
 }) => {
-  const [initDataUnsafe] = useInitData()
+  const { userId } = useAuth()
 
   const { getCurrencyById } = useCurrencies()
   const { filterTotal } = useStore()
@@ -34,7 +32,7 @@ export const useTotal = ({ filteredTransactions }: {
       const amountInTxCurrency = tx.shares
         .filter(share => !share.is_payer)
         .filter(share => filterTotal === 'ONLY_MINE'
-          ? share.related_user_id === initDataUnsafe.user?.id
+          ? share.related_user_id === userId
           : true
         )
         .reduce((amountAcc, share) => amountAcc + share.amount, 0)

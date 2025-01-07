@@ -1,13 +1,12 @@
-import { useInitData } from '@vkruglikov/react-telegram-web-app'
 import { useState } from 'react'
 
 import { TTransaction } from '../types'
-import { useGetTransactions } from '../hooks'
+import { useAuth, useGetTransactions } from '../hooks'
 
 import { useStore } from './'
 
 export const useFilter = () => {
-  const [initDataUnsafe] = useInitData()
+  const { userId } = useAuth()
 
   const { data: transactions } = useGetTransactions()
 
@@ -41,7 +40,7 @@ export const useFilter = () => {
 
   const filteredTransactions = (transactions || [])
     .filter(tx => filterTotal === 'ONLY_MINE'
-      ? tx.shares.some(share => share.related_user_id === initDataUnsafe.user?.id)
+      ? tx.shares.some(share => share.related_user_id === userId)
       : true
     )
 

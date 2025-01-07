@@ -1,7 +1,5 @@
-import { useInitData } from '@vkruglikov/react-telegram-web-app'
-
 import { decimals } from '../const'
-import { useStore } from './'
+import { useAuth, useStore } from './'
 import { TShare, TTransaction } from '../types'
 import { formatAmount } from '../utils'
 
@@ -32,10 +30,10 @@ export const useTransaction = () => {
     return share.person_id !== null && prevPersonIds.includes(share.person_id) ? acc : [...acc, share]
   }, [] as TShare[])
 
-  const [initDataUnsafe] = useInitData()
+  const { userId } = useAuth()
 
   const getMyBalanceDelta = (tx: TTransaction) => {
-    const myShares: TShare[] = tx.shares.filter(share => share.related_user_id === initDataUnsafe.user?.id)
+    const myShares: TShare[] = tx.shares.filter(share => share.related_user_id === userId)
     const myBalanceDelta: number = myShares.reduce((acc, share) =>
       acc + share.amount * (share.is_payer ? 1 : -1)
     , 0)

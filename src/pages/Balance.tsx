@@ -1,10 +1,10 @@
-import { useHapticFeedback, useInitData } from '@vkruglikov/react-telegram-web-app'
+import { useHapticFeedback } from '@vkruglikov/react-telegram-web-app'
 import cx from 'classnames'
 import Lottie from 'lottie-react'
 import { useEffect, useState } from 'react'
 import { useTranslation } from 'react-i18next'
 
-import { useStore, useBalance, useCurrencies, useFeedback, useSummary, usePostTransaction, useGetSummary, useGetTransactions, useGetProfile, useGetUsers, useUsers } from '../hooks'
+import { useStore, useBalance, useCurrencies, useFeedback, useSummary, usePostTransaction, useGetSummary, useGetTransactions, useGetProfile, useGetUsers, useUsers, useAuth } from '../hooks'
 import { Button, Overlay, Panel, Debt, DebtDetailed, Divider, UserButton, Currencies } from '../kit'
 import { TCurrencyId, TNewTransaction, TUserId } from '../types'
 import { formatAmount, closeApp } from '../utils'
@@ -34,7 +34,7 @@ export const Balance = ({
   const { t } = useTranslation()
 
   const [, notificationOccurred] = useHapticFeedback()
-  const [initDataUnsafe] = useInitData()
+  const { userId } = useAuth()
   const { feedback } = useFeedback()
 
   const { refetch: refetchTransactions } = useGetTransactions()
@@ -75,7 +75,7 @@ export const Balance = ({
       const newTx: TNewTransaction = {
         _id: 'NEW',
         chat_id: summary.chat_id,
-        creator_user_id: initDataUnsafe.user?.id || null,
+        creator_user_id: userId || null,
         editor_user_id: null,
         is_voice: false,
         raw_text: `[Settle up] ${[fromUser?.first_name, fromUser?.last_name].join(' ')} give ${formatAmount(selectedDebtAmount)} ${selectedDebt.currency_id} ${[toUser?.first_name, toUser?.last_name].join(' ')}`,
@@ -225,7 +225,7 @@ export const Balance = ({
                       onClick={() => {
                         setSelectedDebtId(JSON.stringify(debt))
                         feedback('settle_up_balances_web', {
-                          user: initDataUnsafe.user?.id || null,
+                          user: userId || null,
                           user_from: debt.from_user_id,
                           user_to: debt.to_user_id,
                           amount: debt.amount,

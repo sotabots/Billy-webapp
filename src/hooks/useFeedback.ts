@@ -1,6 +1,8 @@
 import mixpanel from 'mixpanel-browser'
 
-import { useStore, useChatId, useGetTransactions } from '../hooks'
+import { useStore, useChatId, useGetTransactions, useAuth } from '../hooks'
+
+const isDev = import.meta.env.MODE === 'development'
 
 const envToken = import.meta.env.VITE_FEEDBACK_TOKEN
 const isToken = !!envToken
@@ -84,6 +86,7 @@ export type TEvent =
 
 
 export const useFeedback = () => {
+  const { userId } = useAuth()
   const { chatId } = useChatId()
   const { transaction, paywallSource } = useStore()
   const { data: transactions } = useGetTransactions()
@@ -141,9 +144,9 @@ export const useFeedback = () => {
       : {}
 
     const meta = {
-      distinct_id: wa?.initDataUnsafe.user?.id || null,
+      distinct_id: userId || null,
 
-      userId: wa?.initDataUnsafe.user?.id || null,
+      userId: userId || null,
       userFirstName: wa?.initDataUnsafe.user?.first_name || null,
       userLastName: wa?.initDataUnsafe.user?.last_name || null,
       userName: wa?.initDataUnsafe.user?.username || null,
@@ -165,8 +168,10 @@ export const useFeedback = () => {
       ...data,
     }
     if (isToken) {
-      console.info('[feedback]', event, meta)
-      await mixpanel.track(event, meta)
+      console.info(`[feedback${isDev ? ': DEV-MUTED' : ''}]`, event, meta)
+      if (!isDev) {
+        await mixpanel.track(event, meta)
+      }
     } else {
       console.warn('[feedback: no token!]', event, meta)
     }
