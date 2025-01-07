@@ -27,7 +27,7 @@ export const Debt = ({ from_user_id, to_user_id, amount, currency_id, onClick }:
   }
 
   return (
-    <div className="flex gap-3 items-center">
+    <div className="Debt flex gap-3 items-center">
       <User
         user={fromUser}
         size={48}
