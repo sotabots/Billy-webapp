@@ -616,6 +616,29 @@ const mockSummary: TSummary = {
       currency_id: demoCurrencyId /* || mockCurrencies[Math.floor(Math.random() * 3)]._id,*/
     }
   )),
+  balance: {
+    total: {
+      value: {
+        amount: 0,
+        currency_id: 'USD'
+      },
+      details: []
+    },
+    debt: {
+      value: {
+        amount: 0,
+        currency_id: 'USD'
+      },
+      details: []
+    },
+    credit: {
+      value: {
+        amount: 0,
+        currency_id: 'USD'
+      },
+      details: []
+    },
+  }
 }
 
 const mockTransactions: TTransaction[] = mockSummary.debts.map((debt, i) => ({

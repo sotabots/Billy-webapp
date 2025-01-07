@@ -90,10 +90,29 @@ export type TChat = {
   name: string
 }
 
+export type TCurrencyValue = {
+  amount: number
+  currency_id: TCurrencyId
+}
+
 export type TSummary = {
   debts: TDebt[]
   url: string
   chat_id: TChatId
+  balance: {
+    total: {
+      value: TCurrencyValue
+      details: TDebt[]
+    },
+    debt: {
+      value: TCurrencyValue
+      details: TDebt[]
+    },
+    credit: {
+      value: TCurrencyValue
+      details: TDebt[]
+    }
+  }
 }
 
 export type TDebt = {
