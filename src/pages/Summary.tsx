@@ -2,8 +2,8 @@ import cx from 'classnames'
 import { useTranslation } from 'react-i18next'
 import { useNavigate } from 'react-router-dom'
 
-import { useStore, useTotal, useFilter, useFeedback, useUser, useBalance, useGetVoiceLimit } from '../hooks'
-import { Button, Panel, Pie, Category, DateMark, Transaction, RadioButtons, DatePicker } from '../kit'
+import { useStore, useTotal, useFilter, useFeedback, useUser, useGetVoiceLimit, useGetSummary } from '../hooks'
+import { Button, Panel, Pie, Category, DateMark, Transaction, RadioButtons, DatePicker, CurrencyAmount } from '../kit'
 import { TFilterPeriod, TFilterTotal } from '../types'
 
 import { ReactComponent as GoIcon } from '../assets/go.svg'
@@ -27,7 +27,6 @@ export const Summary = ({
 
   const { isDebug, setTxId, setIsEditTx, setPaywallSource, setPaywallFrom } = useStore()
 
-  const { balance, balanceFormatted } = useBalance()
   const { data: voiceLimit } = useGetVoiceLimit()
 
   const {
@@ -79,6 +78,10 @@ export const Summary = ({
     },
   ]
 
+  const { data: summary } = useGetSummary()
+
+  const balanceAmount: undefined | number = summary?.balance.total.value.amount
+
   return (
     <>
       {!isFilterOpen && (
@@ -86,21 +89,26 @@ export const Summary = ({
           <div className="flex flex-col gap-2 pb-5">
             <Button
               className="w-full"
-              onClick={balance !== 0 ? () => { navigate('/balance') } : () => { /* */ }}
+              onClick={
+                balanceAmount
+                  ? () => { navigate('/balance') }
+                  : () => { /* */ }
+              }
             >
               <Panel className="!pb-4">
                 <div className="flex items-center justify-between">
                   <div className="flex items-center justify-start gap-1">
-                    <h2 className="capitalize mt-1">{t(balance > 0 ? 'chat.myCredits' : 'chat.myDebts')}:</h2>
-                    <div className={cx(
-                      'text-[24px] leading-[32px] text-textSec2 font-semibold',
-                      balance > 0 && '!text-green',
-                      balance < 0 && '!text-red',
-                    )}>
-                      {balanceFormatted}
-                    </div>
+                    <h2 className="capitalize mt-1">
+                      {t((!!balanceAmount && balanceAmount > 0) ? 'chat.myCredits' : 'chat.myDebts')}:
+                    </h2>
+                    {!!summary?.balance.total.value &&
+                      <CurrencyAmount
+                        className="text-[24px] leading-[32px]"
+                        currencyAmount={summary?.balance.total.value}
+                      />
+                    }
                   </div>
-                  {balance !== 0 &&
+                  {!!balanceAmount &&
                     <GoIcon className="w-6 h-6" />
                   }
                 </div>
