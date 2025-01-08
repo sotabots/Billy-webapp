@@ -4,8 +4,9 @@ import { useCurrencies } from '../hooks'
 import { TCurrencyAmount } from '../types'
 import { formatAmount } from '../utils'
 
-export const CurrencyAmount = ({ className, currencyAmount }: {
+export const CurrencyAmount = ({ className, noColor, currencyAmount }: {
   className?: string
+  noColor?: boolean
   currencyAmount: TCurrencyAmount
 }) => {
   const { getCurrencyById } = useCurrencies()
@@ -18,9 +19,10 @@ export const CurrencyAmount = ({ className, currencyAmount }: {
 
   return (
     <div className={cx(
-      'CurrencyAmount text-textSec2 font-semibold',
-      currencyAmount.amount > 0 && '!text-green',
-      currencyAmount.amount < 0 && '!text-red',
+      'CurrencyAmount font-semibold',
+      !noColor && 'text-textSec2',
+      currencyAmount.amount > 0 && !noColor && '!text-green',
+      currencyAmount.amount < 0 && !noColor && '!text-red',
       className,
     )}>
       {`${currencyAmount.amount < 0 ? '−' : ''}${formatAmount(Math.abs(currencyAmount.amount))}${currency.symbol}`}

@@ -4,7 +4,7 @@ import { useEffect, useState } from 'react'
 import { useTranslation } from 'react-i18next'
 
 import { useStore, useCurrencies, useFeedback, useSummary, usePostTransaction, useGetSummary, useGetTransactions, useGetProfile, useGetUsers, useUsers, useAuth } from '../hooks'
-import { Button, Overlay, Panel, Debt, DebtDetailed, Divider, UserButton, Currencies, CurrencyAmount } from '../kit'
+import { Button, Overlay, Panel, Debt, DebtDetailed, Divider, UserButton, Currencies, CurrencyAmount, Debt2 } from '../kit'
 import { TCurrencyId, TNewTransaction, TUserId } from '../types'
 import { formatAmount, closeApp } from '../utils'
 
@@ -38,7 +38,7 @@ export const Balance = ({
 
   const { refetch: refetchTransactions } = useGetTransactions()
   const { data: summary, refetch: refetchSummary } = useGetSummary()
-  const { summaryCurrencyId, setSummaryCurrencyId, setTxPatchError } = useStore()
+  const { isDebug, summaryCurrencyId, setSummaryCurrencyId, setTxPatchError } = useStore()
   const { data: users } = useGetUsers()
   const { refetch: refetchProfile } = useGetProfile()
   const { getCurrencyById } = useCurrencies()
@@ -195,9 +195,16 @@ export const Balance = ({
     )
   }
 
+  const isItems: undefined | boolean =
+    isDebug ? (
+      !!summary && (!!summary.balance.debt.details.length || !!summary.balance.credit.details.length)
+    ) : (
+      summary?.debts && summary.debts.length > 0
+    )
+
   return (
     <>
-      {!selectedDebt && summary?.debts && summary.debts.length > 0 && (
+      {!selectedDebt && !!isItems && (
         <>
           <div className="flex flex-col gap-2 pb-5">
             <Panel className="!pb-4">
@@ -210,7 +217,8 @@ export const Balance = ({
                 />
               </div>
             </Panel>
-            {debtCurrencyIds.map((currencyId, i) => (
+
+            {!isDebug && debtCurrencyIds.map((currencyId, i) => (
               <Panel key={`Panel-${i}`} className="!mt-0">
                 <h3>{t('balanceBy')} {getCurrencyById(currencyId)?.symbol || currencyId}</h3>
                 <div className="mt-4 flex flex-col gap-4">
@@ -233,6 +241,68 @@ export const Balance = ({
                 </div>
               </Panel>
             ))}
+
+            {isDebug && !!summary.balance.debt.details.length &&
+              <Panel key="Panel-debts" className="!mt-0">
+                <h3>
+                  <span>{t('balance.myDebts')}</span>
+                  {' '}
+                  <CurrencyAmount
+                    className="inline-block"
+                    currencyAmount={summary.balance.debt.value}
+                  />
+                </h3>
+                <div className="mt-4 flex flex-col gap-4">
+                  {summary.balance.debt.details.map(debt => (
+                    <Debt2
+                      key={JSON.stringify(debt)}
+                      {...debt}
+                      onClick={() => {
+                        setSelectedDebtId(JSON.stringify(debt))
+                        feedback('settle_up_balances_web', {
+                          user: userId || null,
+                          user_from: debt.from_user_id,
+                          user_to: debt.to_user_id,
+                          amount: debt.amount,
+                          currency: debt.currency_id,
+                        })
+                      }}
+                    />
+                  ))}
+                </div>
+              </Panel>
+            }
+
+            {isDebug && !!summary.balance.credit.details.length &&
+              <Panel key="Panel-debts" className="!mt-0">
+                <h3>
+                  <span>{t('balance.myCredits')}</span>
+                  {' '}
+                  <CurrencyAmount
+                    className="inline-block"
+                    currencyAmount={summary.balance.credit.value}
+                  />
+                </h3>
+                <div className="mt-4 flex flex-col gap-4">
+                  {summary.balance.credit.details.map(debt => (
+                    <Debt2
+                      key={JSON.stringify(debt)}
+                      {...debt}
+                      onClick={() => {
+                        setSelectedDebtId(JSON.stringify(debt))
+                        feedback('settle_up_balances_web', {
+                          user: userId || null,
+                          user_from: debt.from_user_id,
+                          user_to: debt.to_user_id,
+                          amount: debt.amount,
+                          currency: debt.currency_id,
+                        })
+                      }}
+                    />
+                  ))}
+                </div>
+              </Panel>
+            }
           </div>
 
           <Button
@@ -245,7 +315,7 @@ export const Balance = ({
         </>
       )}
 
-      {!selectedDebt && summary?.debts && summary.debts.length === 0 && (
+      {!selectedDebt && isItems === false && (
         <>
           <div className="w-[244px] mx-auto flex flex-col gap-6 pt-8 text-center">
             <div className="mx-auto w-[215px] h-[200px]">
