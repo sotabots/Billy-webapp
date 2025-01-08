@@ -92,7 +92,7 @@ export const Button = ({ theme = 'default', wrapperClassName, className, color, 
     )}>
       <div className={cx(
         'ButtonLoaderWrapper',
-        (isBottom || theme === 'subBottom') ? 'fixed left-0 w-full py-2 bg-bg' : 'relative',
+        (isBottom || theme === 'subBottom') ? 'fixed z-[1] left-0 w-full py-2 bg-bg' : 'relative',
         isBottom && 'bottom-0 px-4',
         theme === 'subBottom' && (isTg ? 'bottom-0' : 'bottom-[56px]'),
       )}>

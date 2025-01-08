@@ -25,7 +25,7 @@ export const Bottom =({ className, children, h }: {
         />
       </div>
       <div className={cx(
-        'Bottom-content fixed w-full px-4 bottom-0 left-0 bg-bg py-2',
+        'Bottom-content fixed z-[1] w-full px-4 bottom-0 left-0 bg-bg py-2',
         className,
       )}>
         <div className="Bottom-content-shadow absolute bottom-full left-0 w-full h-2 -bg-gradient-to-t from-bg to-transparent" />

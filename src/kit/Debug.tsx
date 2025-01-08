@@ -71,7 +71,10 @@ export const Debug = () => {
   }
 
   return (
-    <div className={cx(!isDebug && 'h-0 overflow-hidden')}>
+    <div className={cx(
+      'Debug',
+      !isDebug && 'h-0 overflow-hidden',
+    )}>
       <Panel className="mt-10 text-[12px] break-words opacity-70 overflow-x-auto [&>pre]:whitespace-pre-wrap">
         <h2>Debug</h2>
         {false && (
