@@ -295,7 +295,7 @@ export const Summary = ({
 
       {isFilterOpen && (
         <>
-          <h2 className="mb-2 px-4 pt-[2px] pb-[6px]">{t('filter')}</h2>
+          <h2 className="mb-2 px-4 pt-4 pb-[6px]">{t('filter')}</h2>
           <Panel>
             <div className="flex flex-col gap-4">
               <div className="flex flex-col gap-3">

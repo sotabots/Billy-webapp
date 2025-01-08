@@ -341,7 +341,7 @@ export const Balance = ({
 
       {!!selectedDebt && !isRecipientsOpen && (
         <>
-          <h2 className="mb-2 px-4 pt-[2px] pb-[6px]">
+          <h2 className="mb-2 px-4 pt-4 pb-[6px]">
             {`${t('settleUpBy')} ${selectedDebtCurrency?.symbol}`}
           </h2>
 
@@ -367,7 +367,7 @@ export const Balance = ({
 
       {!!selectedDebt && isRecipientsOpen && (
         <>
-          <h2 className="mb-2 px-4 pt-[2px] pb-[6px]">{t('selectUser')}</h2>
+          <h2 className="mb-2 px-4 pt-4 pb-[6px]">{t('selectUser')}</h2>
 
           <div className="mt-4 overflow-y-auto">
             {users?.filter(user => user._id !== selectedDebt.from_user_id).map((user, i, arr) => (
