@@ -397,10 +397,9 @@ export const useGetSummarySheetRebuild = () => {
 
 export const usePostUserOnboarding = () => {
   const [initDataUnsafe] = useInitData()
-  // todo: better initData+useAuth
   const { authString, userId } = useAuth()
   const url = userId
-    ? `${apiUrl}/users/start_onboarding?user_id=${userId}`
+    ? `${apiUrl}/users/start_onboarding`
     : 'https://jsonplaceholder.typicode.com/posts'
 
   return ({ ref }: {
