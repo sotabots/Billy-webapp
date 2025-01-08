@@ -1,6 +1,6 @@
 import cx from 'classnames'
 
-export const Divider =({ className }: {
+export const Divider = ({ className }: {
   className?: string
 }) => {
   return (

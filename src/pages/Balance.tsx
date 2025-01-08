@@ -1,11 +1,10 @@
 import { useHapticFeedback } from '@vkruglikov/react-telegram-web-app'
-import cx from 'classnames'
 import Lottie from 'lottie-react'
 import { useEffect, useState } from 'react'
 import { useTranslation } from 'react-i18next'
 
-import { useStore, useBalance, useCurrencies, useFeedback, useSummary, usePostTransaction, useGetSummary, useGetTransactions, useGetProfile, useGetUsers, useUsers, useAuth } from '../hooks'
-import { Button, Overlay, Panel, Debt, DebtDetailed, Divider, UserButton, Currencies } from '../kit'
+import { useStore, useCurrencies, useFeedback, useSummary, usePostTransaction, useGetSummary, useGetTransactions, useGetProfile, useGetUsers, useUsers, useAuth } from '../hooks'
+import { Button, Overlay, Panel, Debt, DebtDetailed, Divider, UserButton, Currencies, CurrencyAmount } from '../kit'
 import { TCurrencyId, TNewTransaction, TUserId } from '../types'
 import { formatAmount, closeApp } from '../utils'
 
@@ -57,7 +56,6 @@ export const Balance = ({
   const [isBusy, setIsBusy] = useState(false)
   const [isSuccessOpen, setIsSuccessOpen] = useState(false)
 
-  const { balance, balanceFormatted } = useBalance()
   const { debtCurrencyIds } = useSummary()
 
   const postTransaction = usePostTransaction()
@@ -203,15 +201,13 @@ export const Balance = ({
         <>
           <div className="flex flex-col gap-2 pb-5">
             <Panel className="!pb-4">
-              <div className="flex items-center justify-between">
-                <h3 className="capitalize">{t('myBalance')}</h3>
-                <div className={cx(
-                  'text-[16px] leading-6',
-                  balance > 0 && 'text-green',
-                  balance < 0 && 'text-red',
-                )}>
-                  {balanceFormatted}
-                </div>
+              <div className="flex items-center -justify-between">
+                <h3 className="capitalize">{t('myBalance')}:</h3>
+                &nbsp;
+                <CurrencyAmount
+                  className="text-[16px] leading-[24px]"
+                  currencyAmount={summary.balance.total.value}
+                />
               </div>
             </Panel>
             {debtCurrencyIds.map((currencyId, i) => (
