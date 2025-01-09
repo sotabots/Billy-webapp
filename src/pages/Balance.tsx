@@ -274,7 +274,7 @@ export const Balance = ({
             }
 
             {isDebug && !!summary.balance.credit.details.length &&
-              <Panel key="Panel-debts" className="!mt-0">
+              <Panel key="Panel-credits" className="!mt-0">
                 <h3>
                   <span>{t('balance.myCredits')}</span>
                   {' '}
