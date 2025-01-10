@@ -67,7 +67,9 @@
   "balance": {
     "title": "Баланс",
     "myDebts": "Мой долг",
-    "myCredits": "Мне должны"
+    "myCredits": "Мне должны",
+    "payBack": "Вернуть",
+    "remind": "Напомнить"
   },
 
   "settings": {
@@ -77,7 +79,6 @@
   "settleUpBy": "Рассчитаться по",
   "balanceBy": "Баланс по",
   "settleUp": "Рассчитаться",
-  "settleUp_": "Вернуть",
   "settleUpSaved": "Транзакция успешно сохранена!",
   "allSettledUp": "Все рассчитались в этой группе",
 

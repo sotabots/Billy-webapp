@@ -67,7 +67,9 @@
   "balance": {
     "title": "Balance",
     "myDebts": "My debts",
-    "myCredits": "My credits"
+    "myCredits": "My credits",
+    "payBack": "Pay back",
+    "remind": "Remind"
   },
 
   "settings": {
@@ -77,7 +79,6 @@
   "settleUpBy": "Settle up by",
   "balanceBy": "Balance by",
   "settleUp": "Settle up",
-  "settleUp_": "Settle up",
   "settleUpSaved": "Expense successfully saved!",
   "allSettledUp": "You are all settled up in this group",
 
