@@ -52,8 +52,8 @@
 
   "chat": {
     "chats": "Chats",
-    "myDebts": "My debts",
-    "myCredits": "My credits",
+    "myDebts": "I owe",
+    "myCredits": "I am owed",
     "getProTitle0": "You have run out of free expensing via chat messages",
     "getProTitle1": "You can only add {{voiceLimit}} expense via chat messages",
     "getProTitle2": "You can only add {{voiceLimit}} expenses via chat messages",
@@ -66,8 +66,10 @@
 
   "balance": {
     "title": "Balance",
-    "myDebts": "My debts",
-    "myCredits": "My credits",
+    "totalDebts": "Overall I owe",
+    "totalCredits": "Overall I am owed",
+    "myDebts": "I owe",
+    "myCredits": "I am owed",
     "payBack": "Pay back",
     "remind": "Remind"
   },

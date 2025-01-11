@@ -66,6 +66,8 @@
 
   "balance": {
     "title": "Баланс",
+    "totalDebts": "Итого мой долг",
+    "totalCredits": "Итого мне должны",
     "myDebts": "Мой долг",
     "myCredits": "Мне должны",
     "payBack": "Вернуть",

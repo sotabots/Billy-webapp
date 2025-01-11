@@ -208,7 +208,9 @@ export const Balance = ({
           <div className="flex flex-col gap-2 pb-5">
             <Panel className="!pb-4">
               <div className="flex items-center -justify-between">
-                <h3 className="capitalize">{t('myBalance')}:</h3>
+                <h3 className="">
+                  {summary.balance.total.value.amount < 0 ? t('balance.totalDebts') : t('balance.totalCredits')}:
+                </h3>
                 &nbsp;
                 <CurrencyAmount
                   className="text-[16px] leading-[24px]"

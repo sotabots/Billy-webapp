@@ -98,7 +98,7 @@ export const Summary = ({
               <Panel className="!pb-4">
                 <div className="flex items-center justify-between">
                   <div className="flex items-center justify-start gap-1">
-                    <h2 className="capitalize mt-1">
+                    <h2 className="mt-1">
                       {t((!!balanceAmount && balanceAmount > 0) ? 'chat.myCredits' : 'chat.myDebts')}:
                     </h2>
                     {!!summary?.balance.total.value &&
