@@ -54,14 +54,14 @@ export const Debt2 = ({ from_user_id, to_user_id, amount, currency_id, onClick }
         <Button
           theme="settleUp2"
           onClick={
-            userId === to_user_id
+            (userId === to_user_id && !!null) // todo: remind
               ? () => {
                 /* */
               }
               : onClick
             }
         >
-          {userId === to_user_id ? t('balance.remind') : t('balance.payBack')}
+          {(userId === to_user_id && !!null) ? t('balance.remind') : t('settleUp' || 'balance.payBack')}
         </Button>
       </div>
     </div>

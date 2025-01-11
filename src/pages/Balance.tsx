@@ -5,7 +5,7 @@ import { useTranslation } from 'react-i18next'
 
 import { useStore, useCurrencies, useFeedback, useSummary, usePostTransaction, useGetSummary, useGetTransactions, useGetProfile, useGetUsers, useUsers, useAuth } from '../hooks'
 import { Button, Overlay, Panel, Debt, DebtDetailed, Divider, UserButton, Currencies, CurrencyAmount, Debt2 } from '../kit'
-import { TCurrencyId, TNewTransaction, TUserId } from '../types'
+import { TCurrencyId, TDebt, TNewTransaction, TUserId } from '../types'
 import { formatAmount, closeApp } from '../utils'
 
 import lottieKoalaSettledUp from '../assets/animation-koala-settled-up.json'
@@ -43,7 +43,10 @@ export const Balance = ({
   const { refetch: refetchProfile } = useGetProfile()
   const { getCurrencyById } = useCurrencies()
 
-  const selectedDebt = (summary?.debts || []).find(debt => JSON.stringify(debt) === selectedDebtId)
+  const selectedDebt: TDebt | undefined = ([
+    ...(summary?.balance.debt.details || []),
+    ...(summary?.balance.credit.details || []), // todo: remove after 'remind'
+  ]).find(debt => JSON.stringify(debt) === selectedDebtId)
   const selectedDebtCurrency = selectedDebt ? getCurrencyById(selectedDebt.currency_id) : undefined
   const [selectedDebtAmount, setSelectedDebtAmount] = useState<number>(0)
 
