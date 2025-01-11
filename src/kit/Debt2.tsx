@@ -53,7 +53,13 @@ export const Debt2 = ({ from_user_id, to_user_id, amount, currency_id, onClick }
         />
         <Button
           theme="settleUp2"
-          onClick={onClick}
+          onClick={
+            userId === to_user_id
+              ? () => {
+                /* */
+              }
+              : onClick
+            }
         >
           {userId === to_user_id ? t('balance.remind') : t('balance.payBack')}
         </Button>

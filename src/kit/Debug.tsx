@@ -106,6 +106,8 @@ export const Debug = () => {
           Test Pupup
         </button>
 
+        <a href="tg://user?id=143871296">user link</a>
+
         <br />
         {/*
         <button
