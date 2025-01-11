@@ -607,15 +607,15 @@ const mockChat = isDemo ? demoChat : _mockChat
 
 const mockSummary: TSummary = {
   chat_id: 0,
-  url: 'https://docs.google.com/spreadsheets/d/1BxiMVs0XRA5nFMdKvBdBZjgmUUqptlbs74OgvE2upms/edit',
-  debts: mockUsers.map((mockUser, i, arr) => (
-    {
-      from_user_id: mockUser._id,
-      to_user_id: arr[(i === arr.length - 1) ? 0 : i + 1]._id,
-      amount: parseFloat((Math.round(Math.random() * (isRus ? 1e6 : 1e5)) / 10 ** decimals).toFixed(decimals)),
-      currency_id: demoCurrencyId /* || mockCurrencies[Math.floor(Math.random() * 3)]._id,*/
-    }
-  )),
+  url: 'https://docs.google.com/spreadsheets/d/1BxiMVs0XRA5nFMdKvBdBZjgmUUqptlbs74OgvE2upms/edit',  
+  // debts: mockUsers.map((mockUser, i, arr) => (
+  //   {
+  //     from_user_id: mockUser._id,
+  //     to_user_id: arr[(i === arr.length - 1) ? 0 : i + 1]._id,
+  //     amount: parseFloat((Math.round(Math.random() * (isRus ? 1e6 : 1e5)) / 10 ** decimals).toFixed(decimals)),
+  //     currency_id: demoCurrencyId /* || mockCurrencies[Math.floor(Math.random() * 3)]._id,*/
+  //   }
+  // )),
   balance: {
     total: {
       value: {
@@ -641,7 +641,10 @@ const mockSummary: TSummary = {
   }
 }
 
-const mockTransactions: TTransaction[] = mockSummary.debts.map((debt, i) => ({
+const mockTransactions: TTransaction[] = [
+  ...mockSummary.balance.debt.details,
+  ...mockSummary.balance.credit.details,
+  ].map((debt, i) => ({
   _id: `demo-tx-${i}`,
   chat_id: 0,
   creator_user_id: null,

@@ -96,7 +96,6 @@ export type TCurrencyAmount = {
 }
 
 export type TSummary = {
-  debts: TDebt[]
   url: string
   chat_id: TChatId
   balance: {

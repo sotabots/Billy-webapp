@@ -4,11 +4,14 @@ import { TDebt } from '../types'
 export const useSummary = () => {
   const { data: summary } = useGetSummary()
 
-  const debtCurrencyIds = !summary?.debts
-    ? []
-    : [...(new Set(summary.debts.map(item => item.currency_id)))]
+  const debts: TDebt[] = [
+    ...(summary?.balance.debt.details || []),
+    ...(summary?.balance.credit.details || [])
+  ]
 
-  const debts: TDebt[] = summary?.debts || []
+  const debtCurrencyIds = !debts
+    ? []
+    : [...(new Set(debts.map(item => item.currency_id)))]
 
   return { debtCurrencyIds, debts }
 }
