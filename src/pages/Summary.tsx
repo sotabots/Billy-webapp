@@ -11,7 +11,6 @@ import { ReactComponent as FilterIcon } from '../assets/filter.svg'
 import { ReactComponent as FilterActiveIcon } from '../assets/filter-active.svg'
 import { ReactComponent as ProPie } from '../assets/pro-pie.svg'
 import { ReactComponent as ProBadgeRotate } from '../assets/pro-badge-rotate.svg'
-import pro from '../assets/pro.png'
 
 export const Summary = ({
   isCompactPie,
@@ -117,37 +116,31 @@ export const Summary = ({
 
             {!isPro && voiceLimit !== -1 &&
               <Panel className="!pb-4">
-                <div className="flex items-end gap-4">
-                  <div className="flex flex-1 flex-col gap-2">
+                <div className="flex flex-col gap-4">
+                  <div className="flex flex-col gap-1">
                     <h3>
-                      {t(
-                        voiceLimit === undefined ? 'chat.getProTitle2' :
-                        voiceLimit === 0 ? 'chat.getProTitle0' :
-                        voiceLimit === 1 ? 'chat.getProTitle1' :
-                        voiceLimit >= 2 ? 'chat.getProTitle2' : '',
-                        {
-                          voiceLimit: voiceLimit === undefined
-                            ? '..'
-                            : voiceLimit
-                        }
-                      )}
+                      {t('chat.getProTitle')}
+                      <span className="text-red">
+                        {' '}
+                        {voiceLimit === undefined ? '..' : voiceLimit}
+                        {' '}
+                        {t('chat.getProTitlePcs')}
+                      </span>
                     </h3>
                     <div className="text-[14px] leading-[20px]">
                       {t('chat.getProDescription')}
                     </div>
                   </div>
-                  <div className="flex-nowrap">
-                    <Button
-                      className="block"
-                      onClick={() => {
-                        setPaywallSource('summary_donut')
-                        setPaywallFrom('summary')
-                        navigate('/paywall')
-                      }}
-                    >
-                      <img src={pro} className="w-[65px] h-[52px]" />
-                    </Button>
-                  </div>
+                  <Button
+                    className="block px-3 py-1 bg-pro text-textButton rounded-[6px] text-[14px] leading-[24px] font-semibold"
+                    onClick={() => {
+                      setPaywallSource('summary_donut')
+                      setPaywallFrom('summary')
+                      navigate('/paywall')
+                    }}
+                  >
+                    {t('chat.getPro')}
+                  </Button>
                 </div>
               </Panel>
             }
