@@ -66,6 +66,8 @@
 
   "balance": {
     "title": "Баланс",
+    "inMyCurrency": "В моей валюте",
+    "inOriginalCurrencies": "В исходных валютах",
     "totalDebts": "Итого мой долг",
     "totalCredits": "Итого мне должны",
     "myDebts": "Мой долг",

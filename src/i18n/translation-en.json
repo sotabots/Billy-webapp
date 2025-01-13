@@ -66,6 +66,8 @@
 
   "balance": {
     "title": "Balance",
+    "inMyCurrency": "My currency",
+    "inOriginalCurrencies": "Original currencies",
     "totalDebts": "Overall I owe",
     "totalCredits": "Overall I am owed",
     "myDebts": "I owe",

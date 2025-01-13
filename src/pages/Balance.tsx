@@ -4,7 +4,7 @@ import { useEffect, useState } from 'react'
 import { useTranslation } from 'react-i18next'
 
 import { useStore, useCurrencies, useFeedback, useSummary, usePostTransaction, useGetSummary, useGetTransactions, useGetProfile, useGetUsers, useUsers, useAuth } from '../hooks'
-import { Button, Overlay, Panel, DebtDetailed, Divider, UserButton, Currencies, CurrencyAmount, Debt2 } from '../kit'
+import { Button, Overlay, Panel, DebtDetailed, Divider, UserButton, Currencies, CurrencyAmount, Debt2, Tabs } from '../kit'
 import { TCurrencyId, TDebt, TNewTransaction, TUserId } from '../types'
 import { formatAmount, closeApp } from '../utils'
 
@@ -38,7 +38,7 @@ export const Balance = ({
 
   const { refetch: refetchTransactions } = useGetTransactions()
   const { data: summary, refetch: refetchSummary } = useGetSummary()
-  const { summaryCurrencyId, setSummaryCurrencyId, setTxPatchError } = useStore()
+  const { isDebug, summaryCurrencyId, setSummaryCurrencyId, setTxPatchError } = useStore()
   const { data: users } = useGetUsers()
   const { refetch: refetchProfile } = useGetProfile()
   const { getCurrencyById } = useCurrencies()
@@ -159,6 +159,8 @@ export const Balance = ({
     setFeedbackData(null)
   }, [feedback, feedbackData, setFeedbackData, summaryCurrencyId, debts, debtCurrencyIds])
 
+  const [isOriginal, setIsOriginal] = useState<boolean>(false)
+
   if (!summary) {
     return null
   }
@@ -198,6 +200,8 @@ export const Balance = ({
     )
   }
 
+  const isTotal: boolean = summary.balance.debt.details.length > 0 && summary.balance.credit.details.length > 0
+
   const isItems: undefined | boolean =
     !!summary && (!!summary.balance.debt.details.length || !!summary.balance.credit.details.length)
 
@@ -206,7 +210,24 @@ export const Balance = ({
       {!selectedDebt && !!isItems && (
         <>
           <div className="flex flex-col gap-2 pb-5">
-            {summary.balance.debt.details.length > 0 && summary.balance.credit.details.length > 0 &&
+            {isDebug &&
+              <Tabs
+                items={[
+                  {
+                    title: t('balance.inMyCurrency'),
+                    isActive: !isOriginal,
+                    onClick: () => { setIsOriginal(false) },
+                  },
+                  {
+                    title: t('balance.inOriginalCurrencies'),
+                    isActive: isOriginal,
+                    onClick: () => { setIsOriginal(true) },
+                  },
+                ]}
+              />
+            }
+
+            {isTotal &&
               <Panel className="!pb-4">
                 <div className="flex items-center -justify-between">
                   <h3 className="">
@@ -286,7 +307,6 @@ export const Balance = ({
 
           <Button
             theme="bottom"
-            // color={'#7E10E5'}
             onClick={() => { setIsCurrencyOpen(true) }}
           >
             {t('showInCurrency')}

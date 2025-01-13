@@ -15,7 +15,7 @@ export const CustomHeader = ({ backText, onBack, center, right }: {
   const _onBack = onBack || goBack
 
   return (
-    <header className="CustomHeader flex items-center justify-between p-4 min-h-[56px]">
+    <header className="CustomHeader flex items-center justify-between px-4 py-3 min-h-[56px]">
       <div className="flex-[0_0_64px]">
         {!!_onBack &&
           <Button

@@ -1,8 +1,8 @@
 import cx from 'classnames'
 import { ReactNode } from 'react'
 
-export const Tabs = ({ tabs, className, children }: {
-  tabs: {
+export const Tabs = ({ items, className, children }: {
+  items: {
     title: string
     isActive: boolean
     onClick: VoidFunction
@@ -15,11 +15,11 @@ export const Tabs = ({ tabs, className, children }: {
     false && 'sticky top-0 mb-[6px] pb-[2px] pt-2 bg-bg2 z-[1]', // sticky
     className
   )}>
-    {tabs.map((tab, i) => (
+    {items.map((tab, i) => (
       <button
         key={i}
         className={cx(
-          'flex flex-grow basis-0 items-center justify-center gap-1 h-[30px] border-b text-[14px] leading-[0.9em] transition-all',
+          'flex flex-grow basis-0 items-center justify-center gap-1 h-[32px] border-b text-[14px] leading-[0.9em] transition-all',
           !tab.isActive
             ? 'text-[#5B6871] dark:text-[#B0BABF] border-[#DDE2E4]'
             : 'text-[#0E73F6] border-[#0E73F6] font-semibold'
