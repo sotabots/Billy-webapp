@@ -160,14 +160,8 @@ export type TUserChat = {
   voice_limit: number
   is_settled_up: boolean
   user_balance: {
-    in_user_currency: {
-      amount: number
-      currency_id: TCurrencyId
-    },
-    in_chat_currency: {
-      amount: number
-      currency_id: TCurrencyId
-    }
+    in_user_currency: TCurrencyAmount
+    in_chat_currency: TCurrencyAmount
   }
 }
 
