@@ -3,7 +3,7 @@ import Lottie from 'lottie-react'
 import { useEffect, useState } from 'react'
 import { useTranslation } from 'react-i18next'
 
-import { useStore, useCurrencies, useFeedback, useSummary, usePostTransaction, useGetSummary, useGetTransactions, useGetProfile, useGetUsers, useUsers, useAuth } from '../hooks'
+import { useStore, useCurrencies, useFeedback, useSummary, usePostTransaction, useGetSummary, useGetTransactions, useGetProfile, useGetUsers, useUsers, useAuth, useGetUserSettings } from '../hooks'
 import { Button, Overlay, Panel, DebtDetailed, Divider, UserButton, Currencies, CurrencyAmount, Debt2, Tabs } from '../kit'
 import { TCurrencyId, TDebt, TNewTransaction, TUserId } from '../types'
 import { formatAmount, closeApp } from '../utils'
@@ -36,10 +36,12 @@ export const Balance = ({
   const { userId } = useAuth()
   const { feedback } = useFeedback()
 
+  const { summaryCurrencyId, setSummaryCurrencyId, setTxPatchError } = useStore()
+
   const { refetch: refetchTransactions } = useGetTransactions()
   const { data: summary, refetch: refetchSummary } = useGetSummary()
-  const { isDebug, summaryCurrencyId, setSummaryCurrencyId, setTxPatchError } = useStore()
   const { data: users } = useGetUsers()
+  const { data: userSettings } = useGetUserSettings()
   const { refetch: refetchProfile } = useGetProfile()
   const { getCurrencyById } = useCurrencies()
 
@@ -159,8 +161,6 @@ export const Balance = ({
     setFeedbackData(null)
   }, [feedback, feedbackData, setFeedbackData, summaryCurrencyId, debts, debtCurrencyIds])
 
-  const [isOriginal, setIsOriginal] = useState<boolean>(false)
-
   if (!summary) {
     return null
   }
@@ -210,22 +210,28 @@ export const Balance = ({
       {!selectedDebt && !!isItems && (
         <>
           <div className="flex flex-col gap-2 pb-5">
-            {isDebug &&
-              <Tabs
-                items={[
-                  {
-                    title: t('balance.inMyCurrency'),
-                    isActive: !isOriginal,
-                    onClick: () => { setIsOriginal(false) },
+            <Tabs
+              items={[
+                {
+                  title: t('balance.inMyCurrency'),
+                  isActive: summaryCurrencyId !== null,
+                  onClick: () => {
+                    if (summaryCurrencyId === null && userSettings?.currency) {
+                      setSummaryCurrencyId(userSettings.currency)
+                    }
                   },
-                  {
-                    title: t('balance.inOriginalCurrencies'),
-                    isActive: isOriginal,
-                    onClick: () => { setIsOriginal(true) },
+                },
+                {
+                  title: t('balance.inOriginalCurrencies'),
+                  isActive: summaryCurrencyId === null,
+                  onClick: () => {
+                    if (summaryCurrencyId !== null) {
+                      setSummaryCurrencyId(null)
+                    }
                   },
-                ]}
-              />
-            }
+                },
+              ]}
+            />
 
             {isTotal &&
               <Panel className="!pb-4">
