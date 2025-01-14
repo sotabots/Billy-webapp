@@ -117,8 +117,8 @@ export type TSummary = {
 export type TDebt = {
   from_user_id: TUserId
   to_user_id: TUserId
-  amount: number
-  currency_id: TCurrencyId
+  value_primary: TCurrencyAmount
+  value_secondary: TCurrencyAmount
 }
 
 export type TCategories = {

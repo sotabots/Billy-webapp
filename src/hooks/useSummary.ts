@@ -11,7 +11,7 @@ export const useSummary = () => {
 
   const debtCurrencyIds = !debts
     ? []
-    : [...(new Set(debts.map(item => item.currency_id)))]
+    : [...(new Set(debts.map(debt => debt.value_primary.currency_id)))]
 
   return { debtCurrencyIds, debts }
 }

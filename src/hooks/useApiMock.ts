@@ -655,7 +655,7 @@ const mockTransactions: TTransaction[] = [
   is_confirmed: true,
   is_canceled: false,
   is_equally: true,
-  currency_id: debt.currency_id,
+  currency_id: debt.value_primary.currency_id,
   shares: [
     {
       person_id: `Person-1`,
@@ -663,7 +663,7 @@ const mockTransactions: TTransaction[] = [
       normalized_name: '',
       related_user_id: 0,
       is_payer: true,
-      amount: debt.amount,
+      amount: debt.value_primary.amount,
       is_fixed_amount: false,
     },
     {
@@ -672,7 +672,7 @@ const mockTransactions: TTransaction[] = [
       normalized_name: '',
       related_user_id: 0,
       is_payer: false,
-      amount: debt.amount,
+      amount: debt.value_primary.amount,
       is_fixed_amount: false,
     },
   ],

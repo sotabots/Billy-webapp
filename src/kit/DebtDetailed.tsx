@@ -16,10 +16,8 @@ export const DebtDetailed = ({ debt, amount, setAmount, customRecipientId, onCli
   const { feedback } = useFeedback()
   const { getUserById } = useUsers()
 
-  const { from_user_id, to_user_id, currency_id } = debt
-
-  const fromUser = getUserById(from_user_id)
-  const toUser = getUserById(customRecipientId || to_user_id)
+  const fromUser = getUserById(debt.from_user_id)
+  const toUser = getUserById(customRecipientId || debt.to_user_id)
 
   if (!fromUser || !toUser) {
     return null
@@ -41,7 +39,7 @@ export const DebtDetailed = ({ debt, amount, setAmount, customRecipientId, onCli
           feedback('change_user_settleup_web', {
             user_to_prev: toUser._id,
             amount: amount,
-            currency: currency_id,
+            currency: debt.value_primary.currency_id,
           })
         }}
       >

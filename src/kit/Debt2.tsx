@@ -10,7 +10,7 @@ type TDebtProps = TDebt & {
   onClick: () => void
 }
 
-export const Debt2 = ({ from_user_id, to_user_id, amount, currency_id, onClick }: TDebtProps) => {
+export const Debt2 = ({ from_user_id, to_user_id, value_primary, onClick }: TDebtProps) => {
   const { t } = useTranslation()
 
   const { getUserById } = useUsers()
@@ -49,7 +49,7 @@ export const Debt2 = ({ from_user_id, to_user_id, amount, currency_id, onClick }
       <div className="flex items-center justify-end gap-2">
         <CurrencyAmount
           noColor
-          currencyAmount={{ amount, currency_id }}
+          currencyAmount={value_primary}
         />
         <Button
           theme="settleUp2"

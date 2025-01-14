@@ -11,7 +11,7 @@ type TDebtProps = TDebt & {
   onClick: () => void
 }
 
-export const Debt = ({ from_user_id, to_user_id, amount, currency_id, onClick }: TDebtProps) => {
+export const Debt = ({ from_user_id, to_user_id, value_primary, onClick }: TDebtProps) => {
   const { t } = useTranslation()
 
   const { getUserById } = useUsers()
@@ -20,7 +20,7 @@ export const Debt = ({ from_user_id, to_user_id, amount, currency_id, onClick }:
   const toUser = getUserById(to_user_id)
 
   const { getCurrencyById } = useCurrencies()
-  const chatCurrency = getCurrencyById(currency_id)
+  const chatCurrency = getCurrencyById(value_primary.currency_id)
 
   if (!fromUser || !toUser) {
     return null
@@ -37,7 +37,7 @@ export const Debt = ({ from_user_id, to_user_id, amount, currency_id, onClick }:
               <div className="w-[14px] h-[14px] -mt-[1px] mr-[1px]">
                 <ToIcon />
               </div>
-              <div className="text-[14px] leading-[24px] font-semibold">{formatAmount(amount)}{chatCurrency?.symbol}</div>
+              <div className="text-[14px] leading-[24px] font-semibold">{formatAmount(value_primary.amount)}{chatCurrency?.symbol}</div>
             </div>
             <User
               user={toUser}

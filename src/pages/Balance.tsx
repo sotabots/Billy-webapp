@@ -47,12 +47,12 @@ export const Balance = ({
     ...(summary?.balance.debt.details || []),
     ...(summary?.balance.credit.details || []), // todo: remove after 'remind'
   ]).find(debt => JSON.stringify(debt) === selectedDebtId)
-  const selectedDebtCurrency = selectedDebt ? getCurrencyById(selectedDebt.currency_id) : undefined
+  const selectedDebtCurrency = selectedDebt ? getCurrencyById(selectedDebt.value_primary.currency_id) : undefined
   const [selectedDebtAmount, setSelectedDebtAmount] = useState<number>(0)
 
   useEffect(() => {
     if (selectedDebt) {
-      setSelectedDebtAmount(selectedDebt.amount)
+      setSelectedDebtAmount(selectedDebt.value_primary.amount)
     }
   }, [selectedDebt])
 
@@ -79,8 +79,8 @@ export const Balance = ({
         creator_user_id: userId || null,
         editor_user_id: null,
         is_voice: false,
-        raw_text: `[Settle up] ${[fromUser?.first_name, fromUser?.last_name].join(' ')} give ${formatAmount(selectedDebtAmount)} ${selectedDebt.currency_id} ${[toUser?.first_name, toUser?.last_name].join(' ')}`,
-        currency_id: selectedDebt.currency_id,
+        raw_text: `[Settle up] ${[fromUser?.first_name, fromUser?.last_name].join(' ')} give ${formatAmount(selectedDebtAmount)} ${selectedDebt.value_primary.currency_id} ${[toUser?.first_name, toUser?.last_name].join(' ')}`,
+        currency_id: selectedDebt.value_primary.currency_id,
         is_confirmed: true,
         is_canceled: false,
         is_equally: true,
@@ -112,12 +112,12 @@ export const Balance = ({
       }
 
       await feedback('confirm_settleup_web', {
-        amount_prev: selectedDebt.amount,
+        amount_prev: selectedDebt.value_primary.amount,
         amount_set: selectedDebtAmount,
         user_from: selectedDebt.from_user_id,
         user_to_prev: selectedDebt.to_user_id,
         user_to_set: customRecipientId || selectedDebt.to_user_id,
-        currency: selectedDebt.currency_id,
+        currency: selectedDebt.value_primary.currency_id,
       })
       const resJson = await postTransaction(newTx)
       console.log('patchTransaction res', resJson)
@@ -263,8 +263,8 @@ export const Balance = ({
                           user: userId || null,
                           user_from: debt.from_user_id,
                           user_to: debt.to_user_id,
-                          amount: debt.amount,
-                          currency: debt.currency_id,
+                          amount: debt.value_primary.amount,
+                          currency: debt.value_primary.currency_id,
                         })
                       }}
                     />
@@ -294,8 +294,8 @@ export const Balance = ({
                           user: userId || null,
                           user_from: debt.from_user_id,
                           user_to: debt.to_user_id,
-                          amount: debt.amount,
-                          currency: debt.currency_id,
+                          amount: debt.value_primary.amount,
+                          currency: debt.value_primary.currency_id,
                         })
                       }}
                     />
