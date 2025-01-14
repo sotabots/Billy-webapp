@@ -10,7 +10,7 @@ type TDebtProps = TDebt & {
   onClick: () => void
 }
 
-export const Debt2 = ({ from_user_id, to_user_id, value_primary, onClick }: TDebtProps) => {
+export const Debt2 = ({ from_user_id, to_user_id, value_primary, value_secondary, onClick }: TDebtProps) => {
   const { t } = useTranslation()
 
   const { getUserById } = useUsers()
@@ -50,6 +50,7 @@ export const Debt2 = ({ from_user_id, to_user_id, value_primary, onClick }: TDeb
         <CurrencyAmount
           noColor
           currencyAmount={value_primary}
+          convertedAmount={value_secondary}
         />
         <Button
           theme="settleUp2"
@@ -61,7 +62,7 @@ export const Debt2 = ({ from_user_id, to_user_id, value_primary, onClick }: TDeb
               : onClick
             }
         >
-          {(userId === to_user_id && !!null) ? t('balance.remind') : t('settleUp' || 'balance.payBack')}
+          {(userId === to_user_id && !!null) ? t('balance.remind') : t('balance.payBack')}
         </Button>
       </div>
     </div>

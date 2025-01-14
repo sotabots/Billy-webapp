@@ -236,7 +236,7 @@ export const Balance = ({
             {isTotal &&
               <Panel className="!pb-4">
                 <div className="flex items-center -justify-between">
-                  <h3 className="">
+                  <h3 className="flex items-center">
                     {summary.balance.total.value.amount < 0 ? t('balance.totalDebts') : t('balance.totalCredits')}:
                   </h3>
                   &nbsp;
@@ -250,11 +250,10 @@ export const Balance = ({
 
             {!!summary.balance.debt.details.length &&
               <Panel key="Panel-debts" className="!mt-0">
-                <h3>
+                <h3 className="flex items-center">
                   <span>{t('balance.myDebts')}</span>
-                  {' '}
+                  &nbsp;
                   <CurrencyAmount
-                    className="inline-block"
                     currencyAmount={summary.balance.debt.value}
                   />
                 </h3>
@@ -281,11 +280,10 @@ export const Balance = ({
 
             {!!summary.balance.credit.details.length &&
               <Panel key="Panel-credits" className="!mt-0">
-                <h3>
+                <h3 className="flex items-center">
                   <span>{t('balance.myCredits')}</span>
-                  {' '}
+                  &nbsp;
                   <CurrencyAmount
-                    className="inline-block"
                     currencyAmount={summary.balance.credit.value}
                   />
                 </h3>
