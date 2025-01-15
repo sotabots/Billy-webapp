@@ -65,9 +65,13 @@
 
   "balance": {
     "title": "Balance",
-    "inMyCurrency": "My currency",
+    "inMyCurrency": "One currency",
     "inOriginalCurrencies": "Original currencies",
-    "calculated": "Billy calculated the total amount of all debts and showed it in {{currency}}",
+    "calcInCurrency": "Billy calculated the total amount of all debts and showed it in currency – {{currency}}",
+    "calcInMyCurrency": "Billy calculated the total amount of all debts and showed it in your currency – {{currency}}",
+    "originalOtherTab": "You can view the debts in original currencies on the next tab.",
+    "toChangeYourCurrency": "To change your currency, go to the",
+    "profileSettings": "profile settings",
     "calcHow": "How does the calculation work?",
     "how": "Billy recalculates debts to minimize the number of transfers. For example: if someone paid for you, and you paid for another person, Billy will redistribute the amounts so that you pay directly to the one who really needs it, skipping unnecessary steps.",
     "totalDebts": "Overall I owe",

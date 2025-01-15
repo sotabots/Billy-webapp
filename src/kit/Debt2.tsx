@@ -39,7 +39,7 @@ export const Debt2 = ({ from_user_id, to_user_id, value_primary, value_secondary
           <ToIcon className={userId === to_user_id ? '-rotate-90' : ''} />
         </div>
         <User
-          className="gap-[2px] !text-[14px] !leading-[20px] text-blue"
+          className="gap-[2px] !text-[14px] !leading-[20px] -text-blue"
           user={user}
           size={24}
           secondRow={false}

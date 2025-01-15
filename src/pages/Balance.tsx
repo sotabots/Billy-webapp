@@ -3,7 +3,7 @@ import Lottie from 'lottie-react'
 import { useEffect, useState } from 'react'
 import { useTranslation } from 'react-i18next'
 
-import { useStore, useCurrencies, useFeedback, useSummary, usePostTransaction, useGetSummary, useGetTransactions, useGetProfile, useGetUsers, useUsers, useAuth, useGetUserSettings } from '../hooks'
+import { useStore, useCurrencies, useFeedback, useSummary, usePostTransaction, useGetSummary, useGetTransactions, useGetProfile, useGetUsers, useUsers, useAuth, useGetUserSettings, useTgSettings } from '../hooks'
 import { Button, Overlay, Panel, DebtDetailed, Divider, UserButton, Currencies, CurrencyAmount, Debt2, Tabs } from '../kit'
 import { TCurrencyId, TDebt, TNewTransaction, TUserId } from '../types'
 import { formatAmount, closeApp } from '../utils'
@@ -35,6 +35,7 @@ export const Balance = ({
   const [, notificationOccurred] = useHapticFeedback()
   const { userId } = useAuth()
   const { feedback } = useFeedback()
+  const { goSettings } = useTgSettings()
 
   const { summaryCurrencyId, setSummaryCurrencyId, setTxPatchError } = useStore()
 
@@ -205,6 +206,8 @@ export const Balance = ({
   const isItems: undefined | boolean =
     !!summary && (!!summary.balance.debt.details.length || !!summary.balance.credit.details.length)
 
+  const isCalcInMyCurrency: boolean = summaryCurrencyId === userSettings?.currency
+
   return (
     <>
       {!selectedDebt && !!isItems && (
@@ -237,8 +240,26 @@ export const Balance = ({
               <Panel className="!pb-4">
                 <div className="flex flex-col gap-2">
                   <h3 className="">
-                    {t('balance.calculated', { currency: summaryCurrencyId })}
+                    {t(isCalcInMyCurrency ? 'balance.calcInMyCurrency' : 'balance.calcInCurrency', { currency: summaryCurrencyId })}
                   </h3>
+                  <div className="text-[14px] leading-[20px] text-textSec2">
+                    <div>{t('balance.originalOtherTab')}</div>
+                    {isCalcInMyCurrency &&
+                      <div>
+                        {t('balance.toChangeYourCurrency')}
+                        &nbsp;
+                        <Button
+                          wrapperClassName="inline-block"
+                          onClick={() => { goSettings() }}
+                        >
+                          <span className="text-blue">
+                            {t('balance.profileSettings')}
+                          </span>
+                          .
+                        </Button>
+                      </div>
+                    }
+                  </div>
                   <Button
                     className="text-[14px] leading-[24px] text-blue"
                     onClick={() => {
