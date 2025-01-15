@@ -1,4 +1,4 @@
-import { useHapticFeedback } from '@vkruglikov/react-telegram-web-app'
+import { useHapticFeedback, useShowPopup } from '@vkruglikov/react-telegram-web-app'
 import Lottie from 'lottie-react'
 import { useEffect, useState } from 'react'
 import { useTranslation } from 'react-i18next'
@@ -31,7 +31,7 @@ export const Balance = ({
   setCustomRecipientId: (customRecipientId: null | TUserId) => void
 }) => {
   const { t } = useTranslation()
-
+  const showPopup = useShowPopup()
   const [, notificationOccurred] = useHapticFeedback()
   const { userId } = useAuth()
   const { feedback } = useFeedback()
@@ -232,6 +232,34 @@ export const Balance = ({
                 },
               ]}
             />
+
+            {!!summaryCurrencyId &&
+              <Panel className="!pb-4">
+                <div className="flex flex-col gap-2">
+                  <h3 className="">
+                    {t('balance.calculated', { currency: summaryCurrencyId })}
+                  </h3>
+                  <Button
+                    className="text-[14px] leading-[24px] text-blue"
+                    onClick={() => {
+                      showPopup({
+                        title: t('balance.calcHow'),
+                        message: t('balance.how'),
+                        buttons: [
+                          {
+                            id: 'ok',
+                            text: 'ok',
+                            type: 'default',
+                          },
+                        ],
+                      })
+                    }}
+                  >
+                    {t('balance.calcHow')}
+                  </Button>
+                </div>
+              </Panel>
+            }
 
             {isTotal &&
               <Panel className="!pb-4">

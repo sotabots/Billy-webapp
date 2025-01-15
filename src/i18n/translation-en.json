@@ -57,8 +57,7 @@
     "getProTitle": "Voice/text addition limit:",
     "getProTitlePcs": "pcs",
     "getProDescription": "Unlimited addition and more with Billy Pro",
-    "getPro": "Get Billy Pro",
-    "how": "Billy recalculates debts to minimize the number of transfers. For example: if someone paid for you, and you paid for another person, Billy will redistribute the amounts so that you pay directly to the one who really needs it, skipping unnecessary steps."
+    "getPro": "Get Billy Pro"
   },
   "thisChat": "This chat",
   "left": "left",
@@ -68,6 +67,9 @@
     "title": "Balance",
     "inMyCurrency": "My currency",
     "inOriginalCurrencies": "Original currencies",
+    "calculated": "Billy calculated the total amount of all debts and showed it in {{currency}}",
+    "calcHow": "How does the calculation work?",
+    "how": "Billy recalculates debts to minimize the number of transfers. For example: if someone paid for you, and you paid for another person, Billy will redistribute the amounts so that you pay directly to the one who really needs it, skipping unnecessary steps.",
     "totalDebts": "Overall I owe",
     "totalCredits": "Overall I am owed",
     "myDebts": "I owe",
