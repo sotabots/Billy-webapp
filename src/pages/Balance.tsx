@@ -269,7 +269,7 @@ export const Balance = ({
                         buttons: [
                           {
                             id: 'ok',
-                            text: 'ok',
+                            text: t('ok'),
                             type: 'default',
                           },
                         ],
