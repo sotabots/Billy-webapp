@@ -368,12 +368,14 @@ export const Balance = ({
             }
           </div>
 
-          <Button
-            theme="bottom"
-            onClick={() => { setIsCurrencyOpen(true) }}
-          >
-            {t('showInCurrency')}
-          </Button>
+          {!!summaryCurrencyId &&
+            <Button
+              theme="bottom"
+              onClick={() => { setIsCurrencyOpen(true) }}
+            >
+              {t('showInCurrency')}
+            </Button>
+          }
         </>
       )}
 
