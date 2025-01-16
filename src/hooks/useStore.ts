@@ -44,6 +44,8 @@ type TStore = {
 
   summaryCurrencyId: null | TCurrencyId
   setSummaryCurrencyId: (summaryCurrencyId: null | TCurrencyId) => void
+  summaryPrevCurrencyId: null | TCurrencyId
+  setSummaryPrevCurrencyId: (summaryPrevCurrencyId: null | TCurrencyId) => void
 
   isEditTx: boolean
   setIsEditTx: (isEditTx: boolean) => void
@@ -109,6 +111,8 @@ export const useStore = create<TStore>((set /*, get */) => ({
 
   summaryCurrencyId: null,
   setSummaryCurrencyId: (summaryCurrencyId) => set(({ summaryCurrencyId })),
+  summaryPrevCurrencyId: null,
+  setSummaryPrevCurrencyId: (summaryPrevCurrencyId) => set(({ summaryPrevCurrencyId })),
 
   isEditTx: false,
   setIsEditTx: (isEditTx) => set(( { isEditTx } )),

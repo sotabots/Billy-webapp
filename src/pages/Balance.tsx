@@ -37,7 +37,11 @@ export const Balance = ({
   const { feedback } = useFeedback()
   const { goSettings } = useTgSettings()
 
-  const { summaryCurrencyId, setSummaryCurrencyId, setTxPatchError } = useStore()
+  const {
+    summaryCurrencyId, setSummaryCurrencyId,
+    summaryPrevCurrencyId, setSummaryPrevCurrencyId,
+    setTxPatchError,
+  } = useStore()
 
   const { refetch: refetchTransactions } = useGetTransactions()
   const { data: summary, refetch: refetchSummary } = useGetSummary()
@@ -162,6 +166,12 @@ export const Balance = ({
     setFeedbackData(null)
   }, [feedback, feedbackData, setFeedbackData, summaryCurrencyId, debts, debtCurrencyIds])
 
+  useEffect(() => {
+    if (summaryCurrencyId) {
+      setSummaryPrevCurrencyId(summaryCurrencyId)
+    }
+  }, [summaryCurrencyId, setSummaryPrevCurrencyId])
+
   if (!summary) {
     return null
   }
@@ -219,8 +229,8 @@ export const Balance = ({
                   title: t('balance.inMyCurrency'),
                   isActive: summaryCurrencyId !== null,
                   onClick: () => {
-                    if (summaryCurrencyId === null && userSettings?.currency) {
-                      setSummaryCurrencyId(userSettings.currency)
+                    if (summaryCurrencyId === null) {
+                      setSummaryCurrencyId(summaryPrevCurrencyId || userSettings?.currency || null)
                     }
                   },
                 },
