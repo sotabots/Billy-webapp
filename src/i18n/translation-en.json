@@ -44,8 +44,12 @@
   "splitEqually": "Split equally",
   "nobodyHere": "(Nobody here)",
   "checkAmounts": "Check amounts",
-  "cancelTransaction": "Delete expense",
-  "sureToCancelTransaction": "Are you sure you want to delete the expense? It can be restored in the list of expenses.",
+  "edit": {
+    "cancelTransaction": "Delete expense",
+    "sureToCancelTransaction": "Are you sure you want to delete the expense? It can be restored in the list of expenses.",
+    "txCanceled": "The expense has been cancelled. You can restore it to be included in the calculation.",
+    "restore": "Restore"
+  },
 
   "selectCategory": "Select category",
   "noCategory": "No category",

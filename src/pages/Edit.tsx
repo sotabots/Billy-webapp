@@ -66,6 +66,7 @@ export const Edit = () => {
     isNoCurrency ? `🐨 ${t('selectCurrency')}` :
     isWrongAmounts ? `🐨 ${t('checkAmounts')}` :
     isGoPaywall ? `🐨 ${t('buyProForSave')}` :
+    transaction.is_canceled ? t('edit.restore') :
     t('save')
 
   const onSelect = (personId: string | null, isPayer: boolean) => {
@@ -215,8 +216,8 @@ export const Edit = () => {
   }
 
   const cancel = async () => {
-    const title = t('cancelTransaction')
-    const message = t('sureToCancelTransaction')
+    const title = t('edit.cancelTransaction')
+    const message = t('edit.sureToCancelTransaction')
     let answerButtonId: string
     try {
       feedback('press_cancel_transaction_expshares_web')
@@ -381,11 +382,15 @@ export const Edit = () => {
             >
               <div className="min-h-[40px] flex items-center justify-center gap-2 text-[14px] leading-[24px]">
                 <DeleteIcon />
-                <span>{t('cancelTransaction')}</span>
+                <span>{t('edit.cancelTransaction')}</span>
               </div>
             </Button>
           </div>
         )}
+
+        {!!transaction.is_canceled &&
+          <div className="p-4 text-center text-[14px] leading-[24px] text-textSec">{t('edit.txCanceled')}</div>
+        }
 
         <Button
           theme="bottom"
