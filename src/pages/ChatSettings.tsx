@@ -203,7 +203,7 @@ export const ChatSettings = ({ settingsInner, setSettingsInner }: {
                     } else {
                       const _message = (admins && admins?.length > 0)
                         ? [
-                          t('usersCanMakeAdmin'),
+                          t('chatSettings.usersCanMakeAdmin'),
                           ' ',
                           ...admins.map(admin => [
                             admin.first_name,
