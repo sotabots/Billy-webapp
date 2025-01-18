@@ -91,7 +91,7 @@ export const useGetUser = (_userId?: number) => {
 
   return (
     useQuery<TUser, Error>({
-      queryKey: ['user', `user-${id}`],
+      queryKey: ['user', `user-${id}-${chatId}`],
       queryFn: () =>
         fetch(url, {
           method: 'GET',
