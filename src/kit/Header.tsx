@@ -1,12 +1,11 @@
 import cx from 'classnames'
-// import { MouseEventHandler } from 'react'
 import { useTranslation } from 'react-i18next'
 import { BackButton } from '@vkruglikov/react-telegram-web-app'
 
 import { ReactComponent as Back } from '../assets/back.svg'
 import { useBack, usePlatform } from '../hooks'
 
-export const Header = ({ className, todoRemove, onBack /*, onCancel */ }: {
+export const Header = ({ className, todoRemove, onBack }: {
   onBack?: () => void
   className?: string
   todoRemove?: boolean

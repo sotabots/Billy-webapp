@@ -176,7 +176,7 @@ export const UserSettings = () => {
               <Divider className="mr-0" />
             </MenuGroup>
 
-            {null &&
+            {!!false &&
             <MenuGroup description={t('userSettings.notifyDescription')}>
               <MenuItem
                 icon={<NotifyIcon />}
@@ -187,12 +187,6 @@ export const UserSettings = () => {
             </MenuGroup>
             }
           </div>
-          {/* <Button
-            theme="bottom"
-            onClick={() => { history.back() }}
-          >
-            {t('close')}
-          </Button> */}
         </div>
       )}
 

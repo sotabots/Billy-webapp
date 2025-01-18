@@ -1,9 +1,6 @@
-// import Lottie from 'lottie-react'
-
 import { useTheme } from '../hooks'
 import type { TUser, TUserChat } from '../types'
 
-// import lottieKoalaLooking from '../assets/animation-koala-looking.json'
 import { ReactComponent as UserIcon } from '../assets/user.svg'
 
 const apiUrl = import.meta.env.VITE_API_URL
@@ -69,11 +66,6 @@ export const Avatar = ({ user, chat, url, size = 40 }: {
           style={{ width: '80%', height: '80%' }}
           className="text-[#0452C8]"
         />
-        // <Lottie
-        //   style={{ height: 0.8 * size }}
-        //   animationData={lottieKoalaLooking}
-        //   loop={true}
-        // />
       )}
     </div>
   )

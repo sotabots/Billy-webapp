@@ -93,7 +93,7 @@ export const Balance = ({
         is_equally: true,
         shares: [
           {
-            person_id: `settleup_from_user`,
+            person_id: 'settleup_from_user',
             related_user_id: selectedDebt.from_user_id,
             amount: selectedDebtAmount,
             is_payer: true,
@@ -102,7 +102,7 @@ export const Balance = ({
             is_fixed_amount: false,
           },
           {
-            person_id: `settleup_to_user`,
+            person_id: 'settleup_to_user',
             related_user_id: customRecipientId || selectedDebt.to_user_id,
             amount: selectedDebtAmount,
             is_payer: false,

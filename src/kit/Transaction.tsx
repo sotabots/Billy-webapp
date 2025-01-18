@@ -74,7 +74,7 @@ export const Transaction = ({ tx }: { tx: TTransaction }) => {
                 <ShareIcon className="w-4 h-4" />
                 <div className="text-[12px] leading-[16px] font-semibold">{numberOfUsers}</div>
               </div>
-              {null && !!cashbackAmount && (
+              {!!false && !!cashbackAmount && (
                 <div className="flex gap-[2px] items-center rounded-[8px] px-1 py-[2px] bg-[#FFFEEB] text-[12px] leading-[16px] font-semibold dark:text-[#1A2024]">
                   <CashbackIcon className="w-4 h-4" />
                   <span>{formatAmount(cashbackAmount)}{currency?.symbol}</span>
