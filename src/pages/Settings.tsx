@@ -1,9 +1,9 @@
-import { useHapticFeedback } from '@vkruglikov/react-telegram-web-app'
+import { useHapticFeedback, useShowPopup } from '@vkruglikov/react-telegram-web-app'
 import { useState } from 'react'
 import { useTranslation } from 'react-i18next'
 import { useNavigate } from 'react-router-dom'
 
-import { useStore, useInit, useFeedback, useCurrencies, useUser, useLink, usePostChatCurrency, usePostUserLanguage, usePostChatSilent, useGetChat, usePostChatMode, usePostChatMonthlyLimit, usePostChatCashback } from '../hooks'
+import { useStore, useInit, useFeedback, useCurrencies, useUser, useLink, usePostChatCurrency, usePostUserLanguage, usePostChatSilent, useGetChat, usePostChatMode, usePostChatMonthlyLimit, usePostChatCashback, useUsers } from '../hooks'
 import { Button, Divider, MenuItem, MenuGroup, RadioButton, InputAmount, Currencies, Switch } from '../kit'
 import { TCurrencyId, TLanguageCode, TMode } from '../types'
 import { formatAmount } from '../utils'
@@ -27,10 +27,12 @@ export const Settings = ({ settingsInner, setSettingsInner }: {
   useInit()
 
   const { t } = useTranslation()
+  const showPopup = useShowPopup()
   const { setPaywallSource, setPaywallFrom } = useStore()
   const { data: chat } = useGetChat()
   const { feedback } = useFeedback()
-  const { isPro, userLang, refetchUser } = useUser()
+  const { isPro, userLang, me, refetchUser } = useUser()
+  const { admins } = useUsers()
   const navigate = useNavigate()
   const { openLink, ADD_TO_CHAT_LINK } = useLink()
 
@@ -185,20 +187,52 @@ export const Settings = ({ settingsInner, setSettingsInner }: {
             <div className="p-4 pb-5 pr-6 border border-[#F76659]/30 rounded-[6px] bg-[#F76659]/10">
               <div className="flex flex-col gap-3">
                 <div className="flex flex-col gap-1">
-                  <div className="text-text text-[14px] leading-[24px] font-semibold">{t('makeBillyAdminTitle')}</div>
+                  <div className="text-text text-[14px] leading-[24px] font-semibold">{t('chatSettings.makeBillyAdminTitle')}</div>
                   <div className="text-text/70 text-[14px] leading-[24px] ">
-                    <div className="pl-4"><span className="-ml-3">•</span> {t('makeBillyAdminFeature1')}</div>
-                    <div className="pl-4"><span className="-ml-3">•</span> {t('makeBillyAdminFeature2')}</div>
-                    <div className="pl-4"><span className="-ml-3">•</span> {t('makeBillyAdminFeature3')}</div>
+                    <div className="pl-4"><span className="-ml-3">•</span> {t('chatSettings.makeBillyAdminFeature1')}</div>
+                    <div className="pl-4"><span className="-ml-3">•</span> {t('chatSettings.makeBillyAdminFeature2')}</div>
+                    <div className="pl-4"><span className="-ml-3">•</span> {t('chatSettings.makeBillyAdminFeature3')}</div>
                   </div>
                 </div>
                 <Button
                   className="rounded-[6px] px-3 py-1 bg-[#F76659] text-[#F6F8F9] text-[14px] leading-[24px] font-semibold"
                   onClick={() => {
-                    openLink(ADD_TO_CHAT_LINK)
+                    if (!me) return
+                    if (me.is_admin_in_this_chat) {
+                      openLink(ADD_TO_CHAT_LINK)
+                    } else {
+                      const _message = (admins && admins?.length > 0)
+                        ? [
+                          t('usersCanMakeAdmin'),
+                          ' ',
+                          ...admins.map(admin => [
+                            admin.first_name,
+                            ...(admin.last_name ? [admin] : []),
+                            ...(admin.username ? [`(@${admin.username})`] : []),
+                          ].join(' ')),
+                        ].join('\n')
+                        : t('chatSettings.onlyAdmin')
+
+                      const message = _message.length > 256
+                        ? `${_message.slice(0, 255)}…`
+                        : _message
+
+                      showPopup({
+                        title: t('chatSettings.makeAdmin'),
+                        message,
+                        buttons: [
+                          {
+                            id: 'ok',
+                            text: t('ok'),
+                            type: 'default',
+                          },
+                        ],
+                      })
+                    }
                   }}
+                  disabled={!me}
                 >
-                  {t('makeAdmin')}
+                  {t('chatSettings.makeAdmin')}
                 </Button>
               </div>
             </div>
@@ -268,7 +302,7 @@ export const Settings = ({ settingsInner, setSettingsInner }: {
               }}
             />
             <Divider className="mr-0" />
-            {null && !!chat && chat.mode === 'family' &&
+            {!!false && !!chat && chat.mode === 'family' &&
               <MenuItem
                 icon={<SettingsLimitIcon />}
                 title={t('monthlyLimit')}

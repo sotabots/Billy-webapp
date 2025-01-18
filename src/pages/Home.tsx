@@ -154,7 +154,7 @@ export const Home = ({ tab }: {
         <>
           {!settingsInner &&
             <CustomHeader
-              center={t('settings.title')}
+              center={t('chatSettings.title')}
             />
           }
           <Settings

@@ -371,6 +371,7 @@ const generateUser = (_name: string): TUser => {
     username: Math.random() > 0.2 ? transliterate(_name).toLowerCase() : undefined,
     profile_photo: Math.random() < 0.5 ? null : `https://i.pravatar.cc/48/${Math.round(Math.random() * 1e10)}`,
     _name,
+    is_admin_in_this_chat: false,
   }
 }
 
@@ -465,6 +466,7 @@ const demoUsers: TUser[] = [
     last_name: isRus ? 'Дуров' : 'Durov',
     username: 'underdog',
     profile_photo: avatar0,
+    is_admin_in_this_chat: false,
   },
   {
     _id: 1001,
@@ -472,6 +474,7 @@ const demoUsers: TUser[] = [
     last_name: isRus ? 'Костин' : 'Kostin',
     username: 'ceo_of_everything',
     profile_photo: avatar1,
+    is_admin_in_this_chat: false,
   },
   {
     _id: 1002,
@@ -479,6 +482,7 @@ const demoUsers: TUser[] = [
     last_name: isRus ? 'Корепанов' : 'Korepanov',
     username: 'gkor',
     profile_photo: avatar2,
+    is_admin_in_this_chat: false,
   },
   {
     _id: 1003,
@@ -486,6 +490,7 @@ const demoUsers: TUser[] = [
     last_name: isRus ? 'Турилова' : 'Turilova',
     username: 'dariadesign',
     profile_photo: avatar3,
+    is_admin_in_this_chat: false,
   },
   {
     _id: 1004,
@@ -493,6 +498,7 @@ const demoUsers: TUser[] = [
     last_name: isRus ? 'Искаков' : 'Iskakov',
     username: 'karim_official',
     profile_photo: avatar4,
+    is_admin_in_this_chat: false,
   },
 ]
 

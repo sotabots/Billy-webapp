@@ -4,10 +4,13 @@ import { useGetUsers, useStore } from '../hooks'
 import type { TUser, TUserId, TShare } from '../types'
 
 export const useUsers = () => {
+  const [impactOccurred, , selectionChanged] = useHapticFeedback()
   const { transaction, setTransaction, selectPersonId } = useStore()
   const { data: _users } = useGetUsers()
+
+  const admins: undefined | TUser[] = _users?.filter(user => user.is_admin_in_this_chat)
+
   const users = _users || []
-  const [impactOccurred, , selectionChanged] = useHapticFeedback()
 
   const transactionShares = transaction?.shares || [] as TShare[]
 
@@ -171,5 +174,5 @@ export const useUsers = () => {
     history.back()
   }
 
-  return { users, unrelatedUsers, relatedUsers, countUnrelatedPersons, isRelationsComplete, isRelationsEnough, getUserById, selectUser, addUsers, updUsers, deleteUser }
+  return { users, admins, unrelatedUsers, relatedUsers, countUnrelatedPersons, isRelationsComplete, isRelationsEnough, getUserById, selectUser, addUsers, updUsers, deleteUser }
 }
