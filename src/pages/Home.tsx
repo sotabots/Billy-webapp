@@ -5,7 +5,7 @@ import { useNavigate } from 'react-router-dom'
 
 import { useInit, useFilter, useFeedback, useSummary, useGetSummary, useGetSummarySheetRebuild, useGetChat /*, useStore */ } from '../hooks'
 import { Page, Header, CustomHeader, Button } from '../kit'
-import { Summary, Balance, Settings, TSettingsInner } from '../pages'
+import { Summary, Balance, ChatSettings, TSettingsInner } from '../pages'
 import { TUserId } from '../types'
 
 import { ReactComponent as SettingsIcon } from '../assets/settings.svg'
@@ -157,7 +157,7 @@ export const Home = ({ tab }: {
               center={t('chatSettings.title')}
             />
           }
-          <Settings
+          <ChatSettings
             settingsInner={settingsInner}
             setSettingsInner={setSettingsInner}
           />

@@ -20,7 +20,7 @@ import { ReactComponent as ProBadge } from '../assets/pro-badge.svg'
 
 export type TSettingsInner = null | 'currency' | 'language' | 'limit' | 'cashback'
 
-export const Settings = ({ settingsInner, setSettingsInner }: {
+export const ChatSettings = ({ settingsInner, setSettingsInner }: {
   settingsInner: TSettingsInner
   setSettingsInner: (_: TSettingsInner) => void
 }) => {
