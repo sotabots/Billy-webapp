@@ -121,30 +121,27 @@ export const Edit = () => {
     if (!tx.is_equally) {
       return tx
     }
+    const oweSharesUnfixed = oweShares.filter(share => !share.is_fixed_amount)
     const oweSharesFixed = oweShares.filter(share => share.is_fixed_amount)
     const oweSharesFixedSum = oweSharesFixed.reduce((acc, share) => acc + share.amount, 0)
     const divisibleSum = Math.max(0, payedSum - oweSharesFixedSum)
-    const oweSharesUnfixed = oweShares.filter(share => !share.is_fixed_amount)
 
     const newAmount = parseFloat(
       (
         Math.floor((10**decimals * divisibleSum / oweSharesUnfixed.length)) / 10**decimals
       ).toFixed(decimals)
     )
-    const newAmountUp = divisibleSum - (oweSharesUnfixed.length - 1) * newAmount
+    let extra = divisibleSum - (oweSharesUnfixed.length) * newAmount
 
     const newShares = [...tx.shares]
-    let isFirstOweShare = false
     for (const newShare of newShares) {
       if (newShare.is_payer || !newShare.related_user_id || newShare.is_fixed_amount) {
         continue
       }
-      if (!isFirstOweShare) {
-        isFirstOweShare = true
-        newShare.amount = newAmountUp
-      } else {
-        newShare.amount = newAmount
-      }
+      const ADDITION_MAX = 0.01
+      const addition = extra >= ADDITION_MAX ? ADDITION_MAX : extra
+      extra -= addition
+      newShare.amount = Math.round((newAmount + addition) * 100) / 100
     }
     if (JSON.stringify(newShares) === JSON.stringify(tx.shares)) {
       return tx
