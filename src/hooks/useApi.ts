@@ -79,19 +79,17 @@ export const useGetUsers = () => {
   )
 }
 
-export const useGetUser = (_userId?: number) => {
+export const useGetUser = () => {
   const { authString, userId } = useAuth()
-  const id = _userId || userId
   const { chatId } = useChatId()
 
   const url = `${apiUrl}/users/details?${new URLSearchParams({
     ...(chatId ? { chat_id: String(chatId) } : {}),
-    user_id: String(id),
   })}`
 
   return (
     useQuery<TUser, Error>({
-      queryKey: ['user', `user-${id}-${chatId}`],
+      queryKey: ['user', `user-${userId}-${chatId}`],
       queryFn: () =>
         fetch(url, {
           method: 'GET',
@@ -99,7 +97,7 @@ export const useGetUser = (_userId?: number) => {
             'Authorization': authString,
           }
         }).then(handleJsonResponse),
-      enabled: !!id,
+      enabled: !!userId,
       staleTime
     })
   )
@@ -310,7 +308,7 @@ export const usePostChatLanguage = () => { // todo: remove
 export const usePostUserLanguage = () => {
   const { authString, userId } = useAuth()
   const url = userId
-    ? `${apiUrl}/users/language?user_id=${userId}`
+    ? `${apiUrl}/users/language`
     : 'https://jsonplaceholder.typicode.com/posts'
 
   return (languageCode: TLanguageCode) =>
@@ -474,7 +472,7 @@ export const useGetProfile = () => {
     useQuery<TProfile, Error>({
       queryKey: [`profile-${userId}`],
       queryFn: () =>
-        fetch(`${apiUrl}/users/profile?user_id=${userId}`, {
+        fetch(`${apiUrl}/users/profile`, {
           method: 'GET',
           headers: {
             'Authorization': authString,
