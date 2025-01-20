@@ -85,7 +85,7 @@ export const useGetUser = (_userId?: number) => {
   const { chatId } = useChatId()
 
   const url = `${apiUrl}/users/details?${new URLSearchParams({
-    chat_id: String(chatId),
+    ...(chatId ? { chat_id: String(chatId) } : {}),
     user_id: String(id),
   })}`
 
