@@ -81,17 +81,15 @@ export const useGetUsers = () => {
 
 export const useGetUser = () => {
   const { authString, userId } = useAuth()
-  const id = userId // todo: remove, unused param
   const { chatId } = useChatId()
 
   const url = `${apiUrl}/users/details?${new URLSearchParams({
     ...(chatId ? { chat_id: String(chatId) } : {}),
-    user_id: String(id),
   })}`
 
   return (
     useQuery<TUser, Error>({
-      queryKey: ['user', `user-${id}-${chatId}`],
+      queryKey: ['user', `user-${userId}-${chatId}`],
       queryFn: () =>
         fetch(url, {
           method: 'GET',
@@ -99,7 +97,7 @@ export const useGetUser = () => {
             'Authorization': authString,
           }
         }).then(handleJsonResponse),
-      enabled: !!id,
+      enabled: !!userId,
       staleTime
     })
   )
