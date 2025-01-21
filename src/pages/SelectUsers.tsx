@@ -86,7 +86,7 @@ export const SelectUsers = () => {
           }
         }}
       >
-        {t('apply') /* todo */}
+        {t('apply')}
       </Button>
     </Page>
   )

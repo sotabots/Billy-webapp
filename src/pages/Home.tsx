@@ -36,7 +36,7 @@ export const Home = ({ tab }: {
   const [customRecipientId, setCustomRecipientId] = useState<null | TUserId>(null)
   const [isCurrencyOpen, setIsCurrencyOpen] = useState(false)
 
-  const [isCompactPie, setIsCompactPie] = useState<boolean>(true) // todo: false?
+  const [isCompactPie, setIsCompactPie] = useState<boolean>(true)
 
   const screenRef = useRef<HTMLDivElement>(null)
 
