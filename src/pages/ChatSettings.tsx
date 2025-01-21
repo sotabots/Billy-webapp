@@ -207,7 +207,7 @@ export const ChatSettings = ({ settingsInner, setSettingsInner }: {
                           ' ',
                           ...admins.map(admin => [
                             admin.first_name,
-                            ...(admin.last_name ? [admin] : []),
+                            ...(admin.last_name ? [admin.last_name] : []),
                             ...(admin.username ? [`(@${admin.username})`] : []),
                           ].join(' ')),
                         ].join('\n')
