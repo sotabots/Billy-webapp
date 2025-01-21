@@ -4,7 +4,7 @@ import { useEffect, useState } from 'react'
 import { useTranslation } from 'react-i18next'
 
 import { useStore, useCurrencies, useFeedback, useSummary, usePostTransaction, useGetSummary, useGetTransactions, useGetProfile, useGetUsers, useUsers, useAuth, useGetUserSettings, useTgSettings } from '../hooks'
-import { Button, Overlay, Panel, DebtDetailed, Divider, UserButton, Currencies, CurrencyAmount, Debt2, Tabs } from '../kit'
+import { Button, Overlay, Panel, DebtDetailed, Divider, UserButton, Currencies, CurrencyAmount, Debt, Tabs } from '../kit'
 import { TCurrencyId, TDebt, TNewTransaction, TUserId } from '../types'
 import { formatAmount, closeApp } from '../utils'
 
@@ -318,7 +318,7 @@ export const Balance = ({
                 </h3>
                 <div className="mt-4 flex flex-col gap-4">
                   {summary.balance.debt.details.map(debt => (
-                    <Debt2
+                    <Debt
                       key={JSON.stringify(debt)}
                       {...debt}
                       onClick={() => {
@@ -348,7 +348,7 @@ export const Balance = ({
                 </h3>
                 <div className="mt-4 flex flex-col gap-4">
                   {summary.balance.credit.details.map(debt => (
-                    <Debt2
+                    <Debt
                       key={JSON.stringify(debt)}
                       {...debt}
                       onClick={() => {
