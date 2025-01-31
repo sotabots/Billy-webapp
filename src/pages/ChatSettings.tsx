@@ -273,6 +273,8 @@ export const ChatSettings = ({ settingsInner, setSettingsInner }: {
           }
 
           <MenuGroup className="mt-5">
+            {false &&
+            <>
             <MenuItem
               icon={<SettingsCurrencyIcon />}
               title={t('currency')}
@@ -285,6 +287,8 @@ export const ChatSettings = ({ settingsInner, setSettingsInner }: {
               }}
             />
             <Divider className="mr-0" />
+            </>
+            }
             <MenuItem
               icon={<SettingsLanguageIcon />}
               title={t('language')}
