@@ -11,7 +11,7 @@ import { ReactComponent as DropdownCheck } from '../assets/dropdown-check.svg'
 export const Dropdown = ({ className, items, value, onChange }: {
   className?: string,
   items: {
-    text: string
+    title: string
     value: string
   }[],
   value: string,
@@ -27,7 +27,7 @@ export const Dropdown = ({ className, items, value, onChange }: {
           className="Dropdown-button flex items-center pl-2 pr-1 bg-separator rounded-[4px] font-semibold text-blue"
           onClick={() => { setIsOpen(!isOpen) }}
         >
-          <div className="text-[14px] leading-[24px]">{items.find(item => item.value === value)?.text}</div>
+          <div className="text-[14px] leading-[24px]">{items.find(item => item.value === value)?.title}</div>
           <DropdownIcon
             className={cx(
               'w-6 h-6 transition-all',
@@ -53,7 +53,7 @@ export const Dropdown = ({ className, items, value, onChange }: {
                 setIsOpen(!isOpen)
               }}
             >
-              <div className="text-[14px] leading-[24px] text-left whitespace-nowrap">{item.text}</div>
+              <div className="text-[14px] leading-[24px] text-left whitespace-nowrap">{item.title}</div>
               <DropdownCheck
                 className={cx(
                   'w-6 h-6 text-blue transition-all',

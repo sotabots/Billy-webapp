@@ -28,12 +28,12 @@ export const Profile = () => {
   type TDropdownValue = 'ALL' | 'ACTIVE' | 'SETTLED_UP'
 
   const dropdownItems: {
-    text: string
+    title: string
     value: TDropdownValue
   }[] = [
-    { text: t('profile.all'), value: 'ALL' },
-    { text: t('profile.notSettledUp'), value: 'ACTIVE' },
-    { text: t('profile.settledUp'), value: 'SETTLED_UP' },
+    { title: t('profile.all'), value: 'ALL' },
+    { title: t('profile.notSettledUp'), value: 'ACTIVE' },
+    { title: t('profile.settledUp'), value: 'SETTLED_UP' },
   ]
 
   const [dropdownValue, setDropdownValue] = useState<TDropdownValue>(dropdownItems[0].value)

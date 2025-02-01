@@ -3,7 +3,7 @@ import { useTranslation } from 'react-i18next'
 import { useNavigate } from 'react-router-dom'
 
 import { useStore, useTotal, useFilter, useFeedback, useUser, useGetVoiceLimit, useGetSummary } from '../hooks'
-import { Button, Panel, Pie, Category, DateMark, Transaction, RadioButtons, DatePicker, CurrencyAmount } from '../kit'
+import { Button, Panel, Pie, Category, DateMark, Transaction, RadioButtons, DatePicker, CurrencyAmount, Dropdown } from '../kit'
 import { TFilterPeriod, TFilterTotal } from '../types'
 
 import { ReactComponent as GoIcon } from '../assets/go.svg'
@@ -37,6 +37,7 @@ export const Summary = ({
     setFilterTotalPre,
     setFilterPeriodPre,
     filterTotal,
+    setFilterTotal,
     filterPeriod,
     fromTime, setFromTime,
     toTime, setToTime,
@@ -195,6 +196,7 @@ export const Summary = ({
                         {totalFormatted}
                       </div>
                     </div>
+                    {isDebug && (
                     <Button
                       className="flex items-center justify-center w-8 h-8"
                       onClick={() => {
@@ -208,6 +210,7 @@ export const Summary = ({
                           : <FilterIcon />
                       }
                     </Button>
+                    )}
                   </div>
                   <div className="flex flex-col gap-4">
                     <Pie
@@ -248,7 +251,15 @@ export const Summary = ({
                       <h3 className="text-blue">excel</h3>
                     </Button>
                   </div>
-                  <div>&nbsp;{/* dropdown */}</div>
+                  <div>
+                    <Dropdown
+                      items={radioItemsTotal}
+                      value={filterTotal}
+                      onChange={(value: string) => {
+                        setFilterTotal(value as TFilterTotal)
+                      }}
+                    />
+                  </div>
                 </div>
                 <div className="flex flex-col gap-3">
                   {txGroups.map((txGroup, i) => (
@@ -296,7 +307,9 @@ export const Summary = ({
                 <RadioButtons
                   items={radioItemsTotal}
                   activeValue={filterTotalPre}
-                  onChange={(val: string) => { setFilterTotalPre(val as TFilterTotal) }}
+                  onChange={(val: string) => {
+                    setFilterTotalPre(val as TFilterTotal)
+                  }}
                 />
               </div>
               {isDebug && (

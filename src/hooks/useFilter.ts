@@ -54,6 +54,7 @@ export const useFilter = () => {
   }[]
 
   const sortedTransactions = [...filteredTransactions].sort((tx1, tx2) => tx1.time_created > tx2.time_created ? -1 : 1)
+
   const groups: TGroups = sortedTransactions.reduce((groups: TGroups, tx: TTransaction) => {
     const dateKey = tx.time_created.split('T')[0]
     if (!groups[dateKey]) {
@@ -75,8 +76,10 @@ export const useFilter = () => {
     openFilter,
     closeFilter,
     applyFilter,
-    filterTotal, filterTotalPre, setFilterTotalPre,
-    filterPeriod, filterPeriodPre, setFilterPeriodPre,
+    filterTotal, setFilterTotal,
+    filterTotalPre, setFilterTotalPre,
+    filterPeriod, setFilterPeriod,
+    filterPeriodPre, setFilterPeriodPre,
     fromTime, setFromTime,
     toTime, setToTime,
     isFilterActive,
