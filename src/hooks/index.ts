@@ -1,7 +1,6 @@
 export * from './useApi'
 export * from './useAuth'
 export * from './useBack'
-export * from './useBalance'
 export * from './useCategories'
 export * from './useChatId'
 export * from './useClarity'
