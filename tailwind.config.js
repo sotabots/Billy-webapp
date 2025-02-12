@@ -56,6 +56,9 @@ export default {
           '100%': { backgroundPosition: '-100% center' },
         },
       },
+      screens: {
+        'touchscreen': {'raw': 'not (hover: hover)'},
+      }
     }
   }
 }

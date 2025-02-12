@@ -46,7 +46,7 @@ export const Transaction = ({ tx }: { tx: TTransaction }) => {
   return (
     <Button
       wrapperClassName="Transaction"
-      className="w-full flex gap-2 rounded-[16px] text-left bg-bg2 p-2"
+      className="w-full flex gap-2 rounded-[16px] text-left bg-bg2 p-2 touchscreen:enabled:hover:brightness-100 touchscreen:enabled:active:brightness-100"
       onClick={() => {
         setTxId(tx._id)
         setIsEditTx(true)
