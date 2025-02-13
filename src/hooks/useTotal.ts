@@ -1,4 +1,4 @@
-import { useAuth, useCurrencies, useGetChat, useStore } from '../hooks'
+import { useAuth, useCurrencies, useGetChat, useGetUserSettings, useStore } from '../hooks'
 import { formatAmount } from '../utils'
 
 import { TTransaction } from '../types'
@@ -13,9 +13,11 @@ export const useTotal = ({ filteredTransactions }: {
   const { data: chat } = useGetChat()
   const rates = chat?.rates
 
-  const chatCurrency = getCurrencyById(chat?.default_currency || 'USD')
-  const chatCurrencySymbol = chatCurrency?.symbol || '$'
-  const chatCurrencyId = chatCurrency?._id || 'USD'
+  const { data: userSettings } = useGetUserSettings()
+
+  const myCurrency = getCurrencyById(userSettings?.currency || 'USD')
+  const myCurrencySymbol = myCurrency?.symbol || '$'
+  const myCurrencyId = myCurrency?._id || 'USD'
 
   type TRawCategory = {
     categoryKey: string
@@ -37,19 +39,19 @@ export const useTotal = ({ filteredTransactions }: {
         )
         .reduce((amountAcc, share) => amountAcc + share.amount, 0)
 
-      const amountInChatCurrency = tx.currency_id === chatCurrencyId
+      const amountInMyCurrency = tx.currency_id === myCurrencyId
         ? amountInTxCurrency
-        : amountInTxCurrency * rates[`USD${chatCurrencyId}`] / rates[`USD${tx.currency_id}`]
+        : amountInTxCurrency * rates[`USD${myCurrencyId}`] / rates[`USD${tx.currency_id}`]
 
       const txCategory = tx.category || 'unknown'
       const itemIndex = acc.findIndex((rawCat: TRawCategory) => rawCat.categoryKey === txCategory)
       if (itemIndex === -1) {
         acc.push({
           categoryKey: txCategory,
-          amount: amountInChatCurrency
+          amount: amountInMyCurrency
         })
       } else {
-        acc[itemIndex].amount += amountInChatCurrency
+        acc[itemIndex].amount += amountInMyCurrency
       }
       return acc
     }, [] as TRawCategory[])
@@ -64,7 +66,7 @@ export const useTotal = ({ filteredTransactions }: {
   }
 
   const total = rawCategories.reduce((acc, _) => (acc + _.amount), 0)
-  const totalFormatted = `${formatAmount(total)}${chatCurrencySymbol}`
+  const totalFormatted = `${formatAmount(total)}${myCurrencySymbol}`
 
   const totalCategories: {
     categoryKey: string
@@ -72,7 +74,7 @@ export const useTotal = ({ filteredTransactions }: {
     relativeValue: number
   }[] = rawCategories.map(({ categoryKey, amount }) => ({
     categoryKey,
-    amountFormatted: `${formatAmount(amount)}${chatCurrencySymbol}`,
+    amountFormatted: `${formatAmount(amount)}${myCurrencySymbol}`,
     relativeValue: amount / total,
   }))
 

@@ -440,7 +440,7 @@ const mockRates = mockCurrencies.reduce((acc, currency) => {
 }, {} as TRates)
 
 const _mockChat: TChat = {
-  default_currency: 'USD',
+  last_used_currency_id: 'USD',
   language_code: 'en',
   is_admin: false,
   silent_mode: false,
@@ -595,7 +595,7 @@ const demoTransaction: TTransaction = {
 const demoCurrencyId = isRus ? 'RUB' : 'USD'
 
 const demoChat: TChat = {
-  default_currency: demoCurrencyId,
+  last_used_currency_id: demoCurrencyId,
   language_code: demoLanguage,
   is_admin: false,
   silent_mode: false,

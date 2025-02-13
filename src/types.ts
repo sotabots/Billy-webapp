@@ -79,7 +79,7 @@ export type TRates = {
 export type TMode = 'family' | 'travel'
 
 export type TChat = {
-  default_currency: TCurrencyId | null
+  last_used_currency_id: TCurrencyId | null
   language_code: TLanguageCode
   silent_mode: boolean
   is_admin: boolean // is Billy admin in this chat

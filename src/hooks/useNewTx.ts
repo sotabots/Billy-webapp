@@ -18,7 +18,7 @@ export const useNewTx = () => {
     editor_user_id: null,
     is_voice: false,
     raw_text: '',
-    currency_id: chat?.default_currency || null,
+    currency_id: chat?.last_used_currency_id || null,
     is_confirmed: true,
     is_canceled: false,
     is_equally: true,

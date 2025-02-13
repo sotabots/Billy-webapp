@@ -3,7 +3,7 @@ import { useState } from 'react'
 import { useTranslation } from 'react-i18next'
 import { useNavigate } from 'react-router-dom'
 
-import { useStore, useInit, useFeedback, useCurrencies, useUser, useLink, usePostChatCurrency, usePostUserLanguage, usePostChatSilent, useGetChat, usePostChatMode, usePostChatMonthlyLimit, usePostChatCashback, useUsers } from '../hooks'
+import { useStore, useInit, useFeedback, useUser, useLink, usePostChatCurrency, usePostUserLanguage, usePostChatSilent, useGetChat, usePostChatMode, usePostChatMonthlyLimit, usePostChatCashback, useUsers } from '../hooks'
 import { Button, Divider, MenuItem, MenuGroup, RadioButton, InputAmount, Currencies, Switch } from '../kit'
 import { TCurrencyId, TLanguageCode, TMode } from '../types'
 import { formatAmount } from '../utils'
@@ -81,7 +81,7 @@ export const ChatSettings = ({ settingsInner, setSettingsInner }: {
 
     if (isSuccess) {
       feedback('set_currency_settings_web', {
-        currency_prev: chat?.default_currency,
+        currency_prev: chat?.last_used_currency_id,
         currency_set: currencyId,
       })
       refetchChat()
@@ -175,9 +175,6 @@ export const ChatSettings = ({ settingsInner, setSettingsInner }: {
       title: 'Русский',
     },
   ]
-
-  const { getCurrencyById } = useCurrencies()
-  const chatCurrency = getCurrencyById(chat?.default_currency || 'USD')
 
   return (
     <>
@@ -278,11 +275,11 @@ export const ChatSettings = ({ settingsInner, setSettingsInner }: {
             <MenuItem
               icon={<SettingsCurrencyIcon />}
               title={t('currency')}
-              value={chat?.default_currency || ''}
+              value={false || ''} //
               onClick={() => {
                 setSettingsInner('currency')
                 feedback('press_currency_settings_web', {
-                  currency_prev: chat?.default_currency,
+                  currency_prev: undefined, // todo: remove
                 })
               }}
             />
@@ -310,7 +307,7 @@ export const ChatSettings = ({ settingsInner, setSettingsInner }: {
               <MenuItem
                 icon={<SettingsLimitIcon />}
                 title={t('monthlyLimit')}
-                value={chat?.monthly_limit ? `${formatAmount(chat.monthly_limit)}${chatCurrency?.symbol}` : t('setLimit')}
+                value={chat?.monthly_limit ? `${formatAmount(chat.monthly_limit)}${''/* todo: remove (currency) */}` : t('setLimit')}
                 badge={!isPro ? <ProBadge /> : undefined}
                 onClick={() => {
                   if (isPro) {
@@ -375,7 +372,7 @@ export const ChatSettings = ({ settingsInner, setSettingsInner }: {
           </div>
           <Currencies
             className="mt-4"
-            value={chat?.default_currency}
+            value={undefined} /* todo: remove */
             onChange={onChangeCurrency}
           />
           {/*
@@ -435,7 +432,7 @@ export const ChatSettings = ({ settingsInner, setSettingsInner }: {
                 amount={monthlyLimit}
                 onChange={setMonthlyLimit}
                 decimals={0}
-                unit={chatCurrency?.symbol}
+                unit={'' /* todo: remove (currency) */}
               />
             </div>
           </div>

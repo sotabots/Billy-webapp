@@ -196,7 +196,7 @@ export const Balance = ({
         </div>
         <Currencies
           className="mt-4"
-          value={summaryCurrencyId/* || chat?.default_currency */}
+          value={summaryCurrencyId}
           onChange={(currencyId: TCurrencyId) => {
             setFeedbackData({
               currency: currencyId,
