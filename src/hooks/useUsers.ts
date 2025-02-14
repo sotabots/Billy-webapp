@@ -6,7 +6,7 @@ import type { TUser, TUserId, TShare } from '../types'
 export const useUsers = () => {
   const [impactOccurred, , selectionChanged] = useHapticFeedback()
   const { transaction, setTransaction, selectPersonId } = useStore()
-  const { data: _users } = useGetUsers()
+  const { data: _users, refetch: refetchUsers } = useGetUsers()
 
   const admins: undefined | TUser[] = _users?.filter(user => user.is_admin_in_this_chat)
 
@@ -174,5 +174,5 @@ export const useUsers = () => {
     history.back()
   }
 
-  return { users, admins, unrelatedUsers, relatedUsers, countUnrelatedPersons, isRelationsComplete, isRelationsEnough, getUserById, selectUser, addUsers, updUsers, deleteUser }
+  return { users, refetchUsers, admins, unrelatedUsers, relatedUsers, countUnrelatedPersons, isRelationsComplete, isRelationsEnough, getUserById, selectUser, addUsers, updUsers, deleteUser }
 }

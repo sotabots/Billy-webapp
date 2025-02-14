@@ -1,11 +1,11 @@
 import { useHapticFeedback, useShowPopup } from '@vkruglikov/react-telegram-web-app'
-import { useState } from 'react'
+import { useEffect, useState } from 'react'
 import { useTranslation } from 'react-i18next'
 import { useNavigate } from 'react-router-dom'
 
-import { useStore, useInit, useFeedback, useUser, useLink, usePostChatCurrency, usePostChatLanguage, usePostChatSilent, useGetChat, usePostChatMode, usePostChatMonthlyLimit, usePostChatCashback, useUsers } from '../hooks'
-import { Button, Divider, MenuItem, MenuGroup, RadioButton, InputAmount, Currencies, Switch } from '../kit'
-import { TCurrencyId, TLanguageCode, TMode } from '../types'
+import { useStore, useInit, useFeedback, useUser, useLink, usePostChatCurrency, usePostChatLanguage, usePostChatSilent, useGetChat, usePostChatMode, usePostChatMonthlyLimit, usePostChatCashback, useUsers, usePostChatActiveUsers } from '../hooks'
+import { Button, Divider, MenuItem, MenuGroup, RadioButton, InputAmount, Currencies, Switch, UserButton, Panel } from '../kit'
+import { TCurrencyId, TLanguageCode, TMode, TUser, TUserId } from '../types'
 import { formatAmount } from '../utils'
 
 import { ReactComponent as SettingsCurrencyIcon } from '../assets/settings-currency.svg'
@@ -19,7 +19,7 @@ import { ReactComponent as ModePersonalIcon } from '../assets/mode-personal.svg'
 import { ReactComponent as ModeGroupIcon } from '../assets/mode-group.svg'
 import { ReactComponent as ProBadge } from '../assets/pro-badge.svg'
 
-export type TSettingsInner = null | 'currency' | 'language' | 'limit' | 'cashback'
+export type TSettingsInner = null | 'currency' | 'language' | 'limit' | 'cashback' | 'activeUsers'
 
 export const ChatSettings = ({ settingsInner, setSettingsInner }: {
   settingsInner: TSettingsInner
@@ -29,16 +29,63 @@ export const ChatSettings = ({ settingsInner, setSettingsInner }: {
 
   const { t } = useTranslation()
   const showPopup = useShowPopup()
-  const { setPaywallSource, setPaywallFrom } = useStore()
-  const { data: chat } = useGetChat()
+  const [impactOccurred, , selectionChanged] = useHapticFeedback()
+
+  const { isDebug, setPaywallSource, setPaywallFrom } = useStore()
+  const { data: chat, refetch: refetchChat } = useGetChat()
   const { feedback } = useFeedback()
   const { isPro, me } = useUser()
-  const { admins } = useUsers()
+  const { users, admins, refetchUsers } = useUsers()
   const navigate = useNavigate()
   const { openLink, ADD_TO_CHAT_LINK } = useLink()
 
   const [monthlyLimit, setMonthlyLimit] = useState(chat?.monthly_limit || 0)
   const [cashback, setCashback] = useState((chat?.cashback || 0) * 100)
+
+  const langs: {
+    _id: TLanguageCode,
+    title: string
+  }[] = [
+    {
+      _id: 'en',
+      title: 'English',
+    },
+    {
+      _id: 'ru',
+      title: 'Русский',
+    },
+  ]
+
+  const activeUserIds: TUserId[] = users.filter(user => user.is_active).map(user => user._id)
+  const [checkedUserIds, setCheckedUserIds] = useState<TUserId[]>(activeUserIds)
+
+  useEffect(() => {
+    if (settingsInner === 'activeUsers') {
+      setCheckedUserIds(activeUserIds)
+    }
+  }, [settingsInner])
+
+  const isChangedActiveUsers = !(
+    checkedUserIds.every(checkedUserId => activeUserIds.includes(checkedUserId)) &&
+    activeUserIds.every(activeUserId => checkedUserIds.includes(activeUserId))
+  )
+
+  const isEveryoneChecked = checkedUserIds.length > 0 && users.every(user => checkedUserIds.includes(user._id))
+
+  const selectAll = () => {
+    setCheckedUserIds(users.map(user => user._id))
+  }
+  const unselectAll = () => {
+    setCheckedUserIds([])
+  }
+
+  const toggleUser = (user: TUser) => () => {
+    if (checkedUserIds.includes(user._id)) {
+      setCheckedUserIds(checkedUserIds.filter(_ => _ !== user._id))
+    } else {
+      setCheckedUserIds([...checkedUserIds, user._id])
+    }
+  }
 
   const [isBusy, setBusy] = useState(false)
 
@@ -48,10 +95,7 @@ export const ChatSettings = ({ settingsInner, setSettingsInner }: {
   const postChatSilent = usePostChatSilent()
   const postChatMonthlyLimit = usePostChatMonthlyLimit()
   const postChatCashback = usePostChatCashback()
-
-  const [impactOccurred, , selectionChanged] = useHapticFeedback()
-
-  const { refetch: refetchChat } = useGetChat()
+  const postChatActiveUsers = usePostChatActiveUsers()
 
   const saveMode = async (mode: TMode) => {
     impactOccurred('medium')
@@ -159,19 +203,19 @@ export const ChatSettings = ({ settingsInner, setSettingsInner }: {
     setBusy(false)
   }
 
-  const langs: {
-    _id: TLanguageCode,
-    title: string
-  }[] = [
-    {
-      _id: 'en',
-      title: 'English',
-    },
-    {
-      _id: 'ru',
-      title: 'Русский',
-    },
-  ]
+  const saveActiveUsers = async () => {
+    impactOccurred('medium')
+    setBusy(true)
+    try {
+      await postChatActiveUsers(checkedUserIds)
+      refetchUsers()
+      setSettingsInner(null)
+    } catch (e) {
+      console.error(e)
+    } finally {
+      setBusy(false)
+    }
+  }
 
   return (
     <>
@@ -344,9 +388,11 @@ export const ChatSettings = ({ settingsInner, setSettingsInner }: {
             <MenuItem
               icon={<SettingsUsersIcon />}
               title={t('chatSettings.activeUsers')}
-              value={t('soon')}
-              disabled={true}
-              onClick={() => { /* */ }}
+              value={isDebug ? `${activeUserIds.length}/${users.length}` : t('soon')}
+              disabled={!isDebug}
+              onClick={() => {
+                setSettingsInner('activeUsers')
+              }}
             />
           </MenuGroup>
 
@@ -475,6 +521,53 @@ export const ChatSettings = ({ settingsInner, setSettingsInner }: {
           </Button>
         </>
       )}
+
+      {settingsInner === 'activeUsers' && (
+        <>
+          <div className="px-4 mt-3">
+            <h2>{t('chatSettings.activeUsers')}</h2>
+            <div className="mt-2 text-[14px] leading-[20px] text-textSec2">{t('chatSettings.activeUsersDescription')}</div>
+          </div>
+          <Panel className="mt-4 !px-0 overflow-y-auto">
+            <div className="mb-2 px-4 flex items-center justify-between gap-3">
+              <h3 className="">{t('chatSettings.chatMembers')}</h3>
+              <Button
+                theme="text"
+                onClick={isEveryoneChecked ? unselectAll : selectAll}
+              >
+                {isEveryoneChecked ? t('unselectAll') : t('selectAll')}
+              </Button>
+            </div>
+            <div>
+              {users.map((user, i, arr) => (
+                <>
+                  <UserButton
+                    key={`UserButton-${i}`}
+                    user={user}
+                    isChecked={checkedUserIds.includes(user._id)}
+                    onClick={toggleUser(user)}
+                  />
+                  {i < arr.length - 1 && <Divider key={`Divider-${i}`} />}
+                </>
+              ))}
+            </div>
+          </Panel>
+          <Button
+            theme="bottom"
+            onClick={() => {
+              if (isChangedActiveUsers) {
+                saveActiveUsers()
+              } else {
+                setSettingsInner(null)
+              }
+            }}
+            isBusy={isBusy}
+          >
+            {isChangedActiveUsers ? t('save') : t('close')}
+          </Button>
+        </>
+      )}
+
     </>
   )
 }

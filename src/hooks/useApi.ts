@@ -2,7 +2,7 @@ import { useInitData } from '@vkruglikov/react-telegram-web-app'
 import { useQuery } from '@tanstack/react-query'
 
 import { useAuth, useNewTx, useChatId, useStore } from '../hooks'
-import { TCurrency, TCategories, TTransaction, TNewTransaction, TUser, TChat, TSummary, TCurrencyId, TLanguageCode, TMode, TPlan, TProfile, TUserSettings, TPayoffMethods, TUserPayoffMethod } from '../types'
+import { TCurrency, TCategories, TTransaction, TNewTransaction, TUser, TChat, TSummary, TCurrencyId, TLanguageCode, TMode, TPlan, TProfile, TUserSettings, TPayoffMethods, TUserPayoffMethod, TUserId } from '../types'
 import {
   mockTransaction,
   mockUsers,
@@ -374,6 +374,26 @@ export const usePostChatCashback = () => {
       method: 'POST',
       body: JSON.stringify({
         cashback: cashback,
+      }),
+      headers: {
+        'Content-type': 'application/json',
+        'Authorization': authString,
+      },
+    }).then(handleJsonResponse)
+}
+
+export const usePostChatActiveUsers = () => {
+  const { authString } = useAuth()
+  const { chatId } = useChatId()
+  const url = chatId === 0
+    ? 'https://jsonplaceholder.typicode.com/posts'
+    : `${apiUrl}/chat/active_users?chat_id=${chatId}`
+
+  return (activeUsers: TUserId[]) =>
+    fetch(url, {
+      method: 'POST',
+      body: JSON.stringify({
+        active_users: activeUsers,
       }),
       headers: {
         'Content-type': 'application/json',

@@ -12,6 +12,7 @@ export type TUser = { // tg user
   has_active_subscription?: boolean
   shortened_name?: string
   is_admin_in_this_chat: boolean // is user admin
+  is_active?: boolean
 
   _name?: string // not used, only for mock, will be removed
 }
