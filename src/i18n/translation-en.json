@@ -94,7 +94,8 @@
     "makeBillyAdminFeature3": "Add participants to mini app as they join the chat",
     "onlyAdmin": "Only a chat admin can do this",
     "makeAdmin": "Make an admin",
-    "usersCanMakeAdmin": "The following users can make Billy an admin:"
+    "usersCanMakeAdmin": "The following users can make Billy an admin:",
+    "language": "Chat language"
   },
 
   "settleUpBy": "Settle up by",

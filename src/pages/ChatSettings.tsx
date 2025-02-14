@@ -3,7 +3,7 @@ import { useState } from 'react'
 import { useTranslation } from 'react-i18next'
 import { useNavigate } from 'react-router-dom'
 
-import { useStore, useInit, useFeedback, useUser, useLink, usePostChatCurrency, usePostUserLanguage, usePostChatSilent, useGetChat, usePostChatMode, usePostChatMonthlyLimit, usePostChatCashback, useUsers } from '../hooks'
+import { useStore, useInit, useFeedback, useUser, useLink, usePostChatCurrency, usePostChatLanguage, usePostChatSilent, useGetChat, usePostChatMode, usePostChatMonthlyLimit, usePostChatCashback, useUsers } from '../hooks'
 import { Button, Divider, MenuItem, MenuGroup, RadioButton, InputAmount, Currencies, Switch } from '../kit'
 import { TCurrencyId, TLanguageCode, TMode } from '../types'
 import { formatAmount } from '../utils'
@@ -31,7 +31,7 @@ export const ChatSettings = ({ settingsInner, setSettingsInner }: {
   const { setPaywallSource, setPaywallFrom } = useStore()
   const { data: chat } = useGetChat()
   const { feedback } = useFeedback()
-  const { isPro, userLang, me, refetchUser } = useUser()
+  const { isPro, me } = useUser()
   const { admins } = useUsers()
   const navigate = useNavigate()
   const { openLink, ADD_TO_CHAT_LINK } = useLink()
@@ -43,7 +43,7 @@ export const ChatSettings = ({ settingsInner, setSettingsInner }: {
 
   const postChatMode = usePostChatMode()
   const postChatCurrency = usePostChatCurrency()
-  const postUserLanguage = usePostUserLanguage()
+  const postChatLanguage = usePostChatLanguage()
   const postChatSilent = usePostChatSilent()
   const postChatMonthlyLimit = usePostChatMonthlyLimit()
   const postChatCashback = usePostChatCashback()
@@ -96,17 +96,13 @@ export const ChatSettings = ({ settingsInner, setSettingsInner }: {
     setBusy(true)
     let isSuccess = true
     try {
-      await postUserLanguage(languageCode)
+      await postChatLanguage(languageCode)
     } catch {
       isSuccess = false
     }
 
     if (isSuccess) {
-      feedback('set_language_settings_web', {
-        language_prev: userLang,
-        language_set: languageCode,
-      })
-      refetchUser()
+      refetchChat()
       setSettingsInner(null)
     }
     setBusy(false)
@@ -288,18 +284,15 @@ export const ChatSettings = ({ settingsInner, setSettingsInner }: {
             }
             <MenuItem
               icon={<SettingsLanguageIcon />}
-              title={t('language')}
-              value={userLang
+              title={t('chatSettings.language')}
+              value={chat?.language_code
                 ? (
-                  langs.find(lang => lang._id === userLang)?.title ||
-                  userLang.toUpperCase())
+                  langs.find(lang => lang._id === chat.language_code)?.title ||
+                  chat.language_code.toUpperCase())
                 : ''
               }
               onClick={() => {
                 setSettingsInner('language')
-                feedback('press_language_settings_web', {
-                  language_prev: userLang,
-                })
               }}
             />
             <Divider className="mr-0" />
@@ -402,7 +395,7 @@ export const ChatSettings = ({ settingsInner, setSettingsInner }: {
                   )}
                   key={`lang-${lang._id}`}
                   value={lang._id}
-                  checked={userLang === lang._id}
+                  checked={chat?.language_code === lang._id}
                   onChange={(langCode) => { onChangeLanguage(langCode as TLanguageCode) }}
                 />
                 {i < langs.length - 1 && <Divider key={`Divider-${i}`} />}

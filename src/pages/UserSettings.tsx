@@ -4,7 +4,7 @@ import { useState } from 'react'
 import { useTranslation } from 'react-i18next'
 import { useNavigate } from 'react-router-dom'
 
-import { useInit, useUser, useGetUserSettings, usePostUserSettings } from '../hooks'
+import { useInit, useUser, useGetUserSettings, usePostUserSettings, useFeedback } from '../hooks'
 import { Divider, MenuItem, MenuGroup, RadioButton, Currencies, Page, Header } from '../kit'
 import { TLanguageCode, TCurrencyId} from '../types'
 
@@ -18,6 +18,8 @@ export const UserSettings = () => {
   useInit()
 
   const { t } = useTranslation()
+  const { feedback } = useFeedback()
+
   const { isPro, userLang, refetchUser } = useUser()
   const { data: userSettings, refetch: refetchUserSettings } = useGetUserSettings()
   const postUserSettings = usePostUserSettings()
@@ -64,6 +66,10 @@ export const UserSettings = () => {
       await postUserSettings({
         ...userSettings,
         language: languageCode,
+      })
+      feedback('set_language_settings_web', {
+        language_prev: userLang,
+        language_set: languageCode,
       })
     } catch {
       isSuccess = false
@@ -171,6 +177,9 @@ export const UserSettings = () => {
                 }
                 onClick={() => {
                   setSettingsInner('language')
+                  feedback('press_language_settings_web', {
+                    language_prev: userLang,
+                  })
                 }}
               />
               <Divider className="mr-0" />
