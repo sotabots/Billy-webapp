@@ -35,10 +35,18 @@ export const User = ({ user, size = 40, secondRow, spokenName, className }: {
                 <span>{user.first_name} {user.last_name}</span>
               )}
             </div>
-            {secondRow || (secondRow === undefined && user.username && (
-              <div className="text-[14px] leading-[18px] text-textSec truncate">
-                @{user.username}
-              </div>
+            {secondRow || (secondRow === undefined && (
+              user.username ? (
+                <div className="text-[14px] leading-[18px] text-textSec truncate">
+                  @{user.username}
+                </div>
+              ) : (
+                !!spokenName && (!!user.first_name || !!user.last_name) && (
+                  <div className="text-[14px] leading-[18px] text-textSec truncate">
+                    {user.first_name} {user.last_name}
+                  </div>
+                )
+              )
             ))}
           </>
         )}
