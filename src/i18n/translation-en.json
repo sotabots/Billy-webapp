@@ -95,7 +95,10 @@
     "onlyAdmin": "Only a chat admin can do this",
     "makeAdmin": "Make an admin",
     "usersCanMakeAdmin": "The following users can make Billy an admin:",
-    "language": "Chat language"
+    "language": "Chat language",
+    "activeUsers": "Active users",
+    "activeUsersDescription": "«Split the expense among all users» will be distributed among active users. To add new ones, invite them to the chat",
+    "chatMembers": "Chat members"
   },
 
   "settleUpBy": "Settle up by",

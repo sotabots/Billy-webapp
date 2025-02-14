@@ -13,6 +13,7 @@ import { ReactComponent as SettingsLanguageIcon } from '../assets/settings-langu
 import { ReactComponent as SettingsMessageIcon } from '../assets/settings-message.svg'
 import { ReactComponent as SettingsCashbackIcon } from '../assets/settings-cashback.svg'
 import { ReactComponent as SettingsLimitIcon } from '../assets/settings-limit.svg'
+import { ReactComponent as SettingsUsersIcon } from '../assets/settings-users.svg'
 
 import { ReactComponent as ModePersonalIcon } from '../assets/mode-personal.svg'
 import { ReactComponent as ModeGroupIcon } from '../assets/mode-group.svg'
@@ -337,6 +338,16 @@ export const ChatSettings = ({ settingsInner, setSettingsInner }: {
                 }}
               />
             }
+          </MenuGroup>
+
+          <MenuGroup className="mt-4">
+            <MenuItem
+              icon={<SettingsUsersIcon />}
+              title={t('chatSettings.activeUsers')}
+              value={t('soon')}
+              disabled={true}
+              onClick={() => { /* */ }}
+            />
           </MenuGroup>
 
           <MenuGroup className="mt-4">
