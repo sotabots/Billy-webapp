@@ -392,10 +392,7 @@ export const usePostChatActiveUsers = () => {
   return (activeUsers: TUserId[]) =>
     fetch(url, {
       method: 'POST',
-      body: JSON.stringify(//{
-        // active_users: activeUsers,
-        activeUsers
-      /*}*/),
+      body: JSON.stringify(activeUsers),
       headers: {
         'Content-type': 'application/json',
         'Authorization': authString,

@@ -31,7 +31,7 @@ export const ChatSettings = ({ settingsInner, setSettingsInner }: {
   const showPopup = useShowPopup()
   const [impactOccurred, , selectionChanged] = useHapticFeedback()
 
-  const { isDebug, setPaywallSource, setPaywallFrom } = useStore()
+  const { setPaywallSource, setPaywallFrom } = useStore()
   const { data: chat, refetch: refetchChat } = useGetChat()
   const { feedback } = useFeedback()
   const { isPro, me } = useUser()
@@ -388,8 +388,7 @@ export const ChatSettings = ({ settingsInner, setSettingsInner }: {
             <MenuItem
               icon={<SettingsUsersIcon />}
               title={t('chatSettings.activeUsers')}
-              value={isDebug ? `${activeUserIds.length}/${users.length}` : t('soon')}
-              disabled={!isDebug}
+              value={`${activeUserIds.length}/${users.length}`}
               onClick={() => {
                 setSettingsInner('activeUsers')
               }}
