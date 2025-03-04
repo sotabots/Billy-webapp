@@ -91,7 +91,7 @@ export const Summary = ({
               className="w-full"
               onClick={
                 balanceAmount
-                  ? () => { navigate('/balance') }
+                  ? () => { navigate('/user-balance') }
                   : () => { /* */ }
               }
             >

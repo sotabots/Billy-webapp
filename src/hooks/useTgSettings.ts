@@ -20,7 +20,8 @@ export const useTgSettings = () => {
         '/select-users': 'expshares-select-users',
         '/select-category': 'expshares-select-category',
         '/summary': 'total',
-        '/balance': 'balances',
+        '/user-balance': 'balances',
+        '/chat-balance': 'balances',
         '/soon': 'soon',
         // '': 'settleup', // maybe todo
       }[routerLocation.pathname] || 'expshares'
