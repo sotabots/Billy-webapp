@@ -372,6 +372,10 @@ const generateUser = (_name: string): TUser => {
     profile_photo: Math.random() < 0.5 ? null : `https://i.pravatar.cc/48/${Math.round(Math.random() * 1e10)}`,
     _name,
     is_admin_in_this_chat: false,
+    balance: {
+      currency_id: 'USD',
+      amount: 0,
+    }
   }
 }
 
@@ -467,6 +471,10 @@ const demoUsers: TUser[] = [
     username: 'underdog',
     profile_photo: avatar0,
     is_admin_in_this_chat: false,
+    balance: {
+      currency_id: 'USD',
+      amount: 0,
+    }
   },
   {
     _id: 1001,
@@ -475,6 +483,10 @@ const demoUsers: TUser[] = [
     username: 'ceo_of_everything',
     profile_photo: avatar1,
     is_admin_in_this_chat: false,
+    balance: {
+      currency_id: 'USD',
+      amount: 0,
+    }
   },
   {
     _id: 1002,
@@ -483,6 +495,10 @@ const demoUsers: TUser[] = [
     username: 'gkor',
     profile_photo: avatar2,
     is_admin_in_this_chat: false,
+    balance: {
+      currency_id: 'USD',
+      amount: 0,
+    }
   },
   {
     _id: 1003,
@@ -491,6 +507,10 @@ const demoUsers: TUser[] = [
     username: 'dariadesign',
     profile_photo: avatar3,
     is_admin_in_this_chat: false,
+    balance: {
+      currency_id: 'USD',
+      amount: 0,
+    }
   },
   {
     _id: 1004,
@@ -499,6 +519,10 @@ const demoUsers: TUser[] = [
     username: 'karim_official',
     profile_photo: avatar4,
     is_admin_in_this_chat: false,
+    balance: {
+      currency_id: 'USD',
+      amount: 0,
+    }
   },
 ]
 

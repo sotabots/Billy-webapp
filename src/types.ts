@@ -13,6 +13,7 @@ export type TUser = { // tg user
   shortened_name?: string
   is_admin_in_this_chat: boolean // is user admin
   is_active?: boolean
+  balance: TCurrencyAmount
 
   _name?: string // not used, only for mock, will be removed
 }
