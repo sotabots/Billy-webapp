@@ -6,7 +6,7 @@ import { useStore, useTotal, useFilter, useFeedback, useUser, useGetVoiceLimit, 
 import { Button, Panel, Pie, Category, DateMark, Transaction, RadioButtons, DatePicker, CurrencyAmount, Dropdown } from '../kit'
 import { TFilterPeriod, TFilterTotal } from '../types'
 
-import { ReactComponent as GoIcon } from '../assets/go.svg'
+import { ReactComponent as ChevronIcon } from '../assets/chevron.svg'
 import { ReactComponent as FilterIcon } from '../assets/filter.svg'
 import { ReactComponent as FilterActiveIcon } from '../assets/filter-active.svg'
 import { ReactComponent as ProPie } from '../assets/pro-pie.svg'
@@ -87,33 +87,59 @@ export const Summary = ({
       {!isFilterOpen && (
         <>
           <div className="flex flex-col gap-2 pb-5">
+            <div className="w-full flex items-center gap-2 px-4">
             <Button
-              className="w-full"
-              onClick={
-                balanceAmount
-                  ? () => { navigate('/user-balance') }
-                  : () => { /* */ }
-              }
-            >
-              <Panel className="!pb-4">
-                <div className="flex items-center justify-between">
-                  <div className="flex items-center justify-start gap-1">
-                    <h2 className="mt-1">
-                      {t((!!balanceAmount && balanceAmount > 0) ? 'chat.myCredits' : 'chat.myDebts')}:
-                    </h2>
-                    {!!summary?.balance.total.value &&
-                      <CurrencyAmount
-                        className="text-[24px] leading-[32px]"
-                        currencyAmount={summary?.balance.total.value}
-                      />
+                wrapperClassName="w-full"
+                className="w-full"
+                onClick={
+                  balanceAmount
+                    ? () => { navigate('/chat-balance') }
+                    : () => { /* */ }
+                }
+              >
+                <Panel className="!py-3">
+                  <div className="flex items-center justify-between">
+                    <div className="flex flex-col gap-1 text-left">
+                      <div className="text-[12px] leading-[16px] font-semibold text-textSec">
+                        {t('chat.chatBalance')}
+                      </div>
+                      <div className="h-6">
+                        ...
+                      </div>
+                    </div>
+                    <ChevronIcon className="w-4 h-4 text-[#6E7C87]" />
+                  </div>
+                </Panel>
+              </Button>
+              <Button
+                wrapperClassName="w-full"
+                className="w-full"
+                onClick={
+                  balanceAmount
+                    ? () => { navigate('/user-balance') }
+                    : () => { /* */ }
+                }
+              >
+                <Panel className="!py-3">
+                  <div className="flex items-center justify-between">
+                    <div className="flex flex-col gap-1 text-left">
+                      <div className="text-[12px] leading-[16px] font-semibold text-textSec">
+                        {t((!!balanceAmount && balanceAmount > 0) ? 'chat.myCredits' : 'chat.myDebts')}
+                      </div>
+                      {!!summary?.balance.total.value &&
+                        <CurrencyAmount
+                          className="text-[18px] leading-[24px] font-semibold"
+                          currencyAmount={summary?.balance.total.value}
+                        />
+                      }
+                    </div>
+                    {!!balanceAmount &&
+                      <ChevronIcon className="w-4 h-4 text-[#6E7C87]" />
                     }
                   </div>
-                  {!!balanceAmount &&
-                    <GoIcon className="w-6 h-6" />
-                  }
-                </div>
-              </Panel>
-            </Button>
+                </Panel>
+              </Button>
+            </div>
 
             {!isPro && voiceLimit !== -1 &&
               <Panel className="!pb-4">

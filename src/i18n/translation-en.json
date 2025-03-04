@@ -56,6 +56,7 @@
 
   "chat": {
     "chats": "Chats",
+    "chatBalance": "Chat Balance",
     "myDebts": "I owe",
     "myCredits": "I am owed",
     "getProTitle": "Voice/text addition limit:",
