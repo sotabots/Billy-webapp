@@ -2,8 +2,8 @@ import cx from 'classnames'
 import { useTranslation } from 'react-i18next'
 import { useNavigate } from 'react-router-dom'
 
-import { useStore, useTotal, useFilter, useFeedback, useUser, useGetVoiceLimit, useGetSummary } from '../hooks'
-import { Button, Panel, Pie, Category, DateMark, Transaction, RadioButtons, DatePicker, CurrencyAmount, Dropdown } from '../kit'
+import { useStore, useTotal, useFilter, useFeedback, useUser, useGetVoiceLimit, useGetSummary, useUsers } from '../hooks'
+import { Button, Panel, Pie, Category, DateMark, Transaction, RadioButtons, DatePicker, CurrencyAmount, Dropdown, Avatar } from '../kit'
 import { TFilterPeriod, TFilterTotal } from '../types'
 
 import { ReactComponent as ChevronIcon } from '../assets/chevron.svg'
@@ -23,6 +23,7 @@ export const Summary = ({
   const navigate = useNavigate()
   const { feedback } = useFeedback()
   const { isPro } = useUser()
+  const { users } = useUsers()
 
   const { isDebug, setTxId, setIsEditTx, setPaywallSource, setPaywallFrom } = useStore()
 
@@ -97,14 +98,28 @@ export const Summary = ({
                     : () => { /* */ }
                 }
               >
-                <Panel className="!py-3">
+                <Panel className="!py-3 pr-2">
                   <div className="flex items-center justify-between">
                     <div className="flex flex-col gap-1 text-left">
                       <div className="text-[12px] leading-[16px] font-semibold text-textSec">
                         {t('chat.chatBalance')}
                       </div>
-                      <div className="h-6">
-                        ...
+                      <div className="flex items-center justify-start h-6 pl-1">
+                        {[
+                          ...(users.length > 5 ? users.slice(0, 4) : users),
+                          ...(users.length > 5 ? [undefined] : [])
+                        ].map(user =>
+                          <div
+                            key={`user-${user?._id}`}
+                            className="-ml-[5px] w-[22px] h-[22px] bg-bg p-[1px] rounded-full"
+                          >
+                            <Avatar
+                              size={20}
+                              user={user}
+                              text={user === undefined ? `+${users.length - 4}` : undefined}
+                            />
+                          </div>
+                        )}
                       </div>
                     </div>
                     <ChevronIcon className="w-4 h-4 text-[#6E7C87]" />
@@ -120,7 +135,7 @@ export const Summary = ({
                     : () => { /* */ }
                 }
               >
-                <Panel className="!py-3">
+                <Panel className="!py-3 pr-2">
                   <div className="flex items-center justify-between">
                     <div className="flex flex-col gap-1 text-left">
                       <div className="text-[12px] leading-[16px] font-semibold text-textSec">

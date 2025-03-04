@@ -11,10 +11,11 @@ const getLetters = (fullName?: string) => {
   return letters
 }
 
-export const Avatar = ({ user, chat, url, size = 40 }: {
+export const Avatar = ({ user, chat, url, text, size = 40 }: {
   user?: TUser // letters fallback
   chat?: TUserChat // letters fallback
   url?: string
+  text?: string
   size?: number
 }) => {
   const fullName = [
@@ -24,10 +25,15 @@ export const Avatar = ({ user, chat, url, size = 40 }: {
   ].join(' ')
 
   const { isDark } = useTheme()
+
+  const color =
+    text
+      ? '#0452C8'
+      : (!user && !chat)
+        ? 'transparent'
+        : (['#e17076', '#faa774', '#a695e7', '#7bc862', '#6ec9cb', '#65aadd', '#ee7aae'])[Math.abs(Number(user?._id || chat?.id)) % 7 || 0] // peerColor
+
   const placeholderBgColor = isDark ? '#D7EDFF' : '#D7EDFF'
-  const color = (!user && !chat)
-    ? 'transparent'
-    : (['#e17076', '#faa774', '#a695e7', '#7bc862', '#6ec9cb', '#65aadd', '#ee7aae'])[Math.abs(Number(user?._id || chat?.id)) % 7 || 0] // peerColor
   const backgroundColor = (!user && !chat) ? placeholderBgColor : (color + '44')
 
   const _url = user?.profile_photo || chat?.photo || url
@@ -37,7 +43,8 @@ export const Avatar = ({ user, chat, url, size = 40 }: {
       ? _url
       : `${apiUrl}${_url}`})`
 
-  const letters = (!_url && fullName) ? getLetters(fullName) : null
+  const letters: string | null = (!_url && fullName) ? getLetters(fullName) : null
+  const _text: string | null = text || letters
 
   return (
     <div
@@ -49,7 +56,7 @@ export const Avatar = ({ user, chat, url, size = 40 }: {
         backgroundImage
       }}
     >
-      {letters &&
+      {_text &&
         <div
           className="uppercase font-semibold text-main"
           style={{
@@ -58,10 +65,10 @@ export const Avatar = ({ user, chat, url, size = 40 }: {
             color
           }}
         >
-          {letters}
+          {_text}
         </div>
       }
-      {(!user && !chat && !url) && (
+      {!_url && !_text && (
         <UserIcon
           style={{ width: '80%', height: '80%' }}
           className="text-[#0452C8]"
