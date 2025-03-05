@@ -87,6 +87,13 @@
     "remind": "Remind"
   },
 
+  "chatBalance": {
+    "title": "Chat Balance",
+    "description": "Only participants with debts are shown here — whether they owe or are owed",
+    "sortAsc": "Sort by Who Owes the Most",
+    "sortDesc": "Sort by Who Is Owed the Most"
+  },
+
   "chatSettings": {
     "title": "Chat Settings",
     "makeBillyAdminTitle": "Make Billy an admin in the chat so it can function correctly:",

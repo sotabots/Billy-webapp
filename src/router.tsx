@@ -21,6 +21,10 @@ export const router = createHashRouter([
     element: <Home tab="user-balance" />,
   },
   {
+    path: '/chat-balance',
+    element: <Home tab="chat-balance" />,
+  },
+  {
     path: '/settings',
     element: <Home tab="settings" />,
   },

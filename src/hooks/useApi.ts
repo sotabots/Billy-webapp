@@ -478,8 +478,6 @@ export const useGetVoiceLimit = () => {
             }
           }).then(handleJsonResponse),
       enabled: chatId === 0 || (!!chatId && isAuth),
-      // staleTime: 25 * 1000,
-      // refetchInterval: 30 * 1000,
     })
   )
 }

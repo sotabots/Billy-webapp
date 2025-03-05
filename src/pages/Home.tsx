@@ -9,8 +9,9 @@ import { Summary, UserBalance, ChatSettings, TSettingsInner } from '../pages'
 import { TUserId } from '../types'
 
 import { ReactComponent as SettingsIcon } from '../assets/settings.svg'
+import { ChatBalance } from './ChatBalance'
 
-type TTab = 'summary' | 'user-balance' | 'settings'
+type TTab = 'summary' | 'user-balance' | 'chat-balance' | 'settings'
 
 export const Home = ({ tab }: {
   tab: TTab
@@ -147,6 +148,15 @@ export const Home = ({ tab }: {
             customRecipientId={customRecipientId}
             setCustomRecipientId={setCustomRecipientId}
           />
+        </>
+      )}
+
+      {tab === 'chat-balance' && (
+        <>
+          <CustomHeader
+            center={t('chatBalance.title')}
+          />
+          <ChatBalance />
         </>
       )}
 

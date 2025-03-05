@@ -1,0 +1,59 @@
+import Lottie from 'lottie-react'
+import { useTranslation } from 'react-i18next'
+
+import { useGetUsers } from '../hooks'
+import { Panel, Divider, UserButton, Button } from '../kit'
+import { TUser } from '../types'
+
+import lottieKoalaSettledUp from '../assets/animation-koala-settled-up.json'
+
+export const ChatBalance = () => {
+  const { t } = useTranslation()
+
+  const { data: users /*, isLoading */ } = useGetUsers()
+
+  const nonzeroUsers: undefined | TUser[] = users?.filter(user => !!user.balance)
+
+  return (
+    <Panel>
+        {nonzeroUsers?.length === 0 &&
+          <div className="w-[244px] mx-auto flex flex-col gap-6 pt-8 text-center">
+            <div className="mx-auto w-[215px] h-[200px]">
+              <Lottie
+                style={{ width: 215, height: 200 }}
+                animationData={lottieKoalaSettledUp}
+                loop={true}
+              />
+            </div>
+            <div className="text-[24px] leading-[32px] font-semibold">
+              {t('allSettledUp')}
+            </div>
+          </div>
+        }
+        {!!nonzeroUsers && nonzeroUsers?.length > 0 &&
+          <>
+            <Button
+              className=""
+              onClick={() => { /* */ }}
+            >
+              {t('chatBalance.sortAsc')}
+            </Button>
+            <div className="mt-3 -mx-4 overflow-y-auto">
+              {nonzeroUsers.map((user, i, arr) => (
+                <>
+                  <UserButton
+                    key={i}
+                    user={user}
+                    onClick={() => {
+                      /* */
+                    }}
+                  />
+                  {i < arr.length - 1 && <Divider key={`Divider-${i}`} />}
+                </>
+              ))}
+            </div>
+          </>
+        }
+    </Panel>
+  )
+}
