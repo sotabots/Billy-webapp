@@ -2,7 +2,7 @@ import Lottie from 'lottie-react'
 import { useTranslation } from 'react-i18next'
 
 import { useGetUsers } from '../hooks'
-import { Panel, Divider, UserButton, Button } from '../kit'
+import { Panel, Divider, UserButton, Button, CurrencyAmount } from '../kit'
 import { TUser } from '../types'
 
 import lottieKoalaSettledUp from '../assets/animation-koala-settled-up.json'
@@ -12,7 +12,7 @@ export const ChatBalance = () => {
 
   const { data: users /*, isLoading */ } = useGetUsers()
 
-  const nonzeroUsers: undefined | TUser[] = users?.filter(user => !!user.balance)
+  const nonzeroUsers: undefined | TUser[] = users?.filter(user => !!user.balance.amount).sort((a, b) => a.balance.amount < b.balance.amount ? -1 : 1)
 
   return (
     <Panel>
@@ -44,6 +44,13 @@ export const ChatBalance = () => {
                   <UserButton
                     key={i}
                     user={user}
+                    right={
+                      <CurrencyAmount
+                        className="text-[14px] leading-[24px]"
+                        currencyAmount={user.balance}
+                      />
+                    }
+                    // isChevron
                     onClick={() => {
                       /* */
                     }}

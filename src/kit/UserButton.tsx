@@ -1,12 +1,16 @@
 import { useHapticFeedback } from '@vkruglikov/react-telegram-web-app'
+import { ReactNode } from 'react'
 
 import { TUser } from '../types'
 
 import { User, CheckBox } from '../kit'
+import { ReactComponent as ChevronIcon } from '../assets/page-right.svg'
 
-export const UserButton = ({ user, isChecked, onClick }: {
+export const UserButton = ({ user, right, isChecked, isChevron, onClick }: {
   user: TUser
+  right?: ReactNode
   isChecked?: boolean
+  isChevron?: boolean
   onClick: () => void
 }) => {
   const [impactOccurred, , selectionChanged] = useHapticFeedback()
@@ -24,9 +28,15 @@ export const UserButton = ({ user, isChecked, onClick }: {
       onClick={onClickVibro}
     >
       <User user={user} />
-      {isChecked !== undefined && (
-        <CheckBox isChecked={isChecked} />
-      )}
+      <div className="flex items-center gap-2">
+        {isChecked !== undefined && (
+          <CheckBox isChecked={isChecked} />
+        )}
+        {right}
+        {isChevron &&
+          <ChevronIcon className="w-6 h-6 text-[#6E7C87]" />
+        }
+      </div>
     </button>
   )
 }
