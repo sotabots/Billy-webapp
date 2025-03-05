@@ -92,7 +92,7 @@
     "description": "Only participants with debts are shown here — whether they owe or are owed",
     "sortAsc": "Sort by Who Owes the Most",
     "sortDesc": "Sort by Who Is Owed the Most",
-    "allSettledUp": "All settled up in this group"
+    "allSettledUp": "All settled up in this chat"
   },
 
   "chatSettings": {
