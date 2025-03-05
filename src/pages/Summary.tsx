@@ -92,11 +92,7 @@ export const Summary = ({
             <Button
                 wrapperClassName="w-full"
                 className="w-full"
-                onClick={
-                  balanceAmount
-                    ? () => { navigate('/chat-balance') }
-                    : () => { /* */ }
-                }
+                onClick={() => { navigate('/chat-balance') }}
               >
                 <Panel className="!py-3 pr-2">
                   <div className="flex items-center justify-between">

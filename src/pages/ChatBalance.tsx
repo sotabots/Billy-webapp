@@ -17,7 +17,7 @@ export const ChatBalance = () => {
   return (
     <Panel>
         {nonzeroUsers?.length === 0 &&
-          <div className="w-[244px] mx-auto flex flex-col gap-6 pt-8 text-center">
+          <div className="w-[244px] mx-auto flex flex-col gap-6 py-8 text-center">
             <div className="mx-auto w-[215px] h-[200px]">
               <Lottie
                 style={{ width: 215, height: 200 }}
@@ -26,7 +26,7 @@ export const ChatBalance = () => {
               />
             </div>
             <div className="text-[24px] leading-[32px] font-semibold">
-              {t('allSettledUp')}
+              {t('chatBalance.allSettledUp')}
             </div>
           </div>
         }
