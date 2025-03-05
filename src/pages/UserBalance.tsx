@@ -11,7 +11,7 @@ import { formatAmount, closeApp } from '../utils'
 import lottieKoalaSettledUp from '../assets/animation-koala-settled-up.json'
 import lottieKoalaSuccess from '../assets/animation-koala-success.json'
 
-export const Balance = ({
+export const UserBalance = ({
   isCurrencyOpen,
   setIsCurrencyOpen,
   selectedDebtId,
@@ -226,7 +226,7 @@ export const Balance = ({
             <Tabs
               items={[
                 {
-                  title: t('balance.inMyCurrency'),
+                  title: t('userBalance.inMyCurrency'),
                   isActive: summaryCurrencyId !== null,
                   onClick: () => {
                     if (summaryCurrencyId === null) {
@@ -235,7 +235,7 @@ export const Balance = ({
                   },
                 },
                 {
-                  title: t('balance.inOriginalCurrencies'),
+                  title: t('userBalance.inOriginalCurrencies'),
                   isActive: summaryCurrencyId === null,
                   onClick: () => {
                     if (summaryCurrencyId !== null) {
@@ -250,20 +250,20 @@ export const Balance = ({
               <Panel className="!pb-4">
                 <div className="flex flex-col gap-2">
                   <h3 className="">
-                    {t(isCalcInMyCurrency ? 'balance.calcInMyCurrency' : 'balance.calcInCurrency', { currency: summaryCurrencyId })}
+                    {t(isCalcInMyCurrency ? 'userBalance.calcInMyCurrency' : 'userBalance.calcInCurrency', { currency: summaryCurrencyId })}
                   </h3>
                   <div className="text-[14px] leading-[20px] text-textSec2">
-                    <div>{t('balance.originalOtherTab')}</div>
+                    <div>{t('userBalance.originalOtherTab')}</div>
                     {isCalcInMyCurrency &&
                       <div>
-                        {t('balance.toChangeYourCurrency')}
+                        {t('userBalance.toChangeYourCurrency')}
                         &nbsp;
                         <Button
                           wrapperClassName="inline-block"
                           onClick={() => { goSettings() }}
                         >
                           <span className="text-blue">
-                            {t('balance.profileSettings')}
+                            {t('userBalance.profileSettings')}
                           </span>
                           .
                         </Button>
@@ -274,8 +274,8 @@ export const Balance = ({
                     className="text-[14px] leading-[24px] text-blue"
                     onClick={() => {
                       showPopup({
-                        title: t('balance.calcHow'),
-                        message: t('balance.how'),
+                        title: t('userBalance.calcHow'),
+                        message: t('userBalance.how'),
                         buttons: [
                           {
                             id: 'ok',
@@ -286,7 +286,7 @@ export const Balance = ({
                       })
                     }}
                   >
-                    {t('balance.calcHow')}
+                    {t('userBalance.calcHow')}
                   </Button>
                 </div>
               </Panel>
@@ -296,7 +296,7 @@ export const Balance = ({
               <Panel className="!pb-4">
                 <div className="flex items-center -justify-between">
                   <h3 className="flex items-center">
-                    {summary.balance.total.value.amount < 0 ? t('balance.totalDebts') : t('balance.totalCredits')}:
+                    {summary.balance.total.value.amount < 0 ? t('userBalance.totalDebts') : t('userBalance.totalCredits')}:
                   </h3>
                   &nbsp;
                   <CurrencyAmount
@@ -310,7 +310,7 @@ export const Balance = ({
             {!!summary.balance.debt.details.length &&
               <Panel key="Panel-debts" className="!mt-0">
                 <h3 className="flex items-center">
-                  <span>{t('balance.myDebts')}</span>
+                  <span>{t('userBalance.myDebts')}</span>
                   &nbsp;
                   <CurrencyAmount
                     currencyAmount={summary.balance.debt.value}
@@ -340,7 +340,7 @@ export const Balance = ({
             {!!summary.balance.credit.details.length &&
               <Panel key="Panel-credits" className="!mt-0">
                 <h3 className="flex items-center">
-                  <span>{t('balance.myCredits')}</span>
+                  <span>{t('userBalance.myCredits')}</span>
                   &nbsp;
                   <CurrencyAmount
                     currencyAmount={summary.balance.credit.value}

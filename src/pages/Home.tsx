@@ -5,12 +5,12 @@ import { useNavigate } from 'react-router-dom'
 
 import { useInit, useFilter, useFeedback, useSummary, useGetSummary, useGetSummarySheetRebuild, useGetChat /*, useStore */ } from '../hooks'
 import { Page, Header, CustomHeader, Button } from '../kit'
-import { Summary, Balance, ChatSettings, TSettingsInner } from '../pages'
+import { Summary, UserBalance, ChatSettings, TSettingsInner } from '../pages'
 import { TUserId } from '../types'
 
 import { ReactComponent as SettingsIcon } from '../assets/settings.svg'
 
-type TTab = 'summary' | 'balance' | 'settings'
+type TTab = 'summary' | 'user-balance' | 'settings'
 
 export const Home = ({ tab }: {
   tab: TTab
@@ -51,7 +51,7 @@ export const Home = ({ tab }: {
         num_debts: debts.length
       })
     }
-    if (newTab === 'balance') {
+    if (newTab === 'user-balance') {
       feedback('show_balances_total_web', {
         currencies: debtCurrencyIds
       })
@@ -78,20 +78,20 @@ export const Home = ({ tab }: {
   return (
     <Page
       _ref={screenRef}
-      className={cx(tab === 'balance' && isCurrencyOpen && '!bg-bg')}
+      className={cx(tab === 'user-balance' && isCurrencyOpen && '!bg-bg')}
       onScroll={onScroll}
     >
       <Header todoRemove onBack={
         (tab === 'summary' && isFilterOpen && (() => {
           closeFilter()
         }))
-        || (tab === 'balance' && isCurrencyOpen) && (() => {
+        || (tab === 'user-balance' && isCurrencyOpen) && (() => {
           setIsCurrencyOpen(false)
         })
-        || (tab === 'balance' && isRecipientsOpen && (() => {
+        || (tab === 'user-balance' && isRecipientsOpen && (() => {
           setIsRecipientsOpen(false)
         }))
-        || (tab === 'balance' && isSelectedDebt && (() => {
+        || (tab === 'user-balance' && isSelectedDebt && (() => {
           setSelectedDebtId(null)
           setCustomRecipientId(null)
         }))
@@ -130,14 +130,14 @@ export const Home = ({ tab }: {
         </>
       )}
 
-      {tab === 'balance' && (
+      {tab === 'user-balance' && (
         <>
           {!isSelectedDebt && !isCurrencyOpen &&
             <CustomHeader
-              center={t('balance.title')}
+              center={t('userBalance.title')}
             />
           }
-          <Balance
+          <UserBalance
             isCurrencyOpen={isCurrencyOpen}
             setIsCurrencyOpen={setIsCurrencyOpen}
             selectedDebtId={selectedDebtId}

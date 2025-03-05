@@ -62,7 +62,7 @@ export const Debt = ({ from_user_id, to_user_id, value_primary, value_secondary,
               : onClick
             }
         >
-          {(userId === to_user_id && !!false) ? t('balance.remind') : t('balance.payBack')}
+          {(userId === to_user_id && !!false) ? t('userBalance.remind') : t('userBalance.payBack')}
         </Button>
       </div>
     </div>

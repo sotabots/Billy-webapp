@@ -68,7 +68,7 @@
   "left": "left",
   "unlimited": "unlimited",
 
-  "balance": {
+  "userBalance": {
     "title": "Balance",
     "inMyCurrency": "One currency",
     "inOriginalCurrencies": "Original currencies",

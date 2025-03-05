@@ -68,7 +68,7 @@
   "left": "доступно",
   "unlimited": "безлимит",
 
-  "balance": {
+  "userBalance": {
     "title": "Баланс",
     "inMyCurrency": "В одной валюте",
     "inOriginalCurrencies": "В исходных валютах",

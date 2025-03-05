@@ -1,4 +1,3 @@
-export * from './Balance'
 export * from './ChatSettings'
 export * from './Edit'
 export * from './Home'
@@ -12,4 +11,6 @@ export * from './SelectUsers'
 export * from './SelectUser'
 export * from './Soon'
 export * from './Summary'
+export * from './UserBalance'
 export * from './UserSettings'
+

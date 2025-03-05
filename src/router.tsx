@@ -18,7 +18,7 @@ export const router = createHashRouter([
   },
   {
     path: '/user-balance',
-    element: <Home tab="balance" />,
+    element: <Home tab="user-balance" />,
   },
   {
     path: '/settings',
