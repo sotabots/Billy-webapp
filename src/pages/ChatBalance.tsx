@@ -1,3 +1,4 @@
+import cx from 'classnames'
 import { useState } from 'react'
 import Lottie from 'lottie-react'
 import { useTranslation } from 'react-i18next'
@@ -43,7 +44,7 @@ export const ChatBalance = () => {
                 <div className="text-[14px] leading-[24px] font-semibold">
                   {t(isAsc ? 'chatBalance.sortAsc' : 'chatBalance.sortDesc')}
                 </div>
-                <SortIcon className="w-6 h-6" />
+                <SortIcon className={cx('w-6 h-6 transition-all', !isAsc && 'scale-x-[-1]')} />
               </div>
             </Button>
             <div className="mt-3 -mx-4 overflow-y-auto">
