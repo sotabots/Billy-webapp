@@ -19,7 +19,7 @@ export const ChatBalance = () => {
   const nonzeroUsers: undefined | TUser[] = users?.filter(user => !!user.balance.amount).sort((a, b) => ((a.balance.amount < b.balance.amount === isAsc) ? -1 : 1))
 
   return (
-    <Panel>
+    <Panel className="!py-4">
         {nonzeroUsers?.length === 0 &&
           <div className="w-[244px] mx-auto flex flex-col gap-6 py-8 text-center">
             <div className="mx-auto w-[215px] h-[200px]">
