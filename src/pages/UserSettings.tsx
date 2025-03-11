@@ -4,7 +4,7 @@ import { useState } from 'react'
 import { useTranslation } from 'react-i18next'
 import { useNavigate } from 'react-router-dom'
 
-import { useInit, useUser, useGetUserSettings, usePostUserSettings, useFeedback } from '../hooks'
+import { useInit, useUser, useGetUserSettings, usePostUserSettings, useFeedback, useGetUsers } from '../hooks'
 import { Divider, MenuItem, MenuGroup, RadioButton, Currencies, Page, Header } from '../kit'
 import { TLanguageCode, TCurrencyId} from '../types'
 
@@ -22,6 +22,8 @@ export const UserSettings = () => {
 
   const { isPro, userLang, refetchUser } = useUser()
   const { data: userSettings, refetch: refetchUserSettings } = useGetUserSettings()
+  const { refetch: refetchUsers } = useGetUsers()
+
   const postUserSettings = usePostUserSettings()
 
   const navigate = useNavigate()
@@ -49,6 +51,7 @@ export const UserSettings = () => {
 
     if (isSuccess) {
       refetchUserSettings()
+      refetchUsers()
       setSettingsInner(null)
     }
     setBusy(false)
