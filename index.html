@@ -17,6 +17,21 @@
     <meta http-equiv="Cache-Control" content="no-cache, no-store, must-revalidate" />
     <meta http-equiv="Pragma" content="no-cache" />
     <meta http-equiv="Expires" content="0" />
+
+    <script>
+      function initAnalytics() {
+        window.telegramAnalytics.init({
+          token: 'eyJhcHBfbmFtZSI6IkJJTExZX1RBUFBfSURFTlRJRklFUiIsImFwcF91cmwiOiJodHRwczovL3QubWUvQmlsbHlNb25leV9ib3QiLCJhcHBfZG9tYWluIjoiaHR0cHM6Ly9zb3RhYm90cy5naXRodWIuaW8vQmlsbHktd2ViYXBwLyJ9!CBJI2N/jv5oYiXFeNtCLkO8WjLs4MFy5ZGK/sQ3RliY=',
+          appName: 'BILLY_TAPP_IDENTIFIER',
+        });
+      }
+    </script>
+    <script
+      async
+      src="https://tganalytics.xyz/index.js"
+      onload="initAnalytics()"
+      type="text/javascript"
+    ></script>
   </head>
   <body>
     <div id="root"></div>
