@@ -73,7 +73,13 @@ export const Paywall = () => {
       time: '12 months',
       stars: 1250,
       currency: 'XTR',
-    }
+    },
+    5000: {
+      plan: 'lifetime_5000_stars',
+      time: 'lifetime',
+      stars: 5000,
+      currency: 'XTR',
+    },
   }
 
   const postPayment = usePostPayment()
@@ -137,7 +143,7 @@ export const Paywall = () => {
         <div className="flex flex-col gap-2">
           <div className="flex items-center">
             <div className="w-full text-[24px] leading-[32px] font-semibold">
-              {t('manageExpensesWith')} Billy <span style={{ ...textGradient }}>Pro</span>
+              {t('paywall.manageExpensesWith')} Billy <span style={{ ...textGradient }}>Pro</span>
             </div>
             <div className="w-[108px] h-[70px]">
               <Lottie
@@ -149,9 +155,9 @@ export const Paywall = () => {
           </div>
           <div className="flex flex-col gap-2">
             {[
-              'featureExpenses',
-              'featureCategories',
-              'featureCashback',
+              'paywall.featureExpenses',
+              'paywall.featureCategories',
+              'paywall.featureCashback',
             ].map(_ => (
               <div
                 key={`CheckColored-${_}`}
@@ -170,7 +176,7 @@ export const Paywall = () => {
           <>
             <Plan
               label={'Test (Debug)'}
-              title={`0 ${t('days')}`}
+              title={`0 ${t('paywall.days')}`}
               stars={1}
               fiat={'0 ₽'}
               isActive={plan.amount === 1}
@@ -188,8 +194,8 @@ export const Paywall = () => {
 
         <div className="flex flex-col gap-2">
           <Plan
-            label={t('forWeekend')}
-            title={`3 ${t('days_')}`}
+            label={t('paywall.forWeekend')}
+            title={`3 ${t('paywall.days_')}`}
             stars={15}
             fiat={'29₽'}
             isActive={plan.amount === 15}
@@ -204,7 +210,7 @@ export const Paywall = () => {
 
           {/* <Divider className="my-3 mx-0" /> */}
           <Plan
-            title={`7 ${t('days')}`}
+            title={`7 ${t('paywall.days')}`}
             stars={50}
             fiat={'99₽'}
             isActive={plan.amount === 50}
@@ -217,7 +223,7 @@ export const Paywall = () => {
             }}
           />
           <Plan
-            title={`1 ${t('month_')}`}
+            title={`1 ${t('paywall.month_')}`}
             stars={125}
             fiat={'249₽'}
             discount={'40%'}
@@ -231,8 +237,8 @@ export const Paywall = () => {
             }}
           />
           <Plan
-            /* label={t('profitable')} */
-            title={`12 ${t('months')}`}
+            /* label={t('paywall.profitable')} */
+            title={`12 ${t('paywall.months')}`}
             stars={1250}
             fiat={'2490₽'}
             discount={'50%'}
@@ -245,6 +251,20 @@ export const Paywall = () => {
               feedback('paywall_select_plan', planData[1250])
             }}
           />
+          <Plan
+            label={t('paywall.profitable')}
+            title={`${t('paywall.lifetime')}`}
+            stars={5000}
+            fiat={'9990₽'}
+            isActive={plan.amount === 5000}
+            onClick={() => {
+              setPlan({
+                amount: 5000,
+                productKey: 'lifetime_subscription',
+              })
+              feedback('paywall_select_plan', planData[5000])
+            }}
+          />
         </div>
       </div>
       <Bottom h={50}>
@@ -254,7 +274,7 @@ export const Paywall = () => {
           isBusy={isBusy}
         >
           <>
-            <span>{t('buyFor')} {plan.amount}</span>
+            <span>{t('paywall.buyFor')} {plan.amount}</span>
             <img src={star} className="w-6 h-6" />
           </>
         </Button>

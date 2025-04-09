@@ -141,13 +141,14 @@ export type TFlow = 'transaction' | 'summary'
 
 export type TPlanProductKey =
 'debug_subscription' |
-'1_year_subscription' |
-'1_month_subscription' |
+'3_days_subscription' |
 '1_week_subscription' |
-'3_days_subscription'
+'1_month_subscription' |
+'1_year_subscription' |
+'lifetime_subscription'
 
 export type TPlan = {
-  amount: 1 | 15 | 50 | 125 | 1250
+  amount: 1 | 15 | 50 | 125 | 1250 | 5000
   productKey: TPlanProductKey
 }
 

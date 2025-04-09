@@ -55,14 +55,14 @@ export const Plan = ({ className, label, title, stars, fiat, discount, isActive,
               )}>{title}</div>
               <div className="flex items-center gap-1 text-[16px] leading-[24px] dark:text-[#9AA6AC]">
                 <img src={star} className="w-4 h-4" />
-                <span className="">{stars} {t('stars')}</span>
+                <span className="">{stars} {t('paywall.stars')}</span>
                 <span className="">•</span>
                 <span className="">{fiat}</span>
               </div>
             </div>
             {discount &&
               <div className="" style={{ ...textGradient }}>
-                <div className="text-[12px] leading-[16px] font-semibold">{t('discount')}</div>
+                <div className="text-[12px] leading-[16px] font-semibold">{t('paywall.discount')}</div>
                 <div className="text-[24px] leading-[32px] font-semibold">{discount}</div>
               </div>
             }
