@@ -237,7 +237,7 @@ export const Paywall = () => {
             }}
           />
           <Plan
-            /* label={t('paywall.profitable')} */
+            label={t('paywall.profitable')}
             title={`12 ${t('paywall.months')}`}
             stars={1250}
             fiat={'2490₽'}
@@ -252,7 +252,7 @@ export const Paywall = () => {
             }}
           />
           <Plan
-            label={t('paywall.profitable')}
+            /* label={t('paywall.profitable')} */
             title={`${t('paywall.lifetime')}`}
             stars={5000}
             fiat={'9990₽'}
