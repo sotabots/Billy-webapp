@@ -3,7 +3,7 @@ import { useEffect, useState } from 'react'
 import { useTranslation } from 'react-i18next'
 import { useNavigate } from 'react-router-dom'
 
-import { useStore, useInit, useFeedback, useUser, useLink, usePostChatCurrency, usePostChatLanguage, usePostChatSilent, useGetChat, usePostChatMode, usePostChatMonthlyLimit, usePostChatCashback, useUsers, usePostChatActiveUsers } from '../hooks'
+import { useStore, useInit, useFeedback, useUser, useLink, usePostChatCurrency, usePostChatLanguage, usePostChatSilent, useGetChat, usePostChatMode, usePostChatMonthlyLimit, usePostChatCashback, useUsers, usePostChatActiveUsers, useGetCurrencies } from '../hooks'
 import { Button, Divider, MenuItem, MenuGroup, RadioButton, InputAmount, Currencies, Switch, UserButton, Panel } from '../kit'
 import { TCurrencyId, TLanguageCode, TMode, TUser, TUserId } from '../types'
 import { formatAmount } from '../utils'
@@ -35,12 +35,14 @@ export const ChatSettings = ({ settingsInner, setSettingsInner }: {
 }) => {
   useInit()
 
-  const { t } = useTranslation()
+  const { t, i18n } = useTranslation()
   const showPopup = useShowPopup()
   const [impactOccurred, , selectionChanged] = useHapticFeedback()
 
   const { setPaywallSource, setPaywallFrom } = useStore()
   const { data: chat, refetch: refetchChat } = useGetChat()
+  const { data: currencies } = useGetCurrencies()
+
   const { feedback } = useFeedback()
   const { isPro, me } = useUser()
   const { users, admins, refetchUsers } = useUsers()
@@ -541,12 +543,32 @@ export const ChatSettings = ({ settingsInner, setSettingsInner }: {
 
       {settingsInner === 'rates' && (
         <>
-          <div className="px-4 mt-3">
+          <div className="mt-3 mb-4 px-4">
             <h2>{t('chatSettings.rates')}</h2>
             <div className="mt-2 text-[14px] leading-[20px] text-textSec2">{t('chatSettings.ratesDescription')}</div>
           </div>
-          <Panel className="mt-4 !px-0 overflow-y-auto">
-            ...
+          <Panel className="!px-0 !py-0 overflow-y-auto">
+            {!!chat?.rates && !!currencies && currencies.filter(currency => currency._id !== 'USD' && (currencies.some(currency => currency.is_used_in_chat) ? currency.is_used_in_chat : true)).map((currency, i, arr) => (
+              <>
+                <div
+                  key={currency._id}
+                  className="my-4 flex items-center justify-between gap-4 px-4"
+                >
+                  <div className="">
+                    {currency.title[i18n.language as TLanguageCode]}
+                  </div>
+                  <div className="">
+                    <span>1$ = </span>
+                    <span className="font-semibold">
+                      {chat.rates[`USD${currency._id}`] || 0}
+                      {' '}
+                      {currency.symbol}
+                    </span>
+                  </div>
+                </div>
+                {i < arr.length - 1 && <Divider key={`Divider-${i}`} />}
+              </>
+            ))}
           </Panel>
           <Button
             theme="bottom"
