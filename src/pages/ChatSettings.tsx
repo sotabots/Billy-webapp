@@ -13,13 +13,21 @@ import { ReactComponent as SettingsLanguageIcon } from '../assets/settings-langu
 import { ReactComponent as SettingsMessageIcon } from '../assets/settings-message.svg'
 import { ReactComponent as SettingsCashbackIcon } from '../assets/settings-cashback.svg'
 import { ReactComponent as SettingsLimitIcon } from '../assets/settings-limit.svg'
+import { ReactComponent as SettingsRatesIcon } from '../assets/settings-rates.svg'
 import { ReactComponent as SettingsUsersIcon } from '../assets/settings-users.svg'
 
 import { ReactComponent as ModePersonalIcon } from '../assets/mode-personal.svg'
 import { ReactComponent as ModeGroupIcon } from '../assets/mode-group.svg'
 import { ReactComponent as ProBadge } from '../assets/pro-badge.svg'
 
-export type TSettingsInner = null | 'currency' | 'language' | 'limit' | 'cashback' | 'activeUsers'
+export type TSettingsInner =
+  null |
+  'currency' |
+  'language' |
+  'limit' |
+  'cashback' |
+  'activeUsers' |
+  'rates'
 
 export const ChatSettings = ({ settingsInner, setSettingsInner }: {
   settingsInner: TSettingsInner
@@ -397,6 +405,16 @@ export const ChatSettings = ({ settingsInner, setSettingsInner }: {
 
           <MenuGroup className="mt-4">
             <MenuItem
+              icon={<SettingsRatesIcon />}
+              title={t('chatSettings.rates')}
+              onClick={() => {
+                setSettingsInner('rates')
+              }}
+            />
+          </MenuGroup>
+
+          <MenuGroup className="mt-4">
+            <MenuItem
               icon={<SettingsMessageIcon />}
               title={`${!chat?.is_admin ? (t('forAdmin') + ' ') : ''}${t('leaveMessages')}`}
               isEnabled={!chat?.silent_mode}
@@ -517,6 +535,26 @@ export const ChatSettings = ({ settingsInner, setSettingsInner }: {
             isBusy={isBusy}
           >
             {t('apply')}
+          </Button>
+        </>
+      )}
+
+      {settingsInner === 'rates' && (
+        <>
+          <div className="px-4 mt-3">
+            <h2>{t('chatSettings.rates')}</h2>
+            <div className="mt-2 text-[14px] leading-[20px] text-textSec2">{t('chatSettings.ratesDescription')}</div>
+          </div>
+          <Panel className="mt-4 !px-0 overflow-y-auto">
+            ...
+          </Panel>
+          <Button
+            theme="bottom"
+            onClick={() => {
+              setSettingsInner(null)
+            }}
+          >
+            {t('goBack')}
           </Button>
         </>
       )}

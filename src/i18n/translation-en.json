@@ -12,6 +12,7 @@
   "reset": "Reset",
   "ok": "OK",
   "add": "Add",
+  "goBack": "Go back",
 
   "addComment": "Add comment",
   "addComment_": "Add your comment...",
@@ -107,7 +108,10 @@
     "language": "Chat language",
     "activeUsers": "Active users",
     "activeUsersDescription": "«Split the expense among all users» will be distributed among active users. To add new ones, invite them to the chat",
-    "chatMembers": "Chat members"
+    "chatMembers": "Chat members",
+    "rates": "Currency rates",
+    "ratesTitle": "Currency rates",
+    "ratesDescription": "Currency rates are fixed at the time the group is created to keep calculations consistent for everyone. If you’d like to update the rate, you can contact support — we’ll update it manually."
   },
 
   "settleUpBy": "Settle up by",
