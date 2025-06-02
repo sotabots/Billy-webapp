@@ -299,7 +299,12 @@ export const Summary = ({
                   </div>
                 </div>
                 <div className="flex flex-col gap-3">
-                  {txGroups.map((txGroup, i) => (
+                  {txGroups.length === 0 &&
+                    <div className="text-textSec2">
+                      {t('chat.noTransactions')}
+                    </div>
+                  }
+                  {txGroups.length > 0 && txGroups.map((txGroup, i) => (
                     <>
                       <DateMark
                         key={`DateMark-${i}`}

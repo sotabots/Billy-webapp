@@ -63,7 +63,8 @@
     "getProTitle": "Voice/text addition limit:",
     "getProTitlePcs": "pcs",
     "getProDescription": "Unlimited addition and more with Billy Pro",
-    "getPro": "Get Billy Pro"
+    "getPro": "Get Billy Pro",
+    "noTransactions": "(No transactions yet)"
   },
   "thisChat": "This chat",
   "left": "left",

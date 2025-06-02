@@ -63,7 +63,8 @@
     "getProTitle": "Лимит добавлений голосом/текстом:",
     "getProTitlePcs": "шт",
     "getProDescription": "Получи безлимит и многое другое c Billy Pro",
-    "getPro": "Подключить Billy Pro"
+    "getPro": "Подключить Billy Pro",
+    "noTransactions": "(Пока нет трат)"
   },
   "thisChat": "Этот чат",
   "left": "доступно",
