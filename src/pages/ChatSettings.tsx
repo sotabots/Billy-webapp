@@ -47,7 +47,7 @@ export const ChatSettings = ({ settingsInner, setSettingsInner }: {
   const { isPro, me } = useUser()
   const { users, admins, refetchUsers } = useUsers()
   const navigate = useNavigate()
-  const { openLink, ADD_TO_CHAT_LINK } = useLink()
+  const { openLink, ADD_TO_CHAT_LINK, SUPPORT_LINK } = useLink()
 
   const [monthlyLimit, setMonthlyLimit] = useState(chat?.monthly_limit || 0)
   const [cashback, setCashback] = useState((chat?.cashback || 0) * 100)
@@ -545,7 +545,19 @@ export const ChatSettings = ({ settingsInner, setSettingsInner }: {
         <>
           <div className="mt-3 mb-4 px-4">
             <h2>{t('chatSettings.rates')}</h2>
-            <div className="mt-2 text-[14px] leading-[20px] text-textSec2">{t('chatSettings.ratesDescription')}</div>
+            <div className="mt-2 text-[14px] leading-[20px] text-textSec2">
+              <span>{t('chatSettings.ratesDescription')}</span>
+              {' '}
+              <Button
+                wrapperClassName="!inline-block"
+                className="!inline-block text-blue"
+                onClick={() => { openLink(SUPPORT_LINK) }}
+              >
+                {t('chatSettings.contactSupport')}
+              </Button>
+              {' '}
+              <span>{t('chatSettings.ratesDescription2')}</span>
+            </div>
           </div>
           <Panel className="!px-0 !py-0 overflow-y-auto">
             {!!chat?.rates && !!currencies && currencies.filter(currency => currency._id !== 'USD' && (currencies.some(currency => currency.is_used_in_chat) ? currency.is_used_in_chat : true)).map((currency, i, arr) => (

@@ -112,7 +112,9 @@
     "chatMembers": "Chat members",
     "rates": "Currency rates",
     "ratesTitle": "Currency rates",
-    "ratesDescription": "Currency rates are fixed at the time the group is created to keep calculations consistent for everyone. If you’d like to update the rate, you can contact support — we’ll update it manually."
+    "ratesDescription": "Currency rates are fixed at the time the group is created to keep calculations consistent for everyone. If you’d like to update the rate, you can",
+    "ratesDescription2": "— we’ll update it manually.",
+    "contactSupport": "contact support"
   },
 
   "settleUpBy": "Settle up by",
