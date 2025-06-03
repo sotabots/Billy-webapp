@@ -4,7 +4,7 @@ import { useTranslation } from 'react-i18next'
 import { useNavigate } from 'react-router-dom'
 
 import { useStore, useInit, useFeedback, useUser, useLink, usePostChatCurrency, usePostChatLanguage, usePostChatSilent, useGetChat, usePostChatMode, usePostChatMonthlyLimit, usePostChatCashback, useUsers, usePostChatActiveUsers, useGetCurrencies } from '../hooks'
-import { Button, Divider, MenuItem, MenuGroup, RadioButton, InputAmount, Currencies, Switch, UserButton, Panel } from '../kit'
+import { Button, Divider, MenuItem, MenuGroup, RadioButton, InputAmount, Currencies, Switch, UserButton, Panel, RateButton } from '../kit'
 import { TCurrencyId, TLanguageCode, TMode, TUser, TUserId } from '../types'
 import { formatAmount } from '../utils'
 
@@ -35,7 +35,7 @@ export const ChatSettings = ({ settingsInner, setSettingsInner }: {
 }) => {
   useInit()
 
-  const { t, i18n } = useTranslation()
+  const { t } = useTranslation()
   const showPopup = useShowPopup()
   const [impactOccurred, , selectionChanged] = useHapticFeedback()
 
@@ -562,23 +562,24 @@ export const ChatSettings = ({ settingsInner, setSettingsInner }: {
           <Panel className="!px-0 !py-0 overflow-y-auto">
             {!!chat?.rates && !!currencies && currencies.filter(currency => currency._id !== 'USD' && (currencies.some(currency => currency.is_used_in_chat) ? currency.is_used_in_chat : true)).map((currency, i, arr) => (
               <>
-                <div
-                  key={currency._id}
-                  className="my-4 flex items-center justify-between gap-4 px-4"
-                >
-                  <div className="">
-                    {currency.title[i18n.language as TLanguageCode]}
-                  </div>
-                  <div className="">
-                    <span>1$ = </span>
-                    <span className="font-semibold">
-                      {chat.rates[`USD${currency._id}`] || 0}
-                      {' '}
-                      {currency.symbol}
-                    </span>
-                  </div>
-                </div>
-                {i < arr.length - 1 && <Divider key={`Divider-${i}`} />}
+                <RateButton
+                  key={`RateButton-${currency._id}-${i}`}
+                  currency={currency}
+                  rate={chat.rates[`USD${currency._id}`]}
+                  /*
+                  fromCurrencyAmount={{
+                    amount: 1,
+                    currency_id: 'USD'
+                  }}
+                  toCurrencyAmount={{
+                    amount: 1,
+                    currency_id: 'USD'
+                  }}
+                  */
+                />
+                {i < arr.length - 1 &&
+                  <Divider key={`Divider-${currency._id}-${i}`} />
+                }
               </>
             ))}
           </Panel>
