@@ -4,7 +4,7 @@ import { useTranslation } from 'react-i18next'
 import { useNavigate } from 'react-router-dom'
 
 import { useStore, useInit, useFeedback, useUser, useLink, usePostChatCurrency, usePostChatLanguage, usePostChatSilent, useGetChat, usePostChatMode, usePostChatMonthlyLimit, usePostChatCashback, useUsers, usePostChatActiveUsers, useGetCurrencies } from '../hooks'
-import { Button, Divider, MenuItem, MenuGroup, RadioButton, InputAmount, Currencies, Switch, UserButton, Panel, RateButton } from '../kit'
+import { Button, Divider, MenuItem, MenuGroup, RadioButton, InputAmount, Currencies, Switch, UserButton, Panel, RateButton, CustomHeader } from '../kit'
 import { TCurrencyId, TLanguageCode, TMode, TUser, TUserId } from '../types'
 import { formatAmount } from '../utils'
 
@@ -543,9 +543,12 @@ export const ChatSettings = ({ settingsInner, setSettingsInner }: {
 
       {settingsInner === 'rates' && (
         <>
-          <div className="mt-3 mb-4 px-4">
-            <h2>{t('chatSettings.rates')}</h2>
-            <div className="mt-2 text-[14px] leading-[20px] text-textSec2">
+          <CustomHeader
+            onBack={() => { setSettingsInner(null) }}
+            center={t('chatSettings.ratesTitle')}
+          />
+          <div className="mb-4 px-4">
+            <div className="text-[14px] leading-[20px] text-textSec2">
               <span>{t('chatSettings.ratesDescription')}</span>
               {' '}
               <Button
