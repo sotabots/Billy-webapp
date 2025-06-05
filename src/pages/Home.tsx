@@ -114,13 +114,18 @@ export const Home = ({ tab }: {
               onBack={() => { navigate('/profile') }}
               center={chat?.name}
               right={
-                <Button
-                  wrapperClassName="w-6 h-6"
-                  className="text-icon"
-                  onClick={selectTab('settings')}
-                >
-                  <SettingsIcon className="w-6 h-6" />
-                </Button>
+                <div className="relative w-6 h-6">
+                  <Button
+                    wrapperClassName="w-6 h-6"
+                    className="text-icon"
+                    onClick={selectTab('settings')}
+                  >
+                    <SettingsIcon className="w-6 h-6" />
+                  </Button>
+                  {!!chat && !chat.is_admin &&
+                    <div className="absolute top-0 right-0 bg-red rounded-full w-3 h-3 border-[2px] border-bg2" />
+                  }
+                </div>
               }
             />
           }
