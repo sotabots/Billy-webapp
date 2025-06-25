@@ -117,6 +117,7 @@ export const Profile = () => {
           <div className="flex items-center justify-between gap-4">
             <div className="text-[16px] leading-[24px] font-semibold">{t('profile.chats')}</div>
             <Dropdown
+              right
               items={dropdownItems}
               value={dropdownValue}
               onChange={(value: string) => { setDropdownValue(value as TDropdownValue) }}

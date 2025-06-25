@@ -8,13 +8,14 @@ import { Button } from '../kit'
 import { ReactComponent as DropdownIcon } from '../assets/dropdown.svg'
 import { ReactComponent as DropdownCheck } from '../assets/dropdown-check.svg'
 
-export const Dropdown = ({ className, items, value, onChange }: {
-  className?: string,
+export const Dropdown = ({ className, right, items, value, onChange }: {
+  className?: string
+  right?: boolean
   items: {
     title: string
     value: string
-  }[],
-  value: string,
+  }[]
+  value: string
   onChange: (value: string) => void
 }) => {
   const { isDark } = useTheme()
@@ -37,7 +38,8 @@ export const Dropdown = ({ className, items, value, onChange }: {
         </Button>
         <div
           className={cx(
-            'Dropdown-list z-[1] absolute right-0 top-[118%] rounded-[4px] py-1 bg-bg dark:bg-separator origin-top transition-all',
+            'Dropdown-list z-[1] absolute top-[118%] rounded-[4px] py-1 bg-bg dark:bg-separator origin-top transition-all',
+            right ? 'right-0' : 'left-0',
             isOpen ? 'opacity-100 scale-y-100' : ' opacity-0 scale-y-0'
           )}
           style={!isDark ? { boxShadow: '0px 0px 2px 0px #0000001F, 0px 8px 16px 0px #0000001F' } : {}}

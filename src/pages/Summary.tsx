@@ -275,28 +275,26 @@ export const Summary = ({
 
             <Panel className="!mt-0">
               <div className="flex flex-col gap-4">
-                <div className="flex items-center justify-between gap-4">
-                  <div className="flex items-center justify-start gap-1">
-                    <h3>{t('history')}</h3>
-                    <Button
-                      theme="text"
-                      onClick={() => {
-                        goDetailed()
-                        feedback('press_details_total_web')
-                      }}
-                    >
-                      <h3 className="text-blue">excel</h3>
-                    </Button>
-                  </div>
-                  <div>
-                    <Dropdown
-                      items={radioItemsTotal}
-                      value={filterTotal}
-                      onChange={(value: string) => {
-                        setFilterTotal(value as TFilterTotal)
-                      }}
-                    />
-                  </div>
+                <div className="flex items-center justify-between gap-2">
+                  <h3>{t('history')}</h3>
+                  <Button
+                    theme="text"
+                    onClick={() => {
+                      goDetailed()
+                      feedback('press_details_total_web')
+                    }}
+                  >
+                    <h3 className="text-blue">excel</h3>
+                  </Button>
+                </div>
+                <div>
+                  <Dropdown
+                    items={radioItemsTotal}
+                    value={filterTotal}
+                    onChange={(value: string) => {
+                      setFilterTotal(value as TFilterTotal)
+                    }}
+                  />
                 </div>
                 <div className="flex flex-col gap-3">
                   {txGroups.length === 0 &&
