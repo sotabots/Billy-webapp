@@ -11,6 +11,7 @@ import { ReactComponent as FilterIcon } from '../assets/filter.svg'
 import { ReactComponent as FilterActiveIcon } from '../assets/filter-active.svg'
 import { ReactComponent as ProPie } from '../assets/pro-pie.svg'
 import { ReactComponent as ProBadgeRotate } from '../assets/pro-badge-rotate.svg'
+import { ReactComponent as ExternalIcon } from '../assets/external.svg'
 
 export const Summary = ({
   isCompactPie,
@@ -284,7 +285,10 @@ export const Summary = ({
                       feedback('press_details_total_web')
                     }}
                   >
-                    <h3 className="text-blue">excel</h3>
+                    <div className="flex items-center gap-1">
+                      <h3 className="text-blue">{t('chat.excel')}</h3>
+                      <ExternalIcon className="w-4 h-4" />
+                    </div>
                   </Button>
                 </div>
                 <div>
