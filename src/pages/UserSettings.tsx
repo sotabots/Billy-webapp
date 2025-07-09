@@ -161,15 +161,6 @@ export const UserSettings = () => {
             </MenuGroup>
             <MenuGroup description={t('userSettings.currencyDescription')}>
               <MenuItem
-                icon={<CurrencyIcon />}
-                title={t('userSettings.currency')}
-                value={userSettings?.currency || ''}
-                onClick={() => {
-                  setSettingsInner('currency')
-                }}
-              />
-              <Divider className="" />
-              <MenuItem
                 icon={<LanguageIcon />}
                 title={t('userSettings.appLanguage')}
                 value={userLang
@@ -183,6 +174,15 @@ export const UserSettings = () => {
                   feedback('press_language_settings_web', {
                     language_prev: userLang,
                   })
+                }}
+              />
+              <Divider className="" />
+              <MenuItem
+                icon={<CurrencyIcon />}
+                title={t('userSettings.currency')}
+                value={userSettings?.currency || ''}
+                onClick={() => {
+                  setSettingsInner('currency')
                 }}
               />
               <Divider className="mr-0" />

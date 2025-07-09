@@ -251,7 +251,7 @@
     "cards": "Ways to Receive Funds",
     "cardsDescription": "Accounts for Receiving Transfers",
     "currency": "Currency",
-    "currencyDescription": "Settings apply only to your profile. Expenses are displayed in the selected currency in the chat and converted to your profile currency.",
+    "currencyDescription": "This currency will be used only for you – to display calculations",
     "appLanguage": "App language",
     "notify": "Notify about my expenses",
     "notifyDescription": "Duplicate messages about my expenses to a private chat with Billy"
