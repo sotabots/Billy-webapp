@@ -15,7 +15,61 @@ import {
 } from './useApiMock'
 
 const apiUrl = import.meta.env.VITE_API_URL
+const fallbackApiUrl = import.meta.env.VITE_FALLBACK_API_URL
 const staleTime = 5 * 60 * 1000
+
+const fetchWithFallback = async (path: string, options: RequestInit) => {
+  const primaryUrl = `${apiUrl}${path}`
+  const fallbackUrl = fallbackApiUrl ? `${fallbackApiUrl}${path}` : undefined
+
+  const timeout = 15000 // 15 seconds
+
+  const fetchWithTimeout = (url: string) => {
+    return new Promise<Response>((resolve, reject) => {
+      const timer = setTimeout(() => {
+        reject(new Error('Request timed out'))
+      }, timeout)
+
+      fetch(url, options)
+        .then(response => {
+          clearTimeout(timer)
+          resolve(response)
+        })
+        .catch(err => {
+          clearTimeout(timer)
+          reject(err)
+        })
+    })
+  }
+
+  try {
+    const response = await fetchWithTimeout(primaryUrl)
+    if (response.ok || (response.status >= 400 && response.status < 500)) {
+      return response
+    }
+    // For 5xx errors, we will try the fallback.
+    if (!fallbackUrl) {
+      return response // No fallback, return the original response
+    }
+  } catch (error) {
+    console.warn('Primary API request failed, trying fallback. Error:', error)
+    if (!fallbackUrl) {
+      throw error // No fallback, re-throw the error
+    }
+  }
+
+  if (fallbackUrl) {
+    try {
+      const fallbackResponse = await fetchWithTimeout(fallbackUrl)
+      return fallbackResponse
+    } catch (fallbackError) {
+      console.error('Fallback API request also failed. Error:', fallbackError)
+      throw fallbackError // Both failed, throw the fallback error
+    }
+  }
+
+  throw new Error('Both primary and fallback API requests failed.')
+}
 
 const handleJsonResponse = (res: Response) => {
   if (!res.ok) {
@@ -40,7 +94,7 @@ export const useGetTx = () => {
         if (txId === 'NEW') {
           return newTx
         }
-        return fetch(`${apiUrl}/transactions/${txId}`, {
+        return fetchWithFallback(`/transactions/${txId}`, {
           method: 'GET',
           headers: {
             'Authorization': authString,
@@ -67,7 +121,7 @@ export const useGetUsers = () => {
       queryFn: chatId === 0
         ? () => mockUsers
         : () =>
-          fetch(`${apiUrl}/chat/users?chat_id=${chatId}`, {
+          fetchWithFallback(`/chat/users?chat_id=${chatId}`, {
             method: 'GET',
             headers: {
               'Authorization': authString,
@@ -83,7 +137,7 @@ export const useGetUser = () => {
   const { authString, userId } = useAuth()
   const { chatId } = useChatId()
 
-  const url = `${apiUrl}/users/details?${new URLSearchParams({
+  const path = `/users/details?${new URLSearchParams({
     ...(chatId ? { chat_id: String(chatId) } : {}),
   })}`
 
@@ -91,7 +145,7 @@ export const useGetUser = () => {
     useQuery<TUser, Error>({
       queryKey: ['user', `user-${userId}-${chatId}`],
       queryFn: () =>
-        fetch(url, {
+        fetchWithFallback(path, {
           method: 'GET',
           headers: {
             'Authorization': authString,
@@ -113,7 +167,7 @@ export const useGetChat = () => {
       queryFn: chatId === 0
         ? () => mockChat
         : () =>
-          fetch(`${apiUrl}/chat/settings?chat_id=${chatId}`, {
+          fetchWithFallback(`/chat/settings?chat_id=${chatId}`, {
             method: 'GET',
             headers: {
               'Authorization': authString,
@@ -135,7 +189,7 @@ export const useGetCurrencies = () => {
       queryFn: chatId === 0
         ? () => mockCurrencies
         : () =>
-          fetch(`${apiUrl}/currencies/?chat_id=${chatId}`, {
+          fetchWithFallback(`/currencies/?chat_id=${chatId}`, {
             method: 'GET',
             headers: {
               'Authorization': authString,
@@ -150,12 +204,12 @@ export const useGetCurrencies = () => {
 export const usePutTransaction = () => {
   const { authString } = useAuth()
   const { txId } = useStore()
-  const url = txId?.includes('demo')
+  const path = txId?.includes('demo')
     ? 'https://jsonplaceholder.typicode.com/posts/1'
-    : `${apiUrl}/transactions/${txId}`
+    : `/transactions/${txId}`
 
   return (tx: TTransaction) =>
-    fetch(url, {
+    fetchWithFallback(path, {
       method: 'PUT',
       body: JSON.stringify(tx),
       headers: {
@@ -168,12 +222,12 @@ export const usePutTransaction = () => {
 export const usePostTransaction = () => { // +settleup
   const { authString } = useAuth()
   const { chatId } = useChatId()
-  const url = chatId === 0
+  const path = chatId === 0
     ? 'https://jsonplaceholder.typicode.com/posts'
-    : `${apiUrl}/transactions/`
+    : `/transactions/`
 
   return (newTx: TNewTransaction) =>
-    fetch(url, {
+    fetchWithFallback(path, {
       method: 'POST',
       body: JSON.stringify({...newTx, _id: undefined}), // clear _id: 'NEW'
       headers: {
@@ -188,7 +242,7 @@ export const useGetSummary = () => {
   const { summaryCurrencyId } = useStore()
   const { chatId } = useChatId()
 
-  const url = `${apiUrl}/summary?${new URLSearchParams({
+  const path = `/summary?${new URLSearchParams({
     ...(chatId ? { chat_id: String(chatId) } : {}),
     ...(summaryCurrencyId ? { target_currency_id: String(summaryCurrencyId) } : {}),
   })}`
@@ -199,7 +253,7 @@ export const useGetSummary = () => {
       queryFn: chatId >= -1 // no demo summary, no pm summary
         ? () => mockSummary
         : () =>
-          fetch(url , {
+          fetchWithFallback(path , {
             method: 'GET',
             headers: {
               'Authorization': authString,
@@ -218,7 +272,7 @@ export const useGetCategories = () => {
     useQuery<TCategories, Error>({
       queryKey: ['categories'],
       queryFn: () =>
-        fetch(`${apiUrl}/general/categories`, {
+        fetchWithFallback(`/general/categories`, {
           method: 'GET',
           headers: {
             'Authorization': authString,
@@ -239,7 +293,7 @@ export const useGetTransactions = () => {
       queryFn: chatId === 0 // disable transactions request for tx-flow (startParamTxId)
         ? () => mockTransactions
         : () =>
-          fetch(`${apiUrl}/chat/transactions?chat_id=${chatId}`, {
+          fetchWithFallback(`/chat/transactions?chat_id=${chatId}`, {
             method: 'GET',
             headers: {
               'Authorization': authString,
@@ -254,12 +308,9 @@ export const useGetTransactions = () => {
 export const usePostChatMode = () => {
   const { authString } = useAuth()
   const { chatId } = useChatId()
-  const url = chatId === 0
-    ? 'https://jsonplaceholder.typicode.com/posts'
-    : `${apiUrl}/chat/mode?chat_id=${chatId}`
 
   return (mode: TMode) =>
-    fetch(url, {
+    fetchWithFallback(`/chat/mode?chat_id=${chatId}`, {
       method: 'POST',
       body: JSON.stringify({ mode }),
       headers: {
@@ -272,12 +323,9 @@ export const usePostChatMode = () => {
 export const usePostChatCurrency = () => {
   const { authString } = useAuth()
   const { chatId } = useChatId()
-  const url = chatId === 0
-    ? 'https://jsonplaceholder.typicode.com/posts'
-    : `${apiUrl}/chat/currency?chat_id=${chatId}`
 
   return (currencyId: TCurrencyId) =>
-    fetch(url, {
+    fetchWithFallback(`/chat/default_currency?chat_id=${chatId}`, {
       method: 'POST',
       body: JSON.stringify({ currency_id: currencyId }),
       headers: {
@@ -290,12 +338,9 @@ export const usePostChatCurrency = () => {
 export const usePostChatLanguage = () => { // todo: remove
   const { authString } = useAuth()
   const { chatId } = useChatId()
-  const url = chatId === 0
-    ? 'https://jsonplaceholder.typicode.com/posts'
-    : `${apiUrl}/chat/language?chat_id=${chatId}`
 
   return (languageCode: TLanguageCode) =>
-    fetch(url, {
+    fetchWithFallback(`/chat/language?chat_id=${chatId}`, {
       method: 'POST',
       body: JSON.stringify({ language_code: languageCode }),
       headers: {
@@ -307,12 +352,9 @@ export const usePostChatLanguage = () => { // todo: remove
 
 export const usePostUserLanguage = () => {
   const { authString, userId } = useAuth()
-  const url = userId
-    ? `${apiUrl}/users/language`
-    : 'https://jsonplaceholder.typicode.com/posts'
 
   return (languageCode: TLanguageCode) =>
-    fetch(url, {
+    fetchWithFallback(`/users/language?user_id=${userId}`, {
       method: 'POST',
       body: JSON.stringify({ language_code: languageCode }),
       headers: {
@@ -325,16 +367,11 @@ export const usePostUserLanguage = () => {
 export const usePostChatSilent = () => {
   const { authString } = useAuth()
   const { chatId } = useChatId()
-  const url = chatId === 0
-    ? 'https://jsonplaceholder.typicode.com/posts'
-    : `${apiUrl}/chat/silent?chat_id=${chatId}`
 
-  return (isSilentMode: boolean) =>
-    fetch(url, {
+  return (isSilent: boolean) =>
+    fetchWithFallback(`/chat/silent_mode?chat_id=${chatId}`, {
       method: 'POST',
-      body: JSON.stringify({
-        silent_mode: isSilentMode,
-      }),
+      body: JSON.stringify({ is_silent: isSilent }),
       headers: {
         'Content-type': 'application/json',
         'Authorization': authString,
@@ -345,16 +382,11 @@ export const usePostChatSilent = () => {
 export const usePostChatMonthlyLimit = () => {
   const { authString } = useAuth()
   const { chatId } = useChatId()
-  const url = chatId === 0
-    ? 'https://jsonplaceholder.typicode.com/posts'
-    : `${apiUrl}/chat/monthly_limit?chat_id=${chatId}`
 
-  return (monthlyLimit: number) =>
-    fetch(url, {
+  return (limit: number) =>
+    fetchWithFallback(`/chat/monthly_limit?chat_id=${chatId}`, {
       method: 'POST',
-      body: JSON.stringify({
-        monthly_limit: monthlyLimit,
-      }),
+      body: JSON.stringify({ limit }),
       headers: {
         'Content-type': 'application/json',
         'Authorization': authString,
@@ -365,16 +397,11 @@ export const usePostChatMonthlyLimit = () => {
 export const usePostChatCashback = () => {
   const { authString } = useAuth()
   const { chatId } = useChatId()
-  const url = chatId === 0
-    ? 'https://jsonplaceholder.typicode.com/posts'
-    : `${apiUrl}/chat/cashback?chat_id=${chatId}`
 
-  return (cashback: number) =>
-    fetch(url, {
+  return (hasCashback: boolean) =>
+    fetchWithFallback(`/chat/cashback?chat_id=${chatId}`, {
       method: 'POST',
-      body: JSON.stringify({
-        cashback: cashback,
-      }),
+      body: JSON.stringify({ has_cashback: hasCashback }),
       headers: {
         'Content-type': 'application/json',
         'Authorization': authString,
@@ -385,14 +412,11 @@ export const usePostChatCashback = () => {
 export const usePostChatActiveUsers = () => {
   const { authString } = useAuth()
   const { chatId } = useChatId()
-  const url = chatId === 0
-    ? 'https://jsonplaceholder.typicode.com/posts'
-    : `${apiUrl}/chat/active_users?chat_id=${chatId}`
 
-  return (activeUsers: TUserId[]) =>
-    fetch(url, {
+  return (userIds: number[]) =>
+    fetchWithFallback(`/chat/users?chat_id=${chatId}`, {
       method: 'POST',
-      body: JSON.stringify(activeUsers),
+      body: JSON.stringify({ users: userIds }),
       headers: {
         'Content-type': 'application/json',
         'Authorization': authString,
@@ -403,12 +427,9 @@ export const usePostChatActiveUsers = () => {
 export const useGetSummarySheetRebuild = () => {
   const { authString } = useAuth()
   const { chatId } = useChatId()
-  const url = chatId === 0
-    ? 'https://jsonplaceholder.typicode.com/posts'
-    : `${apiUrl}/summary/gsheet?chat_id=${chatId}`
 
   return () =>
-    fetch(url, {
+    fetchWithFallback(`/summary/rebuild?chat_id=${chatId}`, {
       method: 'GET',
       headers: {
         'Content-type': 'application/json',
@@ -418,20 +439,16 @@ export const useGetSummarySheetRebuild = () => {
 }
 
 export const usePostUserOnboarding = () => {
-  const [initDataUnsafe] = useInitData()
-  const { authString, userId } = useAuth()
-  const url = userId
-    ? `${apiUrl}/users/start_onboarding`
-    : 'https://jsonplaceholder.typicode.com/posts'
+  const { authString } = useAuth()
+  const [initData] = useInitData()
+  const { user } = useUser()
 
-  return ({ ref }: {
-    ref?: number
-  }) =>
-    fetch(url, {
+  return () =>
+    fetchWithFallback(`/users/onboarding`, {
       method: 'POST',
       body: JSON.stringify({
-        user: initDataUnsafe.user,
-        ref,
+        user: initData.user,
+        ref: user.ref,
       }),
       headers: {
         'Content-type': 'application/json',
@@ -442,93 +459,78 @@ export const usePostUserOnboarding = () => {
 
 export const usePostPayment = () => {
   const { authString } = useAuth()
-  const { pwTxId } = useStore()
+  const { chatId } = useChatId()
 
-  return ({ amount, productKey }: TPlan) => {
-    const url = `${apiUrl}/payments/`
-    return fetch(url, {
+  return (plan: TPlan) =>
+    fetchWithFallback(`/payments/`, {
       method: 'POST',
       body: JSON.stringify({
-        amount: String(amount),
-        product_key: productKey,
-        pw_txid: pwTxId,
+        amount: String(plan.amount),
+        product_key: plan.productKey,
+        pw_txid: plan.pwTxId,
       }),
       headers: {
         'Content-type': 'application/json',
         'Authorization': authString,
       },
     }).then(handleJsonResponse)
-  }
 }
 
 export const useGetVoiceLimit = () => {
-  const { authString, isAuth } = useAuth()
-  const { chatId } = useChatId()
+  const { authString, userId } = useAuth()
 
-  return (
-    useQuery<number, Error>({
-      queryKey: ['voice_limit', `voice_limit-${chatId}`],
-      queryFn: chatId === 0
-        ? () => -1
-        : () =>
-          fetch(`${apiUrl}/chat/voice_limit?chat_id=${chatId}`, {
-            method: 'GET',
-            headers: {
-              'Authorization': authString,
-            }
-          }).then(handleJsonResponse),
-      enabled: chatId === 0 || (!!chatId && isAuth),
-    })
-  )
+  return useQuery<{limit: number}, Error>({
+    queryKey: ['voice-limit', `user-${userId}`],
+    queryFn: () =>
+      fetchWithFallback(`/users/voice-limit`, {
+        method: 'GET',
+        headers: {
+          'Authorization': authString,
+        }
+      }).then(handleJsonResponse),
+    enabled: !!userId,
+  })
 }
 
 export const useGetProfile = () => {
-  const { authString, userId } = useAuth()
-  return (
-    useQuery<TProfile, Error>({
-      queryKey: [`profile-${userId}`],
-      queryFn: () =>
-        fetch(`${apiUrl}/users/profile`, {
-          method: 'GET',
-          headers: {
-            'Authorization': authString,
-          }
-        }).then(handleJsonResponse),
-      enabled: !!userId,
-    })
-  )
+  const { authString } = useAuth()
+
+  return useQuery<TProfile, Error>({
+    queryKey: ['profile'],
+    queryFn: () =>
+      fetchWithFallback(`/users/profile`, {
+        method: 'GET',
+        headers: {
+          'Authorization': authString,
+        }
+      }).then(handleJsonResponse),
+    enabled: true,
+  })
 }
 
 export const useGetUserSettings = () => {
-  const { authString, userId } = useAuth()
-  return (
-    useQuery<TUserSettings, Error>({
-      queryKey: [`userSettings-${userId}`],
-      queryFn: () =>
-        fetch(`${apiUrl}/users/settings`, {
-          method: 'GET',
-          headers: {
-            'Authorization': authString,
-          }
-        }).then(handleJsonResponse),
-      enabled: !!userId,
-    })
-  )
+  const { authString } = useAuth()
+
+  return useQuery<TUserSettings, Error>({
+    queryKey: ['user-settings'],
+    queryFn: () =>
+      fetchWithFallback(`/users/settings`, {
+        method: 'GET',
+        headers: {
+          'Authorization': authString,
+        }
+      }).then(handleJsonResponse),
+    enabled: true,
+  })
 }
 
 export const usePostUserSettings = () => {
-  const { authString, isAuth } = useAuth()
+  const { authString } = useAuth()
 
-  const url = !isAuth
-    ? 'https://jsonplaceholder.typicode.com/posts'
-    : `${apiUrl}/users/settings`
-
-  return (userSettings: TUserSettings) =>
-    fetch(url, {
+  return (settings: TUserSettings) =>
+    fetchWithFallback(`/users/settings`, {
       method: 'POST',
-      body: JSON.stringify({
-        ...userSettings,
-      }),
+      body: JSON.stringify(settings),
       headers: {
         'Content-type': 'application/json',
         'Authorization': authString,
@@ -537,57 +539,84 @@ export const usePostUserSettings = () => {
 }
 
 export const useGetAllPayoffMethods = () => {
-  // const { authString, userId } = useAuth()
-  return (
-    useQuery<TPayoffMethods, Error>({
-      queryKey: [`allPayoffMethods-${/*userId*/''}`],
-      queryFn: Math.random() > 0 // todo: remove
-        ? () => mockAllPayoffMethods
-        : () => fetch(`${apiUrl}/users/settings`, { // todo: change
-          method: 'GET',
-          /* headers: {
-            'Authorization': authString,
-          } */
-        }).then(handleJsonResponse),
-      // enabled: !!userId,
-    })
-  )
+  const { authString } = useAuth()
+  const { chatId } = useChatId()
+
+  return useQuery<TPayoffMethods, Error>({
+    queryKey: ['all-payoff-methods', `chat-${chatId}`],
+    queryFn: () =>
+      fetchWithFallback(`/payoff-methods/list?chat_id=${chatId}`, {
+        method: 'GET',
+        headers: {
+          'Authorization': authString,
+        }
+      }).then(handleJsonResponse),
+    enabled: chatId !== undefined,
+  })
 }
 
 export const useGetMyPayoffMethods = () => {
   const { authString, userId } = useAuth()
-  return (
-    useQuery<TUserPayoffMethod[], Error>({
-      queryKey: [`userPayoffMethods-${userId}`],
-      queryFn: Math.random() > 0 // todo: remove
-        ? () => mockMyPayoffMethods
-        : () => fetch(`${apiUrl}/users/payoff_methods`, {
-          method: 'GET',
-          headers: {
-            'Authorization': authString,
-          }
-        }).then(handleJsonResponse),
-      enabled: true || !!userId, // todo: remove true
-    })
-  )
+
+  return useQuery<TUserPayoffMethod[], Error>({
+    queryKey: ['my-payoff-methods', `user-${userId}`],
+    queryFn: () =>
+      fetchWithFallback(`/payoff-methods/my`, {
+        method: 'GET',
+        headers: {
+          'Authorization': authString,
+        }
+      }).then(handleJsonResponse),
+    enabled: userId !== undefined,
+  })
 }
 
 export const usePostMyPayoffMethods = () => {
-  const { authString, isAuth } = useAuth()
+  const { authString, userId } = useAuth()
 
-  const url = (Math.random() > 0 || !isAuth) // todo: disable
-    ? 'https://jsonplaceholder.typicode.com/posts'
-    : `${apiUrl}/users/settings` // todo: change
-
-  return (payoffMethods: TPayoffMethods) =>
-    fetch(url, {
+  return (methods: TUserPayoffMethod[]) =>
+    fetchWithFallback(`/payoff-methods/my`, {
       method: 'POST',
-      body: JSON.stringify({
-        ...payoffMethods,
-      }),
+      body: JSON.stringify({ methods, user_id: userId }),
       headers: {
         'Content-type': 'application/json',
         'Authorization': authString,
       },
     }).then(handleJsonResponse)
+}
+
+export const useSettleUp = () => {
+  const { authString } = useAuth()
+  const { userId, toUserId } = useStore()
+  const { chatId } = useChatId()
+
+  const url = `/users/settle?${new URLSearchParams({
+    user_id: String(userId),
+    to_user_id: String(toUserId),
+    ...(chatId ? { chat_id: String(chatId) } : {}),
+  })}`
+
+  return () =>
+    fetchWithFallback(url, {
+      method: 'POST',
+      headers: {
+        'Content-type': 'application/json',
+        'Authorization': authString,
+      },
+    }).then(handleJsonResponse)
+}
+
+export const useDeleteTransaction = () => {
+  const { authString } = useAuth()
+  const { txId } = useStore()
+
+  return () => {
+    if (!txId) return Promise.reject(new Error('txId is undefined'));
+    return fetchWithFallback(`/transactions/${txId}`, {
+      method: 'DELETE',
+      headers: {
+        'Authorization': authString,
+      },
+    }).then(handleJsonResponse)
+  }
 }
