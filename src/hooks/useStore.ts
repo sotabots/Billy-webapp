@@ -4,6 +4,12 @@ import { persist } from 'zustand/middleware'
 import { TCurrencyId, TTransaction, TFilterTotal, TFilterPeriod, TNewTransaction, TFlow, TPaywallSource, TPaywallFrom } from '../types'
 
 type TStore = {
+  isApiFallback: undefined | boolean
+  setIsApiFallback: (_: boolean) => void
+
+  isApiFallbackRequest: boolean
+  setIsApiFallbackRequest: (_: boolean) => void
+
   overlays: number[]
   setOverlays: (val: number[]) => void
 
@@ -73,6 +79,12 @@ type TStore = {
 }
 
 export const useStore = create<TStore>((set /*, get */) => ({
+  isApiFallback: undefined,
+  setIsApiFallback: (isApiFallback: boolean) => set(({ isApiFallback })),
+
+  isApiFallbackRequest: false,
+  setIsApiFallbackRequest: (isApiFallbackRequest: boolean) => set(({ isApiFallbackRequest })),
+
   overlays: [],
   setOverlays: (overlays) => set(({ overlays })),
 

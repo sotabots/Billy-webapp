@@ -1,7 +1,7 @@
 import { useInitData } from '@vkruglikov/react-telegram-web-app'
 import { useQuery } from '@tanstack/react-query'
 
-import { useAuth, useNewTx, useChatId, useStore } from '../hooks'
+import { useAuth, useNewTx, useChatId, useStore, useApiUrl } from '../hooks'
 import { TCurrency, TCategories, TTransaction, TNewTransaction, TUser, TChat, TSummary, TCurrencyId, TLanguageCode, TMode, TPlan, TProfile, TUserSettings, TPayoffMethods, TUserPayoffMethod, TUserId } from '../types'
 import {
   mockTransaction,
@@ -14,7 +14,6 @@ import {
   mockAllPayoffMethods
 } from './useApiMock'
 
-const apiUrl = import.meta.env.VITE_API_URL
 const staleTime = 5 * 60 * 1000
 
 const handleJsonResponse = (res: Response) => {
@@ -25,6 +24,7 @@ const handleJsonResponse = (res: Response) => {
 }
 
 export const useGetTx = () => {
+  const { apiUrl } = useApiUrl()
   const { authString } = useAuth()
   const { transaction, setTransaction, txId } = useStore()
   const { newTx } = useNewTx()
@@ -58,6 +58,7 @@ export const useGetTx = () => {
 }
 
 export const useGetUsers = () => {
+  const { apiUrl } = useApiUrl()
   const { authString } = useAuth()
   const { chatId } = useChatId()
 
@@ -80,6 +81,7 @@ export const useGetUsers = () => {
 }
 
 export const useGetUser = () => {
+  const { apiUrl } = useApiUrl()
   const { authString, userId } = useAuth()
   const { chatId } = useChatId()
 
@@ -104,6 +106,7 @@ export const useGetUser = () => {
 }
 
 export const useGetChat = () => {
+  const { apiUrl } = useApiUrl()
   const { authString } = useAuth()
   const { chatId } = useChatId()
 
@@ -126,6 +129,7 @@ export const useGetChat = () => {
 }
 
 export const useGetCurrencies = () => {
+  const { apiUrl } = useApiUrl()
   const { authString } = useAuth()
   const { chatId } = useChatId()
 
@@ -148,6 +152,7 @@ export const useGetCurrencies = () => {
 }
 
 export const usePutTransaction = () => {
+  const { apiUrl } = useApiUrl()
   const { authString } = useAuth()
   const { txId } = useStore()
   const url = txId?.includes('demo')
@@ -166,6 +171,7 @@ export const usePutTransaction = () => {
 }
 
 export const usePostTransaction = () => { // +settleup
+  const { apiUrl } = useApiUrl()
   const { authString } = useAuth()
   const { chatId } = useChatId()
   const url = chatId === 0
@@ -184,6 +190,7 @@ export const usePostTransaction = () => { // +settleup
 }
 
 export const useGetSummary = () => {
+  const { apiUrl } = useApiUrl()
   const { authString } = useAuth()
   const { summaryCurrencyId } = useStore()
   const { chatId } = useChatId()
@@ -212,6 +219,7 @@ export const useGetSummary = () => {
 }
 
 export const useGetCategories = () => {
+  const { apiUrl } = useApiUrl()
   const { authString } = useAuth()
 
   return (
@@ -230,6 +238,7 @@ export const useGetCategories = () => {
 }
 
 export const useGetTransactions = () => {
+  const { apiUrl } = useApiUrl()
   const { authString } = useAuth()
   const { chatId } = useChatId()
 
@@ -252,6 +261,7 @@ export const useGetTransactions = () => {
 }
 
 export const usePostChatMode = () => {
+  const { apiUrl } = useApiUrl()
   const { authString } = useAuth()
   const { chatId } = useChatId()
   const url = chatId === 0
@@ -270,6 +280,7 @@ export const usePostChatMode = () => {
 }
 
 export const usePostChatCurrency = () => {
+  const { apiUrl } = useApiUrl()
   const { authString } = useAuth()
   const { chatId } = useChatId()
   const url = chatId === 0
@@ -288,6 +299,7 @@ export const usePostChatCurrency = () => {
 }
 
 export const usePostChatLanguage = () => { // todo: remove
+  const { apiUrl } = useApiUrl()
   const { authString } = useAuth()
   const { chatId } = useChatId()
   const url = chatId === 0
@@ -306,6 +318,7 @@ export const usePostChatLanguage = () => { // todo: remove
 }
 
 export const usePostUserLanguage = () => {
+  const { apiUrl } = useApiUrl()
   const { authString, userId } = useAuth()
   const url = userId
     ? `${apiUrl}/users/language`
@@ -323,6 +336,7 @@ export const usePostUserLanguage = () => {
 }
 
 export const usePostChatSilent = () => {
+  const { apiUrl } = useApiUrl()
   const { authString } = useAuth()
   const { chatId } = useChatId()
   const url = chatId === 0
@@ -343,6 +357,7 @@ export const usePostChatSilent = () => {
 }
 
 export const usePostChatMonthlyLimit = () => {
+  const { apiUrl } = useApiUrl()
   const { authString } = useAuth()
   const { chatId } = useChatId()
   const url = chatId === 0
@@ -363,6 +378,7 @@ export const usePostChatMonthlyLimit = () => {
 }
 
 export const usePostChatCashback = () => {
+  const { apiUrl } = useApiUrl()
   const { authString } = useAuth()
   const { chatId } = useChatId()
   const url = chatId === 0
@@ -383,6 +399,7 @@ export const usePostChatCashback = () => {
 }
 
 export const usePostChatActiveUsers = () => {
+  const { apiUrl } = useApiUrl()
   const { authString } = useAuth()
   const { chatId } = useChatId()
   const url = chatId === 0
@@ -401,6 +418,7 @@ export const usePostChatActiveUsers = () => {
 }
 
 export const useGetSummarySheetRebuild = () => {
+  const { apiUrl } = useApiUrl()
   const { authString } = useAuth()
   const { chatId } = useChatId()
   const url = chatId === 0
@@ -418,6 +436,7 @@ export const useGetSummarySheetRebuild = () => {
 }
 
 export const usePostUserOnboarding = () => {
+  const { apiUrl } = useApiUrl()
   const [initDataUnsafe] = useInitData()
   const { authString, userId } = useAuth()
   const url = userId
@@ -441,6 +460,7 @@ export const usePostUserOnboarding = () => {
 }
 
 export const usePostPayment = () => {
+  const { apiUrl } = useApiUrl()
   const { authString } = useAuth()
   const { pwTxId } = useStore()
 
@@ -462,6 +482,7 @@ export const usePostPayment = () => {
 }
 
 export const useGetVoiceLimit = () => {
+  const { apiUrl } = useApiUrl()
   const { authString, isAuth } = useAuth()
   const { chatId } = useChatId()
 
@@ -483,6 +504,7 @@ export const useGetVoiceLimit = () => {
 }
 
 export const useGetProfile = () => {
+  const { apiUrl } = useApiUrl()
   const { authString, userId } = useAuth()
   return (
     useQuery<TProfile, Error>({
@@ -500,6 +522,7 @@ export const useGetProfile = () => {
 }
 
 export const useGetUserSettings = () => {
+  const { apiUrl } = useApiUrl()
   const { authString, userId } = useAuth()
   return (
     useQuery<TUserSettings, Error>({
@@ -517,6 +540,7 @@ export const useGetUserSettings = () => {
 }
 
 export const usePostUserSettings = () => {
+  const { apiUrl } = useApiUrl()
   const { authString, isAuth } = useAuth()
 
   const url = !isAuth
@@ -537,6 +561,7 @@ export const usePostUserSettings = () => {
 }
 
 export const useGetAllPayoffMethods = () => {
+  const { apiUrl } = useApiUrl()
   // const { authString, userId } = useAuth()
   return (
     useQuery<TPayoffMethods, Error>({
@@ -555,6 +580,7 @@ export const useGetAllPayoffMethods = () => {
 }
 
 export const useGetMyPayoffMethods = () => {
+  const { apiUrl } = useApiUrl()
   const { authString, userId } = useAuth()
   return (
     useQuery<TUserPayoffMethod[], Error>({
@@ -573,6 +599,7 @@ export const useGetMyPayoffMethods = () => {
 }
 
 export const usePostMyPayoffMethods = () => {
+  const { apiUrl } = useApiUrl()
   const { authString, isAuth } = useAuth()
 
   const url = (Math.random() > 0 || !isAuth) // todo: disable
