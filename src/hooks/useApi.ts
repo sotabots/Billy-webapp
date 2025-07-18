@@ -2,7 +2,7 @@ import { useInitData } from '@vkruglikov/react-telegram-web-app'
 import { useQuery } from '@tanstack/react-query'
 
 import { useAuth, useNewTx, useChatId, useStore } from '../hooks'
-import { TCurrency, TCategories, TTransaction, TNewTransaction, TUser, TChat, TSummary, TCurrencyId, TLanguageCode, TMode, TPlan, TProfile, TUserSettings, TPayoffMethods, TUserPayoffMethod, TUserId } from '../types'
+import { TCurrency, TCategories, TTransaction, TNewTransaction, TUser, TChat, TSummary, TCurrencyId, TLanguageCode, TMode, TPlan, TProfile, TUserSettings, TPayoffMethods, TUserPayoffMethod } from '../types'
 import {
   mockTransaction,
   mockUsers,
@@ -10,8 +10,6 @@ import {
   mockChat,
   mockSummary,
   mockTransactions,
-  mockMyPayoffMethods,
-  mockAllPayoffMethods
 } from './useApiMock'
 
 const apiUrl = import.meta.env.VITE_API_URL
@@ -398,10 +396,10 @@ export const usePostChatCashback = () => {
   const { authString } = useAuth()
   const { chatId } = useChatId()
 
-  return (hasCashback: boolean) =>
+  return (cashback: number) =>
     fetchWithFallback(`/chat/cashback?chat_id=${chatId}`, {
       method: 'POST',
-      body: JSON.stringify({ has_cashback: hasCashback }),
+      body: JSON.stringify({ cashback }),
       headers: {
         'Content-type': 'application/json',
         'Authorization': authString,
@@ -439,16 +437,17 @@ export const useGetSummarySheetRebuild = () => {
 }
 
 export const usePostUserOnboarding = () => {
+  const [initDataUnsafe] = useInitData()
   const { authString } = useAuth()
-  const [initData] = useInitData()
-  const { user } = useUser()
 
-  return () =>
-    fetchWithFallback(`/users/onboarding`, {
+  return ({ ref }: {
+    ref?: number
+  }) =>
+    fetchWithFallback('/users/onboarding', {
       method: 'POST',
       body: JSON.stringify({
-        user: initData.user,
-        ref: user.ref,
+        user: initDataUnsafe.user,
+        ref,
       }),
       headers: {
         'Content-type': 'application/json',
@@ -459,7 +458,7 @@ export const usePostUserOnboarding = () => {
 
 export const usePostPayment = () => {
   const { authString } = useAuth()
-  const { chatId } = useChatId()
+  const { pwTxId } = useStore()
 
   return (plan: TPlan) =>
     fetchWithFallback(`/payments/`, {
@@ -467,7 +466,7 @@ export const usePostPayment = () => {
       body: JSON.stringify({
         amount: String(plan.amount),
         product_key: plan.productKey,
-        pw_txid: plan.pwTxId,
+        pw_txid: pwTxId,
       }),
       headers: {
         'Content-type': 'application/json',
@@ -479,7 +478,7 @@ export const usePostPayment = () => {
 export const useGetVoiceLimit = () => {
   const { authString, userId } = useAuth()
 
-  return useQuery<{limit: number}, Error>({
+  return useQuery<number, Error>({
     queryKey: ['voice-limit', `user-${userId}`],
     queryFn: () =>
       fetchWithFallback(`/users/voice-limit`, {
@@ -585,6 +584,7 @@ export const usePostMyPayoffMethods = () => {
     }).then(handleJsonResponse)
 }
 
+/*
 export const useSettleUp = () => {
   const { authString } = useAuth()
   const { userId, toUserId } = useStore()
@@ -605,6 +605,7 @@ export const useSettleUp = () => {
       },
     }).then(handleJsonResponse)
 }
+*/
 
 export const useDeleteTransaction = () => {
   const { authString } = useAuth()
