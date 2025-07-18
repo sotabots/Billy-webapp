@@ -3,7 +3,7 @@ import { useInitData } from '@vkruglikov/react-telegram-web-app'
 import { useEffect } from 'react'
 import { useLocation } from 'react-router-dom'
 
-import { useStore, useFeedback, useUsers, useTgSettings, useUser, usePostUserOnboarding, useAuth } from '../hooks'
+import { useStore, useFeedback, useUsers, useTgSettings, useUser, usePostUserOnboarding, useAuth, useApiUrlInit } from '../hooks'
 
 
 import i18n from '../i18n'
@@ -11,6 +11,7 @@ import { TPaywallSource, TUser } from '../types'
 
 export const useInit = () => {
   useTgSettings()
+  useApiUrlInit()
 
   const {
     flow, setFlow,

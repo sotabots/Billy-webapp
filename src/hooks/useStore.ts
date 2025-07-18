@@ -4,8 +4,8 @@ import { persist } from 'zustand/middleware'
 import { TCurrencyId, TTransaction, TFilterTotal, TFilterPeriod, TNewTransaction, TFlow, TPaywallSource, TPaywallFrom } from '../types'
 
 type TStore = {
-  isApiFallback: undefined | boolean
-  setIsApiFallback: (_: boolean) => void
+  apiUrl: undefined | string
+  setApiUrl: (_: string) => void
 
   isApiFallbackRequest: boolean
   setIsApiFallbackRequest: (_: boolean) => void
@@ -79,8 +79,8 @@ type TStore = {
 }
 
 export const useStore = create<TStore>((set /*, get */) => ({
-  isApiFallback: undefined,
-  setIsApiFallback: (isApiFallback: boolean) => set(({ isApiFallback })),
+  apiUrl: undefined,
+  setApiUrl: (apiUrl: string) => set(({ apiUrl })),
 
   isApiFallbackRequest: false,
   setIsApiFallbackRequest: (isApiFallbackRequest: boolean) => set(({ isApiFallbackRequest })),
