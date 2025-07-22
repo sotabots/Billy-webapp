@@ -68,12 +68,9 @@ export type TEvent =
   'share_link_invitee_open' |
 
   'onb_tool_started' |
-  'onb_tool_revolution_adding_next' |
-  'onb_tool_balance_next' |
-  'onb_tool_cashback_next' |
-  'onb_tool_edit_later_next' |
-  'onb_tool_features_next' |
-  'onb_tool_pro_next' |
+  'onb_tool_slide_1_next' |
+  'onb_tool_slide_2_next' |
+  'onb_tool_slide_3_next' |
   'onb_tool_finished' |
 
   'paywall_open' |
