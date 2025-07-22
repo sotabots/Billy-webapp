@@ -10,10 +10,12 @@ import onboarding1 from '../assets/onboarding-1.jpg'
 import onboarding2 from '../assets/onboarding-2.jpg'
 import onboarding3 from '../assets/onboarding-3.jpg'
 
+const SLIDES_NUM = 3
+
 const Pager = ({ page }: {
   page: number
 }) => (
-  <div className="absolute right-2 top-2 --bottom-[14px] --left-[50%] --translate-x-[50%] rounded-full px-2 py-[2px] bg-white font-bold shadow-md border border-[#eee] text-[#aaa]">{page}/6</div>
+  <div className="absolute right-2 top-2 --bottom-[14px] --left-[50%] --translate-x-[50%] rounded-full px-2 py-[2px] bg-white font-bold shadow-md border border-[#eee] text-[#aaa]">{page}/{SLIDES_NUM}</div>
 )
 
 export const Onboarding = ({ isEnd }: {
@@ -26,8 +28,6 @@ export const Onboarding = ({ isEnd }: {
   const { feedback } = useFeedback()
 
   const { setPaywallSource, setPaywallFrom } = useStore()
-
-  const SLIDES_NUM = 3
 
   const [step, setStep] = useState(isEnd ? SLIDES_NUM : 1)
   const [isButtonBusy, setIsButtonBusy] = useState(false)
