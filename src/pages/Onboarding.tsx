@@ -15,7 +15,7 @@ const SLIDES_NUM = 3
 const Pager = ({ page }: {
   page: number
 }) => (
-  <div className="absolute right-2 top-2 --bottom-[14px] --left-[50%] --translate-x-[50%] rounded-full px-2 py-[2px] bg-white font-bold shadow-md border border-[#eee] text-[#aaa]">{page}/{SLIDES_NUM}</div>
+  <div className="absolute right-2 top-2 --bottom-[14px] --left-[50%] --translate-x-[50%] rounded-full px-2 py-[2px] bg-white/60 font-bold shadow-md border border-white/80 text-black/50">{page}/{SLIDES_NUM}</div>
 )
 
 export const Onboarding = ({ isEnd }: {
@@ -53,7 +53,7 @@ export const Onboarding = ({ isEnd }: {
         {step === 1 && (
           <>
             <div
-              className="relative h-[37vh] bg-[#ffca6a] bg-center bg-cover bg-no-repeat"
+              className="relative h-[37vh] max-w-[500px] mx-auto bg-[#ffca6a] bg-center bg-cover bg-no-repeat"
               style={{ backgroundImage: `url(${onboarding1})` }}
             >
               {!isEnd &&
@@ -70,7 +70,7 @@ export const Onboarding = ({ isEnd }: {
         {step === 2 && (
           <>
             <div
-              className="relative h-[37vh] bg-[#ffca6a] bg-center bg-cover bg-no-repeat"
+              className="relative h-[37vh] max-w-[500px] mx-auto bg-[#ffca6a] bg-center bg-cover bg-no-repeat"
               style={{ backgroundImage: `url(${onboarding2})` }}
             >
               {!isEnd &&
@@ -87,7 +87,7 @@ export const Onboarding = ({ isEnd }: {
         {step === 3 && (
           <>
             <div
-              className="relative h-[37vh] bg-[#ffca6a] bg-center bg-cover bg-no-repeat"
+              className="relative h-[37vh] max-w-[500px] mx-auto bg-[#ffca6a] bg-center bg-cover bg-no-repeat"
               style={{ backgroundImage: `url(${onboarding3})` }}
             >
               {!isEnd &&
