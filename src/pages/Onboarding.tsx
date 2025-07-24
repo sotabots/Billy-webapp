@@ -3,21 +3,19 @@ import { useTranslation } from 'react-i18next'
 import { useNavigate } from 'react-router-dom'
 import { useSwipeable } from 'react-swipeable'
 
-import { useFeedback, TEvent, useInit, useStore } from '../hooks'
-import { Button, Header, Page } from '../kit'
+import { useFeedback, TEvent, useInit, useLink } from '../hooks'
+import { Bottom, Button, Header, Page } from '../kit'
 
-import { ReactComponent as CheckmarkIcon } from '../assets/checkmark.svg'
 import onboarding1 from '../assets/onboarding-1.jpg'
 import onboarding2 from '../assets/onboarding-2.jpg'
 import onboarding3 from '../assets/onboarding-3.jpg'
-import onboarding4 from '../assets/onboarding-4.jpg'
-import onboarding5 from '../assets/onboarding-5.jpg'
-import onboarding6 from '../assets/onboarding-6.jpg'
+
+const SLIDES_NUM = 3
 
 const Pager = ({ page }: {
   page: number
 }) => (
-  <div className="absolute right-2 top-2 --bottom-[14px] --left-[50%] --translate-x-[50%] rounded-full px-2 py-[2px] bg-white font-bold shadow-md border border-[#eee] text-[#aaa]">{page}/6</div>
+  <div className="absolute right-2 top-2 --bottom-[14px] --left-[50%] --translate-x-[50%] rounded-full px-2 py-[2px] bg-white/60 font-bold shadow-md border border-white/80 text-black/50">{page}/{SLIDES_NUM}</div>
 )
 
 export const Onboarding = ({ isEnd }: {
@@ -28,15 +26,14 @@ export const Onboarding = ({ isEnd }: {
   const navigate = useNavigate()
   const { t } = useTranslation()
   const { feedback } = useFeedback()
+  const { openLink, ADD_TO_CHAT_LINK } = useLink()
 
-  const { setPaywallSource, setPaywallFrom } = useStore()
-
-  const [step, setStep] = useState(isEnd ? 6 : 1)
+  const [step, setStep] = useState(isEnd ? SLIDES_NUM : 1)
   const [isButtonBusy, setIsButtonBusy] = useState(false)
 
   const swipes = useSwipeable({
     onSwipedLeft: () => {
-      setStep(Math.min(6, step + 1))
+      setStep(Math.min(SLIDES_NUM, step + 1))
     },
     onSwipedRight: () => {
       setStep(Math.max(1, step - 1))
@@ -55,7 +52,7 @@ export const Onboarding = ({ isEnd }: {
         {step === 1 && (
           <>
             <div
-              className="relative h-[37vh] bg-[#ffca6a] bg-center bg-cover bg-no-repeat"
+              className="relative h-[37vh] max-w-[500px] mx-auto bg-[#ffca6a] bg-center bg-cover bg-no-repeat"
               style={{ backgroundImage: `url(${onboarding1})` }}
             >
               {!isEnd &&
@@ -72,7 +69,7 @@ export const Onboarding = ({ isEnd }: {
         {step === 2 && (
           <>
             <div
-              className="relative h-[37vh] bg-[#ffca6a] bg-center bg-cover bg-no-repeat"
+              className="relative h-[37vh] max-w-[500px] mx-auto bg-[#ffca6a] bg-center bg-cover bg-no-repeat"
               style={{ backgroundImage: `url(${onboarding2})` }}
             >
               {!isEnd &&
@@ -89,7 +86,7 @@ export const Onboarding = ({ isEnd }: {
         {step === 3 && (
           <>
             <div
-              className="relative h-[37vh] bg-[#ffca6a] bg-center bg-cover bg-no-repeat"
+              className="relative h-[37vh] max-w-[500px] mx-auto bg-[#ffca6a] bg-center bg-cover bg-no-repeat"
               style={{ backgroundImage: `url(${onboarding3})` }}
             >
               {!isEnd &&
@@ -103,144 +100,58 @@ export const Onboarding = ({ isEnd }: {
           </>
         )}
 
-        {step === 4 && (
-          <>
-            <div
-              className="relative h-[37vh] bg-[#ffca6a] bg-center bg-cover bg-no-repeat"
-              style={{ backgroundImage: `url(${onboarding4})` }}
-            >
-              {!isEnd &&
-                <Pager page={4} />
-              }
-            </div>
-            <div className="flex flex-col gap-5 max-w-[500px] mx-auto px-4 py-6">
-              <h2 className="text-[24px]">{t('slide4_title')}</h2>
-              <p>{t('slide4_text')}</p>
-            </div>
-          </>
-        )}
-
-        {step === 5 && (
-          <>
-            <div
-              className="relative h-[37vh] bg-[#ffca6a] bg-center bg-cover bg-no-repeat"
-              style={{ backgroundImage: `url(${onboarding5})` }}
-            >
-              {!isEnd &&
-                <Pager page={5} />
-              }
-            </div>
-            <div className="flex flex-col gap-5 max-w-[500px] mx-auto px-4 py-6">
-              <h2 className="text-[24px]">{t('slide5_title')}</h2>
-
-              <div className="flex flex-col gap-3">
-                <div className="flex items-start gap-3">
-                  <CheckmarkIcon className="flex-shrink-0 w-[22px] h-[22px] text-blue" />
-                  <div className="">
-                    <h3>{t('slide5_subtitle1')}</h3>
-                    <p className="text-[14px]">{t('slide5_text1')}</p>
-                  </div>
-                </div>
-
-                <div className="flex items-start gap-3">
-                  <CheckmarkIcon className="flex-shrink-0 w-[22px] h-[22px] text-blue" />
-                  <div className="">
-                    <h3>{t('slide5_subtitle2')}</h3>
-                    <p className="text-[14px]">{t('slide5_text2')}</p>
-                  </div>
-                </div>
-              </div>
-            </div>
-          </>
-        )}
-
-        {step === 6 && (
-          <>
-            <div
-              className="relative h-[37vh] bg-[#ffca6a] bg-center bg-cover bg-no-repeat"
-              style={{ backgroundImage: `url(${onboarding6})` }}
-            >
-              {!isEnd &&
-                <Pager page={6} />
-              }
-            </div>
-            <div className="flex flex-col gap-5 max-w-[500px] mx-auto px-4 py-6">
-              <h2 className="text-[24px]">{t('slide6_title')}</h2>
-
-              <div className="flex flex-col gap-3">
-                <div className="flex items-start gap-3">
-                  <CheckmarkIcon className="flex-shrink-0 w-[22px] h-[22px] text-blue" />
-                  <div className="">
-                    <h3>{t('slide6_subtitle1')}</h3>
-                    <p className="text-[14px]">{t('slide6_text1')}</p>
-                  </div>
-                </div>
-
-                <div className="flex items-start gap-3">
-                  <CheckmarkIcon className="flex-shrink-0 w-[22px] h-[22px] text-blue" />
-                  <div className="">
-                    <h3>{t('slide6_subtitle2')}</h3>
-                    <p className="text-[14px]">{t('slide6_text2')}</p>
-                  </div>
-                </div>
-
-                <div className="flex items-start gap-3">
-                  <CheckmarkIcon className="flex-shrink-0 w-[22px] h-[22px] text-blue" />
-                  <div className="">
-                    <h3>{t('slide6_subtitle3')}</h3>
-                    <p className="text-[14px]">{t('slide6_text3')}</p>
-                  </div>
-                </div>
-              </div>
-            </div>
-          </>
-        )}
       </div>
 
-      <Button
-        theme="bottom"
-        isBusy={isButtonBusy}
-        onClick={async () => {
-          if (step <= 6) {
+      {step < SLIDES_NUM &&
+        <Button
+          theme="bottom"
+          isBusy={isButtonBusy}
+          onClick={async () => {
             const eventOfStep: TEvent[] = [
-              'onb_tool_revolution_adding_next',
-              'onb_tool_balance_next',
-              'onb_tool_cashback_next',
-              'onb_tool_edit_later_next',
-              'onb_tool_features_next',
-              'onb_tool_pro_next',
+              'onb_tool_slide_1_next',
+              'onb_tool_slide_2_next',
             ]
-            const eventIndex = step - 1
-            feedback(eventOfStep[eventIndex])
-          }
-          if (step < 6) {
+            feedback(eventOfStep[step - 1])
             setStep(step + 1)
-          }
-          if (step === 6) {
-            setIsButtonBusy(true)
-            await feedback('onb_tool_finished')
-            try {
-              // @ts-expect-error ...
-              window.Telegram?.WebApp?.send('finish')
-            } catch (e) {
-              console.error(e)
-            }
-
-            setPaywallSource('onboarding')
-            setPaywallFrom('onboarding')
-            navigate('/paywall')
-          }
-        }}
-      >
-        {
-          step === 1 ? t('slide1_button') :
-          step === 2 ? t('slide2_button') :
-          step === 3 ? t('slide3_button') :
-          step === 4 ? t('slide4_button') :
-          step === 5 ? t('slide5_button') :
-          step === 6 ? t('slide6_button') : ''
-        }
-      </Button>
+          }}
+        >
+          {t(`slide${step}_button`)}
+        </Button>
+      }
+      {step === SLIDES_NUM &&
+        <Bottom h={40}>
+          <div className="flex items-center justify-center gap-[10px]">
+            <Button
+              wrapperClassName="w-full"
+              className="w-full h-[40px] rounded-[6px] bg-blue text-textButton text-[14px] font-semibold leading-[1em]"
+              onClick={() => {
+                openLink(ADD_TO_CHAT_LINK)
+                feedback('onb_tool_slide_3_add_chat')
+              }}
+            >
+              ➕ {t('slide3_button_add_chat')}
+            </Button>
+            <Button
+              wrapperClassName="w-full w-full"
+              className="w-full h-[40px] rounded-[6px] bg-separator text-blue text-[14px] font-semibold leading-[1em]"
+              onClick={async () => {
+                setIsButtonBusy(true)
+                await feedback('onb_tool_slide_3_open_app')
+                await feedback('onb_tool_finished')
+                try {
+                  // @ts-expect-error ...
+                  window.Telegram?.WebApp?.send('finish')
+                } catch (e) {
+                  console.error(e)
+                }
+                navigate('/profile')
+              }}
+            >
+              📲 {t('slide3_button_open_app')}
+            </Button>
+          </div>
+        </Bottom>
+      }
     </Page>
   )
 }
