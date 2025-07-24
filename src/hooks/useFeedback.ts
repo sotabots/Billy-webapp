@@ -70,7 +70,8 @@ export type TEvent =
   'onb_tool_started' |
   'onb_tool_slide_1_next' |
   'onb_tool_slide_2_next' |
-  'onb_tool_slide_3_next' |
+  'onb_tool_slide_3_add_chat' |
+  'onb_tool_slide_3_open_app' |
   'onb_tool_finished' |
 
   'paywall_open' |

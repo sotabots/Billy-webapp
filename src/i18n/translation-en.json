@@ -205,7 +205,8 @@
 
   "slide3_title": "Add me to a chat with your friends",
   "slide3_text": "Even if you haven’t spent anything yet — I’ll be there when you do 😉",
-  "slide3_button": "About Billy Pro",
+  "slide3_button_add_chat": "Add to chat",
+  "slide3_button_open_app": "Open app",
 
   "profile": {
     "myBalance": "My balance",

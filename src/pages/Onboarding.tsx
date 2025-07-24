@@ -3,8 +3,8 @@ import { useTranslation } from 'react-i18next'
 import { useNavigate } from 'react-router-dom'
 import { useSwipeable } from 'react-swipeable'
 
-import { useFeedback, TEvent, useInit, useStore } from '../hooks'
-import { Button, Header, Page } from '../kit'
+import { useFeedback, TEvent, useInit, useLink } from '../hooks'
+import { Bottom, Button, Header, Page } from '../kit'
 
 import onboarding1 from '../assets/onboarding-1.jpg'
 import onboarding2 from '../assets/onboarding-2.jpg'
@@ -26,8 +26,7 @@ export const Onboarding = ({ isEnd }: {
   const navigate = useNavigate()
   const { t } = useTranslation()
   const { feedback } = useFeedback()
-
-  const { setPaywallSource, setPaywallFrom } = useStore()
+  const { openLink, ADD_TO_CHAT_LINK } = useLink()
 
   const [step, setStep] = useState(isEnd ? SLIDES_NUM : 1)
   const [isButtonBusy, setIsButtonBusy] = useState(false)
@@ -103,45 +102,52 @@ export const Onboarding = ({ isEnd }: {
 
       </div>
 
-      <Button
-        theme="bottom"
-        isBusy={isButtonBusy}
-        onClick={async () => {
-          if (step <= SLIDES_NUM) {
+      {step < SLIDES_NUM &&
+        <Button
+          theme="bottom"
+          isBusy={isButtonBusy}
+          onClick={async () => {
             const eventOfStep: TEvent[] = [
               'onb_tool_slide_1_next',
               'onb_tool_slide_2_next',
-              'onb_tool_slide_3_next',
             ]
-            const eventIndex = step - 1
-            feedback(eventOfStep[eventIndex])
-          }
-          if (step < SLIDES_NUM) {
+            feedback(eventOfStep[step - 1])
             setStep(step + 1)
-          }
-          if (step === SLIDES_NUM) {
-            setIsButtonBusy(true)
-            await feedback('onb_tool_finished')
-            try {
-              // @ts-expect-error ...
-              window.Telegram?.WebApp?.send('finish')
-            } catch (e) {
-              console.error(e)
-            }
-
-            setPaywallSource('onboarding')
-            setPaywallFrom('onboarding')
-            navigate('/paywall')
-          }
-        }}
-      >
-        {
-          step === 1 ? t('slide1_button') :
-          step === 2 ? t('slide2_button') :
-          step === 3 ? t('slide3_button') :
-          ''
-        }
-      </Button>
+          }}
+        >
+          {t(`slide${step}_button`)}
+        </Button>
+      }
+      {step === SLIDES_NUM &&
+        <Bottom h={40}>
+          <div className="flex items-center justify-center gap-[10px]">
+            <Button
+              wrapperClassName="w-full"
+              className="w-full h-[40px] rounded-[6px] bg-blue text-textButton text-[14px] font-semibold"
+              onClick={() => { openLink(ADD_TO_CHAT_LINK) }}
+            >
+              ➕ {t('slide3_button_add_chat')}
+            </Button>
+            <Button
+              wrapperClassName="w-full w-full"
+              className="w-full h-[40px] rounded-[6px] bg-separator text-blue text-[14px] font-semibold"
+              onClick={async () => {
+                setIsButtonBusy(true)
+                await feedback('onb_tool_finished')
+                try {
+                  // @ts-expect-error ...
+                  window.Telegram?.WebApp?.send('finish')
+                } catch (e) {
+                  console.error(e)
+                }
+                navigate('/profile')
+              }}
+            >
+              📲 {t('slide3_button_open_app')}
+            </Button>
+          </div>
+        </Bottom>
+      }
     </Page>
   )
 }
