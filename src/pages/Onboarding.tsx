@@ -124,7 +124,10 @@ export const Onboarding = ({ isEnd }: {
             <Button
               wrapperClassName="w-full"
               className="w-full h-[40px] rounded-[6px] bg-blue text-textButton text-[14px] font-semibold leading-[1em]"
-              onClick={() => { openLink(ADD_TO_CHAT_LINK) }}
+              onClick={() => {
+                openLink(ADD_TO_CHAT_LINK)
+                feedback('onb_tool_slide_3_add_chat')
+              }}
             >
               ➕ {t('slide3_button_add_chat')}
             </Button>
@@ -133,6 +136,7 @@ export const Onboarding = ({ isEnd }: {
               className="w-full h-[40px] rounded-[6px] bg-separator text-blue text-[14px] font-semibold leading-[1em]"
               onClick={async () => {
                 setIsButtonBusy(true)
+                await feedback('onb_tool_slide_3_open_app')
                 await feedback('onb_tool_finished')
                 try {
                   // @ts-expect-error ...
