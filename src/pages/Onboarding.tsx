@@ -52,7 +52,7 @@ export const Onboarding = ({ isEnd }: {
         {step === 1 && (
           <>
             <div
-              className="relative h-[37vh] max-w-[500px] mx-auto bg-[#ffca6a] bg-center bg-cover bg-no-repeat"
+              className="relative h-[37vh] max-w-[500px] mx-auto bg-[#a47345] bg-center bg-cover bg-no-repeat"
               style={{ backgroundImage: `url(${onboarding1})` }}
             >
               {!isEnd &&
