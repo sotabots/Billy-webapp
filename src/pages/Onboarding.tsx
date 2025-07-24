@@ -123,14 +123,14 @@ export const Onboarding = ({ isEnd }: {
           <div className="flex items-center justify-center gap-[10px]">
             <Button
               wrapperClassName="w-full"
-              className="w-full h-[40px] rounded-[6px] bg-blue text-textButton text-[14px] font-semibold"
+              className="w-full h-[40px] rounded-[6px] bg-blue text-textButton text-[14px] font-semibold leading-[1em]"
               onClick={() => { openLink(ADD_TO_CHAT_LINK) }}
             >
               ➕ {t('slide3_button_add_chat')}
             </Button>
             <Button
               wrapperClassName="w-full w-full"
-              className="w-full h-[40px] rounded-[6px] bg-separator text-blue text-[14px] font-semibold"
+              className="w-full h-[40px] rounded-[6px] bg-separator text-blue text-[14px] font-semibold leading-[1em]"
               onClick={async () => {
                 setIsButtonBusy(true)
                 await feedback('onb_tool_finished')
