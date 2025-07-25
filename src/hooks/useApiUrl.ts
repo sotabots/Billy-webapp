@@ -24,7 +24,7 @@ export const useApiUrlInit = () => {
               console.log('check timeout')
               reject(new Error('TIMEOUT'))
             }, 2000)
-            fetch(baseApiUrl + '/health', {}).then((res) => {
+            fetch(baseApiUrl + '/currencies/', {}).then((res) => {
               clearTimeout(timer)
               resolve(res)
             })
