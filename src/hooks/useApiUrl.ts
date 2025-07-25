@@ -12,29 +12,32 @@ export const useApiUrlInit = () => {
 
   useEffect(() => {
     async function check() {
-      console.log('check')
       if (!isApiFallbackRequest) {
-        console.log('check in')
+        console.log('healthcheck start')
         setIsApiFallbackRequest(true)
 
-        let response: Response | null = null
+        let isOk = true
         try {
-          response = await new Promise( (resolve, reject) => {
+          isOk = await new Promise<boolean>((resolve) => {
             const timer = setTimeout(() => {
-              console.log('check timeout')
-              reject(new Error('TIMEOUT'))
-            }, 2000)
-            fetch(baseApiUrl + '/currencies/?health', {}).then((res) => {
+              console.log('healthcheck timeout')
+              resolve(false)
+            }, 3000)
+            fetch(baseApiUrl + '/currencies/?health', {}).then(async (res) => {
+              console.log(`healthcheck res.ok ${res.ok}`)
+              await res.json()
+              console.log('healthcheck json ok')
               clearTimeout(timer)
-              resolve(res)
+              resolve(true)
             })
           })
         } catch (e) {
-          console.error('check catch e', e)
+          console.error('healthcheck e', e)
         }
 
-        const newUrl = (response && response.ok ? baseApiUrl : fallbackApiUrl) || ''
-        console.log('check setApiUrl', newUrl)
+        console.log('healthcheck isOk', isOk)
+        const newUrl = (isOk ? baseApiUrl : fallbackApiUrl) || ''
+        console.log('healthcheck setApiUrl', newUrl)
         setApiUrl(newUrl)
       }
     }
