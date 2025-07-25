@@ -95,7 +95,7 @@ export const Onboarding = ({ isEnd }: {
             </div>
             <div className="flex flex-col gap-5 max-w-[500px] mx-auto px-4 py-6">
               <h2 className="text-[24px]">{t('slide3_title')}</h2>
-              <p>{t('slide3_text')}</p>
+              <p className="whitespace-pre-line">{t('slide3_text')}</p>
             </div>
           </>
         )}
