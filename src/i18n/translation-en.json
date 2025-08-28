@@ -73,6 +73,7 @@
 
   "userBalance": {
     "title": "Balance",
+    "titleOriginalCurrencies": "Balance in original currencies",
     "inMyCurrency": "One currency",
     "inOriginalCurrencies": "Original currencies",
     "calcInCurrency": "Billy calculated the total amount of all debts and showed it in currency – {{currency}}",

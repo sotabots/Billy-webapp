@@ -135,23 +135,16 @@ export const Home = ({ tab }: {
       )}
 
       {tab === 'user-balance' && (
-        <>
-          {!isSelectedDebt && !isCurrencyOpen &&
-            <CustomHeader
-              center={t('userBalance.title')}
-            />
-          }
-          <UserBalance
-            isCurrencyOpen={isCurrencyOpen}
-            setIsCurrencyOpen={setIsCurrencyOpen}
-            selectedDebtId={selectedDebtId}
-            setSelectedDebtId={setSelectedDebtId}
-            isRecipientsOpen={isRecipientsOpen}
-            setIsRecipientsOpen={setIsRecipientsOpen}
-            customRecipientId={customRecipientId}
-            setCustomRecipientId={setCustomRecipientId}
-          />
-        </>
+        <UserBalance
+          isCurrencyOpen={isCurrencyOpen}
+          setIsCurrencyOpen={setIsCurrencyOpen}
+          selectedDebtId={selectedDebtId}
+          setSelectedDebtId={setSelectedDebtId}
+          isRecipientsOpen={isRecipientsOpen}
+          setIsRecipientsOpen={setIsRecipientsOpen}
+          customRecipientId={customRecipientId}
+          setCustomRecipientId={setCustomRecipientId}
+        />
       )}
 
       {tab === 'chat-balance' && (

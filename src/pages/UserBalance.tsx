@@ -4,7 +4,7 @@ import { useEffect, useState } from 'react'
 import { useTranslation } from 'react-i18next'
 
 import { useStore, useCurrencies, useFeedback, useSummary, usePostTransaction, useGetSummary, useGetTransactions, useGetProfile, useGetUsers, useUsers, useAuth, useGetUserSettings, useTgSettings } from '../hooks'
-import { Button, Overlay, Panel, DebtDetailed, Divider, UserButton, Currencies, CurrencyAmount, Debt, Tabs } from '../kit'
+import { Button, Overlay, Panel, DebtDetailed, Divider, UserButton, Currencies, CurrencyAmount, Debt, Tabs, CustomHeader } from '../kit'
 import { TCurrencyId, TDebt, TNewTransaction, TUserId } from '../types'
 import { formatAmount, closeApp } from '../utils'
 
@@ -220,6 +220,12 @@ export const UserBalance = ({
 
   return (
     <>
+      {!selectedDebt && !isCurrencyOpen &&
+        <CustomHeader
+          center={summaryCurrencyId === null ? t('userBalance.titleOriginalCurrencies') : t('userBalance.title')}
+        />
+      }
+
       {!selectedDebt && !!isItems && (
         <>
           <div className="flex flex-col gap-2 pb-5">

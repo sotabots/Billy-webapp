@@ -73,6 +73,7 @@
 
   "userBalance": {
     "title": "Баланс",
+    "titleOriginalCurrencies": "Баланс в оригинальных валютах",
     "inMyCurrency": "В одной валюте",
     "inOriginalCurrencies": "В исходных валютах",
     "calcInCurrency": "Billy посчитал сумму всех долгов и отобразил её в валюте – {{currency}}",
