@@ -247,24 +247,26 @@ export const UserBalance = ({
       {!selectedDebt && !!isItems && (
         <>
           <div className="flex flex-col gap-2 pb-5">
-            <Tabs
-              items={[
-                {
-                  title: t('userBalance.inMyCurrency'),
-                  isActive: summaryCurrencyId !== null,
-                  onClick: () => {
-                    setIsOriginalCurrencies(false)
+            {false &&
+              <Tabs
+                items={[
+                  {
+                    title: t('userBalance.inMyCurrency'),
+                    isActive: summaryCurrencyId !== null,
+                    onClick: () => {
+                      setIsOriginalCurrencies(false)
+                    },
                   },
-                },
-                {
-                  title: t('userBalance.inOriginalCurrencies'),
-                  isActive: summaryCurrencyId === null,
-                  onClick: () => {
-                    setIsOriginalCurrencies(true)
+                  {
+                    title: t('userBalance.inOriginalCurrencies'),
+                    isActive: summaryCurrencyId === null,
+                    onClick: () => {
+                      setIsOriginalCurrencies(true)
+                    },
                   },
-                },
-              ]}
-            />
+                ]}
+              />
+            }
 
             {!!summaryCurrencyId &&
               <Panel className="!pb-4">
@@ -272,8 +274,20 @@ export const UserBalance = ({
                   <h3 className="">
                     {t(isCalcInMyCurrency ? 'userBalance.calcInMyCurrency' : 'userBalance.calcInCurrency', { currency: summaryCurrencyId })}
                   </h3>
-                  <div className="text-[14px] leading-[20px] text-textSec2">
-                    <div>{t('userBalance.originalOtherTab')}</div>
+                  <div className="flex flex-col gap-2 text-[14px] leading-[20px] text-textSec2">
+                    <div>
+                      {t('userBalance.toOriginalCurrencies1')}
+                      &nbsp;
+                      <Button
+                        wrapperClassName="inline-block"
+                        onClick={() => { setIsOriginalCurrencies(true) }}
+                      >
+                        <span className="text-blue">
+                          {t('userBalance.toOriginalCurrencies2')}
+                        </span>
+                        .
+                      </Button>
+                    </div>
                     {isCalcInMyCurrency &&
                       <div>
                         {t('userBalance.toChangeYourCurrency')}

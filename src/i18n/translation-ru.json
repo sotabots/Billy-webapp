@@ -73,12 +73,13 @@
 
   "userBalance": {
     "title": "Баланс",
-    "titleOriginalCurrencies": "Баланс в оригинальных валютах",
+    "titleOriginalCurrencies": "Баланс в исходных валютах",
     "inMyCurrency": "В одной валюте",
     "inOriginalCurrencies": "В исходных валютах",
     "calcInCurrency": "Billy посчитал сумму всех долгов и отобразил её в валюте – {{currency}}",
     "calcInMyCurrency": "Billy посчитал сумму всех долгов и отобразил её в моей валюте – {{currency}}",
-    "originalOtherTab": "Посмотреть долги в исходных валютах можно на соседней вкладке. ",
+    "toOriginalCurrencies1": "Можно посмотреть долги",
+    "toOriginalCurrencies2": "в исходных валютах",
     "toChangeYourCurrency": "Поменять мою валюту — в",
     "profileSettings": "настройках профиля",
     "calcHow": "Как работает подсчет?",
