@@ -63,6 +63,8 @@ export const UserBalance = ({
     }
   }, [selectedDebt])
 
+  const [isOriginalCurrencies, setIsOriginalCurrencies] = useState(false)
+
   const [isBusy, setIsBusy] = useState(false)
   const [isSuccessOpen, setIsSuccessOpen] = useState(false)
 
@@ -172,6 +174,18 @@ export const UserBalance = ({
     }
   }, [summaryCurrencyId, setSummaryPrevCurrencyId])
 
+  useEffect(() => {
+    if (!isOriginalCurrencies) {
+      if (userSettings?.currency && summaryCurrencyId === null) {
+        setSummaryCurrencyId(summaryPrevCurrencyId || userSettings.currency)
+      }
+    } else {
+      setSummaryCurrencyId(null)
+    }
+  }, [userSettings?.currency, setSummaryCurrencyId, summaryCurrencyId, isOriginalCurrencies, summaryPrevCurrencyId])
+
+
+  
   if (!summary) {
     return null
   }
@@ -181,11 +195,11 @@ export const UserBalance = ({
       <>
         <div className=" flex items-center justify-between gap-3 px-4">
           <h2>{t('selectCurrency')}</h2>
-          {summaryCurrencyId !== null &&
+          {summaryCurrencyId !== null && !!userSettings?.currency && summaryCurrencyId !== userSettings.currency &&
             <Button
               className="flex items-center justify-center gap-[2px] px-2 text-blue"
               onClick={() => {
-                setSummaryCurrencyId(null)
+                setSummaryCurrencyId(userSettings.currency)
                 setIsCurrencyOpen(false)
                 refetchSummary()
               }}
@@ -222,7 +236,11 @@ export const UserBalance = ({
     <>
       {!selectedDebt && !isCurrencyOpen &&
         <CustomHeader
-          center={summaryCurrencyId === null ? t('userBalance.titleOriginalCurrencies') : t('userBalance.title')}
+          center={
+            summaryCurrencyId === null
+              ? t('userBalance.titleOriginalCurrencies')
+              : t('userBalance.title')}
+          onBack={isOriginalCurrencies ? () => { setIsOriginalCurrencies(false) } : undefined}
         />
       }
 
@@ -235,18 +253,14 @@ export const UserBalance = ({
                   title: t('userBalance.inMyCurrency'),
                   isActive: summaryCurrencyId !== null,
                   onClick: () => {
-                    if (summaryCurrencyId === null) {
-                      setSummaryCurrencyId(summaryPrevCurrencyId || userSettings?.currency || null)
-                    }
+                    setIsOriginalCurrencies(false)
                   },
                 },
                 {
                   title: t('userBalance.inOriginalCurrencies'),
                   isActive: summaryCurrencyId === null,
                   onClick: () => {
-                    if (summaryCurrencyId !== null) {
-                      setSummaryCurrencyId(null)
-                    }
+                    setIsOriginalCurrencies(true)
                   },
                 },
               ]}
