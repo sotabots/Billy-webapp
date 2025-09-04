@@ -240,7 +240,10 @@ export const UserBalance = ({
             summaryCurrencyId === null
               ? t('userBalance.titleOriginalCurrencies')
               : t('userBalance.title')}
-          onBack={isOriginalCurrencies ? () => { setIsOriginalCurrencies(false) } : undefined}
+          onBack={
+            (isOriginalCurrencies && isItems)
+              ? () => { setIsOriginalCurrencies(false) }
+              : undefined}
         />
       }
 
