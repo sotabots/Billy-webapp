@@ -13,6 +13,7 @@
   "ok": "OK",
   "add": "Добавить",
   "goBack": "Вернуться назад",
+  "loading": "Загрузка...",
 
   "addComment": "Добавьте комментарий",
   "addComment_": "Добавьте комментарий...",
@@ -65,7 +66,8 @@
     "getProDescription": "Получи безлимит и многое другое c Billy Pro",
     "getPro": "Подключить Billy Pro",
     "excel": "Экселька",
-    "noTransactions": "(Пока нет трат)"
+    "noTransactions": "(Пока нет трат)",
+    "excel_loading": "Создание таблицы..."
   },
   "thisChat": "Этот чат",
   "left": "доступно",

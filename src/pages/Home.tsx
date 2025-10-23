@@ -38,6 +38,7 @@ export const Home = ({ tab }: {
   const [isCurrencyOpen, setIsCurrencyOpen] = useState(false)
 
   const [isCompactPie, setIsCompactPie] = useState<boolean>(true)
+  const [isLoadingSheet, setIsLoadingSheet] = useState<boolean>(false)
 
   const screenRef = useRef<HTMLDivElement>(null)
 
@@ -67,11 +68,17 @@ export const Home = ({ tab }: {
     }
   }
 
-  const goDetailed = () => {
-    if (summary) {
-      window.open(summary.url, '_blank')
+  const goDetailed = async () => {
+    if (summary && summary.url) {
       getSummarySheetRebuild()
+      window.open(summary.url, '_blank')
+      return
     }
+
+    setIsLoadingSheet(true)
+    const sheetUrl = await getSummarySheetRebuild()
+    window.open(sheetUrl, '_blank')
+    setIsLoadingSheet(false)
   }
 
   const [settingsInner, setSettingsInner] = useState<TSettingsInner>(null)
@@ -130,6 +137,7 @@ export const Home = ({ tab }: {
           <Summary
             isCompactPie={isCompactPie}
             goDetailed={goDetailed}
+            isLoadingSheet={isLoadingSheet}
           />
         </>
       )}
