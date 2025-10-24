@@ -15,10 +15,12 @@ import { ReactComponent as ExternalIcon } from '../assets/external.svg'
 
 export const Summary = ({
   isCompactPie,
-  goDetailed
+  goDetailed,
+  isLoadingSheet,
 }: {
   isCompactPie: boolean
   goDetailed: () => void
+  isLoadingSheet?: boolean
 }) => {
   const { t } = useTranslation()
   const navigate = useNavigate()
@@ -280,14 +282,20 @@ export const Summary = ({
                   <h3>{t('history')}</h3>
                   <Button
                     theme="text"
+                    disabled={isLoadingSheet}
                     onClick={() => {
                       goDetailed()
                       feedback('press_details_total_web')
                     }}
                   >
                     <div className="flex items-center gap-1">
-                      <h3 className="text-blue">{t('chat.excel')}</h3>
-                      <ExternalIcon className="w-4 h-4" />
+                      <h3 className="text-blue">
+                        {isLoadingSheet ? t('chat.excel_loading') : t('chat.excel')}
+                      </h3>
+                      {!isLoadingSheet && <ExternalIcon className="w-4 h-4" />}
+                      {isLoadingSheet && (
+                        <div className="w-4 h-4 border-2 border-blue border-t-transparent rounded-full animate-spin" />
+                      )}
                     </div>
                   </Button>
                 </div>

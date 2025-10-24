@@ -13,6 +13,7 @@
   "ok": "OK",
   "add": "Add",
   "goBack": "Go back",
+  "loading": "Loading...",
 
   "addComment": "Add comment",
   "addComment_": "Add your comment...",
@@ -65,7 +66,8 @@
     "getProDescription": "Unlimited addition and more with Billy Pro",
     "getPro": "Get Billy Pro",
     "excel": "Excel",
-    "noTransactions": "(No transactions yet)"
+    "noTransactions": "(No transactions yet)",
+    "excel_loading": "Excel creating..."
   },
   "thisChat": "This chat",
   "left": "left",
