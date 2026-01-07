@@ -2,6 +2,7 @@ import { useInitData } from '@vkruglikov/react-telegram-web-app'
 import { useQuery } from '@tanstack/react-query'
 
 import { useAuth, useNewTx, useChatId, useStore } from '../hooks'
+import { backendFetch } from '../api/backendMonitor'
 import { TCurrency, TCategories, TTransaction, TNewTransaction, TUser, TChat, TSummary, TCurrencyId, TLanguageCode, TMode, TPlan, TProfile, TUserSettings, TPayoffMethods, TUserPayoffMethod, TUserId } from '../types'
 import {
   mockTransaction,
@@ -18,7 +19,7 @@ const staleTime = 5 * 60 * 1000
 
 const handleJsonResponse = (res: Response) => {
   if (!res.ok) {
-    throw new Error(`[${res.status}] ${res.statusText}`);
+    throw new Error(`[${res.status}] ${res.statusText}`)
   }
   return res.json()
 }
@@ -31,7 +32,7 @@ export const useGetTx = () => {
 
   return (
     useQuery<TTransaction | TNewTransaction, Error>({
-      queryKey: ['tx', `tx-${txId}`],
+      queryKey: ['tx', apiUrl, txId],
       queryFn: () => {
         if (txId?.includes('demo')) {
           return mockTransactions.find(tx => tx._id === txId) || mockTransaction
@@ -39,7 +40,7 @@ export const useGetTx = () => {
         if (txId === 'NEW') {
           return newTx
         }
-        return fetch(`${apiUrl}/transactions/${txId}`, {
+        return backendFetch(`${apiUrl}/transactions/${txId}`, {
           method: 'GET',
           headers: {
             'Authorization': authString,
@@ -63,11 +64,11 @@ export const useGetUsers = () => {
 
   return (
     useQuery<TUser[], Error>({
-      queryKey: ['users', `chat-${chatId}`],
+      queryKey: ['users', apiUrl, chatId],
       queryFn: chatId === 0
         ? () => mockUsers
         : () =>
-          fetch(`${apiUrl}/chat/users?chat_id=${chatId}`, {
+          backendFetch(`${apiUrl}/chat/users?chat_id=${chatId}`, {
             method: 'GET',
             headers: {
               'Authorization': authString,
@@ -90,9 +91,9 @@ export const useGetUser = () => {
 
   return (
     useQuery<TUser, Error>({
-      queryKey: ['user', `user-${userId}-${chatId}`],
+      queryKey: ['user', apiUrl, userId, chatId],
       queryFn: () =>
-        fetch(url, {
+        backendFetch(url, {
           method: 'GET',
           headers: {
             'Authorization': authString,
@@ -111,11 +112,11 @@ export const useGetChat = () => {
 
   return (
     useQuery<TChat, Error>({
-      queryKey: ['chat', `chat-${chatId}`],
+      queryKey: ['chat', apiUrl, chatId],
       queryFn: chatId === 0
         ? () => mockChat
         : () =>
-          fetch(`${apiUrl}/chat/settings?chat_id=${chatId}`, {
+          backendFetch(`${apiUrl}/chat/settings?chat_id=${chatId}`, {
             method: 'GET',
             headers: {
               'Authorization': authString,
@@ -134,11 +135,11 @@ export const useGetCurrencies = () => {
 
   return (
     useQuery<TCurrency[], Error>({
-      queryKey: ['currencies', `chat-${chatId}`],
+      queryKey: ['currencies', apiUrl, chatId],
       queryFn: chatId === 0
         ? () => mockCurrencies
         : () =>
-          fetch(`${apiUrl}/currencies/?chat_id=${chatId}`, {
+          backendFetch(`${apiUrl}/currencies/?chat_id=${chatId}`, {
             method: 'GET',
             headers: {
               'Authorization': authString,
@@ -159,7 +160,7 @@ export const usePutTransaction = () => {
     : `${apiUrl}/transactions/${txId}`
 
   return (tx: TTransaction) =>
-    fetch(url, {
+    backendFetch(url, {
       method: 'PUT',
       body: JSON.stringify(tx),
       headers: {
@@ -178,7 +179,7 @@ export const usePostTransaction = () => { // +settleup
     : `${apiUrl}/transactions/`
 
   return (newTx: TNewTransaction) =>
-    fetch(url, {
+    backendFetch(url, {
       method: 'POST',
       body: JSON.stringify({...newTx, _id: undefined}), // clear _id: 'NEW'
       headers: {
@@ -200,11 +201,11 @@ export const useGetSummary = () => {
 
   return (
     useQuery<TSummary, Error>({
-      queryKey: ['summary', `summary-${chatId}-${summaryCurrencyId}`],
+      queryKey: ['summary', apiUrl, chatId, summaryCurrencyId],
       queryFn: chatId >= -1 // no demo summary, no pm summary
         ? () => mockSummary
         : () =>
-          fetch(url , {
+          backendFetch(url , {
             method: 'GET',
             headers: {
               'Authorization': authString,
@@ -222,9 +223,9 @@ export const useGetCategories = () => {
 
   return (
     useQuery<TCategories, Error>({
-      queryKey: ['categories'],
+      queryKey: ['categories', apiUrl],
       queryFn: () =>
-        fetch(`${apiUrl}/general/categories`, {
+        backendFetch(`${apiUrl}/general/categories`, {
           method: 'GET',
           headers: {
             'Authorization': authString,
@@ -243,11 +244,11 @@ export const useGetTransactions = () => {
 
   return (
     useQuery<TTransaction[], Error>({
-      queryKey: ['transactions', `chat-${chatId}`],
+      queryKey: ['transactions', apiUrl, chatId],
       queryFn: chatId === 0 // disable transactions request for tx-flow (startParamTxId)
         ? () => mockTransactions
         : () =>
-          fetch(`${apiUrl}/chat/transactions?chat_id=${chatId}`, {
+          backendFetch(`${apiUrl}/chat/transactions?chat_id=${chatId}`, {
             method: 'GET',
             headers: {
               'Authorization': authString,
@@ -268,7 +269,7 @@ export const usePostChatMode = () => {
     : `${apiUrl}/chat/mode?chat_id=${chatId}`
 
   return (mode: TMode) =>
-    fetch(url, {
+    backendFetch(url, {
       method: 'POST',
       body: JSON.stringify({ mode }),
       headers: {
@@ -287,7 +288,7 @@ export const usePostChatCurrency = () => {
     : `${apiUrl}/chat/currency?chat_id=${chatId}`
 
   return (currencyId: TCurrencyId) =>
-    fetch(url, {
+    backendFetch(url, {
       method: 'POST',
       body: JSON.stringify({ currency_id: currencyId }),
       headers: {
@@ -306,7 +307,7 @@ export const usePostChatLanguage = () => { // todo: remove
     : `${apiUrl}/chat/language?chat_id=${chatId}`
 
   return (languageCode: TLanguageCode) =>
-    fetch(url, {
+    backendFetch(url, {
       method: 'POST',
       body: JSON.stringify({ language_code: languageCode }),
       headers: {
@@ -324,7 +325,7 @@ export const usePostUserLanguage = () => {
     : 'https://jsonplaceholder.typicode.com/posts'
 
   return (languageCode: TLanguageCode) =>
-    fetch(url, {
+    backendFetch(url, {
       method: 'POST',
       body: JSON.stringify({ language_code: languageCode }),
       headers: {
@@ -343,7 +344,7 @@ export const usePostChatSilent = () => {
     : `${apiUrl}/chat/silent?chat_id=${chatId}`
 
   return (isSilentMode: boolean) =>
-    fetch(url, {
+    backendFetch(url, {
       method: 'POST',
       body: JSON.stringify({
         silent_mode: isSilentMode,
@@ -364,7 +365,7 @@ export const usePostChatMonthlyLimit = () => {
     : `${apiUrl}/chat/monthly_limit?chat_id=${chatId}`
 
   return (monthlyLimit: number) =>
-    fetch(url, {
+    backendFetch(url, {
       method: 'POST',
       body: JSON.stringify({
         monthly_limit: monthlyLimit,
@@ -385,7 +386,7 @@ export const usePostChatCashback = () => {
     : `${apiUrl}/chat/cashback?chat_id=${chatId}`
 
   return (cashback: number) =>
-    fetch(url, {
+    backendFetch(url, {
       method: 'POST',
       body: JSON.stringify({
         cashback: cashback,
@@ -406,7 +407,7 @@ export const usePostChatActiveUsers = () => {
     : `${apiUrl}/chat/active_users?chat_id=${chatId}`
 
   return (activeUsers: TUserId[]) =>
-    fetch(url, {
+    backendFetch(url, {
       method: 'POST',
       body: JSON.stringify(activeUsers),
       headers: {
@@ -425,7 +426,7 @@ export const useGetSummarySheetRebuild = () => {
     : `${apiUrl}/summary/gsheet?chat_id=${chatId}`
 
   return () =>
-    fetch(url, {
+    backendFetch(url, {
       method: 'GET',
       headers: {
         'Content-type': 'application/json',
@@ -445,7 +446,7 @@ export const usePostUserOnboarding = () => {
   return ({ ref }: {
     ref?: number
   }) =>
-    fetch(url, {
+    backendFetch(url, {
       method: 'POST',
       body: JSON.stringify({
         user: initDataUnsafe.user,
@@ -464,7 +465,7 @@ export const usePostPayment = () => {
 
   return ({ amount, productKey }: TPlan) => {
     const url = `${apiUrl}/payments/`
-    return fetch(url, {
+    return backendFetch(url, {
       method: 'POST',
       body: JSON.stringify({
         amount: String(amount),
@@ -486,11 +487,11 @@ export const useGetVoiceLimit = () => {
 
   return (
     useQuery<number, Error>({
-      queryKey: ['voice_limit', `voice_limit-${chatId}`],
+      queryKey: ['voice_limit', apiUrl, chatId],
       queryFn: chatId === 0
         ? () => -1
         : () =>
-          fetch(`${apiUrl}/chat/voice_limit?chat_id=${chatId}`, {
+          backendFetch(`${apiUrl}/chat/voice_limit?chat_id=${chatId}`, {
             method: 'GET',
             headers: {
               'Authorization': authString,
@@ -506,9 +507,9 @@ export const useGetProfile = () => {
   const { authString, userId } = useAuth()
   return (
     useQuery<TProfile, Error>({
-      queryKey: [`profile-${userId}`],
+      queryKey: ['profile', apiUrl, userId],
       queryFn: () =>
-        fetch(`${apiUrl}/users/profile`, {
+        backendFetch(`${apiUrl}/users/profile`, {
           method: 'GET',
           headers: {
             'Authorization': authString,
@@ -524,9 +525,9 @@ export const useGetUserSettings = () => {
   const { authString, userId } = useAuth()
   return (
     useQuery<TUserSettings, Error>({
-      queryKey: [`userSettings-${userId}`],
+      queryKey: ['userSettings', apiUrl, userId],
       queryFn: () =>
-        fetch(`${apiUrl}/users/settings`, {
+        backendFetch(`${apiUrl}/users/settings`, {
           method: 'GET',
           headers: {
             'Authorization': authString,
@@ -546,7 +547,7 @@ export const usePostUserSettings = () => {
     : `${apiUrl}/users/settings`
 
   return (userSettings: TUserSettings) =>
-    fetch(url, {
+    backendFetch(url, {
       method: 'POST',
       body: JSON.stringify({
         ...userSettings,
@@ -563,10 +564,10 @@ export const useGetAllPayoffMethods = () => {
   // const { authString, userId } = useAuth()
   return (
     useQuery<TPayoffMethods, Error>({
-      queryKey: [`allPayoffMethods-${/*userId*/''}`],
+      queryKey: ['allPayoffMethods', apiUrl],
       queryFn: Math.random() > 0 // todo: remove
         ? () => mockAllPayoffMethods
-        : () => fetch(`${apiUrl}/users/settings`, { // todo: change
+        : () => backendFetch(`${apiUrl}/users/settings`, { // todo: change
           method: 'GET',
           /* headers: {
             'Authorization': authString,
@@ -583,10 +584,10 @@ export const useGetMyPayoffMethods = () => {
   const { authString, userId } = useAuth()
   return (
     useQuery<TUserPayoffMethod[], Error>({
-      queryKey: [`userPayoffMethods-${userId}`],
+      queryKey: ['userPayoffMethods', apiUrl, userId],
       queryFn: Math.random() > 0 // todo: remove
         ? () => mockMyPayoffMethods
-        : () => fetch(`${apiUrl}/users/payoff_methods`, {
+        : () => backendFetch(`${apiUrl}/users/payoff_methods`, {
           method: 'GET',
           headers: {
             'Authorization': authString,
@@ -606,7 +607,7 @@ export const usePostMyPayoffMethods = () => {
     : `${apiUrl}/users/settings` // todo: change
 
   return (payoffMethods: TPayoffMethods) =>
-    fetch(url, {
+    backendFetch(url, {
       method: 'POST',
       body: JSON.stringify({
         ...payoffMethods,
