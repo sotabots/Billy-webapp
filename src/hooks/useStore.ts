@@ -2,13 +2,11 @@ import { create } from 'zustand'
 import { persist } from 'zustand/middleware'
 
 import { TCurrencyId, TTransaction, TFilterTotal, TFilterPeriod, TNewTransaction, TFlow, TPaywallSource, TPaywallFrom } from '../types'
+import { cacheBackend, getInitialBackend, normalizeApiUrl } from '../api/backendConfig'
 
 type TStore = {
   apiUrl: undefined | string
   setApiUrl: (_: string) => void
-
-  isApiFallbackRequest: boolean
-  setIsApiFallbackRequest: (_: boolean) => void
 
   overlays: number[]
   setOverlays: (val: number[]) => void
@@ -79,11 +77,12 @@ type TStore = {
 }
 
 export const useStore = create<TStore>((set /*, get */) => ({
-  apiUrl: undefined,
-  setApiUrl: (apiUrl: string) => set(({ apiUrl })),
-
-  isApiFallbackRequest: false,
-  setIsApiFallbackRequest: (isApiFallbackRequest: boolean) => set(({ isApiFallbackRequest })),
+  apiUrl: getInitialBackend(),
+  setApiUrl: (apiUrl: string) => {
+    const normalized = normalizeApiUrl(apiUrl)
+    cacheBackend(normalized)
+    set({ apiUrl: normalized })
+  },
 
   overlays: [],
   setOverlays: (overlays) => set(({ overlays })),

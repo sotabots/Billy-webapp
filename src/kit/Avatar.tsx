@@ -1,9 +1,7 @@
-import { useTheme } from '../hooks'
+import { useStore, useTheme } from '../hooks'
 import type { TUser, TUserChat } from '../types'
 
 import { ReactComponent as UserIcon } from '../assets/user.svg'
-
-const apiUrl = import.meta.env.VITE_API_URL
 
 const getLetters = (fullName?: string) => {
   const letterParts = fullName ? fullName.split(' ') : []
@@ -25,6 +23,7 @@ export const Avatar = ({ user, chat, url, text, size = 40 }: {
   ].join(' ')
 
   const { isDark } = useTheme()
+  const apiUrl = useStore(s => s.apiUrl) || import.meta.env.VITE_API_URL || ''
 
   const color =
     text
