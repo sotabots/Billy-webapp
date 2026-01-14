@@ -1,5 +1,5 @@
 import cx from 'classnames'
-import { useState, useRef, UIEvent } from 'react'
+import { useEffect, useState, useRef, UIEvent } from 'react'
 import { useTranslation } from 'react-i18next'
 import { useNavigate } from 'react-router-dom'
 
@@ -48,6 +48,22 @@ export const Home = ({ tab }: {
   const [isLoadingSheet, setIsLoadingSheet] = useState<boolean>(false)
 
   const screenRef = useRef<HTMLDivElement>(null)
+
+  const resetChatBalanceState = () => {
+    setSelectedChatBalanceUserId(null)
+    setSelectedChatBalanceDebtId(null)
+    setIsChatBalanceRecipientsOpen(false)
+    setChatBalanceCustomRecipientId(null)
+    setIsChatBalanceCurrencyOpen(false)
+  }
+
+  useEffect(() => {
+    // Home component instance is reused between tabs/routes, so we must reset
+    // chat-balance internal state when leaving that tab.
+    if (tab !== 'chat-balance') {
+      resetChatBalanceState()
+    }
+  }, [tab])
 
   const selectTab = (newTab: TTab) => () => {
     if (newTab === tab) {
