@@ -46,19 +46,14 @@ export const UserBalance = ({
   } = useStore()
 
   const { refetch: refetchTransactions } = useGetTransactions()
-  const { data: summary, refetch: refetchSummary } = useGetSummary()
+  const { data: summary, refetch: refetchSummary } = useGetSummary({ otherUserId: focusUserId ?? null })
   const { data: users } = useGetUsers()
   const { data: userSettings } = useGetUserSettings()
   const { refetch: refetchProfile } = useGetProfile()
   const { getCurrencyById } = useCurrencies()
 
-  const allChatDebts: TDebt[] = summary?.balance.total.details || []
-  const debtDetails: TDebt[] = focusUserId
-    ? allChatDebts.filter(debt => debt.from_user_id === focusUserId)
-    : (summary?.balance.debt.details || [])
-  const creditDetails: TDebt[] = focusUserId
-    ? allChatDebts.filter(debt => debt.to_user_id === focusUserId)
-    : (summary?.balance.credit.details || [])
+  const debtDetails: TDebt[] = summary?.balance.debt.details || []
+  const creditDetails: TDebt[] = summary?.balance.credit.details || []
 
   const selectedDebt: TDebt | undefined = ([
     ...debtDetails,
@@ -242,19 +237,9 @@ export const UserBalance = ({
 
   const isCalcInMyCurrency: boolean = summaryCurrencyId === userSettings?.currency
 
-  const totalsCurrencyId: TCurrencyId = summary.balance.total.value.currency_id
-  const debtsSumAbs: number = debtDetails.reduce((acc, debt) => acc + Math.abs(debt.value_primary.amount), 0)
-  const creditsSumAbs: number = creditDetails.reduce((acc, debt) => acc + Math.abs(debt.value_primary.amount), 0)
-
-  const computedDebtValue = focusUserId
-    ? { amount: -debtsSumAbs, currency_id: totalsCurrencyId }
-    : summary.balance.debt.value
-  const computedCreditValue = focusUserId
-    ? { amount: creditsSumAbs, currency_id: totalsCurrencyId }
-    : summary.balance.credit.value
-  const computedTotalValue = focusUserId
-    ? { amount: creditsSumAbs - debtsSumAbs, currency_id: totalsCurrencyId }
-    : summary.balance.total.value
+  const computedDebtValue = summary.balance.debt.value
+  const computedCreditValue = summary.balance.credit.value
+  const computedTotalValue = summary.balance.total.value
 
   return (
     <>

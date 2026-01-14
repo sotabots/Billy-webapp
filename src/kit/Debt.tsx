@@ -24,7 +24,7 @@ export const Debt = ({ from_user_id, to_user_id, value_primary, value_secondary,
 
   const { userId } = useAuth()
 
-  const viewUserId: null | TUserId = contextUserId ?? userId
+  const viewUserId: null | TUserId = contextUserId ?? userId ?? null
 
   const user: TUser | undefined =
     viewUserId === from_user_id ? toUser :
