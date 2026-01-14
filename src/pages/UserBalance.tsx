@@ -80,6 +80,21 @@ export const UserBalance = ({
   const { getUserById } = useUsers()
   const fromUser = getUserById(selectedDebt?.from_user_id || 0)
   const toUser = getUserById(selectedDebt?.to_user_id || 0)
+  const focusUser = focusUserId ? getUserById(focusUserId) : undefined
+  const focusUserName: string = focusUser?.shortened_name || focusUser?.first_name || ''
+
+  const titleDebts = focusUserId
+    ? t('userBalance.userOwes', { name: focusUserName })
+    : t('userBalance.iOwe')
+  const titleCredits = focusUserId
+    ? t('userBalance.owedToUser', { name: focusUserName })
+    : t('userBalance.owedToMe')
+  const titleTotalDebts = focusUserId
+    ? t('userBalance.totalUserOwes', { name: focusUserName })
+    : t('userBalance.totalIOwe')
+  const titleTotalCredits = focusUserId
+    ? t('userBalance.totalOwedToUser', { name: focusUserName })
+    : t('userBalance.totalOwedToMe')
 
   const settleUp = async () => {
     if (selectedDebtId === null || !summary || !selectedDebt) {
@@ -342,7 +357,7 @@ export const UserBalance = ({
               <Panel className="!pb-4">
                 <div className="flex items-center -justify-between">
                   <h3 className="flex items-center">
-                    {computedTotalValue.amount < 0 ? t('userBalance.totalDebts') : t('userBalance.totalCredits')}:
+                    {computedTotalValue.amount < 0 ? titleTotalDebts : titleTotalCredits}:
                   </h3>
                   &nbsp;
                   <CurrencyAmount
@@ -356,7 +371,7 @@ export const UserBalance = ({
             {!!debtDetails.length &&
               <Panel key="Panel-debts" className="!mt-0">
                 <h3 className="flex items-center">
-                  <span>{t('userBalance.myDebts')}</span>
+                  <span>{titleDebts}</span>
                   &nbsp;
                   <CurrencyAmount
                     currencyAmount={computedDebtValue}
@@ -387,7 +402,7 @@ export const UserBalance = ({
             {!!creditDetails.length &&
               <Panel key="Panel-credits" className="!mt-0">
                 <h3 className="flex items-center">
-                  <span>{t('userBalance.myCredits')}</span>
+                  <span>{titleCredits}</span>
                   &nbsp;
                   <CurrencyAmount
                     currencyAmount={computedCreditValue}
