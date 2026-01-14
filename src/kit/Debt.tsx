@@ -2,15 +2,16 @@ import { useTranslation } from 'react-i18next'
 
 import { Button, CurrencyAmount, User } from '../kit'
 import { useUsers, /* useCurrencies, */ useAuth } from '../hooks'
-import { TDebt, TUser } from '../types'
+import { TDebt, TUser, TUserId } from '../types'
 
 import { ReactComponent as ToIcon } from '../assets/to.svg'
 
 type TDebtProps = TDebt & {
   onClick: () => void
+  contextUserId?: TUserId
 }
 
-export const Debt = ({ from_user_id, to_user_id, value_primary, value_secondary, onClick }: TDebtProps) => {
+export const Debt = ({ from_user_id, to_user_id, value_primary, value_secondary, onClick, contextUserId }: TDebtProps) => {
   const { t } = useTranslation()
 
   const { getUserById } = useUsers()
@@ -23,12 +24,14 @@ export const Debt = ({ from_user_id, to_user_id, value_primary, value_secondary,
 
   const { userId } = useAuth()
 
+  const viewUserId: null | TUserId = contextUserId ?? userId
+
   const user: TUser | undefined =
-    userId === from_user_id ? toUser :
-    userId === to_user_id ? fromUser :
+    viewUserId === from_user_id ? toUser :
+    viewUserId === to_user_id ? fromUser :
     undefined
 
-  if (!fromUser || !toUser) {
+  if (!fromUser || !toUser || !user) {
     return null
   }
 
@@ -36,7 +39,7 @@ export const Debt = ({ from_user_id, to_user_id, value_primary, value_secondary,
     <div className="Debt flex items-center justify-between gap-2 text-[14px] leading-[24px]">
       <div className="flex gap-1 items-center truncate">
         <div className="flex-nowrap w-[14px] h-[14px]">
-          <ToIcon className={userId === to_user_id ? '-rotate-90' : ''} />
+          <ToIcon className={viewUserId === to_user_id ? '-rotate-90' : ''} />
         </div>
         <User
           className="gap-[2px] !text-[14px] !leading-[20px] -text-blue"

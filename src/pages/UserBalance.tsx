@@ -20,6 +20,7 @@ export const UserBalance = ({
   setIsRecipientsOpen,
   customRecipientId,
   setCustomRecipientId,
+  focusUserId,
 }: {
   isCurrencyOpen: boolean
   setIsCurrencyOpen: (isCurrencyOpen: boolean) => void
@@ -29,6 +30,7 @@ export const UserBalance = ({
   setIsRecipientsOpen: (isRecipientsOpen: boolean) => void
   customRecipientId: null | TUserId
   setCustomRecipientId: (customRecipientId: null | TUserId) => void
+  focusUserId?: TUserId | null
 }) => {
   const { t } = useTranslation()
   const showPopup = useShowPopup()
@@ -50,16 +52,24 @@ export const UserBalance = ({
   const { refetch: refetchProfile } = useGetProfile()
   const { getCurrencyById } = useCurrencies()
 
+  const allChatDebts: TDebt[] = summary?.balance.total.details || []
+  const debtDetails: TDebt[] = focusUserId
+    ? allChatDebts.filter(debt => debt.from_user_id === focusUserId)
+    : (summary?.balance.debt.details || [])
+  const creditDetails: TDebt[] = focusUserId
+    ? allChatDebts.filter(debt => debt.to_user_id === focusUserId)
+    : (summary?.balance.credit.details || [])
+
   const selectedDebt: TDebt | undefined = ([
-    ...(summary?.balance.debt.details || []),
-    ...(summary?.balance.credit.details || []), // todo: remove after 'remind'
+    ...debtDetails,
+    ...creditDetails, // todo: remove after 'remind'
   ]).find(debt => JSON.stringify(debt) === selectedDebtId)
   const selectedDebtCurrency = selectedDebt ? getCurrencyById(selectedDebt.value_primary.currency_id) : undefined
   const [selectedDebtAmount, setSelectedDebtAmount] = useState<number>(0)
 
   useEffect(() => {
     if (selectedDebt) {
-      setSelectedDebtAmount(selectedDebt.value_primary.amount)
+      setSelectedDebtAmount(Math.abs(selectedDebt.value_primary.amount))
     }
   }, [selectedDebt])
 
@@ -225,12 +235,26 @@ export const UserBalance = ({
     )
   }
 
-  const isTotal: boolean = summary.balance.debt.details.length > 0 && summary.balance.credit.details.length > 0
+  const isTotal: boolean = debtDetails.length > 0 && creditDetails.length > 0
 
   const isItems: undefined | boolean =
-    !!summary && (!!summary.balance.debt.details.length || !!summary.balance.credit.details.length)
+    !!summary && (!!debtDetails.length || !!creditDetails.length)
 
   const isCalcInMyCurrency: boolean = summaryCurrencyId === userSettings?.currency
+
+  const totalsCurrencyId: TCurrencyId = summary.balance.total.value.currency_id
+  const debtsSumAbs: number = debtDetails.reduce((acc, debt) => acc + Math.abs(debt.value_primary.amount), 0)
+  const creditsSumAbs: number = creditDetails.reduce((acc, debt) => acc + Math.abs(debt.value_primary.amount), 0)
+
+  const computedDebtValue = focusUserId
+    ? { amount: -debtsSumAbs, currency_id: totalsCurrencyId }
+    : summary.balance.debt.value
+  const computedCreditValue = focusUserId
+    ? { amount: creditsSumAbs, currency_id: totalsCurrencyId }
+    : summary.balance.credit.value
+  const computedTotalValue = focusUserId
+    ? { amount: creditsSumAbs - debtsSumAbs, currency_id: totalsCurrencyId }
+    : summary.balance.total.value
 
   return (
     <>
@@ -333,38 +357,39 @@ export const UserBalance = ({
               <Panel className="!pb-4">
                 <div className="flex items-center -justify-between">
                   <h3 className="flex items-center">
-                    {summary.balance.total.value.amount < 0 ? t('userBalance.totalDebts') : t('userBalance.totalCredits')}:
+                    {computedTotalValue.amount < 0 ? t('userBalance.totalDebts') : t('userBalance.totalCredits')}:
                   </h3>
                   &nbsp;
                   <CurrencyAmount
                     className="text-[16px] leading-[24px]"
-                    currencyAmount={summary.balance.total.value}
+                    currencyAmount={computedTotalValue}
                   />
                 </div>
               </Panel>
             }
 
-            {!!summary.balance.debt.details.length &&
+            {!!debtDetails.length &&
               <Panel key="Panel-debts" className="!mt-0">
                 <h3 className="flex items-center">
                   <span>{t('userBalance.myDebts')}</span>
                   &nbsp;
                   <CurrencyAmount
-                    currencyAmount={summary.balance.debt.value}
+                    currencyAmount={computedDebtValue}
                   />
                 </h3>
                 <div className="mt-4 flex flex-col gap-4">
-                  {summary.balance.debt.details.map(debt => (
+                  {debtDetails.map(debt => (
                     <Debt
                       key={JSON.stringify(debt)}
                       {...debt}
+                      contextUserId={focusUserId || undefined}
                       onClick={() => {
                         setSelectedDebtId(JSON.stringify(debt))
                         feedback('settle_up_balances_web', {
                           user: userId || null,
                           user_from: debt.from_user_id,
                           user_to: debt.to_user_id,
-                          amount: debt.value_primary.amount,
+                          amount: Math.abs(debt.value_primary.amount),
                           currency: debt.value_primary.currency_id,
                         })
                       }}
@@ -374,27 +399,28 @@ export const UserBalance = ({
               </Panel>
             }
 
-            {!!summary.balance.credit.details.length &&
+            {!!creditDetails.length &&
               <Panel key="Panel-credits" className="!mt-0">
                 <h3 className="flex items-center">
                   <span>{t('userBalance.myCredits')}</span>
                   &nbsp;
                   <CurrencyAmount
-                    currencyAmount={summary.balance.credit.value}
+                    currencyAmount={computedCreditValue}
                   />
                 </h3>
                 <div className="mt-4 flex flex-col gap-4">
-                  {summary.balance.credit.details.map(debt => (
+                  {creditDetails.map(debt => (
                     <Debt
                       key={JSON.stringify(debt)}
                       {...debt}
+                      contextUserId={focusUserId || undefined}
                       onClick={() => {
                         setSelectedDebtId(JSON.stringify(debt))
                         feedback('settle_up_balances_web', {
                           user: userId || null,
                           user_from: debt.from_user_id,
                           user_to: debt.to_user_id,
-                          amount: debt.value_primary.amount,
+                          amount: Math.abs(debt.value_primary.amount),
                           currency: debt.value_primary.currency_id,
                         })
                       }}

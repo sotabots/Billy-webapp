@@ -5,12 +5,14 @@ import { useTranslation } from 'react-i18next'
 
 import { useGetUsers } from '../hooks'
 import { Panel, Divider, UserButton, Button, CurrencyAmount } from '../kit'
-import { TUser } from '../types'
+import { TUser, TUserId } from '../types'
 
 import { ReactComponent as SortIcon } from '../assets/sort.svg'
 import lottieKoalaSettledUp from '../assets/animation-koala-settled-up.json'
 
-export const ChatBalance = () => {
+export const ChatBalance = ({ onUserClick }: {
+  onUserClick?: (userId: TUserId) => void
+}) => {
   const { t } = useTranslation()
 
   const [isAsc, setIsAsc] = useState(true)
@@ -61,7 +63,7 @@ export const ChatBalance = () => {
                     }
                     // isChevron
                     onClick={() => {
-                      /* */
+                      onUserClick?.(user._id)
                     }}
                   />
                   {i < arr.length - 1 && <Divider key={`Divider-${i}`} />}
