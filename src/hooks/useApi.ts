@@ -189,19 +189,21 @@ export const usePostTransaction = () => { // +settleup
     }).then(handleJsonResponse)
 }
 
-export const useGetSummary = () => {
+export const useGetSummary = (options?: { otherUserId?: TUserId | null }) => {
   const { authString } = useAuth()
   const { summaryCurrencyId, apiUrl } = useStore()
   const { chatId } = useChatId()
+  const otherUserId = options?.otherUserId ?? null
 
   const url = `${apiUrl}/summary?${new URLSearchParams({
     ...(chatId ? { chat_id: String(chatId) } : {}),
     ...(summaryCurrencyId ? { target_currency_id: String(summaryCurrencyId) } : {}),
+    ...(otherUserId ? { other_user_id: String(otherUserId) } : {}),
   })}`
 
   return (
     useQuery<TSummary, Error>({
-      queryKey: ['summary', apiUrl, chatId, summaryCurrencyId],
+      queryKey: ['summary', apiUrl, chatId, summaryCurrencyId, otherUserId],
       queryFn: chatId >= -1 // no demo summary, no pm summary
         ? () => mockSummary
         : () =>

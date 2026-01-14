@@ -3,7 +3,7 @@ import Lottie from 'lottie-react'
 import { useEffect, useState } from 'react'
 import { useTranslation } from 'react-i18next'
 
-import { useStore, useCurrencies, useFeedback, useSummary, usePostTransaction, useGetSummary, useGetTransactions, useGetProfile, useGetUsers, useUsers, useAuth, useGetUserSettings, useTgSettings } from '../hooks'
+import { useStore, useCurrencies, useFeedback, useSummary, usePostTransaction, useGetSummary, useGetTransactions, useGetProfile, useGetUsers, useUsers, useAuth, useGetUserSettings, useTgSettings, useUser } from '../hooks'
 import { Button, Overlay, Panel, DebtDetailed, Divider, UserButton, Currencies, CurrencyAmount, Debt, Tabs, CustomHeader } from '../kit'
 import { TCurrencyId, TDebt, TNewTransaction, TUserId } from '../types'
 import { formatAmount, closeApp } from '../utils'
@@ -20,6 +20,7 @@ export const UserBalance = ({
   setIsRecipientsOpen,
   customRecipientId,
   setCustomRecipientId,
+  focusUserId,
 }: {
   isCurrencyOpen: boolean
   setIsCurrencyOpen: (isCurrencyOpen: boolean) => void
@@ -29,11 +30,13 @@ export const UserBalance = ({
   setIsRecipientsOpen: (isRecipientsOpen: boolean) => void
   customRecipientId: null | TUserId
   setCustomRecipientId: (customRecipientId: null | TUserId) => void
+  focusUserId?: TUserId | null
 }) => {
   const { t } = useTranslation()
   const showPopup = useShowPopup()
   const [, notificationOccurred] = useHapticFeedback()
   const { userId } = useAuth()
+  const { me } = useUser()
   const { feedback } = useFeedback()
   const { goSettings } = useTgSettings()
 
@@ -44,22 +47,25 @@ export const UserBalance = ({
   } = useStore()
 
   const { refetch: refetchTransactions } = useGetTransactions()
-  const { data: summary, refetch: refetchSummary } = useGetSummary()
+  const { data: summary, refetch: refetchSummary } = useGetSummary({ otherUserId: focusUserId ?? null })
   const { data: users } = useGetUsers()
   const { data: userSettings } = useGetUserSettings()
   const { refetch: refetchProfile } = useGetProfile()
   const { getCurrencyById } = useCurrencies()
 
+  const debtDetails: TDebt[] = summary?.balance.debt.details || []
+  const creditDetails: TDebt[] = summary?.balance.credit.details || []
+
   const selectedDebt: TDebt | undefined = ([
-    ...(summary?.balance.debt.details || []),
-    ...(summary?.balance.credit.details || []), // todo: remove after 'remind'
+    ...debtDetails,
+    ...creditDetails, // todo: remove after 'remind'
   ]).find(debt => JSON.stringify(debt) === selectedDebtId)
   const selectedDebtCurrency = selectedDebt ? getCurrencyById(selectedDebt.value_primary.currency_id) : undefined
   const [selectedDebtAmount, setSelectedDebtAmount] = useState<number>(0)
 
   useEffect(() => {
     if (selectedDebt) {
-      setSelectedDebtAmount(selectedDebt.value_primary.amount)
+      setSelectedDebtAmount(Math.abs(selectedDebt.value_primary.amount))
     }
   }, [selectedDebt])
 
@@ -75,6 +81,128 @@ export const UserBalance = ({
   const { getUserById } = useUsers()
   const fromUser = getUserById(selectedDebt?.from_user_id || 0)
   const toUser = getUserById(selectedDebt?.to_user_id || 0)
+  const focusUser = focusUserId ? getUserById(focusUserId) : undefined
+  const focusUserName: string = focusUser?.shortened_name || focusUser?.first_name || ''
+
+  const titleDebts = focusUserId
+    ? t('userBalance.userOwes', { name: focusUserName })
+    : t('userBalance.iOwe')
+  const titleCredits = focusUserId
+    ? t('userBalance.owedToUser', { name: focusUserName })
+    : t('userBalance.owedToMe')
+  const titleTotalDebts = focusUserId
+    ? t('userBalance.totalUserOwes', { name: focusUserName })
+    : t('userBalance.totalIOwe')
+  const titleTotalCredits = focusUserId
+    ? t('userBalance.totalOwedToUser', { name: focusUserName })
+    : t('userBalance.totalOwedToMe')
+
+  const rewriteOnMe = async () => {
+    if (!summary || !focusUserId || !userId || !me || !focusUser) {
+      return
+    }
+
+    const totalAmount: number = summary.balance.total.value.amount
+    const currencyId: TCurrencyId = summary.balance.total.value.currency_id
+    const absAmount: number = Math.abs(totalAmount)
+
+    if (!absAmount) {
+      return
+    }
+
+    const myName = me.shortened_name || me.first_name || ''
+    const otherName = focusUser.shortened_name || focusUser.first_name || ''
+
+    const isOtherOwes = totalAmount < 0
+    const payerId: TUserId = isOtherOwes ? focusUserId : userId
+    const receiverId: TUserId = isOtherOwes ? userId : focusUserId
+
+    const newTx: TNewTransaction = {
+      _id: 'NEW',
+      chat_id: summary.chat_id,
+      creator_user_id: userId,
+      editor_user_id: null,
+      is_voice: false,
+      raw_text: `${otherName} <> ${myName}`,
+      currency_id: currencyId,
+      is_confirmed: true,
+      is_canceled: false,
+      is_equally: true,
+      shares: [
+        {
+          person_id: 'rewrite_on_me_from_user',
+          related_user_id: payerId,
+          amount: absAmount,
+          is_payer: true,
+          raw_name: null,
+          normalized_name: null,
+          is_fixed_amount: false,
+        },
+        {
+          person_id: 'rewrite_on_me_to_user',
+          related_user_id: receiverId,
+          amount: absAmount,
+          is_payer: false,
+          raw_name: null,
+          normalized_name: null,
+          is_fixed_amount: false,
+        }
+      ],
+      nutshell: null,
+      category: null,
+      is_settleup: true,
+      is_personal: false,
+      cashback: null,
+    }
+
+    setIsBusy(true)
+    try {
+      await postTransaction(newTx)
+      setIsSuccessOpen(true)
+      notificationOccurred('success')
+      setTimeout(() => {
+        refetchSummary()
+        refetchTransactions()
+        refetchProfile()
+      }, 500)
+      setTimeout(() => {
+        setIsSuccessOpen(false)
+      }, 2500)
+    } catch (e) {
+      setIsSuccessOpen(false)
+      setTxPatchError(e as Error)
+    } finally {
+      setIsBusy(false)
+    }
+  }
+
+  const handleRewriteOnMeClick = async () => {
+    const message = t('userBalance.rewriteOnMeConfirm')
+    let answerButtonId: string
+    try {
+      answerButtonId = await showPopup({
+        message,
+        buttons: [
+          {
+            id: 'cancel',
+            text: t('cancel'),
+            type: 'default',
+          },
+          {
+            id: 'confirm',
+            text: t('userBalance.rewriteOnMeConfirmYes'),
+            type: 'default',
+          },
+        ],
+      })
+    } catch {
+      answerButtonId = confirm(message) ? 'confirm' : 'cancel'
+    }
+
+    if (answerButtonId === 'confirm') {
+      rewriteOnMe()
+    }
+  }
 
   const settleUp = async () => {
     if (selectedDebtId === null || !summary || !selectedDebt) {
@@ -225,12 +353,23 @@ export const UserBalance = ({
     )
   }
 
-  const isTotal: boolean = summary.balance.debt.details.length > 0 && summary.balance.credit.details.length > 0
+  const isTotal: boolean = debtDetails.length > 0 && creditDetails.length > 0
 
   const isItems: undefined | boolean =
-    !!summary && (!!summary.balance.debt.details.length || !!summary.balance.credit.details.length)
+    !!summary && (!!debtDetails.length || !!creditDetails.length)
 
   const isCalcInMyCurrency: boolean = summaryCurrencyId === userSettings?.currency
+
+  const computedDebtValue = summary.balance.debt.value
+  const computedCreditValue = summary.balance.credit.value
+  const computedTotalValue = summary.balance.total.value
+  const canRewriteOnMe: boolean =
+    !!focusUserId &&
+    !!computedTotalValue.amount &&
+    !!userId &&
+    !!me &&
+    !!focusUser &&
+    !isBusy
 
   return (
     <>
@@ -333,38 +472,39 @@ export const UserBalance = ({
               <Panel className="!pb-4">
                 <div className="flex items-center -justify-between">
                   <h3 className="flex items-center">
-                    {summary.balance.total.value.amount < 0 ? t('userBalance.totalDebts') : t('userBalance.totalCredits')}:
+                    {computedTotalValue.amount < 0 ? titleTotalDebts : titleTotalCredits}:
                   </h3>
                   &nbsp;
                   <CurrencyAmount
                     className="text-[16px] leading-[24px]"
-                    currencyAmount={summary.balance.total.value}
+                    currencyAmount={computedTotalValue}
                   />
                 </div>
               </Panel>
             }
 
-            {!!summary.balance.debt.details.length &&
+            {!!debtDetails.length &&
               <Panel key="Panel-debts" className="!mt-0">
                 <h3 className="flex items-center">
-                  <span>{t('userBalance.myDebts')}</span>
+                  <span>{titleDebts}</span>
                   &nbsp;
                   <CurrencyAmount
-                    currencyAmount={summary.balance.debt.value}
+                    currencyAmount={computedDebtValue}
                   />
                 </h3>
                 <div className="mt-4 flex flex-col gap-4">
-                  {summary.balance.debt.details.map(debt => (
+                  {debtDetails.map(debt => (
                     <Debt
                       key={JSON.stringify(debt)}
                       {...debt}
+                      contextUserId={focusUserId || undefined}
                       onClick={() => {
                         setSelectedDebtId(JSON.stringify(debt))
                         feedback('settle_up_balances_web', {
                           user: userId || null,
                           user_from: debt.from_user_id,
                           user_to: debt.to_user_id,
-                          amount: debt.value_primary.amount,
+                          amount: Math.abs(debt.value_primary.amount),
                           currency: debt.value_primary.currency_id,
                         })
                       }}
@@ -374,32 +514,52 @@ export const UserBalance = ({
               </Panel>
             }
 
-            {!!summary.balance.credit.details.length &&
+            {!!creditDetails.length &&
               <Panel key="Panel-credits" className="!mt-0">
                 <h3 className="flex items-center">
-                  <span>{t('userBalance.myCredits')}</span>
+                  <span>{titleCredits}</span>
                   &nbsp;
                   <CurrencyAmount
-                    currencyAmount={summary.balance.credit.value}
+                    currencyAmount={computedCreditValue}
                   />
                 </h3>
                 <div className="mt-4 flex flex-col gap-4">
-                  {summary.balance.credit.details.map(debt => (
+                  {creditDetails.map(debt => (
                     <Debt
                       key={JSON.stringify(debt)}
                       {...debt}
+                      contextUserId={focusUserId || undefined}
                       onClick={() => {
                         setSelectedDebtId(JSON.stringify(debt))
                         feedback('settle_up_balances_web', {
                           user: userId || null,
                           user_from: debt.from_user_id,
                           user_to: debt.to_user_id,
-                          amount: debt.value_primary.amount,
+                          amount: Math.abs(debt.value_primary.amount),
                           currency: debt.value_primary.currency_id,
                         })
                       }}
                     />
                   ))}
+                </div>
+              </Panel>
+            }
+
+            {!!focusUserId &&
+              <Panel className="!mt-0 !pb-4">
+                <div className="flex flex-col gap-2">
+                  <h3>{t('userBalance.rewriteOnMeTitle')}</h3>
+                  <div className="text-[14px] leading-[20px] text-textSec2">
+                    {t('userBalance.rewriteOnMeDescription')}
+                  </div>
+                  <Button
+                    className="mt-2 w-full bg-blue py-2 rounded-md text-textButton text-[14px] leading-[20px] font-semibold"
+                    onClick={handleRewriteOnMeClick}
+                    disabled={!canRewriteOnMe}
+                    isBusy={isBusy}
+                  >
+                    {t('userBalance.rewriteOnMeButton')}
+                  </Button>
                 </div>
               </Panel>
             }

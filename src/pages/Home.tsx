@@ -1,5 +1,5 @@
 import cx from 'classnames'
-import { useState, useRef, UIEvent } from 'react'
+import { useEffect, useState, useRef, UIEvent } from 'react'
 import { useTranslation } from 'react-i18next'
 import { useNavigate } from 'react-router-dom'
 
@@ -37,10 +37,33 @@ export const Home = ({ tab }: {
   const [customRecipientId, setCustomRecipientId] = useState<null | TUserId>(null)
   const [isCurrencyOpen, setIsCurrencyOpen] = useState(false)
 
+  const [selectedChatBalanceUserId, setSelectedChatBalanceUserId] = useState<null | TUserId>(null)
+  const [selectedChatBalanceDebtId, setSelectedChatBalanceDebtId] = useState<null | string>(null)
+  const isSelectedChatBalanceDebt = selectedChatBalanceDebtId !== null
+  const [isChatBalanceRecipientsOpen, setIsChatBalanceRecipientsOpen] = useState<boolean>(false)
+  const [chatBalanceCustomRecipientId, setChatBalanceCustomRecipientId] = useState<null | TUserId>(null)
+  const [isChatBalanceCurrencyOpen, setIsChatBalanceCurrencyOpen] = useState(false)
+
   const [isCompactPie, setIsCompactPie] = useState<boolean>(true)
   const [isLoadingSheet, setIsLoadingSheet] = useState<boolean>(false)
 
   const screenRef = useRef<HTMLDivElement>(null)
+
+  const resetChatBalanceState = () => {
+    setSelectedChatBalanceUserId(null)
+    setSelectedChatBalanceDebtId(null)
+    setIsChatBalanceRecipientsOpen(false)
+    setChatBalanceCustomRecipientId(null)
+    setIsChatBalanceCurrencyOpen(false)
+  }
+
+  useEffect(() => {
+    // Home component instance is reused between tabs/routes, so we must reset
+    // chat-balance internal state when leaving that tab.
+    if (tab !== 'chat-balance') {
+      resetChatBalanceState()
+    }
+  }, [tab])
 
   const selectTab = (newTab: TTab) => () => {
     if (newTab === tab) {
@@ -103,6 +126,23 @@ export const Home = ({ tab }: {
           setSelectedDebtId(null)
           setCustomRecipientId(null)
         }))
+        || (tab === 'chat-balance' && isChatBalanceCurrencyOpen) && (() => {
+          setIsChatBalanceCurrencyOpen(false)
+        })
+        || (tab === 'chat-balance' && isChatBalanceRecipientsOpen) && (() => {
+          setIsChatBalanceRecipientsOpen(false)
+        })
+        || (tab === 'chat-balance' && isSelectedChatBalanceDebt) && (() => {
+          setSelectedChatBalanceDebtId(null)
+          setChatBalanceCustomRecipientId(null)
+        })
+        || (tab === 'chat-balance' && selectedChatBalanceUserId !== null) && (() => {
+          setSelectedChatBalanceUserId(null)
+          setSelectedChatBalanceDebtId(null)
+          setIsChatBalanceRecipientsOpen(false)
+          setChatBalanceCustomRecipientId(null)
+          setIsChatBalanceCurrencyOpen(false)
+        })
         || (tab === 'settings' && (() => {
           if (settingsInner) {
             setSettingsInner(null)
@@ -157,10 +197,36 @@ export const Home = ({ tab }: {
 
       {tab === 'chat-balance' && (
         <>
-          <CustomHeader
-            center={t('chatBalance.title')}
-          />
-          <ChatBalance />
+          {selectedChatBalanceUserId === null && (
+            <>
+              <CustomHeader
+                center={t('chatBalance.title')}
+              />
+              <ChatBalance
+                onUserClick={(userId: TUserId) => {
+                  setSelectedChatBalanceUserId(userId)
+                  setSelectedChatBalanceDebtId(null)
+                  setIsChatBalanceRecipientsOpen(false)
+                  setChatBalanceCustomRecipientId(null)
+                  setIsChatBalanceCurrencyOpen(false)
+                }}
+              />
+            </>
+          )}
+
+          {selectedChatBalanceUserId !== null && (
+            <UserBalance
+              isCurrencyOpen={isChatBalanceCurrencyOpen}
+              setIsCurrencyOpen={setIsChatBalanceCurrencyOpen}
+              selectedDebtId={selectedChatBalanceDebtId}
+              setSelectedDebtId={setSelectedChatBalanceDebtId}
+              isRecipientsOpen={isChatBalanceRecipientsOpen}
+              setIsRecipientsOpen={setIsChatBalanceRecipientsOpen}
+              customRecipientId={chatBalanceCustomRecipientId}
+              setCustomRecipientId={setChatBalanceCustomRecipientId}
+              focusUserId={selectedChatBalanceUserId}
+            />
+          )}
         </>
       )}
 
