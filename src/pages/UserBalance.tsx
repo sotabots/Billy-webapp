@@ -3,7 +3,7 @@ import Lottie from 'lottie-react'
 import { useEffect, useState } from 'react'
 import { useTranslation } from 'react-i18next'
 
-import { useStore, useCurrencies, useFeedback, useSummary, usePostTransaction, useGetSummary, useGetTransactions, useGetProfile, useGetUsers, useUsers, useAuth, useGetUserSettings, useTgSettings } from '../hooks'
+import { useStore, useCurrencies, useFeedback, useSummary, usePostTransaction, useGetSummary, useGetTransactions, useGetProfile, useGetUsers, useUsers, useAuth, useGetUserSettings, useTgSettings, useUser } from '../hooks'
 import { Button, Overlay, Panel, DebtDetailed, Divider, UserButton, Currencies, CurrencyAmount, Debt, Tabs, CustomHeader } from '../kit'
 import { TCurrencyId, TDebt, TNewTransaction, TUserId } from '../types'
 import { formatAmount, closeApp } from '../utils'
@@ -36,6 +36,7 @@ export const UserBalance = ({
   const showPopup = useShowPopup()
   const [, notificationOccurred] = useHapticFeedback()
   const { userId } = useAuth()
+  const { me } = useUser()
   const { feedback } = useFeedback()
   const { goSettings } = useTgSettings()
 
@@ -95,6 +96,113 @@ export const UserBalance = ({
   const titleTotalCredits = focusUserId
     ? t('userBalance.totalOwedToUser', { name: focusUserName })
     : t('userBalance.totalOwedToMe')
+
+  const rewriteOnMe = async () => {
+    if (!summary || !focusUserId || !userId || !me || !focusUser) {
+      return
+    }
+
+    const totalAmount: number = summary.balance.total.value.amount
+    const currencyId: TCurrencyId = summary.balance.total.value.currency_id
+    const absAmount: number = Math.abs(totalAmount)
+
+    if (!absAmount) {
+      return
+    }
+
+    const myName = me.shortened_name || me.first_name || ''
+    const otherName = focusUser.shortened_name || focusUser.first_name || ''
+
+    const isOtherOwes = totalAmount < 0
+    const payerId: TUserId = isOtherOwes ? focusUserId : userId
+    const receiverId: TUserId = isOtherOwes ? userId : focusUserId
+
+    const newTx: TNewTransaction = {
+      _id: 'NEW',
+      chat_id: summary.chat_id,
+      creator_user_id: userId,
+      editor_user_id: null,
+      is_voice: false,
+      raw_text: `${otherName} <> ${myName}`,
+      currency_id: currencyId,
+      is_confirmed: true,
+      is_canceled: false,
+      is_equally: true,
+      shares: [
+        {
+          person_id: 'rewrite_on_me_from_user',
+          related_user_id: payerId,
+          amount: absAmount,
+          is_payer: true,
+          raw_name: null,
+          normalized_name: null,
+          is_fixed_amount: false,
+        },
+        {
+          person_id: 'rewrite_on_me_to_user',
+          related_user_id: receiverId,
+          amount: absAmount,
+          is_payer: false,
+          raw_name: null,
+          normalized_name: null,
+          is_fixed_amount: false,
+        }
+      ],
+      nutshell: null,
+      category: null,
+      is_settleup: true,
+      is_personal: false,
+      cashback: null,
+    }
+
+    setIsBusy(true)
+    try {
+      await postTransaction(newTx)
+      setIsSuccessOpen(true)
+      notificationOccurred('success')
+      setTimeout(() => {
+        refetchSummary()
+        refetchTransactions()
+        refetchProfile()
+      }, 500)
+      setTimeout(() => {
+        setIsSuccessOpen(false)
+      }, 2500)
+    } catch (e) {
+      setIsSuccessOpen(false)
+      setTxPatchError(e as Error)
+    } finally {
+      setIsBusy(false)
+    }
+  }
+
+  const handleRewriteOnMeClick = async () => {
+    const message = t('userBalance.rewriteOnMeConfirm')
+    let answerButtonId: string
+    try {
+      answerButtonId = await showPopup({
+        message,
+        buttons: [
+          {
+            id: 'cancel',
+            text: t('cancel'),
+            type: 'default',
+          },
+          {
+            id: 'confirm',
+            text: t('userBalance.rewriteOnMeConfirmYes'),
+            type: 'default',
+          },
+        ],
+      })
+    } catch {
+      answerButtonId = confirm(message) ? 'confirm' : 'cancel'
+    }
+
+    if (answerButtonId === 'confirm') {
+      rewriteOnMe()
+    }
+  }
 
   const settleUp = async () => {
     if (selectedDebtId === null || !summary || !selectedDebt) {
@@ -255,6 +363,13 @@ export const UserBalance = ({
   const computedDebtValue = summary.balance.debt.value
   const computedCreditValue = summary.balance.credit.value
   const computedTotalValue = summary.balance.total.value
+  const canRewriteOnMe: boolean =
+    !!focusUserId &&
+    !!computedTotalValue.amount &&
+    !!userId &&
+    !!me &&
+    !!focusUser &&
+    !isBusy
 
   return (
     <>
@@ -426,6 +541,25 @@ export const UserBalance = ({
                       }}
                     />
                   ))}
+                </div>
+              </Panel>
+            }
+
+            {!!focusUserId &&
+              <Panel className="!mt-0 !pb-4">
+                <div className="flex flex-col gap-2">
+                  <h3>{t('userBalance.rewriteOnMeTitle')}</h3>
+                  <div className="text-[14px] leading-[20px] text-textSec2">
+                    {t('userBalance.rewriteOnMeDescription')}
+                  </div>
+                  <Button
+                    className="mt-2 w-full bg-blue py-2 rounded-md text-textButton text-[14px] leading-[20px] font-semibold"
+                    onClick={handleRewriteOnMeClick}
+                    disabled={!canRewriteOnMe}
+                    isBusy={isBusy}
+                  >
+                    {t('userBalance.rewriteOnMeButton')}
+                  </Button>
                 </div>
               </Panel>
             }
