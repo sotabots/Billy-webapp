@@ -3,7 +3,7 @@ import { useQuery } from '@tanstack/react-query'
 
 import { useAuth, useNewTx, useChatId, useStore } from '../hooks'
 import { backendFetch } from '../api/backendMonitor'
-import { TCurrency, TCategories, TTransaction, TNewTransaction, TUser, TChat, TSummary, TCurrencyId, TLanguageCode, TMode, TPlan, TProfile, TUserSettings, TPayoffMethods, TUserPayoffMethod, TUserId } from '../types'
+import { TCurrency, TCategories, TTransaction, TNewTransaction, TUser, TChat, TSummary, TCurrencyId, TLanguageCode, TMode, TPlan, TProfile, TUserSettings, TPayoffMethods, TUserPayoffMethod, TUserId, TPayFor } from '../types'
 import {
   mockTransaction,
   mockUsers,
@@ -417,6 +417,33 @@ export const usePostChatActiveUsers = () => {
         'Authorization': authString,
       },
     }).then(handleJsonResponse)
+}
+
+export const usePostChatPayFor = () => {
+  const { apiUrl } = useStore()
+  const { authString } = useAuth()
+  const { chatId } = useChatId()
+
+  return async ({ payeeUserId, isPaying }: {
+    payeeUserId: TUserId
+    isPaying: boolean
+  }): Promise<TPayFor> => {
+    const url = chatId === 0
+      ? 'https://jsonplaceholder.typicode.com/posts'
+      : `${apiUrl}/chat/pay_for?${new URLSearchParams({
+        chat_id: String(chatId),
+        payee_user_id: String(payeeUserId),
+        is_paying: String(isPaying),
+      })}`
+
+    return backendFetch(url, {
+      method: 'POST',
+      headers: {
+        'Content-type': 'application/json',
+        'Authorization': authString,
+      },
+    }).then(handleJsonResponse)
+  }
 }
 
 export const useGetSummarySheetRebuild = () => {
