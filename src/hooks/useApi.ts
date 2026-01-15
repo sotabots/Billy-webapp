@@ -424,20 +424,58 @@ export const usePostChatPayFor = () => {
   const { authString } = useAuth()
   const { chatId } = useChatId()
 
-  return async ({ payeeUserId, isPaying }: {
-    payeeUserId: TUserId
-    isPaying: boolean
+  const normalizePayForToApiModel = (payFor: TPayFor): TPayFor => {
+    // Contract: Dict[str, List[str]]
+    return Object.fromEntries(
+      Object.entries(payFor).map(([payerUserId, payeeUserIds]) => [
+        String(payerUserId),
+        (Array.isArray(payeeUserIds) ? payeeUserIds : [])
+          .map(v => String(v))
+          .filter(v => v.length > 0)
+      ])
+    )
+  }
+
+  return async ({ payeeUserId, isPaying, payFor }: {
+    payeeUserId?: TUserId | null
+    isPaying?: boolean
+    payFor?: TPayFor
   }): Promise<TPayFor> => {
-    const url = chatId === 0
-      ? 'https://jsonplaceholder.typicode.com/posts'
-      : `${apiUrl}/chat/pay_for?${new URLSearchParams({
-        chat_id: String(chatId),
-        payee_user_id: String(payeeUserId),
-        is_paying: String(isPaying),
-      })}`
+    if (chatId === 0) {
+      // demo / tx-flow
+      return {}
+    }
+
+    const baseUrl = `${apiUrl}/chat/pay_for`
+    const chatIdQuery = new URLSearchParams({ chat_id: String(chatId) })
+    const url = `${baseUrl}?${chatIdQuery}`
+
+    // Full replace-mode: if pay_for is present (not null/undefined), server ignores other fields.
+    if (payFor !== undefined && payFor !== null) {
+      return backendFetch(url, {
+        method: 'POST',
+        body: JSON.stringify({
+          pay_for: normalizePayForToApiModel(payFor),
+        }),
+        headers: {
+          'Content-type': 'application/json',
+          'Authorization': authString,
+        },
+      }).then(handleJsonResponse)
+    }
+
+    // Toggle/reset-mode: backend expects JSON payload only.
+    const isPayingNormalized = isPaying ?? true
+    if (isPayingNormalized && (payeeUserId === undefined || payeeUserId === null)) {
+      throw new Error('payee_user_id is required when is_paying=true')
+    }
 
     return backendFetch(url, {
       method: 'POST',
+      body: JSON.stringify({
+        ...(payeeUserId !== undefined && payeeUserId !== null ? { payee_user_id: payeeUserId } : {}),
+        is_paying: isPayingNormalized,
+      }),
       headers: {
         'Content-type': 'application/json',
         'Authorization': authString,

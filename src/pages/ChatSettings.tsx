@@ -80,6 +80,7 @@ export const ChatSettings = ({ settingsInner, setSettingsInner }: {
     return normalized[0] ?? null
   }, [chat?.pay_for, me])
   const [selectedPayeeUserId, setSelectedPayeeUserId] = useState<TUserId | null>(currentPayeeUserId)
+  const [isJointAccountTouched, setJointAccountTouched] = useState(false)
 
   useEffect(() => {
     if (settingsInner === 'activeUsers') {
@@ -89,8 +90,15 @@ export const ChatSettings = ({ settingsInner, setSettingsInner }: {
 
   useEffect(() => {
     if (settingsInner !== 'jointAccount') return
+    setJointAccountTouched(false)
     setSelectedPayeeUserId(currentPayeeUserId)
-  }, [currentPayeeUserId, settingsInner])
+  }, [settingsInner])
+
+  useEffect(() => {
+    if (settingsInner !== 'jointAccount') return
+    if (isJointAccountTouched) return
+    setSelectedPayeeUserId(currentPayeeUserId)
+  }, [currentPayeeUserId, isJointAccountTouched, settingsInner])
 
   const isChangedActiveUsers = !(
     checkedUserIds.every(checkedUserId => activeUserIds.includes(checkedUserId)) &&
@@ -245,7 +253,7 @@ export const ChatSettings = ({ settingsInner, setSettingsInner }: {
     }
   }
 
-  const isChangedPayFor = selectedPayeeUserId !== currentPayeeUserId
+  const isChangedPayFor = isJointAccountTouched && selectedPayeeUserId !== currentPayeeUserId
   const savePayFor = async () => {
     if (!me) return
     setBusy(true)
@@ -253,7 +261,8 @@ export const ChatSettings = ({ settingsInner, setSettingsInner }: {
       if (selectedPayeeUserId !== null) {
         await postChatPayFor({ payeeUserId: selectedPayeeUserId, isPaying: true })
       } else if (currentPayeeUserId !== null) {
-        await postChatPayFor({ payeeUserId: currentPayeeUserId, isPaying: false })
+        // clear all payees for current payer
+        await postChatPayFor({ isPaying: false })
       } else {
         setSettingsInner(null)
         return
@@ -721,6 +730,7 @@ export const ChatSettings = ({ settingsInner, setSettingsInner }: {
                       isChecked={isChecked}
                       disabled={isDisabled}
                       onClick={() => {
+                        setJointAccountTouched(true)
                         setSelectedPayeeUserId(prev => (prev === user._id ? null : user._id))
                       }}
                     />

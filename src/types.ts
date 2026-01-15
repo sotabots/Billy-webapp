@@ -82,7 +82,8 @@ export type TMode = 'family' | 'travel'
 
 export type TPayFor = {
   // payer_user_id -> payee_user_ids
-  [payerUserId: string]: TUserId[]
+  // API contract returns string userIds, we normalize in UI when needed
+  [payerUserId: string]: string[]
 }
 
 export type TChat = {
