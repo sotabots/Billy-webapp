@@ -1,4 +1,5 @@
 import cx from 'classnames'
+import { useMemo } from 'react'
 import { useTranslation } from 'react-i18next'
 import { useNavigate } from 'react-router-dom'
 
@@ -6,7 +7,7 @@ import { TTransaction } from '../types'
 
 import { Button, CategoryAvatar, Divider } from '../kit'
 
-import { useStore, useUsers, useCurrencies, useFeedback, useTransaction, useUser } from '../hooks'
+import { useStore, useUsers, useCurrencies, useFeedback, useTransaction, useUser, useGetChat } from '../hooks'
 
 import { ReactComponent as CashbackIcon } from '../assets/cashback.svg'
 import { ReactComponent as ShareIcon } from '../assets/share.svg'
@@ -17,18 +18,45 @@ import { formatAmount } from '../utils'
 export const Transaction = ({ tx }: { tx: TTransaction }) => {
   const { t } = useTranslation()
   const navigate = useNavigate()
-  const { isPro } = useUser()
+  const { isPro, me } = useUser()
+  const { data: chat } = useGetChat()
 
   const { setTxId, setIsEditTx } = useStore()
   const { getUserById } = useUsers()
   const { getCurrencyById } = useCurrencies()
   const { feedback } = useFeedback()
 
-  const { getMyBalanceDelta } = useTransaction()
+  const { getMyBalanceDelta, getUserBalanceDelta } = useTransaction()
   const myBalanceDelta = getMyBalanceDelta(tx)
 
   const payerShares = tx.shares
     .filter(share => share.is_payer)
+
+  const payeeUserId = useMemo(() => {
+    if (!me || !chat?.pay_for) return null
+    const payeeIdsRaw = (chat.pay_for as unknown as Record<string, unknown>)[String(me._id)]
+    if (!Array.isArray(payeeIdsRaw)) return null
+    const normalized = payeeIdsRaw
+      .map(v => (typeof v === 'number' ? v : Number.parseInt(String(v), 10)))
+      .filter(v => Number.isFinite(v)) as number[]
+    return normalized[0] ?? null
+  }, [chat?.pay_for, me])
+
+  const payee = payeeUserId ? getUserById(payeeUserId) : undefined
+  const payeeDisplayName = payee
+    ? (payee.shortened_name || [payee.first_name, payee.last_name].filter(Boolean).join(' '))
+    : null
+
+  const isTxConfirmedAndActive = !!tx.is_confirmed && !tx.is_canceled
+  const hasMyParticipation = !!me?._id && tx.shares.some(s => s.related_user_id === me._id)
+  const hasPayeeParticipation = !!payeeUserId && tx.shares.some(s => s.related_user_id === payeeUserId)
+
+  const payeeBalanceDelta = payeeUserId ? getUserBalanceDelta(tx, payeeUserId) : 0
+
+  // current behavior for payer: show only if non-zero
+  const isShowMyBalance = isTxConfirmedAndActive && hasMyParticipation && myBalanceDelta !== 0
+  // payee: always show signed delta when payee participates
+  const isShowPayeeBalance = isTxConfirmedAndActive && hasPayeeParticipation && !!payeeDisplayName
 
   const creator = !tx.creator_user_id ? null : getUserById(tx.creator_user_id) || null
   const editor = !tx.editor_user_id ? null : getUserById(tx.editor_user_id) || null
@@ -81,18 +109,30 @@ export const Transaction = ({ tx }: { tx: TTransaction }) => {
                 </div>
               )}
             </div>
-            {payerShares.map(payerShare => (
-              <div className="flex gap-2 items-center justify-between text-textSec">
-                <span>{(() => {
-                  const user = getUserById(payerShare.related_user_id || 1)
-                  return user
-                    ? [user.first_name, user.last_name].join(' ')
-                    : '??? ???'
-                })()}</span>
-                <span className="font-semibold">{formatAmount(payerShare.amount)}{currency?.symbol}</span>
-              </div>
-            ))}
-            {!!myBalanceDelta && !(!tx.is_confirmed || tx.is_canceled) && (
+            {payerShares.map(payerShare => {
+              const userId = payerShare.related_user_id
+              const user = userId ? getUserById(userId) : undefined
+              const isPayee = !!userId && userId === payeeUserId
+
+              const title = user
+                ? (
+                  isPayee && user.shortened_name
+                    ? user.shortened_name
+                    : [user.first_name, user.last_name].filter(Boolean).join(' ')
+                )
+                : (payerShare.normalized_name || '???')
+
+              return (
+                <div
+                  key={`payer-share-${payerShare.person_id}-${String(payerShare.related_user_id)}-${payerShare.amount}`}
+                  className="flex gap-2 items-center justify-between text-textSec"
+                >
+                  <span className="truncate">{title}</span>
+                  <span className="font-semibold">{formatAmount(payerShare.amount)}{currency?.symbol}</span>
+                </div>
+              )
+            })}
+            {isShowMyBalance && (
             <div className={cx(
               'flex gap-2 items-center justify-between rounded-[4px] bg-[#8881] font-semibold',
               myBalanceDelta > 0 && 'text-green',
@@ -100,6 +140,14 @@ export const Transaction = ({ tx }: { tx: TTransaction }) => {
             )}>
               <span>{t('myBalance')}</span>
               <span>{myBalanceDelta < 0 ? '−' : '+'} {formatAmount(Math.abs(myBalanceDelta))}{currency?.symbol}</span>
+            </div>
+            )}
+            {isShowPayeeBalance && (
+            <div className={cx(
+              'flex gap-2 items-center justify-between rounded-[4px] bg-[#8881] font-semibold text-blue',
+            )}>
+              <span className="truncate">{payeeDisplayName}</span>
+              <span>{payeeBalanceDelta < 0 ? '−' : '+'} {formatAmount(Math.abs(payeeBalanceDelta))}{currency?.symbol}</span>
             </div>
             )}
           </div>

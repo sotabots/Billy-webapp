@@ -1,9 +1,9 @@
 import { useHapticFeedback, useShowPopup } from '@vkruglikov/react-telegram-web-app'
-import { useEffect, useState } from 'react'
+import { useEffect, useMemo, useState } from 'react'
 import { useTranslation } from 'react-i18next'
 import { useNavigate } from 'react-router-dom'
 
-import { useStore, useInit, useFeedback, useUser, useLink, usePostChatCurrency, usePostChatLanguage, usePostChatSilent, useGetChat, usePostChatMode, usePostChatMonthlyLimit, usePostChatCashback, useUsers, usePostChatActiveUsers, useGetCurrencies } from '../hooks'
+import { useStore, useInit, useFeedback, useUser, useLink, usePostChatCurrency, usePostChatLanguage, usePostChatSilent, useGetChat, usePostChatMode, usePostChatMonthlyLimit, usePostChatCashback, useUsers, usePostChatActiveUsers, useGetCurrencies, usePostChatPayFor } from '../hooks'
 import { Button, Divider, MenuItem, MenuGroup, RadioButton, InputAmount, Currencies, Switch, UserButton, Panel, RateButton, CustomHeader } from '../kit'
 import { TCurrencyId, TLanguageCode, TMode, TUser, TUserId } from '../types'
 import { formatAmount } from '../utils'
@@ -27,6 +27,7 @@ export type TSettingsInner =
   'limit' |
   'cashback' |
   'activeUsers' |
+  'jointAccount' |
   'rates'
 
 export const ChatSettings = ({ settingsInner, setSettingsInner }: {
@@ -69,11 +70,35 @@ export const ChatSettings = ({ settingsInner, setSettingsInner }: {
   const activeUserIds: TUserId[] = users.filter(user => user.is_active).map(user => user._id)
   const [checkedUserIds, setCheckedUserIds] = useState<TUserId[]>(activeUserIds)
 
+  const currentPayeeUserId: TUserId | null = useMemo(() => {
+    if (!me || !chat?.pay_for) return null
+    const payeeIdsRaw = (chat.pay_for as unknown as Record<string, unknown>)[String(me._id)]
+    if (!Array.isArray(payeeIdsRaw)) return null
+    const normalized = payeeIdsRaw
+      .map(v => (typeof v === 'number' ? v : Number.parseInt(String(v), 10)))
+      .filter(v => Number.isFinite(v)) as TUserId[]
+    return normalized[0] ?? null
+  }, [chat?.pay_for, me])
+  const [selectedPayeeUserId, setSelectedPayeeUserId] = useState<TUserId | null>(currentPayeeUserId)
+  const [isJointAccountTouched, setJointAccountTouched] = useState(false)
+
   useEffect(() => {
     if (settingsInner === 'activeUsers') {
       setCheckedUserIds(activeUserIds)
     }
   }, [settingsInner])
+
+  useEffect(() => {
+    if (settingsInner !== 'jointAccount') return
+    setJointAccountTouched(false)
+    setSelectedPayeeUserId(currentPayeeUserId)
+  }, [settingsInner])
+
+  useEffect(() => {
+    if (settingsInner !== 'jointAccount') return
+    if (isJointAccountTouched) return
+    setSelectedPayeeUserId(currentPayeeUserId)
+  }, [currentPayeeUserId, isJointAccountTouched, settingsInner])
 
   const isChangedActiveUsers = !(
     checkedUserIds.every(checkedUserId => activeUserIds.includes(checkedUserId)) &&
@@ -106,6 +131,7 @@ export const ChatSettings = ({ settingsInner, setSettingsInner }: {
   const postChatMonthlyLimit = usePostChatMonthlyLimit()
   const postChatCashback = usePostChatCashback()
   const postChatActiveUsers = usePostChatActiveUsers()
+  const postChatPayFor = usePostChatPayFor()
 
   const saveMode = async (mode: TMode) => {
     impactOccurred('medium')
@@ -219,6 +245,29 @@ export const ChatSettings = ({ settingsInner, setSettingsInner }: {
     try {
       await postChatActiveUsers(checkedUserIds)
       refetchUsers()
+      setSettingsInner(null)
+    } catch (e) {
+      console.error(e)
+    } finally {
+      setBusy(false)
+    }
+  }
+
+  const isChangedPayFor = isJointAccountTouched && selectedPayeeUserId !== currentPayeeUserId
+  const savePayFor = async () => {
+    if (!me) return
+    setBusy(true)
+    try {
+      if (selectedPayeeUserId !== null) {
+        await postChatPayFor({ payeeUserId: selectedPayeeUserId, isPaying: true })
+      } else if (currentPayeeUserId !== null) {
+        // clear all payees for current payer
+        await postChatPayFor({ isPaying: false })
+      } else {
+        setSettingsInner(null)
+        return
+      }
+      refetchChat()
       setSettingsInner(null)
     } catch (e) {
       console.error(e)
@@ -401,6 +450,19 @@ export const ChatSettings = ({ settingsInner, setSettingsInner }: {
               value={`${activeUserIds.length}/${users.length}`}
               onClick={() => {
                 setSettingsInner('activeUsers')
+              }}
+            />
+            <Divider className="mr-0" />
+            <MenuItem
+              icon={<SettingsUsersIcon />}
+              title={t('chatSettings.jointAccount')}
+              value={
+                currentPayeeUserId
+                  ? (users.find(u => u._id === currentPayeeUserId)?.first_name || t('select'))
+                  : t('select')
+              }
+              onClick={() => {
+                setSettingsInner('jointAccount')
               }}
             />
           </MenuGroup>
@@ -639,6 +701,57 @@ export const ChatSettings = ({ settingsInner, setSettingsInner }: {
             isBusy={isBusy}
           >
             {isChangedActiveUsers ? t('save') : t('close')}
+          </Button>
+        </>
+      )}
+
+      {settingsInner === 'jointAccount' && (
+        <>
+          <div className="px-4 mt-3">
+            <h2>{t('chatSettings.jointAccount')}</h2>
+            <div className="mt-2 text-[14px] leading-[20px] text-textSec2 whitespace-pre-line">
+              {t('chatSettings.jointAccountDescription')}
+            </div>
+          </div>
+          <Panel className="mt-4 !px-0 overflow-y-auto">
+            <div className="mb-2 px-4 flex items-center justify-between gap-3">
+              <h3 className="">{t('chatSettings.chatMembers')}</h3>
+            </div>
+            <div>
+              {(me ? users.filter(user => user._id !== me._id) : users).map((user, i, arr) => {
+                const isChecked = selectedPayeeUserId === user._id
+                const isDisabled = selectedPayeeUserId !== null && !isChecked
+
+                return (
+                  <>
+                    <UserButton
+                      key={`UserButton-payfor-${user._id}`}
+                      user={user}
+                      isChecked={isChecked}
+                      disabled={isDisabled}
+                      onClick={() => {
+                        setJointAccountTouched(true)
+                        setSelectedPayeeUserId(prev => (prev === user._id ? null : user._id))
+                      }}
+                    />
+                    {i < arr.length - 1 && <Divider key={`Divider-payfor-${user._id}`} />}
+                  </>
+                )
+              })}
+            </div>
+          </Panel>
+          <Button
+            theme="bottom"
+            onClick={() => {
+              if (isChangedPayFor) {
+                savePayFor()
+              } else {
+                setSettingsInner(null)
+              }
+            }}
+            isBusy={isBusy}
+          >
+            {isChangedPayFor ? t('chatSettings.confirmJointAccount') : t('close')}
           </Button>
         </>
       )}

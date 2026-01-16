@@ -80,6 +80,12 @@ export type TRates = {
 
 export type TMode = 'family' | 'travel'
 
+export type TPayFor = {
+  // payer_user_id -> payee_user_ids
+  // API contract returns string userIds, we normalize in UI when needed
+  [payerUserId: string]: string[]
+}
+
 export type TChat = {
   last_used_currency_id: TCurrencyId | null
   language_code: TLanguageCode
@@ -90,6 +96,7 @@ export type TChat = {
   monthly_limit: number
   rates: TRates
   name: string
+  pay_for?: TPayFor
 }
 
 export type TCurrencyAmount = {

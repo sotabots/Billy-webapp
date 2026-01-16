@@ -32,13 +32,15 @@ export const useTransaction = () => {
 
   const { userId } = useAuth()
 
-  const getMyBalanceDelta = (tx: TTransaction) => {
-    const myShares: TShare[] = tx.shares.filter(share => share.related_user_id === userId)
-    const myBalanceDelta: number = myShares.reduce((acc, share) =>
-      acc + share.amount * (share.is_payer ? 1 : -1)
-    , 0)
-    return myBalanceDelta
+  const getUserBalanceDelta = (tx: TTransaction, targetUserId: number | null | undefined) => {
+    if (!targetUserId) return 0
+    const shares: TShare[] = tx.shares.filter(share => share.related_user_id === targetUserId)
+    return shares.reduce((acc, share) => acc + share.amount * (share.is_payer ? 1 : -1), 0)
   }
 
-  return { transaction, payedShares, oweShares, payedSum, payedSumFormatted, oweSum, oweSumFormatted, isWrongAmounts, isEmptyTx, deduplicatedShares, getMyBalanceDelta }
+  const getMyBalanceDelta = (tx: TTransaction) => {
+    return getUserBalanceDelta(tx, userId)
+  }
+
+  return { transaction, payedShares, oweShares, payedSum, payedSumFormatted, oweSum, oweSumFormatted, isWrongAmounts, isEmptyTx, deduplicatedShares, getMyBalanceDelta, getUserBalanceDelta }
 }

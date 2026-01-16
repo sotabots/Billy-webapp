@@ -3,7 +3,7 @@ import { useQuery } from '@tanstack/react-query'
 
 import { useAuth, useNewTx, useChatId, useStore } from '../hooks'
 import { backendFetch } from '../api/backendMonitor'
-import { TCurrency, TCategories, TTransaction, TNewTransaction, TUser, TChat, TSummary, TCurrencyId, TLanguageCode, TMode, TPlan, TProfile, TUserSettings, TPayoffMethods, TUserPayoffMethod, TUserId } from '../types'
+import { TCurrency, TCategories, TTransaction, TNewTransaction, TUser, TChat, TSummary, TCurrencyId, TLanguageCode, TMode, TPlan, TProfile, TUserSettings, TPayoffMethods, TUserPayoffMethod, TUserId, TPayFor } from '../types'
 import {
   mockTransaction,
   mockUsers,
@@ -417,6 +417,71 @@ export const usePostChatActiveUsers = () => {
         'Authorization': authString,
       },
     }).then(handleJsonResponse)
+}
+
+export const usePostChatPayFor = () => {
+  const { apiUrl } = useStore()
+  const { authString } = useAuth()
+  const { chatId } = useChatId()
+
+  const normalizePayForToApiModel = (payFor: TPayFor): TPayFor => {
+    // Contract: Dict[str, List[str]]
+    return Object.fromEntries(
+      Object.entries(payFor).map(([payerUserId, payeeUserIds]) => [
+        String(payerUserId),
+        (Array.isArray(payeeUserIds) ? payeeUserIds : [])
+          .map(v => String(v))
+          .filter(v => v.length > 0)
+      ])
+    )
+  }
+
+  return async ({ payeeUserId, isPaying, payFor }: {
+    payeeUserId?: TUserId | null
+    isPaying?: boolean
+    payFor?: TPayFor
+  }): Promise<TPayFor> => {
+    if (chatId === 0) {
+      // demo / tx-flow
+      return {}
+    }
+
+    const baseUrl = `${apiUrl}/chat/pay_for`
+    const chatIdQuery = new URLSearchParams({ chat_id: String(chatId) })
+    const url = `${baseUrl}?${chatIdQuery}`
+
+    // Full replace-mode: if pay_for is present (not null/undefined), server ignores other fields.
+    if (payFor !== undefined && payFor !== null) {
+      return backendFetch(url, {
+        method: 'POST',
+        body: JSON.stringify({
+          pay_for: normalizePayForToApiModel(payFor),
+        }),
+        headers: {
+          'Content-type': 'application/json',
+          'Authorization': authString,
+        },
+      }).then(handleJsonResponse)
+    }
+
+    // Toggle/reset-mode: backend expects JSON payload only.
+    const isPayingNormalized = isPaying ?? true
+    if (isPayingNormalized && (payeeUserId === undefined || payeeUserId === null)) {
+      throw new Error('payee_user_id is required when is_paying=true')
+    }
+
+    return backendFetch(url, {
+      method: 'POST',
+      body: JSON.stringify({
+        ...(payeeUserId !== undefined && payeeUserId !== null ? { payee_user_id: payeeUserId } : {}),
+        is_paying: isPayingNormalized,
+      }),
+      headers: {
+        'Content-type': 'application/json',
+        'Authorization': authString,
+      },
+    }).then(handleJsonResponse)
+  }
 }
 
 export const useGetSummarySheetRebuild = () => {
