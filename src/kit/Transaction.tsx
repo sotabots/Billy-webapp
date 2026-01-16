@@ -125,10 +125,7 @@ export const Transaction = ({ tx }: { tx: TTransaction }) => {
               return (
                 <div
                   key={`payer-share-${payerShare.person_id}-${String(payerShare.related_user_id)}-${payerShare.amount}`}
-                  className={cx(
-                    'flex gap-2 items-center justify-between',
-                    isPayee ? 'text-blue' : 'text-textSec',
-                  )}
+                  className="flex gap-2 items-center justify-between text-textSec"
                 >
                   <span className="truncate">{title}</span>
                   <span className="font-semibold">{formatAmount(payerShare.amount)}{currency?.symbol}</span>
