@@ -225,6 +225,13 @@ export const Home = ({ tab }: {
               customRecipientId={chatBalanceCustomRecipientId}
               setCustomRecipientId={setChatBalanceCustomRecipientId}
               focusUserId={selectedChatBalanceUserId}
+              onBack={() => {
+                setSelectedChatBalanceUserId(null)
+                setSelectedChatBalanceDebtId(null)
+                setIsChatBalanceRecipientsOpen(false)
+                setChatBalanceCustomRecipientId(null)
+                setIsChatBalanceCurrencyOpen(false)
+              }}
             />
           )}
         </>

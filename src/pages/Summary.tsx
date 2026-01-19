@@ -1,10 +1,12 @@
 import cx from 'classnames'
+import { useMemo } from 'react'
 import { useTranslation } from 'react-i18next'
 import { useNavigate } from 'react-router-dom'
 
-import { useStore, useTotal, useFilter, useFeedback, useUser, useGetVoiceLimit, useGetSummary, useUsers } from '../hooks'
+import { useStore, useTotal, useFilter, useFeedback, useUser, useGetVoiceLimit, useGetSummary, useUsers, useGetChat } from '../hooks'
 import { Button, Panel, Pie, Category, DateMark, Transaction, RadioButtons, DatePicker, CurrencyAmount, Dropdown, Avatar } from '../kit'
 import { TFilterPeriod, TFilterTotal } from '../types'
+import { getPayerUserIdForPayee } from '../utils'
 
 import { ReactComponent as ChevronIcon } from '../assets/chevron.svg'
 import { ReactComponent as FilterIcon } from '../assets/filter.svg'
@@ -25,8 +27,9 @@ export const Summary = ({
   const { t } = useTranslation()
   const navigate = useNavigate()
   const { feedback } = useFeedback()
-  const { isPro } = useUser()
+  const { isPro, me } = useUser()
   const { users } = useUsers()
+  const { data: chat } = useGetChat()
 
   const { isDebug, setTxId, setIsEditTx, setPaywallSource, setPaywallFrom } = useStore()
 
@@ -85,6 +88,16 @@ export const Summary = ({
   const { data: summary } = useGetSummary()
 
   const balanceAmount: undefined | number = summary?.balance.total.value.amount
+  const usersWithNonZeroBalance = useMemo(() => users.filter(user => (user.balance?.amount ?? 0) !== 0), [users])
+
+  const payerUserIdForMe = useMemo(() => getPayerUserIdForPayee(chat?.pay_for, me?._id ?? null), [chat?.pay_for, me?._id])
+  const payerUser = payerUserIdForMe ? users.find(u => u._id === payerUserIdForMe) : undefined
+  const isMePayee = !!payerUser
+
+  const payerShortenedName = payerUser?.shortened_name || payerUser?.first_name || ''
+  const payerBalance = payerUser?.balance
+  const payerBalanceAmount = payerBalance?.amount ?? 0
+  const payerTitleKey = payerBalanceAmount >= 0 ? 'userBalance.owedToUser' : 'userBalance.userOwes'
 
   return (
     <>
@@ -105,8 +118,8 @@ export const Summary = ({
                       </div>
                       <div className="flex items-center justify-start h-6 pl-1">
                         {[
-                          ...(users.length > 5 ? users.slice(0, 4) : users),
-                          ...(users.length > 5 ? [undefined] : [])
+                          ...(usersWithNonZeroBalance.length > 5 ? usersWithNonZeroBalance.slice(0, 4) : usersWithNonZeroBalance),
+                          ...(usersWithNonZeroBalance.length > 5 ? [undefined] : [])
                         ].map(user =>
                           <div
                             key={`user-${user?._id}`}
@@ -115,7 +128,7 @@ export const Summary = ({
                             <Avatar
                               size={20}
                               user={user}
-                              text={user === undefined ? `+${users.length - 4}` : undefined}
+                              text={user === undefined ? `+${usersWithNonZeroBalance.length - 4}` : undefined}
                             />
                           </div>
                         )}
@@ -129,7 +142,7 @@ export const Summary = ({
                 wrapperClassName="w-full"
                 className="w-full"
                 onClick={
-                  balanceAmount
+                  (isMePayee ? !!payerBalanceAmount : !!balanceAmount)
                     ? () => { navigate('/user-balance') }
                     : () => { /* */ }
                 }
@@ -137,17 +150,36 @@ export const Summary = ({
                 <Panel className="!py-3 pr-2">
                   <div className="flex items-center justify-between">
                     <div className="flex flex-col gap-1 text-left">
-                      <div className="text-[12px] leading-[16px] font-semibold text-textSec">
-                        {t((!!balanceAmount && balanceAmount > 0) ? 'chat.myCredits' : 'chat.myDebts')}
+                      <div
+                        className={cx(
+                          'text-[12px] leading-[16px] font-semibold',
+                          isMePayee ? 'text-blue' : 'text-textSec',
+                        )}
+                      >
+                        {isMePayee
+                          ? (
+                            <span className="flex items-center gap-2">
+                              <span className="w-[18px] h-[18px] rounded-full overflow-hidden">
+                                <Avatar size={18} user={payerUser} />
+                              </span>
+                              <span className="truncate">
+                                {t(payerTitleKey, { name: payerShortenedName || '—' })}
+                              </span>
+                            </span>
+                          )
+                          : t((!!balanceAmount && balanceAmount > 0) ? 'chat.myCredits' : 'chat.myDebts')}
                       </div>
-                      {!!summary?.balance.total.value &&
+                      {!!(isMePayee ? payerBalance : summary?.balance.total.value) &&
                         <CurrencyAmount
-                          className="text-[18px] leading-[24px] font-semibold"
-                          currencyAmount={summary?.balance.total.value}
+                          className={cx(
+                            'text-[18px] leading-[24px] font-semibold',
+                            isMePayee && 'text-blue'
+                          )}
+                          currencyAmount={(isMePayee ? payerBalance : summary?.balance.total.value)!}
                         />
                       }
                     </div>
-                    {!!balanceAmount &&
+                    {!!(isMePayee ? payerBalanceAmount : balanceAmount) &&
                       <ChevronIcon className="w-4 h-4 text-[#6E7C87]" />
                     }
                   </div>

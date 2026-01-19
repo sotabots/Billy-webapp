@@ -1,12 +1,12 @@
 import { useHapticFeedback, useShowPopup } from '@vkruglikov/react-telegram-web-app'
 import Lottie from 'lottie-react'
-import { useEffect, useState } from 'react'
+import { useEffect, useMemo, useState } from 'react'
 import { useTranslation } from 'react-i18next'
 
-import { useStore, useCurrencies, useFeedback, useSummary, usePostTransaction, useGetSummary, useGetTransactions, useGetProfile, useGetUsers, useUsers, useAuth, useGetUserSettings, useTgSettings, useUser } from '../hooks'
+import { useStore, useCurrencies, useFeedback, useSummary, usePostTransaction, useGetSummary, useGetTransactions, useGetProfile, useGetUsers, useUsers, useAuth, useGetUserSettings, useTgSettings, useUser, useGetChat } from '../hooks'
 import { Button, Overlay, Panel, DebtDetailed, Divider, UserButton, Currencies, CurrencyAmount, Debt, Tabs, CustomHeader } from '../kit'
 import { TCurrencyId, TDebt, TNewTransaction, TUserId } from '../types'
-import { formatAmount, closeApp } from '../utils'
+import { formatAmount, closeApp, getPayerUserIdForPayee } from '../utils'
 
 import lottieKoalaSettledUp from '../assets/animation-koala-settled-up.json'
 import lottieKoalaSuccess from '../assets/animation-koala-success.json'
@@ -21,6 +21,7 @@ export const UserBalance = ({
   customRecipientId,
   setCustomRecipientId,
   focusUserId,
+  onBack,
 }: {
   isCurrencyOpen: boolean
   setIsCurrencyOpen: (isCurrencyOpen: boolean) => void
@@ -31,12 +32,14 @@ export const UserBalance = ({
   customRecipientId: null | TUserId
   setCustomRecipientId: (customRecipientId: null | TUserId) => void
   focusUserId?: TUserId | null
+  onBack?: () => void
 }) => {
   const { t } = useTranslation()
   const showPopup = useShowPopup()
   const [, notificationOccurred] = useHapticFeedback()
   const { userId } = useAuth()
   const { me } = useUser()
+  const { data: chat } = useGetChat()
   const { feedback } = useFeedback()
   const { goSettings } = useTgSettings()
 
@@ -84,11 +87,14 @@ export const UserBalance = ({
   const focusUser = focusUserId ? getUserById(focusUserId) : undefined
   const focusUserName: string = focusUser?.shortened_name || focusUser?.first_name || ''
 
+  const payerUserIdForMe = useMemo(() => getPayerUserIdForPayee(chat?.pay_for, me?._id ?? null), [chat?.pay_for, me?._id])
+  const isMePayee = payerUserIdForMe !== null
+
   const titleDebts = focusUserId
-    ? t('userBalance.userOwes', { name: focusUserName })
+    ? `${t('userBalance.userOwesParticipantsPrefix', { name: focusUserName })} ${t('userBalance.userOwesParticipantsSuffix')}`
     : t('userBalance.iOwe')
   const titleCredits = focusUserId
-    ? t('userBalance.owedToUser', { name: focusUserName })
+    ? t('userBalance.participantsOweUserPrefix', { name: focusUserName })
     : t('userBalance.owedToMe')
   const titleTotalDebts = focusUserId
     ? t('userBalance.totalUserOwes', { name: focusUserName })
@@ -184,13 +190,13 @@ export const UserBalance = ({
         message,
         buttons: [
           {
-            id: 'cancel',
-            text: t('cancel'),
+            id: 'confirm',
+            text: t('userBalance.rewriteOnMeConfirmYes'),
             type: 'default',
           },
           {
-            id: 'confirm',
-            text: t('userBalance.rewriteOnMeConfirmYes'),
+            id: 'cancel',
+            text: t('cancel'),
             type: 'default',
           },
         ],
@@ -365,6 +371,7 @@ export const UserBalance = ({
   const computedTotalValue = summary.balance.total.value
   const canRewriteOnMe: boolean =
     !!focusUserId &&
+    focusUserId !== userId &&
     !!computedTotalValue.amount &&
     !!userId &&
     !!me &&
@@ -382,7 +389,7 @@ export const UserBalance = ({
           onBack={
             (isOriginalCurrencies && isItems)
               ? () => { setIsOriginalCurrencies(false) }
-              : undefined}
+              : onBack}
         />
       }
 
@@ -545,7 +552,7 @@ export const UserBalance = ({
               </Panel>
             }
 
-            {!!focusUserId &&
+            {!!focusUserId && !!userId && focusUserId !== userId && !isMePayee &&
               <Panel className="!mt-0 !pb-4">
                 <div className="flex flex-col gap-2">
                   <h3>{t('userBalance.rewriteOnMeTitle')}</h3>
@@ -631,7 +638,12 @@ export const UserBalance = ({
           <h2 className="mb-2 px-4 pt-4 pb-[6px]">{t('selectUser')}</h2>
 
           <div className="mt-4 overflow-y-auto">
-            {users?.filter(user => user._id !== selectedDebt.from_user_id).map((user, i, arr) => (
+            {users
+              ?.filter(user =>
+                user._id !== selectedDebt.from_user_id &&
+                (!isMePayee || !userId || user._id !== userId)
+              )
+              .map((user, i, arr) => (
               <>
                 <UserButton
                   key={i}
