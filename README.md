@@ -24,4 +24,22 @@ npm run dev
 
 ### Deploy
 
-(master) `npm run deploy` -> [here](https://sotabots.github.io/Billy-webapp/)
+Deployments are handled by Vercel Git Integration after pushes to the production branch.
+
+Vercel settings:
+
+- Framework Preset: `Vite`
+- Install Command: `npm ci`
+- Build Command: `npm run build`
+- Output Directory: `dist`
+- Root Directory: `.`
+
+Production and preview environment variables:
+
+- `VITE_FEEDBACK_TOKEN`
+- `VITE_API_URL`
+- `VITE_FALLBACK_API_URL`
+- `VITE_API_URLS`
+- `VITE_CLARITY_ID`
+
+`VITE_AUTH` and `VITE_USER_ID` are for local development only.
