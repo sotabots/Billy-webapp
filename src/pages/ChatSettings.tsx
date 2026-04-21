@@ -6,7 +6,7 @@ import { useNavigate } from 'react-router-dom'
 import { useStore, useInit, useFeedback, useUser, useLink, usePostChatCurrency, usePostChatLanguage, usePostChatSilent, useGetChat, usePostChatMode, usePostChatMonthlyLimit, usePostChatCashback, useUsers, usePostChatActiveUsers, useGetCurrencies, usePostChatPayFor } from '../hooks'
 import { Button, Divider, MenuItem, MenuGroup, RadioButton, InputAmount, Currencies, Switch, UserButton, Panel, RateButton, CustomHeader } from '../kit'
 import { TCurrencyId, TLanguageCode, TMode, TUser, TUserId } from '../types'
-import { formatAmount } from '../utils'
+import { formatAmount, getPayerUserIdForPayee } from '../utils'
 
 import { ReactComponent as SettingsCurrencyIcon } from '../assets/settings-currency.svg'
 import { ReactComponent as SettingsLanguageIcon } from '../assets/settings-language.svg'
@@ -79,6 +79,16 @@ export const ChatSettings = ({ settingsInner, setSettingsInner }: {
       .filter(v => Number.isFinite(v)) as TUserId[]
     return normalized[0] ?? null
   }, [chat?.pay_for, me])
+
+  const payerUserIdForMe: TUserId | null = useMemo(() => {
+    return getPayerUserIdForPayee(chat?.pay_for, me?._id ?? null)
+  }, [chat?.pay_for, me?._id])
+  const payerUser = payerUserIdForMe ? users.find(u => u._id === payerUserIdForMe) : undefined
+  const payerDisplayName =
+    payerUser?.username
+      ? `@${payerUser.username}`
+      : (payerUser?.shortened_name || payerUser?.first_name || '')
+  const isMePayee = payerUserIdForMe !== null
   const [selectedPayeeUserId, setSelectedPayeeUserId] = useState<TUserId | null>(currentPayeeUserId)
   const [isJointAccountTouched, setJointAccountTouched] = useState(false)
 
@@ -89,10 +99,14 @@ export const ChatSettings = ({ settingsInner, setSettingsInner }: {
   }, [settingsInner])
 
   useEffect(() => {
+    if (settingsInner === 'jointAccount' && isMePayee) {
+      setSettingsInner(null)
+      return
+    }
     if (settingsInner !== 'jointAccount') return
     setJointAccountTouched(false)
     setSelectedPayeeUserId(currentPayeeUserId)
-  }, [settingsInner])
+  }, [settingsInner, isMePayee])
 
   useEffect(() => {
     if (settingsInner !== 'jointAccount') return
@@ -276,6 +290,33 @@ export const ChatSettings = ({ settingsInner, setSettingsInner }: {
     }
   }
 
+  const { payForPayerIds, payForPayeeIds } = useMemo(() => {
+    const payerIds = new Set<TUserId>()
+    const payeeIds = new Set<TUserId>()
+
+    const payFor = chat?.pay_for
+    if (!payFor) {
+      return { payForPayerIds: payerIds, payForPayeeIds: payeeIds }
+    }
+
+    for (const [payerUserIdRaw, payeeIdsRaw] of Object.entries(payFor as unknown as Record<string, unknown>)) {
+      const payerUserId = Number.parseInt(String(payerUserIdRaw), 10)
+      if (Number.isFinite(payerUserId) && Array.isArray(payeeIdsRaw) && payeeIdsRaw.length > 0) {
+        payerIds.add(payerUserId as TUserId)
+      }
+
+      if (!Array.isArray(payeeIdsRaw)) continue
+      for (const v of payeeIdsRaw) {
+        const payeeId = typeof v === 'number' ? v : Number.parseInt(String(v), 10)
+        if (Number.isFinite(payeeId)) {
+          payeeIds.add(payeeId as TUserId)
+        }
+      }
+    }
+
+    return { payForPayerIds: payerIds, payForPayeeIds: payeeIds }
+  }, [chat?.pay_for])
+
   return (
     <>
       {!settingsInner && (
@@ -457,13 +498,19 @@ export const ChatSettings = ({ settingsInner, setSettingsInner }: {
               icon={<SettingsUsersIcon />}
               title={t('chatSettings.jointAccount')}
               value={
-                currentPayeeUserId
-                  ? (users.find(u => u._id === currentPayeeUserId)?.first_name || t('select'))
-                  : t('select')
+                isMePayee
+                  ? (payerDisplayName || '—')
+                  : (
+                    currentPayeeUserId
+                      ? (users.find(u => u._id === currentPayeeUserId)?.first_name || t('select'))
+                      : t('select')
+                  )
               }
               onClick={() => {
+                if (isMePayee) return
                 setSettingsInner('jointAccount')
               }}
+              disabled={isMePayee}
             />
           </MenuGroup>
 
@@ -718,26 +765,38 @@ export const ChatSettings = ({ settingsInner, setSettingsInner }: {
               <h3 className="">{t('chatSettings.chatMembers')}</h3>
             </div>
             <div>
-              {(me ? users.filter(user => user._id !== me._id) : users).map((user, i, arr) => {
-                const isChecked = selectedPayeeUserId === user._id
-                const isDisabled = selectedPayeeUserId !== null && !isChecked
+              {(me ? users.filter(user => user._id !== me._id) : users)
+                .map(user => {
+                  const isChecked = selectedPayeeUserId === user._id
+                  const isTakenByPayFor = payForPayerIds.has(user._id) || payForPayeeIds.has(user._id)
+                  const isUnavailable = isTakenByPayFor && !isChecked
 
-                return (
+                  return { user, isChecked, isUnavailable }
+                })
+                .sort((a, b) => {
+                  const rank = (v: { isChecked: boolean, isUnavailable: boolean }) => {
+                    if (v.isChecked) return 0
+                    if (v.isUnavailable) return 2
+                    return 1
+                  }
+                  return rank(a) - rank(b)
+                })
+                .map(({ user, isChecked, isUnavailable }, i, arr) => (
                   <>
                     <UserButton
                       key={`UserButton-payfor-${user._id}`}
                       user={user}
                       isChecked={isChecked}
-                      disabled={isDisabled}
+                      disabled={isUnavailable}
                       onClick={() => {
+                        if (isUnavailable) return
                         setJointAccountTouched(true)
                         setSelectedPayeeUserId(prev => (prev === user._id ? null : user._id))
                       }}
                     />
                     {i < arr.length - 1 && <Divider key={`Divider-payfor-${user._id}`} />}
                   </>
-                )
-              })}
+                ))}
             </div>
           </Panel>
           <Button
