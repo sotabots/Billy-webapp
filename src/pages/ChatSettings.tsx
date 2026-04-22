@@ -6,7 +6,7 @@ import { useNavigate } from 'react-router-dom'
 import { useStore, useInit, useFeedback, useUser, useLink, usePostChatCurrency, usePostChatLanguage, usePostChatSilent, useGetChat, usePostChatMode, usePostChatMonthlyLimit, usePostChatCashback, useUsers, usePostChatActiveUsers, useGetCurrencies, usePostChatPayFor } from '../hooks'
 import { Button, Divider, MenuItem, MenuGroup, RadioButton, InputAmount, Currencies, Switch, UserButton, Panel, RateButton, CustomHeader } from '../kit'
 import { TCurrencyId, TLanguageCode, TMode, TUser, TUserId } from '../types'
-import { formatAmount, getPayerUserIdForPayee } from '../utils'
+import { formatAmount, getPayerUserIdForPayee, getUsdRate } from '../utils'
 
 import { ReactComponent as SettingsCurrencyIcon } from '../assets/settings-currency.svg'
 import { ReactComponent as SettingsLanguageIcon } from '../assets/settings-language.svg'
@@ -677,7 +677,7 @@ export const ChatSettings = ({ settingsInner, setSettingsInner }: {
                 <RateButton
                   key={`RateButton-${currency._id}-${i}`}
                   currency={currency}
-                  rate={chat.rates[`USD${currency._id}`]}
+                  rate={getUsdRate(chat.rates, currency._id)}
                   /*
                   fromCurrencyAmount={{
                     amount: 1,

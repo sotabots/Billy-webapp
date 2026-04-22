@@ -1,5 +1,5 @@
 import { useAuth, useCurrencies, useGetChat, useGetUserSettings, useStore } from '../hooks'
-import { formatAmount } from '../utils'
+import { formatAmount, getUsdRate } from '../utils'
 
 import { TTransaction } from '../types'
 
@@ -27,10 +27,6 @@ export const useTotal = ({ filteredTransactions }: {
   const rawCategories: TRawCategory[] = filteredTransactions
     .filter((tx: TTransaction) => !tx.is_canceled && tx.is_confirmed && !!tx.currency_id)
     .reduce((acc, tx) => {
-      if (!rates) {
-        return acc
-      }
-
       const amountInTxCurrency = tx.shares
         .filter(share => !share.is_payer)
         .filter(share => filterTotal === 'ONLY_MINE'
@@ -41,7 +37,7 @@ export const useTotal = ({ filteredTransactions }: {
 
       const amountInMyCurrency = tx.currency_id === myCurrencyId
         ? amountInTxCurrency
-        : amountInTxCurrency * rates[`USD${myCurrencyId}`] / rates[`USD${tx.currency_id}`]
+        : amountInTxCurrency * getUsdRate(rates, myCurrencyId) / getUsdRate(rates, tx.currency_id)
 
       const txCategory = tx.category || 'unknown'
       const itemIndex = acc.findIndex((rawCat: TRawCategory) => rawCat.categoryKey === txCategory)
