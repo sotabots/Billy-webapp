@@ -6,7 +6,7 @@ import { useNavigate } from 'react-router-dom'
 import { useStore, useTotal, useFilter, useFeedback, useUser, useGetVoiceLimit, useGetSummary, useUsers, useGetChat } from '../hooks'
 import { Button, Panel, Pie, Category, DateMark, Transaction, RadioButtons, DatePicker, CurrencyAmount, Dropdown, Avatar } from '../kit'
 import { TFilterPeriod, TFilterTotal } from '../types'
-import { getPayerUserIdForPayee } from '../utils'
+import { getPayerUserIdForPayee, getTransactionEditPath } from '../utils'
 
 import { ReactComponent as ChevronIcon } from '../assets/chevron.svg'
 import { ReactComponent as FilterIcon } from '../assets/filter.svg'
@@ -370,7 +370,7 @@ export const Summary = ({
             onClick={() => {
               setTxId('NEW')
               setIsEditTx(true)
-              navigate('/')
+              navigate(getTransactionEditPath('NEW'))
               feedback('add_expense_total_web', {
                 num_transaction: filteredTransactions.length
               })

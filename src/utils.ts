@@ -20,6 +20,8 @@ export const getUsdRate = (rates: TRates | undefined, currencyId: TCurrencyId | 
     : DEFAULT_USD_RATE
 }
 
+export const getTransactionEditPath = (txId: string) => `/?${new URLSearchParams({ txid: txId }).toString()}`
+
 export const closeApp = () => {
   if (window.Telegram?.WebApp.platform !== 'unknown') {
     window.Telegram?.WebApp.close()
