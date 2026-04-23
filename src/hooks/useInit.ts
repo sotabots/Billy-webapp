@@ -1,13 +1,14 @@
 import { useInitData } from '@vkruglikov/react-telegram-web-app'
 
 import { useEffect } from 'react'
-import { useLocation } from 'react-router-dom'
+import { useLocation, useNavigate } from 'react-router-dom'
 
 import { useStore, useFeedback, useUsers, useTgSettings, useUser, usePostUserOnboarding, useAuth, useApiUrlInit } from '../hooks'
 
 
 import i18n from '../i18n'
 import { TPaywallSource, TUser } from '../types'
+import { getTransactionEditPath } from '../utils'
 
 export const useInit = () => {
   useTgSettings()
@@ -25,6 +26,7 @@ export const useInit = () => {
     paywallSource, setPaywallSource,
   } = useStore()
   const routerLocation = useLocation()
+  const navigate = useNavigate()
   const [initDataUnsafe/*, initData*/] = useInitData()
   const { users, getUserById } = useUsers()
   const { userLang } = useUser()
@@ -89,8 +91,10 @@ export const useInit = () => {
     }
   }
 
-  if (txId === undefined) {
-    setTxId(queryTxId || startParamTxId || 'demo-tx')
+  const routeTxId = queryTxId || startParamTxId
+
+  if (txId === undefined || (!!routeTxId && txId !== routeTxId)) {
+    setTxId(routeTxId || 'demo-tx')
   }
 
   if (chatIdStart === undefined && startParamChatId) {
@@ -105,14 +109,24 @@ export const useInit = () => {
     setPaywallSource(startParamPaywallSource)
   }
 
-  if (!flow) {
-    if (queryTxId || startParamTxId) {
-      setFlow('transaction')
-    }
-    if (routerLocation.pathname.includes('/summary')) {
-      setFlow('summary')
-    }
+  if (routeTxId && flow !== 'transaction') {
+    setFlow('transaction')
   }
+
+  if (routerLocation.pathname.includes('/summary') && flow !== 'summary') {
+    setFlow('summary')
+  }
+
+  useEffect(() => {
+    if (
+      routerLocation.pathname === '/' &&
+      routeTxId &&
+      !queryTxId &&
+      routeTxId !== 'demo-tx'
+    ) {
+      navigate(getTransactionEditPath(routeTxId), { replace: true })
+    }
+  }, [navigate, queryTxId, routeTxId, routerLocation.pathname])
 
   // init new-tx author shares
   useEffect(() => {

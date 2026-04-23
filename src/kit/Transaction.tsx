@@ -13,7 +13,7 @@ import { ReactComponent as CashbackIcon } from '../assets/cashback.svg'
 import { ReactComponent as ShareIcon } from '../assets/share.svg'
 import { ReactComponent as Next } from '../assets/next.svg'
 
-import { formatAmount } from '../utils'
+import { formatAmount, getTransactionEditPath } from '../utils'
 
 export const Transaction = ({ tx }: { tx: TTransaction }) => {
   const { t } = useTranslation()
@@ -78,7 +78,7 @@ export const Transaction = ({ tx }: { tx: TTransaction }) => {
       onClick={() => {
         setTxId(tx._id)
         setIsEditTx(true)
-        navigate('/')
+        navigate(getTransactionEditPath(tx._id))
         feedback('edit_transaction_total_web', {
           transaction_id: tx._id
         })

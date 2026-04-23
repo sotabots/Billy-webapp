@@ -7,6 +7,7 @@ export const formatAmount = (amount: number, decimals: number = visible_decimals
 // export const unformatAmount = (string: string) => (parseFloat(string) * 10 ** decimals) || 0
 export const unformatAmount = (string: string) => parseFloat(string) || 0
 
+export const getTransactionEditPath = (txId: string) => `/?${new URLSearchParams({ txid: txId }).toString()}`
 
 export const closeApp = () => {
   if (window.Telegram?.WebApp.platform !== 'unknown') {
