@@ -1,5 +1,5 @@
 import { /*decimals,*/ visible_decimals } from './const'
-import type { TPayFor, TUserId } from './types'
+import type { TCurrencyId, TPayFor, TRates, TUserId } from './types'
 
 // export const formatAmount = (amount: number) => (amount / 10 ** decimals).toFixed(visible_decimals)
 export const formatAmount = (amount: number, decimals: number = visible_decimals) => amount.toFixed(decimals)
@@ -7,6 +7,20 @@ export const formatAmount = (amount: number, decimals: number = visible_decimals
 // export const unformatAmount = (string: string) => (parseFloat(string) * 10 ** decimals) || 0
 export const unformatAmount = (string: string) => parseFloat(string) || 0
 
+export const DEFAULT_USD_RATE = 1.0
+
+export const getUsdRate = (rates: TRates | undefined, currencyId: TCurrencyId | null | undefined): number => {
+  if (!currencyId) {
+    return DEFAULT_USD_RATE
+  }
+
+  const rate = rates?.[`USD${currencyId}`]
+  return typeof rate === 'number' && Number.isFinite(rate) && rate > 0
+    ? rate
+    : DEFAULT_USD_RATE
+}
+
+export const getTransactionEditPath = (txId: string) => `/?${new URLSearchParams({ txid: txId }).toString()}`
 
 export const closeApp = () => {
   if (window.Telegram?.WebApp.platform !== 'unknown') {
