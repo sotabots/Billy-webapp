@@ -171,6 +171,7 @@
 
   "history": "History",
   "confirmTransactions": "Confirm expenses",
+  "confirmTransactionsDescription": "These expenses are not included in calculations yet. Confirm or cancel them so they stop getting in your way.",
   "confirmedTransactions": "Confirmed",
   "transaction": "Expense",
   "transactionSettleUp": "Settle up",

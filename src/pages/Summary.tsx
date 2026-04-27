@@ -114,12 +114,6 @@ export const Summary = ({
       .filter(txGroup => txGroup.txs.length > 0),
     [isConfirmedOnly, txGroups]
   )
-  const goTransaction = (txId: string) => {
-    setTxId(txId)
-    setIsEditTx(true)
-    navigate(getTransactionEditPath(txId))
-  }
-
   return (
     <>
       {!isFilterOpen && (
@@ -334,10 +328,7 @@ export const Summary = ({
               wrapperClassName="w-full"
               className="w-full text-left"
               onClick={() => {
-                goTransaction(unconfirmedTransactions[0]._id)
-                feedback('edit_transaction_total_web', {
-                  transaction_id: unconfirmedTransactions[0]._id
-                })
+                navigate('/confirm-transactions')
               }}
             >
               <div className="mx-0 flex items-center justify-between rounded-[16px] bg-bg py-4 pl-4 pr-3">

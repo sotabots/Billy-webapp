@@ -42,7 +42,10 @@ const formatTxDateTime = (timeCreated: string, language: string) => {
   return `${time}, ${day}`
 }
 
-export const Transaction = ({ tx }: { tx: TTransaction }) => {
+export const Transaction = ({ tx, showPendingBalance = false }: {
+  tx: TTransaction
+  showPendingBalance?: boolean
+}) => {
   const { t, i18n } = useTranslation()
   const navigate = useNavigate()
   const { me } = useUser()
@@ -81,9 +84,10 @@ export const Transaction = ({ tx }: { tx: TTransaction }) => {
   const payeeBalanceDelta = payeeUserId ? getUserBalanceDelta(tx, payeeUserId) : 0
 
   // current behavior for payer: show only if non-zero
-  const isShowMyBalance = isTxConfirmedAndActive && hasMyParticipation && myBalanceDelta !== 0
+  const canShowBalanceDelta = isTxConfirmedAndActive || (!!showPendingBalance && !tx.is_canceled)
+  const isShowMyBalance = canShowBalanceDelta && hasMyParticipation && myBalanceDelta !== 0
   // payee: always show signed delta when payee participates
-  const isShowPayeeBalance = isTxConfirmedAndActive && hasPayeeParticipation && !!payeeDisplayName
+  const isShowPayeeBalance = canShowBalanceDelta && hasPayeeParticipation && !!payeeDisplayName
 
   const creator = !tx.creator_user_id ? null : getUserById(tx.creator_user_id) || null
   const editor = !tx.editor_user_id ? null : getUserById(tx.editor_user_id) || null

@@ -171,6 +171,7 @@
 
   "history": "История",
   "confirmTransactions": "Подтвердите траты",
+  "confirmTransactionsDescription": "Эти траты пока не участвуют в подсчётах. Подтвердите их или отмените — и они больше не будут вас отвлекать.",
   "confirmedTransactions": "Подтверждённые",
   "transaction": "Трата",
   "transactionSettleUp": "Возврат денег",
