@@ -278,7 +278,7 @@ export const Transaction = ({
             </div>
             <div
               className={cx(
-                "flex items-start justify-between gap-2 text-textSec",
+                "mt-[2px] flex items-start justify-between gap-2 text-textSec",
                 detailsClassName,
               )}
             >
