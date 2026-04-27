@@ -11,57 +11,33 @@ import { useStore, useUsers, useCurrencies, useFeedback, useTransaction, useUser
 
 import { ReactComponent as ShareIcon } from '../assets/share.svg'
 
+import entertainmentIcon from '../../ico_categories/entertainment.svg'
+import financialExpensesIcon from '../../ico_categories/financial_expenses.svg'
+import foodDrinksIcon from '../../ico_categories/food_drinks.svg'
+import housingIcon from '../../ico_categories/housing.svg'
+import incomeIcon from '../../ico_categories/income.svg'
+import investmentsIcon from '../../ico_categories/investments.svg'
+import otherIcon from '../../ico_categories/other.svg'
+import paidIcon from '../../ico_categories/paid.svg'
+import shoppingIcon from '../../ico_categories/shopping.svg'
+import transportationIcon from '../../ico_categories/transportation.svg'
+import utilitiesIcon from '../../ico_categories/utilities.svg'
+
 import { formatAmount, getTransactionEditPath } from '../utils'
 
-const CATEGORY_ICONS: Record<string, { color: string, src: string }> = {
-  food_drinks: {
-    color: '#FF9D97',
-    src: 'https://www.figma.com/api/mcp/asset/a49fbeb4-a490-4d9f-90a5-f06279149537',
-  },
-  shopping: {
-    color: '#B89AE4',
-    src: 'https://www.figma.com/api/mcp/asset/6a5d9dff-b05e-4b57-91db-4efe1cf3ff19',
-  },
-  housing: {
-    color: '#85BADA',
-    src: 'https://www.figma.com/api/mcp/asset/6d94a9c4-3a8f-4e3a-ab6d-3298ac53e115',
-  },
-  transportation: {
-    color: '#B39D92',
-    src: 'https://www.figma.com/api/mcp/asset/fc8f7158-5b8b-4da5-a473-41cb3dfa056a',
-  },
-  life_entertainment: {
-    color: '#FFBE7C',
-    src: 'https://www.figma.com/api/mcp/asset/b58349a0-d4a0-4c19-a9f0-8251b5a22a21',
-  },
-  entertainment: {
-    color: '#FFBE7C',
-    src: 'https://www.figma.com/api/mcp/asset/b58349a0-d4a0-4c19-a9f0-8251b5a22a21',
-  },
-  utilities: {
-    color: '#82C4B8',
-    src: 'https://www.figma.com/api/mcp/asset/621ad839-2dbc-4159-aaba-e5023393fde8',
-  },
-  financial_expenses: {
-    color: '#F4B0F1',
-    src: 'https://www.figma.com/api/mcp/asset/c67b84ce-b61f-4d93-ad80-c160dcf21f32',
-  },
-  investments: {
-    color: '#9CB2FF',
-    src: 'https://www.figma.com/api/mcp/asset/477a002e-c22b-4c3c-a7ac-40aad3818510',
-  },
-  income: {
-    color: '#BCE36A',
-    src: 'https://www.figma.com/api/mcp/asset/ff0251e9-7065-4052-ab75-48a7558d901a',
-  },
-  paid: {
-    color: '#8B82C4',
-    src: 'https://www.figma.com/api/mcp/asset/3a5e29af-c82b-4da5-a473-41cb3dfa056a',
-  },
-  other: {
-    color: '#505558',
-    src: 'https://www.figma.com/api/mcp/asset/60271888-f17c-43bf-8b8c-a5d90d08bbda',
-  },
+const CATEGORY_ICONS: Record<string, string> = {
+  food_drinks: foodDrinksIcon,
+  shopping: shoppingIcon,
+  housing: housingIcon,
+  transportation: transportationIcon,
+  life_entertainment: entertainmentIcon,
+  entertainment: entertainmentIcon,
+  utilities: utilitiesIcon,
+  financial_expenses: financialExpensesIcon,
+  investments: investmentsIcon,
+  income: incomeIcon,
+  paid: paidIcon,
+  other: otherIcon,
 }
 
 const formatTxDateTime = (timeCreated: string, language: string) => {
@@ -102,21 +78,16 @@ const TransactionCategoryIcon = ({ tx, title, className }: {
   const icon = CATEGORY_ICONS[iconKey] || CATEGORY_ICONS.other
 
   return (
-    <div
+    <img
+      src={icon}
+      alt=""
       className={cx(
-        'flex items-center justify-center w-6 h-6 rounded-full shrink-0 overflow-hidden',
+        'w-6 h-6 shrink-0',
         className,
       )}
-      style={{ backgroundColor: icon.color }}
       title={title}
-    >
-      <img
-        src={icon.src}
-        alt=""
-        className="w-4 h-4"
-        draggable={false}
-      />
-    </div>
+      draggable={false}
+    />
   )
 }
 
@@ -163,13 +134,10 @@ export const Transaction = ({ tx, showPendingBalance = false }: {
   const payeeBalanceDelta = payeeUserId ? getUserBalanceDelta(tx, payeeUserId) : 0
 
   // current behavior for payer: show only if non-zero
-  const canShowBalanceDelta = isTxConfirmedAndActive || (!!showPendingBalance && !tx.is_canceled)
+  const canShowBalanceDelta = isTxConfirmedAndActive || tx.is_canceled || (!!showPendingBalance && !tx.is_canceled)
   const isShowMyBalance = canShowBalanceDelta && hasMyParticipation && myBalanceDelta !== 0
   // payee: always show signed delta when payee participates
   const isShowPayeeBalance = canShowBalanceDelta && hasPayeeParticipation && !!payeeDisplayName
-
-  const creator = !tx.creator_user_id ? null : getUserById(tx.creator_user_id) || null
-  const editor = !tx.editor_user_id ? null : getUserById(tx.editor_user_id) || null
 
   const currency = getCurrencyById(tx.currency_id)
   const payerSharesAmount = payerShares.reduce((acc, _) => _.amount + acc, 0)
@@ -200,6 +168,13 @@ export const Transaction = ({ tx, showPendingBalance = false }: {
   const ownDeltaLabel = isShowPayeeBalance
     ? payeeDisplayName
     : (ownDelta > 0 ? t('owedToMe') : t('myBalance'))
+  const detailsClassName = cx(tx.is_canceled && 'opacity-[.78]')
+  const amountClassName = 'text-textSec'
+  const ownDeltaAmountClassName = tx.is_canceled
+    ? 'text-textSec'
+    : ownDelta > 0
+      ? 'text-green'
+      : 'text-red'
 
   return (
     <Button
@@ -218,11 +193,10 @@ export const Transaction = ({ tx, showPendingBalance = false }: {
         <TransactionCategoryIcon
           tx={tx}
           title={categoryTitle}
-          className={cx(tx.is_canceled && 'opacity-50')}
         />
         <div className="flex-1 flex flex-col gap-[2px] text-[14px] leading-[24px]">
-          <div className={cx(tx.is_canceled && 'opacity-50')}>
-            <div className="flex gap-2 items-start justify-between">
+          <div>
+            <div className="flex gap-[2px] items-start w-full">
               <div
                 className="flex-1 min-w-0 first-letter:uppercase truncate font-semibold text-text"
                 title={title}
@@ -234,18 +208,21 @@ export const Transaction = ({ tx, showPendingBalance = false }: {
                   {t('statusCanceled')}
                 </div>
               )}
+            </div>
+            <div className={cx(
+              'flex items-start justify-between gap-2 text-textSec',
+              detailsClassName,
+            )}>
+              <span className="min-w-0 truncate">{formatTxDateTime(tx.time_created, i18n.language)}</span>
               {!!numberOfUsers && (
-              <div className="flex items-center gap-1 h-6 pl-1 pr-[6px] rounded-[16px] bg-separator text-textSec2">
-                <ShareIcon className="w-4 h-4" />
-                <div className="text-[12px] leading-[16px] font-semibold">{numberOfUsers}</div>
+              <div className="flex h-6 shrink-0 items-center overflow-hidden rounded-[16px] bg-separator pl-1 text-textSec2">
+                <ShareIcon className="h-4 w-4 shrink-0" />
+                <div className="pl-1 pr-[6px] text-[12px] leading-4 font-semibold">{numberOfUsers}</div>
               </div>
               )}
             </div>
-            <div className="flex items-center justify-between gap-2 text-textSec">
-              <span className="truncate">{formatTxDateTime(tx.time_created, i18n.language)}</span>
-            </div>
-            <Divider className="!mx-0 !my-[4px]" />
-            <div className="flex flex-col leading-[24px]">
+            <Divider className={cx('!mx-0 !my-[4px]', detailsClassName)} />
+            <div className={cx('flex flex-col leading-[24px] whitespace-nowrap', detailsClassName)}>
               {tx.is_settleup ? (
                 <div
                   className="flex gap-2 items-center justify-between text-textSec"
@@ -255,7 +232,9 @@ export const Transaction = ({ tx, showPendingBalance = false }: {
                     <span className="px-1 text-textSec2">→</span>
                     {primaryOweName}
                   </span>
-                  <span className="font-semibold">{formatAmount(payerSharesAmount)}{currency?.symbol}</span>
+                  <span className={cx('shrink-0 font-semibold tracking-[0.084px]', amountClassName)}>
+                    {formatAmount(payerSharesAmount)}{currency?.symbol}
+                  </span>
                 </div>
               ) : payerShares.map(payerShare => {
                 const userId = payerShare.related_user_id
@@ -275,60 +254,29 @@ export const Transaction = ({ tx, showPendingBalance = false }: {
                     key={`payer-share-${payerShare.person_id}-${String(payerShare.related_user_id)}-${payerShare.amount}`}
                     className="flex gap-2 items-center justify-between text-textSec"
                   >
-                    <span className="truncate">{t('paidBy', { name: payerTitle })}</span>
-                    <span className="font-semibold">{formatAmount(payerShare.amount)}{currency?.symbol}</span>
+                    <span className="min-w-0 flex-1 truncate">{t('paidBy', { name: payerTitle })}</span>
+                    <span className={cx('shrink-0 font-semibold tracking-[0.084px]', amountClassName)}>
+                      {formatAmount(payerShare.amount)}{currency?.symbol}
+                    </span>
                   </div>
                 )
               })}
               {isShowOwnDelta && (
-              <div className={cx(
-                'flex gap-2 items-center justify-between rounded-[4px] font-semibold',
-                ownDelta > 0 && 'text-green',
-                ownDelta < 0 && 'text-red',
-                isShowPayeeBalance && 'text-blue',
-              )}>
-                <span className="truncate text-textSec">{ownDeltaLabel}</span>
-                <span>{formatAmount(Math.abs(ownDelta))}{currency?.symbol}</span>
+              <div className="flex h-6 gap-2 items-center justify-between rounded-[4px] py-[2px] font-semibold">
+                <span className="shrink-0 truncate text-textSec">{ownDeltaLabel}</span>
+                <span className={cx('min-w-0 flex-1 truncate text-right', ownDeltaAmountClassName)}>
+                  {formatAmount(Math.abs(ownDelta))}{currency?.symbol}
+                </span>
               </div>
               )}
             </div>
           </div>
-          {(!tx.is_confirmed || tx.is_canceled || !!creator || !!editor) && (
+          {(!tx.is_confirmed && !tx.is_canceled) && (
           <div className="flex justify-between gap-2 pt-1">
             <div className="flex flex-wrap gap-x-2 gap-y-1 pt-[2px] --empty:hidden">
-              {[
-                ...((!tx.is_confirmed && !tx.is_canceled) ? [{
-                  color: '#D29404',
-                  text: t('statusUnconfirmed'),
-                }] : []),
-                ...(/*[] ||*/ (editor // disabled
-                  ? [{
-                      text: `${t('statusEditedBy')} ${
-                        (editor.shortened_name
-                          ? [editor.shortened_name]
-                          : [editor.first_name, editor.last_name]
-                        ).filter(_ => _).join(' ')
-                      }`,
-                    }]
-                  : creator
-                    ? [{
-                        text: `${t('statusCreatedBy')} ${
-                          (creator.shortened_name
-                            ? [creator.shortened_name]
-                            : [creator.first_name, creator.last_name]
-                          ).filter(_ => _).join(' ')
-                        }`,
-                      }]
-                    : [])),
-              ].map(tag => (
-                <div
-                  key={tag.text}
-                  className="rounded-[8px] px-1 py-[2px] bg-separator text-[12px] leading-[16px] font-semibold"
-                  style={{ color: tag.color }}
-                >
-                  {tag.text}
-                </div>
-              ))}
+              <div className="rounded-[8px] px-1 py-[2px] bg-separator text-[12px] leading-[16px] font-semibold text-yellow">
+                {t('statusUnconfirmed')}
+              </div>
             </div>
           </div>
           )}
