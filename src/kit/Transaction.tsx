@@ -42,6 +42,18 @@ const formatTxDateTime = (timeCreated: string, language: string) => {
   return `${time}, ${day}`
 }
 
+const DESCRIPTION_MAX_LENGTH = 42
+
+const shortenDescription = (description: string) => {
+  const normalizedDescription = description.replace(/\s+/g, ' ').trim()
+
+  if (normalizedDescription.length <= DESCRIPTION_MAX_LENGTH) {
+    return normalizedDescription
+  }
+
+  return `${normalizedDescription.slice(0, DESCRIPTION_MAX_LENGTH).trimEnd()}...`
+}
+
 export const Transaction = ({ tx, showPendingBalance = false }: {
   tx: TTransaction
   showPendingBalance?: boolean
@@ -102,6 +114,7 @@ export const Transaction = ({ tx, showPendingBalance = false }: {
   )].length
 
   const title = tx.is_settleup ? t('transactionSettleUp') : (tx.nutshell || t('transaction'))
+  const shortenedTitle = shortenDescription(title)
   const primaryPayerShare = payerShares[0]
   const primaryPayerUser = primaryPayerShare?.related_user_id ? getUserById(primaryPayerShare.related_user_id) : undefined
   const primaryPayerName = primaryPayerUser
@@ -143,8 +156,11 @@ export const Transaction = ({ tx, showPendingBalance = false }: {
         <div className="flex-1 flex flex-col gap-[2px] text-[14px] leading-[24px]">
           <div className={cx(tx.is_canceled && 'opacity-50')}>
             <div className="flex gap-2 items-start justify-between">
-              <div className="flex-1 min-w-0 first-letter:uppercase truncate font-semibold text-text">
-                {title}
+              <div
+                className="flex-1 min-w-0 first-letter:uppercase truncate font-semibold text-text"
+                title={title}
+              >
+                {shortenedTitle}
               </div>
               {!!numberOfUsers && (
               <div className="flex items-center gap-1 h-6 pl-1 pr-[6px] rounded-[16px] bg-separator text-textSec2">

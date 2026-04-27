@@ -170,6 +170,7 @@
   "custom": "Custom",
 
   "history": "History",
+  "allTransactions": "All",
   "confirmTransactions": "Confirm expenses",
   "confirmTransactionsDescription": "These expenses are not included in calculations yet. Confirm or cancel them so they stop getting in your way.",
   "confirmedTransactions": "Confirmed",

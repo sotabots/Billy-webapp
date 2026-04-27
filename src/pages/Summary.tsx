@@ -1,10 +1,10 @@
 import cx from 'classnames'
-import { useMemo } from 'react'
+import { useMemo, useState } from 'react'
 import { useTranslation } from 'react-i18next'
 import { useNavigate } from 'react-router-dom'
 
 import { useStore, useTotal, useFilter, useFeedback, useUser, useGetVoiceLimit, useGetSummary, useUsers, useGetChat, useGetTransactions } from '../hooks'
-import { Button, Panel, Pie, Category, DateMark, Transaction, RadioButtons, DatePicker, CurrencyAmount, Avatar } from '../kit'
+import { Button, Panel, Pie, Category, DateMark, Transaction, RadioButtons, DatePicker, CurrencyAmount, Avatar, OutsideClick } from '../kit'
 import { TFilterPeriod, TFilterTotal } from '../types'
 import { getPayerUserIdForPayee, getTransactionEditPath } from '../utils'
 
@@ -14,6 +14,9 @@ import { ReactComponent as FilterActiveIcon } from '../assets/filter-active.svg'
 import { ReactComponent as ProPie } from '../assets/pro-pie.svg'
 import { ReactComponent as ProBadgeRotate } from '../assets/pro-badge-rotate.svg'
 import { ReactComponent as ExternalIcon } from '../assets/external.svg'
+import { ReactComponent as DropdownCheck } from '../assets/dropdown-check.svg'
+
+type TStatusFilter = 'ALL' | 'CONFIRMED' | 'CANCELED'
 
 export const Summary = ({
   isCompactPie,
@@ -99,18 +102,34 @@ export const Summary = ({
   const payerBalance = payerUser?.balance
   const payerBalanceAmount = payerBalance?.amount ?? 0
   const payerTitleKey = payerBalanceAmount >= 0 ? 'userBalance.owedToUser' : 'userBalance.userOwes'
+  const [statusFilter, setStatusFilter] = useState<TStatusFilter>('CONFIRMED')
+  const [isStatusFilterOpen, setIsStatusFilterOpen] = useState(false)
   const unconfirmedTransactions = useMemo(
     () => (transactions || []).filter(tx => !tx.is_confirmed && !tx.is_canceled),
     [transactions]
   )
+  const statusFilterItems: { title: string, value: TStatusFilter }[] = [
+    { title: t('allTransactions'), value: 'ALL' },
+    { title: t('confirmedTransactions'), value: 'CONFIRMED' },
+    { title: t('statusCanceled'), value: 'CANCELED' },
+  ]
+  const statusFilterTitle = statusFilterItems.find(item => item.value === statusFilter)?.title || t('confirmedTransactions')
   const displayedTxGroups = useMemo(
     () => txGroups
       .map(txGroup => ({
         ...txGroup,
-        txs: txGroup.txs.filter(tx => tx.is_confirmed && !tx.is_canceled)
+        txs: txGroup.txs.filter(tx => {
+          if (statusFilter === 'ALL') {
+            return tx.is_confirmed || tx.is_canceled
+          }
+          if (statusFilter === 'CANCELED') {
+            return tx.is_canceled
+          }
+          return tx.is_confirmed && !tx.is_canceled
+        })
       }))
       .filter(txGroup => txGroup.txs.length > 0),
-    [txGroups]
+    [statusFilter, txGroups]
   )
   return (
     <>
@@ -365,10 +384,48 @@ export const Summary = ({
                   </Button>
                 </div>
                 <div className="flex flex-wrap gap-2">
-                  <div className="flex h-8 items-center gap-1 rounded-[30px] border-2 border-transparent bg-separator pl-3 pr-2 text-[14px] leading-6 font-semibold text-textSec">
-                    <span>{t('confirmedTransactions')}</span>
-                    <ChevronIcon className="h-4 w-4 rotate-90" />
-                  </div>
+                  <OutsideClick
+                    className="relative"
+                    onClick={() => { setIsStatusFilterOpen(false) }}
+                  >
+                    <Button
+                      className={cx(
+                        'flex h-8 items-center gap-1 rounded-[30px] border-2 bg-separator pl-3 pr-2 text-[14px] leading-6 font-semibold text-textSec',
+                        (isStatusFilterOpen || statusFilter !== 'CONFIRMED') ? 'border-blue' : 'border-transparent',
+                      )}
+                      onClick={() => { setIsStatusFilterOpen(!isStatusFilterOpen) }}
+                    >
+                      <>
+                        <span>{statusFilterTitle}</span>
+                        <ChevronIcon className={cx('h-4 w-4 transition-all', isStatusFilterOpen ? '-rotate-90' : 'rotate-90')} />
+                      </>
+                    </Button>
+                    <div
+                      className={cx(
+                        'absolute left-0 top-10 z-[2] w-[164px] origin-top rounded-[4px] bg-bg py-1 shadow-[0_0_1px_rgba(0,0,0,0.12),0_8px_8px_rgba(0,0,0,0.12)] transition-all',
+                        isStatusFilterOpen ? 'scale-y-100 opacity-100' : 'pointer-events-none scale-y-0 opacity-0',
+                      )}
+                    >
+                      {statusFilterItems.map(item => (
+                        <Button
+                          key={item.value}
+                          className="flex w-full items-center gap-4 px-3 py-2 text-left text-[14px] leading-6 text-text"
+                          onClick={() => {
+                            setStatusFilter(item.value)
+                            setIsStatusFilterOpen(false)
+                          }}
+                        >
+                          <>
+                            <span className="min-w-0 flex-1 truncate">{item.title}</span>
+                            <DropdownCheck className={cx(
+                              'h-6 w-6 shrink-0 text-blue transition-opacity',
+                              item.value === statusFilter ? 'opacity-100' : 'opacity-0',
+                            )} />
+                          </>
+                        </Button>
+                      ))}
+                    </div>
+                  </OutsideClick>
                   <Button
                     className={cx(
                       'h-8 rounded-[30px] border-2 bg-separator px-3 text-[14px] leading-6 font-semibold',
