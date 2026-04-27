@@ -2,7 +2,7 @@ import { useMemo } from 'react'
 import { useTranslation } from 'react-i18next'
 import { useNavigate } from 'react-router-dom'
 
-import { useFilter, useInit } from '../hooks'
+import { useGetTransactions, useInit } from '../hooks'
 import { Button, DateMark, Header, Page, Transaction } from '../kit'
 import { TTransaction } from '../types'
 
@@ -30,11 +30,11 @@ export const ConfirmTransactions = () => {
 
   const { t } = useTranslation()
   const navigate = useNavigate()
-  const { filteredTransactions } = useFilter()
+  const { data: transactions } = useGetTransactions()
 
   const unconfirmedTransactions = useMemo(
-    () => filteredTransactions.filter(tx => !tx.is_confirmed && !tx.is_canceled),
-    [filteredTransactions]
+    () => (transactions || []).filter(tx => !tx.is_confirmed && !tx.is_canceled),
+    [transactions]
   )
   const txGroups = useMemo(
     () => groupTransactionsByDate(unconfirmedTransactions),

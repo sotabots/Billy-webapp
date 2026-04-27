@@ -1,9 +1,9 @@
 import cx from 'classnames'
-import { useMemo, useState } from 'react'
+import { useMemo } from 'react'
 import { useTranslation } from 'react-i18next'
 import { useNavigate } from 'react-router-dom'
 
-import { useStore, useTotal, useFilter, useFeedback, useUser, useGetVoiceLimit, useGetSummary, useUsers, useGetChat } from '../hooks'
+import { useStore, useTotal, useFilter, useFeedback, useUser, useGetVoiceLimit, useGetSummary, useUsers, useGetChat, useGetTransactions } from '../hooks'
 import { Button, Panel, Pie, Category, DateMark, Transaction, RadioButtons, DatePicker, CurrencyAmount, Avatar } from '../kit'
 import { TFilterPeriod, TFilterTotal } from '../types'
 import { getPayerUserIdForPayee, getTransactionEditPath } from '../utils'
@@ -34,6 +34,7 @@ export const Summary = ({
   const { isDebug, setTxId, setIsEditTx, setPaywallSource, setPaywallFrom } = useStore()
 
   const { data: voiceLimit } = useGetVoiceLimit()
+  const { data: transactions } = useGetTransactions()
 
   const {
     isFilterOpen,
@@ -98,21 +99,18 @@ export const Summary = ({
   const payerBalance = payerUser?.balance
   const payerBalanceAmount = payerBalance?.amount ?? 0
   const payerTitleKey = payerBalanceAmount >= 0 ? 'userBalance.owedToUser' : 'userBalance.userOwes'
-  const [isConfirmedOnly, setIsConfirmedOnly] = useState(true)
   const unconfirmedTransactions = useMemo(
-    () => filteredTransactions.filter(tx => !tx.is_confirmed && !tx.is_canceled),
-    [filteredTransactions]
+    () => (transactions || []).filter(tx => !tx.is_confirmed && !tx.is_canceled),
+    [transactions]
   )
   const displayedTxGroups = useMemo(
     () => txGroups
       .map(txGroup => ({
         ...txGroup,
-        txs: isConfirmedOnly
-          ? txGroup.txs.filter(tx => tx.is_confirmed && !tx.is_canceled)
-          : txGroup.txs
+        txs: txGroup.txs.filter(tx => tx.is_confirmed && !tx.is_canceled)
       }))
       .filter(txGroup => txGroup.txs.length > 0),
-    [isConfirmedOnly, txGroups]
+    [txGroups]
   )
   return (
     <>
@@ -338,7 +336,7 @@ export const Summary = ({
                     {unconfirmedTransactions.length}
                   </div>
                 </div>
-                <ChevronIcon className="h-4 w-4 -rotate-90 text-icon" />
+                <ChevronIcon className="h-4 w-4 text-icon" />
               </div>
             </Button>
             )}
@@ -367,22 +365,16 @@ export const Summary = ({
                   </Button>
                 </div>
                 <div className="flex flex-wrap gap-2">
+                  <div className="flex h-8 items-center gap-1 rounded-[30px] border-2 border-transparent bg-separator pl-3 pr-2 text-[14px] leading-6 font-semibold text-textSec">
+                    <span>{t('confirmedTransactions')}</span>
+                    <ChevronIcon className="h-4 w-4 rotate-90" />
+                  </div>
                   <Button
                     className={cx(
-                      'flex h-8 items-center gap-1 rounded-[30px] bg-separator pl-3 pr-2 text-[14px] leading-6 font-semibold text-textSec',
-                      !isConfirmedOnly && 'opacity-70',
-                    )}
-                    onClick={() => { setIsConfirmedOnly(!isConfirmedOnly) }}
-                  >
-                    <>
-                      <span>{t('confirmedTransactions')}</span>
-                      <ChevronIcon className={cx('h-4 w-4 transition-all', isConfirmedOnly && 'rotate-180')} />
-                    </>
-                  </Button>
-                  <Button
-                    className={cx(
-                      'h-8 rounded-[30px] bg-separator px-3 text-[14px] leading-6 font-semibold',
-                      filterTotal === 'ONLY_MINE' ? 'text-textSec' : 'text-textSec2 opacity-70',
+                      'h-8 rounded-[30px] border-2 bg-separator px-3 text-[14px] leading-6 font-semibold',
+                      filterTotal === 'ONLY_MINE'
+                        ? 'border-blue text-blue'
+                        : 'border-transparent text-textSec',
                     )}
                     onClick={() => {
                       setFilterTotal(filterTotal === 'ONLY_MINE' ? 'ALL_CHAT' : 'ONLY_MINE')
