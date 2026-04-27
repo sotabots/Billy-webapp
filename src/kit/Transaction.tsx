@@ -9,16 +9,43 @@ import { Button, CategoryAvatar, Divider } from '../kit'
 
 import { useStore, useUsers, useCurrencies, useFeedback, useTransaction, useUser, useGetChat } from '../hooks'
 
-import { ReactComponent as CashbackIcon } from '../assets/cashback.svg'
 import { ReactComponent as ShareIcon } from '../assets/share.svg'
-import { ReactComponent as Next } from '../assets/next.svg'
 
 import { formatAmount, getTransactionEditPath } from '../utils'
 
+const formatTxDateTime = (timeCreated: string, language: string) => {
+  const date = new Date(timeCreated)
+  const now = new Date()
+  const today = new Date(now.getFullYear(), now.getMonth(), now.getDate()).getTime()
+  const txDay = new Date(date.getFullYear(), date.getMonth(), date.getDate()).getTime()
+  const dayDiff = Math.round((today - txDay) / (24 * 60 * 60 * 1000))
+  const time = date.toLocaleTimeString(language, {
+    hour: 'numeric',
+    minute: '2-digit'
+  })
+
+  if (dayDiff === 0) {
+    return `${time}, ${language === 'ru' ? 'сегодня' : 'today'}`
+  }
+
+  if (dayDiff === 1) {
+    return `${time}, ${language === 'ru' ? 'вчера' : 'yesterday'}`
+  }
+
+  const isCurrentYear = now.getFullYear() === date.getFullYear()
+  const day = date.toLocaleDateString(language, {
+    day: 'numeric',
+    month: 'short',
+    ...(isCurrentYear ? {} : { year: 'numeric' })
+  })
+
+  return `${time}, ${day}`
+}
+
 export const Transaction = ({ tx }: { tx: TTransaction }) => {
-  const { t } = useTranslation()
+  const { t, i18n } = useTranslation()
   const navigate = useNavigate()
-  const { isPro, me } = useUser()
+  const { me } = useUser()
   const { data: chat } = useGetChat()
 
   const { setTxId, setIsEditTx } = useStore()
@@ -63,13 +90,32 @@ export const Transaction = ({ tx }: { tx: TTransaction }) => {
 
   const currency = getCurrencyById(tx.currency_id)
   const payerSharesAmount = payerShares.reduce((acc, _) => _.amount + acc, 0)
-  const cashbackAmount = tx.cashback ? payerSharesAmount * tx.cashback : null
 
   const numberOfUsers: number = [...new Set(
     tx.shares
       .filter(share => share.related_user_id && share.amount)
       .map(share => share.related_user_id)
   )].length
+
+  const title = tx.is_settleup ? t('transactionSettleUp') : (tx.nutshell || t('transaction'))
+  const primaryPayerShare = payerShares[0]
+  const primaryPayerUser = primaryPayerShare?.related_user_id ? getUserById(primaryPayerShare.related_user_id) : undefined
+  const primaryPayerName = primaryPayerUser
+    ? (primaryPayerUser.shortened_name || [primaryPayerUser.first_name, primaryPayerUser.last_name].filter(Boolean).join(' '))
+    : (primaryPayerShare?.normalized_name || '???')
+
+  const oweShares = tx.shares.filter(share => !share.is_payer)
+  const primaryOweShare = oweShares[0]
+  const primaryOweUser = primaryOweShare?.related_user_id ? getUserById(primaryOweShare.related_user_id) : undefined
+  const primaryOweName = primaryOweUser
+    ? (primaryOweUser.shortened_name || [primaryOweUser.first_name, primaryOweUser.last_name].filter(Boolean).join(' '))
+    : (primaryOweShare?.normalized_name || '???')
+
+  const isShowOwnDelta = isShowMyBalance || isShowPayeeBalance
+  const ownDelta = isShowPayeeBalance ? payeeBalanceDelta : myBalanceDelta
+  const ownDeltaLabel = isShowPayeeBalance
+    ? payeeDisplayName
+    : (ownDelta > 0 ? t('owedToMe') : t('myBalance'))
 
   return (
     <Button
@@ -85,74 +131,78 @@ export const Transaction = ({ tx }: { tx: TTransaction }) => {
       }}
     >
       <>
-        {isPro &&
-          <CategoryAvatar
-            className={cx(tx.is_canceled && 'opacity-50')}
-            tx={tx}
-            isCategoryName={false}
-          />
-        }
+        <CategoryAvatar
+          className={cx(tx.is_canceled && 'opacity-50')}
+          tx={tx}
+          isCategoryName={false}
+        />
         <div className="flex-1 flex flex-col gap-[2px] text-[14px] leading-[24px]">
           <div className={cx(tx.is_canceled && 'opacity-50')}>
             <div className="flex gap-2 items-start justify-between">
-              <div className="flex-1 first-letter:uppercase line-clamp-1 font-semibold">
-                {tx.is_settleup ? t('transactionSettleUp') : (tx.nutshell || t('transaction'))}
+              <div className="flex-1 min-w-0 first-letter:uppercase truncate font-semibold text-text">
+                {title}
               </div>
-              <div className="flex flex-center gap-1 h-6 p-1 pr-[6px] rounded-[16px] bg-separator text-textSec2">
+              {!!numberOfUsers && (
+              <div className="flex items-center gap-1 h-6 pl-1 pr-[6px] rounded-[16px] bg-separator text-textSec2">
                 <ShareIcon className="w-4 h-4" />
                 <div className="text-[12px] leading-[16px] font-semibold">{numberOfUsers}</div>
               </div>
-              {!!false && !!cashbackAmount && (
-                <div className="flex gap-[2px] items-center rounded-[8px] px-1 py-[2px] bg-[#FFFEEB] text-[12px] leading-[16px] font-semibold dark:text-[#1A2024]">
-                  <CashbackIcon className="w-4 h-4" />
-                  <span>{formatAmount(cashbackAmount)}{currency?.symbol}</span>
-                </div>
               )}
             </div>
-            {payerShares.map(payerShare => {
-              const userId = payerShare.related_user_id
-              const user = userId ? getUserById(userId) : undefined
-              const isPayee = !!userId && userId === payeeUserId
-
-              const title = user
-                ? (
-                  isPayee && user.shortened_name
-                    ? user.shortened_name
-                    : [user.first_name, user.last_name].filter(Boolean).join(' ')
-                )
-                : (payerShare.normalized_name || '???')
-
-              return (
+            <div className="flex items-center justify-between gap-2 text-textSec">
+              <span className="truncate">{formatTxDateTime(tx.time_created, i18n.language)}</span>
+            </div>
+            <Divider className="!mx-0 !my-[4px]" />
+            <div className="flex flex-col leading-[24px]">
+              {tx.is_settleup ? (
                 <div
-                  key={`payer-share-${payerShare.person_id}-${String(payerShare.related_user_id)}-${payerShare.amount}`}
                   className="flex gap-2 items-center justify-between text-textSec"
                 >
-                  <span className="truncate">{title}</span>
-                  <span className="font-semibold">{formatAmount(payerShare.amount)}{currency?.symbol}</span>
+                  <span className="flex-1 min-w-0 truncate">
+                    {primaryPayerName}
+                    <span className="px-1 text-textSec2">→</span>
+                    {primaryOweName}
+                  </span>
+                  <span className="font-semibold">{formatAmount(payerSharesAmount)}{currency?.symbol}</span>
                 </div>
-              )
-            })}
-            {isShowMyBalance && (
-            <div className={cx(
-              'flex gap-2 items-center justify-between rounded-[4px] bg-[#8881] font-semibold',
-              myBalanceDelta > 0 && 'text-green',
-              myBalanceDelta < 0 && 'text-red',
-            )}>
-              <span>{t('myBalance')}</span>
-              <span>{myBalanceDelta < 0 ? '−' : '+'} {formatAmount(Math.abs(myBalanceDelta))}{currency?.symbol}</span>
+              ) : payerShares.map(payerShare => {
+                const userId = payerShare.related_user_id
+                const user = userId ? getUserById(userId) : undefined
+                const isPayee = !!userId && userId === payeeUserId
+
+                const payerTitle = user
+                  ? (
+                    isPayee && user.shortened_name
+                      ? user.shortened_name
+                      : [user.first_name, user.last_name].filter(Boolean).join(' ')
+                  )
+                  : (payerShare.normalized_name || '???')
+
+                return (
+                  <div
+                    key={`payer-share-${payerShare.person_id}-${String(payerShare.related_user_id)}-${payerShare.amount}`}
+                    className="flex gap-2 items-center justify-between text-textSec"
+                  >
+                    <span className="truncate">{t('paidBy', { name: payerTitle })}</span>
+                    <span className="font-semibold">{formatAmount(payerShare.amount)}{currency?.symbol}</span>
+                  </div>
+                )
+              })}
+              {isShowOwnDelta && (
+              <div className={cx(
+                'flex gap-2 items-center justify-between rounded-[4px] font-semibold',
+                ownDelta > 0 && 'text-green',
+                ownDelta < 0 && 'text-red',
+                isShowPayeeBalance && 'text-blue',
+              )}>
+                <span className="truncate text-textSec">{ownDeltaLabel}</span>
+                <span>{formatAmount(Math.abs(ownDelta))}{currency?.symbol}</span>
+              </div>
+              )}
             </div>
-            )}
-            {isShowPayeeBalance && (
-            <div className={cx(
-              'flex gap-2 items-center justify-between rounded-[4px] bg-[#8881] font-semibold text-blue',
-            )}>
-              <span className="truncate">{payeeDisplayName}</span>
-              <span>{payeeBalanceDelta < 0 ? '−' : '+'} {formatAmount(Math.abs(payeeBalanceDelta))}{currency?.symbol}</span>
-            </div>
-            )}
           </div>
-          <Divider className="!mx-0 !my-[6px]" />
-          <div className="flex justify-between gap-2">
+          {(!tx.is_confirmed || tx.is_canceled || !!creator || !!editor) && (
+          <div className="flex justify-between gap-2 pt-1">
             <div className="flex flex-wrap gap-x-2 gap-y-1 pt-[2px] --empty:hidden">
               {[
                 ...((!tx.is_confirmed && !tx.is_canceled) ? [{
@@ -192,8 +242,8 @@ export const Transaction = ({ tx }: { tx: TTransaction }) => {
                 </div>
               ))}
             </div>
-            <Next className="w-6 h-6 text-icon" />
           </div>
+          )}
         </div>
       </>
     </Button>

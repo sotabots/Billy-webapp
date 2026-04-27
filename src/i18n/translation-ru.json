@@ -170,9 +170,13 @@
   "custom": "Выбрать",
 
   "history": "История",
+  "confirmTransactions": "Подтвердите траты",
+  "confirmedTransactions": "Подтверждённые",
   "transaction": "Трата",
   "transactionSettleUp": "Возврат денег",
   "myBalance": "Мой баланс",
+  "owedToMe": "Мне должны",
+  "paidBy": "Кто платил: {{name}}",
   "statusUnconfirmed": "Не подтверждено",
   "statusCanceled": "Отменено",
   "statusEditedBy": "Ред.:",

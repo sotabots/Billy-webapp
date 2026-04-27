@@ -1,10 +1,10 @@
 import cx from 'classnames'
-import { useMemo } from 'react'
+import { useMemo, useState } from 'react'
 import { useTranslation } from 'react-i18next'
 import { useNavigate } from 'react-router-dom'
 
 import { useStore, useTotal, useFilter, useFeedback, useUser, useGetVoiceLimit, useGetSummary, useUsers, useGetChat } from '../hooks'
-import { Button, Panel, Pie, Category, DateMark, Transaction, RadioButtons, DatePicker, CurrencyAmount, Dropdown, Avatar } from '../kit'
+import { Button, Panel, Pie, Category, DateMark, Transaction, RadioButtons, DatePicker, CurrencyAmount, Avatar } from '../kit'
 import { TFilterPeriod, TFilterTotal } from '../types'
 import { getPayerUserIdForPayee, getTransactionEditPath } from '../utils'
 
@@ -98,6 +98,27 @@ export const Summary = ({
   const payerBalance = payerUser?.balance
   const payerBalanceAmount = payerBalance?.amount ?? 0
   const payerTitleKey = payerBalanceAmount >= 0 ? 'userBalance.owedToUser' : 'userBalance.userOwes'
+  const [isConfirmedOnly, setIsConfirmedOnly] = useState(true)
+  const unconfirmedTransactions = useMemo(
+    () => filteredTransactions.filter(tx => !tx.is_confirmed && !tx.is_canceled),
+    [filteredTransactions]
+  )
+  const displayedTxGroups = useMemo(
+    () => txGroups
+      .map(txGroup => ({
+        ...txGroup,
+        txs: isConfirmedOnly
+          ? txGroup.txs.filter(tx => tx.is_confirmed && !tx.is_canceled)
+          : txGroup.txs
+      }))
+      .filter(txGroup => txGroup.txs.length > 0),
+    [isConfirmedOnly, txGroups]
+  )
+  const goTransaction = (txId: string) => {
+    setTxId(txId)
+    setIsEditTx(true)
+    navigate(getTransactionEditPath(txId))
+  }
 
   return (
     <>
@@ -308,8 +329,31 @@ export const Summary = ({
             </Panel>
             }
 
-            <Panel className="!mt-0">
-              <div className="flex flex-col gap-4">
+            {!!unconfirmedTransactions.length && (
+            <Button
+              wrapperClassName="w-full"
+              className="w-full text-left"
+              onClick={() => {
+                goTransaction(unconfirmedTransactions[0]._id)
+                feedback('edit_transaction_total_web', {
+                  transaction_id: unconfirmedTransactions[0]._id
+                })
+              }}
+            >
+              <div className="mx-0 flex items-center justify-between rounded-[16px] bg-bg py-4 pl-4 pr-3">
+                <div className="flex min-w-0 items-center gap-2">
+                  <h3 className="truncate">{t('confirmTransactions')}</h3>
+                  <div className="flex h-6 min-w-6 items-center justify-center rounded-[16px] bg-separator px-2 text-[12px] leading-4 font-semibold text-textSec2">
+                    {unconfirmedTransactions.length}
+                  </div>
+                </div>
+                <ChevronIcon className="h-4 w-4 -rotate-90 text-icon" />
+              </div>
+            </Button>
+            )}
+
+            <Panel className="!mt-0 !pb-4">
+              <div className="flex flex-col gap-3">
                 <div className="flex items-center justify-between gap-2">
                   <h3>{t('history')}</h3>
                   <Button
@@ -331,26 +375,42 @@ export const Summary = ({
                     </div>
                   </Button>
                 </div>
-                <div>
-                  <Dropdown
-                    items={radioItemsTotal}
-                    value={filterTotal}
-                    onChange={(value: string) => {
-                      setFilterTotal(value as TFilterTotal)
+                <div className="flex flex-wrap gap-2">
+                  <Button
+                    className={cx(
+                      'flex h-8 items-center gap-1 rounded-[30px] bg-separator pl-3 pr-2 text-[14px] leading-6 font-semibold text-textSec',
+                      !isConfirmedOnly && 'opacity-70',
+                    )}
+                    onClick={() => { setIsConfirmedOnly(!isConfirmedOnly) }}
+                  >
+                    <>
+                      <span>{t('confirmedTransactions')}</span>
+                      <ChevronIcon className={cx('h-4 w-4 transition-all', isConfirmedOnly && 'rotate-180')} />
+                    </>
+                  </Button>
+                  <Button
+                    className={cx(
+                      'h-8 rounded-[30px] bg-separator px-3 text-[14px] leading-6 font-semibold',
+                      filterTotal === 'ONLY_MINE' ? 'text-textSec' : 'text-textSec2 opacity-70',
+                    )}
+                    onClick={() => {
+                      setFilterTotal(filterTotal === 'ONLY_MINE' ? 'ALL_CHAT' : 'ONLY_MINE')
                     }}
-                  />
+                  >
+                    {t('onlyMine')}
+                  </Button>
                 </div>
                 <div className="flex flex-col gap-3">
-                  {txGroups.length === 0 &&
+                  {displayedTxGroups.length === 0 &&
                     <div className="text-textSec2">
                       {t('chat.noTransactions')}
                     </div>
                   }
-                  {txGroups.length > 0 && txGroups.map((txGroup, i) => (
-                    <>
+                  {displayedTxGroups.length > 0 && displayedTxGroups.map((txGroup, i) => (
+                    <div key={`txGroup-${txGroup.time}-${i}`} className="flex flex-col gap-2">
                       <DateMark
-                        key={`DateMark-${i}`}
                         time={txGroup.time}
+                        variant="plain"
                       />
                       {txGroup.txs.map(tx => (
                         <Transaction
@@ -358,7 +418,7 @@ export const Summary = ({
                           tx={tx}
                         />
                       ))}
-                    </>
+                    </div>
                   ))}
                 </div>
               </div>

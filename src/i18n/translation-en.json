@@ -170,9 +170,13 @@
   "custom": "Custom",
 
   "history": "History",
+  "confirmTransactions": "Confirm expenses",
+  "confirmedTransactions": "Confirmed",
   "transaction": "Expense",
   "transactionSettleUp": "Settle up",
   "myBalance": "My balance",
+  "owedToMe": "Owed to me",
+  "paidBy": "Paid by: {{name}}",
   "statusUnconfirmed": "Unconfirmed",
   "statusCanceled": "Canceled",
   "statusEditedBy": "Edited by",
