@@ -114,6 +114,7 @@ export const Summary = ({
     { title: t('statusCanceled'), value: 'CANCELED' },
   ]
   const statusFilterTitle = statusFilterItems.find(item => item.value === statusFilter)?.title || t('confirmedTransactions')
+  const isHistoryFilterActive = statusFilter !== 'CONFIRMED' || filterTotal === 'ONLY_MINE'
   const displayedTxGroups = useMemo(
     () => txGroups
       .map(txGroup => ({
@@ -441,11 +442,27 @@ export const Summary = ({
                   </Button>
                 </div>
                 <div className="flex flex-col gap-3">
-                  {displayedTxGroups.length === 0 &&
+                  {displayedTxGroups.length === 0 && !isHistoryFilterActive &&
                     <div className="text-textSec2">
                       {t('chat.noTransactions')}
                     </div>
                   }
+                  {displayedTxGroups.length === 0 && isHistoryFilterActive && (
+                    <div className="flex min-h-[260px] flex-col items-center justify-center gap-1 text-center">
+                      <div className="w-full text-[16px] leading-6 text-textSec2">
+                        {t('noMatchingTransactions')}
+                      </div>
+                      <Button
+                        className="rounded-[6px] px-3 py-1 text-[16px] leading-6 font-semibold text-blue"
+                        onClick={() => {
+                          setStatusFilter('CONFIRMED')
+                          setFilterTotal('ALL_CHAT')
+                        }}
+                      >
+                        {t('resetFilters')}
+                      </Button>
+                    </div>
+                  )}
                   {displayedTxGroups.length > 0 && displayedTxGroups.map((txGroup, i) => (
                     <div key={`txGroup-${txGroup.time}-${i}`} className="flex flex-col gap-2">
                       <DateMark
