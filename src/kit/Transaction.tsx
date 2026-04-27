@@ -40,6 +40,19 @@ const CATEGORY_ICONS: Record<string, string> = {
   other: otherIcon,
 }
 
+const DESCRIPTION_MAX_LENGTH = 42
+const CANCELED_DESCRIPTION_MAX_LENGTH = 28
+
+const shortenDescription = (description: string, maxLength = DESCRIPTION_MAX_LENGTH) => {
+  const normalizedDescription = description.replace(/\s+/g, ' ').trim()
+
+  if (normalizedDescription.length <= maxLength) {
+    return normalizedDescription
+  }
+
+  return `${normalizedDescription.slice(0, maxLength).trimEnd()}...`
+}
+
 const formatTxDateTime = (timeCreated: string, language: string) => {
   const date = new Date(timeCreated)
   const now = new Date()
@@ -149,6 +162,10 @@ export const Transaction = ({ tx, showPendingBalance = false }: {
   )].length
 
   const title = tx.is_settleup ? t('transactionSettleUp') : (tx.nutshell || t('transaction'))
+  const displayedTitle = shortenDescription(
+    title,
+    tx.is_canceled ? CANCELED_DESCRIPTION_MAX_LENGTH : DESCRIPTION_MAX_LENGTH,
+  )
   const categoryTitle = tx.is_settleup ? t('transactionSettleUp') : getCategoryName(tx.category)
   const primaryPayerShare = payerShares[0]
   const primaryPayerUser = primaryPayerShare?.related_user_id ? getUserById(primaryPayerShare.related_user_id) : undefined
@@ -201,7 +218,7 @@ export const Transaction = ({ tx, showPendingBalance = false }: {
                 className="flex-1 min-w-0 first-letter:uppercase truncate font-semibold text-text"
                 title={title}
               >
-                {title}
+                {displayedTitle}
               </div>
               {tx.is_canceled && (
                 <div className="h-6 shrink-0 rounded-[12px] bg-textSec px-2 text-[12px] leading-6 font-semibold text-bg">
