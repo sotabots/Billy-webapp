@@ -5,13 +5,64 @@ import { useNavigate } from 'react-router-dom'
 
 import { TTransaction } from '../types'
 
-import { Button, CategoryAvatar, Divider } from '../kit'
+import { Button, Divider } from '../kit'
 
-import { useStore, useUsers, useCurrencies, useFeedback, useTransaction, useUser, useGetChat } from '../hooks'
+import { useStore, useUsers, useCurrencies, useFeedback, useTransaction, useUser, useGetChat, useCategories } from '../hooks'
 
 import { ReactComponent as ShareIcon } from '../assets/share.svg'
 
 import { formatAmount, getTransactionEditPath } from '../utils'
+
+const CATEGORY_ICONS: Record<string, { color: string, src: string }> = {
+  food_drinks: {
+    color: '#FF9D97',
+    src: 'https://www.figma.com/api/mcp/asset/a49fbeb4-a490-4d9f-90a5-f06279149537',
+  },
+  shopping: {
+    color: '#B89AE4',
+    src: 'https://www.figma.com/api/mcp/asset/6a5d9dff-b05e-4b57-91db-4efe1cf3ff19',
+  },
+  housing: {
+    color: '#85BADA',
+    src: 'https://www.figma.com/api/mcp/asset/6d94a9c4-3a8f-4e3a-ab6d-3298ac53e115',
+  },
+  transportation: {
+    color: '#B39D92',
+    src: 'https://www.figma.com/api/mcp/asset/fc8f7158-5b8b-4da5-a473-41cb3dfa056a',
+  },
+  life_entertainment: {
+    color: '#FFBE7C',
+    src: 'https://www.figma.com/api/mcp/asset/b58349a0-d4a0-4c19-a9f0-8251b5a22a21',
+  },
+  entertainment: {
+    color: '#FFBE7C',
+    src: 'https://www.figma.com/api/mcp/asset/b58349a0-d4a0-4c19-a9f0-8251b5a22a21',
+  },
+  utilities: {
+    color: '#82C4B8',
+    src: 'https://www.figma.com/api/mcp/asset/621ad839-2dbc-4159-aaba-e5023393fde8',
+  },
+  financial_expenses: {
+    color: '#F4B0F1',
+    src: 'https://www.figma.com/api/mcp/asset/c67b84ce-b61f-4d93-ad80-c160dcf21f32',
+  },
+  investments: {
+    color: '#9CB2FF',
+    src: 'https://www.figma.com/api/mcp/asset/477a002e-c22b-4c3c-a7ac-40aad3818510',
+  },
+  income: {
+    color: '#BCE36A',
+    src: 'https://www.figma.com/api/mcp/asset/ff0251e9-7065-4052-ab75-48a7558d901a',
+  },
+  paid: {
+    color: '#8B82C4',
+    src: 'https://www.figma.com/api/mcp/asset/3a5e29af-c82b-4da5-a473-41cb3dfa056a',
+  },
+  other: {
+    color: '#505558',
+    src: 'https://www.figma.com/api/mcp/asset/60271888-f17c-43bf-8b8c-a5d90d08bbda',
+  },
+}
 
 const formatTxDateTime = (timeCreated: string, language: string) => {
   const date = new Date(timeCreated)
@@ -42,16 +93,31 @@ const formatTxDateTime = (timeCreated: string, language: string) => {
   return `${time}, ${day}`
 }
 
-const DESCRIPTION_MAX_LENGTH = 42
+const TransactionCategoryIcon = ({ tx, title, className }: {
+  tx: TTransaction
+  title: string
+  className?: string
+}) => {
+  const iconKey = tx.is_settleup ? 'paid' : (tx.category || 'other')
+  const icon = CATEGORY_ICONS[iconKey] || CATEGORY_ICONS.other
 
-const shortenDescription = (description: string) => {
-  const normalizedDescription = description.replace(/\s+/g, ' ').trim()
-
-  if (normalizedDescription.length <= DESCRIPTION_MAX_LENGTH) {
-    return normalizedDescription
-  }
-
-  return `${normalizedDescription.slice(0, DESCRIPTION_MAX_LENGTH).trimEnd()}...`
+  return (
+    <div
+      className={cx(
+        'flex items-center justify-center w-6 h-6 rounded-full shrink-0 overflow-hidden',
+        className,
+      )}
+      style={{ backgroundColor: icon.color }}
+      title={title}
+    >
+      <img
+        src={icon.src}
+        alt=""
+        className="w-4 h-4"
+        draggable={false}
+      />
+    </div>
+  )
 }
 
 export const Transaction = ({ tx, showPendingBalance = false }: {
@@ -67,6 +133,7 @@ export const Transaction = ({ tx, showPendingBalance = false }: {
   const { getUserById } = useUsers()
   const { getCurrencyById } = useCurrencies()
   const { feedback } = useFeedback()
+  const { getCategoryName } = useCategories()
 
   const { getMyBalanceDelta, getUserBalanceDelta } = useTransaction()
   const myBalanceDelta = getMyBalanceDelta(tx)
@@ -114,7 +181,7 @@ export const Transaction = ({ tx, showPendingBalance = false }: {
   )].length
 
   const title = tx.is_settleup ? t('transactionSettleUp') : (tx.nutshell || t('transaction'))
-  const shortenedTitle = shortenDescription(title)
+  const categoryTitle = tx.is_settleup ? t('transactionSettleUp') : getCategoryName(tx.category)
   const primaryPayerShare = payerShares[0]
   const primaryPayerUser = primaryPayerShare?.related_user_id ? getUserById(primaryPayerShare.related_user_id) : undefined
   const primaryPayerName = primaryPayerUser
@@ -137,7 +204,7 @@ export const Transaction = ({ tx, showPendingBalance = false }: {
   return (
     <Button
       wrapperClassName="Transaction"
-      className="w-full flex gap-2 rounded-[16px] text-left bg-bg2 p-2 touchscreen:enabled:hover:brightness-100 touchscreen:enabled:active:brightness-100"
+      className="w-full flex gap-2 rounded-[16px] text-left bg-bg2 pl-2 pr-3 py-2 touchscreen:enabled:hover:brightness-100 touchscreen:enabled:active:brightness-100"
       onClick={() => {
         setTxId(tx._id)
         setIsEditTx(true)
@@ -148,10 +215,10 @@ export const Transaction = ({ tx, showPendingBalance = false }: {
       }}
     >
       <>
-        <CategoryAvatar
-          className={cx(tx.is_canceled && 'opacity-50')}
+        <TransactionCategoryIcon
           tx={tx}
-          isCategoryName={false}
+          title={categoryTitle}
+          className={cx(tx.is_canceled && 'opacity-50')}
         />
         <div className="flex-1 flex flex-col gap-[2px] text-[14px] leading-[24px]">
           <div className={cx(tx.is_canceled && 'opacity-50')}>
@@ -160,8 +227,13 @@ export const Transaction = ({ tx, showPendingBalance = false }: {
                 className="flex-1 min-w-0 first-letter:uppercase truncate font-semibold text-text"
                 title={title}
               >
-                {shortenedTitle}
+                {title}
               </div>
+              {tx.is_canceled && (
+                <div className="h-6 shrink-0 rounded-[12px] bg-textSec px-2 text-[12px] leading-6 font-semibold text-bg">
+                  {t('statusCanceled')}
+                </div>
+              )}
               {!!numberOfUsers && (
               <div className="flex items-center gap-1 h-6 pl-1 pr-[6px] rounded-[16px] bg-separator text-textSec2">
                 <ShareIcon className="w-4 h-4" />
@@ -228,10 +300,6 @@ export const Transaction = ({ tx, showPendingBalance = false }: {
                 ...((!tx.is_confirmed && !tx.is_canceled) ? [{
                   color: '#D29404',
                   text: t('statusUnconfirmed'),
-                }] : []),
-                ...(tx.is_canceled ? [{
-                  color: '#CC0905',
-                  text: t('statusCanceled'),
                 }] : []),
                 ...(/*[] ||*/ (editor // disabled
                   ? [{
