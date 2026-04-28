@@ -1,6 +1,6 @@
 import { createHashRouter } from 'react-router-dom'
 
-import { SelectUser, Edit, SelectCurrency, SelectUsers, SelectCategory, Home, Onboarding, Soon, Paywall, Profile, UserSettings, PayoffMethods } from './pages'
+import { SelectUser, Edit, SelectCurrency, SelectUsers, SelectCategory, Home, Onboarding, Soon, Paywall, Profile, UserSettings, PayoffMethods, ConfirmTransactions } from './pages'
 
 export const router = createHashRouter([
   {
@@ -27,6 +27,10 @@ export const router = createHashRouter([
   {
     path: '/settings',
     element: <Home tab="settings" />,
+  },
+  {
+    path: '/confirm-transactions',
+    element: <ConfirmTransactions />,
   },
   {
     path: '/select-user',
