@@ -303,10 +303,17 @@ export const Transaction = ({
             >
               {tx.is_settleup ? (
                 <div className="flex gap-2 items-center justify-between text-textSec">
-                  <span className="flex-1 min-w-0 truncate">
-                    {primaryPayerName}
-                    <span className="px-1 text-textSec2">→</span>
-                    {primaryOweName}
+                  <span
+                    className="flex min-w-0 flex-1 items-center"
+                    title={`${primaryPayerName} → ${primaryOweName}`}
+                  >
+                    <span className="min-w-0 flex-1 truncate">
+                      {primaryPayerName}
+                    </span>
+                    <span className="shrink-0 px-1 text-textSec2">→</span>
+                    <span className="min-w-0 flex-1 truncate">
+                      {primaryOweName}
+                    </span>
                   </span>
                   <span
                     className={cx(
