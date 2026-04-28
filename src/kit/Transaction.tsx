@@ -249,7 +249,7 @@ export const Transaction = ({
   return (
     <Button
       wrapperClassName="Transaction"
-      className="w-full flex gap-2 rounded-[16px] text-left bg-bg2 pl-2 pr-3 py-2 touchscreen:enabled:hover:brightness-100 touchscreen:enabled:active:brightness-100"
+      className="w-full min-w-0 overflow-hidden flex gap-2 rounded-[16px] text-left bg-bg2 pl-2 pr-3 py-2 touchscreen:enabled:hover:brightness-100 touchscreen:enabled:active:brightness-100"
       onClick={() => {
         setTxId(tx._id);
         setIsEditTx(true);
@@ -257,11 +257,11 @@ export const Transaction = ({
         feedback("edit_transaction_total_web", {
           transaction_id: tx._id,
         });
-      }}
-    >
+        }}
+      >
       <>
         <TransactionCategoryIcon tx={tx} title={categoryTitle} />
-        <div className="flex-1 flex flex-col gap-[2px] text-[14px] leading-[24px]">
+        <div className="min-w-0 flex-1 flex flex-col gap-[2px] text-[14px] leading-[24px]">
           <div>
             <div className="flex gap-[2px] items-start w-full">
               <div
@@ -302,9 +302,9 @@ export const Transaction = ({
               )}
             >
               {tx.is_settleup ? (
-                <div className="flex gap-2 items-center justify-between text-textSec">
+                <div className="flex min-w-0 w-full gap-2 items-center justify-between text-textSec">
                   <span
-                    className="flex min-w-0 flex-1 items-center"
+                    className="flex min-w-0 flex-1 items-center overflow-hidden"
                     title={`${primaryPayerName} → ${primaryOweName}`}
                   >
                     <span className="min-w-0 flex-1 truncate">
