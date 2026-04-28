@@ -271,7 +271,7 @@ export const Transaction = ({
                 {displayedTitle}
               </div>
               {tx.is_canceled && (
-                <div className="h-6 shrink-0 rounded-[12px] bg-textSec px-2 text-[12px] leading-6 font-semibold text-bg">
+                <div className="h-5 shrink-0 rounded-[10px] bg-textSec px-[7px] text-[11px] leading-5 font-semibold text-bg">
                   {t("statusCanceled")}
                 </div>
               )}

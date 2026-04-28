@@ -1,5 +1,5 @@
 import cx from 'classnames'
-import { useMemo, useState } from 'react'
+import { useEffect, useMemo, useState } from 'react'
 import { useTranslation } from 'react-i18next'
 import { useNavigate } from 'react-router-dom'
 
@@ -108,13 +108,22 @@ export const Summary = ({
     () => (transactions || []).filter(tx => !tx.is_confirmed && !tx.is_canceled),
     [transactions]
   )
+  const isTransactionsLoaded = transactions !== undefined
+  const isConfirmedFilterAvailable = !isTransactionsLoaded || unconfirmedTransactions.length > 0
+  const defaultStatusFilter: TStatusFilter = isConfirmedFilterAvailable ? 'CONFIRMED' : 'ALL'
   const statusFilterItems: { title: string, value: TStatusFilter }[] = [
     { title: t('allTransactions'), value: 'ALL' },
-    { title: t('confirmedTransactions'), value: 'CONFIRMED' },
+    ...(isConfirmedFilterAvailable ? [{ title: t('confirmedTransactions'), value: 'CONFIRMED' as const }] : []),
     { title: t('statusCanceled'), value: 'CANCELED' },
   ]
-  const statusFilterTitle = statusFilterItems.find(item => item.value === statusFilter)?.title || t('confirmedTransactions')
-  const isHistoryFilterActive = statusFilter !== 'CONFIRMED' || filterTotal === 'ONLY_MINE'
+  const statusFilterTitle = statusFilterItems.find(item => item.value === statusFilter)?.title || t('allTransactions')
+  const isHistoryFilterActive = statusFilter !== defaultStatusFilter || filterTotal === 'ONLY_MINE'
+
+  useEffect(() => {
+    if (isTransactionsLoaded && !isConfirmedFilterAvailable && statusFilter === 'CONFIRMED') {
+      setStatusFilter('ALL')
+    }
+  }, [isConfirmedFilterAvailable, isTransactionsLoaded, statusFilter])
   const displayedTxGroups = useMemo(
     () => txGroups
       .map(txGroup => ({
@@ -403,7 +412,7 @@ export const Summary = ({
                     </Button>
                     <div
                       className={cx(
-                        'absolute left-0 top-10 z-[2] w-[164px] origin-top rounded-[4px] bg-bg py-1 shadow-[0_0_1px_rgba(0,0,0,0.12),0_8px_8px_rgba(0,0,0,0.12)] transition-all',
+                        'absolute left-0 top-10 z-[2] min-w-[220px] origin-top rounded-[4px] bg-bg py-1 shadow-[0_0_1px_rgba(0,0,0,0.12),0_8px_8px_rgba(0,0,0,0.12)] transition-all',
                         isStatusFilterOpen ? 'scale-y-100 opacity-100' : 'pointer-events-none scale-y-0 opacity-0',
                       )}
                     >
@@ -417,7 +426,7 @@ export const Summary = ({
                           }}
                         >
                           <>
-                            <span className="min-w-0 flex-1 truncate">{item.title}</span>
+                            <span className="min-w-0 flex-1 whitespace-nowrap">{item.title}</span>
                             <DropdownCheck className={cx(
                               'h-6 w-6 shrink-0 text-blue transition-opacity',
                               item.value === statusFilter ? 'opacity-100' : 'opacity-0',
@@ -455,7 +464,7 @@ export const Summary = ({
                       <Button
                         className="rounded-[6px] px-3 py-1 text-[16px] leading-6 font-semibold text-blue"
                         onClick={() => {
-                          setStatusFilter('CONFIRMED')
+                          setStatusFilter(defaultStatusFilter)
                           setFilterTotal('ALL_CHAT')
                         }}
                       >

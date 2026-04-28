@@ -55,7 +55,7 @@ export const ConfirmTransactions = () => {
               className="flex h-6 w-6 items-center justify-center text-icon"
               onClick={() => { navigate('/summary') }}
             >
-              <ChevronIcon className="h-6 w-6 rotate-90" />
+              <ChevronIcon className="h-6 w-6 rotate-180" />
             </Button>
             <div className="flex min-w-0 flex-1 items-center justify-center gap-1 pr-[34px]">
               <h3 className="truncate">{t('confirmTransactions')}</h3>
