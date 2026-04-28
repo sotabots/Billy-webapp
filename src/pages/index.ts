@@ -1,4 +1,5 @@
 export * from './ChatSettings'
+export * from './ConfirmTransactions'
 export * from './Edit'
 export * from './Home'
 export * from './Onboarding'
@@ -13,4 +14,3 @@ export * from './Soon'
 export * from './Summary'
 export * from './UserBalance'
 export * from './UserSettings'
-
