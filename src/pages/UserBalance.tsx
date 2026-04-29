@@ -667,9 +667,7 @@ export const UserBalance = ({
       {!!selectedDebt && !isRecipientsOpen && (
         <>
           <h2 className="mb-2 px-4 pt-4 pb-[6px]">
-            {isReminder
-              ? t('userBalance.reminderTitle')
-              : `${t('settleUpBy')} ${selectedDebtCurrency?.symbol}`}
+            {`${t('settleUpBy')} ${selectedDebtCurrency?.symbol}`}
           </h2>
 
           <Panel>
@@ -685,6 +683,7 @@ export const UserBalance = ({
           {isReminder &&
             <Panel className="!pb-4">
               <div className="flex flex-col gap-4">
+                <h3>{t('userBalance.reminderTitle')}</h3>
                 <Field title={t('userBalance.reminderCurrency')}>
                   <div className="grid grid-cols-4 gap-2">
                     {reminderCurrencyIds.map(currencyId => (
@@ -713,12 +712,22 @@ export const UserBalance = ({
             </Panel>
           }
 
+          {isReminder &&
+            <Button
+              theme="subBottom"
+              onClick={shareDebtReminder}
+              isBusy={isBusy}
+            >
+              {t('userBalance.sendReminder')}
+            </Button>
+          }
+
           <Button
             theme="bottom"
-            onClick={isReminder ? shareDebtReminder : settleUp}
+            onClick={settleUp}
             isBusy={isBusy}
           >
-            {isReminder ? t('userBalance.sendReminder') : t('settleUp')}
+            {t('settleUp')}
           </Button>
         </>
       )}
