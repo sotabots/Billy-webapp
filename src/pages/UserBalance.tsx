@@ -430,7 +430,8 @@ export const UserBalance = ({
     !!me &&
     !!focusUser &&
     !isBusy
-  const isReminder: boolean = !!selectedDebt && userId === selectedDebt.to_user_id
+  const balanceViewUserId: null | TUserId = focusUserId ?? userId ?? null
+  const isReminder: boolean = !!selectedDebt && balanceViewUserId === selectedDebt.to_user_id
   const reminderCurrencyIds: TCurrencyId[] = selectedDebt
     ? Array.from(new Set<TCurrencyId>(['RUB', 'EUR', 'USD', selectedDebt.value_primary.currency_id]))
     : []
