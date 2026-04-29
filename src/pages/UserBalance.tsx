@@ -3,8 +3,8 @@ import Lottie from 'lottie-react'
 import { useEffect, useMemo, useState } from 'react'
 import { useTranslation } from 'react-i18next'
 
-import { useStore, useCurrencies, useFeedback, useSummary, usePostTransaction, useGetSummary, useGetTransactions, useGetProfile, useGetUsers, useUsers, useAuth, useGetUserSettings, useTgSettings, useUser, useGetChat } from '../hooks'
-import { Button, Overlay, Panel, DebtDetailed, Divider, UserButton, Currencies, CurrencyAmount, Debt, Tabs, CustomHeader } from '../kit'
+import { useStore, useCurrencies, useFeedback, useSummary, usePostTransaction, usePostDebtReminder, useGetSummary, useGetTransactions, useGetProfile, useGetUsers, useUsers, useAuth, useGetUserSettings, useTgSettings, useUser, useGetChat } from '../hooks'
+import { Button, Overlay, Panel, DebtDetailed, Divider, UserButton, Currencies, CurrencyAmount, Debt, Tabs, CustomHeader, Field, InputText } from '../kit'
 import { TCurrencyId, TDebt, TNewTransaction, TUserId } from '../types'
 import { formatAmount, closeApp, getPayerUserIdForPayee } from '../utils'
 
@@ -65,10 +65,14 @@ export const UserBalance = ({
   ]).find(debt => JSON.stringify(debt) === selectedDebtId)
   const selectedDebtCurrency = selectedDebt ? getCurrencyById(selectedDebt.value_primary.currency_id) : undefined
   const [selectedDebtAmount, setSelectedDebtAmount] = useState<number>(0)
+  const [reminderCurrencyId, setReminderCurrencyId] = useState<TCurrencyId>('RUB')
+  const [reminderPaymentComment, setReminderPaymentComment] = useState('')
 
   useEffect(() => {
     if (selectedDebt) {
       setSelectedDebtAmount(Math.abs(selectedDebt.value_primary.amount))
+      setReminderCurrencyId(selectedDebt.value_primary.currency_id)
+      setReminderPaymentComment('')
     }
   }, [selectedDebt])
 
@@ -80,6 +84,7 @@ export const UserBalance = ({
   const { debtCurrencyIds, debts } = useSummary()
 
   const postTransaction = usePostTransaction()
+  const postDebtReminder = usePostDebtReminder()
 
   const { getUserById } = useUsers()
   const fromUser = getUserById(selectedDebt?.from_user_id || 0)
@@ -286,6 +291,54 @@ export const UserBalance = ({
     }
   }
 
+  const shareDebtReminder = async () => {
+    if (!summary || !selectedDebt) {
+      return
+    }
+
+    setIsBusy(true)
+    try {
+      const { prepared_message_id } = await postDebtReminder({
+        chat_id: summary.chat_id,
+        from_user_id: selectedDebt.from_user_id,
+        to_user_id: selectedDebt.to_user_id,
+        amount: selectedDebtAmount,
+        debt_currency_id: selectedDebt.value_primary.currency_id,
+        preferred_currency_id: reminderCurrencyId,
+        payment_comment: reminderPaymentComment.trim(),
+      })
+
+      if (!window.Telegram?.WebApp.shareMessage) {
+        throw new Error('Telegram shareMessage is not available')
+      }
+
+      const isSent = await new Promise<boolean>((resolve) => {
+        window.Telegram?.WebApp.shareMessage?.(prepared_message_id, resolve)
+      })
+
+      if (!isSent) {
+        throw new Error('Telegram message was not sent')
+      }
+
+      notificationOccurred('success')
+    } catch (e) {
+      console.error(e)
+      showPopup({
+        title: t('userBalance.reminderErrorTitle'),
+        message: t('userBalance.reminderErrorMessage'),
+        buttons: [
+          {
+            id: 'ok',
+            text: t('ok'),
+            type: 'default',
+          },
+        ],
+      })
+    } finally {
+      setIsBusy(false)
+    }
+  }
+
   const [feedbackData, setFeedbackData] = useState<null | {
     currency: string,
     // num_debts_mutli_currency: number
@@ -377,6 +430,10 @@ export const UserBalance = ({
     !!me &&
     !!focusUser &&
     !isBusy
+  const isReminder: boolean = !!selectedDebt && userId === selectedDebt.to_user_id
+  const reminderCurrencyIds: TCurrencyId[] = selectedDebt
+    ? Array.from(new Set<TCurrencyId>(['RUB', 'EUR', 'USD', selectedDebt.value_primary.currency_id]))
+    : []
 
   return (
     <>
@@ -610,7 +667,9 @@ export const UserBalance = ({
       {!!selectedDebt && !isRecipientsOpen && (
         <>
           <h2 className="mb-2 px-4 pt-4 pb-[6px]">
-            {`${t('settleUpBy')} ${selectedDebtCurrency?.symbol}`}
+            {isReminder
+              ? t('userBalance.reminderTitle')
+              : `${t('settleUpBy')} ${selectedDebtCurrency?.symbol}`}
           </h2>
 
           <Panel>
@@ -623,12 +682,43 @@ export const UserBalance = ({
             />
           </Panel>
 
+          {isReminder &&
+            <Panel className="!pb-4">
+              <div className="flex flex-col gap-4">
+                <Field title={t('userBalance.reminderCurrency')}>
+                  <div className="grid grid-cols-4 gap-2">
+                    {reminderCurrencyIds.map(currencyId => (
+                      <Button
+                        key={currencyId}
+                        className={
+                          reminderCurrencyId === currencyId
+                            ? 'w-full rounded-md bg-blue px-2 py-2 text-[14px] leading-[20px] font-semibold text-textButton'
+                            : 'w-full rounded-md bg-bg2 px-2 py-2 text-[14px] leading-[20px] font-semibold text-blue'
+                        }
+                        onClick={() => { setReminderCurrencyId(currencyId) }}
+                      >
+                        {currencyId}
+                      </Button>
+                    ))}
+                  </div>
+                </Field>
+                <Field title={t('userBalance.paymentComment')}>
+                  <InputText
+                    placeholder={t('userBalance.paymentCommentPlaceholder')}
+                    value={reminderPaymentComment}
+                    onChange={setReminderPaymentComment}
+                  />
+                </Field>
+              </div>
+            </Panel>
+          }
+
           <Button
             theme="bottom"
-            onClick={settleUp}
+            onClick={isReminder ? shareDebtReminder : settleUp}
             isBusy={isBusy}
           >
-            {t('settleUp')}
+            {isReminder ? t('userBalance.sendReminder') : t('settleUp')}
           </Button>
         </>
       )}

@@ -107,7 +107,14 @@
     "myDebts": "Мой долг",
     "myCredits": "Мне должны",
     "payBack": "Вернуть",
-    "remind": "Напомнить"
+    "remind": "Напомнить",
+    "reminderTitle": "Напомнить о долге",
+    "reminderCurrency": "Мне удобно получить",
+    "paymentComment": "Куда скидывать деньги",
+    "paymentCommentPlaceholder": "Карта, телефон, банк или другой комментарий",
+    "sendReminder": "Отправить напоминание",
+    "reminderErrorTitle": "Не получилось отправить",
+    "reminderErrorMessage": "Попробуйте ещё раз чуть позже. Если ошибка повторится, напишите в поддержку."
   },
 
   "chatBalance": {

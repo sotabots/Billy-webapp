@@ -3,7 +3,7 @@ import { useQuery } from '@tanstack/react-query'
 
 import { useAuth, useNewTx, useChatId, useStore } from '../hooks'
 import { backendFetch } from '../api/backendMonitor'
-import { TCurrency, TCategories, TTransaction, TNewTransaction, TUser, TChat, TSummary, TCurrencyId, TLanguageCode, TMode, TPlan, TProfile, TUserSettings, TPayoffMethods, TUserPayoffMethod, TUserId, TPayFor } from '../types'
+import { TCurrency, TCategories, TTransaction, TNewTransaction, TUser, TChat, TSummary, TCurrencyId, TLanguageCode, TMode, TPlan, TProfile, TUserSettings, TPayoffMethods, TUserPayoffMethod, TUserId, TPayFor, TDebtReminderPayload, TDebtReminderResponse } from '../types'
 import {
   mockTransaction,
   mockUsers,
@@ -495,6 +495,21 @@ export const useGetSummarySheetRebuild = () => {
   return () =>
     backendFetch(url, {
       method: 'GET',
+      headers: {
+        'Content-type': 'application/json',
+        'Authorization': authString,
+      },
+    }).then(handleJsonResponse)
+}
+
+export const usePostDebtReminder = () => {
+  const { apiUrl } = useStore()
+  const { authString } = useAuth()
+
+  return (payload: TDebtReminderPayload): Promise<TDebtReminderResponse> =>
+    backendFetch(`${apiUrl}/summary/debt_reminder`, {
+      method: 'POST',
+      body: JSON.stringify(payload),
       headers: {
         'Content-type': 'application/json',
         'Authorization': authString,

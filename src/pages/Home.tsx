@@ -3,7 +3,7 @@ import { useEffect, useState, useRef, UIEvent } from 'react'
 import { useTranslation } from 'react-i18next'
 import { useNavigate } from 'react-router-dom'
 
-import { useInit, useFilter, useFeedback, useSummary, useGetSummary, useGetSummarySheetRebuild, useGetChat, /*, useStore */ } from '../hooks'
+import { useInit, useFilter, useFeedback, useSummary, useGetSummary, useGetSummarySheetRebuild, useGetChat, useStore } from '../hooks'
 import { Page, Header, CustomHeader, Button } from '../kit'
 import { Summary, UserBalance, ChatSettings, TSettingsInner } from '../pages'
 import { TUserId } from '../types'
@@ -18,7 +18,7 @@ export const Home = ({ tab }: {
 }) => {
   useInit()
 
-  // const { isDebug } = useStore()
+  const { startBalanceUserId, setStartBalanceUserId } = useStore()
 
   const { t } = useTranslation()
   const navigate = useNavigate()
@@ -64,6 +64,13 @@ export const Home = ({ tab }: {
       resetChatBalanceState()
     }
   }, [tab])
+
+  useEffect(() => {
+    if (tab === 'chat-balance' && startBalanceUserId && selectedChatBalanceUserId === null) {
+      setSelectedChatBalanceUserId(startBalanceUserId)
+      setStartBalanceUserId(undefined)
+    }
+  }, [selectedChatBalanceUserId, setStartBalanceUserId, startBalanceUserId, tab])
 
   const selectTab = (newTab: TTab) => () => {
     if (newTab === tab) {

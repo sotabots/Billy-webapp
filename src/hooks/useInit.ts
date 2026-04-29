@@ -24,6 +24,7 @@ export const useInit = () => {
     transaction, setTransaction,
     isAuthorSharesInited, setIsAuthorSharesInited,
     paywallSource, setPaywallSource,
+    startBalanceUserId, setStartBalanceUserId,
   } = useStore()
   const routerLocation = useLocation()
   const navigate = useNavigate()
@@ -48,6 +49,7 @@ export const useInit = () => {
 
   let startParamTxId
   let startParamChatId
+  let startParamBalanceUserId: undefined | number
   let startParamRef: undefined | number
   let startParamPwTxId: undefined | string
   let startParamPaywallSource: TPaywallSource
@@ -69,6 +71,9 @@ export const useInit = () => {
       }
       if ('chat_id' in startParamJson) {
         startParamChatId = startParamJson.chat_id
+      }
+      if ('balance_user_id' in startParamJson) {
+        startParamBalanceUserId = startParamJson.balance_user_id
       }
       if ('pw_txid' in startParamJson) {
         startParamPwTxId = startParamJson.pw_txid
@@ -101,6 +106,10 @@ export const useInit = () => {
     setChatIdStart(startParamChatId)
   }
 
+  if (startBalanceUserId === undefined && startParamBalanceUserId) {
+    setStartBalanceUserId(startParamBalanceUserId)
+  }
+
   if (pwTxId === undefined && startParamPwTxId) {
     setPwTxId(startParamPwTxId)
   }
@@ -127,6 +136,12 @@ export const useInit = () => {
       navigate(getTransactionEditPath(routeTxId), { replace: true })
     }
   }, [navigate, queryTxId, routeTxId, routerLocation.pathname])
+
+  useEffect(() => {
+    if (startParamBalanceUserId && routerLocation.pathname !== '/chat-balance') {
+      navigate('/chat-balance', { replace: true })
+    }
+  }, [navigate, routerLocation.pathname, startParamBalanceUserId])
 
   // init new-tx author shares
   useEffect(() => {

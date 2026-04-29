@@ -163,6 +163,21 @@ export type TPaywallSource = undefined | 'onboarding' | 'summary_donut' | 'cashb
 
 export type TPaywallFrom = undefined | 'edit' | 'onboarding' | 'settings' | 'summary'
 
+export type TDebtReminderPayload = {
+  chat_id: TChatId
+  from_user_id: TUserId
+  to_user_id: TUserId
+  amount: number
+  debt_currency_id: TCurrencyId
+  preferred_currency_id: TCurrencyId
+  payment_comment: string
+}
+
+export type TDebtReminderResponse = {
+  prepared_message_id: string
+  expires_at?: string
+}
+
 export type TUserChat = {
   id: number
   name: string
