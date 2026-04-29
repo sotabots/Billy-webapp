@@ -430,6 +430,7 @@ export const UserBalance = ({
     !!me &&
     !!focusUser &&
     !isBusy
+  const isReminder = !!selectedDebt
   const reminderCurrencyIds: TCurrencyId[] = selectedDebt
     ? Array.from(new Set<TCurrencyId>(['RUB', 'EUR', 'USD', selectedDebt.value_primary.currency_id]))
     : []
@@ -677,41 +678,49 @@ export const UserBalance = ({
               customRecipientId={customRecipientId}
               onClickRecipient={() => { setIsRecipientsOpen(true) }}
             />
-            <div className="mt-5 flex flex-col gap-4 border-t border-separator pt-4">
-              <h3>{t('userBalance.reminderTitle')}</h3>
-              <Field title={t('userBalance.reminderCurrency')}>
-                <div className="grid grid-cols-4 gap-2">
-                  {reminderCurrencyIds.map(currencyId => (
-                    <Button
-                      key={currencyId}
-                      className={
-                        reminderCurrencyId === currencyId
-                          ? 'w-full rounded-md bg-blue px-2 py-2 text-[14px] leading-[20px] font-semibold text-textButton'
-                          : 'w-full rounded-md bg-bg2 px-2 py-2 text-[14px] leading-[20px] font-semibold text-blue'
-                      }
-                      onClick={() => { setReminderCurrencyId(currencyId) }}
-                    >
-                      {currencyId}
-                    </Button>
-                  ))}
-                </div>
-              </Field>
-              <Field title={t('userBalance.paymentComment')}>
-                <InputText
-                  placeholder={t('userBalance.paymentCommentPlaceholder')}
-                  value={reminderPaymentComment}
-                  onChange={setReminderPaymentComment}
-                />
-              </Field>
-              <Button
-                className="w-full rounded-md bg-bg2 px-3 py-2 text-[14px] leading-[20px] font-semibold text-blue"
-                onClick={shareDebtReminder}
-                isBusy={isBusy}
-              >
-                {t('userBalance.sendReminder')}
-              </Button>
-            </div>
           </Panel>
+
+          {isReminder &&
+            <Panel className="!pb-4">
+              <div className="flex flex-col gap-4">
+                <h3>{t('userBalance.reminderTitle')}</h3>
+                <Field title={t('userBalance.reminderCurrency')}>
+                  <div className="grid grid-cols-4 gap-2">
+                    {reminderCurrencyIds.map(currencyId => (
+                      <Button
+                        key={currencyId}
+                        className={
+                          reminderCurrencyId === currencyId
+                            ? 'w-full rounded-md bg-blue px-2 py-2 text-[14px] leading-[20px] font-semibold text-textButton'
+                            : 'w-full rounded-md bg-bg2 px-2 py-2 text-[14px] leading-[20px] font-semibold text-blue'
+                        }
+                        onClick={() => { setReminderCurrencyId(currencyId) }}
+                      >
+                        {currencyId}
+                      </Button>
+                    ))}
+                  </div>
+                </Field>
+                <Field title={t('userBalance.paymentComment')}>
+                  <InputText
+                    placeholder={t('userBalance.paymentCommentPlaceholder')}
+                    value={reminderPaymentComment}
+                    onChange={setReminderPaymentComment}
+                  />
+                </Field>
+              </div>
+            </Panel>
+          }
+
+          {isReminder &&
+            <Button
+              theme="subBottom"
+              onClick={shareDebtReminder}
+              isBusy={isBusy}
+            >
+              {t('userBalance.sendReminder')}
+            </Button>
+          }
 
           <Button
             theme="bottom"
