@@ -708,18 +708,15 @@ export const UserBalance = ({
                     onChange={setReminderPaymentComment}
                   />
                 </Field>
+                <Button
+                  className="w-full rounded-md bg-bg2 px-3 py-2 text-[14px] leading-[20px] font-semibold text-blue"
+                  onClick={shareDebtReminder}
+                  isBusy={isBusy}
+                >
+                  {t('userBalance.sendReminder')}
+                </Button>
               </div>
             </Panel>
-          }
-
-          {isReminder &&
-            <Button
-              theme="subBottom"
-              onClick={shareDebtReminder}
-              isBusy={isBusy}
-            >
-              {t('userBalance.sendReminder')}
-            </Button>
           }
 
           <Button
