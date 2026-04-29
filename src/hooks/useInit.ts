@@ -42,7 +42,10 @@ export const useInit = () => {
 
   if (!startParam) {
     const queryParameters = new URLSearchParams(routerLocation.search)
-    const queryStartParam = queryParameters.get('start')
+    const queryStartParam =
+      queryParameters.get('start') ||
+      queryParameters.get('tgWebAppStartParam') ||
+      queryParameters.get('startapp')
     if (queryStartParam) {
       startParam = queryStartParam
     }

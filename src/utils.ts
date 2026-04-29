@@ -32,9 +32,10 @@ export const getChatBalanceStartPath = (startParam: string) => (
   `/chat-balance?${new URLSearchParams({ start: startParam }).toString()}`
 )
 
+export const CHAT_BALANCE_MINI_APP_URL = 'https://t.me/BillyMoney_bot/chat_balance'
+
 export const getChatBalanceStartUrl = (startParam: string): string => {
-  const baseUrl = `${window.location.origin}${window.location.pathname}`
-  return `${baseUrl}#${getChatBalanceStartPath(startParam)}`
+  return `${CHAT_BALANCE_MINI_APP_URL}?${new URLSearchParams({ startapp: startParam }).toString()}`
 }
 
 export const closeApp = () => {
