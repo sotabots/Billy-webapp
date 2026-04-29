@@ -22,6 +22,21 @@ export const getUsdRate = (rates: TRates | undefined, currencyId: TCurrencyId | 
 
 export const getTransactionEditPath = (txId: string) => `/?${new URLSearchParams({ txid: txId }).toString()}`
 
+export const encodeStartParam = (payload: Record<string, unknown>): string =>
+  btoa(JSON.stringify(payload))
+    .replace(/\+/g, '-')
+    .replace(/\//g, '_')
+    .replace(/=+$/g, '')
+
+export const getChatBalanceStartPath = (startParam: string) => (
+  `/chat-balance?${new URLSearchParams({ start: startParam }).toString()}`
+)
+
+export const getChatBalanceStartUrl = (startParam: string): string => {
+  const baseUrl = `${window.location.origin}${window.location.pathname}`
+  return `${baseUrl}#${getChatBalanceStartPath(startParam)}`
+}
+
 export const closeApp = () => {
   if (window.Telegram?.WebApp.platform !== 'unknown') {
     window.Telegram?.WebApp.close()

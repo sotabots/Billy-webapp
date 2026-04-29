@@ -110,6 +110,7 @@
     "remind": "Remind",
     "reminderTitle": "Send a debt reminder",
     "reminderCurrency": "I prefer to receive",
+    "currencyOr": "or",
     "paymentComment": "Where to send money",
     "paymentCommentPlaceholder": "Card, phone, bank, or any other note",
     "sendReminder": "Send reminder",

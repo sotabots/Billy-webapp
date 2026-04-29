@@ -130,6 +130,13 @@ export type TDebt = {
   value_secondary: TCurrencyAmount
 }
 
+export type TDebtDeepLinkParams = {
+  from_user_id: TUserId
+  to_user_id: TUserId
+  currency_id: TCurrencyId
+  amount?: number
+}
+
 export type TCategories = {
   [key: string]: {
     hue: number
@@ -170,7 +177,11 @@ export type TDebtReminderPayload = {
   amount: number
   debt_currency_id: TCurrencyId
   preferred_currency_id: TCurrencyId
+  preferred_currency_ids: TCurrencyId[]
   payment_comment: string
+  debt_link: string
+  debt_start_param: string
+  debt: TDebtDeepLinkParams
 }
 
 export type TDebtReminderResponse = {

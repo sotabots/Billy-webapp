@@ -5,8 +5,8 @@ import { useTranslation } from 'react-i18next'
 
 import { useStore, useCurrencies, useFeedback, useSummary, usePostTransaction, usePostDebtReminder, useGetSummary, useGetTransactions, useGetProfile, useGetUsers, useUsers, useAuth, useGetUserSettings, useTgSettings, useUser, useGetChat } from '../hooks'
 import { Button, Overlay, Panel, DebtDetailed, Divider, UserButton, Currencies, CurrencyAmount, Debt, Tabs, CustomHeader, Field, InputText } from '../kit'
-import { TCurrencyId, TDebt, TNewTransaction, TUserId } from '../types'
-import { formatAmount, closeApp, getPayerUserIdForPayee } from '../utils'
+import { TCurrencyId, TDebt, TDebtDeepLinkParams, TNewTransaction, TUserId } from '../types'
+import { formatAmount, closeApp, encodeStartParam, getChatBalanceStartUrl, getPayerUserIdForPayee } from '../utils'
 
 import lottieKoalaSettledUp from '../assets/animation-koala-settled-up.json'
 import lottieKoalaSuccess from '../assets/animation-koala-success.json'
@@ -21,6 +21,7 @@ export const UserBalance = ({
   customRecipientId,
   setCustomRecipientId,
   focusUserId,
+  focusDebt,
   onBack,
 }: {
   isCurrencyOpen: boolean
@@ -32,6 +33,7 @@ export const UserBalance = ({
   customRecipientId: null | TUserId
   setCustomRecipientId: (customRecipientId: null | TUserId) => void
   focusUserId?: TUserId | null
+  focusDebt?: TDebtDeepLinkParams | null
   onBack?: () => void
 }) => {
   const { t } = useTranslation()
@@ -56,8 +58,8 @@ export const UserBalance = ({
   const { refetch: refetchProfile } = useGetProfile()
   const { getCurrencyById } = useCurrencies()
 
-  const debtDetails: TDebt[] = summary?.balance.debt.details || []
-  const creditDetails: TDebt[] = summary?.balance.credit.details || []
+  const debtDetails: TDebt[] = useMemo(() => summary?.balance.debt.details || [], [summary])
+  const creditDetails: TDebt[] = useMemo(() => summary?.balance.credit.details || [], [summary])
 
   const selectedDebt: TDebt | undefined = ([
     ...debtDetails,
@@ -65,16 +67,38 @@ export const UserBalance = ({
   ]).find(debt => JSON.stringify(debt) === selectedDebtId)
   const selectedDebtCurrency = selectedDebt ? getCurrencyById(selectedDebt.value_primary.currency_id) : undefined
   const [selectedDebtAmount, setSelectedDebtAmount] = useState<number>(0)
-  const [reminderCurrencyId, setReminderCurrencyId] = useState<TCurrencyId>('RUB')
+  const [reminderCurrencyIdsSelected, setReminderCurrencyIdsSelected] = useState<TCurrencyId[]>(['RUB'])
   const [reminderPaymentComment, setReminderPaymentComment] = useState('')
 
   useEffect(() => {
     if (selectedDebt) {
       setSelectedDebtAmount(Math.abs(selectedDebt.value_primary.amount))
-      setReminderCurrencyId(selectedDebt.value_primary.currency_id)
+      setReminderCurrencyIdsSelected([selectedDebt.value_primary.currency_id])
       setReminderPaymentComment('')
     }
   }, [selectedDebt])
+
+  useEffect(() => {
+    if (!focusDebt || selectedDebtId !== null) {
+      return
+    }
+
+    const focusedDebt = [...debtDetails, ...creditDetails].find(debt => {
+      const isSameUsers =
+        debt.from_user_id === focusDebt.from_user_id &&
+        debt.to_user_id === focusDebt.to_user_id
+      const isSameCurrency = debt.value_primary.currency_id === focusDebt.currency_id
+      const isSameAmount =
+        focusDebt.amount === undefined ||
+        Math.abs(Math.abs(debt.value_primary.amount) - Math.abs(focusDebt.amount)) < 0.01
+
+      return isSameUsers && isSameCurrency && isSameAmount
+    })
+
+    if (focusedDebt) {
+      setSelectedDebtId(JSON.stringify(focusedDebt))
+    }
+  }, [creditDetails, debtDetails, focusDebt, selectedDebtId, setSelectedDebtId])
 
   const [isOriginalCurrencies, setIsOriginalCurrencies] = useState(false)
 
@@ -296,6 +320,19 @@ export const UserBalance = ({
       return
     }
 
+    const debt = {
+      from_user_id: selectedDebt.from_user_id,
+      to_user_id: selectedDebt.to_user_id,
+      currency_id: selectedDebt.value_primary.currency_id,
+      amount: Math.abs(selectedDebt.value_primary.amount),
+    }
+    const debtStartParam = encodeStartParam({
+      chat_id: summary.chat_id,
+      balance_user_id: selectedDebt.from_user_id,
+      balance_debt: debt,
+    })
+    const debtLink = getChatBalanceStartUrl(debtStartParam)
+
     setIsBusy(true)
     try {
       const { prepared_message_id } = await postDebtReminder({
@@ -304,8 +341,12 @@ export const UserBalance = ({
         to_user_id: selectedDebt.to_user_id,
         amount: selectedDebtAmount,
         debt_currency_id: selectedDebt.value_primary.currency_id,
-        preferred_currency_id: reminderCurrencyId,
+        preferred_currency_id: reminderCurrencyIdsSelected[0],
+        preferred_currency_ids: reminderCurrencyIdsSelected,
         payment_comment: reminderPaymentComment.trim(),
+        debt_link: debtLink,
+        debt_start_param: debtStartParam,
+        debt,
       })
 
       if (!window.Telegram?.WebApp.shareMessage) {
@@ -434,6 +475,18 @@ export const UserBalance = ({
   const reminderCurrencyIds: TCurrencyId[] = selectedDebt
     ? Array.from(new Set<TCurrencyId>(['RUB', 'EUR', 'USD', selectedDebt.value_primary.currency_id]))
     : []
+  const toggleReminderCurrencyId = (currencyId: TCurrencyId) => {
+    setReminderCurrencyIdsSelected(currencyIds => {
+      if (currencyIds.includes(currencyId)) {
+        return currencyIds.length === 1
+          ? currencyIds
+          : currencyIds.filter(_currencyId => _currencyId !== currencyId)
+      }
+
+      return [...currencyIds, currencyId]
+    })
+  }
+  const reminderCurrencyText = reminderCurrencyIdsSelected.join(` ${t('userBalance.currencyOr')} `)
 
   return (
     <>
@@ -690,15 +743,18 @@ export const UserBalance = ({
                       <Button
                         key={currencyId}
                         className={
-                          reminderCurrencyId === currencyId
+                          reminderCurrencyIdsSelected.includes(currencyId)
                             ? 'w-full rounded-md bg-blue px-2 py-2 text-[14px] leading-[20px] font-semibold text-textButton'
                             : 'w-full rounded-md bg-bg2 px-2 py-2 text-[14px] leading-[20px] font-semibold text-blue'
                         }
-                        onClick={() => { setReminderCurrencyId(currencyId) }}
+                        onClick={() => { toggleReminderCurrencyId(currencyId) }}
                       >
                         {currencyId}
                       </Button>
                     ))}
+                  </div>
+                  <div className="mt-2 text-[14px] leading-[20px] text-textSec2">
+                    {reminderCurrencyText}
                   </div>
                 </Field>
                 <Field title={t('userBalance.paymentComment')}>
