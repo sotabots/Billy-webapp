@@ -114,6 +114,8 @@
     "settleScenarioTitle": "Вы закрываете долг",
     "settleScenarioDescription": "Проверьте сумму и получателя. После подтверждения Билли создаст возврат денег и обновит баланс в чате.",
     "reminderCurrency": "Мне удобно получить",
+    "reminderCurrencyHint": "Можно выбрать несколько валют, но не более {{max}}.",
+    "reminderCurrencySelected": "Выбрано {{count}} из {{max}}.",
     "currencyOr": "или",
     "paymentComment": "Куда скидывать деньги",
     "paymentCommentPlaceholder": "Карта, телефон, банк или другой комментарий",

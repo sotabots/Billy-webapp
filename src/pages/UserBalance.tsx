@@ -1,4 +1,5 @@
 import { useHapticFeedback, useShowPopup } from '@vkruglikov/react-telegram-web-app'
+import cx from 'classnames'
 import Lottie from 'lottie-react'
 import { useEffect, useMemo, useState } from 'react'
 import { useTranslation } from 'react-i18next'
@@ -10,6 +11,8 @@ import { formatAmount, closeApp, encodeStartParam, getChatBalanceStartUrl, getPa
 
 import lottieKoalaSettledUp from '../assets/animation-koala-settled-up.json'
 import lottieKoalaSuccess from '../assets/animation-koala-success.json'
+
+const REMINDER_CURRENCY_MAX_SELECTED = 3
 
 export const UserBalance = ({
   isCurrencyOpen,
@@ -77,6 +80,12 @@ export const UserBalance = ({
       setReminderPaymentComment('')
     }
   }, [selectedDebt])
+
+  useEffect(() => {
+    if (reminderCurrencyIdsSelected.length > REMINDER_CURRENCY_MAX_SELECTED) {
+      setReminderCurrencyIdsSelected(currencyIds => currencyIds.slice(0, REMINDER_CURRENCY_MAX_SELECTED))
+    }
+  }, [reminderCurrencyIdsSelected.length])
 
   useEffect(() => {
     if (!focusDebt || selectedDebtId !== null) {
@@ -362,6 +371,8 @@ export const UserBalance = ({
     })
     const debtLink = getChatBalanceStartUrl(debtStartParam)
 
+    const preferredCurrencyIds = reminderCurrencyIdsSelected.slice(0, REMINDER_CURRENCY_MAX_SELECTED)
+
     setIsBusy(true)
     try {
       const { prepared_message_id } = await postDebtReminder({
@@ -370,8 +381,8 @@ export const UserBalance = ({
         to_user_id: selectedDebt.to_user_id,
         amount: selectedDebtAmount,
         debt_currency_id: selectedDebt.value_primary.currency_id,
-        preferred_currency_id: reminderCurrencyIdsSelected[0],
-        preferred_currency_ids: reminderCurrencyIdsSelected,
+        preferred_currency_id: preferredCurrencyIds[0],
+        preferred_currency_ids: preferredCurrencyIds,
         payment_comment: reminderPaymentComment.trim(),
         debt_link: debtLink,
         debt_start_param: debtStartParam,
@@ -513,6 +524,10 @@ export const UserBalance = ({
         return currencyIds.length === 1
           ? currencyIds
           : currencyIds.filter(_currencyId => _currencyId !== currencyId)
+      }
+
+      if (currencyIds.length >= REMINDER_CURRENCY_MAX_SELECTED) {
+        return currencyIds
       }
 
       return [...currencyIds, currencyId]
@@ -779,20 +794,44 @@ export const UserBalance = ({
               <div className="flex flex-col gap-4">
                 <h3>{t('userBalance.reminderTitle')}</h3>
                 <Field title={t('userBalance.reminderCurrency')}>
-                  <div className="grid grid-cols-4 gap-2">
-                    {reminderCurrencyIds.map(currencyId => (
-                      <Button
-                        key={currencyId}
-                        className={
-                          reminderCurrencyIdsSelected.includes(currencyId)
-                            ? 'w-full rounded-md bg-blue px-2 py-2 text-[14px] leading-[20px] font-semibold text-textButton'
-                            : 'w-full rounded-md bg-bg2 px-2 py-2 text-[14px] leading-[20px] font-semibold text-blue'
-                        }
-                        onClick={() => { toggleReminderCurrencyId(currencyId) }}
-                      >
-                        {currencyId}
-                      </Button>
-                    ))}
+                  <div className="flex flex-col gap-2">
+                    <div className="text-[14px] leading-[20px] text-textSec2">
+                      {t('userBalance.reminderCurrencyHint', { max: REMINDER_CURRENCY_MAX_SELECTED })}
+                    </div>
+                    <div className="grid grid-cols-2 gap-2">
+                      {reminderCurrencyIds.map(currencyId => {
+                        const isSelected = reminderCurrencyIdsSelected.includes(currencyId)
+                        const isDisabled = !isSelected && reminderCurrencyIdsSelected.length >= REMINDER_CURRENCY_MAX_SELECTED
+
+                        return (
+                          <Button
+                            key={currencyId}
+                            className={cx(
+                              'flex min-h-10 w-full items-center justify-between rounded-md border px-3 py-2 text-[14px] leading-[20px] font-semibold',
+                              isSelected
+                                ? 'border-blue bg-blue/15 text-blue shadow-[inset_0_0_0_1px_rgba(64,148,247,0.35)]'
+                                : 'border-text/10 bg-bg2 text-text',
+                            )}
+                            disabled={isDisabled}
+                            onClick={() => { toggleReminderCurrencyId(currencyId) }}
+                          >
+                            <span>{currencyId}</span>
+                            <span className={cx(
+                              'flex h-4 w-4 items-center justify-center rounded-[4px] border',
+                              isSelected ? 'border-blue bg-blue' : 'border-textSec2 bg-bg',
+                            )}>
+                              {isSelected && <span className="block h-2 w-2 rounded-[2px] bg-textButton" />}
+                            </span>
+                          </Button>
+                        )
+                      })}
+                    </div>
+                    <div className="text-[14px] leading-[20px] text-textSec2">
+                      {t('userBalance.reminderCurrencySelected', {
+                        count: reminderCurrencyIdsSelected.length,
+                        max: REMINDER_CURRENCY_MAX_SELECTED,
+                      })}
+                    </div>
                   </div>
                   <div className="mt-2 text-[14px] leading-[20px] text-textSec2">
                     {reminderCurrencyText}

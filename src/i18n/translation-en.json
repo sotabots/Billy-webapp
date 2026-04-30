@@ -114,6 +114,8 @@
     "settleScenarioTitle": "You are closing a debt",
     "settleScenarioDescription": "Check the amount and recipient. After confirmation, Billy will create a payback transaction and update the chat balance.",
     "reminderCurrency": "I prefer to receive",
+    "reminderCurrencyHint": "You can choose multiple currencies, up to {{max}}.",
+    "reminderCurrencySelected": "Selected {{count}} of {{max}}.",
     "currencyOr": "or",
     "paymentComment": "Where to send money",
     "paymentCommentPlaceholder": "Card, phone, bank, or any other note",
