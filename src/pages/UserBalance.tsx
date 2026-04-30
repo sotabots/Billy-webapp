@@ -4,7 +4,7 @@ import { useEffect, useMemo, useState } from 'react'
 import { useTranslation } from 'react-i18next'
 
 import { useStore, useCurrencies, useFeedback, useSummary, usePostTransaction, usePostDebtReminder, useGetSummary, useGetTransactions, useGetProfile, useGetUsers, useUsers, useAuth, useGetUserSettings, useTgSettings, useUser, useGetChat } from '../hooks'
-import { Button, Overlay, Panel, DebtDetailed, Divider, UserButton, Currencies, CurrencyAmount, Debt, Tabs, CustomHeader, Field, InputText } from '../kit'
+import { Bottom, Button, Overlay, Panel, DebtDetailed, Divider, UserButton, Currencies, CurrencyAmount, Debt, Tabs, CustomHeader, Field, InputText } from '../kit'
 import { TCurrencyId, TDebt, TDebtDeepLinkParams, TNewTransaction, TUserId } from '../types'
 import { formatAmount, closeApp, encodeStartParam, getChatBalanceStartUrl, getPayerUserIdForPayee } from '../utils'
 
@@ -315,6 +315,35 @@ export const UserBalance = ({
     }
   }
 
+  const handleSettleUpClick = async () => {
+    const message = t('userBalance.settleUpConfirm')
+    let answerButtonId: string
+    try {
+      answerButtonId = await showPopup({
+        title: t('settleUp'),
+        message,
+        buttons: [
+          {
+            id: 'confirm',
+            text: t('userBalance.settleUpConfirmYes'),
+            type: 'default',
+          },
+          {
+            id: 'cancel',
+            text: t('cancel'),
+            type: 'default',
+          },
+        ],
+      })
+    } catch {
+      answerButtonId = confirm(message) ? 'confirm' : 'cancel'
+    }
+
+    if (answerButtonId === 'confirm') {
+      settleUp()
+    }
+  }
+
   const shareDebtReminder = async () => {
     if (!summary || !selectedDebt) {
       return
@@ -472,6 +501,9 @@ export const UserBalance = ({
     !!focusUser &&
     !isBusy
   const isReminder: boolean = !!selectedDebt && userId === selectedDebt.to_user_id
+  const isSettleUpPrimary = !isReminder
+  const primaryActionClassName = 'w-full rounded-md bg-blue px-3 py-2 text-[14px] leading-[20px] font-semibold text-textButton'
+  const secondaryActionClassName = 'w-full rounded-md bg-bg2 px-3 py-2 text-[14px] leading-[20px] font-semibold text-blue'
   const reminderCurrencyIds: TCurrencyId[] = selectedDebt
     ? Array.from(new Set<TCurrencyId>(['RUB', 'EUR', 'USD', selectedDebt.value_primary.currency_id]))
     : []
@@ -723,6 +755,15 @@ export const UserBalance = ({
             {`${t('settleUpBy')} ${selectedDebtCurrency?.symbol}`}
           </h2>
 
+          <Panel className="!pb-4">
+            <div className="flex flex-col gap-2">
+              <h3>{isReminder ? t('userBalance.reminderScenarioTitle') : t('userBalance.settleScenarioTitle')}</h3>
+              <div className="text-[14px] leading-[20px] text-textSec2">
+                {isReminder ? t('userBalance.reminderScenarioDescription') : t('userBalance.settleScenarioDescription')}
+              </div>
+            </div>
+          </Panel>
+
           <Panel>
             <DebtDetailed
               debt={selectedDebt}
@@ -764,24 +805,28 @@ export const UserBalance = ({
                     onChange={setReminderPaymentComment}
                   />
                 </Field>
-                <Button
-                  className="w-full rounded-md bg-bg2 px-3 py-2 text-[14px] leading-[20px] font-semibold text-blue"
-                  onClick={shareDebtReminder}
-                  isBusy={isBusy}
-                >
-                  {t('userBalance.sendReminder')}
-                </Button>
               </div>
             </Panel>
           }
 
-          <Button
-            theme="bottom"
-            onClick={settleUp}
-            isBusy={isBusy}
-          >
-            {t('settleUp')}
-          </Button>
+          <Bottom h={56}>
+            <div className="grid grid-cols-2 gap-2">
+              <Button
+                className={isSettleUpPrimary ? primaryActionClassName : secondaryActionClassName}
+                onClick={handleSettleUpClick}
+                isBusy={isBusy}
+              >
+                {t('settleUp')}
+              </Button>
+              <Button
+                className={isReminder ? primaryActionClassName : secondaryActionClassName}
+                onClick={shareDebtReminder}
+                isBusy={isBusy}
+              >
+                {t('userBalance.remind')}
+              </Button>
+            </div>
+          </Bottom>
         </>
       )}
 
