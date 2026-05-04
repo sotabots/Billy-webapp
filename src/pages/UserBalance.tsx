@@ -5,7 +5,7 @@ import { useTranslation } from 'react-i18next'
 
 import { useStore, useCurrencies, useFeedback, useSummary, usePostTransaction, usePostDebtReminder, useGetSummary, useGetTransactions, useGetProfile, useGetUsers, useUsers, useAuth, useGetUserSettings, useTgSettings, useUser, useGetChat } from '../hooks'
 import { Bottom, Button, Overlay, Panel, DebtDetailed, Divider, UserButton, Currencies, CurrencyAmount, Debt, Tabs, CustomHeader, Field, InputText } from '../kit'
-import { TCurrencyId, TDebt, TDebtDeepLinkParams, TNewTransaction, TUserId } from '../types'
+import { TCurrencyId, TDebt, TDebtDeepLinkParams, TNewTransaction, TUser, TUserId } from '../types'
 import { formatAmount, closeApp, encodeStartParam, getChatBalanceStartUrl, getPayerUserIdForPayee } from '../utils'
 
 import lottieKoalaSettledUp from '../assets/animation-koala-settled-up.json'
@@ -13,10 +13,30 @@ import lottieKoalaSuccess from '../assets/animation-koala-success.json'
 
 const REMINDER_CURRENCY_MAX_SELECTED = 3
 
-const getTelegramUsernameMention = (username?: string): string | null => {
-  const normalizedUsername = username?.trim().replace(/^@+/, '')
+const getReminderTargetCopyText = (user?: Pick<TUser, 'username' | 'first_name' | 'last_name'>): null | {
+  type: 'username' | 'name'
+  text: string
+} => {
+  const normalizedUsername = user?.username?.trim().replace(/^@+/, '')
 
-  return normalizedUsername ? `@${normalizedUsername}` : null
+  if (normalizedUsername) {
+    return {
+      type: 'username',
+      text: `@${normalizedUsername}`,
+    }
+  }
+
+  const name = [user?.first_name, user?.last_name]
+    .filter(Boolean)
+    .join(' ')
+    .trim()
+
+  return name
+    ? {
+      type: 'name',
+      text: name,
+    }
+    : null
 }
 
 const copyTextToClipboard = async (text: string): Promise<boolean> => {
@@ -387,6 +407,31 @@ export const UserBalance = ({
     }
   }
 
+  const showReminderCopyAlert = async (copyTarget: NonNullable<ReturnType<typeof getReminderTargetCopyText>>, isCopied: boolean) => {
+    const message =
+      !isCopied
+        ? t('userBalance.reminderCopyFailed', { value: copyTarget.text })
+        : copyTarget.type === 'username'
+          ? t('userBalance.reminderUsernameCopied', { value: copyTarget.text })
+          : t('userBalance.reminderNameCopied', { value: copyTarget.text })
+
+    try {
+      await showPopup({
+        title: t('userBalance.reminderCopiedTitle'),
+        message,
+        buttons: [
+          {
+            id: 'ok',
+            text: t('ok'),
+            type: 'default',
+          },
+        ],
+      })
+    } catch {
+      alert(message)
+    }
+  }
+
   const shareDebtReminder = async () => {
     if (!summary || !selectedDebt) {
       return
@@ -406,10 +451,11 @@ export const UserBalance = ({
     const debtLink = getChatBalanceStartUrl(debtStartParam)
 
     const preferredCurrencyIds = reminderCurrencyIdsSelected.slice(0, REMINDER_CURRENCY_MAX_SELECTED)
-    const reminderTargetUsername = getTelegramUsernameMention(fromUser?.username)
+    const reminderTargetCopyText = getReminderTargetCopyText(fromUser)
 
-    if (reminderTargetUsername) {
-      void copyTextToClipboard(reminderTargetUsername)
+    if (reminderTargetCopyText) {
+      const isCopied = await copyTextToClipboard(reminderTargetCopyText.text)
+      await showReminderCopyAlert(reminderTargetCopyText, isCopied)
     }
 
     setIsBusy(true)
