@@ -24,6 +24,7 @@ declare global {
           offClick: (offClick: VoidFunction) => void
         }
         openInvoice?: (url: string, callback?: (status: 'paid' | 'cancelled' | 'failed' | 'pending') => void) => void
+        shareMessage?: (msgId: string, callback?: (isSent: boolean) => void) => void
         // ...and more
         // see https://core.telegram.org/bots/webapps#initializing-mini-apps
       }

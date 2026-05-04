@@ -25,6 +25,7 @@ export const Debt = ({ from_user_id, to_user_id, value_primary, value_secondary,
   const { userId } = useAuth()
 
   const viewUserId: null | TUserId = contextUserId ?? userId ?? null
+  const isRemind = userId === to_user_id
 
   const user: TUser | undefined =
     viewUserId === from_user_id ? toUser :
@@ -57,15 +58,9 @@ export const Debt = ({ from_user_id, to_user_id, value_primary, value_secondary,
         />
         <Button
           theme="settleUp2"
-          onClick={
-            (userId === to_user_id && !!false) // todo: remind
-              ? () => {
-                /* */
-              }
-              : onClick
-            }
+          onClick={onClick}
         >
-          {(userId === to_user_id && !!false) ? t('userBalance.remind') : t('userBalance.payBack')}
+          {isRemind ? t('userBalance.remind') : t('userBalance.payBack')}
         </Button>
       </div>
     </div>

@@ -3,13 +3,70 @@ import Lottie from 'lottie-react'
 import { useEffect, useMemo, useState } from 'react'
 import { useTranslation } from 'react-i18next'
 
-import { useStore, useCurrencies, useFeedback, useSummary, usePostTransaction, useGetSummary, useGetTransactions, useGetProfile, useGetUsers, useUsers, useAuth, useGetUserSettings, useTgSettings, useUser, useGetChat } from '../hooks'
-import { Button, Overlay, Panel, DebtDetailed, Divider, UserButton, Currencies, CurrencyAmount, Debt, Tabs, CustomHeader } from '../kit'
-import { TCurrencyId, TDebt, TNewTransaction, TUserId } from '../types'
-import { formatAmount, closeApp, getPayerUserIdForPayee } from '../utils'
+import { useStore, useCurrencies, useFeedback, useSummary, usePostTransaction, usePostDebtReminder, useGetSummary, useGetTransactions, useGetProfile, useGetUsers, useUsers, useAuth, useGetUserSettings, useTgSettings, useUser, useGetChat } from '../hooks'
+import { Bottom, Button, Overlay, Panel, DebtDetailed, Divider, UserButton, Currencies, CurrencyAmount, Debt, Tabs, CustomHeader, Field, InputText } from '../kit'
+import { TCurrencyId, TDebt, TDebtDeepLinkParams, TNewTransaction, TUser, TUserId } from '../types'
+import { formatAmount, closeApp, encodeStartParam, getChatBalanceStartUrl, getPayerUserIdForPayee } from '../utils'
 
 import lottieKoalaSettledUp from '../assets/animation-koala-settled-up.json'
 import lottieKoalaSuccess from '../assets/animation-koala-success.json'
+
+const REMINDER_CURRENCY_MAX_SELECTED = 3
+
+const getReminderTargetCopyText = (user?: Pick<TUser, 'username' | 'first_name' | 'last_name'>): null | {
+  type: 'username' | 'name'
+  text: string
+} => {
+  const normalizedUsername = user?.username?.trim().replace(/^@+/, '')
+
+  if (normalizedUsername) {
+    return {
+      type: 'username',
+      text: `@${normalizedUsername}`,
+    }
+  }
+
+  const name = [user?.first_name, user?.last_name]
+    .filter(Boolean)
+    .join(' ')
+    .trim()
+
+  return name
+    ? {
+      type: 'name',
+      text: name,
+    }
+    : null
+}
+
+const copyTextToClipboard = async (text: string): Promise<boolean> => {
+  try {
+    if (window.isSecureContext && navigator.clipboard?.writeText) {
+      await navigator.clipboard.writeText(text)
+      return true
+    }
+  } catch {
+    // Fallback below covers Telegram WebViews where Clipboard API is unavailable.
+  }
+
+  try {
+    const textarea = document.createElement('textarea')
+    textarea.value = text
+    textarea.setAttribute('readonly', '')
+    textarea.style.position = 'fixed'
+    textarea.style.top = '-1000px'
+    textarea.style.opacity = '0'
+    document.body.appendChild(textarea)
+    textarea.focus()
+    textarea.select()
+    const isCopied = document.execCommand('copy')
+    document.body.removeChild(textarea)
+
+    return isCopied
+  } catch {
+    return false
+  }
+}
 
 export const UserBalance = ({
   isCurrencyOpen,
@@ -21,6 +78,7 @@ export const UserBalance = ({
   customRecipientId,
   setCustomRecipientId,
   focusUserId,
+  focusDebt,
   onBack,
 }: {
   isCurrencyOpen: boolean
@@ -32,6 +90,7 @@ export const UserBalance = ({
   customRecipientId: null | TUserId
   setCustomRecipientId: (customRecipientId: null | TUserId) => void
   focusUserId?: TUserId | null
+  focusDebt?: TDebtDeepLinkParams | null
   onBack?: () => void
 }) => {
   const { t } = useTranslation()
@@ -56,8 +115,8 @@ export const UserBalance = ({
   const { refetch: refetchProfile } = useGetProfile()
   const { getCurrencyById } = useCurrencies()
 
-  const debtDetails: TDebt[] = summary?.balance.debt.details || []
-  const creditDetails: TDebt[] = summary?.balance.credit.details || []
+  const debtDetails: TDebt[] = useMemo(() => summary?.balance.debt.details || [], [summary])
+  const creditDetails: TDebt[] = useMemo(() => summary?.balance.credit.details || [], [summary])
 
   const selectedDebt: TDebt | undefined = ([
     ...debtDetails,
@@ -65,12 +124,44 @@ export const UserBalance = ({
   ]).find(debt => JSON.stringify(debt) === selectedDebtId)
   const selectedDebtCurrency = selectedDebt ? getCurrencyById(selectedDebt.value_primary.currency_id) : undefined
   const [selectedDebtAmount, setSelectedDebtAmount] = useState<number>(0)
+  const [reminderCurrencyIdsSelected, setReminderCurrencyIdsSelected] = useState<TCurrencyId[]>(['RUB'])
+  const [reminderPaymentComment, setReminderPaymentComment] = useState('')
 
   useEffect(() => {
     if (selectedDebt) {
       setSelectedDebtAmount(Math.abs(selectedDebt.value_primary.amount))
+      setReminderCurrencyIdsSelected([selectedDebt.value_primary.currency_id])
+      setReminderPaymentComment('')
     }
   }, [selectedDebt])
+
+  useEffect(() => {
+    if (reminderCurrencyIdsSelected.length > REMINDER_CURRENCY_MAX_SELECTED) {
+      setReminderCurrencyIdsSelected(currencyIds => currencyIds.slice(0, REMINDER_CURRENCY_MAX_SELECTED))
+    }
+  }, [reminderCurrencyIdsSelected.length])
+
+  useEffect(() => {
+    if (!focusDebt || selectedDebtId !== null) {
+      return
+    }
+
+    const focusedDebt = [...debtDetails, ...creditDetails].find(debt => {
+      const isSameUsers =
+        debt.from_user_id === focusDebt.from_user_id &&
+        debt.to_user_id === focusDebt.to_user_id
+      const isSameCurrency = debt.value_primary.currency_id === focusDebt.currency_id
+      const isSameAmount =
+        focusDebt.amount === undefined ||
+        Math.abs(Math.abs(debt.value_primary.amount) - Math.abs(focusDebt.amount)) < 0.01
+
+      return isSameUsers && isSameCurrency && isSameAmount
+    })
+
+    if (focusedDebt) {
+      setSelectedDebtId(JSON.stringify(focusedDebt))
+    }
+  }, [creditDetails, debtDetails, focusDebt, selectedDebtId, setSelectedDebtId])
 
   const [isOriginalCurrencies, setIsOriginalCurrencies] = useState(false)
 
@@ -80,6 +171,7 @@ export const UserBalance = ({
   const { debtCurrencyIds, debts } = useSummary()
 
   const postTransaction = usePostTransaction()
+  const postDebtReminder = usePostDebtReminder()
 
   const { getUserById } = useUsers()
   const fromUser = getUserById(selectedDebt?.from_user_id || 0)
@@ -286,6 +378,133 @@ export const UserBalance = ({
     }
   }
 
+  const handleSettleUpClick = async () => {
+    const message = t('userBalance.settleUpConfirm')
+    let answerButtonId: string
+    try {
+      answerButtonId = await showPopup({
+        title: t('settleUp'),
+        message,
+        buttons: [
+          {
+            id: 'confirm',
+            text: t('userBalance.settleUpConfirmYes'),
+            type: 'default',
+          },
+          {
+            id: 'cancel',
+            text: t('cancel'),
+            type: 'default',
+          },
+        ],
+      })
+    } catch {
+      answerButtonId = confirm(message) ? 'confirm' : 'cancel'
+    }
+
+    if (answerButtonId === 'confirm') {
+      settleUp()
+    }
+  }
+
+  const showReminderCopyAlert = async (copyTarget: NonNullable<ReturnType<typeof getReminderTargetCopyText>>, isCopied: boolean) => {
+    const message =
+      !isCopied
+        ? t('userBalance.reminderCopyFailed', { value: copyTarget.text })
+        : copyTarget.type === 'username'
+          ? t('userBalance.reminderUsernameCopied', { value: copyTarget.text })
+          : t('userBalance.reminderNameCopied', { value: copyTarget.text })
+
+    try {
+      await showPopup({
+        title: t('userBalance.reminderCopiedTitle'),
+        message,
+        buttons: [
+          {
+            id: 'ok',
+            text: t('ok'),
+            type: 'default',
+          },
+        ],
+      })
+    } catch {
+      alert(message)
+    }
+  }
+
+  const shareDebtReminder = async () => {
+    if (!summary || !selectedDebt) {
+      return
+    }
+
+    const debt = {
+      from_user_id: selectedDebt.from_user_id,
+      to_user_id: selectedDebt.to_user_id,
+      currency_id: selectedDebt.value_primary.currency_id,
+      amount: Math.abs(selectedDebt.value_primary.amount),
+    }
+    const debtStartParam = encodeStartParam({
+      chat_id: summary.chat_id,
+      balance_user_id: selectedDebt.from_user_id,
+      balance_debt: debt,
+    })
+    const debtLink = getChatBalanceStartUrl(debtStartParam)
+
+    const preferredCurrencyIds = reminderCurrencyIdsSelected.slice(0, REMINDER_CURRENCY_MAX_SELECTED)
+    const reminderTargetCopyText = getReminderTargetCopyText(fromUser)
+
+    if (reminderTargetCopyText) {
+      const isCopied = await copyTextToClipboard(reminderTargetCopyText.text)
+      await showReminderCopyAlert(reminderTargetCopyText, isCopied)
+    }
+
+    setIsBusy(true)
+    try {
+      const { prepared_message_id } = await postDebtReminder({
+        chat_id: summary.chat_id,
+        from_user_id: selectedDebt.from_user_id,
+        to_user_id: selectedDebt.to_user_id,
+        amount: selectedDebtAmount,
+        debt_currency_id: selectedDebt.value_primary.currency_id,
+        preferred_currency_id: preferredCurrencyIds[0],
+        preferred_currency_ids: preferredCurrencyIds,
+        payment_comment: reminderPaymentComment.trim(),
+        debt_link: debtLink,
+        debt_start_param: debtStartParam,
+        debt,
+      })
+
+      if (!window.Telegram?.WebApp.shareMessage) {
+        throw new Error('Telegram shareMessage is not available')
+      }
+
+      const isSent = await new Promise<boolean>((resolve) => {
+        window.Telegram?.WebApp.shareMessage?.(prepared_message_id, resolve)
+      })
+
+      if (!isSent) {
+        throw new Error('Telegram message was not sent')
+      }
+
+      notificationOccurred('success')
+    } catch (e) {
+      console.error(e)
+      showPopup({
+        title: t('userBalance.reminderErrorTitle'),
+        message: t('userBalance.reminderErrorMessage'),
+        buttons: [
+          {
+            id: 'ok',
+            text: t('ok'),
+            type: 'default',
+          },
+        ],
+      })
+    } finally {
+      setIsBusy(false)
+    }
+  }
+
   const [feedbackData, setFeedbackData] = useState<null | {
     currency: string,
     // num_debts_mutli_currency: number
@@ -377,6 +596,29 @@ export const UserBalance = ({
     !!me &&
     !!focusUser &&
     !isBusy
+  const isReminder: boolean = !!selectedDebt && userId === selectedDebt.to_user_id
+  const isSettleUpPrimary = !isReminder
+  const primaryActionClassName = 'h-10 w-full rounded-md bg-blue px-3 text-[14px] leading-[20px] font-semibold text-textButton'
+  const secondaryActionClassName = 'h-10 w-full rounded-md bg-bg2 px-3 text-[14px] leading-[20px] font-semibold text-blue'
+  const reminderCurrencyIds: TCurrencyId[] = selectedDebt
+    ? Array.from(new Set<TCurrencyId>(['RUB', 'EUR', 'USD', selectedDebt.value_primary.currency_id]))
+    : []
+  const toggleReminderCurrencyId = (currencyId: TCurrencyId) => {
+    setReminderCurrencyIdsSelected(currencyIds => {
+      if (currencyIds.includes(currencyId)) {
+        return currencyIds.length === 1
+          ? currencyIds
+          : currencyIds.filter(_currencyId => _currencyId !== currencyId)
+      }
+
+      if (currencyIds.length >= REMINDER_CURRENCY_MAX_SELECTED) {
+        return currencyIds
+      }
+
+      return [...currencyIds, currencyId]
+    })
+  }
+  const reminderCurrencyText = reminderCurrencyIdsSelected.join(` ${t('userBalance.currencyOr')} `)
 
   return (
     <>
@@ -613,6 +855,15 @@ export const UserBalance = ({
             {`${t('settleUpBy')} ${selectedDebtCurrency?.symbol}`}
           </h2>
 
+          <Panel className="!pb-4">
+            <div className="flex flex-col gap-2">
+              <h3>{isReminder ? t('userBalance.reminderScenarioTitle') : t('userBalance.settleScenarioTitle')}</h3>
+              <div className="text-[14px] leading-[20px] text-textSec2">
+                {isReminder ? t('userBalance.reminderScenarioDescription') : t('userBalance.settleScenarioDescription')}
+              </div>
+            </div>
+          </Panel>
+
           <Panel>
             <DebtDetailed
               debt={selectedDebt}
@@ -623,13 +874,76 @@ export const UserBalance = ({
             />
           </Panel>
 
-          <Button
-            theme="bottom"
-            onClick={settleUp}
-            isBusy={isBusy}
-          >
-            {t('settleUp')}
-          </Button>
+          {isReminder &&
+            <Panel className="!pb-4">
+              <div className="flex flex-col gap-4">
+                <h3>{t('userBalance.reminderTitle')}</h3>
+                <Field title={t('userBalance.reminderCurrency')}>
+                  <div className="flex flex-col gap-2">
+                    <div className="text-[14px] leading-[20px] text-textSec2">
+                      {t('userBalance.reminderCurrencyHint', { max: REMINDER_CURRENCY_MAX_SELECTED })}
+                    </div>
+                    <div className="grid grid-cols-4 gap-2">
+                      {reminderCurrencyIds.map(currencyId => {
+                        const isSelected = reminderCurrencyIdsSelected.includes(currencyId)
+                        const isDisabled = !isSelected && reminderCurrencyIdsSelected.length >= REMINDER_CURRENCY_MAX_SELECTED
+
+                        return (
+                          <Button
+                            key={currencyId}
+                            className={
+                              isSelected
+                                ? 'w-full rounded-md bg-blue px-2 py-2 text-[14px] leading-[20px] font-semibold text-textButton'
+                                : 'w-full rounded-md bg-bg2 px-2 py-2 text-[14px] leading-[20px] font-semibold text-blue'
+                            }
+                            disabled={isDisabled}
+                            onClick={() => { toggleReminderCurrencyId(currencyId) }}
+                          >
+                            {currencyId}
+                          </Button>
+                        )
+                      })}
+                    </div>
+                    <div className="text-[14px] leading-[20px] text-textSec2">
+                      {t('userBalance.reminderCurrencySelected', {
+                        count: reminderCurrencyIdsSelected.length,
+                        max: REMINDER_CURRENCY_MAX_SELECTED,
+                      })}
+                    </div>
+                  </div>
+                  <div className="mt-2 text-[14px] leading-[20px] text-textSec2">
+                    {reminderCurrencyText}
+                  </div>
+                </Field>
+                <Field title={t('userBalance.paymentComment')}>
+                  <InputText
+                    placeholder={t('userBalance.paymentCommentPlaceholder')}
+                    value={reminderPaymentComment}
+                    onChange={setReminderPaymentComment}
+                  />
+                </Field>
+              </div>
+            </Panel>
+          }
+
+          <Bottom h={56}>
+            <div className="grid grid-cols-2 gap-2">
+              <Button
+                className={isSettleUpPrimary ? primaryActionClassName : secondaryActionClassName}
+                onClick={handleSettleUpClick}
+                isBusy={isBusy}
+              >
+                {t('settleUp')}
+              </Button>
+              <Button
+                className={isReminder ? primaryActionClassName : secondaryActionClassName}
+                onClick={shareDebtReminder}
+                isBusy={isBusy}
+              >
+                {t('userBalance.remind')}
+              </Button>
+            </div>
+          </Bottom>
         </>
       )}
 

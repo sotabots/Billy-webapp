@@ -7,7 +7,7 @@ import { useStore, useFeedback, useUsers, useTgSettings, useUser, usePostUserOnb
 
 
 import i18n from '../i18n'
-import { TPaywallSource, TUser } from '../types'
+import { TDebtDeepLinkParams, TPaywallSource, TUser } from '../types'
 import { getTransactionEditPath } from '../utils'
 
 export const useInit = () => {
@@ -24,6 +24,8 @@ export const useInit = () => {
     transaction, setTransaction,
     isAuthorSharesInited, setIsAuthorSharesInited,
     paywallSource, setPaywallSource,
+    startBalanceUserId, setStartBalanceUserId,
+    startBalanceDebt, setStartBalanceDebt,
   } = useStore()
   const routerLocation = useLocation()
   const navigate = useNavigate()
@@ -40,7 +42,10 @@ export const useInit = () => {
 
   if (!startParam) {
     const queryParameters = new URLSearchParams(routerLocation.search)
-    const queryStartParam = queryParameters.get('start')
+    const queryStartParam =
+      queryParameters.get('start') ||
+      queryParameters.get('tgWebAppStartParam') ||
+      queryParameters.get('startapp')
     if (queryStartParam) {
       startParam = queryStartParam
     }
@@ -48,6 +53,8 @@ export const useInit = () => {
 
   let startParamTxId
   let startParamChatId
+  let startParamBalanceUserId: undefined | number
+  let startParamBalanceDebt: undefined | TDebtDeepLinkParams
   let startParamRef: undefined | number
   let startParamPwTxId: undefined | string
   let startParamPaywallSource: TPaywallSource
@@ -58,8 +65,9 @@ export const useInit = () => {
       const startParamReplaced = startParam
         .split('-').join('+')
         .split('_').join('/')
-      console.log('start startParamReplaced', startParamReplaced)
-      const startParamJsonEncoded = atob(startParamReplaced)
+      const startParamPadded = startParamReplaced.padEnd(Math.ceil(startParamReplaced.length / 4) * 4, '=')
+      console.log('start startParamReplaced', startParamPadded)
+      const startParamJsonEncoded = atob(startParamPadded)
       console.log('start startParamJsonEncoded', startParamJsonEncoded)
       const startParamJson = JSON.parse(startParamJsonEncoded)
       console.log('start startParamJson', startParamJson)
@@ -69,6 +77,28 @@ export const useInit = () => {
       }
       if ('chat_id' in startParamJson) {
         startParamChatId = startParamJson.chat_id
+      }
+      if ('balance_user_id' in startParamJson) {
+        const balanceUserId = Number(startParamJson.balance_user_id)
+        if (Number.isFinite(balanceUserId)) {
+          startParamBalanceUserId = balanceUserId
+        }
+      }
+      if (typeof startParamJson.balance_debt === 'object' && startParamJson.balance_debt !== null) {
+        const balanceDebt = startParamJson.balance_debt as Record<string, unknown>
+        const fromUserId = Number(balanceDebt.from_user_id)
+        const toUserId = Number(balanceDebt.to_user_id)
+        const currencyId = typeof balanceDebt.currency_id === 'string' ? balanceDebt.currency_id : undefined
+        const amount = Number(balanceDebt.amount)
+
+        if (Number.isFinite(fromUserId) && Number.isFinite(toUserId) && currencyId) {
+          startParamBalanceDebt = {
+            from_user_id: fromUserId,
+            to_user_id: toUserId,
+            currency_id: currencyId,
+            ...(Number.isFinite(amount) ? { amount } : {}),
+          }
+        }
       }
       if ('pw_txid' in startParamJson) {
         startParamPwTxId = startParamJson.pw_txid
@@ -93,12 +123,24 @@ export const useInit = () => {
 
   const routeTxId = queryTxId || startParamTxId
 
+  if (!startParamBalanceUserId && startParamBalanceDebt) {
+    startParamBalanceUserId = startParamBalanceDebt.from_user_id
+  }
+
   if (txId === undefined || (!!routeTxId && txId !== routeTxId)) {
     setTxId(routeTxId || 'demo-tx')
   }
 
   if (chatIdStart === undefined && startParamChatId) {
     setChatIdStart(startParamChatId)
+  }
+
+  if (startBalanceUserId === undefined && startParamBalanceUserId) {
+    setStartBalanceUserId(startParamBalanceUserId)
+  }
+
+  if (startBalanceDebt === undefined && startParamBalanceDebt) {
+    setStartBalanceDebt(startParamBalanceDebt)
   }
 
   if (pwTxId === undefined && startParamPwTxId) {
@@ -127,6 +169,12 @@ export const useInit = () => {
       navigate(getTransactionEditPath(routeTxId), { replace: true })
     }
   }, [navigate, queryTxId, routeTxId, routerLocation.pathname])
+
+  useEffect(() => {
+    if (startParamBalanceUserId && routerLocation.pathname !== '/chat-balance') {
+      navigate('/chat-balance', { replace: true })
+    }
+  }, [navigate, routerLocation.pathname, startParamBalanceUserId])
 
   // init new-tx author shares
   useEffect(() => {

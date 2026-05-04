@@ -22,6 +22,22 @@ export const getUsdRate = (rates: TRates | undefined, currencyId: TCurrencyId | 
 
 export const getTransactionEditPath = (txId: string) => `/?${new URLSearchParams({ txid: txId }).toString()}`
 
+export const encodeStartParam = (payload: Record<string, unknown>): string =>
+  btoa(JSON.stringify(payload))
+    .replace(/\+/g, '-')
+    .replace(/\//g, '_')
+    .replace(/=+$/g, '')
+
+export const getChatBalanceStartPath = (startParam: string) => (
+  `/chat-balance?${new URLSearchParams({ start: startParam }).toString()}`
+)
+
+export const CHAT_BALANCE_MINI_APP_URL = 'https://t.me/BillyMoney_bot/chat_balance'
+
+export const getChatBalanceStartUrl = (startParam: string): string => {
+  return `${CHAT_BALANCE_MINI_APP_URL}?${new URLSearchParams({ startapp: startParam }).toString()}`
+}
+
 export const closeApp = () => {
   if (window.Telegram?.WebApp.platform !== 'unknown') {
     window.Telegram?.WebApp.close()

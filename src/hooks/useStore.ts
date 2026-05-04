@@ -1,7 +1,7 @@
 import { create } from 'zustand'
 import { persist } from 'zustand/middleware'
 
-import { TCurrencyId, TTransaction, TFilterTotal, TFilterPeriod, TNewTransaction, TFlow, TPaywallSource, TPaywallFrom } from '../types'
+import { TCurrencyId, TTransaction, TFilterTotal, TFilterPeriod, TNewTransaction, TFlow, TPaywallSource, TPaywallFrom, TUserId, TDebtDeepLinkParams } from '../types'
 import { cacheBackend, getInitialBackend, normalizeApiUrl } from '../api/backendConfig'
 
 type TStore = {
@@ -22,6 +22,10 @@ type TStore = {
   setChatIdStart: (chatIdStart: number) => void
   selectedChatId: undefined | number
   setSelectedChatId: (chatId: number) => void
+  startBalanceUserId: undefined | TUserId
+  setStartBalanceUserId: (startBalanceUserId: undefined | TUserId) => void
+  startBalanceDebt: undefined | TDebtDeepLinkParams
+  setStartBalanceDebt: (startBalanceDebt: undefined | TDebtDeepLinkParams) => void
 
   pwTxId: undefined | string
   setPwTxId: (pwTxId: string) => void
@@ -98,6 +102,10 @@ export const useStore = create<TStore>((set /*, get */) => ({
   setChatIdStart: (chatIdStart) => set(({ chatIdStart })),
   selectedChatId: undefined,
   setSelectedChatId: (selectedChatId) => set(({ selectedChatId })),
+  startBalanceUserId: undefined,
+  setStartBalanceUserId: (startBalanceUserId) => set(({ startBalanceUserId })),
+  startBalanceDebt: undefined,
+  setStartBalanceDebt: (startBalanceDebt) => set(({ startBalanceDebt })),
 
   pwTxId: undefined,
   setPwTxId: (pwTxId) => set(({ pwTxId })),

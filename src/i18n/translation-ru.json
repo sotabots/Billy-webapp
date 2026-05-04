@@ -107,7 +107,27 @@
     "myDebts": "Мой долг",
     "myCredits": "Мне должны",
     "payBack": "Вернуть",
-    "remind": "Напомнить"
+    "remind": "Напомнить",
+    "reminderTitle": "Напомнить о долге",
+    "reminderScenarioTitle": "Вам должны деньги",
+    "reminderScenarioDescription": "Отправьте человеку напоминание в Telegram. В сообщении будет ссылка на этот расчёт и комментарий, куда удобно получить деньги.",
+    "settleScenarioTitle": "Вы закрываете долг",
+    "settleScenarioDescription": "Проверьте сумму и получателя. После подтверждения Билли создаст возврат денег и обновит баланс в чате.",
+    "reminderCurrency": "Мне удобно получить",
+    "reminderCurrencyHint": "Можно выбрать несколько валют, но не более {{max}}.",
+    "reminderCurrencySelected": "Выбрано {{count}} из {{max}}.",
+    "currencyOr": "или",
+    "paymentComment": "Куда скидывать деньги",
+    "paymentCommentPlaceholder": "Карта, телефон, банк или другой комментарий",
+    "sendReminder": "Отправить напоминание",
+    "reminderCopiedTitle": "Скопировано",
+    "reminderUsernameCopied": "Username {{value}} скопирован. Вставьте его в поиск Telegram.",
+    "reminderNameCopied": "Имя {{value}} скопировано. Вставьте его в поиск Telegram.",
+    "reminderCopyFailed": "Не получилось скопировать {{value}}. Его можно ввести вручную в поиске Telegram.",
+    "settleUpConfirm": "Билли создаст возврат денег на указанную сумму между этими участниками и пересчитает баланс чата. Подтвердить закрытие долга?",
+    "settleUpConfirmYes": "Подтвердить",
+    "reminderErrorTitle": "Не получилось отправить",
+    "reminderErrorMessage": "Попробуйте ещё раз чуть позже. Если ошибка повторится, напишите в поддержку."
   },
 
   "chatBalance": {

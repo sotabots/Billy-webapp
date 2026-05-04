@@ -28,7 +28,7 @@ export const Bottom =({ className, children, h }: {
         'Bottom-content fixed z-[1] w-full px-4 bottom-0 left-0 bg-bg py-2',
         className,
       )}>
-        <div className="Bottom-content-shadow absolute bottom-full left-0 w-full h-2 -bg-gradient-to-t from-bg to-transparent" />
+        <div className="Bottom-content-shadow absolute bottom-full left-0 w-full h-2 bg-gradient-to-t from-bg to-transparent" />
         <Limiter className="w-full">
           <div className={cx('Bottom-content w-full', className)}>
             {children}

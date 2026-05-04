@@ -107,7 +107,27 @@
     "myDebts": "I owe",
     "myCredits": "I am owed",
     "payBack": "Pay back",
-    "remind": "Remind"
+    "remind": "Remind",
+    "reminderTitle": "Send a debt reminder",
+    "reminderScenarioTitle": "You are owed money",
+    "reminderScenarioDescription": "Send this person a Telegram reminder. The message will include a link to this settlement and your payment note.",
+    "settleScenarioTitle": "You are closing a debt",
+    "settleScenarioDescription": "Check the amount and recipient. After confirmation, Billy will create a payback transaction and update the chat balance.",
+    "reminderCurrency": "I prefer to receive",
+    "reminderCurrencyHint": "You can choose multiple currencies, up to {{max}}.",
+    "reminderCurrencySelected": "Selected {{count}} of {{max}}.",
+    "currencyOr": "or",
+    "paymentComment": "Where to send money",
+    "paymentCommentPlaceholder": "Card, phone, bank, or any other note",
+    "sendReminder": "Send reminder",
+    "reminderCopiedTitle": "Copied",
+    "reminderUsernameCopied": "Username {{value}} has been copied. Paste it into Telegram search.",
+    "reminderNameCopied": "Name {{value}} has been copied. Paste it into Telegram search.",
+    "reminderCopyFailed": "Could not copy {{value}}. You can type it manually in Telegram search.",
+    "settleUpConfirm": "Billy will create a payback transaction for this amount between these participants and recalculate the chat balance. Confirm closing the debt?",
+    "settleUpConfirmYes": "Confirm",
+    "reminderErrorTitle": "Could not send",
+    "reminderErrorMessage": "Please try again a bit later. If the error repeats, contact support."
   },
 
   "chatBalance": {

@@ -3,10 +3,10 @@ import { useEffect, useState, useRef, UIEvent } from 'react'
 import { useTranslation } from 'react-i18next'
 import { useNavigate } from 'react-router-dom'
 
-import { useInit, useFilter, useFeedback, useSummary, useGetSummary, useGetSummarySheetRebuild, useGetChat, /*, useStore */ } from '../hooks'
+import { useInit, useFilter, useFeedback, useSummary, useGetSummary, useGetSummarySheetRebuild, useGetChat, useStore } from '../hooks'
 import { Page, Header, CustomHeader, Button } from '../kit'
 import { Summary, UserBalance, ChatSettings, TSettingsInner } from '../pages'
-import { TUserId } from '../types'
+import { TDebtDeepLinkParams, TUserId } from '../types'
 
 import { ReactComponent as SettingsIcon } from '../assets/settings.svg'
 import { ChatBalance } from './ChatBalance'
@@ -18,7 +18,7 @@ export const Home = ({ tab }: {
 }) => {
   useInit()
 
-  // const { isDebug } = useStore()
+  const { startBalanceUserId, setStartBalanceUserId, startBalanceDebt, setStartBalanceDebt } = useStore()
 
   const { t } = useTranslation()
   const navigate = useNavigate()
@@ -39,6 +39,7 @@ export const Home = ({ tab }: {
 
   const [selectedChatBalanceUserId, setSelectedChatBalanceUserId] = useState<null | TUserId>(null)
   const [selectedChatBalanceDebtId, setSelectedChatBalanceDebtId] = useState<null | string>(null)
+  const [selectedChatBalanceFocusDebt, setSelectedChatBalanceFocusDebt] = useState<null | TDebtDeepLinkParams>(null)
   const isSelectedChatBalanceDebt = selectedChatBalanceDebtId !== null
   const [isChatBalanceRecipientsOpen, setIsChatBalanceRecipientsOpen] = useState<boolean>(false)
   const [chatBalanceCustomRecipientId, setChatBalanceCustomRecipientId] = useState<null | TUserId>(null)
@@ -52,6 +53,7 @@ export const Home = ({ tab }: {
   const resetChatBalanceState = () => {
     setSelectedChatBalanceUserId(null)
     setSelectedChatBalanceDebtId(null)
+    setSelectedChatBalanceFocusDebt(null)
     setIsChatBalanceRecipientsOpen(false)
     setChatBalanceCustomRecipientId(null)
     setIsChatBalanceCurrencyOpen(false)
@@ -64,6 +66,15 @@ export const Home = ({ tab }: {
       resetChatBalanceState()
     }
   }, [tab])
+
+  useEffect(() => {
+    if (tab === 'chat-balance' && startBalanceUserId && selectedChatBalanceUserId === null) {
+      setSelectedChatBalanceUserId(startBalanceUserId)
+      setSelectedChatBalanceFocusDebt(startBalanceDebt || null)
+      setStartBalanceUserId(undefined)
+      setStartBalanceDebt(undefined)
+    }
+  }, [selectedChatBalanceUserId, setStartBalanceDebt, setStartBalanceUserId, startBalanceDebt, startBalanceUserId, tab])
 
   const selectTab = (newTab: TTab) => () => {
     if (newTab === tab) {
@@ -134,11 +145,13 @@ export const Home = ({ tab }: {
         })
         || (tab === 'chat-balance' && isSelectedChatBalanceDebt) && (() => {
           setSelectedChatBalanceDebtId(null)
+          setSelectedChatBalanceFocusDebt(null)
           setChatBalanceCustomRecipientId(null)
         })
         || (tab === 'chat-balance' && selectedChatBalanceUserId !== null) && (() => {
           setSelectedChatBalanceUserId(null)
           setSelectedChatBalanceDebtId(null)
+          setSelectedChatBalanceFocusDebt(null)
           setIsChatBalanceRecipientsOpen(false)
           setChatBalanceCustomRecipientId(null)
           setIsChatBalanceCurrencyOpen(false)
@@ -206,6 +219,7 @@ export const Home = ({ tab }: {
                 onUserClick={(userId: TUserId) => {
                   setSelectedChatBalanceUserId(userId)
                   setSelectedChatBalanceDebtId(null)
+                  setSelectedChatBalanceFocusDebt(null)
                   setIsChatBalanceRecipientsOpen(false)
                   setChatBalanceCustomRecipientId(null)
                   setIsChatBalanceCurrencyOpen(false)
@@ -225,9 +239,11 @@ export const Home = ({ tab }: {
               customRecipientId={chatBalanceCustomRecipientId}
               setCustomRecipientId={setChatBalanceCustomRecipientId}
               focusUserId={selectedChatBalanceUserId}
+              focusDebt={selectedChatBalanceFocusDebt}
               onBack={() => {
                 setSelectedChatBalanceUserId(null)
                 setSelectedChatBalanceDebtId(null)
+                setSelectedChatBalanceFocusDebt(null)
                 setIsChatBalanceRecipientsOpen(false)
                 setChatBalanceCustomRecipientId(null)
                 setIsChatBalanceCurrencyOpen(false)
