@@ -512,8 +512,8 @@ export const UserBalance = ({
     !isBusy
   const isReminder: boolean = !!selectedDebt && userId === selectedDebt.to_user_id
   const isSettleUpPrimary = !isReminder
-  const primaryActionClassName = 'w-full rounded-md bg-blue px-3 py-2 text-[14px] leading-[20px] font-semibold text-textButton'
-  const secondaryActionClassName = 'w-full rounded-md bg-bg2 px-3 py-2 text-[14px] leading-[20px] font-semibold text-blue'
+  const primaryActionClassName = 'h-10 w-full rounded-md bg-blue px-3 text-[14px] leading-[20px] font-semibold text-textButton'
+  const secondaryActionClassName = 'h-10 w-full rounded-md bg-bg2 px-3 text-[14px] leading-[20px] font-semibold text-blue'
   const reminderCurrencyIds: TCurrencyId[] = selectedDebt
     ? Array.from(new Set<TCurrencyId>(['RUB', 'EUR', 'USD', selectedDebt.value_primary.currency_id]))
     : []
