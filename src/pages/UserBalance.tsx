@@ -13,6 +13,41 @@ import lottieKoalaSuccess from '../assets/animation-koala-success.json'
 
 const REMINDER_CURRENCY_MAX_SELECTED = 3
 
+const getTelegramUsernameMention = (username?: string): string | null => {
+  const normalizedUsername = username?.trim().replace(/^@+/, '')
+
+  return normalizedUsername ? `@${normalizedUsername}` : null
+}
+
+const copyTextToClipboard = async (text: string): Promise<boolean> => {
+  try {
+    if (window.isSecureContext && navigator.clipboard?.writeText) {
+      await navigator.clipboard.writeText(text)
+      return true
+    }
+  } catch {
+    // Fallback below covers Telegram WebViews where Clipboard API is unavailable.
+  }
+
+  try {
+    const textarea = document.createElement('textarea')
+    textarea.value = text
+    textarea.setAttribute('readonly', '')
+    textarea.style.position = 'fixed'
+    textarea.style.top = '-1000px'
+    textarea.style.opacity = '0'
+    document.body.appendChild(textarea)
+    textarea.focus()
+    textarea.select()
+    const isCopied = document.execCommand('copy')
+    document.body.removeChild(textarea)
+
+    return isCopied
+  } catch {
+    return false
+  }
+}
+
 export const UserBalance = ({
   isCurrencyOpen,
   setIsCurrencyOpen,
@@ -371,6 +406,11 @@ export const UserBalance = ({
     const debtLink = getChatBalanceStartUrl(debtStartParam)
 
     const preferredCurrencyIds = reminderCurrencyIdsSelected.slice(0, REMINDER_CURRENCY_MAX_SELECTED)
+    const reminderTargetUsername = getTelegramUsernameMention(fromUser?.username)
+
+    if (reminderTargetUsername) {
+      void copyTextToClipboard(reminderTargetUsername)
+    }
 
     setIsBusy(true)
     try {
