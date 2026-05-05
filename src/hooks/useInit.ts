@@ -3,12 +3,12 @@ import { useInitData } from '@vkruglikov/react-telegram-web-app'
 import { useEffect } from 'react'
 import { useLocation, useNavigate } from 'react-router-dom'
 
-import { useStore, useFeedback, useUsers, useTgSettings, useUser, usePostUserOnboarding, useAuth, useApiUrlInit } from '../hooks'
+import { useStore, useFeedback, useUsers, useTgSettings, useUser, usePostUserOnboarding, useAuth, useApiUrlInit, useGetTransactionChatId } from '../hooks'
 
 
 import i18n from '../i18n'
-import { TPaywallSource, TUser } from '../types'
-import { getTransactionEditPath } from '../utils'
+import { TPaywallSource, TStartPayload, TUser } from '../types'
+import { decodeStartParam, getTransactionEditPath } from '../utils'
 
 export const useInit = () => {
   useTgSettings()
@@ -33,47 +33,72 @@ export const useInit = () => {
   const { userId } = useAuth()
 
   // init transaction/summary pages
-  const queryParameters = new URLSearchParams(routerLocation.search)
-  const queryTxId = queryParameters.get('txid')
+  const routeQueryParameters = new URLSearchParams(routerLocation.search)
+  const pageQueryParameters = new URLSearchParams(window.location.search)
+  const queryTxId = routeQueryParameters.get('txid')
+    || pageQueryParameters.get('txid')
 
-  let startParam = initDataUnsafe.start_param
+  let startParam = window.Telegram?.WebApp?.initDataUnsafe?.start_param
+    || initDataUnsafe.start_param
 
   if (!startParam) {
-    const queryParameters = new URLSearchParams(routerLocation.search)
-    const queryStartParam = queryParameters.get('start')
+    const queryStartParam =
+      routeQueryParameters.get('start') ||
+      routeQueryParameters.get('tgWebAppStartParam') ||
+      routeQueryParameters.get('startapp') ||
+      routeQueryParameters.get('startApp') ||
+      pageQueryParameters.get('start') ||
+      pageQueryParameters.get('tgWebAppStartParam') ||
+      pageQueryParameters.get('startapp') ||
+      pageQueryParameters.get('startApp')
     if (queryStartParam) {
       startParam = queryStartParam
     }
   }
 
-  let startParamTxId
-  let startParamChatId
+  let startParamTxId: undefined | string
+  let startParamChatId: undefined | number
   let startParamRef: undefined | number
   let startParamPwTxId: undefined | string
   let startParamPaywallSource: TPaywallSource
+  let startParamScreen: TStartPayload['s']
 
   if (startParam) {
     try {
       console.log('start startParam', startParam)
-      const startParamReplaced = startParam
-        .split('-').join('+')
-        .split('_').join('/')
-      console.log('start startParamReplaced', startParamReplaced)
-      const startParamJsonEncoded = atob(startParamReplaced)
-      console.log('start startParamJsonEncoded', startParamJsonEncoded)
-      const startParamJson = JSON.parse(startParamJsonEncoded)
+      const startParamJson = decodeStartParam(startParam)
       console.log('start startParamJson', startParamJson)
 
-      if ('transaction_id' in startParamJson) {
+      if (!startParamJson) {
+        throw new Error('Empty start param')
+      }
+      if (typeof startParamJson.t === 'string') {
+        startParamTxId = startParamJson.t
+      }
+      if (typeof startParamJson.c === 'number') {
+        startParamChatId = startParamJson.c
+      }
+      if (typeof startParamJson.p === 'string') {
+        startParamPaywallSource = startParamJson.p
+      }
+      if (
+        startParamJson.s === 'profile' ||
+        startParamJson.s === 'slide_prepaywall' ||
+        startParamJson.s === 'chat'
+      ) {
+        startParamScreen = startParamJson.s
+      }
+
+      if ('transaction_id' in startParamJson && typeof startParamJson.transaction_id === 'string') {
         startParamTxId = startParamJson.transaction_id
       }
-      if ('chat_id' in startParamJson) {
+      if ('chat_id' in startParamJson && typeof startParamJson.chat_id === 'number') {
         startParamChatId = startParamJson.chat_id
       }
-      if ('pw_txid' in startParamJson) {
+      if ('pw_txid' in startParamJson && typeof startParamJson.pw_txid === 'string') {
         startParamPwTxId = startParamJson.pw_txid
       }
-      if ('paywall_source' in startParamJson) {
+      if ('paywall_source' in startParamJson && typeof startParamJson.paywall_source === 'string') {
         startParamPaywallSource = startParamJson.paywall_source
       }
       console.log('start startParamTxId', startParamTxId)
@@ -92,6 +117,7 @@ export const useInit = () => {
   }
 
   const routeTxId = queryTxId || startParamTxId
+  const { data: transactionChatId } = useGetTransactionChatId(routeTxId)
 
   if (txId === undefined || (!!routeTxId && txId !== routeTxId)) {
     setTxId(routeTxId || 'demo-tx')
@@ -99,6 +125,15 @@ export const useInit = () => {
 
   if (chatIdStart === undefined && startParamChatId) {
     setChatIdStart(startParamChatId)
+  }
+
+  if (
+    chatIdStart === undefined &&
+    startParamChatId === undefined &&
+    routeTxId &&
+    typeof transactionChatId?.chat_id === 'number'
+  ) {
+    setChatIdStart(transactionChatId.chat_id)
   }
 
   if (pwTxId === undefined && startParamPwTxId) {
@@ -113,20 +148,44 @@ export const useInit = () => {
     setFlow('transaction')
   }
 
-  if (routerLocation.pathname.includes('/summary') && flow !== 'summary') {
+  if ((routerLocation.pathname === '/' || routerLocation.pathname.includes('/summary')) && flow !== 'summary') {
     setFlow('summary')
   }
 
   useEffect(() => {
     if (
-      routerLocation.pathname === '/' &&
       routeTxId &&
       !queryTxId &&
-      routeTxId !== 'demo-tx'
+      routeTxId !== 'demo-tx' &&
+      routerLocation.pathname !== '/edit'
     ) {
       navigate(getTransactionEditPath(routeTxId), { replace: true })
+      return
     }
-  }, [navigate, queryTxId, routeTxId, routerLocation.pathname])
+
+    if (routerLocation.pathname !== '/' || routeTxId) {
+      return
+    }
+
+    if (startParamPaywallSource) {
+      navigate('/paywall', { replace: true })
+      return
+    }
+
+    if (startParamScreen === 'profile') {
+      navigate('/profile', { replace: true })
+      return
+    }
+
+    if (startParamScreen === 'slide_prepaywall') {
+      navigate('/onboarding', { replace: true })
+      return
+    }
+
+    if (startParamChatId || startParamScreen === 'chat') {
+      navigate('/', { replace: true })
+    }
+  }, [navigate, queryTxId, routeTxId, routerLocation.pathname, startParamChatId, startParamPaywallSource, startParamScreen])
 
   // init new-tx author shares
   useEffect(() => {
@@ -169,7 +228,7 @@ export const useInit = () => {
         })
       }
     }
-  }, [transaction, users, isAuthorSharesInited, setIsAuthorSharesInited, getUserById, setTransaction])
+  }, [transaction, users, isAuthorSharesInited, setIsAuthorSharesInited, getUserById, setTransaction, userId])
 
   // init language
   if (
@@ -192,7 +251,7 @@ export const useInit = () => {
       setIsFlowFeedback(true)
       feedback('open_page_summary_web')
     }
-  }, [flow, isFlowFeedback, setIsFlowFeedback, transaction])
+  }, [feedback, flow, isFlowFeedback, setIsFlowFeedback, transaction])
 
 
   // onboarding
@@ -215,5 +274,5 @@ export const useInit = () => {
         ref: startParamRef
       })
     }
-  }, [isOnboardingFeedback])
+  }, [feedback, isOnboardingFeedback, postUserOnboarding, routerLocation.pathname, setIsOnboardingFeedback, startParamRef])
 }

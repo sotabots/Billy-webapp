@@ -140,7 +140,7 @@ export const Profile = () => {
                   if (goBack) {
                     goBack()
                   } else {
-                    navigate('/summary')
+                    navigate('/')
                   }
                 }}
               />
