@@ -3,7 +3,7 @@ import { useQuery } from '@tanstack/react-query'
 
 import { useAuth, useNewTx, useChatId, useStore } from '../hooks'
 import { backendFetch } from '../api/backendMonitor'
-import { TCurrency, TCategories, TTransaction, TNewTransaction, TUser, TChat, TSummary, TCurrencyId, TLanguageCode, TMode, TPlan, TProfile, TUserSettings, TPayoffMethods, TUserPayoffMethod, TUserId, TPayFor, TDebtReminderPayload, TDebtReminderResponse } from '../types'
+import { TCurrency, TCategories, TTransaction, TNewTransaction, TUser, TChat, TSummary, TCurrencyId, TLanguageCode, TMode, TPlan, TProfile, TUserSettings, TPayoffMethods, TUserPayoffMethod, TUserId, TPayFor, TDebtReminderPayload, TDebtReminderResponse, TChatId } from '../types'
 import {
   mockTransaction,
   mockUsers,
@@ -53,6 +53,27 @@ export const useGetTx = () => {
         }
       },
       enabled: txId !== undefined && !!apiUrl,
+    })
+  )
+}
+
+export const useGetTransactionChatId = (transactionId?: string) => {
+  const { apiUrl } = useStore()
+  const { authString, isAuth } = useAuth()
+  const isRealTransaction = !!transactionId && !transactionId.includes('demo') && transactionId !== 'NEW'
+
+  return (
+    useQuery<{ chat_id: TChatId | null }, Error>({
+      queryKey: ['transaction_chat_id', apiUrl, transactionId],
+      queryFn: () =>
+        backendFetch(`${apiUrl}/transactions/${transactionId}/chat_id`, {
+          method: 'GET',
+          headers: {
+            'Authorization': authString,
+          }
+        }).then(handleJsonResponse),
+      enabled: isRealTransaction && !!apiUrl && isAuth,
+      staleTime
     })
   )
 }

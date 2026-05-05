@@ -5,11 +5,11 @@ import { SelectUser, Edit, SelectCurrency, SelectUsers, SelectCategory, Home, On
 export const router = createHashRouter([
   {
     path: '/',
-    element: <Edit />,
-    errorElement: <Edit />,
+    element: <Home tab="summary" />,
+    errorElement: <Home tab="summary" />,
   },
   {
-    path: '*',
+    path: '/edit',
     element: <Edit />,
   },
   {
@@ -83,5 +83,9 @@ export const router = createHashRouter([
   {
     path: '/payoff-methods/edit',
     element: <PayoffMethods page="edit" />,
+  },
+  {
+    path: '*',
+    element: <Home tab="summary" />,
   },
 ])

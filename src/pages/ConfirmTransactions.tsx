@@ -45,7 +45,7 @@ export const ConfirmTransactions = () => {
     <Page>
       <Header
         todoRemove
-        onBack={() => { navigate('/summary') }}
+        onBack={() => { navigate('/') }}
       />
 
       <div className="flex flex-col gap-2">
@@ -53,7 +53,7 @@ export const ConfirmTransactions = () => {
           <div className="flex items-center gap-[10px]">
             <Button
               className="flex h-6 w-6 items-center justify-center text-icon"
-              onClick={() => { navigate('/summary') }}
+              onClick={() => { navigate('/') }}
             >
               <ChevronIcon className="h-6 w-6 rotate-180" />
             </Button>

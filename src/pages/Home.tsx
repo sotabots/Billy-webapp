@@ -80,7 +80,7 @@ export const Home = ({ tab }: {
     if (newTab === tab) {
       return
     }
-    navigate('/' + newTab)
+    navigate(newTab === 'summary' ? '/' : '/' + newTab)
     screenRef.current?.scrollTo({ top: 0, behavior: 'smooth' })
     if (newTab === 'summary') {
       feedback('show_total_balances_web', {

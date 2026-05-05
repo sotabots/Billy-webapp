@@ -166,7 +166,16 @@ export type TPlan = {
   productKey: TPlanProductKey
 }
 
-export type TPaywallSource = undefined | 'onboarding' | 'summary_donut' | 'cashback' | 'monthly_limit' | 'voice_limit' | 'voice_limit_edit' | 'subscription_menu'
+export type TKnownPaywallSource = 'onboarding' | 'summary_donut' | 'cashback' | 'monthly_limit' | 'voice_limit' | 'voice_limit_edit' | 'subscription_menu'
+
+export type TPaywallSource = undefined | TKnownPaywallSource | string
+
+export type TStartPayload = {
+  c?: TChatId
+  t?: string
+  p?: TPaywallSource
+  s?: 'profile' | 'slide_prepaywall' | 'chat'
+}
 
 export type TPaywallFrom = undefined | 'edit' | 'onboarding' | 'settings' | 'summary'
 
