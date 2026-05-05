@@ -161,7 +161,7 @@ export const useInit = () => {
     chatIdStart === undefined &&
     startParamChatId === undefined &&
     routeTxId &&
-    transactionChatId?.chat_id
+    typeof transactionChatId?.chat_id === 'number'
   ) {
     setChatIdStart(transactionChatId.chat_id)
   }
@@ -192,10 +192,9 @@ export const useInit = () => {
 
   useEffect(() => {
     if (
-      routerLocation.pathname === '/' &&
       routeTxId &&
-      !queryTxId &&
-      routeTxId !== 'demo-tx'
+      routeTxId !== 'demo-tx' &&
+      routerLocation.pathname !== '/edit'
     ) {
       navigate(getTransactionEditPath(routeTxId), { replace: true })
       return
