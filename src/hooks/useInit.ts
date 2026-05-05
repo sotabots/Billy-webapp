@@ -3,12 +3,12 @@ import { useInitData } from '@vkruglikov/react-telegram-web-app'
 import { useEffect } from 'react'
 import { useLocation, useNavigate } from 'react-router-dom'
 
-import { useStore, useFeedback, useUsers, useTgSettings, useUser, usePostUserOnboarding, useAuth, useApiUrlInit } from '../hooks'
+import { useStore, useFeedback, useUsers, useTgSettings, useUser, usePostUserOnboarding, useAuth, useApiUrlInit, useGetTransactionChatId } from '../hooks'
 
 
 import i18n from '../i18n'
-import { TDebtDeepLinkParams, TPaywallSource, TUser } from '../types'
-import { getTransactionEditPath } from '../utils'
+import { TDebtDeepLinkParams, TPaywallSource, TStartPayload, TUser } from '../types'
+import { decodeStartParam, getTransactionEditPath } from '../utils'
 
 export const useInit = () => {
   useTgSettings()
@@ -35,47 +35,68 @@ export const useInit = () => {
   const { userId } = useAuth()
 
   // init transaction/summary pages
-  const queryParameters = new URLSearchParams(routerLocation.search)
-  const queryTxId = queryParameters.get('txid')
+  const routeQueryParameters = new URLSearchParams(routerLocation.search)
+  const pageQueryParameters = new URLSearchParams(window.location.search)
+  const queryTxId = routeQueryParameters.get('txid')
+    || pageQueryParameters.get('txid')
 
-  let startParam = initDataUnsafe.start_param
+  let startParam = window.Telegram?.WebApp?.initDataUnsafe?.start_param
+    || initDataUnsafe.start_param
 
   if (!startParam) {
-    const queryParameters = new URLSearchParams(routerLocation.search)
     const queryStartParam =
-      queryParameters.get('start') ||
-      queryParameters.get('tgWebAppStartParam') ||
-      queryParameters.get('startapp')
+      routeQueryParameters.get('start') ||
+      routeQueryParameters.get('tgWebAppStartParam') ||
+      routeQueryParameters.get('startapp') ||
+      routeQueryParameters.get('startApp') ||
+      pageQueryParameters.get('start') ||
+      pageQueryParameters.get('tgWebAppStartParam') ||
+      pageQueryParameters.get('startapp') ||
+      pageQueryParameters.get('startApp')
     if (queryStartParam) {
       startParam = queryStartParam
     }
   }
 
-  let startParamTxId
-  let startParamChatId
+  let startParamTxId: undefined | string
+  let startParamChatId: undefined | number
   let startParamBalanceUserId: undefined | number
   let startParamBalanceDebt: undefined | TDebtDeepLinkParams
   let startParamRef: undefined | number
   let startParamPwTxId: undefined | string
   let startParamPaywallSource: TPaywallSource
+  let startParamScreen: TStartPayload['s']
 
   if (startParam) {
     try {
       console.log('start startParam', startParam)
-      const startParamReplaced = startParam
-        .split('-').join('+')
-        .split('_').join('/')
-      const startParamPadded = startParamReplaced.padEnd(Math.ceil(startParamReplaced.length / 4) * 4, '=')
-      console.log('start startParamReplaced', startParamPadded)
-      const startParamJsonEncoded = atob(startParamPadded)
-      console.log('start startParamJsonEncoded', startParamJsonEncoded)
-      const startParamJson = JSON.parse(startParamJsonEncoded)
+      const startParamJson = decodeStartParam(startParam)
       console.log('start startParamJson', startParamJson)
 
-      if ('transaction_id' in startParamJson) {
+      if (!startParamJson) {
+        throw new Error('Empty start param')
+      }
+      if (typeof startParamJson.t === 'string') {
+        startParamTxId = startParamJson.t
+      }
+      if (typeof startParamJson.c === 'number') {
+        startParamChatId = startParamJson.c
+      }
+      if (typeof startParamJson.p === 'string') {
+        startParamPaywallSource = startParamJson.p
+      }
+      if (
+        startParamJson.s === 'profile' ||
+        startParamJson.s === 'slide_prepaywall' ||
+        startParamJson.s === 'chat'
+      ) {
+        startParamScreen = startParamJson.s
+      }
+
+      if ('transaction_id' in startParamJson && typeof startParamJson.transaction_id === 'string') {
         startParamTxId = startParamJson.transaction_id
       }
-      if ('chat_id' in startParamJson) {
+      if ('chat_id' in startParamJson && typeof startParamJson.chat_id === 'number') {
         startParamChatId = startParamJson.chat_id
       }
       if ('balance_user_id' in startParamJson) {
@@ -100,10 +121,10 @@ export const useInit = () => {
           }
         }
       }
-      if ('pw_txid' in startParamJson) {
+      if ('pw_txid' in startParamJson && typeof startParamJson.pw_txid === 'string') {
         startParamPwTxId = startParamJson.pw_txid
       }
-      if ('paywall_source' in startParamJson) {
+      if ('paywall_source' in startParamJson && typeof startParamJson.paywall_source === 'string') {
         startParamPaywallSource = startParamJson.paywall_source
       }
       console.log('start startParamTxId', startParamTxId)
@@ -122,6 +143,7 @@ export const useInit = () => {
   }
 
   const routeTxId = queryTxId || startParamTxId
+  const { data: transactionChatId } = useGetTransactionChatId(routeTxId)
 
   if (!startParamBalanceUserId && startParamBalanceDebt) {
     startParamBalanceUserId = startParamBalanceDebt.from_user_id
@@ -133,6 +155,15 @@ export const useInit = () => {
 
   if (chatIdStart === undefined && startParamChatId) {
     setChatIdStart(startParamChatId)
+  }
+
+  if (
+    chatIdStart === undefined &&
+    startParamChatId === undefined &&
+    routeTxId &&
+    transactionChatId?.chat_id
+  ) {
+    setChatIdStart(transactionChatId.chat_id)
   }
 
   if (startBalanceUserId === undefined && startParamBalanceUserId) {
@@ -167,8 +198,32 @@ export const useInit = () => {
       routeTxId !== 'demo-tx'
     ) {
       navigate(getTransactionEditPath(routeTxId), { replace: true })
+      return
     }
-  }, [navigate, queryTxId, routeTxId, routerLocation.pathname])
+
+    if (routerLocation.pathname !== '/' || routeTxId) {
+      return
+    }
+
+    if (startParamPaywallSource) {
+      navigate('/paywall', { replace: true })
+      return
+    }
+
+    if (startParamScreen === 'profile') {
+      navigate('/profile', { replace: true })
+      return
+    }
+
+    if (startParamScreen === 'slide_prepaywall') {
+      navigate('/onboarding', { replace: true })
+      return
+    }
+
+    if (startParamChatId || startParamScreen === 'chat') {
+      navigate('/summary', { replace: true })
+    }
+  }, [navigate, queryTxId, routeTxId, routerLocation.pathname, startParamChatId, startParamPaywallSource, startParamScreen])
 
   useEffect(() => {
     if (startParamBalanceUserId && routerLocation.pathname !== '/chat-balance') {
@@ -217,7 +272,7 @@ export const useInit = () => {
         })
       }
     }
-  }, [transaction, users, isAuthorSharesInited, setIsAuthorSharesInited, getUserById, setTransaction])
+  }, [transaction, users, isAuthorSharesInited, setIsAuthorSharesInited, getUserById, setTransaction, userId])
 
   // init language
   if (
@@ -240,7 +295,7 @@ export const useInit = () => {
       setIsFlowFeedback(true)
       feedback('open_page_summary_web')
     }
-  }, [flow, isFlowFeedback, setIsFlowFeedback, transaction])
+  }, [feedback, flow, isFlowFeedback, setIsFlowFeedback, transaction])
 
 
   // onboarding
@@ -263,5 +318,5 @@ export const useInit = () => {
         ref: startParamRef
       })
     }
-  }, [isOnboardingFeedback])
+  }, [feedback, isOnboardingFeedback, postUserOnboarding, routerLocation.pathname, setIsOnboardingFeedback, startParamRef])
 }

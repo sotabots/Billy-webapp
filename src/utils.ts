@@ -1,5 +1,5 @@
 import { /*decimals,*/ visible_decimals } from './const'
-import type { TCurrencyId, TPayFor, TRates, TUserId } from './types'
+import type { TCurrencyId, TPayFor, TRates, TStartPayload, TUserId } from './types'
 
 // export const formatAmount = (amount: number) => (amount / 10 ** decimals).toFixed(visible_decimals)
 export const formatAmount = (amount: number, decimals: number = visible_decimals) => amount.toFixed(decimals)
@@ -27,6 +27,26 @@ export const encodeStartParam = (payload: Record<string, unknown>): string =>
     .replace(/\+/g, '-')
     .replace(/\//g, '_')
     .replace(/=+$/g, '')
+
+export const decodeStartParam = (startParam?: string): (TStartPayload & Record<string, unknown>) | null => {
+  if (!startParam) return null
+
+  const padding = '='.repeat((4 - (startParam.length % 4)) % 4)
+  const base64 = startParam.replace(/-/g, '+').replace(/_/g, '/') + padding
+  const json = decodeURIComponent(
+    Array.from(atob(base64))
+      .map((char) => `%${char.charCodeAt(0).toString(16).padStart(2, '0')}`)
+      .join('')
+  )
+
+  const payload = JSON.parse(json)
+
+  if (!payload || typeof payload !== 'object' || Array.isArray(payload)) {
+    return null
+  }
+
+  return payload as TStartPayload & Record<string, unknown>
+}
 
 export const getChatBalanceStartPath = (startParam: string) => (
   `/chat-balance?${new URLSearchParams({ start: startParam }).toString()}`
