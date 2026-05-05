@@ -200,26 +200,30 @@ export const useInit = () => {
       return
     }
 
-    if (routerLocation.pathname !== '/' || routeTxId) {
+    if (routeTxId) {
       return
     }
 
-    if (startParamPaywallSource) {
+    if (startParamPaywallSource && routerLocation.pathname !== '/paywall') {
       navigate('/paywall', { replace: true })
       return
     }
 
-    if (startParamScreen === 'profile') {
+    if (startParamScreen === 'profile' && routerLocation.pathname !== '/profile') {
       navigate('/profile', { replace: true })
       return
     }
 
-    if (startParamScreen === 'slide_prepaywall') {
+    if (startParamScreen === 'slide_prepaywall' && routerLocation.pathname !== '/onboarding') {
       navigate('/onboarding', { replace: true })
       return
     }
 
-    if (startParamChatId || startParamScreen === 'chat') {
+    if (
+      (startParamChatId || startParamScreen === 'chat') &&
+      routerLocation.pathname !== '/' &&
+      routerLocation.pathname !== '/summary'
+    ) {
       navigate('/', { replace: true })
     }
   }, [navigate, queryTxId, routeTxId, routerLocation.pathname, startParamChatId, startParamPaywallSource, startParamScreen])
