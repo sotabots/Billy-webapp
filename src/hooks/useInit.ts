@@ -88,6 +88,7 @@ export const useInit = () => {
       if (
         startParamJson.s === 'profile' ||
         startParamJson.s === 'slide_prepaywall' ||
+        startParamJson.s === 'onboarding' ||
         startParamJson.s === 'chat'
       ) {
         startParamScreen = startParamJson.s
@@ -214,7 +215,10 @@ export const useInit = () => {
       return
     }
 
-    if (startParamScreen === 'slide_prepaywall' && routerLocation.pathname !== '/onboarding') {
+    if (
+      (startParamScreen === 'slide_prepaywall' || startParamScreen === 'onboarding') &&
+      routerLocation.pathname !== '/onboarding'
+    ) {
       navigate('/onboarding', { replace: true })
       return
     }

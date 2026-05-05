@@ -174,7 +174,7 @@ export type TStartPayload = {
   c?: TChatId
   t?: string
   p?: TPaywallSource
-  s?: 'profile' | 'slide_prepaywall' | 'chat'
+  s?: 'profile' | 'slide_prepaywall' | 'onboarding' | 'chat'
 }
 
 export type TPaywallFrom = undefined | 'edit' | 'onboarding' | 'settings' | 'summary'
