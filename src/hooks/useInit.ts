@@ -205,21 +205,27 @@ export const useInit = () => {
       return
     }
 
-    if (startParamPaywallSource && routerLocation.pathname !== '/paywall') {
-      navigate('/paywall', { replace: true })
+    if (startParamPaywallSource) {
+      if (routerLocation.pathname !== '/paywall') {
+        navigate('/paywall', { replace: true })
+      }
       return
     }
 
-    if (startParamScreen === 'profile' && routerLocation.pathname !== '/profile') {
-      navigate('/profile', { replace: true })
+    if (startParamScreen === 'profile') {
+      if (routerLocation.pathname !== '/profile') {
+        navigate('/profile', { replace: true })
+      }
       return
     }
 
     if (
-      (startParamScreen === 'slide_prepaywall' || startParamScreen === 'onboarding') &&
-      routerLocation.pathname !== '/onboarding'
+      startParamScreen === 'slide_prepaywall' ||
+      startParamScreen === 'onboarding'
     ) {
-      navigate('/onboarding', { replace: true })
+      if (routerLocation.pathname !== '/onboarding') {
+        navigate('/onboarding', { replace: true })
+      }
       return
     }
 
