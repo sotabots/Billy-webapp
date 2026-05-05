@@ -20,7 +20,7 @@ export const getUsdRate = (rates: TRates | undefined, currencyId: TCurrencyId | 
     : DEFAULT_USD_RATE
 }
 
-export const getTransactionEditPath = (txId: string) => `/?${new URLSearchParams({ txid: txId }).toString()}`
+export const getTransactionEditPath = (txId: string) => `/edit?${new URLSearchParams({ txid: txId }).toString()}`
 
 export const encodeStartParam = (payload: Record<string, unknown>): string =>
   btoa(JSON.stringify(payload))

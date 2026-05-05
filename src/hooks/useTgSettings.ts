@@ -1,6 +1,6 @@
 // import { useWebApp } from '@vkruglikov/react-telegram-web-app'
 
-import { useEffect } from 'react'
+import { useCallback, useEffect } from 'react'
 import { useLocation, useNavigate } from 'react-router-dom'
 
 import { useFeedback } from '.'
@@ -10,11 +10,11 @@ export const useTgSettings = () => {
   const navigate = useNavigate()
   const { feedback } = useFeedback()
 
-  const goSettings = () => {
+  const goSettings = useCallback(() => {
     console.log('feedback from', routerLocation.pathname)
     feedback('open_settings_web', {
       from: {
-        // '/': 'expnames', // 'expshares' // todo: fix
+        '/': 'total',
         '/select-user': 'expnames-select-user',
         '/select-currency': 'expshares-select-currency',
         '/select-users': 'expshares-select-users',
@@ -27,7 +27,7 @@ export const useTgSettings = () => {
       }[routerLocation.pathname] || 'expshares'
     })
     navigate('/user-settings')
-  }
+  }, [feedback, navigate, routerLocation.pathname])
 
   useEffect(() => {
     if (routerLocation.pathname !== '/user-settings') {
@@ -38,7 +38,7 @@ export const useTgSettings = () => {
 
     window.Telegram?.WebApp.SettingsButton?.onClick(goSettings)
     return () => { window.Telegram?.WebApp.SettingsButton?.offClick(goSettings) }
-  }, [])
+  }, [goSettings, routerLocation.pathname])
 
   return { goSettings }
 }

@@ -186,7 +186,7 @@ export const useInit = () => {
     setFlow('transaction')
   }
 
-  if (routerLocation.pathname.includes('/summary') && flow !== 'summary') {
+  if ((routerLocation.pathname === '/' || routerLocation.pathname.includes('/summary')) && flow !== 'summary') {
     setFlow('summary')
   }
 
@@ -221,7 +221,7 @@ export const useInit = () => {
     }
 
     if (startParamChatId || startParamScreen === 'chat') {
-      navigate('/summary', { replace: true })
+      navigate('/', { replace: true })
     }
   }, [navigate, queryTxId, routeTxId, routerLocation.pathname, startParamChatId, startParamPaywallSource, startParamScreen])
 

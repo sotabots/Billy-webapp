@@ -6,6 +6,7 @@ import { useNavigate } from 'react-router-dom'
 import { useStore, useFeedback, useInit } from '../hooks'
 import { Header, Page, Currencies } from '../kit'
 import { TCurrencyId } from '../types'
+import { getTransactionEditPath } from '../utils'
 
 export const SelectCurrency = () => {
   useInit()
@@ -31,9 +32,9 @@ export const SelectCurrency = () => {
     console.log('SelectCurrency change vibro')
     selectionChanged()
     impactOccurred('medium')
-    navigate('/')
+    navigate(getTransactionEditPath(transaction._id))
     // history.back()
-  }, [impactOccurred, selectionChanged, navigate, transaction, setTransaction])
+  }, [feedback, impactOccurred, selectionChanged, navigate, transaction, setTransaction])
 
   return (
     <Page className="!bg-bg">

@@ -2,7 +2,7 @@ import { useQueryClient } from '@tanstack/react-query'
 import { useHapticFeedback, useShowPopup } from '@vkruglikov/react-telegram-web-app'
 
 import Lottie from 'lottie-react'
-import { useState, useEffect } from 'react'
+import { useState, useEffect, useCallback } from 'react'
 import { useTranslation } from 'react-i18next'
 import { useNavigate } from 'react-router-dom'
 
@@ -26,7 +26,7 @@ export const Edit = () => {
   const { feedback } = useFeedback()
 
   const { setTransaction, isEditTx, setIsEditTx, setSelectPersonId, setSelectPersonIsPayer, setIsSelectPayers, isSuccess, setSuccess, setTxPatchError, setPaywallSource, setPaywallFrom } = useStore()
-  const { transaction, isWrongAmounts, payedShares, oweShares, payedSum, payedSumFormatted, oweSumFormatted } = useTransaction()
+  const { transaction, isWrongAmounts, payedShares, oweShares, payedSumFormatted, oweSumFormatted } = useTransaction()
   const { countUnrelatedPersons, isRelationsComplete, isRelationsEnough } = useUsers()
 
   const { getCurrencyById } = useCurrencies()
@@ -45,11 +45,50 @@ export const Edit = () => {
 
   const [isBusy, setIsBusy] = useState(false)
 
+  const rebalanceEquallyTx = useCallback((tx: TTransaction | TNewTransaction): TTransaction | TNewTransaction => {
+    if (!tx.is_equally) {
+      return tx
+    }
+    const txPayedSum = tx.shares
+      .filter(share => share.is_payer)
+      .reduce((acc, share) => acc + share.amount, 0)
+    const txOweShares = tx.shares.filter(share => !share.is_payer)
+    const oweSharesUnfixed = txOweShares.filter(share => !share.is_fixed_amount)
+    const oweSharesFixed = txOweShares.filter(share => share.is_fixed_amount)
+    const oweSharesFixedSum = oweSharesFixed.reduce((acc, share) => acc + share.amount, 0)
+    const divisibleSum = Math.max(0, txPayedSum - oweSharesFixedSum)
+
+    const newAmount = parseFloat(
+      (
+        Math.floor((10**decimals * divisibleSum / oweSharesUnfixed.length)) / 10**decimals
+      ).toFixed(decimals)
+    )
+    let extra = divisibleSum - (oweSharesUnfixed.length) * newAmount
+
+    const newShares = [...tx.shares]
+    for (const newShare of newShares) {
+      if (newShare.is_payer || !newShare.related_user_id || newShare.is_fixed_amount) {
+        continue
+      }
+      const ADDITION_MAX = 0.01
+      const addition = extra >= ADDITION_MAX ? ADDITION_MAX : extra
+      extra -= addition
+      newShare.amount = Math.round((newAmount + addition) * 100) / 100
+    }
+    if (JSON.stringify(newShares) === JSON.stringify(tx.shares)) {
+      return tx
+    }
+    return {
+      ...tx,
+      shares: newShares
+    }
+  }, [])
+
   useEffect(() => {
     if (transaction) {
       setTransaction(rebalanceEquallyTx(transaction))
     }
-  }, [transaction, setTransaction])
+  }, [rebalanceEquallyTx, transaction, setTransaction])
 
   if (!transaction) {
     return null
@@ -118,41 +157,6 @@ export const Edit = () => {
     }
   }
 
-  const rebalanceEquallyTx: (tx: TTransaction | TNewTransaction) => TTransaction | TNewTransaction = (tx) => {
-    if (!tx.is_equally) {
-      return tx
-    }
-    const oweSharesUnfixed = oweShares.filter(share => !share.is_fixed_amount)
-    const oweSharesFixed = oweShares.filter(share => share.is_fixed_amount)
-    const oweSharesFixedSum = oweSharesFixed.reduce((acc, share) => acc + share.amount, 0)
-    const divisibleSum = Math.max(0, payedSum - oweSharesFixedSum)
-
-    const newAmount = parseFloat(
-      (
-        Math.floor((10**decimals * divisibleSum / oweSharesUnfixed.length)) / 10**decimals
-      ).toFixed(decimals)
-    )
-    let extra = divisibleSum - (oweSharesUnfixed.length) * newAmount
-
-    const newShares = [...tx.shares]
-    for (const newShare of newShares) {
-      if (newShare.is_payer || !newShare.related_user_id || newShare.is_fixed_amount) {
-        continue
-      }
-      const ADDITION_MAX = 0.01
-      const addition = extra >= ADDITION_MAX ? ADDITION_MAX : extra
-      extra -= addition
-      newShare.amount = Math.round((newAmount + addition) * 100) / 100
-    }
-    if (JSON.stringify(newShares) === JSON.stringify(tx.shares)) {
-      return tx
-    }
-    return {
-      ...tx,
-      shares: newShares
-    }
-  }
-
   const save = async ({ isCanceled = false } = {}) => {
     setIsBusy(true)
     try {
@@ -199,7 +203,7 @@ export const Edit = () => {
           refetchProfile()
           refetchUsers()
 
-          navigate('/summary')
+          navigate('/')
           setSuccess(false)
         } else {
           window.Telegram?.WebApp.close()
