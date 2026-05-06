@@ -10,6 +10,24 @@ import i18n from '../i18n'
 import { TDebtDeepLinkParams, TPaywallSource, TStartPayload, TUser } from '../types'
 import { decodeStartParam, getTransactionEditPath } from '../utils'
 
+const transactionInnerPaths = new Set([
+  '/select-user',
+  '/select-currency',
+  '/select-users',
+  '/select-category',
+])
+
+let handledStartParamRoute: string | undefined
+
+const hasUnhandledStartParamRoute = (startParam?: string) =>
+  !!startParam && handledStartParamRoute !== startParam
+
+const markStartParamRouteHandled = (startParam?: string) => {
+  if (startParam) {
+    handledStartParamRoute = startParam
+  }
+}
+
 export const useInit = () => {
   useTgSettings()
   useApiUrlInit()
@@ -33,6 +51,7 @@ export const useInit = () => {
   const { users, getUserById } = useUsers()
   const { userLang } = useUser()
   const { userId } = useAuth()
+  const isTransactionInnerPath = transactionInnerPaths.has(routerLocation.pathname)
 
   // init transaction/summary pages
   const routeQueryParameters = new URLSearchParams(routerLocation.search)
@@ -143,7 +162,11 @@ export const useInit = () => {
     }
   }
 
-  const routeTxId = queryTxId || startParamTxId
+  const shouldHandleStartParamRoute = hasUnhandledStartParamRoute(startParam)
+  const startParamRouteTxId = shouldHandleStartParamRoute && !isTransactionInnerPath
+    ? startParamTxId
+    : undefined
+  const routeTxId = queryTxId || startParamRouteTxId
   const { data: transactionChatId } = useGetTransactionChatId(routeTxId)
 
   if (!startParamBalanceUserId && startParamBalanceDebt) {
@@ -195,17 +218,29 @@ export const useInit = () => {
     if (
       routeTxId &&
       routeTxId !== 'demo-tx' &&
-      routerLocation.pathname !== '/edit'
+      routerLocation.pathname !== '/edit' &&
+      !isTransactionInnerPath
     ) {
+      if (shouldHandleStartParamRoute) {
+        markStartParamRouteHandled(startParam)
+      }
       navigate(getTransactionEditPath(routeTxId), { replace: true })
       return
     }
 
     if (routeTxId) {
+      if (shouldHandleStartParamRoute) {
+        markStartParamRouteHandled(startParam)
+      }
+      return
+    }
+
+    if (!shouldHandleStartParamRoute) {
       return
     }
 
     if (startParamPaywallSource) {
+      markStartParamRouteHandled(startParam)
       if (routerLocation.pathname !== '/paywall') {
         navigate('/paywall', { replace: true })
       }
@@ -213,6 +248,7 @@ export const useInit = () => {
     }
 
     if (startParamScreen === 'profile') {
+      markStartParamRouteHandled(startParam)
       if (routerLocation.pathname !== '/profile') {
         navigate('/profile', { replace: true })
       }
@@ -223,26 +259,35 @@ export const useInit = () => {
       startParamScreen === 'slide_prepaywall' ||
       startParamScreen === 'onboarding'
     ) {
+      markStartParamRouteHandled(startParam)
       if (routerLocation.pathname !== '/onboarding') {
         navigate('/onboarding', { replace: true })
       }
       return
     }
 
-    if (
-      (startParamChatId || startParamScreen === 'chat') &&
-      routerLocation.pathname !== '/' &&
-      routerLocation.pathname !== '/summary'
-    ) {
-      navigate('/', { replace: true })
+    if (startParamChatId || startParamScreen === 'chat') {
+      markStartParamRouteHandled(startParam)
+      if (
+        routerLocation.pathname !== '/' &&
+        routerLocation.pathname !== '/summary'
+      ) {
+        navigate('/', { replace: true })
+      }
     }
-  }, [navigate, queryTxId, routeTxId, routerLocation.pathname, startParamChatId, startParamPaywallSource, startParamScreen])
+  }, [isTransactionInnerPath, navigate, queryTxId, routeTxId, routerLocation.pathname, shouldHandleStartParamRoute, startParam, startParamChatId, startParamPaywallSource, startParamScreen])
 
   useEffect(() => {
-    if (startParamBalanceUserId && routerLocation.pathname !== '/chat-balance') {
+    if (!hasUnhandledStartParamRoute(startParam) || !startParamBalanceUserId) {
+      return
+    }
+
+    markStartParamRouteHandled(startParam)
+
+    if (routerLocation.pathname !== '/chat-balance') {
       navigate('/chat-balance', { replace: true })
     }
-  }, [navigate, routerLocation.pathname, startParamBalanceUserId])
+  }, [navigate, routerLocation.pathname, startParam, startParamBalanceUserId])
 
   // init new-tx author shares
   useEffect(() => {
