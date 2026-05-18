@@ -1,5 +1,7 @@
 # 🐨 Billy ([telegram webapp](https://t.me/BillyMoney_bot?start=source=from_github))
 
+[![@BillyMoney_bot MAU](https://tgbotmau.quoi.dev/api/bot/BillyMoney_bot/mau/badge?style=flat "@BillyMoney_bot MAU")](https://tgbotmau.quoi.dev/?bot=BillyMoney_bot)
+
 ## Links
 - 🐨 **[Billy](https://t.me/BillyMoney_bot?start=source=from_github)**
 - 🌐 [Landing page](https://billy.money)
