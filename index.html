@@ -3,6 +3,30 @@
   <head>
     <meta charset="UTF-8" />
 
+    <script>
+      // Telegram can send native events while the SDK is still downloading.
+      (function () {
+        var events = window.__billyTelegramEvents = [];
+        function receiveEvent(eventType, eventData) {
+          events.push([eventType, eventData]);
+        }
+        window.TelegramGameProxy = { receiveEvent: receiveEvent };
+        window.TelegramGameProxy_receiveEvent = receiveEvent;
+      })();
+    </script>
+    <script src="/vendor/telegram-web-app.js"></script>
+    <script>
+      // Replay only after the SDK has registered its WebApp event handlers.
+      (function () {
+        if (!window.Telegram || !window.Telegram.WebApp) return;
+        var events = window.__billyTelegramEvents;
+        delete window.__billyTelegramEvents;
+        for (var i = 0; i < events.length; i++) {
+          window.Telegram.WebView.receiveEvent(events[i][0], events[i][1]);
+        }
+      })();
+    </script>
+
     <link rel="icon" sizes="192x192" href="/icon-192.png" type="image/png"/>
     <link rel="shortcut icon" href="/icon-32.png" type="image/png"/>
     <link rel="apple-touch-icon" href="/icon-180.png" type="image/png"/>
@@ -37,7 +61,6 @@
   </head>
   <body>
     <div id="root"></div>
-    <script src="/vendor/telegram-web-app.js"></script>
     <script type="module" src="/src/main.tsx"></script>
   </body>
 </html>
