@@ -1,5 +1,5 @@
 import cx from 'classnames'
-import { useEffect, useMemo, useState } from 'react'
+import { useMemo, useState } from 'react'
 import { useTranslation } from 'react-i18next'
 import { useNavigate } from 'react-router-dom'
 
@@ -108,22 +108,15 @@ export const Summary = ({
     () => (transactions || []).filter(tx => !tx.is_confirmed && !tx.is_canceled),
     [transactions]
   )
-  const isTransactionsLoaded = transactions !== undefined
-  const isConfirmedFilterAvailable = !isTransactionsLoaded || unconfirmedTransactions.length > 0
-  const defaultStatusFilter: TStatusFilter = isConfirmedFilterAvailable ? 'CONFIRMED' : 'ALL'
+  const defaultStatusFilter: TStatusFilter = 'CONFIRMED'
   const statusFilterItems: { title: string, value: TStatusFilter }[] = [
     { title: t('allTransactions'), value: 'ALL' },
-    ...(isConfirmedFilterAvailable ? [{ title: t('confirmedTransactions'), value: 'CONFIRMED' as const }] : []),
+    { title: t('confirmedTransactions'), value: 'CONFIRMED' },
     { title: t('statusCanceled'), value: 'CANCELED' },
   ]
   const statusFilterTitle = statusFilterItems.find(item => item.value === statusFilter)?.title || t('allTransactions')
   const isHistoryFilterActive = statusFilter !== defaultStatusFilter || filterTotal === 'ONLY_MINE'
 
-  useEffect(() => {
-    if (isTransactionsLoaded && !isConfirmedFilterAvailable && statusFilter === 'CONFIRMED') {
-      setStatusFilter('ALL')
-    }
-  }, [isConfirmedFilterAvailable, isTransactionsLoaded, statusFilter])
   const displayedTxGroups = useMemo(
     () => txGroups
       .map(txGroup => ({
