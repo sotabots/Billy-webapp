@@ -266,6 +266,15 @@ export const useInit = () => {
       return
     }
 
+    // Debt reminders include a chat ID; handle their specific destination first.
+    if (startParamBalanceUserId) {
+      markStartParamRouteHandled(startParam)
+      if (routerLocation.pathname !== '/chat-balance') {
+        navigate('/chat-balance', { replace: true })
+      }
+      return
+    }
+
     if (startParamChatId || startParamScreen === 'chat') {
       markStartParamRouteHandled(startParam)
       if (
@@ -275,19 +284,7 @@ export const useInit = () => {
         navigate('/', { replace: true })
       }
     }
-  }, [isTransactionInnerPath, navigate, queryTxId, routeTxId, routerLocation.pathname, shouldHandleStartParamRoute, startParam, startParamChatId, startParamPaywallSource, startParamScreen])
-
-  useEffect(() => {
-    if (!hasUnhandledStartParamRoute(startParam) || !startParamBalanceUserId) {
-      return
-    }
-
-    markStartParamRouteHandled(startParam)
-
-    if (routerLocation.pathname !== '/chat-balance') {
-      navigate('/chat-balance', { replace: true })
-    }
-  }, [navigate, routerLocation.pathname, startParam, startParamBalanceUserId])
+  }, [isTransactionInnerPath, navigate, queryTxId, routeTxId, routerLocation.pathname, shouldHandleStartParamRoute, startParam, startParamBalanceUserId, startParamChatId, startParamPaywallSource, startParamScreen])
 
   // init new-tx author shares
   useEffect(() => {
