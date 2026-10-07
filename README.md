@@ -22,6 +22,23 @@ npm i
 npm run dev
 ```
 
+### Telegram Web App SDK
+
+The app serves its own copy of the Telegram Web App SDK from
+`public/vendor/telegram-web-app.124bdff7ba3f.js`, loaded before the React entry point.
+It does not download the SDK from Telegram when the app opens.
+
+- Source: https://telegram.org/js/telegram-web-app.js
+- Downloaded: 2026-10-07
+- SHA-256: `124bdff7ba3fe86c8ba5143467afec21e020405e74abdb92cfdda6c0ee3b5908`
+
+The SDK is an unmodified snapshot. Vercel serves it with
+`Cache-Control: public, max-age=31536000, immutable` so browsers can reuse it.
+To update it, download the source again, compute its SHA-256, use the first 12
+hex characters in the filename, and update the paths in `index.html` and
+`vercel.json` along with the date and full checksum here. Do not overwrite the
+existing filename with different contents because it is cached for one year.
+
 ### Deploy
 
 Deployments are handled by Vercel Git Integration after pushes to the production branch.
