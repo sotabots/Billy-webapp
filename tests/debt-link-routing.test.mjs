@@ -108,6 +108,17 @@ test('debt-only payload focuses the debtor and takes priority over the chat summ
   assert.equal(app.state.startBalanceUserId, balance_user_id)
 })
 
+test('consumed reminder parameters are not restored on later renders', () => {
+  const app = createApp(reminder)
+  app.render()
+  // Home consumes these parameters after opening the selected user's balance.
+  app.state.startBalanceUserId = undefined
+  app.state.startBalanceDebt = undefined
+  app.render()
+  assert.equal(app.state.startBalanceUserId, undefined)
+  assert.equal(app.state.startBalanceDebt, undefined)
+})
+
 for (const [payload, destination] of [
   [{ c: -1001234567890 }, '/'],
   [{ s: 'profile' }, '/profile'],

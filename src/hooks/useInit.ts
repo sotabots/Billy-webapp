@@ -190,11 +190,11 @@ export const useInit = () => {
     setChatIdStart(transactionChatId.chat_id)
   }
 
-  if (startBalanceUserId === undefined && startParamBalanceUserId) {
+  if (shouldHandleStartParamRoute && startBalanceUserId === undefined && startParamBalanceUserId) {
     setStartBalanceUserId(startParamBalanceUserId)
   }
 
-  if (startBalanceDebt === undefined && startParamBalanceDebt) {
+  if (shouldHandleStartParamRoute && startBalanceDebt === undefined && startParamBalanceDebt) {
     setStartBalanceDebt(startParamBalanceDebt)
   }
 
