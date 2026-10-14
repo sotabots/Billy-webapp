@@ -1,7 +1,7 @@
 import { CONFIGURED_BACKENDS, cacheBackend, normalizeApiUrl } from './backendConfig'
 import { useStore } from '../hooks/useStore'
 
-const HEALTHCHECK_PATH = '/currencies/?health'
+const HEALTHCHECK_PATH = '/health'
 const CONNECT_TIMEOUT_MS = 2000
 const HEALTHCHECK_TIMEOUT_MS = 3000
 
@@ -36,13 +36,12 @@ const healthcheckBackend = async (backend: string) => {
   const timeoutId = setTimeout(() => controller.abort(), HEALTHCHECK_TIMEOUT_MS)
 
   try {
-    const res = await fetch(`${backend}${HEALTHCHECK_PATH}`, { signal: controller.signal })
+    const res = await fetch(`${backend}${HEALTHCHECK_PATH}`, {
+      signal: controller.signal,
+      cache: 'no-store',
+    })
     if (!res.ok) return false
-    try {
-      await res.json()
-    } catch {
-      // ignore JSON parsing failures
-    }
+    await res.json()
     return true
   } catch {
     return false

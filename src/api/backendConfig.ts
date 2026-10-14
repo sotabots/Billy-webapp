@@ -23,7 +23,8 @@ const splitList = (value: string | undefined) =>
 export const CONFIGURED_BACKENDS: string[] = uniqueOrdered([
   ...splitList(import.meta.env.VITE_API_URLS),
   import.meta.env.VITE_API_URL,
-  import.meta.env.VITE_FALLBACK_API_URL,
+  // Temporarily disabled: proxy.billy.money is currently unused.
+  // import.meta.env.VITE_FALLBACK_API_URL,
 ]
   .filter((v): v is string => typeof v === 'string' && v.length > 0)
   .map(normalizeBackendUrl))
